@@ -41,9 +41,9 @@ for i in data_dict.keys():
         line.add_yaxis(
             series_name=thread,
             y_axis = y_data[thread],
-            stack="total",
+            # stack="total",
             label_opts=opts.LabelOpts(is_show=False),
-            linestyle_opts=opts.LineStyleOpts(width=2),
+            linestyle_opts=opts.LineStyleOpts(width=1),
             # markpoint_opts=opts.MarkLineOpts(symbol_size=100),
             areastyle_opts=opts.AreaStyleOpts(opacity=0.5),
         )
