@@ -33,18 +33,15 @@ jobs:
     - name: AutoEcharts
       run: |
         python gen.py
-    - name: Pushe to Gitee repo
-      uses: dmnemec/copy_file_to_another_repo_action@main
+    - name: Push generated webpage to another repository
+      uses: nkoppel/push-files-to-another-repository@1.1.0
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
       with:
-        source_file: './'
-        destination_repo: 'TomoeMami/S1VtbStatic'
-        # destination_folder: ''
-        github_server: 'github.com'
-        user_email: 'trembleafterme@outlook.com'
-        user_name: 'TomoeMami'
-        commit_message: 'Push result to Gitee repo'
+        source-files: 'anime-2018.html anime-2019.html anime-2020.html anime-2021.html anime-2022.html game-2018.html game-2019.html game-2020.html game-2021.html game-2022.html index.html troll-2018.html troll-2019.html troll-2020.html troll-2021.html troll-2022.html vtb-2018.html vtb-2019.html vtb-2020.html vtb-2021.html vtb-2022.html'
+        destination-username: 'TomoeMami'
+        destination-repository: 'S1VtbStatic'
+        commit-email: 'trembleafterme@outlook.com'
     - name: commit
       env:
         TZ: 'CST-8'
