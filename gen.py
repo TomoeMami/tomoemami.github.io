@@ -7,7 +7,7 @@ from pyecharts import options as opts
 from pyecharts.options.global_options import InitOpts, TitleOpts
 from pyecharts.charts import Line
 
-data_path = ['S1A21','S1A22','S1B','S1G']
+data_path = ['S1A21','S1A22','S1B']
 year = '2022'
 current_date = datetime.now().strftime("%Y%m%d")
 date_list = [pd.Timestamp(x).strftime("%Y-%-m-%-d") for x in pd.date_range(year+'0101',current_date)]
