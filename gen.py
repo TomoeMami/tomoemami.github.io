@@ -9,7 +9,7 @@ from pyecharts.charts import Line
 
 # data_path = ['S1A21','S1A22','S1B']
 data_path = ['S1A23','S1B','S1A']
-year = '2019'
+year = '2020'
 current_date = datetime.now().strftime("%Y%m%d")
 date_list = [pd.Timestamp(x).strftime("%Y-%-m-%-d") for x in pd.date_range(year+'0101',current_date)]
 # date_list = [pd.Timestamp(x).strftime("%Y-%-m-%-d") for x in pd.date_range(year+'0101',year+'1231')]
