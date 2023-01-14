@@ -11,8 +11,10 @@ from pyecharts.charts import Line
 data_path = ['S1A23','S1B','S1A']
 year = '2023'
 current_date = datetime.now().strftime("%Y%m%d")
-date_list = [pd.Timestamp(x).strftime("%Y-%-m-%-d") for x in pd.date_range(year+'0101',current_date)]
-# date_list = [pd.Timestamp(x).strftime("%Y-%-m-%-d") for x in pd.date_range(year+'0101',year+'1231')]
+if year == datetime.now().strftime("%Y"):
+    date_list = [pd.Timestamp(x).strftime("%Y-%-m-%-d") for x in pd.date_range(year+'0101',current_date)]
+else:
+    date_list = [pd.Timestamp(x).strftime("%Y-%-m-%-d") for x in pd.date_range(year+'0101',year+'1231')]
 data_dict = {'troll':{},'game':{},'anime':{},'vtb':{}}
 name_dict = {'troll':'外野','game':'游戏区','anime':'漫区','vtb':'虚拟主播区'}
 '部分板块全年显示的话网页会过大需要拆分'
