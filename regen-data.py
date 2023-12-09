@@ -66,6 +66,7 @@ def get_time(pa):
 
 current_date = datetime.now().strftime("%Y%m%d")
 for year in ['2018','2019','2021','2022','2023']:
+    print(year+" START...")
     if year == datetime.now().strftime("%Y"):
         date_list = [pd.Timestamp(x).strftime("%Y-%-m-%-d") for x in pd.date_range(year+'0101',current_date)]
     else:
@@ -89,3 +90,4 @@ for year in ['2018','2019','2021','2022','2023']:
     mkdir('./S1A/')
     with open('./S1A/S1A-'+year+'.json', "w", encoding="utf-8") as f:
         f.write(json.dumps(result_dict,indent=2,ensure_ascii=False))
+    print(year+" END\n========\n\n")
