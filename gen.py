@@ -8,7 +8,7 @@ from pyecharts.options.global_options import InitOpts, TitleOpts
 from pyecharts.charts import Line
 
 # data_path = ['S1A21','S1A22','S1B']
-data_path = ['S1A23','S1B','S1A']
+data_path = ['S1A-OLD','S1B','S1A']
 year = '2023'
 current_date = datetime.now().strftime("%Y%m%d")
 if year == datetime.now().strftime("%Y"):
