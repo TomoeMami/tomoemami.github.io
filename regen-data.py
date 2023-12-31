@@ -65,7 +65,7 @@ def get_time(pa):
         result_dict[forum][thread_title] = result
 
 current_date = datetime.now().strftime("%Y%m%d")
-for year in ['2018','2019','2021','2022','2023']:
+for year in ['2023']:
     print(year+" START...")
     if year == datetime.now().strftime("%Y"):
         date_list = [pd.Timestamp(x).strftime("%Y-%-m-%-d") for x in pd.date_range(year+'0101',current_date)]
@@ -75,7 +75,7 @@ for year in ['2018','2019','2021','2022','2023']:
     forum_dict ={'troll':['外野'],'game':['游戏区','手游专楼'],'anime':['漫区'],'vtb':['虚拟主播区专楼']}
 
     result_dict = {'troll':{},'game':{},'anime':{},'vtb':{}}
-    for path in ['S1PlainTextArchive2021','S1PlainTextArchive2022','S1PlainTextArchive2023','S1PlainTextBackup']:
+    for path in ['S1PlainTextArchive2023','S1PlainTextBackup']:
         for forum in forum_dict.keys():
             for sub_forum in forum_dict[forum]:
                 for pa in Path('/home/riko/'+ path + '/'+sub_forum+'/').iterdir():
@@ -87,7 +87,7 @@ for year in ['2018','2019','2021','2022','2023']:
                         get_time(pa)
                         print(pa)
                 
-    mkdir('./S1A/')
-    with open('./S1A/S1A-'+year+'.json', "w", encoding="utf-8") as f:
+    mkdir('./S1A-OLD/')
+    with open('./S1A-OLD/S1A-'+year+'.json', "w", encoding="utf-8") as f:
         f.write(json.dumps(result_dict,indent=2,ensure_ascii=False))
     print(year+" END\n========\n\n")
