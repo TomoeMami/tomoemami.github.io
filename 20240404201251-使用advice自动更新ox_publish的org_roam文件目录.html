@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-04-04 周四 20:30 -->
+<!-- 2024-04-04 周四 20:46 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>使用advice自动更新ox-publish的org-roam文件目录</title>
+<title>使用advice自动更新ox-publish的待发布org-roam文件目录</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -288,7 +288,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">使用advice自动更新ox-publish的org-roam文件目录</h1>
+<h1 class="title">使用advice自动更新ox-publish的待发布org-roam文件目录</h1>
 <p>
 最近在研究用Emacs写博客。由于并不在意博客样式，因此选择用ox-publish直接将指定的org-roam文件导出为html再上传GitHub通过GitHub Pages托管。<br />
 </p>
@@ -303,15 +303,15 @@ b {
 由于org-roam的所有文件均在一个文件夹内，又不需要将所有的文件作为博客内容发表，因此接下来会利用org-roam的功能，动态发布打上了 <code>blog</code> 标签的文件。<br />
 </p>
 
-<div id="outline-container-orgb46458d" class="outline-2">
-<h2 id="orgb46458d"><span class="section-number-2">1.</span> 获取带 <code>blog</code> 标签的文件</h2>
+<div id="outline-container-org928edb9" class="outline-2">
+<h2 id="org928edb9"><span class="section-number-2">1.</span> 获取带 <code>blog</code> 标签的文件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 参考<a href="https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html">Vulpea的org-roam动态agenda</a>文件，创建函数如下：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp">(defun my/ox-files ()
+<pre class="src src-emacs-lisp">(defun my/ox-files ()
   "Return a list of note files containing 'blog' tag." ;
   (seq-uniq
    (seq-map
@@ -331,15 +331,15 @@ b {
 </div>
 </div>
 
-<div id="outline-container-org8ccb1a7" class="outline-2">
-<h2 id="org8ccb1a7"><span class="section-number-2">2.</span> 配置ox-publish</h2>
+<div id="outline-container-org6adee60" class="outline-2">
+<h2 id="org6adee60"><span class="section-number-2">2.</span> 配置ox-publish</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 根据参考文献，需要指定 <code>org-publish-project-alist</code> 如下：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp">(setq org-publish-project-alist
+<pre class="src src-emacs-lisp">(setq org-publish-project-alist
         `(("posts"
            :base-directory ,website-directory
            :base-extension "org"
@@ -365,15 +365,15 @@ b {
 </div>
 </div>
 
-<div id="outline-container-orgeb6400f" class="outline-2">
-<h2 id="orgeb6400f"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
+<div id="outline-container-org540c963" class="outline-2">
+<h2 id="org540c963"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于上述 <code>org-publish-project-alist</code> 仅会执行单次，因此需要通过 <code>advice-add</code> 的方式让其在每次发布时均执行一次，达成动态更新的效果。<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp">(defun my/org-project-update (&amp;optional ARG PRED) ;;使用before会接收到原函数参数，因此需要添加optional
+<pre class="src src-emacs-lisp">(defun my/org-project-update (&amp;optional ARG PRED) ;;使用before会接收到原函数参数，因此需要添加optional
   (setq org-publish-project-alist
         `(("posts"
            :base-directory ,website-directory
@@ -401,15 +401,15 @@ b {
 </div>
 </div>
 
-<div id="outline-container-org12d28ce" class="outline-2">
-<h2 id="org12d28ce"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
+<div id="outline-container-org405b0c1" class="outline-2">
+<h2 id="org405b0c1"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-利用org-export的hook自动设置<br />
+利用org-export的hook自动设置，读取 <code>~/.emacs.d/org.css</code> 文件内容并插入发布的html文件中<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp">(defun my/org-inline-css-hook (exporter)
+<pre class="src src-emacs-lisp">(defun my/org-inline-css-hook (exporter)
   "Insert custom inline css"
   (when (eq exporter 'html)
     (setq org-html-head-include-default-style nil)
@@ -423,22 +423,22 @@ b {
 </div>
 </div>
 
-<div id="outline-container-orgb5df8f2" class="outline-2">
-<h2 id="orgb5df8f2"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
+<div id="outline-container-org7f05fcb" class="outline-2">
+<h2 id="org7f05fcb"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 导出时单换行也视为换行<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp">(setq org-export-preserve-breaks t)
+<pre class="src src-emacs-lisp">(setq org-export-preserve-breaks t)
 </pre>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="date">Created: 2024-04-04 周四 20:30</p>
+<p class="date">Created: 2024-04-04 周四 20:46</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
