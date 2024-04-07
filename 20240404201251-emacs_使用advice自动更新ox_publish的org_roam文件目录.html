@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-04-07 周日 17:00 -->
+<!-- 2024-04-07 周日 17:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</title>
@@ -314,8 +314,8 @@ b {
 由于org-roam的所有文件均在一个文件夹内，又不需要将所有的文件作为博客内容发表，因此接下来会利用org-roam的功能，动态发布打上了 <code>blog</code> 标签的文件。<br />
 </p>
 
-<div id="outline-container-orga155384" class="outline-2">
-<h2 id="orga155384"><span class="section-number-2">1.</span> 获取带 <code>blog</code> 标签的文件</h2>
+<div id="outline-container-orgf5657b5" class="outline-2">
+<h2 id="orgf5657b5"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 参考<a href="https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html">Vulpea的org-roam动态agenda</a>文件，创建函数如下：<br />
@@ -342,8 +342,8 @@ b {
 </div>
 </div>
 
-<div id="outline-container-org1095e20" class="outline-2">
-<h2 id="org1095e20"><span class="section-number-2">2.</span> 配置ox-publish</h2>
+<div id="outline-container-org6580c9c" class="outline-2">
+<h2 id="org6580c9c"><span class="section-number-2">2.</span> 配置ox-publish</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 根据参考文献，需要指定 <code>org-publish-project-alist</code> 如下：<br />
@@ -376,8 +376,8 @@ b {
 </div>
 </div>
 
-<div id="outline-container-org3fbd783" class="outline-2">
-<h2 id="org3fbd783"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
+<div id="outline-container-orga9618f6" class="outline-2">
+<h2 id="orga9618f6"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于上述 <code>org-publish-project-alist</code> 仅会执行单次，因此需要通过 <code>advice-add</code> 的方式让其在每次发布时均执行一次，达成动态更新的效果。<br />
@@ -412,8 +412,8 @@ b {
 </div>
 </div>
 
-<div id="outline-container-orgaa45949" class="outline-2">
-<h2 id="orgaa45949"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
+<div id="outline-container-org17b8a52" class="outline-2">
+<h2 id="org17b8a52"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 利用org-export的hook自动设置，读取 <code>~/.emacs.d/org.css</code> 文件内容并插入发布的html文件中<br />
@@ -434,12 +434,12 @@ b {
 </div>
 </div>
 
-<div id="outline-container-orge7cc6e8" class="outline-2">
-<h2 id="orge7cc6e8"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
+<div id="outline-container-org311b026" class="outline-2">
+<h2 id="org311b026"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org818cfdd" class="outline-3">
-<h3 id="org818cfdd"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
+<div id="outline-container-orgcebb7c4" class="outline-3">
+<h3 id="orgcebb7c4"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-export-preserve-breaks t<span style="color: #458588;">)</span>
@@ -448,8 +448,8 @@ b {
 </div>
 </div>
 
-<div id="outline-container-org8711492" class="outline-3">
-<h3 id="org8711492"><span class="section-number-3">5.2.</span> org.css文件内容</h3>
+<div id="outline-container-orgd0ee8e3" class="outline-3">
+<h3 id="orgd0ee8e3"><span class="section-number-3">5.2.</span> org.css文件内容</h3>
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
 <pre class="src src-css"><span style="color: #af3a03;">@import</span> url<span style="color: #458588;">(</span><span style="color: #79740e;">"https://fonts.googleapis.com/css2?family=Lora:wght@500&amp;display=swap"</span><span style="color: #458588;">)</span>;
@@ -740,7 +740,7 @@ b {
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-07 周日 17:00]</span></span>　|　© Powered by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.25) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-07 周日 17:00]</span></span></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-07 周日 17:02]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.25) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-07 周日 17:18]</span></span></p>
 </div>
 </body>
 </html>
