@@ -6,7 +6,7 @@
 <!-- 2024-04-07 周日 10:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>目录</title>
+<title>emacs-使用Windows-Toasts的python库为Emacs创建Windows11通知提醒</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -294,17 +294,47 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">目录</h1>
-<ul class="org-ul">
-<li><a href="20240407101229-emacs_将daily笔记以逆序datetree方式refile到另一个窗口.html">emacs-将daily笔记以逆序datetree方式refile到另一个窗口</a><br /></li>
-<li><a href="20240407101403-emacs_使用windows_toasts的python库为emacs创建windows11通知提醒.html">emacs-使用Windows-Toasts的python库为Emacs创建Windows11通知提醒</a><br /></li>
-<li><a href="20240407101348-emacs_添加org_ql_view为org_mode_link.html">emacs-添加org-ql-view为org-mode link</a><br /></li>
-<li><a href="20240407101327-emacs_调用matplotlib画图_并存储到windows的临时文件夹中.html">emacs-调用matplotlib画图，并存储到Windows的临时文件夹中</a><br /></li>
-<li><a href="20240407101207-emacs_自动删除org_roam空的daily文件.html">emacs-自动删除org-roam空的daily文件</a><br /></li>
-<li><a href="20240404201251-emacs_使用advice自动更新ox_publish的org_roam文件目录.html">emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</a><br /></li>
-<li><a href="20240407100026-emacs_org_roam_node操作排除daily文件夹下node.html">emacs-org-roam-node操作排除daily文件夹下node</a><br /></li>
-<li><a href="20240404100936-blog_国内公网bt出现上传流量黑洞.html">国内公网BT出现上传流量黑洞</a></li>
-</ul>
+<h1 class="title">emacs-使用Windows-Toasts的python库为Emacs创建Windows11通知提醒</h1>
+<p>
+安装pip包<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cmd">pip install windows-toasts
+</pre>
+</div>
+
+<p>
+在 <code>~/.emacs.d/</code> 中新建 <code>notify.py</code> ，内容如下：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #9d0006;">import</span> sys,os
+<span style="color: #9d0006;">from</span> urllib.parse <span style="color: #9d0006;">import</span> unquote
+<span style="color: #9d0006;">from</span> windows_toasts <span style="color: #9d0006;">import</span> Toast, WindowsToaster, ToastDisplayImage
+<span style="color: #076678;">toaster</span> = WindowsToaster<span style="color: #458588;">(</span><span style="color: #79740e;">'Emacs Agenda'</span><span style="color: #458588;">)</span>
+<span style="color: #076678;">newToast</span> = Toast<span style="color: #458588;">()</span>
+newToast.<span style="color: #076678;">text_fields</span> = <span style="color: #458588;">[</span>unquote<span style="color: #b16286;">(</span>sys.argv<span style="color: #8ec07c;">[</span>1<span style="color: #8ec07c;">]</span><span style="color: #b16286;">)</span><span style="color: #458588;">]</span>
+newToast.AddImage<span style="color: #458588;">(</span>ToastDisplayImage.fromPath<span style="color: #b16286;">(</span>unquote<span style="color: #8ec07c;">(</span>sys.argv<span style="color: #d65d0e;">[</span>2<span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">)</span>+<span style="color: #79740e;">"/org/phone/emacs.png"</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+toaster.show_toast<span style="color: #458588;">(</span>newToast<span style="color: #458588;">)</span>
+
+</pre>
+</div>
+
+<p>
+将先前的elisp函数 <code>fw/appt-disp-windows</code> 改为<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">fw/appt-disp-windows</span> <span style="color: #b16286;">(</span>min-to-app new-time msg<span style="color: #b16286;">)</span>
+    <span style="color: #79740e;">"A custom `</span><span style="color: #8f3f71;">appt-disp-window-function</span><span style="color: #79740e;">' which uses the PowerShell module '</span><span style="color: #8f3f71;">BurntToast</span><span style="color: #79740e;">'"</span>
+    <span style="color: #b16286;">(</span>shell-command <span style="color: #8ec07c;">(</span>concat <span style="color: #79740e;">"python -X utf8 "</span><span style="color: #d65d0e;">(</span>file-truename user-emacs-directory<span style="color: #d65d0e;">)</span> <span style="color: #79740e;">"notify.py "</span> <span style="color: #d65d0e;">(</span>url-encode-url msg <span style="color: #d65d0e;">)</span><span style="color: #79740e;">" "</span> <span style="color: #d65d0e;">(</span>url-encode-url <span style="color: #458588;">(</span>file-truename user-emacs-directory<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+</pre>
+</div>
+
+<p>
+经测试能正常提醒。使用python库的好处在于规避powershell的安装、策略设置过程，可以利用国内的pip镜像库，方便下载。<br />
+</p>
 </div>
 <div id="postamble" class="status">
 <p class="date">Created: 2024-04-07 周日 10:56</p>
