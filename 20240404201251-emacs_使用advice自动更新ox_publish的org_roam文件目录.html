@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-04-09 周二 16:16 -->
+<!-- 2024-04-11 周四 00:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</title>
@@ -14,13 +14,24 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 
 body {
-    margin: 10px auto;
-    width: 900px;
+    margin: 2% auto;
+    width: 90%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     font-size: 18px;
+    line-height: 1.4em;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 18px;
+    }
 }
 
+@media screen and (min-width: 910px) {
+    body {
+        width: 900px;
+    }
+}
 #preamble {
     width: 80%;
     max-width: 980px;
@@ -102,8 +113,11 @@ hr {
     }
 }
 
-p:not(blockquote > p) :not(ol > p) {
-    text-indent: 2em;
+/* p:not(blockquote > p) :not(ol > p) { */
+/*     text-indent: 2em; */
+/* } */
+p {
+    margin: 1em auto;
 }
 
 .title {
@@ -180,12 +194,20 @@ a:visited{
 }
 
 img {
-  width: 600px;
+    max-width: 100%;
+    vertical-align: middle;
 }
-
+.MathJax_Display {
+    margin: 0!important;
+    width: $smaller!important;
+}
 @media screen and (max-width: 1200px) {
     img {
         width: 400px;
+    }
+    .MathJax_Display {
+        margin: 0!important;
+        width: $smaller!important;
     }
 }
 
@@ -488,13 +510,24 @@ b {
 <span style="color: #af3a03;">@import</span> url<span style="color: #458588;">(</span><span style="color: #79740e;">"https://fonts.googleapis.com/css2?family=Inconsolata&amp;display=swap"</span><span style="color: #458588;">)</span>;
 
 <span style="color: #b57614;">body</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">margin</span>: 10px auto;
-    <span style="color: #9d0006;">width</span>: 900px;
+    <span style="color: #9d0006;">margin</span>: 2% auto;
+    <span style="color: #9d0006;">width</span>: 90%;
     <span style="color: #9d0006;">max-width</span>: 100%;
     <span style="color: #9d0006;">background-color</span>: <span style="color: #000000; background-color: #f2e5bc;">rgba(242,229,188,0.5)</span>;
     <span style="color: #9d0006;">font-size</span>: 18px;
+    <span style="color: #9d0006;">line-height</span>: 1.4em;
+<span style="color: #458588;">}</span>
+<span style="color: #af3a03;">@media</span> screen and <span style="color: #458588;">(</span>min-width: 600px<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
+    <span style="color: #b57614;">body</span> <span style="color: #b16286;">{</span>
+        <span style="color: #9d0006;">font-size</span>: 18px;
+    <span style="color: #b16286;">}</span>
 <span style="color: #458588;">}</span>
 
+<span style="color: #af3a03;">@media</span> screen and <span style="color: #458588;">(</span>min-width: 910px<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
+    <span style="color: #b57614;">body</span> <span style="color: #b16286;">{</span>
+        <span style="color: #9d0006;">width</span>: 900px;
+    <span style="color: #b16286;">}</span>
+<span style="color: #458588;">}</span>
 <span style="color: #b57614;">#preamble</span> <span style="color: #458588;">{</span>
     <span style="color: #9d0006;">width</span>: 80%;
     <span style="color: #9d0006;">max-width</span>: 980px;
@@ -576,8 +609,11 @@ b {
     <span style="color: #b16286;">}</span>
 <span style="color: #458588;">}</span>
 
-<span style="color: #b57614;">p:not</span><span style="color: #458588;">(</span><span style="color: #b57614;">blockquote &gt; p</span><span style="color: #458588;">)</span><span style="color: #b57614;"> :not</span><span style="color: #458588;">(</span><span style="color: #b57614;">ol &gt; p</span><span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">text-indent</span>: 2em;
+<span style="color: #a89984;">/* </span><span style="color: #a89984;">p:not(blockquote &gt; p) :not(ol &gt; p) {</span><span style="color: #a89984;"> */</span>
+<span style="color: #a89984;">/*     </span><span style="color: #a89984;">text-indent: 2em;</span><span style="color: #a89984;"> */</span>
+<span style="color: #a89984;">/* </span><span style="color: #a89984;">}</span><span style="color: #a89984;"> */</span>
+<span style="color: #b57614;">p</span> <span style="color: #458588;">{</span>
+    <span style="color: #9d0006;">margin</span>: 1em auto;
 <span style="color: #458588;">}</span>
 
 <span style="color: #b57614;">.title</span> <span style="color: #458588;">{</span>
@@ -654,12 +690,20 @@ b {
 <span style="color: #458588;">}</span>
 
 <span style="color: #b57614;">img</span> <span style="color: #458588;">{</span>
-  <span style="color: #9d0006;">width</span>: 600px;
+    <span style="color: #9d0006;">max-width</span>: 100%;
+    <span style="color: #9d0006;">vertical-align</span>: middle;
 <span style="color: #458588;">}</span>
-
+<span style="color: #b57614;">.MathJax_Display</span> <span style="color: #458588;">{</span>
+    <span style="color: #9d0006;">margin</span>: 0<span style="color: #af3a03;">!important</span>;
+    <span style="color: #9d0006;">width</span>: $smaller<span style="color: #af3a03;">!important</span>;
+<span style="color: #458588;">}</span>
 <span style="color: #af3a03;">@media</span> screen and <span style="color: #458588;">(</span>max-width: 1200px<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
     <span style="color: #b57614;">img</span> <span style="color: #b16286;">{</span>
         <span style="color: #9d0006;">width</span>: 400px;
+    <span style="color: #b16286;">}</span>
+    <span style="color: #b57614;">.MathJax_Display</span> <span style="color: #b16286;">{</span>
+        <span style="color: #9d0006;">margin</span>: 0<span style="color: #af3a03;">!important</span>;
+        <span style="color: #9d0006;">width</span>: $smaller<span style="color: #af3a03;">!important</span>;
     <span style="color: #b16286;">}</span>
 <span style="color: #458588;">}</span>
 
@@ -797,7 +841,7 @@ b {
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-09 周二 16:16]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.25) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-09 周二 16:16]</span></span></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-11 周四 00:25]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.25) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-11 周四 00:25]</span></span></p>
 </div>
 </body>
 </html>
