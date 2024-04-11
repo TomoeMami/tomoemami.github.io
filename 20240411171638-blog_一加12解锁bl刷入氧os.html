@@ -6,7 +6,7 @@
 <!-- 2024-04-12 周五 00:50 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>目录</title>
+<title>blog-一加12解锁BL刷入氧OS</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -347,18 +347,70 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">目录</h1>
-<ul class="org-ul">
-<li><a href="20240411171638-blog_一加12解锁bl刷入氧os.html">blog-一加12解锁BL刷入氧OS</a><br /></li>
-<li><a href="20240404201251-emacs_使用advice自动更新ox_publish的org_roam文件目录.html">emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</a><br /></li>
-<li><a href="20240407101207-emacs_自动删除org_roam空的daily文件.html">emacs-自动删除org-roam空的daily文件</a><br /></li>
-<li><a href="20240407101403-emacs_使用windows_toasts的python库为emacs创建windows11通知提醒.html">emacs-使用Windows-Toasts的python库为Emacs创建Windows11通知提醒</a><br /></li>
-<li><a href="20240407101229-emacs_将daily笔记以逆序datetree方式refile到另一个窗口.html">emacs-将daily笔记以逆序datetree方式refile到另一个窗口</a><br /></li>
-<li><a href="20240407101348-emacs_添加org_ql_view为org_mode_link.html">emacs-添加org-ql-view为org-mode link</a><br /></li>
-<li><a href="20240407101327-emacs_调用matplotlib画图_并存储到windows的临时文件夹中.html">emacs-调用matplotlib画图，并存储到Windows的临时文件夹中</a><br /></li>
-<li><a href="20240407100026-emacs_org_roam_node操作排除daily文件夹下node.html">emacs-org-roam-node操作排除daily文件夹下node</a><br /></li>
-<li><a href="20240404100936-blog_国内公网bt出现上传流量黑洞.html">国内公网BT出现上传流量黑洞</a></li>
-</ul>
+<h1 class="title">blog-一加12解锁BL刷入氧OS</h1>
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-04-11 周四 17:16]</span></span><br />
+</p>
+
+<p>
+参考教程： <a href="http://www.romleyuan.com/lec/read?id=1229">http://www.romleyuan.com/lec/read?id=1229</a><br />
+</p>
+
+<div id="outline-container-orgc74274b" class="outline-2">
+<h2 id="orgc74274b"><span class="section-number-2">1.</span> 准备工作</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+下载以下资源：<br />
+</p>
+
+<p>
+<a href="https://yun.daxiaamu.com/OnePlus_Roms/%E4%B8%80%E5%8A%A0OnePlus%2012/">官方ROM</a>，这里采用的是欧版CPH2581<br />
+<a href="https://yun.daxiaamu.com/files/%E4%B8%80%E5%8A%A0%E5%85%A8%E8%83%BD%E5%B7%A5%E5%85%B7%E7%AE%B1/">一加全能工具箱</a>，一键解锁BL<br />
+<a href="https://github.com/libxzr/FastbootEnhance">https://github.com/libxzr/FastbootEnhance</a> FE工具，用来刷入ROM<br />
+<a href="https://developer.android.com/tools/releases/platform-tools">Platform tools</a> ，用来执行回锁BL<br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbe8a1e9" class="outline-2">
+<h2 id="orgbe8a1e9"><span class="section-number-2">2.</span> 开始解锁BL</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<b>解锁和上锁BL都会格式化手机，提前做好数据备份</b><br />
+</p>
+
+<ol class="org-ol">
+<li>用 <b>原装数据线</b> 连接电脑，打开一加全能工具箱，按提示操作自动解锁BL。<br /></li>
+<li>将ROM解压出来，会看见一个叫 <code>playload.bin</code> 的文件<br /></li>
+<li>打开FE工具，选择“刷入playload.bin”，选中之前解压的 <code>playload.bin</code> ，勾选“忽略未知分区”<br /></li>
+<li>点击刷入，耐心等待完成后在 <code>fastboot</code> 中选择格式化手机，再选择重启手机，重启后自动进入氧OS初始化界面<br /></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge3e4b76" class="outline-2">
+<h2 id="orge3e4b76"><span class="section-number-2">3.</span> 回锁BL</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<b>解锁和上锁BL都会格式化手机，提前做好数据备份</b><br />
+</p>
+
+<ol class="org-ol">
+<li>用 <b>原装数据线</b> 连接电脑，使用adb工具 <code>adb devices</code> ，确认有输出<br /></li>
+<li>执行 <code>adb reboot bootloader</code> ，进入bl界面<br /></li>
+<li>执行 <code>fastboot flashing lock</code> ，用音量键移动，电源键确认上锁<br /></li>
+<li>静待重启<br /></li>
+</ol>
+
+<p>
+本次先是在A区刷入了提取的氧OS包，然后经由OTA升级了一次系统版本，最后直接回锁，正常启动。<br />
+</p>
+
+<p>
+特记录于此。<br />
+</p>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-12 周五 00:50]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.25) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-12 周五 00:50]</span></span></p>
