@@ -6,7 +6,7 @@
 <!-- 2024-04-26 周五 09:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>目录</title>
+<title>emacs-添加农历纪念日</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -347,23 +347,53 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">目录</h1>
-<ul class="org-ul">
-<li><a href="20240426090022-emacs_添加农历纪念日.html">emacs-添加农历纪念日</a><br /></li>
-<li><a href="20240424161418-emacs_windows上使用emacs.html">emacs-Windows上使用Emacs</a><br /></li>
-<li><a href="20240411171638-blog_一加12解锁bl刷入氧os.html">blog-一加12解锁BL刷入氧OS</a><br /></li>
-<li><a href="20240404201251-emacs_使用advice自动更新ox_publish的org_roam文件目录.html">emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</a><br /></li>
-<li><a href="20240407101207-emacs_自动删除org_roam空的daily文件.html">emacs-自动删除org-roam空的daily文件</a><br /></li>
-<li><a href="20240407101403-emacs_使用windows_toasts的python库为emacs创建windows11通知提醒.html">emacs-使用Windows-Toasts的python库为Emacs创建Windows11通知提醒</a><br /></li>
-<li><a href="20240407101229-emacs_将daily笔记以逆序datetree方式refile到另一个窗口.html">emacs-将daily笔记以逆序datetree方式refile到另一个窗口</a><br /></li>
-<li><a href="20240407101348-emacs_添加org_ql_view为org_mode_link.html">emacs-添加org-ql-view为org-mode link</a><br /></li>
-<li><a href="20240407101327-emacs_调用matplotlib画图_并存储到windows的临时文件夹中.html">emacs-调用matplotlib画图，并存储到Windows的临时文件夹中</a><br /></li>
-<li><a href="20240407100026-emacs_org_roam_node操作排除daily文件夹下node.html">emacs-org-roam-node操作排除daily文件夹下node</a><br /></li>
-<li><a href="20240404100936-blog_国内公网bt出现上传流量黑洞.html">国内公网BT出现上传流量黑洞</a></li>
-</ul>
+<h1 class="title">emacs-添加农历纪念日</h1>
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 09:00]</span></span><br />
+</p>
+
+<p>
+纪念日可以显示在 <code>org-agenda</code> 中。要添加公历的纪念日，可以在 <code>org-agenda-files</code> 的某一文件中新建一行，输入以下代码<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">%%<span style="color: #458588;">(</span>diary-anniversary 10 1 1949<span style="color: #458588;">)</span> &#26032;&#20013;&#22269;&#31532; %d &#20010;&#20844;&#21382;&#29983;&#26085;
+</pre>
+</div>
+
+<p>
+到了10月1日，就会在 <code>org-agenda</code> 中当天日程最下方显示为：<br />
+</p>
+
+<pre class="example">
+新中国第 75 个公历生日
+</pre>
+
+<p>
+添加农历纪念日需要用到另一个函数 <code>diary-chinese-anniversary</code> ，但这个函数接受的第三个可选参数 <code>year</code> 是黄帝纪年的第几次循环的第几个项，不能直接填入公元年份。所以需要做如下变化：<br />
+</p>
+
+<p>
+添加函数<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/chinese-year</span> <span style="color: #b16286;">(</span>lunar-month lunar-day year<span style="color: #b16286;">)</span>
+    <span style="color: #b16286;">(</span>+ <span style="color: #8ec07c;">(</span>* 100 <span style="color: #d65d0e;">(</span>car <span style="color: #458588;">(</span>calendar-chinese-from-absolute <span style="color: #b16286;">(</span>calendar-absolute-from-gregorian <span style="color: #8ec07c;">(</span>diary-make-date lunar-month lunar-day year<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+       <span style="color: #8ec07c;">(</span>cadr <span style="color: #d65d0e;">(</span>calendar-chinese-from-absolute <span style="color: #458588;">(</span>calendar-absolute-from-gregorian <span style="color: #b16286;">(</span>diary-make-date lunar-month lunar-day year<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+然后使用以下代码<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp">%%<span style="color: #458588;">(</span>diary-chinese-anniversary 8 10 <span style="color: #b16286;">(</span>my/chinese-year 8 10 1949<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> &#26032;&#20013;&#22269;&#31532; %d &#20010;&#20892;&#21382;&#29983;&#26085;
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 09:09]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.27) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 09:09]</span></span></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 09:06]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.27) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 09:09]</span></span></p>
 </div>
 </body>
 </html>
