@@ -6,7 +6,7 @@
 <!-- 2024-04-29 周一 19:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>emacs-添加农历纪念日</title>
+<title>emacs-设置中英文等宽</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -349,53 +349,40 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">emacs-添加农历纪念日</h1>
+<h1 class="title">emacs-设置中英文等宽</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 09:00]</span></span><br />
+<span class="timestamp-wrapper"><span class="timestamp">[2024-04-29 周一 19:26]</span></span><br />
+<a href="https://emacs-china.org/t/topic/27133">https://emacs-china.org/t/topic/27133</a><br />
 </p>
 
 <p>
-纪念日可以显示在 <code>org-agenda</code> 中。要添加公历的纪念日，可以在 <code>org-agenda-files</code> 的某一文件中新建一行，输入以下代码<br />
+从楼主提供的第三个方案中学到了，可以通过设置默认行高属性避免中英文字体等宽混搭时的行高抖动。<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp">%%<span style="color: #458588;">(</span>diary-anniversary 10 1 1949<span style="color: #458588;">)</span> &#26032;&#20013;&#22269;&#31532; %d &#20010;&#20844;&#21382;&#29983;&#26085;
+<pre class="src src-elisp"><span style="color: #458588;">(</span>set-font <span style="color: #79740e;">"Cascadia Code"</span> <span style="color: #79740e;">"HarmonyOS Sans SC"</span> 28 32<span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> default-text-properties '<span style="color: #b16286;">(</span>line-spacing 0.06 line-height 1.15<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<span style="color: #a89984;">;;</span><span style="color: #a89984;">&#36890;&#36807;&#35774;&#32622;&#34892;&#39640;&#23646;&#24615;&#30340;&#26041;&#24335;&#36991;&#20813;&#33521;&#25991;&#34892;&#36755;&#20837;&#20013;&#25991;&#21518;&#30340;&#34892;&#39640;&#25238;&#21160;</span>
 </pre>
 </div>
 
 <p>
-到了10月1日，就会在 <code>org-agenda</code> 中当天日程最下方显示为：<br />
-</p>
-
-<pre class="example">
-新中国第 75 个公历生日
-</pre>
-
-<p>
-添加农历纪念日需要用到另一个函数 <code>diary-chinese-anniversary</code> ，但这个函数接受的第三个可选参数 <code>year</code> 是黄帝纪年的第几次循环的第几个项拼接起来的，不能直接填入公元年份。所以需要做如下变化：<br />
-</p>
-
-<p>
-添加函数<br />
-</p>
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/chinese-year</span> <span style="color: #b16286;">(</span>lunar-month lunar-day year<span style="color: #b16286;">)</span>
-    <span style="color: #b16286;">(</span>+ <span style="color: #8ec07c;">(</span>* 100 <span style="color: #d65d0e;">(</span>car <span style="color: #458588;">(</span>calendar-chinese-from-absolute <span style="color: #b16286;">(</span>calendar-absolute-from-gregorian <span style="color: #8ec07c;">(</span>diary-make-date lunar-month lunar-day year<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-       <span style="color: #8ec07c;">(</span>cadr <span style="color: #d65d0e;">(</span>calendar-chinese-from-absolute <span style="color: #458588;">(</span>calendar-absolute-from-gregorian <span style="color: #b16286;">(</span>diary-make-date lunar-month lunar-day year<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
-</div>
-
-<p>
-然后使用以下代码<br />
+不过我还是坚持使用同等字号的中英文混搭，因为主要用Org-mode，平常需要等宽的地方很少，只需设置 <code>org-table</code> 的 <code>faces</code> 为中英文等宽字体就好了：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp">%%<span style="color: #458588;">(</span>diary-chinese-anniversary 8 10 <span style="color: #b16286;">(</span>my/chinese-year 8 10 1949<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> &#26032;&#20013;&#22269;&#31532; %d &#20010;&#20892;&#21382;&#29983;&#26085;
+<pre class="src src-elisp"><span style="color: #458588;">(</span>custom-set-faces
+ <span style="color: #a89984;">;; </span><span style="color: #a89984;">custom-set-faces was added by Custom.</span>
+ <span style="color: #a89984;">;; </span><span style="color: #a89984;">If you edit it by hand, you could mess it up, so be careful.</span>
+ <span style="color: #a89984;">;; </span><span style="color: #a89984;">Your init file should contain only one such instance.</span>
+ <span style="color: #a89984;">;; </span><span style="color: #a89984;">If there is more than one, they won't work right.</span>
+ '<span style="color: #b16286;">(</span>org-archived <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>t <span style="color: #458588;">(</span><span style="color: #af3a03;">:foreground</span> <span style="color: #79740e;">"#928374"</span> <span style="color: #af3a03;">:weight</span> regular<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+ '<span style="color: #b16286;">(</span>org-table <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>t <span style="color: #458588;">(</span><span style="color: #af3a03;">:background</span> <span style="color: #79740e;">"#ebdbb2"</span> <span style="color: #af3a03;">:family</span> <span style="color: #79740e;">"Sarasa Term SC"</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 </pre>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 16:10]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.28) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-29 周一 19:32]</span></span></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-29 周一 19:32]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.28) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-29 周一 19:32]</span></span></p>
 </div>
 </body>
 </html>
