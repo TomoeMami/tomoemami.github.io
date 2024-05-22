@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-04-26 周五 15:50 -->
+<!-- 2024-05-22 Wed 20:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</title>
@@ -18,6 +18,7 @@ body {
     width: 90%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
+    /* background-color: rgba(255,255,255,0.5); */
     font-size: 18px;
     line-height: 1.4em;
 }
@@ -60,6 +61,28 @@ hr {
 .button:hover {
     background-color: #3a1616;
     color: white;
+}
+
+.todo {
+    background-color: #9d0006;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: $monospace;
+    line-height: 1;
+}
+
+.done {
+    background-color: #427b58;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: $monospace;
+    line-height: 1;
 }
 
 #postamble p {
@@ -158,7 +181,7 @@ h3::after {
     bottom: 0;
     width: 100%;
     height: 2px;
-    border-bottom: 1px dashed black;
+    /* border-bottom: 1px dashed black; */
 }
 
 h4 {
@@ -351,6 +374,7 @@ b {
 </div><div id="content" class="content">
 <h1 class="title">emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</h1>
 <p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-04-04 Thu 20:12]</span></span><br />
 最近在研究用Emacs写博客。由于并不在意博客样式，因此选择用ox-publish直接将指定的org-roam文件导出为html再上传GitHub通过GitHub Pages托管。<br />
 </p>
 
@@ -364,8 +388,8 @@ b {
 由于org-roam的所有文件均在一个文件夹内，又不需要将所有的文件作为博客内容发表，因此接下来会利用org-roam的功能，动态发布打上了 <code>blog</code> 标签的文件。<br />
 </p>
 
-<div id="outline-container-org6bc72b6" class="outline-2">
-<h2 id="org6bc72b6"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
+<div id="outline-container-org5b19ae6" class="outline-2">
+<h2 id="org5b19ae6"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 参考<a href="https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html">Vulpea的org-roam动态agenda</a>文件，创建函数如下：<br />
@@ -392,8 +416,8 @@ b {
 </div>
 </div>
 
-<div id="outline-container-org263ae0b" class="outline-2">
-<h2 id="org263ae0b"><span class="section-number-2">2.</span> 配置ox-publish</h2>
+<div id="outline-container-orgf07650c" class="outline-2">
+<h2 id="orgf07650c"><span class="section-number-2">2.</span> 配置ox-publish</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 根据参考文献，需要指定 <code>org-publish-project-alist</code> 如下：<br />
@@ -426,8 +450,8 @@ b {
 </div>
 </div>
 
-<div id="outline-container-orgcdca45f" class="outline-2">
-<h2 id="orgcdca45f"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
+<div id="outline-container-org8701066" class="outline-2">
+<h2 id="org8701066"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于上述 <code>org-publish-project-alist</code> 仅会执行单次，因此需要通过 <code>advice-add</code> 的方式让其在每次发布时均执行一次，达成动态更新的效果。<br />
@@ -462,8 +486,8 @@ b {
 </div>
 </div>
 
-<div id="outline-container-org0d01995" class="outline-2">
-<h2 id="org0d01995"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
+<div id="outline-container-org0822b43" class="outline-2">
+<h2 id="org0822b43"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 利用 <code>org-export</code> 的hook自动设置，读取 <code>~/.emacs.d/org.css</code> 文件内容并插入发布的html文件中<br />
@@ -484,12 +508,12 @@ b {
 </div>
 </div>
 
-<div id="outline-container-orgbd60107" class="outline-2">
-<h2 id="orgbd60107"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
+<div id="outline-container-org912dbcd" class="outline-2">
+<h2 id="org912dbcd"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org367269e" class="outline-3">
-<h3 id="org367269e"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
+<div id="outline-container-org36c500d" class="outline-3">
+<h3 id="org36c500d"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-export-preserve-breaks t<span style="color: #458588;">)</span>
@@ -498,8 +522,8 @@ b {
 </div>
 </div>
 
-<div id="outline-container-org25d399f" class="outline-3">
-<h3 id="org25d399f"><span class="section-number-3">5.2.</span> org.css文件内容</h3>
+<div id="outline-container-orgfc398c7" class="outline-3">
+<h3 id="orgfc398c7"><span class="section-number-3">5.2.</span> org.css文件内容</h3>
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
 <pre class="src src-css"><span style="color: #a89984;">/* </span><span style="color: #a89984;">(progn (forward-line 2)</span>
@@ -516,6 +540,7 @@ b {
     <span style="color: #9d0006;">width</span>: 90%;
     <span style="color: #9d0006;">max-width</span>: 100%;
     <span style="color: #9d0006;">background-color</span>: <span style="color: #000000; background-color: #f2e5bc;">rgba(242,229,188,0.5)</span>;
+    <span style="color: #a89984;">/* </span><span style="color: #a89984;">background-color: rgba(255,255,255,0.5);</span><span style="color: #a89984;"> */</span>
     <span style="color: #9d0006;">font-size</span>: 18px;
     <span style="color: #9d0006;">line-height</span>: 1.4em;
 <span style="color: #458588;">}</span>
@@ -558,6 +583,28 @@ b {
 <span style="color: #b57614;">.button:hover</span> <span style="color: #458588;">{</span>
     <span style="color: #9d0006;">background-color</span>: <span style="color: #ffffff; background-color: #3a1616;">#3a1616</span>;
     <span style="color: #9d0006;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
+<span style="color: #458588;">}</span>
+
+<span style="color: #b57614;">.todo</span> <span style="color: #458588;">{</span>
+    <span style="color: #9d0006;">background-color</span>: <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
+    <span style="color: #9d0006;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
+    <span style="color: #9d0006;">padding</span>: .1em 0.3em;
+    <span style="color: #9d0006;">border-radius</span>: 3px;
+    <span style="color: #9d0006;">background-clip</span>: padding-box;
+    <span style="color: #9d0006;">font-size</span>: $code-size;
+    <span style="color: #9d0006;">font-family</span>: $monospace;
+    <span style="color: #9d0006;">line-height</span>: 1;
+<span style="color: #458588;">}</span>
+
+<span style="color: #b57614;">.done</span> <span style="color: #458588;">{</span>
+    <span style="color: #9d0006;">background-color</span>: <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
+    <span style="color: #9d0006;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
+    <span style="color: #9d0006;">padding</span>: .1em 0.3em;
+    <span style="color: #9d0006;">border-radius</span>: 3px;
+    <span style="color: #9d0006;">background-clip</span>: padding-box;
+    <span style="color: #9d0006;">font-size</span>: $code-size;
+    <span style="color: #9d0006;">font-family</span>: $monospace;
+    <span style="color: #9d0006;">line-height</span>: 1;
 <span style="color: #458588;">}</span>
 
 <span style="color: #b57614;">#postamble p</span> <span style="color: #458588;">{</span>
@@ -656,7 +703,7 @@ b {
     <span style="color: #9d0006;">bottom</span>: 0;
     <span style="color: #9d0006;">width</span>: 100%;
     <span style="color: #9d0006;">height</span>: 2px;
-    <span style="color: #9d0006;">border-bottom</span>: 1px dashed <span style="color: #ffffff; background-color: #000000;">black</span>;
+    <span style="color: #a89984;">/* </span><span style="color: #a89984;">border-bottom: 1px dashed black;</span><span style="color: #a89984;"> */</span>
 <span style="color: #458588;">}</span>
 
 <span style="color: #b57614;">h4</span> <span style="color: #458588;">{</span>
@@ -845,7 +892,7 @@ b {
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 15:25]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.27) on <span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 15:50]</span></span></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-05-22 Wed 19:18]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.30) on <span class="timestamp-wrapper"><span class="timestamp">[2024-05-22 Wed 20:25]</span></span></p>
 </div>
 </body>
 </html>
