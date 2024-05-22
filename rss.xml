@@ -1,1094 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-<channel>
-<title>My homepage</title>
-<description>A collection of articles in RSS</description>
-<generator>Emacs webfeeder.el</generator>
-<link>index.html</link>
-<atom:link href="index.html/rss.xml" rel="self" type="application/rss+xml"/>
-<lastBuildDate>Wed, 22 May 2024 20:27:58 +0800</lastBuildDate>
-<item>
-  <title>国内公网BT出现上传流量黑洞</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
-根据 <a href="https://github.com/anacrolix/torrent/discussions/891">Github相关讨论</a>，目前初步判断为国内一名用户名为 <a href="https://github.com/thank243"> thank423</a> 的用户开发了一款下载流量软件，用于提高自己宽带的下载流量以满足上传下载比例需求，并将该软件发布在相关社区上（ <a href="https://www.right.com.cn/FORUM/thread-8351068-1-1.html">基于 Bittorrent 网络的流量消耗器</a>） <br></br></p>
-
- <p>
-该软件会获取相关BT种子信息并恶意下载、虚假汇报进度，造成大量的上传流量被吸入其中。 <br></br></p>
-
- <p>
-由于该软件已公开发布，且曾将客户端识别码由  <code>anacrolix/torrent</code> 换到过  <code>dt/torrent</code> ，采用第三方软件封禁异常行为IP可能是更为一劳永逸的选择。 <br></br></p>
-
- <p>
-讨论帖里提及的相关第三方辅助软件： <br></br> <a href="https://github.com/Ghost-chu/PeerBanHelper">https://github.com/Ghost-chu/PeerBanHelper</a> <br></br> <a href="https://github.com/Simple-Tracker/qBittorrent-ClientBlocker">https://github.com/Simple-Tracker/qBittorrent-ClientBlocker</a> <br></br></p>
-</div>]]></description>
-  <link>index.html/20240404100936-blog_国内公网bt出现上传流量黑洞.html</link>
-  <guid isPermaLink="false">index.html/20240404100936-blog_国内公网bt出现上传流量黑洞.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
- <span class="timestamp-wrapper"> <span class="timestamp">[2024-04-04 Thu 20:12]</span></span> <br></br>
-最近在研究用Emacs写博客。由于并不在意博客样式，因此选择用ox-publish直接将指定的org-roam文件导出为html再上传GitHub通过GitHub Pages托管。 <br></br></p>
-
- <p>
-参考文献： <br></br> <a href="https://zhuanlan.zhihu.com/p/634873048">Emacs: 使用 org publish 生成个人博客</a> <br></br> <a href="https://zhuanlan.zhihu.com/p/601052964">26.ox-html 浅析与 ox-publish 使用介绍</a> <br></br></p>
-
- <p>
-由于org-roam的所有文件均在一个文件夹内，又不需要将所有的文件作为博客内容发表，因此接下来会利用org-roam的功能，动态发布打上了  <code>blog</code> 标签的文件。 <br></br></p>
-
- <div id="outline-container-org5b19ae6" class="outline-2">
- <h2 id="org5b19ae6"> <span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
- <div class="outline-text-2" id="text-1">
- <p>
-参考 <a href="https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html">Vulpea的org-roam动态agenda</a>文件，创建函数如下： <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-emacs-lisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">my/ox-files</span>  <span style="color: #b16286;">()</span>
-   <span style="color: #79740e;">"Return a list of note files containing '</span> <span style="color: #8f3f71;">blog</span> <span style="color: #79740e;">' tag."</span>  <span style="color: #a89984;">;</span>
-   <span style="color: #b16286;">(</span>seq-uniq
-    <span style="color: #8ec07c;">(</span>seq-map
-    #'car
-     <span style="color: #d65d0e;">(</span>org-roam-db-query
-      <span style="color: #458588;">[</span> <span style="color: #af3a03;">:select</span>  <span style="color: #b16286;">[</span>nodes:file <span style="color: #b16286;">]</span>
-               <span style="color: #af3a03;">:from</span> tags
-               <span style="color: #af3a03;">:left-join</span> nodes
-               <span style="color: #af3a03;">:on</span>  <span style="color: #b16286;">(</span>= tags:node-id nodes:id <span style="color: #b16286;">)</span>
-               <span style="color: #af3a03;">:where</span>  <span style="color: #b16286;">(</span>like tag  <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">quote</span>  <span style="color: #79740e;">"%\"blog\"%"</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">]</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-
- <p>
-上述函数可以返回org-roam-db中标有  <code>blog</code> 的文件路径列表。 <br></br></p>
-</div>
-</div>
-
- <div id="outline-container-orgf07650c" class="outline-2">
- <h2 id="orgf07650c"> <span class="section-number-2">2.</span> 配置ox-publish</h2>
- <div class="outline-text-2" id="text-2">
- <p>
-根据参考文献，需要指定  <code>org-publish-project-alist</code> 如下： <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-emacs-lisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">setq</span> org-publish-project-alist
-        ` <span style="color: #b16286;">(</span> <span style="color: #8ec07c;">(</span> <span style="color: #79740e;">"posts"</span>
-            <span style="color: #af3a03;">:base-directory</span> ,website-directory
-            <span style="color: #af3a03;">:base-extension</span>  <span style="color: #79740e;">"org"</span>
-            <span style="color: #af3a03;">:publishing-directory</span> ,my/publish-directory
-            <span style="color: #af3a03;">:publishing-function</span> org-html-publish-to-html
-            <span style="color: #af3a03;">:with-author</span> t
-            <span style="color: #af3a03;">:auto-sitemap</span> t
-            <span style="color: #af3a03;">:recursive</span> nil
-            <span style="color: #af3a03;">:exclude</span>  <span style="color: #79740e;">".*"</span>
-            <span style="color: #af3a03;">:include</span> , <span style="color: #d65d0e;">(</span>my/ox-files <span style="color: #d65d0e;">)</span>
-            <span style="color: #af3a03;">:html-link-home</span>  <span style="color: #79740e;">"index.html"</span>
-            <span style="color: #af3a03;">:sitemap-filename</span>  <span style="color: #79740e;">"index.org"</span>
-            <span style="color: #af3a03;">:sitemap-title</span>  <span style="color: #79740e;">"目录"</span>
-            <span style="color: #af3a03;">:sitemap-sort-files</span> anti-chronologically
-            <span style="color: #af3a03;">:html-head:css</span>  <span style="color: #79740e;">"<link rel='</span> <span style="color: #8f3f71;">stylesheet</span> <span style="color: #79740e;">' type='</span> <span style="color: #8f3f71;">text/css</span> <span style="color: #79740e;">' href='</span> <span style="color: #8f3f71;">/org.css</span> <span style="color: #79740e;">'/>"</span> <span style="color: #8ec07c;">)</span>
-           <span style="color: #8ec07c;">(</span> <span style="color: #79740e;">"personal-website"</span>  <span style="color: #af3a03;">:components</span>  <span style="color: #d65d0e;">(</span> <span style="color: #79740e;">"posts"</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-
- <p>
-上图代码通过  <code>:exclude ".*"</code> 排除所有文件，然后通过  <code>:include ,(my/ox-files)</code> 将带有  <code>blog</code> 标签的org-roam文件路径纳入  <code>ox-publish</code> 的处理范畴中 <br></br></p>
-</div>
-</div>
-
- <div id="outline-container-org8701066" class="outline-2">
- <h2 id="org8701066"> <span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
- <div class="outline-text-2" id="text-3">
- <p>
-由于上述  <code>org-publish-project-alist</code> 仅会执行单次，因此需要通过  <code>advice-add</code> 的方式让其在每次发布时均执行一次，达成动态更新的效果。 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-emacs-lisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">my/org-project-update</span>  <span style="color: #b16286;">(</span> <span style="color: #8f3f71;">&optional</span> ARG PRED <span style="color: #b16286;">)</span>  <span style="color: #a89984;">;;</span> <span style="color: #a89984;">使用before会接收到原函数参数，因此需要添加optional</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">setq</span> org-publish-project-alist
-        ` <span style="color: #8ec07c;">(</span> <span style="color: #d65d0e;">(</span> <span style="color: #79740e;">"posts"</span>
-            <span style="color: #af3a03;">:base-directory</span> ,website-directory
-            <span style="color: #af3a03;">:base-extension</span>  <span style="color: #79740e;">"org"</span>
-            <span style="color: #af3a03;">:publishing-directory</span> ,my/publish-directory
-            <span style="color: #af3a03;">:publishing-function</span> org-html-publish-to-html
-            <span style="color: #af3a03;">:with-author</span> t
-            <span style="color: #af3a03;">:auto-sitemap</span> t
-            <span style="color: #af3a03;">:recursive</span> nil
-            <span style="color: #af3a03;">:exclude</span>  <span style="color: #79740e;">".*"</span>
-            <span style="color: #af3a03;">:include</span> , <span style="color: #458588;">(</span>my/ox-files <span style="color: #458588;">)</span>
-            <span style="color: #af3a03;">:html-link-home</span>  <span style="color: #79740e;">"index.html"</span>
-            <span style="color: #af3a03;">:sitemap-filename</span>  <span style="color: #79740e;">"index.org"</span>
-            <span style="color: #af3a03;">:sitemap-title</span>  <span style="color: #79740e;">"目录"</span>
-            <span style="color: #af3a03;">:sitemap-sort-files</span> anti-chronologically
-            <span style="color: #af3a03;">:html-head:css</span>  <span style="color: #79740e;">"<link rel='</span> <span style="color: #8f3f71;">stylesheet</span> <span style="color: #79740e;">' type='</span> <span style="color: #8f3f71;">text/css</span> <span style="color: #79740e;">' href='</span> <span style="color: #8f3f71;">/org.css</span> <span style="color: #79740e;">'/>"</span> <span style="color: #d65d0e;">)</span>
-           <span style="color: #d65d0e;">(</span> <span style="color: #79740e;">"personal-website"</span>  <span style="color: #af3a03;">:components</span>  <span style="color: #458588;">(</span> <span style="color: #79740e;">"posts"</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span>advice-add 'org-publish-projects  <span style="color: #af3a03;">:before</span> 'my/org-project-update <span style="color: #458588;">)</span>
-</pre>
-</div>
-
- <p>
-这样，每次  <code>org-publish-projects</code> 函数运行前，均会更新待发布文件路径。注意这个方法对函数  <code>org-publish-file</code> 无效，所以仅适用于发布整个project的情况。 <br></br></p>
-</div>
-</div>
-
- <div id="outline-container-org0822b43" class="outline-2">
- <h2 id="org0822b43"> <span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
- <div class="outline-text-2" id="text-4">
- <p>
-利用  <code>org-export</code> 的hook自动设置，读取  <code>~/.emacs.d/org.css</code> 文件内容并插入发布的html文件中 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-emacs-lisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">my/org-inline-css-hook</span>  <span style="color: #b16286;">(</span>exporter <span style="color: #b16286;">)</span>
-   <span style="color: #79740e;">"Insert custom inline css"</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">when</span>  <span style="color: #8ec07c;">(</span>eq exporter 'html <span style="color: #8ec07c;">)</span>
-     <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">setq</span> org-html-head-include-default-style nil <span style="color: #8ec07c;">)</span>
-     <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">setq</span> org-html-head  <span style="color: #d65d0e;">(</span>concat  <span style="color: #79740e;">"<style type=\"text/css\">\n <!--/*--><![CDATA[/*><!--*/\n"</span>  <span style="color: #458588;">(</span> <span style="color: #9d0006;">with-temp-buffer</span>  <span style="color: #b16286;">(</span>insert-file-contents  <span style="color: #79740e;">"~/.emacs.d/org.css"</span> <span style="color: #b16286;">)</span>  <span style="color: #b16286;">(</span>buffer-string <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>  <span style="color: #79740e;">"/*]]>*/-->\n </style>\n"</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-     <span style="color: #a89984;">;; </span> <span style="color: #a89984;">(setq org-html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://gongzhitaao.org/orgcss/org.css\"/>")</span>
-     <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-
- <span style="color: #458588;">(</span>add-hook 'org-export-before-processing-hook 'my/org-inline-css-hook <span style="color: #458588;">)</span>
-</pre>
-</div>
-</div>
-</div>
-
- <div id="outline-container-org912dbcd" class="outline-2">
- <h2 id="org912dbcd"> <span class="section-number-2">5.</span> 一些其他的小设置</h2>
- <div class="outline-text-2" id="text-5">
-</div>
- <div id="outline-container-org36c500d" class="outline-3">
- <h3 id="org36c500d"> <span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
- <div class="outline-text-3" id="text-5-1">
- <div class="org-src-container">
- <pre class="src src-emacs-lisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">setq</span> org-export-preserve-breaks t <span style="color: #458588;">)</span>
-</pre>
-</div>
-</div>
-</div>
-
- <div id="outline-container-orgfc398c7" class="outline-3">
- <h3 id="orgfc398c7"> <span class="section-number-3">5.2.</span> org.css文件内容</h3>
- <div class="outline-text-3" id="text-5-2">
- <div class="org-src-container">
- <pre class="src src-css"> <span style="color: #a89984;">/* </span> <span style="color: #a89984;">(progn (forward-line 2)</span>
- <span style="color: #a89984;">   (delete-region (point) (point-max))</span>
- <span style="color: #a89984;">   (insert-file-contents "~/.emacs.d/org.css")</span>
- <span style="color: #a89984;">   (goto-char (point-max))</span>
- <span style="color: #a89984;">   (insert "#+end_src"))</span> <span style="color: #a89984;">*/</span>
-
- <span style="color: #af3a03;">@import</span> url <span style="color: #458588;">(</span> <span style="color: #79740e;">"https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap"</span> <span style="color: #458588;">)</span>;
- <span style="color: #af3a03;">@import</span> url <span style="color: #458588;">(</span> <span style="color: #79740e;">"https://fonts.googleapis.com/css2?family=Inconsolata&display=swap"</span> <span style="color: #458588;">)</span>;
-
- <span style="color: #b57614;">body</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">margin</span>: 2% auto;
-     <span style="color: #9d0006;">width</span>: 90%;
-     <span style="color: #9d0006;">max-width</span>: 100%;
-     <span style="color: #9d0006;">background-color</span>:  <span style="color: #000000; background-color: #f2e5bc;">rgba(242,229,188,0.5)</span>;
-     <span style="color: #a89984;">/* </span> <span style="color: #a89984;">background-color: rgba(255,255,255,0.5);</span> <span style="color: #a89984;"> */</span>
-     <span style="color: #9d0006;">font-size</span>: 18px;
-     <span style="color: #9d0006;">line-height</span>: 1.4em;
- <span style="color: #458588;">}</span>
- <span style="color: #af3a03;">@media</span> screen and  <span style="color: #458588;">(</span>min-width: 600px <span style="color: #458588;">)</span>  <span style="color: #458588;">{</span>
-     <span style="color: #b57614;">body</span>  <span style="color: #b16286;">{</span>
-         <span style="color: #9d0006;">font-size</span>: 18px;
-     <span style="color: #b16286;">}</span>
- <span style="color: #458588;">}</span>
-
- <span style="color: #af3a03;">@media</span> screen and  <span style="color: #458588;">(</span>min-width: 910px <span style="color: #458588;">)</span>  <span style="color: #458588;">{</span>
-     <span style="color: #b57614;">body</span>  <span style="color: #b16286;">{</span>
-         <span style="color: #9d0006;">width</span>: 900px;
-     <span style="color: #b16286;">}</span>
- <span style="color: #458588;">}</span>
- <span style="color: #b57614;">#preamble</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">width</span>: 80%;
-     <span style="color: #9d0006;">max-width</span>: 980px;
-     <span style="color: #9d0006;">text-align</span>: right;
-     <span style="color: #9d0006;">margin</span>: auto;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">hr</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">border</span>: none;
-     <span style="color: #9d0006;">border-top</span>: 5px double  <span style="color: #ffffff; background-color: #333;">#333</span>;
-     <span style="color: #9d0006;">margin</span>: 0px 0;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.button</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">border</span>: none;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #000000;">black</span>;
-     <span style="color: #9d0006;">padding</span>: 6px 14px;
-     <span style="color: #9d0006;">text-align</span>: center;
-     <span style="color: #9d0006;">text-decoration</span>: none;
-     <span style="color: #9d0006;">display</span>: inline-block;
-     <span style="color: #9d0006;">margin</span>: 4px 2px;
-     <span style="color: #9d0006;">transition-duration</span>: 0.4s;
-     <span style="color: #9d0006;">cursor</span>: pointer;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.button:hover</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">background-color</span>:  <span style="color: #ffffff; background-color: #3a1616;">#3a1616</span>;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #000000; background-color: #ffffff;">white</span>;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.todo</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">background-color</span>:  <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
-     <span style="color: #9d0006;">padding</span>: .1em 0.3em;
-     <span style="color: #9d0006;">border-radius</span>: 3px;
-     <span style="color: #9d0006;">background-clip</span>: padding-box;
-     <span style="color: #9d0006;">font-size</span>: $code-size;
-     <span style="color: #9d0006;">font-family</span>: $monospace;
-     <span style="color: #9d0006;">line-height</span>: 1;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.done</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">background-color</span>:  <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
-     <span style="color: #9d0006;">padding</span>: .1em 0.3em;
-     <span style="color: #9d0006;">border-radius</span>: 3px;
-     <span style="color: #9d0006;">background-clip</span>: padding-box;
-     <span style="color: #9d0006;">font-size</span>: $code-size;
-     <span style="color: #9d0006;">font-family</span>: $monospace;
-     <span style="color: #9d0006;">line-height</span>: 1;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">#postamble p</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">font-size</span>: 80%;
-     <span style="color: #9d0006;">margin</span>: .2em;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">#content, .content</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">width</span>: 80%;
-     <span style="color: #9d0006;">max-width</span>: 980px;
-     <span style="color: #9d0006;">margin</span>: auto;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">#org-div-home-and-up</span> <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">position</span>: fixed;
-     <span style="color: #9d0006;">right</span>: 0.5em;
-     <span style="color: #9d0006;">margin-top</span>: 70px;
-     <span style="color: #9d0006;">font-family</span>:sans-serif;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">#table-of-contents</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">margin-top</span>: 105px;
-     <span style="color: #9d0006;">font-size</span>: 12pt;
-     <span style="color: #9d0006;">position</span>: fixed;
-     <span style="color: #9d0006;">left</span>: 0em;
-     <span style="color: #9d0006;">top</span>: 0em;
-     <span style="color: #9d0006;">background</span>:  <span style="color: #000000; background-color: #ffffff;">white</span>;
-     <span style="color: #9d0006;">max-height</span>: 80%;
-     <span style="color: #9d0006;">overflow</span>: auto;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">#table-of-contents h2</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">display</span>: none;
- <span style="color: #458588;">}</span>
- <span style="color: #b57614;">#table-of-contents li</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">clear</span>: both;
- <span style="color: #458588;">}</span>
- <span style="color: #b57614;">.timestamp</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #928374;">#928374</span>;
-     <span style="color: #9d0006;">font-size</span>: $smaller;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.timestamp-kwd</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #5f9ea0;">#5f9ea0</span>;
- <span style="color: #458588;">}</span>
-
- <span style="color: #af3a03;">@media</span> screen and  <span style="color: #458588;">(</span>max-width: 1200px <span style="color: #458588;">)</span>  <span style="color: #458588;">{</span>
-     <span style="color: #b57614;">#table-of-contents</span>  <span style="color: #b16286;">{</span>
-         <span style="color: #9d0006;">position</span>: relative;
-         <span style="color: #9d0006;">margin-top</span>: 0px;
-     <span style="color: #b16286;">}</span>
- <span style="color: #458588;">}</span>
-
- <span style="color: #a89984;">/* </span> <span style="color: #a89984;">p:not(blockquote > p) :not(ol > p) {</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">text-indent: 2em;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/* </span> <span style="color: #a89984;">}</span> <span style="color: #a89984;"> */</span>
- <span style="color: #b57614;">p</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">margin</span>: 1em auto;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.title</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">font-size</span>: 30px;
-     <span style="color: #9d0006;">line-height</span>: 1.3;
-     <span style="color: #9d0006;">font-weight</span>: bold;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #0c2340;">#0c2340</span>;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">h2:not</span> <span style="color: #458588;">(</span> <span style="color: #b57614;">#table-of-contents > h2</span> <span style="color: #458588;">)</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">font-size</span>: 30px;
-     <span style="color: #9d0006;">line-height</span>: 1.2;
-     <span style="color: #9d0006;">position</span>: relative;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #204060;">#204060</span>;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">h2::after</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">content</span>:  <span style="color: #79740e;">""</span>;
-     <span style="color: #9d0006;">position</span>: absolute;
-     <span style="color: #9d0006;">left</span>: 0;
-     <span style="color: #9d0006;">bottom</span>: 0;
-     <span style="color: #9d0006;">width</span>: 100%;
-     <span style="color: #9d0006;">height</span>: 2px;
-     <span style="color: #9d0006;">background-color</span>:  <span style="color: #ffffff; background-color: #000000;">black</span>;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">h3:not</span> <span style="color: #458588;">(</span> <span style="color: #b57614;">#table-of-contents > h3</span> <span style="color: #458588;">)</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">font-size</span>: 20px;
-     <span style="color: #9d0006;">line-height</span>: 1.1;
-     <span style="color: #9d0006;">position</span>: relative;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #4b748d;">#4b748d</span>;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">h3::after</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">content</span>:  <span style="color: #79740e;">""</span>;
-     <span style="color: #9d0006;">position</span>: absolute;
-     <span style="color: #9d0006;">left</span>: 0;
-     <span style="color: #9d0006;">bottom</span>: 0;
-     <span style="color: #9d0006;">width</span>: 100%;
-     <span style="color: #9d0006;">height</span>: 2px;
-     <span style="color: #a89984;">/* </span> <span style="color: #a89984;">border-bottom: 1px dashed black;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">h4</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">font-size</span>: 14px;
-     <span style="color: #9d0006;">line-height</span>: 1.1;
-     <span style="color: #9d0006;">font-weight</span>: bold;
- <span style="color: #458588;">}</span>
-
-
- <span style="color: #b57614;">a</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">cursor</span>: pointer;
-     <span style="color: #9d0006;">text-decoration</span>: none;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">a:link</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #458588;">#458588</span>;
-     <span style="color: #a89984;">/* </span> <span style="color: #a89984;">text-decoration: underline;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">a:hover</span>  <span style="color: #458588;">{</span>
-     <span style="color: #a89984;">/* </span> <span style="color: #a89984;">font-weight: bold;</span> <span style="color: #a89984;"> */</span>
-     <span style="color: #9d0006;">text-decoration</span>: underline;
-     <span style="color: #a89984;">/* </span> <span style="color: #a89984;">color: #076678;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.figure</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">text-align</span>: center;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">a:visited</span> <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #8f3f71;">#8f3f71</span>;
-     <span style="color: #a89984;">/* </span> <span style="color: #a89984;">text-decoration: underline;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">img</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">max-width</span>: 100%;
-     <span style="color: #9d0006;">vertical-align</span>: middle;
- <span style="color: #458588;">}</span>
- <span style="color: #b57614;">.MathJax_Display</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">margin</span>: 0 <span style="color: #af3a03;">!important</span>;
-     <span style="color: #9d0006;">width</span>: $smaller <span style="color: #af3a03;">!important</span>;
- <span style="color: #458588;">}</span>
- <span style="color: #af3a03;">@media</span> screen and  <span style="color: #458588;">(</span>max-width: 1200px <span style="color: #458588;">)</span>  <span style="color: #458588;">{</span>
-     <span style="color: #b57614;">img</span>  <span style="color: #b16286;">{</span>
-         <span style="color: #9d0006;">width</span>: 400px;
-     <span style="color: #b16286;">}</span>
-     <span style="color: #b57614;">.MathJax_Display</span>  <span style="color: #b16286;">{</span>
-         <span style="color: #9d0006;">margin</span>: 0 <span style="color: #af3a03;">!important</span>;
-         <span style="color: #9d0006;">width</span>: $smaller <span style="color: #af3a03;">!important</span>;
-     <span style="color: #b16286;">}</span>
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.org-src-container</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">font-size</span>: 14px;
-     <span style="color: #9d0006;">outline</span>: 2px dashed  <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-     <span style="color: #9d0006;">outline-offset</span>: 10px;
-     <span style="color: #9d0006;">position</span>: relative;
-    
- <span style="color: #458588;">}</span>
- <span style="color: #b57614;">.org-src-container>pre</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">overflow</span>: auto;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.org-src-container>pre:before</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">display</span>: block;
-     <span style="color: #9d0006;">position</span>: absolute;
-     <span style="color: #9d0006;">background-color</span>:  <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
-     <span style="color: #9d0006;">top</span>: 0;
-     <span style="color: #9d0006;">right</span>: 0;
-     <span style="color: #9d0006;">padding</span>: 0 0.5em;
-     <span style="color: #9d0006;">border-bottom-left-radius</span>: 8px;
-     <span style="color: #9d0006;">border</span>: 0;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #000000; background-color: #ffffff;">white</span>;
-     <span style="color: #9d0006;">font-size</span>: $code-size;
-
- <span style="color: #458588;">}</span>
- <span style="color: #b57614;">pre</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">overflow</span>: auto;
- <span style="color: #458588;">}</span>
- <span style="color: #b57614;">.example</span> <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">font-size</span>: 14px;
-     <span style="color: #9d0006;">outline</span>: 2px dashed  <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-     <span style="color: #9d0006;">outline-offset</span>: 10px;
-     <span style="color: #9d0006;">position</span>: relative;
-    
- <span style="color: #458588;">}</span>
- <span style="color: #b57614;">.example::before</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">content</span>:  <span style="color: #79740e;">"Results"</span>;
- <span style="color: #458588;">}</span>
- <span style="color: #b57614;">pre:before</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">display</span>: block;
-     <span style="color: #9d0006;">position</span>: absolute;
-     <span style="color: #9d0006;">background-color</span>:  <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
-     <span style="color: #9d0006;">top</span>: 0;
-     <span style="color: #9d0006;">right</span>: 0;
-     <span style="color: #9d0006;">padding</span>: 0 0.5em;
-     <span style="color: #9d0006;">border-bottom-left-radius</span>: 8px;
-     <span style="color: #9d0006;">border</span>: 0;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #000000; background-color: #ffffff;">white</span>;
-     <span style="color: #9d0006;">font-size</span>: $code-size;
- <span style="color: #458588;">}</span>
- <span style="color: #a89984;">/* </span> <span style="color: #a89984;">.org-src-container::before {</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">content: "Copy";</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">position: absolute;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">top: 5px;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">right: 5px;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">padding: 5px;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">background-color: #ccc;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">color: #fff;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">border-radius: 3px;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/*     </span> <span style="color: #a89984;">cursor: pointer;</span> <span style="color: #a89984;"> */</span>
- <span style="color: #a89984;">/* </span> <span style="color: #a89984;">}</span> <span style="color: #a89984;"> */</span>
-
- <span style="color: #b57614;">code</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">font-size</span>: 16px;
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.subtitle</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">text-align</span>: right;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">blockquote</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">border-left</span>: 3px solid  <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-     <span style="color: #9d0006;">padding-left</span>: 10px;  <span style="color: #a89984;">/* </span> <span style="color: #a89984;">Optional: add some left padding for the content</span> <span style="color: #a89984;"> */</span>
-     <span style="color: #9d0006;">margin-inline-start</span>: 0px;
-     <span style="color: #9d0006;">margin-inline-end</span>: 0px;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.info</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">overflow</span>: hidden;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.created</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">float</span>: right;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.updated</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">float</span>: left;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">.org-ol</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">list-style-type</span>: decimal;  <span style="color: #a89984;">/* </span> <span style="color: #a89984;">Set the list style type to decimal numbers</span> <span style="color: #a89984;"> */</span>
-     <span style="color: #a89984;">/* </span> <span style="color: #a89984;">margin-left: 0.5em; /\* Add left margin to the list *\/</span> <span style="color: #a89984;"> */</span>
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">b</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">color</span>:  <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">#footnotes</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">position</span>: fixed;
-     <span style="color: #9d0006;">left</span>: auto;
-     <span style="color: #9d0006;">right</span>: 0;
-     <span style="color: #9d0006;">top</span>: 105px;
-     <span style="color: #9d0006;">bottom</span>: 0;
-     <span style="color: #9d0006;">width</span>: 20%;
-     <span style="color: #9d0006;">padding</span>: 10px;
-     <span style="color: #9d0006;">overflow</span>: auto;
-     <span style="color: #9d0006;">font-size</span>: 14px;
-     <span style="color: #9d0006;">z-index</span>: 9999;
- <span style="color: #458588;">}</span>
-
- <span style="color: #b57614;">#footnotes h2</span>  <span style="color: #458588;">{</span>
-     <span style="color: #9d0006;">display</span>: none;
- <span style="color: #458588;">}</span>
-
- <span style="color: #af3a03;">@media</span> screen and  <span style="color: #458588;">(</span>max-width: 1200px <span style="color: #458588;">)</span>  <span style="color: #458588;">{</span>
-     <span style="color: #b57614;">#footnotes</span>  <span style="color: #b16286;">{</span>
-         <span style="color: #9d0006;">position</span>: static;
-         <span style="color: #9d0006;">left</span>: 0;
-         <span style="color: #9d0006;">right</span>: 0;
-         <span style="color: #9d0006;">bottom</span>: 0;
-         <span style="color: #9d0006;">width</span>: 100%;
-         <span style="color: #9d0006;">max-height</span>: 30%;
-         <span style="color: #9d0006;">overflow</span>: auto;
-         <span style="color: #9d0006;">padding</span>: 10px;
-         <span style="color: #9d0006;">font-size</span>: 14px;
-         <span style="color: #9d0006;">z-index</span>: 9999;
-     <span style="color: #b16286;">}</span>
- <span style="color: #458588;">}</span>
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>]]></description>
-  <link>index.html/20240404201251-emacs_使用advice自动更新ox_publish的org_roam文件目录.html</link>
-  <guid isPermaLink="false">index.html/20240404201251-emacs_使用advice自动更新ox_publish的org_roam文件目录.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-org-roam-node操作排除daily文件夹下node</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
-用下面的函数代替org-roam-node-find，可以在其界面排除掉路径包含daily的node <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">use-package</span>  <span style="color: #8f3f71;">org-roam</span> <span style="color: #458588;">)</span>
-
- <span style="color: #458588;">(</span>org-roam-db-autosync-mode <span style="color: #458588;">)</span>
-
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">cl-defmethod</span>  <span style="color: #b57614;">org-roam-node-directories</span>  <span style="color: #b16286;">(</span> <span style="color: #8ec07c;">(</span>node org-roam-node <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span>
-     <span style="color: #b16286;">(</span> <span style="color: #9d0006;">if-let</span>  <span style="color: #8ec07c;">(</span> <span style="color: #d65d0e;">(</span>dirs  <span style="color: #458588;">(</span>file-name-directory  <span style="color: #b16286;">(</span>file-relative-name  <span style="color: #8ec07c;">(</span>org-roam-node-file node <span style="color: #8ec07c;">)</span> org-roam-directory <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-         <span style="color: #8ec07c;">(</span>format  <span style="color: #79740e;">"(%s)"</span>  <span style="color: #d65d0e;">(</span>car  <span style="color: #458588;">(</span>split-string dirs  <span style="color: #79740e;">"/"</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-       <span style="color: #79740e;">""</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-
- <span style="color: #458588;">(</span>global-set-key  <span style="color: #79740e;">"\C-cxf"</span>  <span style="color: #b16286;">(</span> <span style="color: #9d0006;">lambda</span>  <span style="color: #8ec07c;">()</span>  <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">interactive</span> <span style="color: #8ec07c;">)</span>
-     <span style="color: #8ec07c;">(</span>org-roam-node-find nil nil
-         <span style="color: #d65d0e;">(</span> <span style="color: #9d0006;">lambda</span>  <span style="color: #458588;">(</span>node <span style="color: #458588;">)</span>
-             <span style="color: #458588;">(</span>not  <span style="color: #b16286;">(</span>string-search  <span style="color: #79740e;">"daily"</span>  <span style="color: #8ec07c;">(</span>org-roam-node-directories node <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-</div>]]></description>
-  <link>index.html/20240407100026-emacs_org_roam_node操作排除daily文件夹下node.html</link>
-  <guid isPermaLink="false">index.html/20240407100026-emacs_org_roam_node操作排除daily文件夹下node.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-自动删除org-roam空的daily文件</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
-自动删除org-roam空的daily文件 <br></br></p>
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">vulpea-buffer-p</span>  <span style="color: #b16286;">()</span>
-   <span style="color: #79740e;">"Return non-nil if the currently visited buffer is a note."</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">and</span> buffer-file-name
-        <span style="color: #8ec07c;">(</span>string-prefix-p
-         <span style="color: #d65d0e;">(</span>expand-file-name  <span style="color: #458588;">(</span>file-name-as-directory YOUR-ORG-ROAM-DIR <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span>
-         <span style="color: #d65d0e;">(</span>file-name-directory buffer-file-name <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">my/delete-empty-daily</span>  <span style="color: #b16286;">()</span>
-   <span style="color: #79740e;">"delete daily node without content"</span>
-   <span style="color: #a89984;">;;</span> <span style="color: #a89984;">限制在daily文件夹</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">if</span>  <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">and</span>  <span style="color: #d65d0e;">(</span>vulpea-buffer-p <span style="color: #d65d0e;">)</span>  <span style="color: #d65d0e;">(</span>string-match  <span style="color: #79740e;">"daily"</span>  <span style="color: #458588;">(</span>file-name-directory buffer-file-name <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-       <span style="color: #a89984;">;;</span> <span style="color: #a89984;">查找heading</span>
-       <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">unless</span>  <span style="color: #d65d0e;">(</span>org-map-entries
-            <span style="color: #458588;">(</span> <span style="color: #9d0006;">lambda</span>  <span style="color: #b16286;">()</span>
-              <span style="color: #b16286;">(</span>org-entry-get nil  <span style="color: #79740e;">"ITEM"</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-           nil nil <span style="color: #d65d0e;">)</span>
-           <span style="color: #d65d0e;">(</span>delete-file  <span style="color: #458588;">(</span>buffer-file-name <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span>
-           <span style="color: #d65d0e;">(</span>kill-this-buffer <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-
- <span style="color: #458588;">(</span>add-hook 'after-save-hook #'my/delete-empty-daily <span style="color: #458588;">)</span>
-</pre>
-</div>
-</div>]]></description>
-  <link>index.html/20240407101207-emacs_自动删除org_roam空的daily文件.html</link>
-  <guid isPermaLink="false">index.html/20240407101207-emacs_自动删除org_roam空的daily文件.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-将daily笔记以逆序datetree方式refile到另一个窗口</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
-将daily笔记以逆序datetree方式refile到另一个窗口 <br></br></p>
-
- <p>
-在左右并排的两个window间，会根据本buffer的title，将指定的headline refile到另一个窗口，并按reverse-datetree排列 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">use-package</span>  <span style="color: #8f3f71;">org-reverse-datetree</span> <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">setq-default</span> org-reverse-datetree-level-formats
-              ' <span style="color: #b16286;">(</span> <span style="color: #79740e;">"%Y"</span>                     <span style="color: #a89984;">; </span> <span style="color: #a89984;">year</span>
-                 <span style="color: #79740e;">"%Y-%m %B"</span>
-                 <span style="color: #79740e;">"%Y-%m-%d %A"</span>            <span style="color: #a89984;">; </span> <span style="color: #a89984;">date</span>
-                 <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">org-get-next-window-file</span>  <span style="color: #b16286;">()</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">if</span>  <span style="color: #8ec07c;">(</span>delq  <span style="color: #d65d0e;">(</span>selected-window <span style="color: #d65d0e;">)</span>  <span style="color: #d65d0e;">(</span>window-list-1  <span style="color: #458588;">(</span>next-window nil 'nomini 'visible <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-       <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">let</span>  <span style="color: #d65d0e;">(</span> <span style="color: #458588;">(</span>buffer2  <span style="color: #b16286;">(</span>window-buffer  <span style="color: #8ec07c;">(</span>next-window nil 'nomini 'visible <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span>
-         <span style="color: #d65d0e;">(</span> <span style="color: #9d0006;">with-current-buffer</span> buffer2
-           <span style="color: #458588;">(</span> <span style="color: #9d0006;">when</span>  <span style="color: #b16286;">(</span>eq major-mode 'org-mode <span style="color: #b16286;">)</span>
-             <span style="color: #b16286;">(</span>buffer-file-name buffer2 <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">org-get-current-window-title</span>  <span style="color: #b16286;">()</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">with-current-buffer</span>  <span style="color: #8ec07c;">(</span>window-buffer <span style="color: #8ec07c;">)</span>
-         <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">pcase</span>  <span style="color: #d65d0e;">(</span>org-collect-keywords ' <span style="color: #458588;">(</span> <span style="color: #79740e;">"TITLE"</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span>
-           <span style="color: #d65d0e;">(</span>` <span style="color: #458588;">(</span> <span style="color: #b16286;">(</span> <span style="color: #79740e;">"TITLE"</span> . ,val <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-            <span style="color: #458588;">(</span> <span style="color: #9d0006;">setq</span> title  <span style="color: #b16286;">(</span>car val <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">org-refile-to-other-window</span>  <span style="color: #b16286;">(</span>arg <span style="color: #b16286;">)</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">interactive</span>  <span style="color: #79740e;">"P"</span> <span style="color: #b16286;">)</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">if</span>  <span style="color: #8ec07c;">(</span>org-get-next-window-file <span style="color: #8ec07c;">)</span>
-       <span style="color: #8ec07c;">(</span>org-reverse-datetree-refile-to-file  <span style="color: #d65d0e;">(</span>org-get-next-window-file <span style="color: #d65d0e;">)</span>  <span style="color: #d65d0e;">(</span>date-to-time  <span style="color: #458588;">(</span>org-get-current-window-title <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-         <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-</div>]]></description>
-  <link>index.html/20240407101229-emacs_将daily笔记以逆序datetree方式refile到另一个窗口.html</link>
-  <guid isPermaLink="false">index.html/20240407101229-emacs_将daily笔记以逆序datetree方式refile到另一个窗口.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-调用matplotlib画图，并存储到Windows的临时文件夹中</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
-根据已有表格绘图，在表格上方标注名称，如： <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-org"> <span style="color: #a89984;">#+NAME: myTimeTable</span>
- <span style="color: #076678; background-color: #ebdbb2;">|1|2|</span>
- <span style="color: #076678; background-color: #ebdbb2;">|-+-|</span>
- <span style="color: #076678; background-color: #ebdbb2;">|3|4|</span>
-</pre>
-</div>
- <p>
-在python代码行的header里传入表格数据（在我用的org 9.6.14中数据会自动去除标题行和分割行，只剩下面的数据行）： <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-python"> <span style="color: #a89984;">#</span> <span style="color: #a89984;">+begin_src python :results file link :var data=myTimeTable</span>
- <span style="color: #9d0006;">import</span> os,matplotlib, numpy
-……
-
- <span style="color: #076678;">savedir</span> = os.getenv <span style="color: #458588;">(</span> <span style="color: #79740e;">'TEMP'</span> <span style="color: #458588;">)</span>+ <span style="color: #79740e;">'</span> <span style="color: #8f3f71;">\\</span> <span style="color: #79740e;">myTimeTable.png'</span>
-plt.savefig <span style="color: #458588;">(</span>savedir <span style="color: #458588;">)</span>
- <span style="color: #9d0006;">return</span> savedir
-</pre>
-</div>
-
- <p>
-会把代码块上方的name动态传入到代码中 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-python"> <span style="color: #a89984;">#</span> <span style="color: #a89984;">+name: 代码块name</span>
- <span style="color: #a89984;">#</span> <span style="color: #a89984;">+begin_src python :var filename=(org-element-property :name (org-element-context)) :results file link</span>
- <span style="color: #9d0006;">import</span> os,matplotlib, numpy
-……
- <span style="color: #076678;">savedir</span> = os.getenv <span style="color: #458588;">(</span> <span style="color: #79740e;">'TEMP'</span> <span style="color: #458588;">)</span>+ <span style="color: #79740e;">'</span> <span style="color: #8f3f71;">\\</span> <span style="color: #79740e;">'</span>+filename+ <span style="color: #79740e;">'.png'</span>
-plt.savefig <span style="color: #458588;">(</span>savedir <span style="color: #458588;">)</span>
- <span style="color: #9d0006;">return</span> savedir
-</pre>
-</div>
-
- <p>
-运行后会在下方生成 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-org"> <span style="color: #a89984;">#+RESULTS:</span>
- <span style="color: #689d6a; text-decoration: underline;"> <a href="file:..../XXX.png">file:..../XXX.png</a></span>
-</pre>
-</div>
- <p>
-的图片，可以配合inline 图片相关函数使用 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #a89984;">;; </span> <span style="color: #a89984;">(setq org-startup-with-inline-images t)</span>
- <span style="color: #a89984;">;;; </span> <span style="color: #a89984;">Only display inline images under current subtree.</span>
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">org-display-subtree-inline-images</span>  <span style="color: #b16286;">(</span> <span style="color: #8f3f71;">&optional</span> state <span style="color: #b16286;">)</span>
-   <span style="color: #79740e;">"Toggle the display of inline images under current subtree.</span>
- <span style="color: #79740e;">INCLUDE-LINKED is passed to `</span> <span style="color: #8f3f71;">org-display-inline-images</span> <span style="color: #79740e;">'."</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">interactive</span> <span style="color: #b16286;">)</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">save-excursion</span>
-     <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">save-restriction</span>
-       <span style="color: #d65d0e;">(</span>org-narrow-to-subtree <span style="color: #d65d0e;">)</span>
-       <span style="color: #d65d0e;">(</span> <span style="color: #9d0006;">let*</span>  <span style="color: #458588;">(</span> <span style="color: #b16286;">(</span>beg  <span style="color: #8ec07c;">(</span>point-min <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span>
-              <span style="color: #b16286;">(</span>end  <span style="color: #8ec07c;">(</span>point-max <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span>
-              <span style="color: #b16286;">(</span>image-overlays  <span style="color: #8ec07c;">(</span>cl-intersection
-                              org-inline-image-overlays
-                               <span style="color: #d65d0e;">(</span>overlays-in beg end <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span>
-              <span style="color: #b16286;">(</span>display-inline-images-local
-               <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">lambda</span>  <span style="color: #d65d0e;">()</span>
-                 <span style="color: #d65d0e;">(</span>org-display-inline-images t t beg end <span style="color: #d65d0e;">)</span>
-                 <span style="color: #d65d0e;">(</span> <span style="color: #9d0006;">setq</span> image-overlays  <span style="color: #458588;">(</span>cl-intersection
-                                      org-inline-image-overlays
-                                       <span style="color: #458588;">(</span>overlays-in beg end <span style="color: #458588;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span>
-                 <span style="color: #d65d0e;">(</span> <span style="color: #9d0006;">if</span>  <span style="color: #458588;">(</span> <span style="color: #9d0006;">and</span>  <span style="color: #458588;">(</span>org-called-interactively-p <span style="color: #458588;">)</span> image-overlays <span style="color: #458588;">)</span>
-                     <span style="color: #458588;">(</span>message  <span style="color: #79740e;">"%d images displayed inline"</span>
-                              <span style="color: #458588;">(</span>length image-overlays <span style="color: #458588;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span>
-              <span style="color: #b16286;">(</span>hide-inline-images-local
-               <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">lambda</span>  <span style="color: #d65d0e;">()</span>
-                 <span style="color: #d65d0e;">(</span>org-remove-inline-images <span style="color: #d65d0e;">)</span>
-                 <span style="color: #d65d0e;">(</span>message  <span style="color: #79740e;">"Inline image display turned off"</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-         <span style="color: #458588;">(</span> <span style="color: #9d0006;">if</span> state
-             <span style="color: #b16286;">(</span> <span style="color: #9d0006;">pcase</span> state
-               <span style="color: #8ec07c;">(</span>'subtree
-                <span style="color: #d65d0e;">(</span>funcall display-inline-images-local <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-               <span style="color: #8ec07c;">(</span>'folded
-                <span style="color: #d65d0e;">(</span>funcall hide-inline-images-local <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span>
-           <span style="color: #b16286;">(</span> <span style="color: #9d0006;">if</span> image-overlays
-               <span style="color: #8ec07c;">(</span>funcall display-inline-images-local <span style="color: #8ec07c;">)</span>
-             <span style="color: #8ec07c;">(</span>funcall hide-inline-images-local <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-
- <span style="color: #458588;">(</span>define-key org-mode-map  <span style="color: #b16286;">(</span>kbd  <span style="color: #79740e;">"C-c C-x C-v"</span> <span style="color: #b16286;">)</span> 'org-display-subtree-inline-images <span style="color: #458588;">)</span>
-
- <span style="color: #a89984;">;;; </span> <span style="color: #a89984;">auto display inline images on Org TAB cycle expand headlines.</span>
- <span style="color: #458588;">(</span>add-hook 'org-cycle-hook #'org-display-subtree-inline-images <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span>add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images <span style="color: #458588;">)</span>
-</pre>
-</div>
- <p>
-参考： <a href="https://emacs-china.org/t/org-link/13502/6">https://emacs-china.org/t/org-link/13502/6</a> <br></br></p>
-
- <div id="outline-container-org0f4034b" class="outline-2">
- <h2 id="org0f4034b"> <span class="section-number-2">1.</span> 通过代码块引用的方式重复使用部分代码</h2>
- <div class="outline-text-2" id="text-1">
- <p>
-在代码块上方加上  <code>#+NAME: line-plot</code> ，然后在需要引用的代码块上加上  <code>:noweb yes</code> 参数，再在内部通过  <code><<pie-plot>></code> 的方式即可复用代码。 <br></br></p>
-</div>
-</div>
-</div>]]></description>
-  <link>index.html/20240407101327-emacs_调用matplotlib画图_并存储到windows的临时文件夹中.html</link>
-  <guid isPermaLink="false">index.html/20240407101327-emacs_调用matplotlib画图_并存储到windows的临时文件夹中.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-添加org-ql-view为org-mode link</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
-在使用org-ql的时候，我发现 <a href="https://github.com/alphapapa/org-ql?tab=readme-ov-file#links">官方说明里推荐的</a>形如 <br></br></p>
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">[</span> <span style="color: #b16286;">[</span>org-ql-search:todo:NEXT priority:A <span style="color: #b16286;">]</span> <span style="color: #458588;">]</span>
- <span style="color: #458588;">[</span> <span style="color: #b16286;">[</span>org-ql-search: <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">and</span>  <span style="color: #d65d0e;">(</span>todo  <span style="color: #79740e;">"NEXT"</span> <span style="color: #d65d0e;">)</span>  <span style="color: #d65d0e;">(</span>priority  <span style="color: #79740e;">"A"</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">]</span> <span style="color: #458588;">]</span>
-</pre>
-</div>
- <p>
-的链接，实际体验存在一定的问题： <br></br></p>
- <ol class="org-ol"> <li>如果通过官方推荐的  <code>org-store-link</code> 方法，在Windows上会因为汉字的编码造成无法匹配汉字标签； <br></br></li>
- <li>重启emacs之后也无法直接点击链接启动，会提示“No Match”（仅在未启动过org-ql时出现此问题） <br></br></li>
-</ol> <p>
-所以可以保存常用的org-ql-view搜索，然后添加以下代码，通过形如  <code>[[qlview: 个人事项]</code> 的org-link快速启动org-ql-view指定结果 <br></br></p>
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span>org-add-link-type
-  <span style="color: #79740e;">"qlview"</span> 'my/org-ql-view <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">my/org-ql-view</span>  <span style="color: #b16286;">(</span>name <span style="color: #b16286;">)</span>
-   <span style="color: #79740e;">"View saved org-ql-view"</span>
-   <span style="color: #b16286;">(</span>org-ql-view name <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
- <div id="outline-container-orgbfb3ffd" class="outline-2">
- <h2 id="orgbfb3ffd"> <span class="section-number-2">1.</span> 补充 org-ql-search 的相关语句</h2>
- <div class="outline-text-2" id="text-1">
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span>org-add-link-type
-  <span style="color: #79740e;">"qlsearch"</span> 'my/org-ql-search <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">my/org-ql-search</span>  <span style="color: #b16286;">(</span>query <span style="color: #b16286;">)</span>
-   <span style="color: #79740e;">"Search query in default mode"</span>
-   <span style="color: #b16286;">(</span>org-ql-search  <span style="color: #8ec07c;">(</span>org-agenda-files <span style="color: #8ec07c;">)</span> query  <span style="color: #af3a03;">:narrow</span> nil  <span style="color: #af3a03;">:super-groups</span> ' <span style="color: #8ec07c;">(</span> <span style="color: #d65d0e;">(</span> <span style="color: #af3a03;">:auto-tags</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>  <span style="color: #af3a03;">:sort</span> nil <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-</div>
-</div>
-</div>]]></description>
-  <link>index.html/20240407101348-emacs_添加org_ql_view为org_mode_link.html</link>
-  <guid isPermaLink="false">index.html/20240407101348-emacs_添加org_ql_view为org_mode_link.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-使用Windows-Toasts的python库为Emacs创建Windows11通知提醒</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
- <span class="timestamp-wrapper"> <span class="timestamp">[2024-04-07 Sun 10:14]</span></span> <br></br></p>
-
- <p>
-安装pip包 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-cmd">pip install windows-toasts
-</pre>
-</div>
-
- <p>
-在  <code>~/.emacs.d/</code> 中新建  <code>notify.py</code> ，内容如下： <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-python"> <span style="color: #9d0006;">import</span> sys,os
- <span style="color: #9d0006;">from</span> urllib.parse  <span style="color: #9d0006;">import</span> unquote
- <span style="color: #9d0006;">from</span> windows_toasts  <span style="color: #9d0006;">import</span> Toast, WindowsToaster, ToastDisplayImage
- <span style="color: #076678;">toaster</span> = WindowsToaster <span style="color: #458588;">(</span> <span style="color: #79740e;">'Emacs Agenda'</span> <span style="color: #458588;">)</span>
- <span style="color: #076678;">newToast</span> = Toast <span style="color: #458588;">()</span>
-newToast. <span style="color: #076678;">text_fields</span> =  <span style="color: #458588;">[</span>unquote <span style="color: #b16286;">(</span>sys.argv <span style="color: #8ec07c;">[</span>1 <span style="color: #8ec07c;">]</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">]</span>
-newToast.AddImage <span style="color: #458588;">(</span>ToastDisplayImage.fromPath <span style="color: #b16286;">(</span>unquote <span style="color: #8ec07c;">(</span>sys.argv <span style="color: #d65d0e;">[</span>2 <span style="color: #d65d0e;">]</span> <span style="color: #8ec07c;">)</span>+ <span style="color: #79740e;">"/org/phone/emacs.png"</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-toaster.show_toast <span style="color: #458588;">(</span>newToast <span style="color: #458588;">)</span>
-
-</pre>
-</div>
-
- <p>
-将先前的elisp函数  <code>fw/appt-disp-windows</code> 改为 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">fw/appt-disp-windows</span>  <span style="color: #b16286;">(</span>min-to-app new-time msg <span style="color: #b16286;">)</span>
-     <span style="color: #79740e;">"A custom `</span> <span style="color: #8f3f71;">appt-disp-window-function</span> <span style="color: #79740e;">' which uses the PowerShell module '</span> <span style="color: #8f3f71;">BurntToast</span> <span style="color: #79740e;">'"</span>
-     <span style="color: #b16286;">(</span>shell-command  <span style="color: #8ec07c;">(</span>concat  <span style="color: #79740e;">"python -X utf8 "</span> <span style="color: #d65d0e;">(</span>file-truename user-emacs-directory <span style="color: #d65d0e;">)</span>  <span style="color: #79740e;">"notify.py "</span>  <span style="color: #d65d0e;">(</span>url-encode-url msg  <span style="color: #d65d0e;">)</span> <span style="color: #79740e;">" "</span>  <span style="color: #d65d0e;">(</span>url-encode-url  <span style="color: #458588;">(</span>file-truename user-emacs-directory <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span>
-</pre>
-</div>
-
- <p>
-经测试能正常提醒。使用python库的好处在于规避powershell的安装、策略设置过程，可以利用国内的pip镜像库，方便下载。 <br></br></p>
-</div>]]></description>
-  <link>index.html/20240407101403-emacs_使用windows_toasts的python库为emacs创建windows11通知提醒.html</link>
-  <guid isPermaLink="false">index.html/20240407101403-emacs_使用windows_toasts的python库为emacs创建windows11通知提醒.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>blog-一加12解锁BL刷入氧OS</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
- <span class="timestamp-wrapper"> <span class="timestamp">[2024-04-11 Thu 17:16]</span></span> <br></br></p>
-
- <p>
-参考教程：  <a href="http://www.romleyuan.com/lec/read?id=1229">http://www.romleyuan.com/lec/read?id=1229</a> <br></br></p>
- <div id="outline-container-orgbf23830" class="outline-2">
- <h2 id="orgbf23830"> <span class="section-number-2">1.</span> 准备工作</h2>
- <div class="outline-text-2" id="text-1">
- <p>
-下载以下资源： <br></br></p>
-
- <p>
- <a href="https://yun.daxiaamu.com/OnePlus_Roms/%E4%B8%80%E5%8A%A0OnePlus%2012/">官方ROM</a>，这里采用的是欧版CPH2581 <br></br> <a href="https://yun.daxiaamu.com/files/%E4%B8%80%E5%8A%A0%E5%85%A8%E8%83%BD%E5%B7%A5%E5%85%B7%E7%AE%B1/">一加全能工具箱</a>，一键解锁BL <br></br> <a href="https://github.com/libxzr/FastbootEnhance">https://github.com/libxzr/FastbootEnhance</a> FE工具，用来刷入ROM <br></br> <a href="https://developer.android.com/tools/releases/platform-tools">Platform tools</a> ，用来执行回锁BL <br></br></p>
-</div>
-</div>
-
- <div id="outline-container-org9f316a5" class="outline-2">
- <h2 id="org9f316a5"> <span class="section-number-2">2.</span> 开始解锁BL</h2>
- <div class="outline-text-2" id="text-2">
- <p>
- <b>解锁和上锁BL都会格式化手机，提前做好数据备份</b> <br></br></p>
-
- <ol class="org-ol"> <li>用  <b>原装数据线</b> 连接电脑，打开一加全能工具箱，按提示操作自动解锁BL。 <br></br></li>
- <li>将ROM解压出来，会看见一个叫  <code>playload.bin</code> 的文件 <br></br></li>
- <li>打开FE工具，选择“刷入playload.bin”，选中之前解压的  <code>playload.bin</code> ，勾选“忽略未知分区” <br></br></li>
- <li>点击刷入，耐心等待完成后在  <code>fastboot</code> 中选择格式化手机，再选择重启手机，重启后自动进入氧OS初始化界面 <br></br></li>
-</ol></div>
-</div>
-
- <div id="outline-container-org1e3d5cd" class="outline-2">
- <h2 id="org1e3d5cd"> <span class="section-number-2">3.</span> 回锁BL</h2>
- <div class="outline-text-2" id="text-3">
- <p>
- <b>解锁和上锁BL都会格式化手机，提前做好数据备份</b> <br></br></p>
-
- <ol class="org-ol"> <li>用  <b>原装数据线</b> 连接电脑，使用adb工具  <code>adb devices</code> ，确认有输出 <br></br></li>
- <li>执行  <code>adb reboot bootloader</code> ，进入bl界面 <br></br></li>
- <li>执行  <code>fastboot flashing lock</code> ，用音量键移动，电源键确认上锁 <br></br></li>
- <li>静待重启 <br></br></li>
-</ol> <p>
-本次先是在A区刷入了提取的氧OS包，然后经由OTA升级了一次系统版本，最后直接回锁，正常启动。 <br></br></p>
-
- <p>
-特记录于此。 <br></br></p>
-
- <p>
-备注：从氧OS回到ColorOS需要额外操作，可以采用酷安的一键脚本或二次刷入才能正确开机。参考 <a href="https://www.coolapk.com/feed/53881245?shareKey=NTg1ODExOTQ0ODA2NjYxYWJiNTI">https://www.coolapk.com/feed/53881245?shareKey=NTg1ODExOTQ0ODA2NjYxYWJiNTI</a>~ <br></br></p>
-</div>
-</div>
-</div>]]></description>
-  <link>index.html/20240411171638-blog_一加12解锁bl刷入氧os.html</link>
-  <guid isPermaLink="false">index.html/20240411171638-blog_一加12解锁bl刷入氧os.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-Windows上使用Emacs</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
- <span class="timestamp-wrapper"> <span class="timestamp">[2024-04-24 Wed 16:14]</span></span> <br></br></p>
- <div id="outline-container-org5e10dc5" class="outline-2">
- <h2 id="org5e10dc5"> <span class="section-number-2">1.</span> 字体编码处理</h2>
- <div class="outline-text-2" id="text-1">
- <p>
- <a href="https://emacs-china.org/t/org-roam/26545/24?u=tomoemami">org-roam和ripgrep：</a> <br></br></p>
-
- <p>
-设置org-mode的字符编码，同时开启自动revert功能 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">use-package</span>  <span style="color: #8f3f71;">lazy-revert</span>
-   <span style="color: #af3a03;">:ensure</span> nil
-   <span style="color: #a89984;">;; </span> <span style="color: #a89984;">:quelpa (lazy-revert :fetcher github</span>
-   <span style="color: #a89984;">;;                      </span> <span style="color: #a89984;">:repo "yilin-zhang/lazy-revert")</span>
-   <span style="color: #af3a03;">:hook</span>  <span style="color: #b16286;">(</span>after-init . lazy-revert-mode <span style="color: #b16286;">)</span>
-   <span style="color: #a89984;">;; </span> <span style="color: #a89984;">Optional</span>
-   <span style="color: #af3a03;">:config</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">setq</span> auto-revert-verbose t  <span style="color: #a89984;">; </span> <span style="color: #a89984;">let us know when it happens</span>
-        auto-revert-use-notify nil
-        auto-revert-stop-on-user-input nil
-         <span style="color: #a89984;">;; </span> <span style="color: #a89984;">Only prompts for confirmation when buffer is unsaved.</span>
-        revert-without-query  <span style="color: #8ec07c;">(</span>list  <span style="color: #79740e;">"."</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span>add-to-list 'file-coding-system-alist ' <span style="color: #b16286;">(</span> <span style="color: #79740e;">"\\.org\\'"</span> . utf-8 <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-
- <p>
-设置ripgrep的字符编码 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span>add-to-list 'process-coding-system-alist
-                        ' <span style="color: #b16286;">(</span> <span style="color: #79740e;">"[rR][gG]"</span> .  <span style="color: #8ec07c;">(</span>utf-8 . gbk-dos <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-
- <p>
-其他编码设置 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span>prefer-coding-system 'utf-8 <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">setq</span> default-buffer-file-coding-system 'utf-8 <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span>set-default 'process-coding-system-alist
-             ' <span style="color: #b16286;">(</span> <span style="color: #8ec07c;">(</span> <span style="color: #79740e;">"[pP][lL][iI][nN][kK]"</span> gbk-dos . gbk-dos <span style="color: #8ec07c;">)</span>
-                <span style="color: #8ec07c;">(</span> <span style="color: #79740e;">"[cC][mM][dD][pP][rR][oO][xX][yY]"</span> gbk-dos . gbk-dos <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-</div>
-</div>
- <div id="outline-container-org39dbca1" class="outline-2">
- <h2 id="org39dbca1"> <span class="section-number-2">2.</span> consult</h2>
- <div class="outline-text-2" id="text-2">
-</div>
- <div id="outline-container-org8aa5b90" class="outline-3">
- <h3 id="org8aa5b90"> <span class="section-number-3">2.1.</span> 调用Everything进行搜索</h3>
- <div class="outline-text-3" id="text-2-1">
- <p>
-下载命令行接口  <code>es.exe</code> <br></br></p>
-
- <p>
- <a href="https://www.voidtools.com/zh-cn/downloads/#cli">https://www.voidtools.com/zh-cn/downloads/#cli</a> <br></br></p>
-
- <p>
- <a href="https://emacs-china.org/t/consult/18596/3?u=tomoemami">consult调用everything</a> <br></br></p>
-
- <p>
-consult配置 <br></br></p>
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">use-package</span>  <span style="color: #8f3f71;">consult</span>
-   <span style="color: #af3a03;">:defer</span> t
-   <span style="color: #af3a03;">:init</span>
-   <span style="color: #b16286;">(</span> <span style="color: #9d0006;">progn</span>
-     <span style="color: #8ec07c;">(</span>add-to-list 'process-coding-system-alist ' <span style="color: #d65d0e;">(</span> <span style="color: #79740e;">"es"</span> gbk . gbk <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-     <span style="color: #8ec07c;">(</span>add-to-list 'process-coding-system-alist ' <span style="color: #d65d0e;">(</span> <span style="color: #79740e;">"explorer"</span> gbk . gbk <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-     <span style="color: #8ec07c;">(</span> <span style="color: #9d0006;">setq</span> consult-locate-args  <span style="color: #d65d0e;">(</span>encode-coding-string  <span style="color: #79740e;">"es.exe -i -p -r"</span> 'gbk <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span>
-   <span style="color: #af3a03;">:custom</span>
-   <span style="color: #b16286;">(</span>consult-async-min-input 2 <span style="color: #b16286;">)</span>  <span style="color: #a89984;">;;</span> <span style="color: #a89984;">中文2字符开搜</span>
-   <span style="color: #458588;">)</span>
-</pre>
-</div>
-
- <p>
-模糊搜索技巧 <br></br></p>
-
- <blockquote>
- <p>
-貌似目前只能通过单个单词搜索之后，在搜索结果后面加上  <code>#</code> 再用orderless的规则去弄。 <br></br></p>
-
- <p>
-比如 搜索  <code>#emacs#keyword1 keyword2</code> 来过滤，此时可以添加空格 <br></br></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>]]></description>
-  <link>index.html/20240424161418-emacs_windows上使用emacs.html</link>
-  <guid isPermaLink="false">index.html/20240424161418-emacs_windows上使用emacs.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-添加农历纪念日</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
- <span class="timestamp-wrapper"> <span class="timestamp">[2024-04-26 Fri 09:00]</span></span> <br></br></p>
-
- <p>
-纪念日可以显示在  <code>org-agenda</code> 中。要添加公历的纪念日，可以在  <code>org-agenda-files</code> 的某一文件中新建一行，输入以下代码 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp">%% <span style="color: #458588;">(</span>diary-anniversary 10 1 1949 <span style="color: #458588;">)</span> 新中国第 %d 个公历生日
-</pre>
-</div>
-
- <p>
-到了10月1日，就会在  <code>org-agenda</code> 中当天日程最下方显示为： <br></br></p>
-
- <pre class="example">
-新中国第 75 个公历生日
-</pre>
-
- <p>
-添加农历纪念日需要用到另一个函数  <code>diary-chinese-anniversary</code> ，但这个函数接受的第三个可选参数  <code>year</code> 是黄帝纪年的第几次循环的第几个项拼接起来的，不能直接填入公元年份。所以需要做如下变化： <br></br></p>
-
- <p>
-添加函数 <br></br></p>
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span> <span style="color: #9d0006;">defun</span>  <span style="color: #b57614;">my/chinese-year</span>  <span style="color: #b16286;">(</span>lunar-month lunar-day year <span style="color: #b16286;">)</span>
-     <span style="color: #b16286;">(</span>+  <span style="color: #8ec07c;">(</span>* 100  <span style="color: #d65d0e;">(</span>car  <span style="color: #458588;">(</span>calendar-chinese-from-absolute  <span style="color: #b16286;">(</span>calendar-absolute-from-gregorian  <span style="color: #8ec07c;">(</span>diary-make-date lunar-month lunar-day year <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span>
-        <span style="color: #8ec07c;">(</span>cadr  <span style="color: #d65d0e;">(</span>calendar-chinese-from-absolute  <span style="color: #458588;">(</span>calendar-absolute-from-gregorian  <span style="color: #b16286;">(</span>diary-make-date lunar-month lunar-day year <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-
- <p>
-然后使用以下代码 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp">%% <span style="color: #458588;">(</span>diary-chinese-anniversary 8 10  <span style="color: #b16286;">(</span>my/chinese-year 8 10 1949 <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span> 新中国第 %d 个农历生日
-</pre>
-</div>
-</div>]]></description>
-  <link>index.html/20240426090022-emacs_添加农历纪念日.html</link>
-  <guid isPermaLink="false">index.html/20240426090022-emacs_添加农历纪念日.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
-<item>
-  <title>emacs-设置中英文等宽</title>
-  <description><![CDATA[<div id="content" class="content">
-
- <p>
- <span class="timestamp-wrapper"> <span class="timestamp">[2024-04-29 Mon 19:26]</span></span> <br></br> <a href="https://emacs-china.org/t/topic/27133">https://emacs-china.org/t/topic/27133</a> <br></br></p>
-
- <p>
-从楼主提供的第三个方案中学到了，可以通过设置默认行高属性避免中英文字体等宽混搭时的行高抖动。 <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span>set-font  <span style="color: #79740e;">"Cascadia Code"</span>  <span style="color: #79740e;">"HarmonyOS Sans SC"</span> 28 32 <span style="color: #458588;">)</span>
- <span style="color: #458588;">(</span> <span style="color: #9d0006;">setq</span> default-text-properties ' <span style="color: #b16286;">(</span>line-spacing 0.06 line-height 1.15 <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
- <span style="color: #a89984;">;;</span> <span style="color: #a89984;">通过设置行高属性的方式避免英文行输入中文后的行高抖动</span>
-</pre>
-</div>
-
- <p>
-不过我还是坚持使用同等字号的中英文混搭，因为主要用Org-mode，平常需要等宽的地方很少，只需设置  <code>org-table</code> 的  <code>faces</code> 为中英文等宽字体就好了： <br></br></p>
-
- <div class="org-src-container">
- <pre class="src src-elisp"> <span style="color: #458588;">(</span>custom-set-faces
-  <span style="color: #a89984;">;; </span> <span style="color: #a89984;">custom-set-faces was added by Custom.</span>
-  <span style="color: #a89984;">;; </span> <span style="color: #a89984;">If you edit it by hand, you could mess it up, so be careful.</span>
-  <span style="color: #a89984;">;; </span> <span style="color: #a89984;">Your init file should contain only one such instance.</span>
-  <span style="color: #a89984;">;; </span> <span style="color: #a89984;">If there is more than one, they won't work right.</span>
- ' <span style="color: #b16286;">(</span>org-archived  <span style="color: #8ec07c;">(</span> <span style="color: #d65d0e;">(</span>t  <span style="color: #458588;">(</span> <span style="color: #af3a03;">:foreground</span>  <span style="color: #79740e;">"#928374"</span>  <span style="color: #af3a03;">:weight</span> regular <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span>
- ' <span style="color: #b16286;">(</span>org-table  <span style="color: #8ec07c;">(</span> <span style="color: #d65d0e;">(</span>t  <span style="color: #458588;">(</span> <span style="color: #af3a03;">:background</span>  <span style="color: #79740e;">"#ebdbb2"</span>  <span style="color: #af3a03;">:family</span>  <span style="color: #79740e;">"Sarasa Term SC"</span> <span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span> <span style="color: #8ec07c;">)</span> <span style="color: #b16286;">)</span> <span style="color: #458588;">)</span>
-</pre>
-</div>
-</div>]]></description>
-  <link>index.html/20240429192654-emacs_设置中英文等宽.html</link>
-  <guid isPermaLink="false">index.html/20240429192654-emacs_设置中英文等宽.html</guid>
-  <pubDate>Wed, 22 May 2024 20:25:00 +0800</pubDate>
-</item>
+<rss version="2.0"
+	 xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	 xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	 xmlns:dc="http://purl.org/dc/elements/1.1/"
+	 xmlns:atom="http://www.w3.org/2005/Atom"
+	 xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	 xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	 xmlns:georss="http://www.georss.org/georss"
+     xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+     xmlns:media="http://search.yahoo.com/mrss/"><channel>
+  <title>TomoeMami's Blog</title>
+  <atom:link href="https://tomoemami.github.io/blog/rss.xml" rel="self" type="application/rss+xml" />
+  <link>https://tomoemami.github.io/blog</link>
+  <description><![CDATA[]]></description>
+  <language>en</language>
+  <pubDate>Wed, 22 May 2024 21:46:45 +0800</pubDate>
+  <lastBuildDate>Wed, 22 May 2024 21:46:45 +0800</lastBuildDate>
+  <generator>Emacs 29.3 Org-mode 9.6.30</generator>
+  <webMaster>riko@DESKTOP-FR36SPM (nil)</webMaster>
+  <image>
+    <url>https://orgmode.org/img/org-mode-unicorn-logo.png</url>
+    <title>TomoeMami's Blog</title>
+    <link>https://tomoemami.github.io/blog</link>
+  </image>
+
+
+  <item>
+    <title>emacs-使用ox-rss导出rss.xml文件</title>
+    <link>https://tomoemami.github.io/blog/20240522214156-emacs_使用ox_rss导出rss_xml文件.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240522214156-emacs_使用ox_rss导出rss_xml文件.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</title>
+    <link>https://tomoemami.github.io/blog/20240404201251-emacs_使用advice自动更新ox_publish的org_roam文件目录.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240404201251-emacs_使用advice自动更新ox_publish的org_roam文件目录.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-调用matplotlib画图，并存储到Windows的临时文件夹中</title>
+    <link>https://tomoemami.github.io/blog/20240407101327-emacs_调用matplotlib画图_并存储到windows的临时文件夹中.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240407101327-emacs_调用matplotlib画图_并存储到windows的临时文件夹中.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-添加org-ql-view为org-mode link</title>
+    <link>https://tomoemami.github.io/blog/20240407101348-emacs_添加org_ql_view为org_mode_link.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240407101348-emacs_添加org_ql_view为org_mode_link.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-Windows上使用Emacs</title>
+    <link>https://tomoemami.github.io/blog/20240424161418-emacs_windows上使用emacs.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240424161418-emacs_windows上使用emacs.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>blog-一加12解锁BL刷入氧OS</title>
+    <link>https://tomoemami.github.io/blog/20240411171638-blog_一加12解锁bl刷入氧os.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240411171638-blog_一加12解锁bl刷入氧os.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-添加农历纪念日</title>
+    <link>https://tomoemami.github.io/blog/20240426090022-emacs_添加农历纪念日.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240426090022-emacs_添加农历纪念日.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-设置中英文等宽</title>
+    <link>https://tomoemami.github.io/blog/20240429192654-emacs_设置中英文等宽.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240429192654-emacs_设置中英文等宽.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-使用Windows-Toasts的python库为Emacs创建Windows11通知提醒</title>
+    <link>https://tomoemami.github.io/blog/20240407101403-emacs_使用windows_toasts的python库为emacs创建windows11通知提醒.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240407101403-emacs_使用windows_toasts的python库为emacs创建windows11通知提醒.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-将daily笔记以逆序datetree方式refile到另一个窗口</title>
+    <link>https://tomoemami.github.io/blog/20240407101229-emacs_将daily笔记以逆序datetree方式refile到另一个窗口.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240407101229-emacs_将daily笔记以逆序datetree方式refile到另一个窗口.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-org-roam-node操作排除daily文件夹下node</title>
+    <link>https://tomoemami.github.io/blog/20240407100026-emacs_org_roam_node操作排除daily文件夹下node.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240407100026-emacs_org_roam_node操作排除daily文件夹下node.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>emacs-自动删除org-roam空的daily文件</title>
+    <link>https://tomoemami.github.io/blog/20240407101207-emacs_自动删除org_roam空的daily文件.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240407101207-emacs_自动删除org_roam空的daily文件.html</guid>
+    <pubDate>Wed, 22 May 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
+  <item>
+    <title>国内公网BT出现上传流量黑洞</title>
+    <link>https://tomoemami.github.io/blog/20240404100936-blog_国内公网bt出现上传流量黑洞.html</link>
+    <author>riko@DESKTOP-FR36SPM (nil)</author>
+    <guid isPermaLink="false">https://tomoemami.github.io/blog/20240404100936-blog_国内公网bt出现上传流量黑洞.html</guid>
+    <pubDate>Thu, 04 Apr 2024 00:00:00 +0800</pubDate>
+
+    <description><![CDATA[]]></description>
+  </item>
 </channel>
 </rss>
