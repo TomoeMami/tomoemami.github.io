@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-05-27 周一 14:29 -->
+<!-- 2024-05-27 Mon 14:30 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>emacs-Windows上使用Emacs</title>
+<title>emacs-自定义org-agenda界面</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -372,118 +372,50 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">emacs-Windows上使用Emacs</h1>
+<h1 class="title">emacs-自定义org-agenda界面</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-04-24 周三 16:14]</span></span><br />
-</p>
-
-<div id="outline-container-orge5c3d38" class="outline-2">
-<h2 id="orge5c3d38"><span class="section-number-2">1.</span> 字体编码处理</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-<a href="https://emacs-china.org/t/org-roam/26545/24?u=tomoemami">org-roam和ripgrep：</a><br />
+<span class="timestamp-wrapper"><span class="timestamp">[2024-05-27 Mon 14:24]</span></span><br />
 </p>
 
 <p>
-设置org-mode的字符编码，同时开启自动revert功能<br />
+参考链接：<a href="https://macowners.club/posts/personal-touch-org-agenda/">https://macowners.club/posts/personal-touch-org-agenda/</a><br />
+</p>
+
+<p>
+我的设置：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">lazy-revert</span>
-  <span style="color: #af3a03;">:ensure</span> nil
-  <span style="color: #a89984;">;; </span><span style="color: #a89984;">:quelpa (lazy-revert :fetcher github</span>
-  <span style="color: #a89984;">;;                      </span><span style="color: #a89984;">:repo "yilin-zhang/lazy-revert")</span>
-  <span style="color: #af3a03;">:hook</span> <span style="color: #b16286;">(</span>after-init . lazy-revert-mode<span style="color: #b16286;">)</span>
-  <span style="color: #a89984;">;; </span><span style="color: #a89984;">Optional</span>
-  <span style="color: #af3a03;">:config</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">setq</span> auto-revert-verbose t <span style="color: #a89984;">; </span><span style="color: #a89984;">let us know when it happens</span>
-        auto-revert-use-notify nil
-        auto-revert-stop-on-user-input nil
-        <span style="color: #a89984;">;; </span><span style="color: #a89984;">Only prompts for confirmation when buffer is unsaved.</span>
-        revert-without-query <span style="color: #8ec07c;">(</span>list <span style="color: #79740e;">"."</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>add-to-list 'file-coding-system-alist '<span style="color: #b16286;">(</span><span style="color: #79740e;">"\\.org\\'"</span> . utf-8<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-agenda-files <span style="color: #b16286;">(</span>list my-org-dir1<span style="color: #b16286;">)</span>
+      org-agenda-span 10
+      org-agenda-start-on-weekday nil
+      org-agenda-start-day <span style="color: #79740e;">"-3d"</span>
+      org-agenda-current-time-string <span style="color: #79740e;">"&#5130;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now"</span>
+      org-agenda-todo-list-sublevels nil <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20165;&#26174;&#31034;&#26368;&#39640;&#23618;todo</span>
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-remove-tags t <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#38544;&#34255;tags</span>
+      org-agenda-scheduled-leaders '<span style="color: #b16286;">(</span><span style="color: #79740e;">"&gt;S:"</span> <span style="color: #79740e;">"&gt;S:x%2d"</span><span style="color: #b16286;">)</span>
+      org-agenda-deadline-leaders '<span style="color: #b16286;">(</span><span style="color: #79740e;">"&gt;D:"</span> <span style="color: #79740e;">"&gt;D:+%2d"</span> <span style="color: #79740e;">"&gt;D:-%2d"</span><span style="color: #b16286;">)</span>
+      org-agenda-time-grid '<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>today require-timed remove-match<span style="color: #8ec07c;">)</span>
+                             <span style="color: #8ec07c;">(</span>000 900 1200 1800 2400<span style="color: #8ec07c;">)</span>
+                             <span style="color: #79740e;">":  "</span> <span style="color: #79740e;">"&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;"</span><span style="color: #b16286;">)</span>
+      <span style="color: #458588;">)</span>
 </pre>
 </div>
 
 <p>
-设置ripgrep的字符编码<br />
+效果：<br />
 </p>
 
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span>add-to-list 'process-coding-system-alist
-                        '<span style="color: #b16286;">(</span><span style="color: #79740e;">"[rR][gG]"</span> . <span style="color: #8ec07c;">(</span>utf-8 . gbk-dos<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
-</div>
 
-<p>
-其他编码设置<br />
+<div id="org656f011" class="figure">
+<p><img src="Snipaste_2024-05-27_14-27-52.webp" alt="Snipaste_2024-05-27_14-27-52.webp" /><br />
 </p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span>prefer-coding-system 'utf-8<span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> default-buffer-file-coding-system 'utf-8<span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>set-default 'process-coding-system-alist
-             '<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #79740e;">"[pP][lL][iI][nN][kK]"</span> gbk-dos . gbk-dos<span style="color: #8ec07c;">)</span>
-               <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"[cC][mM][dD][pP][rR][oO][xX][yY]"</span> gbk-dos . gbk-dos<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-org08b89f3" class="outline-2">
-<h2 id="org08b89f3"><span class="section-number-2">2.</span> consult</h2>
-<div class="outline-text-2" id="text-2">
-</div>
-<div id="outline-container-org29c0cc2" class="outline-3">
-<h3 id="org29c0cc2"><span class="section-number-3">2.1.</span> 调用Everything进行搜索</h3>
-<div class="outline-text-3" id="text-2-1">
-<p>
-下载命令行接口 <code>es.exe</code><br />
-</p>
-
-<p>
-<a href="https://www.voidtools.com/zh-cn/downloads/#cli">https://www.voidtools.com/zh-cn/downloads/#cli</a><br />
-</p>
-
-<p>
-<a href="https://emacs-china.org/t/consult/18596/3?u=tomoemami">consult调用everything</a><br />
-</p>
-
-<p>
-consult配置<br />
-</p>
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">consult</span>
-  <span style="color: #af3a03;">:defer</span> t
-  <span style="color: #af3a03;">:init</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">progn</span>
-    <span style="color: #8ec07c;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #d65d0e;">(</span><span style="color: #79740e;">"es"</span> gbk . gbk<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #d65d0e;">(</span><span style="color: #79740e;">"explorer"</span> gbk . gbk<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> consult-locate-args <span style="color: #d65d0e;">(</span>encode-coding-string <span style="color: #79740e;">"es.exe -i -p -r"</span> 'gbk<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
-  <span style="color: #af3a03;">:custom</span>
-  <span style="color: #b16286;">(</span>consult-async-min-input 2<span style="color: #b16286;">)</span> <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20013;&#25991;2&#23383;&#31526;&#24320;&#25628;</span>
-  <span style="color: #458588;">)</span>
-</pre>
-</div>
-
-<p>
-模糊搜索技巧<br />
-</p>
-
-<blockquote>
-<p>
-貌似目前只能通过单个单词搜索之后，在搜索结果后面加上 <code>#</code> 再用orderless的规则去弄。<br />
-</p>
-
-<p>
-比如 搜索 <code>#emacs#keyword1 keyword2</code> 来过滤，此时可以添加空格<br />
-</p>
-</blockquote>
-</div>
-</div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-05-22 周三 22:08]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.30) on <span class="timestamp-wrapper"><span class="timestamp">[2024-05-27 周一 14:29]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-05-27 Mon 14:30]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.30) on <span class="timestamp-wrapper"><span class="timestamp">[2024-05-27 Mon 14:30]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
