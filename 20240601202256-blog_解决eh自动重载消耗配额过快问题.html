@@ -6,7 +6,7 @@
 <!-- 2024-06-01 周六 20:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>blog-一加12解锁BL刷入氧OS</title>
+<title>blog-解决EH自动重载消耗配额过快问题</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -372,76 +372,40 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">blog-一加12解锁BL刷入氧OS</h1>
+<h1 class="title">blog-解决EH自动重载消耗配额过快问题</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-04-11 周四 17:16]</span></span><br />
+<span class="timestamp-wrapper"><span class="timestamp">[2024-06-01 周六 20:22]</span></span><br />
+根据<a href="https://ehwiki.org/wiki/My_Home#Overview">EH-wiki的说明</a><br />
+</p>
+
+<blockquote>
+<p>
+Force-reloading a failing image counts as 50 hits.<br />
+</p>
+</blockquote>
+
+<p>
+作为铜星用户，我有10000张图片、绑定账号的配额，但也只能够强制重载200次。而EH似乎会很智能地帮我们自动强制重载无法加载的图片，即使刷新一下/等一下就好。<br />
 </p>
 
 <p>
-参考教程： <a href="http://www.romleyuan.com/lec/read?id=1229">http://www.romleyuan.com/lec/read?id=1229</a><br />
-</p>
-<div id="outline-container-orgca3d579" class="outline-2">
-<h2 id="orgca3d579"><span class="section-number-2">1.</span> 准备工作</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-下载以下资源：<br />
+这种情况下需要禁用EH的JS功能，才能阻止自动的重载图片。<br />
 </p>
 
 <p>
-<a href="https://yun.daxiaamu.com/OnePlus_Roms/%E4%B8%80%E5%8A%A0OnePlus%2012/">官方ROM</a>，这里采用的是欧版CPH2581<br />
-<a href="https://yun.daxiaamu.com/files/%E4%B8%80%E5%8A%A0%E5%85%A8%E8%83%BD%E5%B7%A5%E5%85%B7%E7%AE%B1/">一加全能工具箱</a>，一键解锁BL<br />
-<a href="https://github.com/libxzr/FastbootEnhance">https://github.com/libxzr/FastbootEnhance</a> FE工具，用来刷入ROM<br />
-<a href="https://developer.android.com/tools/releases/platform-tools">Platform tools</a> ，用来执行回锁BL<br />
+具体步骤：<br />
 </p>
-</div>
-</div>
-
-<div id="outline-container-orgb58c6eb" class="outline-2">
-<h2 id="orgb58c6eb"><span class="section-number-2">2.</span> 开始解锁BL</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-<b>解锁和上锁BL都会格式化手机，提前做好数据备份</b><br />
-</p>
-
 <ol class="org-ol">
-<li>用 <b>原装数据线</b> 连接电脑，打开一加全能工具箱，按提示操作自动解锁BL。<br /></li>
-<li>将ROM解压出来，会看见一个叫 <code>playload.bin</code> 的文件<br /></li>
-<li>打开FE工具，选择“刷入playload.bin”，选中之前解压的 <code>playload.bin</code> ，勾选“忽略未知分区”<br /></li>
-<li>点击刷入，耐心等待完成后在 <code>fastboot</code> 中选择格式化手机，再选择重启手机，重启后自动进入氧OS初始化界面<br /></li>
-</ol>
-</div>
-</div>
-
-<div id="outline-container-org7fff512" class="outline-2">
-<h2 id="org7fff512"><span class="section-number-2">3.</span> 回锁BL</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-<b>解锁和上锁BL都会格式化手机，提前做好数据备份</b><br />
-</p>
-
-<ol class="org-ol">
-<li>用 <b>原装数据线</b> 连接电脑，使用adb工具 <code>adb devices</code> ，确认有输出<br /></li>
-<li>执行 <code>adb reboot bootloader</code> ，进入bl界面<br /></li>
-<li>执行 <code>fastboot flashing lock</code> ，用音量键移动，电源键确认上锁<br /></li>
-<li>静待重启<br /></li>
+<li>进入EH网站首页，点击地址栏左侧设置图标—网站设置<br /></li>
+<li>权限-JavaScript-禁止<br /></li>
 </ol>
 
 <p>
-本次先是在A区刷入了提取的氧OS包，然后经由OTA升级了一次系统版本，最后直接回锁，正常启动。<br />
+这样一来，遇见无法加载的图片就不会自动重载了，代价是无法启用基于JS的阅读插件。<br />
 </p>
-
-<p>
-特记录于此。<br />
-</p>
-
-<p>
-备注：从氧OS回到ColorOS需要额外操作，可以采用酷安的一键脚本或二次刷入才能正确开机。参考<a href="https://www.coolapk.com/feed/53881245?shareKey=NTg1ODExOTQ0ODA2NjYxYWJiNTI">https://www.coolapk.com/feed/53881245?shareKey=NTg1ODExOTQ0ODA2NjYxYWJiNTI</a>~<br />
-</p>
-</div>
-</div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-05-22 周三 21:38]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.30) on <span class="timestamp-wrapper"><span class="timestamp">[2024-06-01 周六 20:25]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-06-01 周六 20:25]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.6.30) on <span class="timestamp-wrapper"><span class="timestamp">[2024-06-01 周六 20:25]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
