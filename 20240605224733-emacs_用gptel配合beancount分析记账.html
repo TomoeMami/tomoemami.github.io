@@ -6,7 +6,7 @@
 <!-- 2024-06-05 周三 22:54 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>目录</title>
+<title>emacs-用gptel配合beancount分析记账</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -372,26 +372,76 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">目录</h1>
-<ul class="org-ul">
-<li><a href="20240605224733-emacs_用gptel配合beancount分析记账.html">emacs-用gptel配合beancount分析记账</a><br /></li>
-<li><a href="20240601202256-blog_解决eh自动重载消耗配额过快问题.html">blog-解决EH自动重载消耗配额过快问题</a><br /></li>
-<li><a href="20240530123557-blog_配置沉浸式翻译插件的kimi_api.html">blog-配置沉浸式翻译插件的kimi api</a><br /></li>
-<li><a href="20240527142458-emacs_自定义org_agenda界面.html">emacs-自定义org-agenda界面</a><br /></li>
-<li><a href="20240522214156-emacs_使用ox_rss导出rss_xml文件.html">emacs-使用ox-rss导出rss.xml文件</a><br /></li>
-<li><a href="20240429192654-emacs_设置中英文等宽.html">emacs-设置中英文等宽</a><br /></li>
-<li><a href="20240426090022-emacs_添加农历纪念日.html">emacs-添加农历纪念日</a><br /></li>
-<li><a href="20240424161418-emacs_windows上使用emacs.html">emacs-Windows上使用Emacs</a><br /></li>
-<li><a href="20240411171638-blog_一加12解锁bl刷入氧os.html">blog-一加12解锁BL刷入氧OS</a><br /></li>
-<li><a href="20240407101403-emacs_使用windows_toasts的python库为emacs创建windows11通知提醒.html">emacs-使用Windows-Toasts的python库为Emacs创建Windows11通知提醒</a><br /></li>
-<li><a href="20240407101327-emacs_调用matplotlib画图_并存储到windows的临时文件夹中.html">emacs-调用matplotlib画图，并存储到Windows的临时文件夹中</a><br /></li>
-<li><a href="20240407101348-emacs_添加org_ql_view为org_mode_link.html">emacs-添加org-ql-view为org-mode link</a><br /></li>
-<li><a href="20240407101207-emacs_自动删除org_roam空的daily文件.html">emacs-自动删除org-roam空的daily文件</a><br /></li>
-<li><a href="20240407101229-emacs_将daily笔记以逆序datetree方式refile到另一个窗口.html">emacs-将daily笔记以逆序datetree方式refile到另一个窗口</a><br /></li>
-<li><a href="20240407100026-emacs_org_roam_node操作排除daily文件夹下node.html">emacs-org-roam-node操作排除daily文件夹下node</a><br /></li>
-<li><a href="20240404201251-emacs_使用advice自动更新ox_publish的org_roam文件目录.html">emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</a><br /></li>
-<li><a href="20240404100936-blog_国内公网bt出现上传流量黑洞.html">国内公网BT出现上传流量黑洞</a></li>
-</ul>
+<h1 class="title">emacs-用gptel配合beancount分析记账</h1>
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-06-05 周三 22:47]</span></span><br />
+</p>
+<div id="outline-container-org76b6fd3" class="outline-2">
+<h2 id="org76b6fd3"><span class="section-number-2">1.</span> gptel的配置</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+因为LLM返回的格式默认为markdown，所以需要安装markdown-mode<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">markdown-mode</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+安装<a href="https://github.com/karthink/gptel">gptel</a>，然后如下配置：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">gptel</span>
+  <span style="color: #af3a03;">:custom</span>
+  <span style="color: #b16286;">(</span>gptel-use-curl nil<span style="color: #b16286;">)</span>
+  <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#22240;&#20026;&#25105;&#29992;Windows&#65292;&#27809;&#26377;&#20869;&#32622;curl</span>
+  <span style="color: #b16286;">(</span>gptel-directives
+   '<span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>default . <span style="color: #79740e;">"You are a large language model living in Emacs and a helpful assistant. Respond concisely in Chinese."</span><span style="color: #d65d0e;">)</span>
+     <span style="color: #d65d0e;">(</span>programming . <span style="color: #79740e;">"You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note."</span><span style="color: #d65d0e;">)</span>
+     <span style="color: #d65d0e;">(</span>writing . <span style="color: #79740e;">"You are a large language model and a writing assistant. Respond concisely in Chinese."</span><span style="color: #d65d0e;">)</span>
+     <span style="color: #d65d0e;">(</span>chat . <span style="color: #79740e;">"You are a large language model and a conversation partner. Respond concisely in Chinese."</span><span style="color: #d65d0e;">)</span>
+     <span style="color: #d65d0e;">(</span>bill . <span style="color: #79740e;">"You are a large language model and a financial advisor. &#35831;&#24110;&#25105;&#20998;&#26512;&#21518;&#32493;&#30340;&#35760;&#36134;&#32454;&#21017;&#65292;&#36755;&#20986;&#24635;&#25910;&#20837;&#12289;&#24635;&#25903;&#20986;&#12289;&#21333;&#27425;&#25903;&#20986;&#36807;&#39640;&#30340;&#23376;&#31867;&#21450;&#20854;&#37329;&#39069;&#65292;&#36824;&#26377;&#32047;&#35745;&#25903;&#20986;&#36807;&#39640;&#30340;&#22823;&#31867;&#21450;&#20854;&#32047;&#35745;&#37329;&#39069;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+   <span style="color: #b16286;">)</span>
+  <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#22312;&#27492;&#22788;&#33258;&#23450;&#20041;&#20320;&#30340;prompt</span>
+  <span style="color: #af3a03;">:config</span>
+  <span style="color: #b16286;">(</span>add-hook 'gptel-post-response-functions 'gptel-end-of-response<span style="color: #b16286;">)</span>
+  <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20351;gpt&#22238;&#22797;&#20043;&#21518;&#20809;&#26631;&#31227;&#33267;&#26368;&#21518;&#26041;</span>
+  <span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+然后配置LLM模型的API，这里用的deepseek<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> gptel-model   <span style="color: #79740e;">"deepseek-chat"</span>
+      gptel-backend
+      <span style="color: #b16286;">(</span>gptel-make-openai <span style="color: #79740e;">"DeepSeek"</span>
+        <span style="color: #af3a03;">:host</span> <span style="color: #79740e;">"api.deepseek.com"</span>
+        <span style="color: #af3a03;">:endpoint</span> <span style="color: #79740e;">"/chat/completions"</span>
+        <span style="color: #af3a03;">:key</span> <span style="color: #79740e;">"YOUR-KEY"</span>
+        <span style="color: #af3a03;">:stream</span> t
+        <span style="color: #af3a03;">:models</span> '<span style="color: #8ec07c;">(</span><span style="color: #79740e;">"deepseek-chat"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9ad5b0b" class="outline-2">
+<h2 id="org9ad5b0b"><span class="section-number-2">2.</span> 使用说明</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li>打开你的beancount账本 <code>*.bean</code><br /></li>
+<li>选中想要发送到LLM的区域<br /></li>
+<li><code>M-x</code> <code>gptel-menu</code><br /></li>
+<li>按 <code>g</code> 设置输出到单独的 <code>gpt-session</code><br /></li>
+<li>按 <code>s</code> 选择 <code>prompt</code><br /></li>
+<li>按 <code>RET</code> 确认发送<br /></li>
+</ol>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-06-05 周三 22:54]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.3 (<a href="https://orgmode.org">Org</a> mode 9.7.2) on <span class="timestamp-wrapper"><span class="timestamp">[2024-06-05 周三 22:54]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
