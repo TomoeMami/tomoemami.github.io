@@ -6,7 +6,7 @@
 <!-- 2024-06-20 周四 17:20 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>emacs-用gptel配合beancount分析记账</title>
+<title>blog-利用github pages设置自建tiddly wiki</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -372,79 +372,111 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">emacs-用gptel配合beancount分析记账</h1>
+<h1 class="title">blog-利用github pages设置自建tiddly wiki</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-06-05 周三 22:47]</span></span><br />
+<span class="timestamp-wrapper"><span class="timestamp">[2024-06-20 周四 17:05]</span></span><br />
 </p>
-<div id="outline-container-org99418d4" class="outline-2">
-<h2 id="org99418d4"><span class="section-number-2">1.</span> gptel的配置</h2>
+
+<p>
+<code>org-mode</code> 导出的网站默认为多页面组合，使用体验上和单页面的 <code>tiddly wiki</code> 还有一定差距。而且我的 <code>org-mode</code> 中多是个人笔记，如果用于存储网页、新闻等摘抄内容，未免容易“污染”有用信息。所以设置了一个 <code>tiddly-wiki</code> ，存放各类可验证的信息。<br />
+</p>
+
+<p>
+<a href="https://tomoemami.github.io/wiki/">网络信息收集</a><br />
+</p>
+<div id="outline-container-org5181969" class="outline-2">
+<h2 id="org5181969"><span class="section-number-2">1.</span> 下载tiddlywiki的页面</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-因为LLM返回的格式默认为markdown，所以需要安装markdown-mode<br />
+<a href="https://tiddlywiki.com/">官方</a><br />
 </p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">markdown-mode</span><span style="color: #458588;">)</span>
-</pre>
-</div>
 
 <p>
-安装<a href="https://github.com/karthink/gptel">gptel</a>，然后如下配置：<br />
+<a href="https://tw-cn.cpolar.top/">中文社区汉化版</a><br />
 </p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">gptel</span>
-  <span style="color: #af3a03;">:custom</span>
-  <span style="color: #b16286;">(</span>gptel-use-curl nil<span style="color: #b16286;">)</span>
-  <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#22240;&#20026;&#25105;&#29992;Windows&#65292;&#27809;&#26377;&#20869;&#32622;curl</span>
-  <span style="color: #b16286;">(</span>gptel-directives
-   '<span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>default . <span style="color: #79740e;">"You are a large language model living in Emacs and a helpful assistant. Respond concisely in Chinese."</span><span style="color: #d65d0e;">)</span>
-     <span style="color: #d65d0e;">(</span>programming . <span style="color: #79740e;">"You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note."</span><span style="color: #d65d0e;">)</span>
-     <span style="color: #d65d0e;">(</span>writing . <span style="color: #79740e;">"You are a large language model and a writing assistant. Respond concisely in Chinese."</span><span style="color: #d65d0e;">)</span>
-     <span style="color: #d65d0e;">(</span>chat . <span style="color: #79740e;">"You are a large language model and a conversation partner. Respond concisely in Chinese."</span><span style="color: #d65d0e;">)</span>
-     <span style="color: #d65d0e;">(</span>bill . <span style="color: #79740e;">"You are a large language model and a financial advisor. &#35831;&#24110;&#25105;&#20998;&#26512;&#21518;&#32493;&#30340;&#35760;&#36134;&#32454;&#21017;&#65292;&#36755;&#20986;&#24635;&#25910;&#20837;&#12289;&#24635;&#25903;&#20986;&#12289;&#21333;&#27425;&#25903;&#20986;&#36807;&#39640;&#30340;&#23376;&#31867;&#21450;&#20854;&#37329;&#39069;&#65292;&#36824;&#26377;&#32047;&#35745;&#25903;&#20986;&#36807;&#39640;&#30340;&#22823;&#31867;&#21450;&#20854;&#32047;&#35745;&#37329;&#39069;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-   <span style="color: #b16286;">)</span>
-  <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#22312;&#27492;&#22788;&#33258;&#23450;&#20041;&#20320;&#30340;prompt</span>
-  <span style="color: #af3a03;">:config</span>
-  <span style="color: #b16286;">(</span>add-hook 'gptel-post-response-functions 'gptel-end-of-response<span style="color: #b16286;">)</span>
-  <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20351;gpt&#22238;&#22797;&#20043;&#21518;&#20809;&#26631;&#31227;&#33267;&#26368;&#21518;&#26041;</span>
-  <span style="color: #458588;">)</span>
-</pre>
-</div>
-
-<p>
-然后配置LLM模型的API，这里用的deepseek<br />
-</p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> gptel-model   <span style="color: #79740e;">"deepseek-chat"</span>
-      gptel-backend
-      <span style="color: #b16286;">(</span>gptel-make-openai <span style="color: #79740e;">"DeepSeek"</span>
-        <span style="color: #af3a03;">:host</span> <span style="color: #79740e;">"api.deepseek.com"</span>
-        <span style="color: #af3a03;">:endpoint</span> <span style="color: #79740e;">"/chat/completions"</span>
-        <span style="color: #af3a03;">:key</span> <span style="color: #79740e;">"YOUR-KEY"</span>
-        <span style="color: #af3a03;">:stream</span> t
-        <span style="color: #af3a03;">:models</span> '<span style="color: #8ec07c;">(</span><span style="color: #79740e;">"deepseek-chat"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
 </div>
 </div>
-</div>
-<div id="outline-container-org4241a02" class="outline-2">
-<h2 id="org4241a02"><span class="section-number-2">2.</span> 使用说明</h2>
+<div id="outline-container-orga458652" class="outline-2">
+<h2 id="orga458652"><span class="section-number-2">2.</span> Github 设置</h2>
 <div class="outline-text-2" id="text-2">
-<ol class="org-ol">
-<li>打开你的beancount账本 <code>*.bean</code><br /></li>
-<li>选中想要发送到LLM的区域<br /></li>
-<li><code>M-x</code> <code>gptel-menu</code><br /></li>
-<li>按 <code>g</code> 设置输出到单独的 <code>gpt-session</code><br /></li>
-<li>按 <code>s</code> 选择 <code>prompt</code><br /></li>
-<li>按 <code>RET</code> 确认发送<br /></li>
-</ol>
+<p>
+创建一个空REPO，这里我给其起名为“wiki”。<br />
+</p>
+
+<p>
+手动将下载的tiddlywiki文件重命名为 <code>index.html</code> 然后上传至该REPO中。<br />
+</p>
+
+<p>
+在REPO的 <code>Setting</code> - <code>Pages</code> 页面选择 <code>Branch</code> - <code>main</code> ，启用GitHub Pages功能。<br />
+</p>
+
+<p>
+在GitHub的右上角- <code>Settings</code> - <code>Developer Settings</code> - <code>Personal Access Tokens</code> - <code>Fine-grained tokens</code> 中新建一个 <code>token</code> ，赋予其wiki repo的“ Read and Write access to code and commit statuses”等权限。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org5eb99ab" class="outline-2">
+<h2 id="org5eb99ab"><span class="section-number-2">3.</span> tiddly wiki 设置</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+进入先前repo的GitHub Pages界面，在tiddly wiki的 <code>设置</code> - <code>保存</code> - <code>通用</code> 中关闭自动保存，以免出现冲突。<br />
+</p>
+
+<p>
+在 <code>Github保存模块</code> 中如下填写：<br />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">用户名称</td>
+<td class="org-left">你的用户名称</td>
+</tr>
+
+<tr>
+<td class="org-left">密码、OAUTH 令牌，或个人存取令牌</td>
+<td class="org-left">之前生成的token</td>
+</tr>
+
+<tr>
+<td class="org-left">目标存储库</td>
+<td class="org-left">你的GitHub REPO路径</td>
+</tr>
+
+<tr>
+<td class="org-left">用于保存的目标分支</td>
+<td class="org-left">默认为main</td>
+</tr>
+
+<tr>
+<td class="org-left">目标文件的路径</td>
+<td class="org-left">/</td>
+</tr>
+
+<tr>
+<td class="org-left">目标文件的文件名称</td>
+<td class="org-left">index.html</td>
+</tr>
+
+<tr>
+<td class="org-left">服务器 API 网址</td>
+<td class="org-left"><a href="https://api.github.com">https://api.github.com</a></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-06-05 周三 22:54]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.4) on <span class="timestamp-wrapper"><span class="timestamp">[2024-06-20 周四 17:20]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-06-20 周四 17:20]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.4) on <span class="timestamp-wrapper"><span class="timestamp">[2024-06-20 周四 17:20]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
