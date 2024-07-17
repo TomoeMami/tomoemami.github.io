@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-07-17 周三 14:45 -->
+<!-- 2024-07-17 周三 15:51 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-变相在Windows上使用Emacs-Client</title>
@@ -390,7 +390,8 @@ b {
   <span style="color: #b16286;">(</span>set-frame-width <span style="color: #8ec07c;">(</span>selected-frame<span style="color: #8ec07c;">)</span> 170<span style="color: #b16286;">)</span>
   <span style="color: #b16286;">(</span>set-frame-height <span style="color: #8ec07c;">(</span>selected-frame<span style="color: #8ec07c;">)</span> 30<span style="color: #b16286;">)</span>
 <span style="color: #458588;">)</span>
-
+<span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> server-port 'YOUR-PORT
+      server-auth-key <span style="color: #79740e;">"CALL FUNCTION (server-generate-key)"</span><span style="color: #458588;">)</span>
 <span style="color: #458588;">(</span><span style="color: #9d0006;">if</span> <span style="color: #b16286;">(</span>not <span style="color: #8ec07c;">(</span>server-running-p<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
     <span style="color: #b16286;">(</span><span style="color: #9d0006;">progn</span> <span style="color: #8ec07c;">(</span>server-start<span style="color: #8ec07c;">)</span>
            <span style="color: #8ec07c;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #8ec07c;">)</span>
@@ -402,7 +403,7 @@ b {
 然后将启动Emacs的快捷方式路径改为<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-nil">D:\Emacs\bin\emacsclientw.exe  -c -n -e "(raise-frame)" -a "D:\Emacs\bin\runemacs.exe"
+<pre class="src src-nil">D:\Emacs\bin\emacsclientw.exe  -c -n -f "YOUR_SERVER_FILE_PATH" -e "(raise-frame)" -a "D:\Emacs\bin\runemacs.exe"
 </pre>
 </div>
 
@@ -428,11 +429,11 @@ b {
 </p>
 
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-07-17 周三 14:44]</span></span>：自定义Server路径会导致所有调用Client的地方都需要附上-f指定路径，不方便Chrome的Capture插件，已弃用。<br />
+<span class="timestamp-wrapper"><span class="timestamp">[2024-07-17 周三 15:43]</span></span>：取消自定义Server文件路径，改为自定义<a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/TCP-Emacs-server.html">端口、key</a>，经测试修改生成的server文件中进程PID不影响client连接server<br />
 </p>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-07-17 周三 14:45]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.7) on <span class="timestamp-wrapper"><span class="timestamp">[2024-07-17 周三 14:45]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-07-17 周三 15:51]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 30.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.7) on <span class="timestamp-wrapper"><span class="timestamp">[2024-07-17 周三 15:51]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
