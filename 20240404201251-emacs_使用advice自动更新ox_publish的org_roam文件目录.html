@@ -3,13 +3,16 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-14 周一 15:55 -->
+<!-- 2024-10-14 周一 16:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用advice自动更新ox-publish的待发布org-roam文件目录</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
+/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
+*/
 
 body {
     margin: 2% auto;
@@ -68,7 +71,7 @@ hr {
     border-radius: 3px;
     background-clip: padding-box;
     font-size: $code-size;
-    font-family: $monospace;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
     line-height: 1;
 }
 
@@ -79,7 +82,7 @@ hr {
     border-radius: 3px;
     background-clip: padding-box;
     font-size: $code-size;
-    font-family: $monospace;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
     line-height: 1;
 }
 
@@ -237,10 +240,11 @@ img {
     outline: 2px dashed #ccc;
     outline-offset: 10px;
     position: relative;
-    
+
 }
 .org-src-container>pre {
     overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
 }
 
 .org-src-container>pre:before {
@@ -258,6 +262,7 @@ img {
 }
 pre {
     overflow: auto;
+
 }
 .example{
     font-size: 14px;
@@ -388,8 +393,8 @@ b {
 <p>
 由于org-roam的所有文件均在一个文件夹内，又不需要将所有的文件作为博客内容发表，因此接下来会利用org-roam的功能，动态发布打上了 <code>blog</code> 标签的文件。<br />
 </p>
-<div id="outline-container-org7214372" class="outline-2">
-<h2 id="org7214372"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
+<div id="outline-container-org887e69e" class="outline-2">
+<h2 id="org887e69e"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 参考<a href="https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html">Vulpea的org-roam动态agenda</a>文件，创建函数如下：<br />
@@ -415,8 +420,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org6ec4c9c" class="outline-2">
-<h2 id="org6ec4c9c"><span class="section-number-2">2.</span> 配置ox-publish</h2>
+<div id="outline-container-org14cdc8d" class="outline-2">
+<h2 id="org14cdc8d"><span class="section-number-2">2.</span> 配置ox-publish</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 根据参考文献，需要指定 <code>org-publish-project-alist</code> 如下：<br />
@@ -448,8 +453,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-orgf1f0be3" class="outline-2">
-<h2 id="orgf1f0be3"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
+<div id="outline-container-orgeaf240e" class="outline-2">
+<h2 id="orgeaf240e"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于上述 <code>org-publish-project-alist</code> 仅会执行单次，因此需要通过 <code>advice-add</code> 的方式让其在每次发布时均执行一次，达成动态更新的效果。<br />
@@ -483,8 +488,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org6abb5e5" class="outline-2">
-<h2 id="org6abb5e5"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
+<div id="outline-container-orgefbd992" class="outline-2">
+<h2 id="orgefbd992"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 利用 <code>org-export</code> 的hook自动设置，读取 <code>~/.emacs.d/org.css</code> 文件内容并插入发布的html文件中<br />
@@ -502,12 +507,12 @@ b {
 </div>
 </div>
 </div>
-<div id="outline-container-org09407f7" class="outline-2">
-<h2 id="org09407f7"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
+<div id="outline-container-org1935dc4" class="outline-2">
+<h2 id="org1935dc4"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org1521832" class="outline-3">
-<h3 id="org1521832"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
+<div id="outline-container-org676dfab" class="outline-3">
+<h3 id="org676dfab"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-export-preserve-breaks t<span style="color: #458588;">)</span>
@@ -515,11 +520,11 @@ b {
 </div>
 </div>
 </div>
-<div id="outline-container-orgc44684f" class="outline-3">
-<h3 id="orgc44684f"><span class="section-number-3">5.2.</span> </h3>
+<div id="outline-container-orgf92fb4b" class="outline-3">
+<h3 id="orgf92fb4b"><span class="section-number-3">5.2.</span> </h3>
 </div>
-<div id="outline-container-org0388498" class="outline-3">
-<h3 id="org0388498"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
+<div id="outline-container-org0180710" class="outline-3">
+<h3 id="org0180710"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
 <pre class="src src-css"><span style="color: #a89984;">/* </span><span style="color: #a89984;">(progn (forward-line 2)</span>
@@ -886,7 +891,7 @@ b {
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 15:54]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.12) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 15:55]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 15:54]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.12) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 16:18]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
