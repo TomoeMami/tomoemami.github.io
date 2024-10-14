@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-14 周一 11:57 -->
+<!-- 2024-10-14 周一 14:15 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用pandoc导出当前org-buffer为docx</title>
@@ -386,10 +386,8 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/sanitize-windows-filename</span> <span style="color: #b16286;">(</span>filename<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Sanitize FILENAME to be a valid Windows filename."</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>sanitized-filename filename<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #a89984;">;; </span><span style="color: #a89984;">Replace invalid characters with an underscore</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> sanitized-filename <span style="color: #d65d0e;">(</span>replace-regexp-in-string <span style="color: #79740e;">"[&lt;&gt;:\\\"</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">/</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">|</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">?</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">*]+"</span> <span style="color: #79740e;">"_"</span> sanitized-filename<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    sanitized-filename<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+  <span style="color: #a89984;">;; </span><span style="color: #a89984;">Replace invalid characters with an underscore</span>
+  <span style="color: #b16286;">(</span>replace-regexp-in-string <span style="color: #79740e;">"[&lt;&gt;:\\\"</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">/</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">|</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">?</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">*]+"</span> <span style="color: #79740e;">"_"</span> filename<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 </pre>
 </div>
 </div>
@@ -409,8 +407,6 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
                        <span style="color: #b16286;">(</span>expand-file-name <span style="color: #8ec07c;">(</span>getenv <span style="color: #79740e;">"TEMP"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
                      <span style="color: #b16286;">(</span>expand-file-name <span style="color: #8ec07c;">(</span>getenv <span style="color: #79740e;">"TMPDIR"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>full-path <span style="color: #458588;">(</span>expand-file-name file-name temp-dir<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #a89984;">;; </span><span style="color: #a89984;">Ensure the directory exists</span>
-    <span style="color: #8ec07c;">(</span>make-directory temp-dir t<span style="color: #8ec07c;">)</span>
     <span style="color: #a89984;">;; </span><span style="color: #a89984;">Write buffer content to the file</span>
     <span style="color: #8ec07c;">(</span>write-region <span style="color: #d65d0e;">(</span>point-min<span style="color: #d65d0e;">)</span> <span style="color: #d65d0e;">(</span>point-max<span style="color: #d65d0e;">)</span> full-path<span style="color: #8ec07c;">)</span>
     <span style="color: #a89984;">;; </span><span style="color: #a89984;">Return the full path of the file</span>
@@ -451,7 +447,7 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 11:56]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.12) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 11:57]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 14:15]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.12) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 14:15]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
