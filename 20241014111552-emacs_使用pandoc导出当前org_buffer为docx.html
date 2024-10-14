@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-14 周一 11:40 -->
+<!-- 2024-10-14 周一 11:57 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用pandoc导出当前org-buffer为docx</title>
@@ -376,13 +376,9 @@ b {
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 11:15]</span></span><br />
 </p>
-<div id="outline-container-org0b44b91" class="outline-2">
-<h2 id="org0b44b91"><span class="section-number-2">1.</span> 使用pandoc导出当前org-buffer为docx</h2>
+<div id="outline-container-orge5f339c" class="outline-2">
+<h2 id="orge5f339c"><span class="section-number-2">1.</span> 合法化化buffer名</h2>
 <div class="outline-text-2" id="text-1">
-</div>
-<div id="outline-container-orge5f339c" class="outline-3">
-<h3 id="orge5f339c"><span class="section-number-3">1.1.</span> 合法化化buffer名</h3>
-<div class="outline-text-3" id="text-1-1">
 <p>
 Windows下，如果直接使用buffer名作为文件名，有时会有非法字符，需要清理。<br />
 </p>
@@ -398,9 +394,9 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 </div>
 </div>
 </div>
-<div id="outline-container-orgb156f75" class="outline-3">
-<h3 id="orgb156f75"><span class="section-number-3">1.2.</span> 将当前buffer内容放至TEMP文件夹内某文件并返回路径</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-orgb156f75" class="outline-2">
+<h2 id="orgb156f75"><span class="section-number-2">2.</span> 将当前buffer内容放至TEMP文件夹内某文件并返回路径</h2>
+<div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/save-buffer-to-temp-org</span> <span style="color: #b16286;">()</span>
   <span style="color: #79740e;">"Save the current buffer content to a file in the system's temporary directory.</span>
@@ -427,9 +423,9 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 </p>
 </div>
 </div>
-<div id="outline-container-org60c8320" class="outline-3">
-<h3 id="org60c8320"><span class="section-number-3">1.3.</span> 利用pandoc转换临时文件并保存到桌面</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-org60c8320" class="outline-2">
+<h2 id="org60c8320"><span class="section-number-2">3.</span> 利用pandoc转换临时文件并保存到桌面</h2>
+<div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-buffer-export-docx</span> <span style="color: #b16286;">()</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">interactive</span><span style="color: #b16286;">)</span>
@@ -442,15 +438,20 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 
 <p>
 <code>docx-file</code> 指定保存路径为桌面；<br />
+</p>
+
+<p>
 <code>template-file</code> 是pandoc转换docx文件参考的模板，具体设置请查看<a href="https://pandoc.org/MANUAL.html#option--reference-doc">pandoc官方文档</a>；<br />
+</p>
+
+<p>
 这里的 <code>--from org+east_asian_line_breaks</code> 意味启用<a href="https://pandoc.org/MANUAL.html#extension-east_asian_line_breaks">东亚换行设置</a>，东亚文字间的换行不会被转换为回车，参考<a href="https://blog.retompi.com/post/useful-pandoc-tips/#%e5%bf%bd%e7%95%a5%e4%b8%9c%e4%ba%9a%e6%96%87%e5%ad%97%e6%8d%a2%e8%a1%8c%e7%ac%a6">这篇博客的解说</a>。<br />
 </p>
 </div>
 </div>
 </div>
-</div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 11:40]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.12) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 11:40]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 11:56]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.12) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 11:57]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
