@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-17 周四 23:14 -->
+<!-- 2024-10-17 周四 23:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在nano-modeline右下角添加当前buffer中英文字数统计</title>
@@ -427,8 +427,8 @@ b {
 
 <span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/update-word-count</span> <span style="color: #b16286;">()</span>
   <span style="color: #b16286;">(</span>setq my/buffer-words
-        <span style="color: #8ec07c;">(</span>+ <span style="color: #d65d0e;">(</span>words-count <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>point-max<span style="color: #458588;">)</span> words-count-rule-CJK<span style="color: #d65d0e;">)</span>
-           <span style="color: #d65d0e;">(</span>words-count <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>point-max<span style="color: #458588;">)</span> words-count-rule-ansci<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+        <span style="color: #8ec07c;">(</span>+ <span style="color: #d65d0e;">(</span>count-matches words-count-rule-CJK <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>point-max<span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span>
+           <span style="color: #d65d0e;">(</span>count-matches words-count-rule-ansci <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>point-max<span style="color: #458588;">)</span> <span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
         <span style="color: #b16286;">)</span>
   <span style="color: #458588;">)</span>
 
@@ -439,20 +439,34 @@ b {
 <span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">nano-modeline-cursor-position</span> <span style="color: #b16286;">(</span><span style="color: #8f3f71;">&amp;optional</span> format<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Cursor position using given FORMAT."</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>format <span style="color: #458588;">(</span>or format <span style="color: #79740e;">"%l:%c "</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span>propertize <span style="color: #d65d0e;">(</span>format-mode-line '<span style="color: #458588;">(</span><span style="color: #b16286;">(</span><span style="color: #af3a03;">:eval</span> <span style="color: #8ec07c;">(</span>format <span style="color: #79740e;">"%s&#23383;"</span> my/buffer-words<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span> <span style="color: #79740e;">"   "</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+    <span style="color: #a89984;">;; </span><span style="color: #a89984;">(propertize (format-mode-line '("  "))</span>
+    <span style="color: #a89984;">;;             </span><span style="color: #a89984;">'face (nano-modeline-face 'secondary))</span>
+    <span style="color: #8ec07c;">(</span>propertize <span style="color: #d65d0e;">(</span>format-mode-line '<span style="color: #458588;">(</span><span style="color: #b16286;">(</span><span style="color: #af3a03;">:eval</span> <span style="color: #8ec07c;">(</span>format <span style="color: #79740e;">"%s&#23383;"</span> <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">if</span> <span style="color: #458588;">(</span>&lt; <span style="color: #458588;">(</span>buffer-size<span style="color: #458588;">)</span> 30000<span style="color: #458588;">)</span>
+                                                              <span style="color: #458588;">(</span>+ <span style="color: #458588;">(</span>count-matches words-count-rule-CJK <span style="color: #b16286;">(</span>point-min<span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span>point-max<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+                                                               <span style="color: #458588;">(</span>count-matches words-count-rule-ansci <span style="color: #b16286;">(</span>point-min<span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span>point-max<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #458588;">)</span>
+                                                            my/buffer-words<span style="color: #d65d0e;">)</span>
+                                                   <span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span> <span style="color: #9d0006; font-weight: bold;">"   "</span><span style="color: #458588; font-weight: bold;">)</span><span style="color: #d65d0e; font-weight: bold;">)</span>
                 'face <span style="color: #d65d0e;">(</span>nano-modeline-face 'secondary<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 </pre>
 </div>
 
 <p>
-在保存文件和切换window/buffer的时候执行一次统计当前buffer中英字符的函数，这样可以避免在长文本buffer中往下滚动频繁触发统计函数造成的卡顿感觉。<br />
+在保存文件和切换window/buffer的时候执行一次统计当前buffer中英字符的函数，并保存到变量 <code>my/buffer-words</code> 中。<br />
+</p>
+
+<p>
+然后在modeline中根据当前buffer字符数量，动态判断是直接执行统计函数还是读取变量。<br />
+</p>
+
+<p>
+这样可以避免在长文本buffer中往下滚动频繁触发统计函数造成的卡顿感觉。<br />
 </p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-17 周四 23:14]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.12) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-17 周四 23:14]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-17 周四 23:52]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.12) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-17 周四 23:52]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
