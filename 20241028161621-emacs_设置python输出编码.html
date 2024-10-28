@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-28 周一 16:21 -->
+<!-- 2024-10-28 周一 16:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-设置Python输出编码</title>
@@ -389,15 +389,29 @@ b {
 </p>
 
 <p>
-如果我们要直接运行一个<code>.py</code>文件的话，参考<a href="https://emacs-china.org/t/windows-buffer-utf-8-gbk/23694/4">此链接</a>，设置环境变量<code>(setenv "PYTHONIOENCODING" "utf-8")</code>，会导致<code>org-babel</code>执行结果乱码。<br />
+如果我们要直接运行一个<code>.py</code>文件的话，参考<a href="https://emacs-china.org/t/windows-buffer-utf-8-gbk/23694/4">此链接</a>，设置环境变量:<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span>setenv <span style="color: #79740e;">"PYTHONIOENCODING"</span> <span style="color: #79740e;">"utf-8"</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+会导致<code>org-babel</code>执行结果乱码。<br />
 </p>
 
 <p>
-应该采用设置Python执行参数的方式，改为：<code>(setq python-shell-interpreter-args "-i -X utf8")</code>。<br />
+应该采用设置Python执行参数的方式，改为:<br />
 </p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> python-shell-interpreter-args <span style="color: #79740e;">"-i -X utf8"</span><span style="color: #458588;">)</span>
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-28 周一 16:21]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.14) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-28 周一 16:21]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-28 周一 16:25]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.14) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-28 周一 16:25]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
