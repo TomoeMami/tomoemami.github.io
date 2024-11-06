@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-05 周二 14:58 -->
+<!-- 2024-11-06 周三 22:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用MSYS2编译Windows的Emacs</title>
@@ -409,8 +409,8 @@ everything again.<br />
 Specially thanks to @include-yy on emacs-china.org for providing<br />
 guides on UCRT64 and use GCCJIT.<br />
 </p>
-<div id="outline-container-orgd039450" class="outline-2">
-<h2 id="orgd039450"><span class="section-number-2">1.</span> How to get MSYS2 (without installer)</h2>
+<div id="outline-container-org6b97ebe" class="outline-2">
+<h2 id="org6b97ebe"><span class="section-number-2">1.</span> How to get MSYS2 (without installer)</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Get from <a href="https://github.com/msys2/msys2-installer/releases/">https://github.com/msys2/msys2-installer/releases/</a><br />
@@ -421,8 +421,8 @@ You may use the 7zip SFX one.<br />
 </p>
 </div>
 </div>
-<div id="outline-container-org9318cc9" class="outline-2">
-<h2 id="org9318cc9"><span class="section-number-2">2.</span> Update MSYS2 base environment</h2>
+<div id="outline-container-org96d701f" class="outline-2">
+<h2 id="org96d701f"><span class="section-number-2">2.</span> Update MSYS2 base environment</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We are using the UCRT64.<br />
@@ -505,8 +505,8 @@ To install the required packages for building Emacs.<br />
 </div>
 </div>
 </div>
-<div id="outline-container-orgaac9587" class="outline-2">
-<h2 id="orgaac9587"><span class="section-number-2">3.</span> Fetch Emacs source</h2>
+<div id="outline-container-org2795630" class="outline-2">
+<h2 id="org2795630"><span class="section-number-2">3.</span> Fetch Emacs source</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-bash">git config --global core.autocrlf false
@@ -515,16 +515,16 @@ git clone https://github.com/emacs-mirror/emacs --depth 1
 </div>
 </div>
 </div>
-<div id="outline-container-orgb3a0e2c" class="outline-2">
-<h2 id="orgb3a0e2c"><span class="section-number-2">4.</span> Build Emacs</h2>
+<div id="outline-container-orgd36e95b" class="outline-2">
+<h2 id="orgd36e95b"><span class="section-number-2">4.</span> Build Emacs</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 It is recommended to disable Windows Defender scan for MSYS2 or use<br />
 Window 11 Dev Drive feature to speed up compilation.<br />
 </p>
 </div>
-<div id="outline-container-orgf3e3233" class="outline-3">
-<h3 id="orgf3e3233"><span class="section-number-3">4.1.</span> Configuration</h3>
+<div id="outline-container-orgdb88fba" class="outline-3">
+<h3 id="orgdb88fba"><span class="section-number-3">4.1.</span> Configuration</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 It is important to <code>--with-gnutls</code>, because otherwise Emacs won't even<br />
@@ -558,8 +558,8 @@ Check if the configure log is appropriate.<br />
 </p>
 </div>
 </div>
-<div id="outline-container-orgf2bef97" class="outline-3">
-<h3 id="orgf2bef97"><span class="section-number-3">4.2.</span> Building Emacs</h3>
+<div id="outline-container-org10e8464" class="outline-3">
+<h3 id="org10e8464"><span class="section-number-3">4.2.</span> Building Emacs</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 备注：记得编译时关闭杀毒软件的实时防护功能，否则CPU占用率会很低。<br />
@@ -572,12 +572,12 @@ Then <code>make -j$(nproc) bootstrap</code> it (for develop branch). After build
 </div>
 </div>
 </div>
-<div id="outline-container-org2826d19" class="outline-2">
-<h2 id="org2826d19"><span class="section-number-2">5.</span> Post building</h2>
+<div id="outline-container-org3e719ed" class="outline-2">
+<h2 id="org3e719ed"><span class="section-number-2">5.</span> Post building</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org093ec7e" class="outline-3">
-<h3 id="org093ec7e"><span class="section-number-3">5.1.</span> DLL Hell</h3>
+<div id="outline-container-org99f6e1f" class="outline-3">
+<h3 id="org99f6e1f"><span class="section-number-3">5.1.</span> DLL Hell</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 The easiest way is to copy all the dlls from <code>/ucrt64/bin</code>, and<br />
@@ -599,8 +599,8 @@ afterwards, you can still download the individual package without reinstall<br /
 MSYS2.<br />
 </p>
 </div>
-<div id="outline-container-orgd472e58" class="outline-4">
-<h4 id="orgd472e58"><span class="section-number-4">5.1.1.</span> XPM image</h4>
+<div id="outline-container-org14eb1d6" class="outline-4">
+<h4 id="org14eb1d6"><span class="section-number-4">5.1.1.</span> XPM image</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <p>
 This requires <code>libXpm-noX4.dll</code>. Emacs can start without this DLL<br />
@@ -608,8 +608,8 @@ but then it won't be able to display XPM image.<br />
 </p>
 </div>
 </div>
-<div id="outline-container-org052e6f6" class="outline-4">
-<h4 id="org052e6f6"><span class="section-number-4">5.1.2.</span> Treesitter</h4>
+<div id="outline-container-org52db052" class="outline-4">
+<h4 id="org52db052"><span class="section-number-4">5.1.2.</span> Treesitter</h4>
 <div class="outline-text-4" id="text-5-1-2">
 <p>
 <code>libtree-sitter.dll</code> depends on <code>wasmtime.dll</code>.<br />
@@ -617,8 +617,8 @@ but then it won't be able to display XPM image.<br />
 </div>
 </div>
 </div>
-<div id="outline-container-orgf078823" class="outline-3">
-<h3 id="orgf078823"><span class="section-number-3">5.2.</span> GCCJIT</h3>
+<div id="outline-container-orged0095c" class="outline-3">
+<h3 id="orged0095c"><span class="section-number-3">5.2.</span> GCCJIT</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Additional works are required to make native compile work without complete<br />
@@ -639,7 +639,7 @@ MSYS2 environment.<br />
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-11-05 周二 14:58]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.15) on <span class="timestamp-wrapper"><span class="timestamp">[2024-11-05 周二 14:58]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-11-05 周二 14:58]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.15) on <span class="timestamp-wrapper"><span class="timestamp">[2024-11-06 周三 22:27]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
