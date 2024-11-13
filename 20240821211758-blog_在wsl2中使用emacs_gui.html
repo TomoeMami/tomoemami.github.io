@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-10-14 周一 16:18 -->
+<!-- 2024-11-13 周三 16:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>blog-在WSL2中使用Emacs GUI</title>
@@ -465,52 +465,52 @@ cp -r ./rime-ice/* /usr/share/rime-data/
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml">patch:
-  schema_list:
-    - {schema: double_pinyin_flypy}
-  ascii_composer/good_old_caps_lock: true  # true | false
-  ascii_composer/switch_key:
-    Caps_Lock: clear      # commit_code | commit_text | clear
-    Shift_L: commit_code  # commit_code | commit_text | inline_ascii | clear | noop
-    Shift_R: commit_code         # commit_code | commit_text | inline_ascii | clear | noop
-    Control_L: noop       # commit_code | commit_text | inline_ascii | clear | noop
-    Control_R: noop       # commit_code | commit_text | inline_ascii | clear | noop
-  key_binder/bindings:
-    # Tab / Shift+Tab 切换光标至下/上一个拼音
-    - { when: composing, accept: Shift+Tab, send: Shift+Left }
-    - { when: composing, accept: Tab, send: Shift+Right }
-    # Tab / Shift+Tab 翻页
-    # - { when: has_menu, accept: Shift+Tab, send: Page_Up }
-    # - { when: has_menu, accept: Tab, send: Page_Down }
-
-    # Option/Alt + ←/→ 切换光标至下/上一个拼音
-    - { when: composing, accept: Alt+Left, send: Shift+Left }
-    - { when: composing, accept: Alt+Right, send: Shift+Right }
-
-    # 翻页 - =
-    - { when: has_menu, accept: minus, send: Page_Up }
-    - { when: has_menu, accept: equal, send: Page_Down }
-
-    # 翻页 , .
-    - { when: paging, accept: comma, send: Page_Up }
-    - { when: has_menu, accept: period, send: Page_Down }
-
-    # 翻页 [ ]
-    # - { when: paging, accept: bracketleft, send: Page_Up }
-    # - { when: has_menu, accept: bracketright, send: Page_Down }
-
-    # 两种按键配置，鼠须管 Control+Shift+4 生效，小狼毫 Control+Shift+dollar 生效，都写上了。
-    # numbered_mode_switch:
-    # - { when: always, select: .next, accept: Control+Shift+1 }                  # 在最近的两个方案之间切换
-    # - { when: always, select: .next, accept: Control+Shift+exclam }             # 在最近的两个方案之间切换
-    # - { when: always, toggle: ascii_mode, accept: Control+Shift+2 }             # 切换中英
-    # - { when: always, toggle: ascii_mode, accept: Control+Shift+at }            # 切换中英
-    - { when: always, toggle: ascii_punct, accept: Control+Shift+3 }              # 切换中英标点
-    - { when: always, toggle: ascii_punct, accept: Control+Shift+numbersign }     # 切换中英标点
-    - { when: always, toggle: traditionalization, accept: Control+Shift+4 }       # 切换简繁
-    - { when: always, toggle: traditionalization, accept: Control+Shift+dollar }  # 切换简繁
-    # - { when: always, toggle: full_shape, accept: Control+Shift+5 }             # 切换全半角
-    # - { when: always, toggle: full_shape, accept: Control+Shift+percent }       # 切换全半角
+<pre class="src src-yaml"><span style="color: #076678;">patch</span>:
+  <span style="color: #076678;">schema_list</span>:
+  <span style="color: #df0ac1ad85eb;"> </span> - {<span style="color: #076678;">schema</span>: double_pinyin_flypy}
+  <span style="color: #076678;">ascii_composer/good_old_caps_lock</span>: <span style="color: #8f3f71;">true</span>  <span style="color: #a89984;"># </span><span style="color: #a89984;">true | false</span>
+  <span style="color: #076678;">ascii_composer/switch_key</span>:
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">Caps_Lock</span>: clear      <span style="color: #a89984;"># </span><span style="color: #a89984;">commit_code | commit_text | clear</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">Shift_L</span>: commit_code  <span style="color: #a89984;"># </span><span style="color: #a89984;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">Shift_R</span>: commit_code         <span style="color: #a89984;"># </span><span style="color: #a89984;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">Control_L</span>: noop       <span style="color: #a89984;"># </span><span style="color: #a89984;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">Control_R</span>: noop       <span style="color: #a89984;"># </span><span style="color: #a89984;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #076678;">key_binder/bindings</span>:
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">Tab / Shift+Tab &#20999;&#25442;&#20809;&#26631;&#33267;&#19979;/&#19978;&#19968;&#20010;&#25340;&#38899;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: composing, <span style="color: #076678;">accept</span>: Shift+Tab, <span style="color: #076678;">send</span>: Shift+Left }
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: composing, <span style="color: #076678;">accept</span>: Tab, <span style="color: #076678;">send</span>: Shift+Right }
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">Tab / Shift+Tab &#32763;&#39029;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: has_menu, accept: Shift+Tab, send: Page_Up }</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: has_menu, accept: Tab, send: Page_Down }</span>
+   
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">Option/Alt + &#8592;/&#8594; &#20999;&#25442;&#20809;&#26631;&#33267;&#19979;/&#19978;&#19968;&#20010;&#25340;&#38899;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: composing, <span style="color: #076678;">accept</span>: Alt+Left, <span style="color: #076678;">send</span>: Shift+Left }
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: composing, <span style="color: #076678;">accept</span>: Alt+Right, <span style="color: #076678;">send</span>: Shift+Right }
+   
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">&#32763;&#39029; - =</span>
+  <span style="color: #df0ac1ad85eb;"> </span> - { when: has_menu, <span style="color: #076678;">accept</span>: minus, <span style="color: #076678;">send</span>: Page_Up }
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: has_menu, <span style="color: #076678;">accept</span>: equal, <span style="color: #076678;">send</span>: Page_Down }
+   
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">&#32763;&#39029; , .</span>
+  <span style="color: #df0ac1ad85eb;"> </span> - { when: paging, <span style="color: #076678;">accept</span>: comma, <span style="color: #076678;">send</span>: Page_Up }
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: has_menu, <span style="color: #076678;">accept</span>: period, <span style="color: #076678;">send</span>: Page_Down }
+   
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">&#32763;&#39029; [ ]</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: paging, accept: bracketleft, send: Page_Up }</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: has_menu, accept: bracketright, send: Page_Down }</span>
+   
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">&#20004;&#31181;&#25353;&#38190;&#37197;&#32622;&#65292;&#40736;&#39035;&#31649; Control+Shift+4 &#29983;&#25928;&#65292;&#23567;&#29436;&#27627; Control+Shift+dollar &#29983;&#25928;&#65292;&#37117;&#20889;&#19978;&#20102;&#12290;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">numbered_mode_switch:</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: always, select: .next, accept: Control+Shift+1 }                  # &#22312;&#26368;&#36817;&#30340;&#20004;&#20010;&#26041;&#26696;&#20043;&#38388;&#20999;&#25442;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: always, select: .next, accept: Control+Shift+exclam }             # &#22312;&#26368;&#36817;&#30340;&#20004;&#20010;&#26041;&#26696;&#20043;&#38388;&#20999;&#25442;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: always, toggle: ascii_mode, accept: Control+Shift+2 }             # &#20999;&#25442;&#20013;&#33521;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: always, toggle: ascii_mode, accept: Control+Shift+at }            # &#20999;&#25442;&#20013;&#33521;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: always, <span style="color: #076678;">toggle</span>: ascii_punct, <span style="color: #076678;">accept</span>: Control+Shift+3 }              <span style="color: #a89984;"># </span><span style="color: #a89984;">&#20999;&#25442;&#20013;&#33521;&#26631;&#28857;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: always, <span style="color: #076678;">toggle</span>: ascii_punct, <span style="color: #076678;">accept</span>: Control+Shift+numbersign }     <span style="color: #a89984;"># </span><span style="color: #a89984;">&#20999;&#25442;&#20013;&#33521;&#26631;&#28857;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: always, <span style="color: #076678;">toggle</span>: traditionalization, <span style="color: #076678;">accept</span>: Control+Shift+4 }       <span style="color: #a89984;"># </span><span style="color: #a89984;">&#20999;&#25442;&#31616;&#32321;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: always, <span style="color: #076678;">toggle</span>: traditionalization, <span style="color: #076678;">accept</span>: Control+Shift+dollar }  <span style="color: #a89984;"># </span><span style="color: #a89984;">&#20999;&#25442;&#31616;&#32321;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: always, toggle: full_shape, accept: Control+Shift+5 }             # &#20999;&#25442;&#20840;&#21322;&#35282;</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: always, toggle: full_shape, accept: Control+Shift+percent }       # &#20999;&#25442;&#20840;&#21322;&#35282;</span>
 </pre>
 </div>
 </div>
@@ -531,7 +531,7 @@ cp -r ./rime-ice/* /usr/share/rime-data/
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-08-22 周四 11:25]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.12) on <span class="timestamp-wrapper"><span class="timestamp">[2024-10-14 周一 16:18]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-08-22 周四 11:25]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.16) on <span class="timestamp-wrapper"><span class="timestamp">[2024-11-13 周三 16:27]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
