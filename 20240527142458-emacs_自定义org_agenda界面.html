@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-13 周三 16:27 -->
+<!-- 2024-11-18 周一 16:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-自定义org-agenda界面</title>
@@ -389,26 +389,98 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-agenda-files <span style="color: #b16286;">(</span>list my-org-dir1<span style="color: #b16286;">)</span>
-      org-agenda-span 10
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-agenda-span 7
       org-agenda-start-on-weekday nil
-      org-agenda-start-day <span style="color: #79740e;">"-3d"</span>
-      org-agenda-current-time-string <span style="color: #79740e;">"&#9665;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now"</span>
+      org-agenda-start-day <span style="color: #79740e;">"1d"</span>
+      org-agenda-current-time-string <span style="color: #79740e;">"&#127776;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now"</span>
       org-agenda-todo-list-sublevels nil <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20165;&#26174;&#31034;&#26368;&#39640;&#23618;todo</span>
       org-agenda-skip-scheduled-if-done t
       org-agenda-skip-deadline-if-done t
       org-agenda-remove-tags t <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#38544;&#34255;tags</span>
-      org-agenda-scheduled-leaders '<span style="color: #b16286;">(</span><span style="color: #79740e;">"&#9655;S:"</span> <span style="color: #79740e;">"&#9655;S:x%2d"</span><span style="color: #b16286;">)</span>
-      org-agenda-deadline-leaders '<span style="color: #b16286;">(</span><span style="color: #79740e;">"&#9655;D:"</span> <span style="color: #79740e;">"&#9655;D:+%2d"</span> <span style="color: #79740e;">"&#9655;D:-%2d"</span><span style="color: #b16286;">)</span>
+      org-agenda-scheduled-leaders '<span style="color: #b16286;">(</span><span style="color: #79740e;">"&#9655;S: "</span> <span style="color: #79740e;">"&#9655;x%2d"</span><span style="color: #b16286;">)</span>
+      org-agenda-deadline-leaders '<span style="color: #b16286;">(</span><span style="color: #79740e;">"&#9654;D: "</span> <span style="color: #79740e;">"&#9654;+%2d"</span> <span style="color: #79740e;">"&#9654;-%2d"</span><span style="color: #b16286;">)</span>
       org-agenda-time-grid '<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>today require-timed remove-match<span style="color: #8ec07c;">)</span>
                              <span style="color: #8ec07c;">(</span>000 900 1200 1800 2400<span style="color: #8ec07c;">)</span>
-                             <span style="color: #79740e;">":  "</span> <span style="color: #79740e;">"&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;"</span><span style="color: #b16286;">)</span>
+                             <span style="color: #79740e;">"   "</span> <span style="color: #79740e;">"&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;"</span><span style="color: #b16286;">)</span>
       <span style="color: #458588;">)</span>
 </pre>
 </div>
+<div id="outline-container-org0c693d6" class="outline-2">
+<h2 id="org0c693d6"><span class="section-number-2">1.</span> 自定义agenda-view</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+通过以下设置，自定义一个agenda-view，使其可以像日历一样展示临近（我设置的10天）日程及其他部件。<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-agenda-custom-commands
+      '<span style="color: #b16286;">(</span>
+        <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"d"</span> <span style="color: #79740e;">"Daily Agenda"</span>
+         <span style="color: #d65d0e;">(</span><span style="color: #458588;">(</span>agenda <span style="color: #79740e;">""</span> <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>org-agenda-span 1<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span> 
+          <span style="color: #458588;">(</span>agenda <span style="color: #79740e;">""</span> <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>org-agenda-overriding-header <span style="color: #79740e;">"&#20020;&#36817;&#26085;&#31243;"</span><span style="color: #8ec07c;">)</span>
+                      <span style="color: #8ec07c;">(</span>org-agenda-span 10<span style="color: #8ec07c;">)</span>
+                      <span style="color: #8ec07c;">(</span>org-agenda-entry-types '<span style="color: #d65d0e;">(</span><span style="color: #af3a03;">:sexp</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+          <span style="color: #458588;">(</span>tags-todo <span style="color: #79740e;">"&#20182;&#20154;"</span>
+                <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>org-agenda-overriding-header <span style="color: #79740e;">"&#20182;&#20154;&#20107;&#39033;"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+        <span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+效果：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">Day-agenda (W47):
+&#21608;&#19968;       18 &#21313;&#19968;&#26376; 2024 W47
+   0:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+   9:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+  12:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+  16:12       &#127776;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now
+  16:30       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;<span style="color: #9d0006; font-weight: bold;">[0/2]</span>
+  18:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+  18:30       &#9655;S:  TODO &#65336;&#65336;&#65336;
+  20:00      *   ! &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+  20:00       &#9655;S:  TODO &#65336;MAA
+  20:00       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;<span style="color: #9d0006; font-weight: bold;">[0/3]</span>
+  22:31       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+  23:00          ! &#65336;&#65336;
+  24:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+  &#9655;S:  TODO 6&#65336;&#65336;&#65336;&#65336;
+  &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+  &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;
+  &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;
+  &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;&#12289;&#65336;&#65336;
+  &#9654;+12 TODO &#65336;&#65336;&#65336;&#65336;&#65336; 43/50
+  &#9654;+12 TODO &#65336;&#65336;&#65336;&#65336;
+  &#9654;+41 TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+&#20020;&#36817;&#26085;&#31243;
+&#21608;&#19968;       18 &#21313;&#19968;&#26376; 2024 W47
+&#21608;&#20108;       19 &#21313;&#19968;&#26376; 2024
+&#21608;&#19977;       20 &#21313;&#19968;&#26376; 2024
+&#21608;&#22235;       21 &#21313;&#19968;&#26376; 2024
+&#21608;&#20116;       22 &#21313;&#19968;&#26376; 2024
+&#21608;&#20845;       23 &#21313;&#19968;&#26376; 2024
+&#21608;&#26085;       24 &#21313;&#19968;&#26376; 2024
+&#21608;&#19968;       25 &#21313;&#19968;&#26376; 2024 W48
+  &#9200;&#65336;&#65336;10&#65336; &#127874; &#65336;&#65336; 52 &#65336;&#65336;&#65336;
+&#21608;&#20108;       26 &#21313;&#19968;&#26376; 2024
+&#21608;&#19977;       27 &#21313;&#19968;&#26376; 2024
+
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+&#20182;&#20154;&#20107;&#39033;
+ TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+ TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+ TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+</pre>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-08-22 周四 11:09]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.16) on <span class="timestamp-wrapper"><span class="timestamp">[2024-11-13 周三 16:27]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-11-18 周一 16:26]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.16) on <span class="timestamp-wrapper"><span class="timestamp">[2024-11-18 周一 16:26]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
