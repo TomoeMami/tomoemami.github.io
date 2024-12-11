@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-11-21 周四 00:22 -->
+<!-- 2024-12-11 周三 10:36 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-字体选择</title>
@@ -379,9 +379,7 @@ b {
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2024-11-13 周三 16:25]</span></span><br />
 </p>
-<div id="outline-container-orgbf0d617" class="outline-2">
-<h2 id="orgbf0d617"><span class="section-number-2">1.</span> 字体选择</h2>
-<div class="outline-text-2" id="text-1">
+
 <p>
 方正宋刻本秀楷M的粗细度刚好与Cascadia Code SemiLight配合；<br />
 方正聚珍新仿的粗细度与Cascadia Code Light刚好一致<br />
@@ -392,11 +390,34 @@ b {
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2024-11-13 周三 16:20]</span></span>：汉仪书仿的字高并不固定，随着字号的变化会有行高的变化；宋刻本秀楷的字型大小会有跃动，不适合长篇文字，最后换回了方正聚珍新仿。<br />
 </p>
-</div>
+
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 10:35]</span></span>：目前字体配置如下：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">set-font</span> <span style="color: #b16286;">(</span>english chinese english-size chinese-size<span style="color: #b16286;">)</span>
+  <span style="color: #b16286;">(</span>set-face-attribute 'default nil <span style="color: #af3a03;">:font</span>
+                      <span style="color: #8ec07c;">(</span>format   <span style="color: #79740e;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #8ec07c;">)</span>
+                      <span style="color: #a89984;">;; </span><span style="color: #a89984;">(font-spec :family english :size english-size :weight 'semi-light)</span>
+                      <span style="color: #b16286;">)</span>
+  <span style="color: #b16286;">(</span>set-face-attribute 'fixed-pitch nil <span style="color: #af3a03;">:font</span>
+                      <span style="color: #8ec07c;">(</span>format   <span style="color: #79740e;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #8ec07c;">)</span>
+                      <span style="color: #a89984;">;; </span><span style="color: #a89984;">(font-spec :family english :size english-size :weight 'semi-light)</span>
+                      <span style="color: #b16286;">)</span>
+  <span style="color: #b16286;">(</span>set-face-attribute 'variable-pitch nil <span style="color: #af3a03;">:font</span>
+                      <span style="color: #8ec07c;">(</span>format   <span style="color: #79740e;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+  <span style="color: #b16286;">(</span><span style="color: #9d0006;">dolist</span> <span style="color: #8ec07c;">(</span>charset '<span style="color: #d65d0e;">(</span>kana han cjk-misc bopomofo<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span>set-fontset-font <span style="color: #d65d0e;">(</span>frame-parameter nil 'font<span style="color: #d65d0e;">)</span> charset
+                      <span style="color: #d65d0e;">(</span>font-spec <span style="color: #af3a03;">:family</span> chinese <span style="color: #af3a03;">:size</span> chinese-size<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span>set-font <span style="color: #79740e;">"IBM Plex Mono"</span> <span style="color: #79740e;">"FangSongCode"</span> 40 40<span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span>set-fontset-font t 'emoji <span style="color: #b16286;">(</span>font-spec <span style="color: #af3a03;">:family</span> <span style="color: #79740e;">"Segoe UI Emoji"</span><span style="color: #b16286;">)</span> nil 'prepend<span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span>set-fontset-font t 'symbol <span style="color: #b16286;">(</span>font-spec <span style="color: #af3a03;">:family</span> <span style="color: #79740e;">"Cascadia Mono NF SemiLight"</span><span style="color: #b16286;">)</span> nil 'prepend<span style="color: #458588;">)</span>
+</pre>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-11-13 周三 16:26]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.16) on <span class="timestamp-wrapper"><span class="timestamp">[2024-11-21 周四 00:22]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 10:36]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 10:36]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
