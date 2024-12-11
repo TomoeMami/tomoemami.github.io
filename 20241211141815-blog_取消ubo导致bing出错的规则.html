@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-12-11 周三 13:58 -->
+<!-- 2024-12-11 周三 14:19 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>emacs-配置简易org-cite</title>
+<title>blog-取消UBO导致bing出错的规则</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -375,98 +375,21 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">emacs-配置简易org-cite</h1>
+<h1 class="title">blog-取消UBO导致bing出错的规则</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 10:02]</span></span><br />
+<span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 14:18]</span></span><br />
 </p>
 
 <p>
-有了<a href="20241014111552-emacs_使用pandoc导出当前org_buffer为docx.html#ID-7505af30-03a3-43d4-b599-2a8a7af2a84a">emacs-使用pandoc导出当前org-buffer为docx</a>功能，就可以配合pandoc在org-mode中进行论文写作了。如果需要进行很学术、很专业的论文写作，推荐查阅 <code>LaTeX</code> 、 <code>BibTeX</code> 、 <code>org-ref</code> 等工具。这里配置一个简单的摘要功能，便于引用。<br />
-</p>
-<div id="outline-container-org626583a" class="outline-2">
-<h2 id="org626583a"><span class="section-number-2">1.</span> 设置bib文件内容及路径</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-在org文件顶部加上：<br />
-</p>
-
-<div class="org-src-container">
-<pre class="src src-nil">#+bibliography: path/to/your/bib文件.bib
-</pre>
-</div>
-
-<p>
-声明一个在本org文件中查找引用的路径，后续可以通过 <code>C-c C-x @</code> 呼出引用插入界面。<br />
+经常使用国内bing的朋友可能会发现，近期bing首页剩下的选项寥寥无几，其实是因为一些正确的候选项被错误屏蔽导致的。<br />
 </p>
 
 <p>
-注意，在使用 <code>vertico</code> 的时候，需要先 <code>RET</code> （批量）选中引用，然后用 <code>M-RET</code> 插入引用。<br />
+修复方法：在UBO的设置里面「规则列表」中取消勾选「内置」中的「uBlock filters – Quick fixes」<br />
 </p>
-</div>
-</div>
-<div id="outline-container-org2b6acc4" class="outline-2">
-<h2 id="org2b6acc4"><span class="section-number-2">2.</span> 网页引用的bib写法</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-如果在正规的学术网站上，是可以直接复制到 <code>bibtex</code> 格式的引用文本，粘贴进 <code>.bib</code> 文件即可。但如果引用的资料在网页上，则需要进入<a href="https://web.funnysaltyfish.fun/link2ref/?source=index">网页引用生成器</a>，将引用的链接粘贴进之后生成引用文本，然后根据引用文本自行填写 <code>.bib</code> 文件内容。<br />
-</p>
-
-<p>
-如引用文本为<br />
-</p>
-
-<div class="org-src-container">
-<pre class="src src-nil">李平书. 2021,谢谢你的关心[EB/OL]. (2021-12-21)[2021-12-21]. https://news.china.com/zw/news/13000776/20211221/40601066.html.
-</pre>
-</div>
-
-<p>
-则在 <code>.bib</code> 文件中应为<br />
-</p>
-
-<div class="org-src-container">
-<pre class="src src-nil">@misc{这里自己填，应该是英文数字组合,
-author = {李平书},
-title = {2021,谢谢你的关心},
-howpublished = {[EB/OL]. (2021-12-21)[2021-12-21]. https://news.china.com/zw/news/13000776/20211221/40601066.html.},
-}
-</pre>
-</div>
-
-<p>
-这样可以确保导出的参考文献下格式相对正确。<br />
-</p>
-</div>
-</div>
-<div id="outline-container-org85bd4e6" class="outline-2">
-<h2 id="org85bd4e6"><span class="section-number-2">3.</span> 修改pandoc导出命令</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-将导出函数中 <code>shell-command</code> 一行改为一个带判断的函数：<br />
-</p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">if</span> <span style="color: #b16286;">(</span>string-match <span style="color: #79740e;">"&#35770;&#25991;"</span> docx-file<span style="color: #b16286;">)</span>
-    <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>bib-file <span style="color: #79740e;">"path/to/your/bib&#25991;&#20214;.bib"</span><span style="color: #d65d0e;">)</span>
-          <span style="color: #d65d0e;">(</span>csl-file <span style="color: #79740e;">"path/to/your/csl&#25991;&#20214;.csl"</span><span style="color: #d65d0e;">)</span>
-          <span style="color: #d65d0e;">(</span>ref-title <span style="color: #79740e;">"&#21442;&#32771;&#25991;&#29486;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-      <span style="color: #8ec07c;">(</span>shell-command <span style="color: #d65d0e;">(</span>format <span style="color: #79740e;">"pandoc --from org+east_asian_line_breaks+citations -M reference-section-title=%s -N -C --bibliography=%s --csl=%s %s -o %s --reference-doc=%s"</span> ref-title bib-file csl-file <span style="color: #458588;">(</span>my/save-buffer-to-temp-org<span style="color: #458588;">)</span> docx-file template-file<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span>shell-command <span style="color: #8ec07c;">(</span>format <span style="color: #79740e;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #d65d0e;">(</span>my/save-buffer-to-temp-org<span style="color: #d65d0e;">)</span> docx-file template-file<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
-</div>
-
-<p>
-符合pandoc标准的GB/T 7714-2015 csl相关文件可以在<a href="https://editor.citationstyles.org/styleInfo/?styleId=http%3A%2F%2Fwww.zotero.org%2Fstyles%2Fchina-national-standard-gb-t-7714-2015-numeric">这里下载</a>。<br />
-</p>
-
-<p>
-这样一来，就可以把org文件导出为带引用的docx文件了。不过格式会有一点问题，需要手动修改，但也比徒手在docx文件中管理编辑引用方便多了。<br />
-</p>
-</div>
-</div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 13:57]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 13:58]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 14:19]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 14:19]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
