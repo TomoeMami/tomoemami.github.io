@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-12-16 周一 13:12 -->
+<!-- 2024-12-16 周一 14:06 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>blog-为rime输入方案添加语言模型支持</title>
@@ -509,21 +509,22 @@ Windows上可通过右键托盘小狼毫图标-用户文件夹打开（一般为
 <h3 id="org3768569"><span class="section-number-3">2.2.</span> 更新方案配置文件</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
-总之找到你要用的方案名称，然后打开对应的配置文件。以 <code>rime_frost_double_pinyin_flypy</code> 方案为例，打开 <code>rime_frost_double_pinyin_flypy.schema.yaml</code> 文件，然后在文件末尾加上这几行：<br />
+总之找到你要用的方案名称，然后对该配置文件打补丁。以 <code>rime_frost_double_pinyin_flypy</code> 方案为例，打开或新建 <code>rime_frost_double_pinyin_flypy.schema.custom.yaml</code> 文件，然后加上这几行：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml"><span style="color: #076678;">__include</span>: octagram   <span style="color: #a89984;">#</span><span style="color: #a89984;">&#21551;&#29992;&#35821;&#35328;&#27169;&#22411;</span>
-<span style="color: #a89984;">#</span><span style="color: #a89984;">&#35821;&#35328;&#27169;&#22411;</span>
-<span style="color: #076678;">octagram</span>:
-  <span style="color: #076678;">__patch</span>:
-  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">grammar</span>:
-  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #076678;">language</span>: amz-v2n3m1-zh-hans  
-  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #076678;">collocation_max_length</span>: 5
-  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #076678;">collocation_min_length</span>: 2
-  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">translator/contextual_suggestions</span>: <span style="color: #8f3f71;">true</span>
-  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">translator/max_homophones</span>: 7
-  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">translator/max_homographs</span>: 7
+<pre class="src src-yaml"><span style="color: #076678;">patch</span>:
+  <span style="color: #076678;">__include</span>: octagram   <span style="color: #a89984;">#</span><span style="color: #a89984;">&#21551;&#29992;&#35821;&#35328;&#27169;&#22411;</span>
+  <span style="color: #a89984;">#</span><span style="color: #a89984;">&#35821;&#35328;&#27169;&#22411;</span>
+  <span style="color: #076678;">octagram</span>:
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #076678;">__patch</span>:
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #076678;">grammar</span>:
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #d7369b2d815a;"> </span> <span style="color: #076678;">language</span>: amz-v2n3m1-zh-hans  
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #d7369b2d815a;"> </span> <span style="color: #076678;">collocation_max_length</span>: 5
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #d7369b2d815a;"> </span> <span style="color: #076678;">collocation_min_length</span>: 2
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #d7369b2d815a;"> </span> <span style="color: #076678;">translator/contextual_suggestions</span>: <span style="color: #8f3f71;">true</span>
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #d7369b2d815a;"> </span> <span style="color: #076678;">translator/max_homophones</span>: 7
+  <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a645bc75a68c;"> </span> <span style="color: #d7369b2d815a;"> </span> <span style="color: #076678;">translator/max_homographs</span>: 7
 </pre>
 </div>
 
@@ -619,7 +620,7 @@ Windows上可通过右键托盘小狼毫图标-用户文件夹打开（一般为
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-16 周一 13:12]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-16 周一 13:12]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-16 周一 14:02]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-16 周一 14:06]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
