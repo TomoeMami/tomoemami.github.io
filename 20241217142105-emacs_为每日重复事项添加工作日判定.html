@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-12-17 周二 16:37 -->
+<!-- 2024-12-17 周二 16:54 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-为每日重复事项添加工作日判定</title>
@@ -479,22 +479,19 @@ b {
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">when</span> <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">and</span> <span style="color: #d65d0e;">(</span>org-property-values <span style="color: #79740e;">"WORKDAY"</span><span style="color: #d65d0e;">)</span> <span style="color: #d65d0e;">(</span>string-match <span style="color: #79740e;">"d"</span> <span style="color: #458588;">(</span>org-get-repeat<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #a89984;">;; </span><span style="color: #a89984;">Get time from item at POINT</span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">let*</span> <span style="color: #d65d0e;">(</span><span style="color: #458588;">(</span>offset <span style="color: #b16286;">(</span>string-to-number <span style="color: #8ec07c;">(</span>org-entry-get nil <span style="color: #79740e;">"WORKDAY"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-           <span style="color: #458588;">(</span>scheduled-time <span style="color: #b16286;">(</span>org-get-scheduled-time <span style="color: #8ec07c;">(</span>point<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
            <span style="color: #a89984;">;; </span><span style="color: #a89984;">Convert to timestamp - required for the next step</span>
-           <span style="color: #458588;">(</span>seconds-timestamp <span style="color: #b16286;">(</span>time-to-seconds scheduled-time<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+           <span style="color: #458588;">(</span>seconds-timestamp <span style="color: #b16286;">(</span>org-time-string-to-seconds <span style="color: #8ec07c;">(</span>org-entry-get <span style="color: #d65d0e;">(</span>point<span style="color: #d65d0e;">)</span> <span style="color: #79740e;">"SCHEDULED"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
            <span style="color: #a89984;">;; </span><span style="color: #a89984;">Convert to decoded time - required to find out the weekday</span>
            <span style="color: #458588;">(</span>decoded-time<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
       <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">while</span> <span style="color: #458588;">(</span><span style="color: #9d0006;">if</span> <span style="color: #b16286;">(</span>not <span style="color: #8ec07c;">(</span>my/date-is-workday <span style="color: #d65d0e;">(</span>format-time-string <span style="color: #79740e;">"%Y-%m-%d"</span> seconds-timestamp<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
                  <span style="color: #b16286;">(</span><span style="color: #9d0006;">if</span> <span style="color: #8ec07c;">(</span>my/date-is-workday <span style="color: #d65d0e;">(</span>format-time-string <span style="color: #79740e;">"%Y-%m-%d"</span> seconds-timestamp<span style="color: #d65d0e;">)</span> <span style="color: #d65d0e;">(</span>* -1 offset<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
                      nil
-                     t<span style="color: #b16286;">)</span>
-                 nil<span style="color: #458588;">)</span>
+                   t<span style="color: #b16286;">)</span>
+               nil<span style="color: #458588;">)</span>
         <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> seconds-timestamp <span style="color: #b16286;">(</span>time-add seconds-timestamp <span style="color: #8ec07c;">(</span>seconds-to-time <span style="color: #d65d0e;">(</span>* 24 60 60<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
         <span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> decoded-time
-            <span style="color: #458588;">(</span>decoded-time-add <span style="color: #b16286;">(</span>decode-time seconds-timestamp<span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span>make-decoded-time <span style="color: #af3a03;">:day</span> 0<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">let</span> <span style="color: #458588;">(</span><span style="color: #b16286;">(</span>encoded-time <span style="color: #8ec07c;">(</span>encode-time decoded-time<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-        <span style="color: #458588;">(</span>org-schedule nil encoded-time<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">let</span> <span style="color: #458588;">(</span><span style="color: #b16286;">(</span>result-string <span style="color: #8ec07c;">(</span>format-time-string <span style="color: #79740e;">"%Y-%m-%d %H:%M"</span> seconds-timestamp<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+        <span style="color: #458588;">(</span>org-schedule nil result-string<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
       <span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
   <span style="color: #458588;">)</span>
 
@@ -544,7 +541,7 @@ b {
 </div>
 </div></div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-17 周二 16:37]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-17 周二 16:37]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-17 周二 16:54]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-17 周二 16:54]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
