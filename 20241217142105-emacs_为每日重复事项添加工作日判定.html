@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-12-17 周二 14:52 -->
+<!-- 2024-12-17 周二 16:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-为每日重复事项添加工作日判定</title>
@@ -433,21 +433,22 @@ b {
                  `<span style="color: #d65d0e;">(</span><span style="color: #79740e;">"workday"</span>
                    <span style="color: #79740e;">"Custom Agenda for Sexps"</span>
                    agenda <span style="color: #79740e;">""</span>
-                   <span style="color: #458588;">(</span><span style="color: #b16286;">(</span>org-agenda-overriding-header <span style="color: #8ec07c;">(</span>format <span style="color: #79740e;">"Agenda for %s"</span> ,date<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+                   <span style="color: #458588;">(</span><span style="color: #b16286;">(</span>org-agenda-buffer-tmp-name <span style="color: #79740e;">"*Temp Agenda*"</span><span style="color: #b16286;">)</span>
+                    <span style="color: #b16286;">(</span>org-agenda-overriding-header <span style="color: #8ec07c;">(</span>format <span style="color: #79740e;">"Agenda for %s"</span> ,date<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
                     <span style="color: #b16286;">(</span>org-agenda-span 1<span style="color: #b16286;">)</span>
                     <span style="color: #b16286;">(</span>org-agenda-start-day ,date<span style="color: #b16286;">)</span>
                     <span style="color: #b16286;">(</span>org-agenda-entry-types '<span style="color: #8ec07c;">(</span><span style="color: #af3a03;">:sexp</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span>window-configuration-to-register ?t<span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span>org-agenda nil <span style="color: #79740e;">"workday"</span><span style="color: #8ec07c;">)</span>
     <span style="color: #a89984;">;; </span><span style="color: #a89984;">Run the custom agenda command</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">with-current-buffer</span> <span style="color: #79740e;">"*Org Agenda*"</span>
-     <span style="color: #a89984;">;; </span><span style="color: #a89984;">Extract agenda entries from the buffer</span>
-      <span style="color: #d65d0e;">(</span>goto-char <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">when</span> <span style="color: #458588;">(</span>re-search-forward <span style="color: #79740e;">"&#127982;"</span> nil t<span style="color: #458588;">)</span>
-        <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> holidays '123<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span>goto-char <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">when</span> <span style="color: #458588;">(</span>re-search-forward <span style="color: #79740e;">"&#128188;"</span> nil t<span style="color: #458588;">)</span>
-        <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> workdays '123<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span>org-agenda nil <span style="color: #79740e;">"workday"</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #a89984;">;; </span><span style="color: #a89984;">Extract agenda entries from the buffer</span>
+    <span style="color: #8ec07c;">(</span>goto-char <span style="color: #d65d0e;">(</span>point-min<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">when</span> <span style="color: #d65d0e;">(</span>re-search-forward <span style="color: #79740e;">"&#127982;"</span> nil t<span style="color: #d65d0e;">)</span>
+      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> holidays '123<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span>goto-char <span style="color: #d65d0e;">(</span>point-min<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">when</span> <span style="color: #d65d0e;">(</span>re-search-forward <span style="color: #79740e;">"&#128188;"</span> nil t<span style="color: #d65d0e;">)</span>
+      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> workdays '123<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span>kill-buffer <span style="color: #79740e;">"*Temp Agenda*"</span><span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span>jump-to-register ?t<span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> org-agenda-custom-commands origin-org-agenda-custom-commands<span style="color: #8ec07c;">)</span>
     <span style="color: #a89984;">;; </span><span style="color: #a89984;">Remove the custom command after use </span>
@@ -529,7 +530,7 @@ b {
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-17 周二 14:48]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-17 周二 14:52]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-17 周二 16:09]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-17 周二 16:23]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
