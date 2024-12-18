@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-12-18 周三 10:04 -->
+<!-- 2024-12-18 周三 21:15 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-为每日重复事项添加工作日判定</title>
@@ -383,8 +383,8 @@ b {
 <p>
 有的时候，我们只想在工作日处理一些工作相关的每日重复事项。<br />
 </p>
-<div id="outline-container-org39618fe" class="outline-2">
-<h2 id="org39618fe"><span class="section-number-2">1.</span> 设置节假日</h2>
+<div id="outline-container-org72d0b8a" class="outline-2">
+<h2 id="org72d0b8a"><span class="section-number-2">1.</span> 设置节假日</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 排除掉周六、周日以及法定节假日（也许还有自定义的假日）之后，就是工作日。在 <code>org-agenda-files</code> 中任一文件加入以下内容：<br />
@@ -411,8 +411,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-orga49cb6c" class="outline-2">
-<h2 id="orga49cb6c"><span class="section-number-2">2.</span> 设置函数</h2>
+<div id="outline-container-org0e2cd99" class="outline-2">
+<h2 id="org0e2cd99"><span class="section-number-2">2.</span> 设置函数</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/date-is-workday</span> <span style="color: #b16286;">(</span>date <span style="color: #8f3f71;">&amp;optional</span> offset<span style="color: #b16286;">)</span>
@@ -427,30 +427,29 @@ b {
          <span style="color: #d65d0e;">(</span>day <span style="color: #458588;">(</span>nth 3 parsed-time<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>workdays nil<span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>holidays nil<span style="color: #d65d0e;">)</span>
-         <span style="color: #d65d0e;">(</span>origin-org-agenda-custom-commands <span style="color: #458588;">(</span>copy-tree org-agenda-custom-commands<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+         <span style="color: #d65d0e;">(</span>files <span style="color: #458588;">(</span>org-agenda-files nil 'ifmode<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+         <span style="color: #d65d0e;">(</span>result-string <span style="color: #79740e;">" "</span><span style="color: #d65d0e;">)</span>
+         start-day day-numbers file rtn rtnall 
          <span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span>add-to-list 'org-agenda-custom-commands
-                 `<span style="color: #d65d0e;">(</span><span style="color: #79740e;">"workday"</span>
-                   <span style="color: #79740e;">"Custom Agenda for Sexps"</span>
-                   agenda <span style="color: #79740e;">""</span>
-                   <span style="color: #458588;">(</span><span style="color: #b16286;">(</span>org-agenda-buffer-tmp-name <span style="color: #79740e;">"*Temp Agenda*"</span><span style="color: #b16286;">)</span>
-                    <span style="color: #b16286;">(</span>org-agenda-overriding-header <span style="color: #8ec07c;">(</span>format <span style="color: #79740e;">"Agenda for %s"</span> ,date<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
-                    <span style="color: #b16286;">(</span>org-agenda-span 1<span style="color: #b16286;">)</span>
-                    <span style="color: #b16286;">(</span>org-agenda-start-day ,date<span style="color: #b16286;">)</span>
-                    <span style="color: #b16286;">(</span>org-agenda-entry-types '<span style="color: #8ec07c;">(</span><span style="color: #af3a03;">:sexp</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span>window-configuration-to-register ?t<span style="color: #8ec07c;">)</span>
-    <span style="color: #a89984;">;; </span><span style="color: #a89984;">Run the custom agenda command</span>
-    <span style="color: #8ec07c;">(</span>org-agenda nil <span style="color: #79740e;">"workday"</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #a89984;">;; </span><span style="color: #a89984;">Extract agenda entries from the buffer</span>
-    <span style="color: #8ec07c;">(</span>goto-char <span style="color: #d65d0e;">(</span>point-min<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">when</span> <span style="color: #d65d0e;">(</span>re-search-forward <span style="color: #79740e;">"&#127982;"</span> nil t<span style="color: #d65d0e;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">when</span> <span style="color: #d65d0e;">(</span>stringp date<span style="color: #d65d0e;">)</span>
+      <span style="color: #a89984;">;; </span><span style="color: #a89984;">Convert to an absolute day number</span>
+      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> start-day <span style="color: #458588;">(</span>time-to-days <span style="color: #b16286;">(</span>org-read-date nil t date<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> date <span style="color: #458588;">(</span>calendar-gregorian-from-absolute start-day<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">while</span> <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> file <span style="color: #458588;">(</span><span style="color: #9d0006;">pop</span> files<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">catch</span> '<span style="color: #8f3f71;">nextfile</span>
+        <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> rtn <span style="color: #b16286;">(</span>apply #'org-agenda-get-day-entries
+                         file date
+                         '<span style="color: #8ec07c;">(</span><span style="color: #af3a03;">:sexp</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+        <span style="color: #458588;">(</span><span style="color: #9d0006;">when</span> rtn
+          <span style="color: #b16286;">(</span><span style="color: #9d0006;">setq</span> rtnall <span style="color: #8ec07c;">(</span>append rtnall rtn<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+      <span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">dolist</span> <span style="color: #d65d0e;">(</span>result rtnall<span style="color: #d65d0e;">)</span>
+      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> result-string <span style="color: #458588;">(</span>concat result-string <span style="color: #b16286;">(</span>substring-no-properties result<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+      <span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">when</span> <span style="color: #d65d0e;">(</span>string-match <span style="color: #79740e;">"&#127982;"</span> result-string<span style="color: #d65d0e;">)</span>
       <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> holidays '123<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span>goto-char <span style="color: #d65d0e;">(</span>point-min<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">when</span> <span style="color: #d65d0e;">(</span>re-search-forward <span style="color: #79740e;">"&#128188;"</span> nil t<span style="color: #d65d0e;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">when</span> <span style="color: #d65d0e;">(</span>string-match <span style="color: #79740e;">"&#128188;"</span> result-string<span style="color: #d65d0e;">)</span>
       <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> workdays '123<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span>kill-buffer <span style="color: #79740e;">"*Temp Agenda*"</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span>jump-to-register ?t<span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> org-agenda-custom-commands origin-org-agenda-custom-commands<span style="color: #8ec07c;">)</span>
     <span style="color: #a89984;">;; </span><span style="color: #a89984;">Remove the custom command after use </span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">if</span> <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">or</span> <span style="color: #458588;">(</span>= <span style="color: #b16286;">(</span>calendar-day-of-week <span style="color: #8ec07c;">(</span>list month day year<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span> 0<span style="color: #458588;">)</span> <span style="color: #a89984;">; </span><span style="color: #a89984;">Sunday</span>
             <span style="color: #458588;">(</span>= <span style="color: #b16286;">(</span>calendar-day-of-week <span style="color: #8ec07c;">(</span>list month day year<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span> 6<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span> <span style="color: #a89984;">; </span><span style="color: #a89984;">Saturday</span>
@@ -490,9 +489,11 @@ b {
                nil<span style="color: #458588;">)</span>
         <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> seconds-timestamp <span style="color: #b16286;">(</span>time-add seconds-timestamp <span style="color: #8ec07c;">(</span>seconds-to-time <span style="color: #d65d0e;">(</span>* 24 60 60<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
         <span style="color: #d65d0e;">)</span>
+
       <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">let</span> <span style="color: #458588;">(</span><span style="color: #b16286;">(</span>result-string <span style="color: #8ec07c;">(</span>format-time-string <span style="color: #79740e;">"%Y-%m-%d %H:%M"</span> seconds-timestamp<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
         <span style="color: #458588;">(</span>org-schedule nil result-string<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+      <span style="color: #8ec07c;">)</span>
+    <span style="color: #b16286;">)</span>
   <span style="color: #458588;">)</span>
 
 <span style="color: #458588;">(</span>add-hook 'org-todo-repeat-hook 'my/org-hook-for-repeat-on-workday<span style="color: #458588;">)</span>
@@ -508,8 +509,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org6b409cf" class="outline-2">
-<h2 id="org6b409cf"><span class="section-number-2">3.</span> 使用效果</h2>
+<div id="outline-container-org3f4a791" class="outline-2">
+<h2 id="org3f4a791"><span class="section-number-2">3.</span> 使用效果</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 根据sexp表达式的条目中🏮和💼的emoji来判断。<br />
@@ -541,7 +542,7 @@ b {
 </div>
 </div></div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-18 周三 09:23]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-18 周三 10:04]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-18 周三 21:15]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-18 周三 21:15]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
