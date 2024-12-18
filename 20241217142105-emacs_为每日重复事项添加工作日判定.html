@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-12-18 周三 21:15 -->
+<!-- 2024-12-18 周三 21:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-为每日重复事项添加工作日判定</title>
@@ -421,6 +421,7 @@ b {
          <span style="color: #d65d0e;">(</span>timestamp <span style="color: #458588;">(</span>time-to-seconds <span style="color: #b16286;">(</span>date-to-time date<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>offset-timestamp <span style="color: #458588;">(</span>time-add timestamp <span style="color: #b16286;">(</span>seconds-to-time <span style="color: #8ec07c;">(</span>* 24 60 60 offset<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>date-string <span style="color: #458588;">(</span>format-time-string <span style="color: #79740e;">"%Y-%m-%d"</span> offset-timestamp<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+         <span style="color: #d65d0e;">(</span>start-day <span style="color: #458588;">(</span>time-to-days <span style="color: #b16286;">(</span>org-read-date nil t date-string<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>parsed-time <span style="color: #458588;">(</span>parse-time-string date-string<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>year <span style="color: #458588;">(</span>nth 5 parsed-time<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>month <span style="color: #458588;">(</span>nth 4 parsed-time<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span> 
@@ -429,12 +430,9 @@ b {
          <span style="color: #d65d0e;">(</span>holidays nil<span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>files <span style="color: #458588;">(</span>org-agenda-files nil 'ifmode<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>result-string <span style="color: #79740e;">" "</span><span style="color: #d65d0e;">)</span>
-         start-day day-numbers file rtn rtnall 
+         file rtn rtnall
          <span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">when</span> <span style="color: #d65d0e;">(</span>stringp date<span style="color: #d65d0e;">)</span>
-      <span style="color: #a89984;">;; </span><span style="color: #a89984;">Convert to an absolute day number</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> start-day <span style="color: #458588;">(</span>time-to-days <span style="color: #b16286;">(</span>org-read-date nil t date<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> date <span style="color: #458588;">(</span>calendar-gregorian-from-absolute start-day<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> date <span style="color: #d65d0e;">(</span>calendar-gregorian-from-absolute start-day<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">while</span> <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">setq</span> file <span style="color: #458588;">(</span><span style="color: #9d0006;">pop</span> files<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
       <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">catch</span> '<span style="color: #8f3f71;">nextfile</span>
         <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> rtn <span style="color: #b16286;">(</span>apply #'org-agenda-get-day-entries
@@ -542,7 +540,7 @@ b {
 </div>
 </div></div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-18 周三 21:15]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-18 周三 21:15]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2024-12-18 周三 21:25]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.17) on <span class="timestamp-wrapper"><span class="timestamp">[2024-12-18 周三 21:25]</span></span>　|　<a href="https://tomoemami.github.io/blog/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
