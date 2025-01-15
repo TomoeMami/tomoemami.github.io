@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-01-14 周二 00:00 -->
+<!-- 2025-01-16 周四 00:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>+emacs+让beancount插件支持中文账户名</title>
@@ -397,8 +397,15 @@ beancoun使用时，只需要确保首项固定大类和次项以英文/数字�
   <span style="color: #b16286;">(</span><span style="color: #79740e;">"\\.bean</span><span style="color: #79740e; font-weight: bold;">\\</span><span style="color: #79740e; font-weight: bold;">(?:</span><span style="color: #79740e;">count</span><span style="color: #79740e; font-weight: bold;">\\</span><span style="color: #79740e; font-weight: bold;">)</span><span style="color: #79740e;">?\\'"</span> . beancount-mode<span style="color: #b16286;">)</span>
   <span style="color: #af3a03;">:load-path</span> <span style="color: #79740e;">"~/elpa/"</span>
   <span style="color: #458588;">)</span>
+
+<span style="color: #a89984;">;; </span><span style="color: #a89984;">&#37197;&#32622;&#36134;&#25143;&#34917;&#20840;&#25991;&#20214;&#36335;&#24452;</span>
+<span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> beancount-account-files '<span style="color: #b16286;">(</span><span style="color: #79740e;">"/path/to/accounts.bean"</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span> 
 </pre>
 </div>
+
+<p>
+账户补全原理及解说参考<a href="https://whatacold.io/zh-cn/blog/2022-09-10-emacs-beancount-account-files/">这个链接</a>。<br />
+</p>
 
 <p>
 然后在载入路径（这里是<code>~/elpa/</code>下保存一个名为<code>beancoun.el</code>的文件，内容如下：<br />
@@ -591,7 +598,7 @@ beancoun使用时，只需要确保首项固定大类和次项以英文/数字�
 <span style="color: #458588;">(</span><span style="color: #9d0006;">defconst</span> <span style="color: #076678;">beancount-account-categories</span>
   '<span style="color: #b16286;">(</span><span style="color: #79740e;">"Assets"</span> <span style="color: #79740e;">"Liabilities"</span> <span style="color: #79740e;">"Equity"</span> <span style="color: #79740e;">"Income"</span> <span style="color: #79740e;">"Expenses"</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 
-<span style="color: #458588;">(</span><span style="color: #9d0006;">defconst</span> <span style="color: #076678;">beancount-tag-chars</span> <span style="color: #79740e;">"[:alnum:]-_\\cC/."</span><span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span><span style="color: #9d0006;">defconst</span> <span style="color: #076678;">beancount-tag-chars</span> <span style="color: #79740e;">"[:alnum:]-_/."</span><span style="color: #458588;">)</span>
 
 <span style="color: #458588;">(</span><span style="color: #9d0006;">defconst</span> <span style="color: #076678;">beancount-account-chars</span> <span style="color: #79740e;">"[:alnum:]-_\\cC:"</span><span style="color: #458588;">)</span>
 
@@ -995,22 +1002,22 @@ beancoun使用时，只需要确保首项固定大类和次项以英文/数字�
                     <span style="color: #b16286;">(</span>complete-with-action action candidates string pred<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
             <span style="color: #d65d0e;">(</span>list <span style="color: #458588;">(</span>match-beginning 1<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>match-end 1<span style="color: #458588;">)</span> completion-table<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 
+<span style="color: #458588;">(</span><span style="color: #9d0006;">defvar</span> <span style="color: #076678;">beancount-account-files</span> nil
+  <span style="color: #79740e;">"List of account files"</span><span style="color: #458588;">)</span>
+
 <span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">beancount-collect-pos-alist</span> <span style="color: #b16286;">(</span>regexp n<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Return a list of conses mapping matches of REGEXP group N in the</span>
 <span style="color: #79740e;">current buffer to a position of the match beginning."</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>pos <span style="color: #458588;">(</span>point<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+  <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>result<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #a89984;">;; </span><span style="color: #a89984;">collect accounts from files</span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">save-excursion</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">save-match-data</span>
-        <span style="color: #458588;">(</span><span style="color: #9d0006;">let</span> <span style="color: #b16286;">(</span>result<span style="color: #b16286;">)</span>
+      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">dolist</span> <span style="color: #458588;">(</span>f beancount-account-files<span style="color: #458588;">)</span>
+        <span style="color: #458588;">(</span><span style="color: #9d0006;">with-current-buffer</span> <span style="color: #b16286;">(</span>find-file-noselect f<span style="color: #b16286;">)</span>
           <span style="color: #b16286;">(</span>goto-char <span style="color: #8ec07c;">(</span>point-min<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
           <span style="color: #b16286;">(</span><span style="color: #9d0006;">while</span> <span style="color: #8ec07c;">(</span>re-search-forward regexp nil t<span style="color: #8ec07c;">)</span>
-            <span style="color: #a89984;">;; </span><span style="color: #a89984;">Ignore matches around `</span><span style="color: #8f3f71;">pos</span><span style="color: #a89984;">' (the point position when</span>
-            <span style="color: #a89984;">;; </span><span style="color: #a89984;">entering this funcyion) since that's presumably what</span>
-            <span style="color: #a89984;">;; </span><span style="color: #a89984;">we're currently trying to complete.</span>
-            <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">unless</span> <span style="color: #d65d0e;">(</span>&lt;= <span style="color: #458588;">(</span>match-beginning 0<span style="color: #458588;">)</span> pos <span style="color: #458588;">(</span>match-end 0<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-              <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">push</span> <span style="color: #458588;">(</span>cons <span style="color: #458588;">(</span>match-string-no-properties n<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>match-beginning 0<span style="color: #458588;">)</span><span style="color: #458588;">)</span>
-                    result<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
-          <span style="color: #b16286;">(</span>nreverse result<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+            <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">push</span> <span style="color: #d65d0e;">(</span>cons <span style="color: #458588;">(</span>match-string-no-properties n<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>match-beginning 0<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+                  result<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+      <span style="color: #d65d0e;">(</span>nreverse result<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 
 <span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">beancount-get-account-names</span> <span style="color: #b16286;">()</span>
   <span style="color: #79740e;">"Return a list of known account names available in the buffer."</span>
@@ -1775,11 +1782,12 @@ beancoun使用时，只需要确保首项固定大类和次项以英文/数字�
 
 <span style="color: #458588;">(</span><span style="color: #9d0006;">provide</span> '<span style="color: #8f3f71;">beancount</span><span style="color: #458588;">)</span>
 <span style="color: #a89984;">;;; </span><span style="color: #a89984;">beancount.el ends here</span>
+
 </pre>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-01-14 周二 00:00]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.19) on <span class="timestamp-wrapper"><span class="timestamp">[2025-01-14 周二 00:00]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-01-16 周四 00:08]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.19) on <span class="timestamp-wrapper"><span class="timestamp">[2025-01-16 周四 00:08]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
