@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-03-06 周四 11:47 -->
+<!-- 2025-03-07 周五 11:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>+emacs+用GPG加密org文件</title>
@@ -394,6 +394,28 @@ Linux/MacOS不用多谈，Windows上最简单的就是用 <code>scoop install gp
 <p>
 参见这篇<a href="https://orgmode.org/worg/org-tutorials/encrypting-files.html">Worg指南</a><br />
 </p>
+
+<p>
+使用密钥的好处是可以利用gpg的缓存功能，减少保存时的密码输入。尤其在使用多个GPG文件时，优势尽显。<br />
+</p>
+
+<p>
+导入密钥：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">gpg --full-gen-key
+
+<span style="color: #a89984;">#</span><span style="color: #a89984;">&#29983;&#25104;&#26102;&#20250;&#35201;&#27714;&#36755;&#20837;name</span>
+
+gpg --armor --export-secret-keys name &gt; name.asc
+
+gpg --import name.asc
+
+gpg --edit-key name
+<span style="color: #a89984;"># </span><span style="color: #a89984;">&#30475;&#21040;&#25552;&#31034;&#31526;&#21518;&#36755;&#20837; trust</span>
+<span style="color: #a89984;"># </span><span style="color: #a89984;">&#20877;&#36873;&#25321;&#20449;&#20219;&#31561;&#32423;&#65292;&#25105;&#33258;&#24049;&#30340; Key&#65292;&#25105;&#36873; 5</span>
+</pre>
+</div>
 </div>
 </div>
 <div id="outline-container-orgca9408f" class="outline-2">
@@ -426,7 +448,7 @@ Linux/MacOS不用多谈，Windows上最简单的就是用 <code>scoop install gp
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-06 周四 10:41]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.24) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-06 周四 11:47]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-07 周五 11:43]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.24) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-07 周五 11:43]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
