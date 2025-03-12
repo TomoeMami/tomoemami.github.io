@@ -6,7 +6,7 @@
 <!-- 2025-03-12 周三 14:03 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>+emacs+用GPG加密org文件</title>
+<title>+emacs+在Emacs内使用everything</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -376,101 +376,60 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">+emacs+用GPG加密org文件</h1>
+<h1 class="title">+emacs+在Emacs内使用everything</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-03-06 周四 10:37]</span></span><br />
+<span class="timestamp-wrapper"><span class="timestamp">[2025-03-11 周二 17:31]</span></span><br />
 </p>
-<div id="outline-container-org2a11419" class="outline-2">
-<h2 id="org2a11419"><span class="section-number-2">1.</span> 安装GPG</h2>
+<div id="outline-container-org6232887" class="outline-2">
+<h2 id="org6232887"><span class="section-number-2">1.</span> 安装软件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Linux/MacOS不用多谈，Windows上最简单的就是用 <code>scoop install gpg</code> 安装 <code>gpg</code> ，然后重启电脑，确保Emacs的 <code>shell</code> 重载环境变量。<br />
+安装 <code>everythin</code> ，注意不能用便携版，因为需要用到终端里的 <code>es</code> 命令。<br />
 </p>
+
+<p>
+从<a href="https://github.com/jthaman/consult-everything">Github</a>安装 <code>consult-everything</code> ，然后如下配置：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">consult-everything</span>
+ <span style="color: #af3a03;">:load-path</span> <span style="color: #79740e;">"~/elpa/"</span>
+ <span style="color: #af3a03;">:config</span>
+ <span style="color: #b16286;">(</span>global-set-key <span style="color: #8ec07c;">(</span>kbd <span style="color: #79740e;">"C-r"</span><span style="color: #8ec07c;">)</span> 'consult-everything<span style="color: #b16286;">)</span>
+ <span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+安装 <code>embark</code> ，然后如下配置：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">embark</span>
+  <span style="color: #af3a03;">:config</span>
+  <span style="color: #b16286;">(</span>define-key global-map <span style="color: #8ec07c;">(</span>kbd <span style="color: #79740e;">"&lt;C-.&gt;"</span><span style="color: #8ec07c;">)</span> 'embark-act<span style="color: #b16286;">)</span>
+  <span style="color: #af3a03;">:bind</span>
+  <span style="color: #b16286;">(</span><span style="color: #af3a03;">:map</span> vertico-map
+  <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"C-c C-e"</span> . embark-export<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+  <span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">embark-consult</span><span style="color: #458588;">)</span>
+</pre>
 </div>
 </div>
-<div id="outline-container-org4b6c780" class="outline-2">
-<h2 id="org4b6c780"><span class="section-number-2">2.</span> 使用GPG加密</h2>
+</div>
+<div id="outline-container-orgbe4c9ce" class="outline-2">
+<h2 id="orgbe4c9ce"><span class="section-number-2">2.</span> 使用流程</h2>
 <div class="outline-text-2" id="text-2">
-<p>
-参见这篇<a href="https://orgmode.org/worg/org-tutorials/encrypting-files.html">Worg指南</a><br />
-</p>
-
-<p>
-使用密钥的好处是可以利用gpg的缓存功能，减少保存时的密码输入。尤其在使用多个GPG文件时，优势尽显。<br />
-</p>
-
-<p>
-导入密钥：<br />
-</p>
-<div class="org-src-container">
-<pre class="src src-bash">gpg --full-gen-key
-
-<span style="color: #a89984;">#</span><span style="color: #a89984;">&#29983;&#25104;&#26102;&#20250;&#35201;&#27714;&#36755;&#20837;name</span>
-
-<span style="color: #a89984;">#</span><span style="color: #a89984;">&#23548;&#20986;&#31169;&#38053;</span>
-gpg --armor --output name.key --export-secret-keys
-
-<span style="color: #a89984;">#</span><span style="color: #a89984;">&#23548;&#20837;&#31169;&#38053;</span>
-gpg --import name.key
-
-<span style="color: #a89984;">#</span><span style="color: #a89984;">&#20449;&#20219;&#31169;&#38053;</span>
-gpg --edit-key name
-<span style="color: #a89984;"># </span><span style="color: #a89984;">&#30475;&#21040;&#25552;&#31034;&#31526;&#21518;&#36755;&#20837; trust</span>
-<span style="color: #a89984;"># </span><span style="color: #a89984;">&#20877;&#36873;&#25321;&#20449;&#20219;&#31561;&#32423;&#65292;&#25105;&#33258;&#24049;&#30340; Key&#65292;&#25105;&#36873; 5</span>
-</pre>
-</div>
-
-<p>
-注意：不要使用类似 <code>gpg --armor --export-key XYZ &gt;pubkey_xyz.asc</code> 这样的 Powershell 重定向，将导致生成一个 gpg 无法导入的文本文件（<a href="https://forum.gnupg.org/t/does-exporting-a-public-key-on-windows-11-on-the-command-line-lead-to-a-broken-file-utf-16-le/4520">来源</a>）。<br />
-</p>
-</div>
-</div>
-<div id="outline-container-orgca9408f" class="outline-2">
-<h2 id="orgca9408f"><span class="section-number-2">3.</span> 其他设置</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-如果使用了 <code>org-crypt</code> ，需要关闭自动的backup文件：<br />
-</p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> make-backup-files nil<span style="color: #458588;">)</span>
-</pre>
-</div>
-
-<p>
-同时，如果在Windows上使用，还需注意 <code>utf-8-dos</code> 导致的换行符问题，需要进行一下包装：<br />
-</p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-encrypt-entries</span> <span style="color: #b16286;">()</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">interactive</span><span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span>org-encrypt-entries<span style="color: #b16286;">)</span>
-  <span style="color: #79740e;">"&#31227;&#38500;&#34892;&#23614; ^M(CRLF) Replace DOS eolns CR LF with Unix eolns CR"</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">save-excursion</span>
-    <span style="color: #8ec07c;">(</span>goto-char <span style="color: #d65d0e;">(</span>point-min<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">while</span> <span style="color: #d65d0e;">(</span>search-forward <span style="color: #79740e;">"\r"</span> nil t<span style="color: #d65d0e;">)</span> <span style="color: #d65d0e;">(</span>replace-match <span style="color: #79740e;">""</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
-</div>
-
-<p>
-如果使用了懒猫的 <code>auto-save</code> ，需要设置取消自动保存GPG文件：<br />
-</p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #a89984;">;;; </span><span style="color: #a89984;">custom predicates if you don't want auto save.</span>
-<span style="color: #a89984;">;;; </span><span style="color: #a89984;">disable auto save mode when current filetype is an gpg file.</span>
-<span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> auto-save-disable-predicates
-      '<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #9d0006;">lambda</span> <span style="color: #d65d0e;">()</span>
-      <span style="color: #d65d0e;">(</span>string-suffix-p
-      <span style="color: #79740e;">"gpg"</span>
-      <span style="color: #458588;">(</span>file-name-extension <span style="color: #b16286;">(</span>buffer-name<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> t<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
-</div>
+<ol class="org-ol">
+<li>按 <code>C-r</code> 进入 <code>consult-everything</code> 界面<br /></li>
+<li>输入需要搜索的文件标题<br /></li>
+<li>按 <code>C-c C-e</code> 将搜索内容暂存到 <code>embark</code> 创建的临时buffer中<br /></li>
+<li>在里面对文件进行操作，比如再次搜索、或者用 <code>embark-act</code> 外部打开等<br /></li>
+</ol>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-07 周五 19:53]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.25) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-12 周三 14:03]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-11 周二 22:45]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.25) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-12 周三 14:03]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
