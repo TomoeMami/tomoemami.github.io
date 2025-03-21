@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-03-21 五 14:04 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-自定义org-agenda界面</title>
+<meta name="author" content="ahs" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
+*/
+
+body {
+    margin: 2% auto;
+    width: 90%;
+    max-width: 100%;
+    background-color: rgba(242,229,188,0.5);
+    /* background-color: rgba(255,255,255,0.5); */
+    font-size: 18px;
+    line-height: 1.4em;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 910px) {
+    body {
+        width: 900px;
+    }
+}
+#preamble {
+    width: 80%;
+    max-width: 980px;
+    text-align: right;
+    margin: auto;
+}
+
+hr {
+    border: none;
+    border-top: 5px double #333;
+    margin: 0px 0;
+}
+
+.button {
+    border: none;
+    color: black;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3a1616;
+    color: white;
+}
+
+.todo {
+    background-color: #9d0006;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+.done {
+    background-color: #427b58;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+#postamble p {
+    font-size: 80%;
+    margin: .2em;
+}
+
+#content, .content {
+    width: 80%;
+    max-width: 980px;
+    margin: auto;
+}
+
+#org-div-home-and-up{
+    position: fixed;
+    right: 0.5em;
+    margin-top: 70px;
+    font-family:sans-serif;
+}
+
+#table-of-contents {
+    margin-top: 105px;
+    font-size: 12pt;
+    position: fixed;
+    left: 0em;
+    top: 0em;
+    background: white;
+    max-height: 80%;
+    overflow: auto;
+}
+
+#table-of-contents h2 {
+    display: none;
+}
+#table-of-contents li {
+    clear: both;
+}
+.timestamp {
+    color: #928374;
+    font-size: $smaller;
+}
+
+.timestamp-kwd {
+    color: #5f9ea0;
+}
+
+@media screen and (max-width: 1200px) {
+    #table-of-contents {
+        position: relative;
+        margin-top: 0px;
+    }
+}
+
+/* p:not(blockquote > p) :not(ol > p) { */
+/*     text-indent: 2em; */
+/* } */
+p {
+    margin: 1em auto;
+}
+
+.title {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: bold;
+    color: #0c2340;
+}
+
+h2:not(#table-of-contents > h2) {
+    font-size: 30px;
+    line-height: 1.2;
+    position: relative;
+    color: #204060;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+h3:not(#table-of-contents > h3) {
+    font-size: 20px;
+    line-height: 1.1;
+    position: relative;
+    color: #4b748d;
+}
+
+h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    /* border-bottom: 1px dashed black; */
+}
+
+h4 {
+    font-size: 14px;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:link {
+    color: #458588;
+    /* text-decoration: underline; */
+}
+
+a:hover {
+    /* font-weight: bold; */
+    text-decoration: underline;
+    /* color: #076678; */
+}
+
+.figure {
+    text-align: center;
+}
+
+a:visited{
+    color: #8f3f71;
+    /* text-decoration: underline; */
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+.MathJax_Display {
+    margin: 0!important;
+    width: $smaller!important;
+}
+@media screen and (max-width: 1200px) {
+    img {
+        width: 400px;
+    }
+    .MathJax_Display {
+        margin: 0!important;
+        width: $smaller!important;
+    }
+}
+
+.org-src-container {
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+
+}
+.org-src-container>pre {
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.org-src-container>pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+
+}
+pre {
+    overflow: auto;
+
+}
+.example{
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+    
+}
+.example::before {
+    content: "Results";
+}
+pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+}
+/* .org-src-container::before { */
+/*     content: "Copy"; */
+/*     position: absolute; */
+/*     top: 5px; */
+/*     right: 5px; */
+/*     padding: 5px; */
+/*     background-color: #ccc; */
+/*     color: #fff; */
+/*     border-radius: 3px; */
+/*     cursor: pointer; */
+/* } */
+
+code {
+    font-size: 16px;
+    color: #427b58;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 10px; /* Optional: add some left padding for the content */
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.info {
+    overflow: hidden;
+}
+
+.created {
+    float: right;
+}
+
+.updated {
+    float: left;
+}
+
+.org-ol {
+    list-style-type: decimal; /* Set the list style type to decimal numbers */
+    /* margin-left: 0.5em; /\* Add left margin to the list *\/ */
+}
+
+b {
+    color: #9d0006;
+}
+
+#footnotes {
+    position: fixed;
+    left: auto;
+    right: 0;
+    top: 105px;
+    bottom: 0;
+    width: 20%;
+    padding: 10px;
+    overflow: auto;
+    font-size: 14px;
+    z-index: 9999;
+}
+
+#footnotes h2 {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    #footnotes {
+        position: static;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 30%;
+        overflow: auto;
+        padding: 10px;
+        font-size: 14px;
+        z-index: 9999;
+    }
+}
+/*]]>*/-->
+ </style>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="content" class="content">
+<h1 class="title">emacs-自定义org-agenda界面</h1>
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-05-27 一 14:24]</span></span><br />
+</p>
+
+<p>
+参考链接：<a href="https://macowners.club/posts/personal-touch-org-agenda/">https://macowners.club/posts/personal-touch-org-agenda/</a><br />
+</p>
+
+<p>
+我的设置：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-agenda-span 7
+      org-agenda-start-on-weekday nil
+      org-agenda-start-day <span style="color: #79740e;">"1d"</span>
+      org-agenda-current-time-string <span style="color: #79740e;">"&#127776;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now"</span>
+      org-agenda-todo-list-sublevels nil <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20165;&#26174;&#31034;&#26368;&#39640;&#23618;todo</span>
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-remove-tags t <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#38544;&#34255;tags</span>
+      org-agenda-scheduled-leaders '<span style="color: #b16286;">(</span><span style="color: #79740e;">"&#9655;S: "</span> <span style="color: #79740e;">"&#9655;x%2d"</span><span style="color: #b16286;">)</span>
+      org-agenda-deadline-leaders '<span style="color: #b16286;">(</span><span style="color: #79740e;">"&#9654;D: "</span> <span style="color: #79740e;">"&#9654;+%2d"</span> <span style="color: #79740e;">"&#9654;-%2d"</span><span style="color: #b16286;">)</span>
+      org-agenda-time-grid '<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>today require-timed remove-match<span style="color: #8ec07c;">)</span>
+                             <span style="color: #8ec07c;">(</span>000 900 1200 1800 2400<span style="color: #8ec07c;">)</span>
+                             <span style="color: #79740e;">"   "</span> <span style="color: #79740e;">"&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;"</span><span style="color: #b16286;">)</span>
+      <span style="color: #458588;">)</span>
+</pre>
+</div>
+<div id="outline-container-orgac35330" class="outline-2">
+<h2 id="orgac35330"><span class="section-number-2">1.</span> 自定义agenda-view</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+通过以下设置，自定义一个agenda-view，使其可以像日历一样展示临近（我设置的10天）日程及其他部件。<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-agenda-custom-commands
+      '<span style="color: #b16286;">(</span>
+        <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"d"</span> <span style="color: #79740e;">"Daily Agenda"</span>
+         <span style="color: #d65d0e;">(</span><span style="color: #458588;">(</span>agenda <span style="color: #79740e;">""</span> <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>org-agenda-span 1<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span> 
+          <span style="color: #458588;">(</span>agenda <span style="color: #79740e;">""</span> <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>org-agenda-overriding-header <span style="color: #79740e;">"&#20020;&#36817;&#26085;&#31243;"</span><span style="color: #8ec07c;">)</span>
+                      <span style="color: #8ec07c;">(</span>org-agenda-span 10<span style="color: #8ec07c;">)</span>
+                      <span style="color: #8ec07c;">(</span>org-agenda-entry-types '<span style="color: #d65d0e;">(</span><span style="color: #af3a03;">:timestamp</span> <span style="color: #af3a03;">:sexp</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+          <span style="color: #458588;">(</span>org-ql-block '<span style="color: #b16286;">(</span>and <span style="color: #8ec07c;">(</span>todo <span style="color: #79740e;">"TODO"</span><span style="color: #8ec07c;">)</span>
+                              <span style="color: #8ec07c;">(</span>tags <span style="color: #79740e;">"&#20182;&#20154;"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+                        <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>org-ql-block-header <span style="color: #79740e;">"&#20182;&#20154;&#20107;&#39033;"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+          <span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+        <span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+效果：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">Day-agenda (W47):
+&#21608;&#19968;       18 &#21313;&#19968;&#26376; 2024 W47
+   0:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+   9:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+  12:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+  16:12       &#127776;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now
+  16:30       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;<span style="color: #9d0006; font-weight: bold;">[0/2]</span>
+  18:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+  18:30       &#9655;S:  TODO &#65336;&#65336;&#65336;
+  20:00      *   ! &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+  20:00       &#9655;S:  TODO &#65336;MAA
+  20:00       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;<span style="color: #9d0006; font-weight: bold;">[0/3]</span>
+  22:31       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+  23:00          ! &#65336;&#65336;
+  24:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+  &#9655;S:  TODO 6&#65336;&#65336;&#65336;&#65336;
+  &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+  &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;
+  &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;
+  &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;&#12289;&#65336;&#65336;
+  &#9654;+12 TODO &#65336;&#65336;&#65336;&#65336;&#65336; 43/50
+  &#9654;+12 TODO &#65336;&#65336;&#65336;&#65336;
+  &#9654;+41 TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+&#20020;&#36817;&#26085;&#31243;
+&#21608;&#19968;       18 &#21313;&#19968;&#26376; 2024 W47
+&#21608;&#20108;       19 &#21313;&#19968;&#26376; 2024
+&#21608;&#19977;       20 &#21313;&#19968;&#26376; 2024
+&#21608;&#22235;       21 &#21313;&#19968;&#26376; 2024
+&#21608;&#20116;       22 &#21313;&#19968;&#26376; 2024
+&#21608;&#20845;       23 &#21313;&#19968;&#26376; 2024
+&#21608;&#26085;       24 &#21313;&#19968;&#26376; 2024
+&#21608;&#19968;       25 &#21313;&#19968;&#26376; 2024 W48
+  &#9200;&#65336;&#65336;10&#65336; &#127874; &#65336;&#65336; 52 &#65336;&#65336;&#65336;
+&#21608;&#20108;       26 &#21313;&#19968;&#26376; 2024
+&#21608;&#19977;       27 &#21313;&#19968;&#26376; 2024
+
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+&#20182;&#20154;&#20107;&#39033;
+ TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+ TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+ TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-18 二 19:35]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.25) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 五 14:04]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
+</div>
+</body>
+</html>
