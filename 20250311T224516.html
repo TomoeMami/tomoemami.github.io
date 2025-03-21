@@ -6,7 +6,7 @@
 <!-- 2025-03-21 五 16:47 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>将b站视频下载为音频播客</title>
+<title>emacs-在emacs内使用everything</title>
 <meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -377,85 +377,61 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">将b站视频下载为音频播客</h1>
+<h1 class="title">emacs-在emacs内使用everything</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-02-23 日 15:40]</span></span><br />
+<span class="timestamp-wrapper"><span class="timestamp">[2025-03-11 二 17:31]</span></span><br />
 </p>
-
-<p>
-有的B站视频，文案精心设计，但是画面就是一个又一个的表情包，完全可以当成播客来听。但是B站官方手机APP的听视频功能很奇怪，体验远不如现有的播客客户端。所以我们把B站的视频下载下来，用播客客户端听。<br />
-</p>
-<div id="outline-container-org56e64ca" class="outline-2">
-<h2 id="org56e64ca"><span class="section-number-2">1.</span> 下载B站视频</h2>
+<div id="outline-container-orgaab1124" class="outline-2">
+<h2 id="orgaab1124"><span class="section-number-2">1.</span> 安装软件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-安装<a href="https://github.com/the1812/Bilibili-Evolved">Bilibili-Evolved</a>脚本，利用其中的下载功能下载音频。具体方式请查看脚本说明。<br />
-</p>
-</div>
-</div>
-<div id="outline-container-orgc4db7c9" class="outline-2">
-<h2 id="orgc4db7c9"><span class="section-number-2">2.</span> 搭建播客软件</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-这里选用的是<a href="https://github.com/yaotutu/folder2podcast">Folder2Podcast</a>，直接按照官方说明clone到本地即可。<br />
+安装 <code>everythin</code> ，注意不能用便携版，因为需要用到终端里的 <code>es</code> 命令。<br />
 </p>
 
 <p>
-然后修改 <code>package.json</code> 里的 <code>scripts</code> 后面选项，把 <code>dev</code> 的内容按照你需要的配置修改并保存。<br />
-</p>
-
-<p>
-比如 <code>AUDIO_DIR</code> ，就是指向音频文件夹，软件会在这个路径里找子文件夹，检查其中的音频。<br />
-</p>
-
-<p>
-比如 <code>BASE_URL</code> ，要改为服务运行机器的局域网或公网IP<br />
-</p>
-
-<p>
-再输入 <code>npm run dev</code> 就能启动了。<br />
-</p>
-</div>
-</div>
-<div id="outline-container-orgf8e2727" class="outline-2">
-<h2 id="orgf8e2727"><span class="section-number-2">3.</span> 创建子文件夹的说明</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-这个软件的功能，是在给定的 <code>AUDIO_DIR</code> 下寻找子文件夹，将每个子文件夹作为一个单独的RSS订阅源。<br />
-</p>
-
-<p>
-我们以 <code>AUDIO_DIR=~/bilipod/</code> 为例，新建文件夹 <code>~/bilipod/bilibili</code> ，在其中新建 <code>podcast.json</code> ：<br />
+从<a href="https://github.com/jthaman/consult-everything">Github</a>安装 <code>consult-everything</code> ，然后如下配置：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json"><span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">"title"</span>: <span style="color: #79740e;">"B&#31449;&#38899;&#39057;"</span>,
-    <span style="color: #9d0006;">"description"</span>: <span style="color: #79740e;">"B&#31449;&#35270;&#39057;&#36716;&#20026;&#30340;&#38899;&#39057;"</span>,
-    <span style="color: #9d0006;">"author"</span>: <span style="color: #79740e;">"Me"</span>,
-    <span style="color: #9d0006;">"email"</span>: <span style="color: #79740e;">"author@example.com"</span>,
-    <span style="color: #9d0006;">"language"</span>: <span style="color: #79740e;">"zh-cn"</span>,
-    <span style="color: #9d0006;">"category"</span>: <span style="color: #79740e;">"Technology"</span>,
-    <span style="color: #9d0006;">"explicit"</span>: <span style="color: #8f3f71;">false</span>,
-    <span style="color: #9d0006;">"websiteUrl"</span>: <span style="color: #79740e;">"https://www.bilibili.com"</span>,
-    <span style="color: #9d0006;">"titleFormat"</span>: <span style="color: #79740e;">"full"</span>,
-    <span style="color: #9d0006;">"useMTime"</span>: <span style="color: #8f3f71;">true</span>
-  <span style="color: #458588;">}</span>
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">consult-everything</span>
+ <span style="color: #af3a03;">:load-path</span> <span style="color: #79740e;">"~/elpa/"</span>
+ <span style="color: #af3a03;">:config</span>
+ <span style="color: #b16286;">(</span>global-set-key <span style="color: #8ec07c;">(</span>kbd <span style="color: #79740e;">"C-r"</span><span style="color: #8ec07c;">)</span> 'consult-everything<span style="color: #b16286;">)</span>
+ <span style="color: #458588;">)</span>
 </pre>
 </div>
 
 <p>
-这样，软件就会自动识别标题等内容了。<br />
+安装 <code>embark</code> ，然后如下配置：<br />
 </p>
-
-<p>
-然后进入 <code>BASE_URL</code> ，就可以看见一个友善的网页界面，选择复制即可。<br />
-</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">embark</span>
+  <span style="color: #af3a03;">:config</span>
+  <span style="color: #b16286;">(</span>define-key global-map <span style="color: #8ec07c;">(</span>kbd <span style="color: #79740e;">"&lt;C-.&gt;"</span><span style="color: #8ec07c;">)</span> 'embark-act<span style="color: #b16286;">)</span>
+  <span style="color: #af3a03;">:bind</span>
+  <span style="color: #b16286;">(</span><span style="color: #af3a03;">:map</span> vertico-map
+  <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"C-c C-e"</span> . embark-export<span style="color: #8ec07c;">)</span>
+  <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"C-c C-o"</span> . embark-open-externally<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+  <span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">embark-consult</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeb66d38" class="outline-2">
+<h2 id="orgeb66d38"><span class="section-number-2">2.</span> 使用流程</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li>按 <code>C-r</code> 进入 <code>consult-everything</code> 界面<br /></li>
+<li>输入需要搜索的文件标题<br /></li>
+<li>按 <code>C-c C-e</code> 将搜索内容暂存到 <code>embark</code> 创建的临时buffer中<br /></li>
+<li>在里面对文件进行操作，比如再次搜索、或者用 <code>embark-act</code> 外部打开等<br /></li>
+</ol>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 五 16:45]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.25) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 五 16:47]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 五 16:46]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.25) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 五 16:47]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>

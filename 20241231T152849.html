@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-03-21 五 16:47 -->
+<!-- 2025-03-21 五 16:46 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>将b站视频下载为音频播客</title>
+<title>配置沉浸式翻译插件的kimi-api</title>
 <meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -377,85 +377,158 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">将b站视频下载为音频播客</h1>
+<h1 class="title">配置沉浸式翻译插件的kimi-api</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-02-23 日 15:40]</span></span><br />
+<span class="timestamp-wrapper"><span class="timestamp">[2024-05-30 四 12:35]</span></span><br />
 </p>
-
-<p>
-有的B站视频，文案精心设计，但是画面就是一个又一个的表情包，完全可以当成播客来听。但是B站官方手机APP的听视频功能很奇怪，体验远不如现有的播客客户端。所以我们把B站的视频下载下来，用播客客户端听。<br />
-</p>
-<div id="outline-container-org56e64ca" class="outline-2">
-<h2 id="org56e64ca"><span class="section-number-2">1.</span> 下载B站视频</h2>
+<div id="outline-container-org83b59cc" class="outline-2">
+<h2 id="org83b59cc"><span class="section-number-2">1.</span> 获取Kimi AI的API</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-安装<a href="https://github.com/the1812/Bilibili-Evolved">Bilibili-Evolved</a>脚本，利用其中的下载功能下载音频。具体方式请查看脚本说明。<br />
+登录Kimi 后台： <a href="https://platform.moonshot.cn/console/account">https://platform.moonshot.cn/console/account</a><br />
 </p>
+
+<p>
+在 <code>API Key管理</code> 中创建API密钥<br />
+</p>
+
+<p>
+注意，kimi根据累计充值金额不同有不同的api使用限制，<a href="https://platform.moonshot.cn/docs/pricing#%E5%85%85%E5%80%BC%E4%B8%8E%E9%99%90%E9%80%9F">点击查看</a><br />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">用户等级</td>
+<td class="org-left">累计充值金额</td>
+<td class="org-right">并发</td>
+<td class="org-left">RPM</td>
+<td class="org-left">TPM</td>
+<td class="org-left">TPD</td>
+</tr>
+
+<tr>
+<td class="org-left">Free</td>
+<td class="org-left">¥ 0</td>
+<td class="org-right">1</td>
+<td class="org-left">3</td>
+<td class="org-left">32,000</td>
+<td class="org-left">1,500,000</td>
+</tr>
+
+<tr>
+<td class="org-left">Tier1</td>
+<td class="org-left">¥ 50</td>
+<td class="org-right">50</td>
+<td class="org-left">200</td>
+<td class="org-left">128,000</td>
+<td class="org-left">10,000,000</td>
+</tr>
+
+<tr>
+<td class="org-left">Tier2</td>
+<td class="org-left">¥ 100</td>
+<td class="org-right">100</td>
+<td class="org-left">500</td>
+<td class="org-left">128,000</td>
+<td class="org-left">20,000,000</td>
+</tr>
+
+<tr>
+<td class="org-left">Tier3</td>
+<td class="org-left">¥ 500</td>
+<td class="org-right">200</td>
+<td class="org-left">5,000</td>
+<td class="org-left">384,000</td>
+<td class="org-left">Unlimited</td>
+</tr>
+
+<tr>
+<td class="org-left">Tier4</td>
+<td class="org-left">¥ 5,000</td>
+<td class="org-right">400</td>
+<td class="org-left">5,000</td>
+<td class="org-left">768,000</td>
+<td class="org-left">Unlimited</td>
+</tr>
+
+<tr>
+<td class="org-left">Tier5</td>
+<td class="org-left">¥ 20,000</td>
+<td class="org-right">1,000</td>
+<td class="org-left">10,000</td>
+<td class="org-left">2,000,000</td>
+<td class="org-left">Unlimited</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
-<div id="outline-container-orgc4db7c9" class="outline-2">
-<h2 id="orgc4db7c9"><span class="section-number-2">2.</span> 搭建播客软件</h2>
+<div id="outline-container-orgb5722fd" class="outline-2">
+<h2 id="orgb5722fd"><span class="section-number-2">2.</span> 配置 沉浸式翻译</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-这里选用的是<a href="https://github.com/yaotutu/folder2podcast">Folder2Podcast</a>，直接按照官方说明clone到本地即可。<br />
+安装沉浸式翻译插件： <a href="https://immersivetranslate.com/">https://immersivetranslate.com/</a><br />
 </p>
 
 <p>
-然后修改 <code>package.json</code> 里的 <code>scripts</code> 后面选项，把 <code>dev</code> 的内容按照你需要的配置修改并保存。<br />
+进入设置-翻译服务，网页最下方的“添加兼容OpenAI接口的自定义AI翻译服务”<br />
 </p>
 
 <p>
-比如 <code>AUDIO_DIR</code> ，就是指向音频文件夹，软件会在这个路径里找子文件夹，检查其中的音频。<br />
-</p>
-
-<p>
-比如 <code>BASE_URL</code> ，要改为服务运行机器的局域网或公网IP<br />
-</p>
-
-<p>
-再输入 <code>npm run dev</code> 就能启动了。<br />
-</p>
-</div>
-</div>
-<div id="outline-container-orgf8e2727" class="outline-2">
-<h2 id="orgf8e2727"><span class="section-number-2">3.</span> 创建子文件夹的说明</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-这个软件的功能，是在给定的 <code>AUDIO_DIR</code> 下寻找子文件夹，将每个子文件夹作为一个单独的RSS订阅源。<br />
-</p>
-
-<p>
-我们以 <code>AUDIO_DIR=~/bilipod/</code> 为例，新建文件夹 <code>~/bilipod/bilibili</code> ，在其中新建 <code>podcast.json</code> ：<br />
+按以下填写：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json"><span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">"title"</span>: <span style="color: #79740e;">"B&#31449;&#38899;&#39057;"</span>,
-    <span style="color: #9d0006;">"description"</span>: <span style="color: #79740e;">"B&#31449;&#35270;&#39057;&#36716;&#20026;&#30340;&#38899;&#39057;"</span>,
-    <span style="color: #9d0006;">"author"</span>: <span style="color: #79740e;">"Me"</span>,
-    <span style="color: #9d0006;">"email"</span>: <span style="color: #79740e;">"author@example.com"</span>,
-    <span style="color: #9d0006;">"language"</span>: <span style="color: #79740e;">"zh-cn"</span>,
-    <span style="color: #9d0006;">"category"</span>: <span style="color: #79740e;">"Technology"</span>,
-    <span style="color: #9d0006;">"explicit"</span>: <span style="color: #8f3f71;">false</span>,
-    <span style="color: #9d0006;">"websiteUrl"</span>: <span style="color: #79740e;">"https://www.bilibili.com"</span>,
-    <span style="color: #9d0006;">"titleFormat"</span>: <span style="color: #79740e;">"full"</span>,
-    <span style="color: #9d0006;">"useMTime"</span>: <span style="color: #8f3f71;">true</span>
-  <span style="color: #458588;">}</span>
+<pre class="src src-nil">自定义翻译服务名称：
+KIMI
+
+自定义API接口地址：
+https://api.moonshot.cn/v1/chat/completions
+
+APIKEY：
+第一步创建的密钥
+
+模型：
+moonshot-v1-8k
 </pre>
 </div>
 
 <p>
-这样，软件就会自动识别标题等内容了。<br />
+其他默认，然后保存并返回，在翻译服务中启用“KIMI”<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org61d9e61" class="outline-2">
+<h2 id="org61d9e61"><span class="section-number-2">3.</span> 补充</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-06-03 一 11:53]</span></span>: <a href="https://help.aliyun.com/zh/dashscope/developer-reference/compatibility-of-openai-with-dashscope/">通义千问的HTTP API</a><br />
 </p>
 
 <p>
-然后进入 <code>BASE_URL</code> ，就可以看见一个友善的网页界面，选择复制即可。<br />
+<span class="timestamp-wrapper"><span class="timestamp">[2024-06-02 日 13:27]</span></span>： 也可使用deepseek的api，费用为1元/百万，操作流程与kimi类似，但地址变为了 <code>https://api.deepseek.com/chat/completions</code> ，模型应为 <code>deepseek-chat</code> 。地址： <a href="https://platform.deepseek.com/usage">https://platform.deepseek.com/usage</a><br />
 </p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 五 16:45]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.25) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 五 16:47]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 五 16:30]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.25) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 五 16:46]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
