@@ -6,7 +6,7 @@
 <!-- 2025-03-23 周日 16:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>emacs-提升org-roam大文件保存速度</title>
+<title>emacs-windows中使用denote-backlinks的配置</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -376,79 +376,37 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="content" class="content">
-<h1 class="title">emacs-提升org-roam大文件保存速度</h1>
+<h1 class="title">emacs-windows中使用denote-backlinks的配置</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-11-06 周三 10:09]</span></span><br />
-</p>
-
-<p>
-在编辑一些较大的org文件时，往往会在保存的时候卡一秒多。经过排查，问题出在<code>org-roam</code>的默认设置上。<br />
-</p>
-
-<p>
-根据<a href="https://www.orgroam.com/manual.html#When-to-cache">Org-Roam Manual</a>里的说法：<br />
+<code>denote</code> 在Windows上直接使用会发现backlinks功能报错。根据官方手册的说法：<br />
 </p>
 
 <blockquote>
 <p>
-6.3 When to cache<br />
-</p>
-
-<p>
-6.3 何时进行缓存<br />
-</p>
-
-<p>
-By default, Org-roam is eager in caching: each time an Org-roam file is modified and saved, it updates the database for the corresponding file. This keeps the database up-to-date, causing the least surprise when using the interactive commands.<br />
-</p>
-
-<p>
-默认情况下，Org-roam 在缓存方面表现积极：每次修改并保存 Org-roam 文件时，它都会更新相应文件的数据库。这使得数据库始终保持最新状态，在使用交互式命令时带来最小的意外。<br />
-</p>
-
-<p>
-However, depending on how large your Org files are, database updating can be a slow operation. You can disable the automatic updating of the database by setting org-roam-db-update-on-save to nil.<br />
-</p>
-
-<p>
-然而，根据您的 Org 文件大小，数据库更新可能会是一个缓慢的操作。您可以通过将 org-roam-db-update-on-save 设置为 nil 来禁用数据库的自动更新。<br />
-</p>
-
-<p>
-Variable: org-roam-db-update-on-save<br />
-</p>
-
-<p>
-变量：org-roam-db-update-on-save ¶<br />
-</p>
-
-<p>
-If t, update the Org-roam database upon saving the file. Disable this if your files are large and updating the database is slow.<br />
-</p>
-
-<p>
-如果启用，则在保存文件时更新 Org-roam 数据库。如果文件较大且更新数据库速度较慢，请禁用此功能。<br />
+Please ensure that you have both xargs and either grep or ripgrep available within your PATH environment variable.<br />
 </p>
 </blockquote>
 
 <p>
-每次保存<code>org-roam</code>文件时，都会执行一次数据库更新。这对于小体量文件来说很快，但稍微大一点的就容易引发卡顿。<br />
+我们需要确保电脑上安装了 <code>xargs</code> 和 <code>grep</code> / <code>ripgrep</code> 。<br />
 </p>
 
 <p>
-我们可以如下设置：<br />
+虽然作者说：<br />
 </p>
 
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20851;&#38381;&#33258;&#21160;&#26356;&#26032;db</span>
-<span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-roam-db-update-on-save nil<span style="color: #458588;">)</span>
-<span style="color: #a89984;">;;</span><span style="color: #a89984;">&#31354;&#38386;10&#31186;&#21518;&#25191;&#34892;&#26356;&#26032;db</span>
-<span style="color: #458588;">(</span>run-with-idle-timer 10 t 'org-roam-db-sync<span style="color: #458588;">)</span>
-</pre>
-</div>
+<blockquote>
+<p>
+If you have git on Windows installed, then you may use the following code (adjust the git’s installation path if necessary):<br />
+</p>
+</blockquote>
+
+<p>
+但是根据我的测试， <code>scoop</code> 安装的 <code>git</code> 、 <code>gow</code> 的 <code>xargs.exe</code> 都无法正常生效，需要安装 <code>busybox</code> 后才会让backlinks正常。<br />
+</p>
 </div>
 <div id="postamble" class="status">
-<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-21 周五 16:43]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.26) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-23 周日 16:43]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-23 周日 16:41]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.26) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-23 周日 16:43]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
 </div>
 </body>
 </html>
