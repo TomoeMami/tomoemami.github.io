@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-03-25 二 09:52 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-windows上使用emacs</title>
+<meta name="author" content="ahs" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
+*/
+
+body {
+    margin: 2% auto;
+    width: 90%;
+    max-width: 100%;
+    background-color: rgba(242,229,188,0.5);
+    /* background-color: rgba(255,255,255,0.5); */
+    font-size: 18px;
+    line-height: 1.4em;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 910px) {
+    body {
+        width: 900px;
+    }
+}
+#preamble {
+    width: 80%;
+    max-width: 980px;
+    text-align: right;
+    margin: auto;
+}
+
+hr {
+    border: none;
+    border-top: 5px double #333;
+    margin: 0px 0;
+}
+
+.button {
+    border: none;
+    color: black;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3a1616;
+    color: white;
+}
+
+.todo {
+    background-color: #9d0006;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+.done {
+    background-color: #427b58;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+#postamble p {
+    font-size: 80%;
+    margin: .2em;
+}
+
+#content, .content {
+    width: 80%;
+    max-width: 980px;
+    margin: auto;
+}
+
+#org-div-home-and-up{
+    position: fixed;
+    right: 0.5em;
+    margin-top: 70px;
+    font-family:sans-serif;
+}
+
+#table-of-contents {
+    margin-top: 105px;
+    font-size: 12pt;
+    position: fixed;
+    left: 0em;
+    top: 0em;
+    background: white;
+    max-height: 80%;
+    overflow: auto;
+}
+
+#table-of-contents h2 {
+    display: none;
+}
+#table-of-contents li {
+    clear: both;
+}
+.timestamp {
+    color: #928374;
+    font-size: $smaller;
+}
+
+.timestamp-kwd {
+    color: #5f9ea0;
+}
+
+@media screen and (max-width: 1200px) {
+    #table-of-contents {
+        position: relative;
+        margin-top: 0px;
+    }
+}
+
+/* p:not(blockquote > p) :not(ol > p) { */
+/*     text-indent: 2em; */
+/* } */
+p {
+    margin: 1em auto;
+}
+
+.title {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: bold;
+    color: #0c2340;
+}
+
+h2:not(#table-of-contents > h2) {
+    font-size: 30px;
+    line-height: 1.2;
+    position: relative;
+    color: #204060;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+h3:not(#table-of-contents > h3) {
+    font-size: 20px;
+    line-height: 1.1;
+    position: relative;
+    color: #4b748d;
+}
+
+h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    /* border-bottom: 1px dashed black; */
+}
+
+h4 {
+    font-size: 14px;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:link {
+    color: #458588;
+    /* text-decoration: underline; */
+}
+
+a:hover {
+    /* font-weight: bold; */
+    text-decoration: underline;
+    /* color: #076678; */
+}
+
+.figure {
+    text-align: center;
+}
+
+a:visited{
+    color: #8f3f71;
+    /* text-decoration: underline; */
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+.MathJax_Display {
+    margin: 0!important;
+    width: $smaller!important;
+}
+@media screen and (max-width: 1200px) {
+    img {
+        width: 400px;
+    }
+    .MathJax_Display {
+        margin: 0!important;
+        width: $smaller!important;
+    }
+}
+
+.org-src-container {
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+
+}
+.org-src-container>pre {
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.org-src-container>pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+
+}
+pre {
+    overflow: auto;
+
+}
+.example{
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+    
+}
+.example::before {
+    content: "Results";
+}
+pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+}
+/* .org-src-container::before { */
+/*     content: "Copy"; */
+/*     position: absolute; */
+/*     top: 5px; */
+/*     right: 5px; */
+/*     padding: 5px; */
+/*     background-color: #ccc; */
+/*     color: #fff; */
+/*     border-radius: 3px; */
+/*     cursor: pointer; */
+/* } */
+
+code {
+    font-size: 16px;
+    color: #427b58;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 10px; /* Optional: add some left padding for the content */
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.info {
+    overflow: hidden;
+}
+
+.created {
+    float: right;
+}
+
+.updated {
+    float: left;
+}
+
+.org-ol {
+    list-style-type: decimal; /* Set the list style type to decimal numbers */
+    /* margin-left: 0.5em; /\* Add left margin to the list *\/ */
+}
+
+b {
+    color: #9d0006;
+}
+
+#footnotes {
+    position: fixed;
+    left: auto;
+    right: 0;
+    top: 105px;
+    bottom: 0;
+    width: 20%;
+    padding: 10px;
+    overflow: auto;
+    font-size: 14px;
+    z-index: 9999;
+}
+
+#footnotes h2 {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    #footnotes {
+        position: static;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 30%;
+        overflow: auto;
+        padding: 10px;
+        font-size: 14px;
+        z-index: 9999;
+    }
+}
+/*]]>*/-->
+ </style>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="content" class="content">
+<h1 class="title">emacs-windows上使用emacs</h1>
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-04-24 三 16:14]</span></span><br />
+</p>
+<div id="outline-container-org6d9c2fe" class="outline-2">
+<h2 id="org6d9c2fe"><span class="section-number-2">1.</span> 字体编码处理</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="https://emacs-china.org/t/org-roam/26545/24?u=tomoemami">org-roam和ripgrep：</a><br />
+</p>
+
+<p>
+设置org-mode的字符编码，同时开启自动revert功能<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">lazy-revert</span>
+  <span style="color: #af3a03;">:ensure</span> nil
+  <span style="color: #a89984;">;; </span><span style="color: #a89984;">:quelpa (lazy-revert :fetcher github</span>
+  <span style="color: #a89984;">;;                      </span><span style="color: #a89984;">:repo "yilin-zhang/lazy-revert")</span>
+  <span style="color: #af3a03;">:hook</span> <span style="color: #b16286;">(</span>after-init . lazy-revert-mode<span style="color: #b16286;">)</span>
+  <span style="color: #a89984;">;; </span><span style="color: #a89984;">Optional</span>
+  <span style="color: #af3a03;">:config</span>
+  <span style="color: #b16286;">(</span><span style="color: #9d0006;">setq</span> auto-revert-verbose t <span style="color: #a89984;">; </span><span style="color: #a89984;">let us know when it happens</span>
+        auto-revert-use-notify nil
+        auto-revert-stop-on-user-input nil
+        <span style="color: #a89984;">;; </span><span style="color: #a89984;">Only prompts for confirmation when buffer is unsaved.</span>
+        revert-without-query <span style="color: #8ec07c;">(</span>list <span style="color: #79740e;">"."</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span>add-to-list 'file-coding-system-alist '<span style="color: #b16286;">(</span><span style="color: #79740e;">"\\.org\\'"</span> . utf-8<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+设置ripgrep的字符编码<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span>add-to-list 'process-coding-system-alist
+                        '<span style="color: #b16286;">(</span><span style="color: #79740e;">"[rR][gG]"</span> . <span style="color: #8ec07c;">(</span>utf-8 . gbk-dos<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+其他编码设置<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span>prefer-coding-system 'utf-8<span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> default-buffer-file-coding-system 'utf-8<span style="color: #458588;">)</span>
+<span style="color: #458588;">(</span>set-default 'process-coding-system-alist
+             '<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #79740e;">"[pP][lL][iI][nN][kK]"</span> gbk-dos . gbk-dos<span style="color: #8ec07c;">)</span>
+               <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"[cC][mM][dD][pP][rR][oO][xX][yY]"</span> gbk-dos . gbk-dos<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org27d073c" class="outline-2">
+<h2 id="org27d073c"><span class="section-number-2">2.</span> consult</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org6b58c5b" class="outline-3">
+<h3 id="org6b58c5b"><span class="section-number-3">2.1.</span> 调用Everything进行搜索</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+下载命令行接口 <code>es.exe</code><br />
+</p>
+
+<p>
+<a href="https://www.voidtools.com/zh-cn/downloads/#cli">https://www.voidtools.com/zh-cn/downloads/#cli</a><br />
+</p>
+
+<p>
+<a href="https://emacs-china.org/t/consult/18596/3?u=tomoemami">consult调用everything</a><br />
+</p>
+
+<p>
+consult配置<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">consult</span>
+  <span style="color: #af3a03;">:defer</span> t
+  <span style="color: #af3a03;">:init</span>
+  <span style="color: #b16286;">(</span><span style="color: #9d0006;">progn</span>
+    <span style="color: #8ec07c;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #d65d0e;">(</span><span style="color: #79740e;">"es"</span> gbk . gbk<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #d65d0e;">(</span><span style="color: #79740e;">"explorer"</span> gbk . gbk<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> consult-locate-args <span style="color: #d65d0e;">(</span>encode-coding-string <span style="color: #79740e;">"es.exe -i -p -r"</span> 'gbk<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+  <span style="color: #af3a03;">:custom</span>
+  <span style="color: #b16286;">(</span>consult-async-min-input 2<span style="color: #b16286;">)</span> <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20013;&#25991;2&#23383;&#31526;&#24320;&#25628;</span>
+  <span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+模糊搜索技巧<br />
+</p>
+
+<blockquote>
+<p>
+貌似目前只能通过单个单词搜索之后，在搜索结果后面加上 <code>#</code> 再用orderless的规则去弄。<br />
+</p>
+
+<p>
+比如 搜索 <code>#emacs#keyword1 keyword2</code> 来过滤，此时可以添加空格<br />
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="outline-container-orge4e4979" class="outline-2">
+<h2 id="orge4e4979"><span class="section-number-2">3.</span> listary唤起emacs client</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-nil">关键字
+emacs
+标题
+Open Emacs
+路径
+D:\Emacs\bin\emacsclientw.exe
+参数
+-c -n -f %APPDATA%\emacs-local\server -a "D:\Emacs\bin\runemacs.exe" -e "(select-frame-set-input-focus (selected-frame))"
+目录
+D:\Emacs\bin
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-25 二 09:49]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.7.26) on <span class="timestamp-wrapper"><span class="timestamp">[2025-03-25 二 09:52]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
+</div>
+</body>
+</html>
