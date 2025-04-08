@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-04-08 二 12:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-在nano-modeline右下角添加当前buffer中英文字数统计</title>
+<meta name="author" content="ahs" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
+*/
+
+body {
+    margin: 2% auto;
+    width: 90%;
+    max-width: 100%;
+    background-color: rgba(242,229,188,0.5);
+    /* background-color: rgba(255,255,255,0.5); */
+    font-size: 18px;
+    line-height: 1.4em;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 910px) {
+    body {
+        width: 900px;
+    }
+}
+#preamble {
+    width: 80%;
+    max-width: 980px;
+    text-align: right;
+    margin: auto;
+}
+
+hr {
+    border: none;
+    border-top: 5px double #333;
+    margin: 0px 0;
+}
+
+.button {
+    border: none;
+    color: black;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3a1616;
+    color: white;
+}
+
+.todo {
+    background-color: #9d0006;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+.done {
+    background-color: #427b58;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+#postamble p {
+    font-size: 80%;
+    margin: .2em;
+}
+
+#content, .content {
+    width: 80%;
+    max-width: 980px;
+    margin: auto;
+}
+
+#org-div-home-and-up{
+    position: fixed;
+    right: 0.5em;
+    margin-top: 70px;
+    font-family:sans-serif;
+}
+
+#table-of-contents {
+    margin-top: 105px;
+    font-size: 12pt;
+    position: fixed;
+    left: 0em;
+    top: 0em;
+    background: white;
+    max-height: 80%;
+    overflow: auto;
+}
+
+#table-of-contents h2 {
+    display: none;
+}
+#table-of-contents li {
+    clear: both;
+}
+.timestamp {
+    color: #928374;
+    font-size: $smaller;
+}
+
+.timestamp-kwd {
+    color: #5f9ea0;
+}
+
+@media screen and (max-width: 1200px) {
+    #table-of-contents {
+        position: relative;
+        margin-top: 0px;
+    }
+}
+
+/* p:not(blockquote > p) :not(ol > p) { */
+/*     text-indent: 2em; */
+/* } */
+p {
+    margin: 1em auto;
+}
+
+.title {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: bold;
+    color: #0c2340;
+}
+
+h2:not(#table-of-contents > h2) {
+    font-size: 30px;
+    line-height: 1.2;
+    position: relative;
+    color: #204060;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+h3:not(#table-of-contents > h3) {
+    font-size: 20px;
+    line-height: 1.1;
+    position: relative;
+    color: #4b748d;
+}
+
+h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    /* border-bottom: 1px dashed black; */
+}
+
+h4 {
+    font-size: 14px;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:link {
+    color: #458588;
+    /* text-decoration: underline; */
+}
+
+a:hover {
+    /* font-weight: bold; */
+    text-decoration: underline;
+    /* color: #076678; */
+}
+
+.figure {
+    text-align: center;
+}
+
+a:visited{
+    color: #8f3f71;
+    /* text-decoration: underline; */
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+.MathJax_Display {
+    margin: 0!important;
+    width: $smaller!important;
+}
+@media screen and (max-width: 1200px) {
+    img {
+        width: 400px;
+    }
+    .MathJax_Display {
+        margin: 0!important;
+        width: $smaller!important;
+    }
+}
+
+.org-src-container {
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+
+}
+.org-src-container>pre {
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.org-src-container>pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+
+}
+pre {
+    overflow: auto;
+
+}
+.example{
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+    
+}
+.example::before {
+    content: "Results";
+}
+pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+}
+/* .org-src-container::before { */
+/*     content: "Copy"; */
+/*     position: absolute; */
+/*     top: 5px; */
+/*     right: 5px; */
+/*     padding: 5px; */
+/*     background-color: #ccc; */
+/*     color: #fff; */
+/*     border-radius: 3px; */
+/*     cursor: pointer; */
+/* } */
+
+code {
+    font-size: 16px;
+    color: #427b58;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 10px; /* Optional: add some left padding for the content */
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.info {
+    overflow: hidden;
+}
+
+.created {
+    float: right;
+}
+
+.updated {
+    float: left;
+}
+
+.org-ol {
+    list-style-type: decimal; /* Set the list style type to decimal numbers */
+    /* margin-left: 0.5em; /\* Add left margin to the list *\/ */
+}
+
+b {
+    color: #9d0006;
+}
+
+#footnotes {
+    position: fixed;
+    left: auto;
+    right: 0;
+    top: 105px;
+    bottom: 0;
+    width: 20%;
+    padding: 10px;
+    overflow: auto;
+    font-size: 14px;
+    z-index: 9999;
+}
+
+#footnotes h2 {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    #footnotes {
+        position: static;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 30%;
+        overflow: auto;
+        padding: 10px;
+        font-size: 14px;
+        z-index: 9999;
+    }
+}
+/*]]>*/-->
+ </style>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="content" class="content">
+<h1 class="title">emacs-在nano-modeline右下角添加当前buffer中英文字数统计</h1>
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-10-15 二 14:41]</span></span><br />
+</p>
+<div id="outline-container-orgc29d01d" class="outline-2">
+<h2 id="orgc29d01d"><span class="section-number-2">1.</span> 加载第三方包</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">require</span> '<span style="color: #8f3f71;">advance-words-count</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+<a href="https://github.com/LdBeth/advance-words-count.el">https://github.com/LdBeth/advance-words-count.el</a><br />
+</p>
+
+<p>
+这个包提供了CJK字符、英文单词及其他字符的统计功能。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org3f3a5a1" class="outline-2">
+<h2 id="org3f3a5a1"><span class="section-number-2">2.</span> 覆盖右下角数据（旧）</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">nano-modeline-cursor-position</span> <span style="color: #b16286;">(</span><span style="color: #8f3f71;">&amp;optional</span> format<span style="color: #b16286;">)</span>
+  <span style="color: #79740e;">"Cursor position using given FORMAT."</span>
+  <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>format <span style="color: #458588;">(</span>or format <span style="color: #79740e;">"%l:%c "</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span>propertize <span style="color: #d65d0e;">(</span>format-mode-line '<span style="color: #458588;">(</span> <span style="color: #b16286;">(</span><span style="color: #af3a03;">:eval</span> <span style="color: #8ec07c;">(</span>format <span style="color: #79740e;">"%s&#23383;"</span> <span style="color: #d65d0e;">(</span>+ <span style="color: #458588;">(</span>words-count <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>point-max<span style="color: #458588;">)</span> words-count-rule-ansci<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>words-count <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>point-max<span style="color: #458588;">)</span> words-count-rule-CJK<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span> <span style="color: #79740e;">"   "</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+                'face <span style="color: #d65d0e;">(</span>nano-modeline-face 'secondary<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+其中 <code>words-count-rule-ansci</code> 统计英文字符； <code>words-count-rule-CJK</code> 统计CJK字符。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-orgea37837" class="outline-2">
+<h2 id="orgea37837"><span class="section-number-2">3.</span> 覆盖右下角数据（新）</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2024-10-17 四 17:40]</span></span>：观察到在大中文字符的情况下（6w+）存在滚动时的明显性能损失，采取以下方式迂回：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defvar</span> <span style="color: #076678;">my/buffer-words</span> 0
+  <span style="color: #79740e;">"The number of characters in the current buffer."</span><span style="color: #458588;">)</span>
+
+<span style="color: #a89984;">;;</span><span style="color: #a89984;">&#21464;&#25104;buffer-local&#21464;&#37327;&#65292;&#30830;&#20445;&#21478;&#19968;&#20010;buffer&#30340;modeline&#19981;&#20250;&#21463;&#21040;&#24433;&#21709;</span>
+<span style="color: #458588;">(</span>make-variable-buffer-local 'my/buffer-words<span style="color: #458588;">)</span>
+
+<span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/buffer-words-count</span> <span style="color: #b16286;">()</span>
+  <span style="color: #79740e;">"Return the number of characters in the current buffer."</span>
+  <span style="color: #b16286;">(</span>setq my/buffer-words
+        <span style="color: #8ec07c;">(</span>+ <span style="color: #d65d0e;">(</span>words-count <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>point-max<span style="color: #458588;">)</span> words-count-rule-CJK<span style="color: #d65d0e;">)</span>
+           <span style="color: #d65d0e;">(</span>words-count <span style="color: #458588;">(</span>point-min<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>point-max<span style="color: #458588;">)</span> words-count-rule-ansci <span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+  <span style="color: #b16286;">(</span>force-mode-line-update<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+
+<span style="color: #a89984;">;;</span><span style="color: #a89984;">&#31383;&#21475;&#20999;&#25442;&#21518;</span>
+<span style="color: #458588;">(</span>add-hook 'window-configuration-change-hook 'my/buffer-words-count<span style="color: #458588;">)</span>
+<span style="color: #a89984;">;; </span><span style="color: #a89984;">buffer&#35843;&#25972;&#21518;</span>
+<span style="color: #458588;">(</span>add-hook 'buffer-list-update-hook 'my/buffer-words-count<span style="color: #458588;">)</span>
+<span style="color: #a89984;">;; </span><span style="color: #a89984;">&#31354;&#38386;&#26102;&#65288;&#38024;&#23545;scratch&#65289;</span>
+<span style="color: #458588;">(</span>run-with-idle-timer 2 t 'my/buffer-words-count<span style="color: #458588;">)</span>
+
+<span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">nano-modeline-cursor-position</span> <span style="color: #b16286;">(</span><span style="color: #8f3f71;">&amp;optional</span> format<span style="color: #b16286;">)</span>
+  <span style="color: #79740e;">"Cursor position using given FORMAT."</span>
+  <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>format <span style="color: #458588;">(</span>or format <span style="color: #79740e;">"%l:%c "</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #a89984;">;; </span><span style="color: #a89984;">(propertize (format-mode-line '("  "))</span>
+    <span style="color: #a89984;">;;             </span><span style="color: #a89984;">'face (nano-modeline-face 'secondary))</span>
+    <span style="color: #8ec07c;">(</span>propertize <span style="color: #d65d0e;">(</span>format-mode-line '<span style="color: #458588;">(</span><span style="color: #b16286;">(</span><span style="color: #af3a03;">:eval</span> <span style="color: #8ec07c;">(</span>format <span style="color: #79740e;">"%s&#23383;"</span> my/buffer-words
+                                                   <span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span> <span style="color: #9d0006; font-weight: bold;">"   "</span><span style="color: #458588; font-weight: bold;">)</span><span style="color: #d65d0e; font-weight: bold;">)</span>
+                'face <span style="color: #d65d0e;">(</span>nano-modeline-face 'secondary<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</pre>
+</div>
+
+<p>
+通过buffer-local的变量异步更新当前buffer数值。<br />
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>▲ 编辑于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-26 三 17:52]</span></span>　|　© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre) on <span class="timestamp-wrapper"><span class="timestamp">[2025-04-08 二 12:56]</span></span>　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a></p>
+</div>
+</body>
+</html>
