@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-09 三 11:38 -->
+<!-- 2025-04-10 四 19:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-org-mode中同步bangumi的收看进度</title>
@@ -372,6 +372,38 @@ b {
 }
 /*]]>*/-->
  </style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -379,7 +411,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-04-09 三 11:33]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-04-10 四 10:36]</span></span></p>
 </div>
 <div id="content" class="content">
 <h1 class="title">emacs-org-mode中同步bangumi的收看进度</h1>
@@ -398,103 +430,112 @@ b {
 <p>
 部分同步内容：某一条目章节的观看情况，只能增不能减。<br />
 </p>
-<div id="outline-container-orga603ad6" class="outline-2">
-<h2 id="orga603ad6"><span class="section-number-2">1.</span> 基础配置</h2>
+<div id="outline-container-orgd3077ac" class="outline-2">
+<h2 id="orgd3077ac"><span class="section-number-2">1.</span> 基础配置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 需要安装 <code>plz</code> 包以处理HTTP请求。<br />
 后面的具体配置细则请直接复制粘贴即可<br />
+#+begin<sub>src</sub> elisp<br />
+(use-package plz)<br />
+;; 在这里 <a href="https://next.bgm.tv/demo/access-token">https://next.bgm.tv/demo/access-token</a> 申请token<br />
+(setq my/bgm-token "YOUR-TOKEN")<br />
 </p>
-<div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">plz</span><span style="color: #458588;">)</span>
-<span style="color: #a89984;">;; </span><span style="color: #a89984;">&#22312;&#36825;&#37324; https://next.bgm.tv/demo/access-token &#30003;&#35831;token</span>
-<span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> my/bgm-token <span style="color: #79740e;">"YOUR-TOKEN"</span><span style="color: #458588;">)</span>
 
-<span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/bgm-mark-read-episodes</span> <span style="color: #b16286;">(</span>subject readcount<span style="color: #b16286;">)</span>
-  <span style="color: #79740e;">"&#26356;&#26032;&#26576;subject&#30340;&#35266;&#30475;&#36827;&#24230;"</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">when</span> <span style="color: #8ec07c;">(</span>&gt; readcount 0<span style="color: #8ec07c;">)</span>
-    <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#36825;&#37324;&#35843;&#29992;&#19979;&#38754;&#30340;&#20989;&#25968;&#22788;&#29702;&#24471;&#21040;&#38656;&#35201;&#26631;&#35760;&#20026;&#24050;&#35835;&#30340;&#31456;&#33410;&#32534;&#21495;</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">let</span> <span style="color: #d65d0e;">(</span><span style="color: #458588;">(</span>unread <span style="color: #b16286;">(</span>my/bgm-get-subject-marked-unread-episodes subject readcount<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#27809;&#26377;&#21305;&#37197;&#21040;&#30340;&#26410;&#35835;&#31456;&#33410;&#26102;&#36339;&#36807;</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">when</span> unread
-        <span style="color: #458588;">(</span>plz 'patch <span style="color: #b16286;">(</span>concat <span style="color: #79740e;">"https://api.bgm.tv/v0/users/-/collections/"</span> subject <span style="color: #79740e;">"/episodes"</span><span style="color: #b16286;">)</span>
-          <span style="color: #af3a03;">:headers</span> `<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #79740e;">"User-Agent"</span> . <span style="color: #79740e;">"tomoemami/emacs-bgm"</span><span style="color: #8ec07c;">)</span>
-                     <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"Authorization"</span> . ,<span style="color: #d65d0e;">(</span>concat <span style="color: #79740e;">"Bearer "</span> my/bgm-token<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                     <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"Accept"</span> . <span style="color: #79740e;">"*/*"</span><span style="color: #8ec07c;">)</span>
-                     <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"Content-Type"</span> . <span style="color: #79740e;">"application/json"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
-          <span style="color: #af3a03;">:body</span> <span style="color: #b16286;">(</span>json-encode `<span style="color: #8ec07c;">(</span><span style="color: #af3a03;">:episode_id</span> ,unread <span style="color: #af3a03;">:type</span> 2<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-        <span style="color: #458588;">(</span>message <span style="color: #79740e;">"&#24050;&#26356;&#26032;BGM&#35266;&#30475;&#36827;&#24230;"</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<p>
+(defun my/bgm-mark-read-episodes (subject readcount)<br />
+  "更新某subject的观看进度"<br />
+  (when (&gt; readcount 0)<br />
+    ;; 这里调用下面的函数处理得到需要标记为已读的章节编号<br />
+    (let ((unread (my/bgm-get-subject-marked-unread-episodes subject readcount)))<br />
+      ;;没有匹配到的未读章节时跳过<br />
+      (when unread<br />
+        (plz 'patch (concat "<a href="https://api.bgm.tv/v0/users/-/collections/">https://api.bgm.tv/v0/users/-/collections/</a>" subject "/episodes")<br />
+          :headers `(("User-Agent" . "tomoemami/emacs-bgm")<br />
+                     ("Authorization" . ,(concat "Bearer " my/bgm-token))<br />
+                     ("Accept" . "<b>/</b>")<br />
+                     ("Content-Type" . "application/json"))<br />
+          :body (json-encode `(:episode<sub>id</sub> ,unread :type 2)))<br />
+        (message "已更新BGM观看进度")))))<br />
+</p>
 
-<span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/bgm-get-subject-marked-unread-episodes</span> <span style="color: #b16286;">(</span>subject readcount<span style="color: #b16286;">)</span>
-  <span style="color: #79740e;">""</span><span style="color: #79740e;">"</span>
-<span style="color: #79740e;">  &#36820;&#22238;&#24050;&#21246;&#36873;checkbox&#38598;&#25968;&#21364;&#26410;&#22312;BGM&#37324;&#26631;&#20026;&#24050;&#30475;&#30340;&#31456;&#33410;&#32534;&#21495;&#12290;&#20256;&#20837;str&#20027;&#39064;&#32534;&#21495;&#19982;number&#35266;&#30475;&#36827;&#24230;&#12290;</span>
-<span style="color: #79740e;">  "</span>
-  <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#33719;&#21462;&#35813;subject&#30340;&#20840;&#37096;&#31456;&#33410;</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>episodes <span style="color: #458588;">(</span>plz 'get <span style="color: #b16286;">(</span>concat <span style="color: #79740e;">"https://api.bgm.tv/v0/users/-/collections/"</span> subject <span style="color: #79740e;">"/episodes?offset=0&amp;limit=100"</span><span style="color: #b16286;">)</span>
-                    <span style="color: #af3a03;">:headers</span> `<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #79740e;">"User-Agent"</span> . <span style="color: #79740e;">"tomoemami/emacs-bgm"</span><span style="color: #8ec07c;">)</span>
-                               <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"Authorization"</span> . ,<span style="color: #d65d0e;">(</span>concat <span style="color: #79740e;">"Bearer "</span> my/bgm-token<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                               <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"Accept"</span> . <span style="color: #79740e;">"application/json"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
-                    <span style="color: #af3a03;">:as</span> #'json-read<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-        <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#22788;&#29702;&#20256;&#20837;&#30340;&#35266;&#30475;&#36827;&#24230;</span>
-        <span style="color: #d65d0e;">(</span>readed <span style="color: #458588;">(</span>number-sequence 1 readcount<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-        <span style="color: #d65d0e;">(</span>result '<span style="color: #458588;">()</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#33719;&#21462;&#20840;&#37096;&#31456;&#33410;&#25968;&#25454;</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">dolist</span> <span style="color: #d65d0e;">(</span>epi <span style="color: #458588;">(</span>seq-into <span style="color: #b16286;">(</span>alist-get 'data episodes<span style="color: #b16286;">)</span> 'list<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#24403; &#26576;&#19968;&#31456;&#33410;&#26410;&#26631;&#20026;&#24050;&#35835;&#65288;2&#20195;&#34920;&#24050;&#35835;&#65289; &#19988; &#24207;&#21495;&#22312;&#30446;&#21069;&#26631;&#35760;&#30340;&#35266;&#30475;&#36827;&#24230;&#20869;&#26102;</span>
-      <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">when</span> <span style="color: #458588;">(</span><span style="color: #9d0006;">and</span> <span style="color: #b16286;">(</span>&lt; <span style="color: #8ec07c;">(</span>alist-get 'type epi<span style="color: #8ec07c;">)</span> 1<span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span>memq <span style="color: #8ec07c;">(</span>alist-get 'ep <span style="color: #d65d0e;">(</span>alist-get 'episode epi<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span> readed<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-        <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#25910;&#38598;&#27719;&#24635;Bangumi&#19978;&#26410;&#35835;&#31456;&#33410;&#30340;&#32534;&#21495;</span>
-        <span style="color: #458588;">(</span><span style="color: #9d0006;">push</span> <span style="color: #b16286;">(</span>alist-get 'id <span style="color: #8ec07c;">(</span>alist-get 'episode epi<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span> result<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    result<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<p>
+(defun my/bgm-get-subject-marked-unread-episodes (subject readcount)<br />
+  """<br />
+  返回已勾选checkbox集数却未在BGM里标为已看的章节编号。传入str主题编号与number观看进度。<br />
+  "<br />
+  ;; 获取该subject的全部章节<br />
+  (let ((episodes (plz 'get (concat "<a href="https://api.bgm.tv/v0/users/-/collections/">https://api.bgm.tv/v0/users/-/collections/</a>" subject "/episodes?offset=0&amp;limit=100")<br />
+                    :headers `(("User-Agent" . "tomoemami/emacs-bgm")<br />
+                               ("Authorization" . ,(concat "Bearer " my/bgm-token))<br />
+                               ("Accept" . "application/json"))<br />
+                    :as #'json-read))<br />
+        ;; 处理传入的观看进度<br />
+        (readed (number-sequence 1 readcount))<br />
+        (result '()))<br />
+    ;; 获取全部章节数据<br />
+    (dolist (epi (seq-into (alist-get 'data episodes) 'list))<br />
+      ;; 当 某一章节未标为已读（2代表已读） 且 序号在目前标记的观看进度内时<br />
+      (when (and (&lt; (alist-get 'type epi) 1) (memq (alist-get 'ep (alist-get 'episode epi)) readed))<br />
+        ;; 收集汇总Bangumi上未读章节的编号<br />
+        (push (alist-get 'id (alist-get 'episode epi)) result)))<br />
+    result))<br />
+</p>
 
-<span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/bgm-update-episodes</span><span style="color: #b16286;">()</span>
-  <span style="color: #79740e;">"&#26356;&#26032;&#31456;&#33410;&#65292;&#25918;&#22312;checkbox&#21464;&#21270;&#30340;hook&#37324;"</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">interactive</span><span style="color: #b16286;">)</span>
-  <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#20165;&#22312;&#26377;BGM property&#21644;&#26377;TODO-keywords&#30340;&#26102;&#20505;&#35302;&#21457;</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">when</span> <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">and</span> <span style="color: #d65d0e;">(</span>org-entry-get nil <span style="color: #79740e;">"BGM"</span><span style="color: #d65d0e;">)</span> <span style="color: #d65d0e;">(</span>nth 2 <span style="color: #458588;">(</span>org-heading-components<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">let*</span> <span style="color: #d65d0e;">(</span><span style="color: #458588;">(</span>heading <span style="color: #b16286;">(</span>nth 4 <span style="color: #8ec07c;">(</span>org-heading-components<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-           <span style="color: #458588;">(</span>readed <span style="color: #b16286;">(</span><span style="color: #9d0006;">when</span> <span style="color: #8ec07c;">(</span>string-match <span style="color: #79740e;">"\\[</span><span style="color: #79740e; font-weight: bold;">\\</span><span style="color: #79740e; font-weight: bold;">(</span><span style="color: #79740e;">[0-9]+</span><span style="color: #79740e; font-weight: bold;">\\</span><span style="color: #79740e; font-weight: bold;">)</span><span style="color: #79740e;">/"</span> heading<span style="color: #8ec07c;">)</span> <span style="color: #8ec07c;">(</span>string-to-number <span style="color: #d65d0e;">(</span>match-string 1 heading<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-           <span style="color: #458588;">(</span>subject <span style="color: #b16286;">(</span>org-entry-get nil <span style="color: #79740e;">"BGM"</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span>my/bgm-mark-read-episodes subject readed<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<p>
+(defun my/bgm-update-episodes()<br />
+  "更新章节，放在checkbox变化的hook里"<br />
+  (interactive)<br />
+  ;; 仅在有BGM property和有TODO-keywords的时候触发<br />
+  (when (and (org-entry-get nil "BGM") (nth 2 (org-heading-components)))<br />
+    (let* ((heading (nth 4 (org-heading-components)))<br />
+           (readed (when (string-match "\\[\\([0-9]+\\)/" heading) (string-to-number (match-string 1 heading))))<br />
+           (subject (org-entry-get nil "BGM")))<br />
+      (my/bgm-mark-read-episodes subject readed))))<br />
+</p>
 
-<span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/bgm-update-subject</span><span style="color: #b16286;">()</span>
-  <span style="color: #79740e;">""</span><span style="color: #79740e;">"</span>
-<span style="color: #79740e;">&#21516;&#27493;&#26356;&#26032;BGM&#30340;&#35266;&#30475;&#24773;&#20917;&#12290;&#30446;&#21069;&#26159;TODO-&#22312;&#30475;&#65307;DONE-&#30475;&#36807;&#65307;XXXX-&#25243;&#24323;&#65307;HOLD-&#24819;&#30475;&#65307;&#27809;&#26377;TODO&#20851;&#38190;&#23383;-&#25601;&#32622;&#12290;</span>
-<span style="color: #79740e;">&#30456;&#20851;&#25968;&#23383;&#19982;BGM&#29366;&#24577;&#30340;&#23545;&#24212;&#65306;</span>
-<span style="color: #79740e;">1 &#24819;&#30475;&#65292;2 &#30475;&#36807;&#65292;3 &#22312;&#30475;&#65292;4 &#25601;&#32622;&#65292;5 &#25243;&#24323;</span>
-<span style="color: #79740e;">&#30446;&#21069;&#20165;&#20250;&#22312; &#26377;'</span><span style="color: #8f3f71;">BGM&#23646;&#24615;</span><span style="color: #79740e;">'+&#19981;&#65288;'</span><span style="color: #8f3f71;">DONE</span><span style="color: #79740e;">'&#19988;&#26377;&#37325;&#22797;&#22120;&#65289;&#30340;&#26102;&#20505;&#35302;&#21457;&#12290;</span>
-<span style="color: #79740e;">reapter&#30340;&#24037;&#20316;&#21407;&#29702;&#26159;&#22312;&#26631;&#35760;&#20026;'</span><span style="color: #8f3f71;">DONE</span><span style="color: #79740e;">'&#20043;&#21518;&#65292;&#35302;&#21457;`</span><span style="color: #8f3f71;">org-after-todo-state-change-hook</span><span style="color: #79740e;">'&#65292;&#28982;&#21518;&#23558;&#20851;&#38190;&#23383;&#25913;&#20026;'</span><span style="color: #8f3f71;">TODO</span><span style="color: #79740e;">'&#32780;&#19981;&#35302;&#21457;&#21069;&#36848;hook&#12290;</span>
-<span style="color: #79740e;">&#21482;&#38656;&#35201;&#22312;&#26631;&#35760;&#20026;'</span><span style="color: #8f3f71;">DONE</span><span style="color: #79740e;">'&#19988;&#20445;&#26377;'</span><span style="color: #8f3f71;">repeater</span><span style="color: #79740e;">'&#30340;&#26102;&#20505;&#23558;&#20854;&#24573;&#30053;&#21363;&#21487;&#12290;</span>
-<span style="color: #79740e;">  """</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">interactive</span><span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">when</span> <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">and</span> <span style="color: #d65d0e;">(</span>org-entry-get nil <span style="color: #79740e;">"BGM"</span><span style="color: #d65d0e;">)</span>
-             <span style="color: #d65d0e;">(</span>not <span style="color: #458588;">(</span><span style="color: #9d0006;">and</span> <span style="color: #b16286;">(</span>string-equal <span style="color: #8ec07c;">(</span>nth 2 <span style="color: #d65d0e;">(</span>org-heading-components<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span> <span style="color: #79740e;">"DONE"</span><span style="color: #b16286;">)</span>
-                       <span style="color: #b16286;">(</span>org-get-repeat<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">let*</span> <span style="color: #d65d0e;">(</span><span style="color: #458588;">(</span>subject <span style="color: #b16286;">(</span>org-entry-get nil <span style="color: #79740e;">"BGM"</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-           <span style="color: #458588;">(</span>todo <span style="color: #b16286;">(</span>nth 2 <span style="color: #8ec07c;">(</span>org-heading-components<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-           <span style="color: #458588;">(</span>status <span style="color: #b16286;">(</span><span style="color: #9d0006;">cond</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>string-equal todo <span style="color: #79740e;">"TODO"</span><span style="color: #d65d0e;">)</span> '<span style="color: #d65d0e;">(</span>3 . <span style="color: #79740e;">"&#22312;&#30475;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                         <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>string-equal todo <span style="color: #79740e;">"HOLD"</span><span style="color: #d65d0e;">)</span> '<span style="color: #d65d0e;">(</span>1 . <span style="color: #79740e;">"&#24819;&#30475;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                         <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>string-equal todo <span style="color: #79740e;">"DONE"</span><span style="color: #d65d0e;">)</span> '<span style="color: #d65d0e;">(</span>2 . <span style="color: #79740e;">"&#30475;&#36807;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                         <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>string-equal todo <span style="color: #79740e;">"XXXX"</span><span style="color: #d65d0e;">)</span> '<span style="color: #d65d0e;">(</span>5 . <span style="color: #79740e;">"&#25243;&#24323;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                         <span style="color: #8ec07c;">(</span>t '<span style="color: #d65d0e;">(</span>4 . <span style="color: #79740e;">"&#25601;&#32622;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span>plz 'post <span style="color: #458588;">(</span>concat <span style="color: #79740e;">"https://api.bgm.tv/v0/users/-/collections/"</span> subject<span style="color: #458588;">)</span>
-        <span style="color: #af3a03;">:headers</span> `<span style="color: #458588;">(</span><span style="color: #b16286;">(</span><span style="color: #79740e;">"User-Agent"</span> . <span style="color: #79740e;">"tomoemami/emacs-bgm"</span><span style="color: #b16286;">)</span>
-                   <span style="color: #b16286;">(</span><span style="color: #79740e;">"Authorization"</span> . ,<span style="color: #8ec07c;">(</span>concat <span style="color: #79740e;">"Bearer "</span> my/bgm-token<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
-                   <span style="color: #b16286;">(</span><span style="color: #79740e;">"Content-Type"</span> . <span style="color: #79740e;">"application/json"</span><span style="color: #b16286;">)</span>
-                   <span style="color: #b16286;">(</span><span style="color: #79740e;">"Accept"</span> . <span style="color: #79740e;">"*/*"</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-        <span style="color: #af3a03;">:body</span> <span style="color: #458588;">(</span>json-encode `<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #79740e;">"type"</span> . ,<span style="color: #d65d0e;">(</span>car status<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-        <span style="color: #af3a03;">:then</span> <span style="color: #458588;">(</span><span style="color: #9d0006;">lambda</span> <span style="color: #b16286;">(</span>r<span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span>message <span style="color: #79740e;">"%s"</span> r<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
-      <span style="color: #d65d0e;">(</span>message <span style="color: #458588;">(</span>concat <span style="color: #79740e;">"&#24050;&#26356;&#26032;BGM&#35266;&#30475;&#29366;&#24577;&#20026;&#65306;"</span> <span style="color: #b16286;">(</span>cdr status-msg<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-<span style="color: #a89984;">;; </span><span style="color: #a89984;">&#22312;TODO&#20851;&#38190;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;subject</span>
-<span style="color: #458588;">(</span>add-hook 'org-after-todo-state-change-hook 'my/bgm-update-subject<span style="color: #458588;">)</span>
-<span style="color: #a89984;">;; </span><span style="color: #a89984;">&#22312;checkbox&#32479;&#35745;&#25968;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;episode</span>
-<span style="color: #458588;">(</span>add-hook 'org-checkbox-statistics-hook 'my/bgm-update-episodes<span style="color: #458588;">)</span>
+<p>
+(defun my/bgm-update-subject()<br />
+  """<br />
+同步更新BGM的观看情况。目前是TODO-在看；DONE-看过；XXXX-抛弃；HOLD-想看；没有TODO关键字-搁置。<br />
+相关数字与BGM状态的对应：<br />
+1 想看，2 看过，3 在看，4 搁置，5 抛弃<br />
+目前仅会在 有'BGM属性'+不（'DONE'且有重复器）的时候触发。<br />
+reapter的工作原理是在标记为'DONE'之后，触发`org-after-todo-state-change-hook'，然后将关键字改为'TODO'而不触发前述hook。<br />
+只需要在标记为'DONE'且保有'repeater'的时候将其忽略即可。<br />
+  """<br />
+  (interactive)<br />
+  (when (and (org-entry-get nil "BGM")<br />
+             (not (and (string-equal (nth 2 (org-heading-components)) "DONE")<br />
+                       (org-get-repeat))))<br />
+    (let* ((subject (org-entry-get nil "BGM"))<br />
+           (todo (nth 2 (org-heading-components)))<br />
+           (status (cond ((string-equal todo "TODO") '(3 . "在看"))<br />
+                         ((string-equal todo "HOLD") '(1 . "想看"))<br />
+                         ((string-equal todo "DONE") '(2 . "看过"))<br />
+                         ((string-equal todo "XXXX") '(5 . "抛弃"))<br />
+                         (t '(4 . "搁置")))))<br />
+      (plz 'post (concat "<a href="https://api.bgm.tv/v0/users/-/collections/">https://api.bgm.tv/v0/users/-/collections/</a>" subject)<br />
+        :headers `(("User-Agent" . "tomoemami/emacs-bgm")<br />
+                   ("Authorization" . ,(concat "Bearer " my/bgm-token))<br />
+                   ("Content-Type" . "application/json")<br />
+                   ("Accept" . "<b>/</b>"))<br />
+        :body (json-encode `(("type" . ,(car status))))<br />
+        :then (lambda (r) (message "%s" r)))<br />
+      (message (concat "已更新BGM观看状态为：" (cdr status))))))<br />
+;; 在TODO关键字变化时触发更新subject<br />
+(add-hook 'org-after-todo-state-change-hook 'my/bgm-update-subject)<br />
+;; 在checkbox统计数字变化时触发更新episode<br />
+(add-hook 'org-checkbox-statistics-hook 'my/bgm-update-episodes)<br />
+</p>
 
-</pre>
+<p>
+#+end<sub>src84.52628万</sub><br />
+</p>
 </div>
 </div>
-</div>
-<div id="outline-container-org56c534e" class="outline-2">
-<h2 id="org56c534e"><span class="section-number-2">2.</span> 使用方法</h2>
+<div id="outline-container-orgb74f9eb" class="outline-2">
+<h2 id="orgb74f9eb"><span class="section-number-2">2.</span> 使用方法</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 首先是创建一个不含TODO关键字的heading，然后按 <code>C-c C-x p</code> 为其输入 <code>BGM</code> 的属性，具体值为Bangumi网站上的对应值（如该条目的页面网址为 <a href="https://bgm.tv/subject/454684">https://bgm.tv/subject/454684</a> ，则应输入 454684。<br />
@@ -549,8 +590,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org1e56768" class="outline-2">
-<h2 id="org1e56768"><span class="section-number-2">3.</span> 注意事项</h2>
+<div id="outline-container-org4bd9d01" class="outline-2">
+<h2 id="org4bd9d01"><span class="section-number-2">3.</span> 注意事项</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 注意，这里我偷了一个懒，观看进度是根据 <code>[0/12]</code> 的前面数字判断的。如果你跳跃式观看，比如只看了第2、3、4集，checkbox统计数据会变成 <code>[3/12]</code> ，则以上代码依然会自动标记前3集为已读。<br />
