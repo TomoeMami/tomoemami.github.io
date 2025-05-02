@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-05-02 周五 10:00 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>翻译-Emacs For Everything</title>
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
+*/
+
+body {
+    margin: 2% auto;
+    width: 90%;
+    max-width: 100%;
+    background-color: rgba(242,229,188,0.5);
+    /* background-color: rgba(255,255,255,0.5); */
+    font-size: 18px;
+    line-height: 1.4em;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 910px) {
+    body {
+        width: 900px;
+    }
+}
+#preamble {
+    width: 80%;
+    max-width: 980px;
+    text-align: left;
+    margin: auto;
+    font-size: 80%;
+}
+
+hr {
+    border: none;
+    border-top: 5px double #333;
+    margin: 0px 0;
+}
+
+.button {
+    border: none;
+    color: black;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3a1616;
+    color: white;
+}
+
+.todo {
+    background-color: #9d0006;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+.done {
+    background-color: #427b58;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+#postamble p {
+    font-size: 80%;
+    margin: .2em;
+    text-align: center;
+}
+
+#content, .content {
+    width: 80%;
+    max-width: 980px;
+    margin: auto;
+}
+
+#org-div-home-and-up{
+    position: fixed;
+    right: 0.5em;
+    margin-top: 70px;
+    font-family:sans-serif;
+}
+
+#table-of-contents {
+    margin-top: 105px;
+    font-size: 12pt;
+    position: fixed;
+    left: 0em;
+    top: 0em;
+    background: white;
+    max-height: 80%;
+    overflow: auto;
+}
+
+#table-of-contents h2 {
+    display: none;
+}
+#table-of-contents li {
+    clear: both;
+}
+.timestamp {
+    color: #928374;
+    font-size: $smaller;
+}
+
+.timestamp-kwd {
+    color: #5f9ea0;
+}
+
+@media screen and (max-width: 1200px) {
+    #table-of-contents {
+        position: relative;
+        margin-top: 0px;
+    }
+}
+
+/* p:not(blockquote > p) :not(ol > p) { */
+/*     text-indent: 2em; */
+/* } */
+p {
+    margin: 1em auto;
+}
+
+.title {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: bold;
+    color: #0c2340;
+}
+
+h2:not(#table-of-contents > h2) {
+    font-size: 30px;
+    line-height: 1.2;
+    position: relative;
+    color: #204060;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+h3:not(#table-of-contents > h3) {
+    font-size: 20px;
+    line-height: 1.1;
+    position: relative;
+    color: #4b748d;
+}
+
+h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    /* border-bottom: 1px dashed black; */
+}
+
+h4 {
+    font-size: 14px;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:link {
+    color: #458588;
+    /* text-decoration: underline; */
+}
+
+a:hover {
+    /* font-weight: bold; */
+    text-decoration: underline;
+    /* color: #076678; */
+}
+
+.figure {
+    text-align: center;
+}
+
+a:visited{
+    color: #8f3f71;
+    /* text-decoration: underline; */
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+.MathJax_Display {
+    margin: 0!important;
+    width: $smaller!important;
+}
+@media screen and (max-width: 1200px) {
+    img {
+        width: 400px;
+    }
+    .MathJax_Display {
+        margin: 0!important;
+        width: $smaller!important;
+    }
+}
+
+.org-src-container {
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+
+}
+.org-src-container>pre {
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.org-src-container>pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+
+}
+pre {
+    overflow: auto;
+
+}
+.example{
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+    
+}
+.example::before {
+    content: "Results";
+}
+pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+}
+/* .org-src-container::before { */
+/*     content: "Copy"; */
+/*     position: absolute; */
+/*     top: 5px; */
+/*     right: 5px; */
+/*     padding: 5px; */
+/*     background-color: #ccc; */
+/*     color: #fff; */
+/*     border-radius: 3px; */
+/*     cursor: pointer; */
+/* } */
+
+code {
+    font-size: 16px;
+    color: #427b58;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 10px; /* Optional: add some left padding for the content */
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.info {
+    overflow: hidden;
+}
+
+.created {
+    float: right;
+}
+
+.updated {
+    float: left;
+}
+
+.org-ol {
+    list-style-type: decimal; /* Set the list style type to decimal numbers */
+    /* margin-left: 0.5em; /\* Add left margin to the list *\/ */
+}
+
+b {
+    color: #9d0006;
+}
+
+#footnotes {
+    position: fixed;
+    left: auto;
+    right: 0;
+    top: 105px;
+    bottom: 0;
+    width: 20%;
+    padding: 10px;
+    overflow: auto;
+    font-size: 14px;
+    z-index: 9999;
+}
+
+#footnotes h2 {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    #footnotes {
+        position: static;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 30%;
+        overflow: auto;
+        padding: 10px;
+        font-size: 14px;
+        z-index: 9999;
+    }
+}
+/*]]>*/-->
+ </style>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-05-02 周五 09:58]</span></span></p>
+</div>
+<div id="content" class="content">
+<h1 class="title">翻译-Emacs For Everything</h1>
+<p>
+<a href="https://joshblais.com/posts/emacs-for-everything/">Emacs for Everything</a><br />
+</p>
+
+<p>
+March 13, 2025 作者：Joshua Blais<br />
+</p>
+
+<p>
+我曾嘲笑过「 Emacs 能做任何事」这个梗，认为一个人可以「<a href="https://joshblais.com/posts/living-in-emacs/">生活在 emacs 里</a>」的想法简直疯狂（那是近两年前的一篇帖子，当时我自己都不真正相信这点）。<br />
+</p>
+
+<p>
+然而，若有人放任自己被这股潮流裹挟，深入兔子洞足够远时，他会发现计算机本可以成为一个完全集成的环境——在那里，用户的思维与机器融为一体。尽管「脑机接口」的诞生还只是餐桌上的谈资（在我这样阴谋论者家庭中），但自 1976 年起，emacs 就已存在——它是迄今为止最接近人机融合这一理想境界的产物。<br />
+</p>
+
+<p>
+是否曾有一刻，我认为这就是每个人都该使用电脑的方式？<br />
+</p>
+
+<p>
+不。<br />
+</p>
+
+<p>
+我没有 Emacs 无所不能的幻想。<br />
+</p>
+
+<p>
+要达到完全依赖 Emacs 作为电脑环境的程度，所需投入的巨大精力对大多数人而言是难以承受的。那些买 MacBook Pro 只为看网飞和「收发邮件」的人，真的需要 Emacs 这种集成式文本界面吗？恐怕不必——这就像用<a href="https://www.milwaukeetool.com/Products/1675-6">冲击电钻</a>（致敬<a href="https://en.wikipedia.org/wiki/In_the_Beginning..._Was_the_Command_Line">尼尔·斯蒂芬森的比喻</a>）来拧 1/16 英寸的小螺丝。<br />
+</p>
+
+<p>
+但，如果你是个程序员、作家、创意工作者、企业主或单纯患有注意力缺陷多动症（ADHD）的人，「用不用 Emacs」就值得考虑了。<br />
+</p>
+
+<p>
+你是否经常花费大量时间处理各种形式的文本？你是否渴望自动化工作流，打造量身定制的完美工具？那么 Emacs 或许就是你梦寐以求却从未知晓的答案。<br />
+</p>
+
+<p>
+这值得吗？Emacs 是使用电脑的最佳方式吗？<br />
+</p>
+
+<p>
+好吧，我毕竟正在撰写这篇文章，所以我可能有些偏颇。但我会毫不含糊地说，是的——这项投资的回报丰厚，并且在我余生的电脑生涯中还将持续如此。<br />
+</p>
+
+<p>
+顺便提一下，在书中，Stephenson 讨论了 Unix，但他确实提到 Emacs 是他当时使用的编辑器，并对此有如下评价：<br />
+</p>
+
+<blockquote>
+<p>
+我使用 Emacs，它或许可以被视为一款核能级的文字处理器。由理查德·斯托曼创造——这就够了。它用 Lisp 编写，这是唯一一种堪称优美的编程语言。它庞大无比，却仅编辑纯 ASCII 文本文件，也就是说，没有字体、加粗或下划线。换言之，微软 Word 将工程师时间投入到邮件合并、在企划备忘录中嵌入长篇动态影像等功能上，而 Emacs 则偏执地将这些精力集中于看似简单实则深奥的文本编辑问题上。如果你是职业作家——即若他人受雇操心你的文字排版与印刷——Emacs 的卓越程度，犹如正午太阳令群星黯然。不仅更大更亮，它简直让其他一切消失无踪。<br />
+</p>
+</blockquote>
+
+<p>
+深不可测的论断。<br />
+</p>
+<div id="outline-container-org70521e2" class="outline-2">
+<h2 id="org70521e2"><span class="section-number-2">1.</span> 为什么要这么做？</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+为何要追求用一个工具处理所有事？<br />
+</p>
+
+<p>
+为什么要把所有事情都集中在一个地方处理？而且，为什么要用一款已有<a href="https://en.wikipedia.org/wiki/Emacs">近 50 年历史的软件</a>来实现这一点？<br />
+</p>
+
+<p>
+尽管使用 Emacs 有诸多理由（包括对普通用户的调侃），但真正的论点通常围绕以下几点：解决上下文切换问题、工具与整个环境的深度集成，以及 Emacs 赋予终端用户的可定制性、可编程性和全面个性化能力（远超当今任何现有工具，是的，甚至包括支持 Lua 的 Neovim）。<br />
+</p>
+
+<p>
+因此，虽然我不会去"调侃普通用户"，但归根结底只有一个词—— <b>心流</b> 。<br />
+</p>
+
+<p>
+用一句话概括？ <b>上下文切换对知识工作者而言代价极其高昂</b> 。<br />
+</p>
+
+<p>
+用一段更啰嗦的文字阐述？<br />
+</p>
+
+<p>
+近期神经科学研究表明，日常工作中上下文切换和多任务处理的成本约占我们 60% 的时间——这个数字触目惊心，<a href="https://www.themuse.com/advice/this-is-nuts-it-takes-nearly-30-minutes-to-refocus-after-you-get-distracted">注意力分散后平均需要 23 分钟才能重新投入任务</a>。有研究甚至断言「<a href="https://newsletter.techworld-with-milan.com/p/context-switching-is-the-main-productivity">上下文切换是开发者的头号生产力杀手</a>」。尽管我首先要指出，过度追求效率<a href="https://joshblais.com/posts/productivity-procrastination/">反而容易陷入拖延症</a>，但即便在 8 小时工作制中提升 20% 效率也绝非小事。显然，若想完成更多工作，我们必须像守护黄金般捍卫专注时间——而 Emacs 正日益成为这道防护栏。由于其「万物皆可通过单一界面访问」的哲学理念，相比在 12 个不同应用工具间来回切换，它带来的干扰要少得多。这个环境本身已化身为终极生产力场域。<br />
+</p>
+
+<p>
+当我说「心流」时，实际指的是 <b>和谐融合</b> ，甚至可以说是与环境的 <b>浑然一体</b> 。Emacs 是唯一能让你拥有与文本交互的终极「统一认知模型」的工具。而如果你对计算机有所了解，就会明白 <b>万物皆文本</b> 。<br />
+</p>
+
+<p>
+唐纳德·特朗普可能会说「哇——万物皆计算机」，但计算机会说「万物皆文本」。<br />
+</p>
+
+<p>
+这一点再怎么强调都不为过——当我们在计算环境中将一切简化为文本时，实际上就将其能力提升到了最高水平。这样一来，所有内容都变得可搜索、可重现、可版本控制，并且具有无限的可塑性。文本可以完全按照我们认为合适的方式进行塑造和调整。通过保持文本的纯粹性，而不是以某种专有的糟糕方式将其抽象化，我们作为用户的能力得到了增强。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org7af49c9" class="outline-2">
+<h2 id="org7af49c9"><span class="section-number-2">2.</span> 瞬息全宇宙</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+当你准备写邮件时，需要完成以下步骤：打开邮件客户端、点击「撰写邮件」、找到联系人、撰写内容、校对文字，最后发送。如果此前正在进行其他工作，原本可能保持的心流状态几乎荡然无存，要重新恢复到那种专注状态又得花费不少时间。<br />
+</p>
+
+<p>
+相反，你本可以在大约 3 秒内将「待办事项」记录到你的 inbox.org 文件中，然后继续手头的工作，直到真正需要写邮件的时候。这样你就能毫无上下文切换地回到原任务，保持那种高效的心流状态。<br />
+</p>
+
+<p>
+当你准备写这封邮件时，可以在 Emacs 的 MU4E 模式下操作，调用那个待办事项（或许还有相关联系人信息），撰写邮件、发送，甚至还能包含你未被中断的工作内容。邮件本质是文本，因此你能使用所有强大的编辑器功能（自动补全、拼写检查、代码片段等），很可能只用传统 Office365/Thunderbird/Gmail 等工具一半的时间就能完成。<br />
+</p>
+
+<p>
+如果这个场景没有让你眼前一亮，或许 Emacs 并不适合你。但如果你理解其中的差异，现在你就能在所有工作流程、所有场景、整台设备上实现这种操作。Emacs 将成为你的操作系统（除了重度图像/视频处理或浏览现代网页外），你的 <b>一切工作</b> 都在其中完成。<br />
+</p>
+
+<p>
+这也意味着，你无需学习「单独」的快捷键或用户界面，一切都被整合在一个自文档化、易于访问且可不断迭代的地方，你可以将其塑造成任何你想要的样子。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-orgfd40f5b" class="outline-2">
+<h2 id="orgfd40f5b"><span class="section-number-2">3.</span> 你的工具由你主宰</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+VS Code 之所以被广泛采用，是因为它能让人快速「上手使用」，这合情合理。但如果你想让 VS Code 真正成为你自己的工具，我祝你一切顺利。<br />
+</p>
+
+<p>
+Emacs 是完全开源且免费的软件（既免费又自由），你可以根据自身需求进行定制。这款工具不会妨碍你，反而能变成你需要的形态——它更像是用户思维的延伸，而非限制用户操作的框架。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org95d9511" class="outline-2">
+<h2 id="org95d9511"><span class="section-number-2">4.</span> 第一性原理</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+「但 Emacs 太古老了」<br />
+</p>
+
+<p>
+你爷爷也很老，你没对他另眼相待吧？要是你越界了，他照样能收拾你，是不是？<br />
+</p>
+
+<p>
+Emacs 诞生于一个崇尚计算根本原则的时代。它并非随意设计的系统，让你毫无理由地执行操作。相反，你会发现 Emacs 中的一切（除了<a href="https://www.masteringemacs.org/article/fun-games-in-emacs">下棋或玩俄罗斯方块</a>）都有其存在的道理。例如，我曾以为自己能打造一个「更好的 org 模式」——但那样做无异于与计算机科学领域最杰出的头脑们较量。我对自己真有这般信心吗？说实话，我连记得晚上启动洗碗机的自信都没有。<br />
+</p>
+
+<p>
+Emacs 也并非「违背 UNIX 哲学」，正如许多人在我<a href="https://www.youtube.com/watch?v=sBc7toJaCxw">回归 Emacs 教会的视频</a>中急于断言的那样。实际上，Emacs 将 Unix 工具链扩展到了仅靠 bash 脚本无法企及的境界。你拥有一种语言（elisp），可以调用 Unix 工具、扩展它们、编写脚本，理论上甚至能构建出你梦想中的任何东西。<br />
+</p>
+
+<p>
+你的编辑器现在完全可编程了——你可以让它做任何你需要的事，甚至更多。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org6faaf3f" class="outline-2">
+<h2 id="org6faaf3f"><span class="section-number-2">5.</span> 一生的计算机</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+正如我在视频中所说，观察一个使用 Emacs 长达 30 年的人（在 <a href="https://www.reddit.com/r/emacs/">r/emacs</a> 上有很多这样的用户）的配置，就如同窥见了一生的计算历程。那个实现晦涩小功能的 Lisp 函数？那是一个人的思想结晶。Emacs 是终身的编辑器，其他编辑器无法企及——因为它与你共同成长，在每个重大版本更新时突破边界，让人得以生活在纯文本的梦想之中。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org93c7835" class="outline-2">
+<h2 id="org93c7835"><span class="section-number-2">6.</span> 我当前的整个计算环境都封装在 Emacs 里</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>邮件 - <a href="https://github.com/emacsmirror/mu4e">Mu4e</a><br /></li>
+<li>开发 - <a href="https://github.com/Alexander-Miller/treemacs">treemacs</a>（侧边栏）、<a href="https://github.com/akermu/emacs-libvterm">vterm</a>（集成终端）、针对我使用语言配置的 LSP/主模式、<a href="https://github.com/pashky/restclient.el">restclient.el</a><br /></li>
+<li>版本控制 - <a href="https://magit.vc/">magit</a><br /></li>
+<li>Docker - <a href="https://github.com/Silex/docker.el">docker.el</a><br /></li>
+<li>数据库 - <a href="https://arjanvandergaag.nl/blog/using-emacs-as-a-database-client.html">sql-mode</a> 与 <a href="https://github.com/emarsden/pgmacs">pgmacs</a><br /></li>
+<li>人工智能集成 - <a href="https://github.com/karthink/gptel">gptel</a> 与 <a href="https://github.com/tninja/aider.el">aider</a><br /></li>
+<li>写作 - 使用 <a href="https://orgmode.org/">org-mode</a>，偶尔导出为 markdown/html/latex/pdf 格式<br /></li>
+<li>知识库 - <a href="https://www.orgroam.com/">org-roam</a><br /></li>
+<li>博客写作 - org-mode 导出至 hugo<br /></li>
+<li>日程安排与待办事项 - org-mode<br /></li>
+<li>日历 - <a href="https://github.com/kiwanami/emacs-calfw">calwf</a> 和 <a href="https://github.com/emacsmirror/org-gcal">org-gcal</a><br /></li>
+<li>RSS - <a href="https://github.com/skeeto/elfeed">elfeed</a>（RSS 阅读器）<br /></li>
+<li>IRC - <a href="https://www.gnu.org/software/emacs/erc.html">ERC</a>（IRC 客户端）<br /></li>
+<li>音乐与媒体 - <a href="https://www.gnu.org/s/emms/">EMMS</a>（多媒体系统）<br /></li>
+<li>记账 - <a href="https://github.com/ledger/ledger-mode">ledger-mode</a><br /></li>
+<li>轻量网页浏览 - <a href="https://www.gnu.org/software/emacs/manual/html_mono/eww.html">EWW</a><br /></li>
+<li>文件管理 - <a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Dired.html">Dired</a> 与 <a href="https://github.com/alexluigit/dirvish">Dirvish</a><br /></li>
+<li>阅读 - <a href="https://github.com/chenyanming/calibredb.el">calibredb</a>, <a href="https://github.com/wasamasa/nov.el">nov.el</a>, <a href="https://github.com/politza/pdf-tools">pdf-tools</a>, <a href="https://github.com/weirdNox/org-noter">org-noter</a><br /></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org47e8a27" class="outline-2">
+<h2 id="org47e8a27"><span class="section-number-2">7.</span> 「APP」时代的终结</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+你会注意到我从未将 emacs 称为「APP」，原因在于那样会大大低估 emacs 的真正意义。<br />
+</p>
+
+<p>
+Emacs 几乎成了我的整个计算机世界。在这里，我能将所有与文本和智力相关的事务集中处理。若某件事无法在 Emacs 中完成，我就成了那个执着寻找解决方案的人——要么研究如何整合工作流，要么请 Claude 帮我设计定制 Lisp 函数，只为让 Emacs 再多覆盖 1%的日常操作。除非涉及重度图片/视频处理、现代网页浏览或 3D 渲染，其他所有工作流程都已被我纳入<a href="https://joshblais.com/posts/my-literate-doom-emacs-config/">不断膨胀的 config.org 文件</a>（最终编译为 config.el）。<br />
+</p>
+
+<p>
+The only fair use of "app" would be "Life App" - but more akin to Life OS.<br />
+若要用「APP」这个词，唯一合理的用法是「人生 APP」——但更准确地说，应该叫「人生 OS」。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org4aab1a8" class="outline-2">
+<h2 id="org4aab1a8"><span class="section-number-2">8.</span> 关于时间黑洞的争论</h2>
+<div class="outline-text-2" id="text-8">
+<blockquote>
+<p>
+不愿磨斧头的人，就不该去砍树。<br />
+</p>
+</blockquote>
+
+<p>
+在我们这个追求即时满足的文化中，学习需要时间积累的事物成了某种禁忌。我常听到一种论点，说 Emacs 是个巨大的时间黑洞，投入的时间永远无法收回。但——你花了多少时间在屏幕上移动文本？又花了多少时间因电脑不按你的意愿行事而沮丧？还有多少时间耗费在寻找格式转换工具，或是「如何在 Word/Excel/Gmail 等软件中实现 X 功能」上？<br />
+</p>
+
+<p>
+有趣的是，这类批评往往来自<a href="https://en.wikipedia.org/wiki/Editor_war">编辑器大战</a>中的 vim/neovim 阵营——但 vim 不过是个文本编辑器。只要你愿意，Emacs 甚至可以直接运行 vim。而 vim 用户同样需要学习与 CLI/TUI 工作流相关的全套工具链，这和掌握 Emacs 的投入几乎不相上下！<br />
+</p>
+
+<p>
+不仅如此——Emacs 不仅能以丰厚的回报补偿你投入的时间，它还赋予你完全的独立性。虽然我曾考虑过离开 Linux 桌面环境，投入苹果那光鲜但封闭的生态系统，但 Emacs 让我实现了这一点，因为它已成为我真正的计算环境。我不再那么在意操作系统（只要它是基于 Unix 的）。我可以选择硬件最优的地方——但我会暂缓选择苹果产品，<a href="https://www.notebookcheck.net/AMD-Ryzen-AI-Max-395-Analysis-Strix-Halo-to-rival-Apple-M4-Pro-Max-with-16-Zen-5-cores-and-iGPU-on-par-with-RTX-4070-Laptop.963274.0.html">等待 AMD 那些疯狂的集成芯片</a>，因为那听起来像是激动人心的时刻！<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org2c09dca" class="outline-2">
+<h2 id="org2c09dca"><span class="section-number-2">9.</span> 结论</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+虽然我不建议你沉迷于工具本身，但如果你和我处境相似，emacs 则与众不同。若你珍视个人自主与自由，渴望打造一个能随需求定制（并随着你的学习与新范式的发现而共同成长）的系统，以及渴望克服现代软件在生产力上的不足，emacs 就是那个选择。在我前行的旅程中，它将继续成为我的不二之选——无论是撰写下一本书、创立下一家公司，还是单纯将心中所想倾注于日记时，它都会伴我左右。<br />
+</p>
+
+<p>
+Emacs 诞生于一个注重设计、关注基本原则与持久性的时代。正因如此，五十年来无出其右者，我敢打赌未来五十年也难有匹敌。它不像年轻人说的那样"时髦"或"炒作"——它体现了人类的思维方式，展示了如何用软件增强这种思维，而 Emacs 的指导原则永不过时。<br />
+</p>
+
+<p>
+一如既往，愿上帝保佑，下次再见。<br />
+</p>
+
+<p>
+如果你喜欢这篇文章，可以考虑通过以下方式支持我的工作：「<a href="https://buymeacoffee.com/joshuablais">请我喝咖啡</a>」、<a href="https://mountainthebook.com/">看看我的书</a>或给我发告诉我你的想法。<br />
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+</div>
+</body>
+</html>
