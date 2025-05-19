@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:54 -->
+<!-- 2025-05-19 周一 09:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用msys2编译windows的emacs</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -435,10 +435,10 @@ We are using the UCRT64.<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">sed -i <span style="color: #79740e;">"s#https\?://mirror.msys2.org/#https://mirrors.tuna.tsinghua.edu.cn/msys2/#g"</span> /etc/pacman.d/mirrorlist*
+<pre class="src src-bash"><code>sed -i <span style="color: #79740e;">"s#https\?://mirror.msys2.org/#https://mirrors.tuna.tsinghua.edu.cn/msys2/#g"</span> /etc/pacman.d/mirrorlist*
 
 pacman -Syu
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -446,8 +446,8 @@ After complete, restart terminal, and run<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">pacman -Su
-</pre>
+<pre class="src src-bash"><code>pacman -Su
+</code></pre>
 </div>
 
 <p>
@@ -456,7 +456,7 @@ To install the required packages for building Emacs.<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">pacman -Su <span style="color: #79740e;">\</span>
+<pre class="src src-bash"><code>pacman -Su <span style="color: #79740e;">\</span>
   autoconf <span style="color: #79740e;">\</span>
   autogen <span style="color: #79740e;">\</span>
   automake <span style="color: #79740e;">\</span>
@@ -509,7 +509,7 @@ To install the required packages for building Emacs.<br />
   mingw-w64-ucrt-x86_64-jbigkit <span style="color: #79740e;">\</span>
   pkgconf <span style="color: #79740e;">\</span>
   texinfo 
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -517,13 +517,13 @@ To install the required packages for building Emacs.<br />
 <h2 id="orgef3ad9e"><span class="section-number-2">3.</span> Fetch Emacs source</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
-<pre class="src src-bash">git config --global core.autocrlf false
+<pre class="src src-bash"><code>git config --global core.autocrlf false
 git config --global http.postBuffer 524288000
 
 git config --global http.proxy <span style="color: #79740e;">"socks5://127.0.0.1:7890"</span>
 
 git clone https://github.moeyy.xyz/https://github.com/emacs-mirror/emacs.git --depth 1
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -549,7 +549,7 @@ Set <code>prefix</code> to somewhere appropriate.<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><span style="color: #af3a03;">cd</span> emacs &amp;&amp;<span style="color: #79740e;">\</span>
+<pre class="src src-bash"><code><span style="color: #af3a03;">cd</span> emacs &amp;&amp;<span style="color: #79740e;">\</span>
 ./autogen.sh
 mkdir build &amp;&amp;<span style="color: #79740e;">\</span>
 <span style="color: #af3a03;">cd</span> build &amp;&amp;<span style="color: #79740e;">\</span>
@@ -564,7 +564,7 @@ mkdir build &amp;&amp;<span style="color: #79740e;">\</span>
     --with-modules
 <span style="color: #a89984;"># </span><span style="color: #a89984;">&#22914;&#26524;&#35201;&#23581;&#35797;igc&#29256;&#26412;</span>
   --with-mps 
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -603,8 +603,8 @@ DLL used by Emacs.<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">cp /ucrt64/bin/*.dll $<span style="color: #076678;">target</span>/bin
-</pre>
+<pre class="src src-bash"><code>cp /ucrt64/bin/*.dll $<span style="color: #076678;">target</span>/bin
+</code></pre>
 </div>
 
 <p>
@@ -640,19 +640,19 @@ MSYS2 environment.<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">mkdir $<span style="color: #076678;">target</span>/lib/gcc &amp;&amp;<span style="color: #79740e;">\</span>
+<pre class="src src-bash"><code>mkdir $<span style="color: #076678;">target</span>/lib/gcc &amp;&amp;<span style="color: #79740e;">\</span>
 cp /ucrt64/lib/<span style="color: #458588;">{</span>crtbegin,crtend,dllcrt2<span style="color: #458588;">}</span>.o $<span style="color: #076678;">target</span>/lib/gcc &amp;&amp;<span style="color: #79740e;">\</span>
 cp /ucrt64/lib/lib<span style="color: #458588;">{</span>advapi32,gcc_s,mingw32,msvcrt,shell32,kernel32,mingwex,pthread,user32<span style="color: #458588;">}</span>.a $<span style="color: #076678;">target</span>/lib/gcc
-</pre>
+</code></pre>
 </div>
 
 <p>
 adjust path according to gcc version<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">cp /ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/libgcc.a $<span style="color: #076678;">target</span>/lib/gcc &amp;&amp;<span style="color: #79740e;">\</span>
+<pre class="src src-bash"><code>cp /ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/libgcc.a $<span style="color: #076678;">target</span>/lib/gcc &amp;&amp;<span style="color: #79740e;">\</span>
 cp /ucrt64/bin/<span style="color: #458588;">{</span>ld,as<span style="color: #458588;">}</span>.exe $<span style="color: #076678;">target</span>/lib/gcc
-</pre>
+</code></pre>
 </div>
 </div>
 </div>

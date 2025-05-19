@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:55 -->
+<!-- 2025-05-19 周一 09:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用advice自动更新ox-publish的待发布org-roam文件目录</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -378,7 +378,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-25 周二 09:51]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-05-19 周一 09:25]</span></span></p>
 </div>
 <div id="content" class="content">
 <h1 class="title">使用advice自动更新ox-publish的待发布org-roam文件目录</h1>
@@ -399,15 +399,15 @@ b {
 <p>
 由于org-roam的所有文件均在一个文件夹内，又不需要将所有的文件作为博客内容发表，因此接下来会利用org-roam的功能，动态发布打上了 <code>blog</code> 标签的文件。<br />
 </p>
-<div id="outline-container-orgaf33866" class="outline-2">
-<h2 id="orgaf33866"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
+<div id="outline-container-orgde0e16c" class="outline-2">
+<h2 id="orgde0e16c"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 参考<a href="https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html">Vulpea的org-roam动态agenda</a>文件，创建函数如下：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/ox-files</span> <span style="color: #b16286;">()</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/ox-files</span> <span style="color: #b16286;">()</span>
   <span style="color: #79740e;">"Return a list of note files containing '</span><span style="color: #8f3f71;">blog</span><span style="color: #79740e;">' tag."</span> <span style="color: #a89984;">;</span>
   <span style="color: #b16286;">(</span>seq-uniq
    <span style="color: #8ec07c;">(</span>seq-map
@@ -418,7 +418,7 @@ b {
               <span style="color: #af3a03;">:left-join</span> nodes
               <span style="color: #af3a03;">:on</span> <span style="color: #b16286;">(</span>= tags:node-id nodes:id<span style="color: #b16286;">)</span>
               <span style="color: #af3a03;">:where</span> <span style="color: #b16286;">(</span>like tag <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">quote</span> <span style="color: #79740e;">"%\"blog\"%"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -426,15 +426,15 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-orgc6f067b" class="outline-2">
-<h2 id="orgc6f067b"><span class="section-number-2">2.</span> 配置ox-publish</h2>
+<div id="outline-container-org669827c" class="outline-2">
+<h2 id="org669827c"><span class="section-number-2">2.</span> 配置ox-publish</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 根据参考文献，需要指定 <code>org-publish-project-alist</code> 如下：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-publish-project-alist
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-publish-project-alist
         `<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #79740e;">"posts"</span>
            <span style="color: #af3a03;">:base-directory</span> ,website-directory
            <span style="color: #af3a03;">:base-extension</span> <span style="color: #79740e;">"org"</span>
@@ -451,7 +451,7 @@ b {
            <span style="color: #af3a03;">:sitemap-sort-files</span> anti-chronologically
            <span style="color: #af3a03;">:html-head:css</span> <span style="color: #79740e;">"&lt;link rel='</span><span style="color: #8f3f71;">stylesheet</span><span style="color: #79740e;">' type='</span><span style="color: #8f3f71;">text/css</span><span style="color: #79740e;">' href='</span><span style="color: #8f3f71;">/org.css</span><span style="color: #79740e;">'/&gt;"</span><span style="color: #8ec07c;">)</span>
           <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"personal-website"</span> <span style="color: #af3a03;">:components</span> <span style="color: #d65d0e;">(</span><span style="color: #79740e;">"posts"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -459,15 +459,15 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org67ec5fb" class="outline-2">
-<h2 id="org67ec5fb"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
+<div id="outline-container-org48b1a67" class="outline-2">
+<h2 id="org48b1a67"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于上述 <code>org-publish-project-alist</code> 仅会执行单次，因此需要通过 <code>advice-add</code> 的方式让其在每次发布时均执行一次，达成动态更新的效果。<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-project-update</span> <span style="color: #b16286;">(</span><span style="color: #8f3f71;">&amp;optional</span> ARG PRED<span style="color: #b16286;">)</span> <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-project-update</span> <span style="color: #b16286;">(</span><span style="color: #8f3f71;">&amp;optional</span> ARG PRED<span style="color: #b16286;">)</span> <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">setq</span> org-publish-project-alist
         `<span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span><span style="color: #79740e;">"posts"</span>
            <span style="color: #af3a03;">:base-directory</span> ,website-directory
@@ -486,7 +486,7 @@ b {
            <span style="color: #af3a03;">:html-head:css</span> <span style="color: #79740e;">"&lt;link rel='</span><span style="color: #8f3f71;">stylesheet</span><span style="color: #79740e;">' type='</span><span style="color: #8f3f71;">text/css</span><span style="color: #79740e;">' href='</span><span style="color: #8f3f71;">/org.css</span><span style="color: #79740e;">'/&gt;"</span><span style="color: #d65d0e;">)</span>
           <span style="color: #d65d0e;">(</span><span style="color: #79740e;">"personal-website"</span> <span style="color: #af3a03;">:components</span> <span style="color: #458588;">(</span><span style="color: #79740e;">"posts"</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 <span style="color: #458588;">(</span>advice-add 'org-export-dispatch <span style="color: #af3a03;">:before</span> 'my/org-project-update<span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -494,46 +494,46 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org99bd507" class="outline-2">
-<h2 id="org99bd507"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
+<div id="outline-container-orgc762f04" class="outline-2">
+<h2 id="orgc762f04"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 利用 <code>org-export</code> 的hook自动设置，读取 <code>~/.emacs.d/org.css</code> 文件内容并插入发布的html文件中<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-inline-css-hook</span> <span style="color: #b16286;">(</span>exporter<span style="color: #b16286;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-inline-css-hook</span> <span style="color: #b16286;">(</span>exporter<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Insert custom inline css"</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">when</span> <span style="color: #8ec07c;">(</span>eq exporter 'html<span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> org-html-head-include-default-style nil<span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> org-html-head <span style="color: #d65d0e;">(</span>concat <span style="color: #79740e;">"&lt;style type=\"text/css\"&gt;\n &lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/\n"</span> <span style="color: #458588;">(</span><span style="color: #9d0006;">with-temp-buffer</span> <span style="color: #b16286;">(</span>insert-file-contents <span style="color: #79740e;">"~/.emacs.d/org.css"</span><span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span>buffer-string<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> <span style="color: #79740e;">"/*] ]&gt;*/--&gt;\n &lt;/style&gt;\n"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 
 <span style="color: #458588;">(</span>add-hook 'org-export-before-processing-hook 'my/org-inline-css-hook<span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd88f7ad" class="outline-2">
-<h2 id="orgd88f7ad"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
+<div id="outline-container-orge24c951" class="outline-2">
+<h2 id="orge24c951"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org0a13d4a" class="outline-3">
-<h3 id="org0a13d4a"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
+<div id="outline-container-orga045dcc" class="outline-3">
+<h3 id="orga045dcc"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-export-preserve-breaks t<span style="color: #458588;">)</span>
-</pre>
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-export-preserve-breaks t<span style="color: #458588;">)</span>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org2aec848" class="outline-3">
-<h3 id="org2aec848"><span class="section-number-3">5.2.</span> <a href="20241231T152821--emacs-使用ox-rss导出rss的xml文件__blog.html">emacs-使用ox-rss导出rss的xml文件</a></h3>
+<div id="outline-container-org944b427" class="outline-3">
+<h3 id="org944b427"><span class="section-number-3">5.2.</span> <a href="20241231T152821--emacs-使用ox-rss导出rss的xml文件__blog.html">emacs-使用ox-rss导出rss的xml文件</a></h3>
 </div>
-<div id="outline-container-orge046fad" class="outline-3">
-<h3 id="orge046fad"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
+<div id="outline-container-orgfaea5fc" class="outline-3">
+<h3 id="orgfaea5fc"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
-<pre class="src src-css"><span style="color: #a89984;">/* </span><span style="color: #a89984;">(progn (forward-line 2)</span>
+<pre class="src src-css"><code><span style="color: #a89984;">/* </span><span style="color: #a89984;">(progn (forward-line 2)</span>
 <span style="color: #a89984;">   (delete-region (point) (point-max))</span>
 <span style="color: #a89984;">   (insert-file-contents "~/.emacs.d/org.css")</span>
 <span style="color: #a89984;">   (goto-char (point-max))</span>
@@ -545,7 +545,7 @@ b {
 
 <span style="color: #b57614;">body</span> <span style="color: #458588;">{</span>
     <span style="color: #9d0006;">margin</span>: 2% auto;
-    <span style="color: #9d0006;">width</span>: 90%;
+    <span style="color: #9d0006;">width</span>: 100%;
     <span style="color: #9d0006;">max-width</span>: 100%;
     <span style="color: #9d0006;">background-color</span>: <span style="color: #000000; background-color: #f2e5bc;">rgba(242,229,188,0.5)</span>;
     <span style="color: #a89984;">/* </span><span style="color: #a89984;">background-color: rgba(255,255,255,0.5);</span><span style="color: #a89984;"> */</span>
@@ -566,8 +566,9 @@ b {
 <span style="color: #b57614;">#preamble</span> <span style="color: #458588;">{</span>
     <span style="color: #9d0006;">width</span>: 80%;
     <span style="color: #9d0006;">max-width</span>: 980px;
-    <span style="color: #9d0006;">text-align</span>: right;
+    <span style="color: #9d0006;">text-align</span>: left;
     <span style="color: #9d0006;">margin</span>: auto;
+    <span style="color: #9d0006;">font-size</span>: 80%;
 <span style="color: #458588;">}</span>
 
 <span style="color: #b57614;">hr</span> <span style="color: #458588;">{</span>
@@ -618,6 +619,7 @@ b {
 <span style="color: #b57614;">#postamble p</span> <span style="color: #458588;">{</span>
     <span style="color: #9d0006;">font-size</span>: 80%;
     <span style="color: #9d0006;">margin</span>: .2em;
+    <span style="color: #9d0006;">text-align</span>: center;
 <span style="color: #458588;">}</span>
 
 <span style="color: #b57614;">#content, .content</span> <span style="color: #458588;">{</span>
@@ -896,7 +898,7 @@ b {
         <span style="color: #9d0006;">z-index</span>: 9999;
     <span style="color: #b16286;">}</span>
 <span style="color: #458588;">}</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>

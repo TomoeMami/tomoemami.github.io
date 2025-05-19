@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:54 -->
+<!-- 2025-05-19 周一 09:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>在wsl2中使用emacs-gui</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -397,7 +397,7 @@ b {
 <h2 id="org7b27943"><span class="section-number-2">2.</span> 将Debian切换至SID版本</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-bash">sudo nano /etc/apt/sources.list
+<pre class="src src-bash"><code>sudo nano /etc/apt/sources.list
 
 <span style="color: #a89984;"># </span><span style="color: #a89984;">&#40664;&#35748;&#27880;&#37322;&#20102;&#28304;&#30721;&#38236;&#20687;&#20197;&#25552;&#39640; apt update &#36895;&#24230;&#65292;&#22914;&#26377;&#38656;&#35201;&#21487;&#33258;&#34892;&#21462;&#28040;&#27880;&#37322;</span>
 deb http://mirrors.tuna.tsinghua.edu.cn/debian/ sid main contrib non-free non-free-firmware
@@ -416,7 +416,7 @@ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 wget https://github.moeyy.xyz/https://github.com/uniartisan/fonts-harmonyos-sans-cn/releases/download/v1.0.0/harmonyos_sans.deb
 
 sudo dpkg -i harmonyos_sans.deb
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -424,7 +424,7 @@ sudo dpkg -i harmonyos_sans.deb
 <h2 id="org6fc6af4"><span class="section-number-2">3.</span> 设置中文环境</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
-<pre class="src src-bash">sudo nano /etc/locale.gen
+<pre class="src src-bash"><code>sudo nano /etc/locale.gen
 
 zh_CN.UTF-8 UTF-8
 
@@ -434,7 +434,7 @@ sudo locale-gen
 <span style="color: #af3a03;">echo</span> <span style="color: #79740e;">'export LC_ALL=zh_CN.UTF-8'</span> &gt;&gt; ~/.bashrc
 
 
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -446,14 +446,14 @@ sudo locale-gen
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">git clone https://github.moeyy.xyz/https://github.com/iDvel/rime-ice --depth=1
+<pre class="src src-bash"><code>git clone https://github.moeyy.xyz/https://github.com/iDvel/rime-ice --depth=1
 
 cp -r ./rime-ice/* /usr/share/rime-data/
-</pre>
+</code></pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">rime</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">rime</span>
   <span style="color: #af3a03;">:custom</span>
   <span style="color: #b16286;">(</span>default-input-method <span style="color: #79740e;">"rime"</span><span style="color: #b16286;">)</span>
   <span style="color: #b16286;">(</span>rime-show-candidate 'posframe<span style="color: #b16286;">)</span>
@@ -463,7 +463,7 @@ cp -r ./rime-ice/* /usr/share/rime-data/
   <span style="color: #af3a03;">:bind</span>
   <span style="color: #b16286;">(</span><span style="color: #79740e;">"C-\\"</span> . toggle-input-method<span style="color: #b16286;">)</span>
   <span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -471,7 +471,7 @@ cp -r ./rime-ice/* /usr/share/rime-data/
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml"><span style="color: #076678;">patch</span>:
+<pre class="src src-yaml"><code><span style="color: #076678;">patch</span>:
   <span style="color: #076678;">schema_list</span>:
   <span style="color: #df0ac1ad85eb;"> </span> - {<span style="color: #076678;">schema</span>: double_pinyin_flypy}
   <span style="color: #076678;">ascii_composer/good_old_caps_lock</span>: <span style="color: #8f3f71;">true</span>  <span style="color: #a89984;"># </span><span style="color: #a89984;">true | false</span>
@@ -517,7 +517,7 @@ cp -r ./rime-ice/* /usr/share/rime-data/
   <span style="color: #df0ac1ad85eb;"> </span> - { <span style="color: #076678;">when</span>: always, <span style="color: #076678;">toggle</span>: traditionalization, <span style="color: #076678;">accept</span>: Control+Shift+dollar }  <span style="color: #a89984;"># </span><span style="color: #a89984;">&#20999;&#25442;&#31616;&#32321;</span>
   <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: always, toggle: full_shape, accept: Control+Shift+5 }             # &#20999;&#25442;&#20840;&#21322;&#35282;</span>
   <span style="color: #df0ac1ad85eb;"> </span> <span style="color: #a89984;"># </span><span style="color: #a89984;">- { when: always, toggle: full_shape, accept: Control+Shift+percent }       # &#20999;&#25442;&#20840;&#21322;&#35282;</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -529,8 +529,8 @@ cp -r ./rime-ice/* /usr/share/rime-data/
 <h3 id="orga106baf"><span class="section-number-3">5.1.</span> 设置剪切板格式以便与Windows互通</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span>set-clipboard-coding-system 'gbk<span style="color: #458588;">)</span>
-</pre>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span>set-clipboard-coding-system 'gbk<span style="color: #458588;">)</span>
+</code></pre>
 </div>
 </div>
 </div>

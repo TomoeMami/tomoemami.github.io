@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:54 -->
+<!-- 2025-05-19 周一 09:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-为每日重复事项添加工作日判定</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -397,7 +397,7 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #a89984;">;; </span><span style="color: #a89984;">2025&#20013;&#22269;&#27861;&#23450;&#33410;&#20551;&#26085;</span>
+<pre class="src src-elisp"><code><span style="color: #a89984;">;; </span><span style="color: #a89984;">2025&#20013;&#22269;&#27861;&#23450;&#33410;&#20551;&#26085;</span>
 %%<span style="color: #458588;">(</span>diary-date 1 1 2025<span style="color: #458588;">)</span> &#127982;&#20803;&#26086;&#127982;
 %%<span style="color: #458588;">(</span>diary-block 1 28 2025 2 4 2025<span style="color: #458588;">)</span> &#127982;&#26149;&#33410;&#127982;
 %%<span style="color: #458588;">(</span>diary-date 1 26 2025<span style="color: #458588;">)</span> &#128188;&#26149;&#33410;-&#19978;&#29677;&#128188;
@@ -409,7 +409,7 @@ b {
 %%<span style="color: #458588;">(</span>diary-block 10 1 2025 10 8 2025<span style="color: #458588;">)</span> &#127982;&#22269;&#24198;&#12289;&#20013;&#31179;&#127982;
 %%<span style="color: #458588;">(</span>diary-date 9 28 2025<span style="color: #458588;">)</span> &#128188;&#22269;&#24198;&#20013;&#31179;-&#19978;&#29677;&#128188;
 %%<span style="color: #458588;">(</span>diary-date 10 11 2025<span style="color: #458588;">)</span> &#128188;&#22269;&#24198;&#20013;&#31179;-&#19978;&#29677;&#128188;
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -421,7 +421,7 @@ b {
 <h2 id="org0783de6"><span class="section-number-2">2.</span> 设置函数</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/date-is-workday</span> <span style="color: #b16286;">(</span>date <span style="color: #8f3f71;">&amp;optional</span> offset<span style="color: #b16286;">)</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/date-is-workday</span> <span style="color: #b16286;">(</span>date <span style="color: #8f3f71;">&amp;optional</span> offset<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"&#24037;&#20316;&#26085;/&#35843;&#20241;&#26085;&#36820;&#22238;t&#65292;&#20854;&#20313;&#36820;&#22238;nil&#65307;offset&#25351;&#26597;&#30475;&#20559;&#31227;&#22825;&#25968;&#30340;&#24773;&#20917;"</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">let*</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>offset <span style="color: #458588;">(</span><span style="color: #9d0006;">or</span> offset 0<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
          <span style="color: #d65d0e;">(</span>timestamp <span style="color: #458588;">(</span>time-to-seconds <span style="color: #b16286;">(</span>date-to-time date<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
@@ -465,7 +465,7 @@ b {
         t<span style="color: #d65d0e;">)</span>
       <span style="color: #8ec07c;">)</span>
     <span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -477,7 +477,7 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-hook-for-repeat-on-workday</span><span style="color: #b16286;">()</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-hook-for-repeat-on-workday</span><span style="color: #b16286;">()</span>
   <span style="color: #79740e;">"offset&#24847;&#21619;&#24403;&#22825;&#20026;&#20551;&#19988;&#21152;&#19978;&#36127;offset&#26085;&#26399;&#20043;&#21518;&#30340;&#37027;&#22825;&#20026;&#30495;&#26102;&#65292;&#21017;&#36820;&#22238;&#30495;"</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">when</span> <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">and</span> <span style="color: #d65d0e;">(</span>org-entry-get nil <span style="color: #79740e;">"WORKDAY"</span><span style="color: #d65d0e;">)</span> <span style="color: #d65d0e;">(</span>string-match <span style="color: #79740e;">"d"</span> <span style="color: #458588;">(</span>org-get-repeat<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #a89984;">;; </span><span style="color: #a89984;">Get time from item at POINT</span>
@@ -501,7 +501,7 @@ b {
   <span style="color: #458588;">)</span>
 
 <span style="color: #458588;">(</span>add-hook 'org-todo-repeat-hook 'my/org-hook-for-repeat-on-workday<span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>

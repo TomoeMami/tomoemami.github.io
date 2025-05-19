@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:54 -->
+<!-- 2025-05-19 周一 09:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用pandoc导出当前org-buffer为docx</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -393,11 +393,11 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/sanitize-windows-filename</span> <span style="color: #b16286;">(</span>filename<span style="color: #b16286;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/sanitize-windows-filename</span> <span style="color: #b16286;">(</span>filename<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Sanitize FILENAME to be a valid Windows filename."</span>
   <span style="color: #a89984;">;; </span><span style="color: #a89984;">Replace invalid characters with an underscore</span>
   <span style="color: #b16286;">(</span>replace-regexp-in-string <span style="color: #79740e;">"[&lt;&gt;:\\\"</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">/</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">|</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">?</span><span style="color: #9d0006; font-weight: bold;">\</span><span style="color: #79740e;">*]+"</span> <span style="color: #79740e;">"_"</span> filename<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -405,7 +405,7 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 <h2 id="orgeddf905"><span class="section-number-2">2.</span> 将当前buffer内容放至TEMP文件夹内某文件并返回路径</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">seq-replacer</span> <span style="color: #b16286;">(</span>input<span style="color: #b16286;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">seq-replacer</span> <span style="color: #b16286;">(</span>input<span style="color: #b16286;">)</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">dolist</span> <span style="color: #8ec07c;">(</span>pair input<span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span>goto-char <span style="color: #d65d0e;">(</span>point-min<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">while</span> <span style="color: #d65d0e;">(</span>re-search-forward <span style="color: #458588;">(</span>car pair<span style="color: #458588;">)</span> nil t<span style="color: #d65d0e;">)</span>
@@ -435,7 +435,7 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
       <span style="color: #d65d0e;">(</span>my/pandoc-line-breaker<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #a89984;">;; </span><span style="color: #a89984;">Return the full path of the file</span>
     full-path<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -451,13 +451,13 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 <h2 id="org1d2037e"><span class="section-number-2">3.</span> 利用pandoc转换临时文件并保存到桌面</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-buffer-export-docx</span> <span style="color: #b16286;">()</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-buffer-export-docx</span> <span style="color: #b16286;">()</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">interactive</span><span style="color: #b16286;">)</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>docx-file <span style="color: #458588;">(</span>concat <span style="color: #b16286;">(</span>getenv <span style="color: #79740e;">"UserProfile"</span><span style="color: #b16286;">)</span> <span style="color: #79740e;">"\\desktop\\"</span> <span style="color: #b16286;">(</span>my/sanitize-windows-filename <span style="color: #8ec07c;">(</span>buffer-name<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span> <span style="color: #79740e;">".docx"</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
            <span style="color: #d65d0e;">(</span>template-file <span style="color: #458588;">(</span>concat <span style="color: #b16286;">(</span>file-truename <span style="color: #79740e;">"~/.emacs.d/org"</span><span style="color: #b16286;">)</span> <span style="color: #79740e;">"/template.docx"</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span>shell-command <span style="color: #d65d0e;">(</span>format <span style="color: #79740e;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #458588;">(</span>my/save-buffer-to-temp-org<span style="color: #458588;">)</span> docx-file template-file<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span>message <span style="color: #79740e;">"Convert finish: %s"</span> docx-file<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>

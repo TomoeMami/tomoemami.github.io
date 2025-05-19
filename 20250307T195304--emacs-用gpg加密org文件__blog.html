@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:55 -->
+<!-- 2025-05-19 周一 09:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用gpg加密org文件</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -408,7 +408,7 @@ Linux/MacOS不用多谈，Windows上最简单的就是用 <code>scoop install gp
 导入密钥：<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">gpg --full-gen-key
+<pre class="src src-bash"><code>gpg --full-gen-key
 
 <span style="color: #a89984;">#</span><span style="color: #a89984;">&#29983;&#25104;&#26102;&#20250;&#35201;&#27714;&#36755;&#20837;name</span>
 
@@ -422,7 +422,7 @@ gpg --import name.key
 gpg --edit-key name
 <span style="color: #a89984;"># </span><span style="color: #a89984;">&#30475;&#21040;&#25552;&#31034;&#31526;&#21518;&#36755;&#20837; trust</span>
 <span style="color: #a89984;"># </span><span style="color: #a89984;">&#20877;&#36873;&#25321;&#20449;&#20219;&#31561;&#32423;&#65292;&#25105;&#33258;&#24049;&#30340; Key&#65292;&#25105;&#36873; 5</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -438,8 +438,8 @@ gpg --edit-key name
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> make-backup-files nil<span style="color: #458588;">)</span>
-</pre>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> make-backup-files nil<span style="color: #458588;">)</span>
+</code></pre>
 </div>
 
 <p>
@@ -447,14 +447,14 @@ gpg --edit-key name
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-encrypt-entries</span> <span style="color: #b16286;">()</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-encrypt-entries</span> <span style="color: #b16286;">()</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">interactive</span><span style="color: #b16286;">)</span>
   <span style="color: #b16286;">(</span>org-encrypt-entries<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"&#31227;&#38500;&#34892;&#23614; ^M(CRLF) Replace DOS eolns CR LF with Unix eolns CR"</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">save-excursion</span>
     <span style="color: #8ec07c;">(</span>goto-char <span style="color: #d65d0e;">(</span>point-min<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">while</span> <span style="color: #d65d0e;">(</span>search-forward <span style="color: #79740e;">"\r"</span> nil t<span style="color: #d65d0e;">)</span> <span style="color: #d65d0e;">(</span>replace-match <span style="color: #79740e;">""</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -462,14 +462,14 @@ gpg --edit-key name
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #a89984;">;;; </span><span style="color: #a89984;">custom predicates if you don't want auto save.</span>
+<pre class="src src-elisp"><code><span style="color: #a89984;">;;; </span><span style="color: #a89984;">custom predicates if you don't want auto save.</span>
 <span style="color: #a89984;">;;; </span><span style="color: #a89984;">disable auto save mode when current filetype is an gpg file.</span>
 <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> auto-save-disable-predicates
       '<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #9d0006;">lambda</span> <span style="color: #d65d0e;">()</span>
       <span style="color: #d65d0e;">(</span>string-suffix-p
       <span style="color: #79740e;">"gpg"</span>
       <span style="color: #458588;">(</span>file-name-extension <span style="color: #b16286;">(</span>buffer-name<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> t<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>

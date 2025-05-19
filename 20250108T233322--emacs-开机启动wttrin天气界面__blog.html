@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:54 -->
+<!-- 2025-05-19 周一 09:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-开机启动wttrin天气界面</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -407,11 +407,11 @@ b {
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">wttrin</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">wttrin</span>
   <span style="color: #af3a03;">:config</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">setq</span> wttrin-default-languages '<span style="color: #8ec07c;">(</span><span style="color: #79740e;">"Accept-Language"</span> . <span style="color: #79740e;">"zh-CN,zh"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -427,13 +427,13 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span>custom-set-faces
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span>custom-set-faces
  <span style="color: #a89984;">;; </span><span style="color: #a89984;">custom-set-faces was added by Custom.</span>
  <span style="color: #a89984;">;; </span><span style="color: #a89984;">If you edit it by hand, you could mess it up, so be careful.</span>
  <span style="color: #a89984;">;; </span><span style="color: #a89984;">Your init file should contain only one such instance.</span>
  <span style="color: #a89984;">;; </span><span style="color: #a89984;">If there is more than one, they won't work right.</span>
   '<span style="color: #b16286;">(</span>wttrin-buffer-face <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>t <span style="color: #458588;">(</span><span style="color: #af3a03;">:family</span> <span style="color: #79740e;">"Sarasa Term SC"</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -441,7 +441,7 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">create-variable-pitch-fontset</span> <span style="color: #b16286;">(</span>name ascii-font han-font<span style="color: #b16286;">)</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">create-variable-pitch-fontset</span> <span style="color: #b16286;">(</span>name ascii-font han-font<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Create fontset named NAME with given ASCII-FONT and HAN-FONT."</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>registry <span style="color: #458588;">(</span>concat <span style="color: #79740e;">"fontset-variable pitch "</span> name<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span>create-fontset-from-fontset-spec
@@ -457,7 +457,7 @@ b {
                                <span style="color: #79740e;">"Sarasa Term SC"</span><span style="color: #458588;">)</span>
 
 <span style="color: #458588;">(</span>set-face-attribute 'wttrin-buffer-face nil <span style="color: #af3a03;">:fontset</span> <span style="color: #79740e;">"fontset-variable pitch regular"</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 
@@ -466,7 +466,7 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">wttrin-query</span> <span style="color: #b16286;">(</span>location-name<span style="color: #b16286;">)</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">wttrin-query</span> <span style="color: #b16286;">(</span>location-name<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Query weather of LOCATION-NAME via wttrin, display the result in new buffer."</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">let</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>raw-string <span style="color: #458588;">(</span>wttrin-fetch-raw-string location-name<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
     <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">if</span> <span style="color: #d65d0e;">(</span>string-match <span style="color: #79740e;">"ERROR"</span> raw-string<span style="color: #d65d0e;">)</span>
@@ -517,7 +517,7 @@ b {
         <span style="color: #458588;">(</span>local-set-key <span style="color: #79740e;">"q"</span> 'wttrin-exit<span style="color: #458588;">)</span>
         <span style="color: #458588;">(</span>local-set-key <span style="color: #79740e;">"g"</span> 'wttrin-requery<span style="color: #458588;">)</span>
         <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> buffer-read-only t<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -529,8 +529,8 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span>wttrin-query <span style="color: #79740e;">"AAA, China"</span><span style="color: #458588;">)</span>
-</pre>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span>wttrin-query <span style="color: #79740e;">"AAA, China"</span><span style="color: #458588;">)</span>
+</code></pre>
 </div>
 </div>
 </div>

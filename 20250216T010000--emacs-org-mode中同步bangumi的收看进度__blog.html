@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:55 -->
+<!-- 2025-05-19 周一 09:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-org-mode中同步bangumi的收看进度</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -378,7 +378,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-04-10 周四 20:07]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-04-22 周二 21:10]</span></span></p>
 </div>
 <div id="content" class="content">
 <h1 class="title">emacs-org-mode中同步bangumi的收看进度</h1>
@@ -397,15 +397,15 @@ b {
 <p>
 部分同步内容：某一条目章节的观看情况，只能增不能减。<br />
 </p>
-<div id="outline-container-org69b767a" class="outline-2">
-<h2 id="org69b767a"><span class="section-number-2">1.</span> 基础配置</h2>
+<div id="outline-container-org1ba021d" class="outline-2">
+<h2 id="org1ba021d"><span class="section-number-2">1.</span> 基础配置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 需要安装 <code>plz</code> 包以处理HTTP请求。<br />
 后面的具体配置细则请直接复制粘贴即可<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">plz</span><span style="color: #458588;">)</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">plz</span><span style="color: #458588;">)</span>
 <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#22312;&#36825;&#37324; https://next.bgm.tv/demo/access-token &#30003;&#35831;token</span>
 <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> my/bgm-token <span style="color: #79740e;">"YOUR-TOKEN"</span><span style="color: #458588;">)</span>
 
@@ -460,21 +460,22 @@ b {
 <span style="color: #79740e;">&#21516;&#27493;&#26356;&#26032;BGM&#30340;&#35266;&#30475;&#24773;&#20917;&#12290;&#30446;&#21069;&#26159;TODO-&#22312;&#30475;&#65307;DONE-&#30475;&#36807;&#65307;XXXX-&#25243;&#24323;&#65307;HOLD-&#24819;&#30475;&#65307;&#27809;&#26377;TODO&#20851;&#38190;&#23383;-&#25601;&#32622;&#12290;</span>
 <span style="color: #79740e;">&#30456;&#20851;&#25968;&#23383;&#19982;BGM&#29366;&#24577;&#30340;&#23545;&#24212;&#65306;</span>
 <span style="color: #79740e;">1 &#24819;&#30475;&#65292;2 &#30475;&#36807;&#65292;3 &#22312;&#30475;&#65292;4 &#25601;&#32622;&#65292;5 &#25243;&#24323;</span>
-<span style="color: #79740e;">&#30446;&#21069;&#20165;&#20250;&#22312; &#26377;'</span><span style="color: #8f3f71;">BGM&#23646;&#24615;</span><span style="color: #79740e;">'+&#19981;&#65288;'</span><span style="color: #8f3f71;">DONE</span><span style="color: #79740e;">'&#19988;&#26377;&#37325;&#22797;&#22120;&#65289;&#30340;&#26102;&#20505;&#35302;&#21457;&#12290;</span>
-<span style="color: #79740e;">reapter&#30340;&#24037;&#20316;&#21407;&#29702;&#26159;&#22312;&#26631;&#35760;&#20026;'</span><span style="color: #8f3f71;">DONE</span><span style="color: #79740e;">'&#20043;&#21518;&#65292;&#35302;&#21457;`</span><span style="color: #8f3f71;">org-after-todo-state-change-hook</span><span style="color: #79740e;">'&#65292;&#28982;&#21518;&#23558;&#20851;&#38190;&#23383;&#25913;&#20026;'</span><span style="color: #8f3f71;">TODO</span><span style="color: #79740e;">'&#32780;&#19981;&#35302;&#21457;&#21069;&#36848;hook&#12290;</span>
-<span style="color: #79740e;">&#21482;&#38656;&#35201;&#22312;&#26631;&#35760;&#20026;'</span><span style="color: #8f3f71;">DONE</span><span style="color: #79740e;">'&#19988;&#20445;&#26377;'</span><span style="color: #8f3f71;">repeater</span><span style="color: #79740e;">'&#30340;&#26102;&#20505;&#23558;&#20854;&#24573;&#30053;&#21363;&#21487;&#12290;</span>
+<span style="color: #79740e;">&#30446;&#21069;&#20165;&#20250;&#22312;&#20197;&#19979;&#24773;&#20917;&#35302;&#21457;&#65306;</span>
+<span style="color: #79740e;">&#26377;'</span><span style="color: #8f3f71;">BGM</span><span style="color: #79740e;">'&#23646;&#24615;&#65292;&#35777;&#26126;&#38656;&#35201;&#35843;&#29992;bangumi&#30340;api '</span><span style="color: #8f3f71;">and</span><span style="color: #79740e;">'</span>
+<span style="color: #79740e;">'</span><span style="color: #8f3f71;">not</span><span style="color: #79740e;">' &#26377;'</span><span style="color: #8f3f71;">repeater</span><span style="color: #79740e;">'&#19988;&#26631;&#35760;&#20026;'</span><span style="color: #8f3f71;">DONE</span><span style="color: #79740e;">'&#65292;&#35777;&#26126;&#26159;&#31867;&#20284;&#36861;&#30058;&#30340;&#22330;&#26223; '</span><span style="color: #8f3f71;">and</span><span style="color: #79740e;">'</span>
+<span style="color: #79740e;">'</span><span style="color: #8f3f71;">not</span><span style="color: #79740e;">' &#26377;'</span><span style="color: #8f3f71;">repeater</span><span style="color: #79740e;">'&#19988;&#26631;&#35760;&#20026;'</span><span style="color: #8f3f71;">TODO</span><span style="color: #79740e;">'&#19988;`</span><span style="color: #8f3f71;">org-last-todo-state-is-todo</span><span style="color: #79740e;">'&#20026;'</span><span style="color: #8f3f71;">nil</span><span style="color: #79740e;">'&#65292;&#35777;&#26126;&#20043;&#21069;&#30340;todo-state&#26159;'</span><span style="color: #8f3f71;">DONE</span><span style="color: #79740e;">'&#65292;&#20026;'</span><span style="color: #8f3f71;">repeater</span><span style="color: #79740e;">'&#35302;&#21457;&#21518;&#30340;&#36873;&#39033;</span>
 <span style="color: #79740e;">  """</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">interactive</span><span style="color: #b16286;">)</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">when</span> <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">and</span> <span style="color: #d65d0e;">(</span>org-entry-get nil <span style="color: #79740e;">"BGM"</span><span style="color: #d65d0e;">)</span>
-             <span style="color: #d65d0e;">(</span>not <span style="color: #458588;">(</span><span style="color: #9d0006;">and</span> <span style="color: #b16286;">(</span>string-equal <span style="color: #8ec07c;">(</span>nth 2 <span style="color: #d65d0e;">(</span>org-heading-components<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span> <span style="color: #79740e;">"DONE"</span><span style="color: #b16286;">)</span>
-                       <span style="color: #b16286;">(</span>org-get-repeat<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">let*</span> <span style="color: #d65d0e;">(</span><span style="color: #458588;">(</span>subject <span style="color: #b16286;">(</span>org-entry-get nil <span style="color: #79740e;">"BGM"</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-           <span style="color: #458588;">(</span>todo <span style="color: #b16286;">(</span>nth 2 <span style="color: #8ec07c;">(</span>org-heading-components<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-           <span style="color: #458588;">(</span>status <span style="color: #b16286;">(</span><span style="color: #9d0006;">cond</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>string-equal todo <span style="color: #79740e;">"TODO"</span><span style="color: #d65d0e;">)</span> '<span style="color: #d65d0e;">(</span>3 . <span style="color: #79740e;">"&#22312;&#30475;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                         <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>string-equal todo <span style="color: #79740e;">"HOLD"</span><span style="color: #d65d0e;">)</span> '<span style="color: #d65d0e;">(</span>1 . <span style="color: #79740e;">"&#24819;&#30475;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                         <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>string-equal todo <span style="color: #79740e;">"DONE"</span><span style="color: #d65d0e;">)</span> '<span style="color: #d65d0e;">(</span>2 . <span style="color: #79740e;">"&#30475;&#36807;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                         <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>string-equal todo <span style="color: #79740e;">"XXXX"</span><span style="color: #d65d0e;">)</span> '<span style="color: #d65d0e;">(</span>5 . <span style="color: #79740e;">"&#25243;&#24323;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-                         <span style="color: #8ec07c;">(</span>t '<span style="color: #d65d0e;">(</span>4 . <span style="color: #79740e;">"&#25601;&#32622;"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+  <span style="color: #b16286;">(</span><span style="color: #9d0006;">let*</span> <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span>subject <span style="color: #458588;">(</span>org-entry-get nil <span style="color: #79740e;">"BGM"</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+         <span style="color: #d65d0e;">(</span>todo <span style="color: #458588;">(</span>nth 2 <span style="color: #b16286;">(</span>org-heading-components<span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
+         <span style="color: #d65d0e;">(</span>status <span style="color: #458588;">(</span><span style="color: #9d0006;">cond</span> <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>string-equal todo <span style="color: #79740e;">"TODO"</span><span style="color: #8ec07c;">)</span> '<span style="color: #8ec07c;">(</span>3 . <span style="color: #79740e;">"&#22312;&#30475;"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+                       <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>string-equal todo <span style="color: #79740e;">"HOLD"</span><span style="color: #8ec07c;">)</span> '<span style="color: #8ec07c;">(</span>1 . <span style="color: #79740e;">"&#24819;&#30475;"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+                       <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>string-equal todo <span style="color: #79740e;">"DONE"</span><span style="color: #8ec07c;">)</span> '<span style="color: #8ec07c;">(</span>2 . <span style="color: #79740e;">"&#30475;&#36807;"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+                       <span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span>string-equal todo <span style="color: #79740e;">"XXXX"</span><span style="color: #8ec07c;">)</span> '<span style="color: #8ec07c;">(</span>5 . <span style="color: #79740e;">"&#25243;&#24323;"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
+                       <span style="color: #b16286;">(</span>t '<span style="color: #8ec07c;">(</span>4 . <span style="color: #79740e;">"&#25601;&#32622;"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
+    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">when</span> <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">and</span> subject
+               <span style="color: #458588;">(</span>not <span style="color: #b16286;">(</span><span style="color: #9d0006;">and</span> <span style="color: #8ec07c;">(</span>org-get-repeat<span style="color: #8ec07c;">)</span> <span style="color: #8ec07c;">(</span>string-equal todo <span style="color: #79740e;">"DONE"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+               <span style="color: #458588;">(</span>not <span style="color: #b16286;">(</span><span style="color: #9d0006;">and</span> <span style="color: #8ec07c;">(</span>org-get-repeat<span style="color: #8ec07c;">)</span> <span style="color: #8ec07c;">(</span>string-equal todo <span style="color: #79740e;">"TODO"</span><span style="color: #8ec07c;">)</span> <span style="color: #8ec07c;">(</span>not org-last-todo-state-is-todo<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
       <span style="color: #d65d0e;">(</span>plz 'post <span style="color: #458588;">(</span>concat <span style="color: #79740e;">"https://api.bgm.tv/v0/users/-/collections/"</span> subject<span style="color: #458588;">)</span>
         <span style="color: #af3a03;">:headers</span> `<span style="color: #458588;">(</span><span style="color: #b16286;">(</span><span style="color: #79740e;">"User-Agent"</span> . <span style="color: #79740e;">"tomoemami/emacs-bgm"</span><span style="color: #b16286;">)</span>
                    <span style="color: #b16286;">(</span><span style="color: #79740e;">"Authorization"</span> . ,<span style="color: #8ec07c;">(</span>concat <span style="color: #79740e;">"Bearer "</span> my/bgm-token<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
@@ -487,24 +488,23 @@ b {
 <span style="color: #458588;">(</span>add-hook 'org-after-todo-state-change-hook 'my/bgm-update-subject<span style="color: #458588;">)</span>
 <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#22312;checkbox&#32479;&#35745;&#25968;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;episode</span>
 <span style="color: #458588;">(</span>add-hook 'org-checkbox-statistics-hook 'my/bgm-update-episodes<span style="color: #458588;">)</span>
-
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgde14acf" class="outline-2">
-<h2 id="orgde14acf"><span class="section-number-2">2.</span> 使用方法</h2>
+<div id="outline-container-orgeb8d0fe" class="outline-2">
+<h2 id="orgeb8d0fe"><span class="section-number-2">2.</span> 使用方法</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 首先是创建一个不含TODO关键字的heading，然后按 <code>C-c C-x p</code> 为其输入 <code>BGM</code> 的属性，具体值为Bangumi网站上的对应值（如该条目的页面网址为 <a href="https://bgm.tv/subject/454684">https://bgm.tv/subject/454684</a> ，则应输入 454684。<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org">\*** AveMujica
+<pre class="src src-org"><code>\*** AveMujica
 <span style="color: #b57614;">:PROPERTIES:</span>
 <span style="color: #a89984;">:BGM:</span>      <span style="color: #3c3836; background-color: #f2e5bc;">454684</span>
 <span style="color: #b57614;">:END:</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -512,11 +512,11 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org">\*** TODO AveMujica
+<pre class="src src-org"><code>\*** TODO AveMujica
 <span style="color: #b57614;">:PROPERTIES:</span>
 <span style="color: #a89984;">:BGM:</span>      <span style="color: #3c3836; background-color: #f2e5bc;">454684</span>
 <span style="color: #b57614;">:END:</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -524,7 +524,7 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org">\*** AveMujica<span style="color: #9d0006; font-weight: bold;">[0/12]</span>
+<pre class="src src-org"><code>\*** AveMujica<span style="color: #9d0006; font-weight: bold;">[0/12]</span>
 <span style="color: #b57614;">:PROPERTIES:</span>
 <span style="color: #a89984;">:BGM:</span>      <span style="color: #3c3836; background-color: #f2e5bc;">454684</span>
 <span style="color: #b57614;">:END:</span>
@@ -540,7 +540,7 @@ b {
 10. <span style="font-weight: bold;">[ ]</span> 
 11. <span style="font-weight: bold;">[ ]</span> 
 12. <span style="font-weight: bold;">[ ]</span> 
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -548,8 +548,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org90e4a21" class="outline-2">
-<h2 id="org90e4a21"><span class="section-number-2">3.</span> 注意事项</h2>
+<div id="outline-container-orgdd7399b" class="outline-2">
+<h2 id="orgdd7399b"><span class="section-number-2">3.</span> 注意事项</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 注意，这里我偷了一个懒，观看进度是根据 <code>[0/12]</code> 的前面数字判断的。如果你跳跃式观看，比如只看了第2、3、4集，checkbox统计数据会变成 <code>[3/12]</code> ，则以上代码依然会自动标记前3集为已读。<br />

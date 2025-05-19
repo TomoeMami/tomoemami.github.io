@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:54 -->
+<!-- 2025-05-19 周一 09:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-启用org-roam中的unlinked-section</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -393,7 +393,7 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">org-roam</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">use-package</span> <span style="color: #8f3f71;">org-roam</span>
     <span style="color: #af3a03;">:custom</span>
   <span style="color: #b16286;">(</span>org-roam-mode-sections
    <span style="color: #8ec07c;">(</span>list #'org-roam-backlinks-section
@@ -401,7 +401,7 @@ b {
          #'org-roam-unlinked-references-section
          <span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
   <span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -409,7 +409,7 @@ b {
 <h2 id="org11321cc"><span class="section-number-2">2.</span> 覆盖内置相关函数</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">org-roam-unlinked-references--rg-command</span> <span style="color: #b16286;">(</span>titles<span style="color: #b16286;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">org-roam-unlinked-references--rg-command</span> <span style="color: #b16286;">(</span>titles<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Return the ripgrep command searching for TITLES."</span>
   <span style="color: #b16286;">(</span>concat <span style="color: #79740e;">"rg --follow --only-matching --vimgrep --pcre2 --ignore-case "</span>
           <span style="color: #8ec07c;">(</span>mapconcat <span style="color: #d65d0e;">(</span><span style="color: #9d0006;">lambda</span> <span style="color: #458588;">(</span>glob<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>concat <span style="color: #79740e;">"--glob "</span> glob<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
@@ -458,7 +458,7 @@ b {
                            <span style="color: #8ec07c;">(</span>org-roam-unlinked-references-preview-line f row<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
                           <span style="color: #79740e;">"\n"</span><span style="color: #458588;">)</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
         <span style="color: #458588;">(</span>insert ?\n<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>

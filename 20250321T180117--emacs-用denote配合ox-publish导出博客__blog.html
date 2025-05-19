@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:55 -->
+<!-- 2025-05-19 周一 09:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用denote配合ox-publish导出博客</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -405,11 +405,11 @@ b {
 <h2 id="orgbf32ab5"><span class="section-number-2">1.</span> 确定导出文件范围</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/ox-files</span> <span style="color: #b16286;">()</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/ox-files</span> <span style="color: #b16286;">()</span>
   <span style="color: #79740e;">"Return a list of note files containing '</span><span style="color: #8f3f71;">blog</span><span style="color: #79740e;">' tag."</span>
   <span style="color: #b16286;">(</span>denote-directory-files <span style="color: #79740e;">"_blog"</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
@@ -417,7 +417,7 @@ b {
 <h2 id="orgccdde9a"><span class="section-number-2">2.</span> 自定义导出配置</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-project-update</span> <span style="color: #b16286;">(</span><span style="color: #8f3f71;">&amp;optional</span> ARG PRED<span style="color: #b16286;">)</span> <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-project-update</span> <span style="color: #b16286;">(</span><span style="color: #8f3f71;">&amp;optional</span> ARG PRED<span style="color: #b16286;">)</span> <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">setq</span> org-publish-project-alist
         `<span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span><span style="color: #79740e;">"posts"</span>
            <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#24086;&#23376;&#37197;&#32622;&#39033;&#65292;&#30053;&#21435;&#20102;&#20854;&#20182;&#26080;&#20851;&#36873;&#39033;</span>
@@ -477,7 +477,7 @@ b {
             title
             link
             pubdate<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -492,7 +492,7 @@ b {
 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-25 周二 09:39]</span></span><br />
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">denote-link-ol-export</span> <span style="color: #b16286;">(</span>link description format<span style="color: #b16286;">)</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">denote-link-ol-export</span> <span style="color: #b16286;">(</span>link description format<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Modified version of `</span><span style="color: #8f3f71;">denote-link-ol-export</span><span style="color: #79740e;">'.</span>
 <span style="color: #79740e;">Retrieve ID, replace anchor with it</span>
 
@@ -519,7 +519,7 @@ b {
      <span style="color: #d65d0e;">(</span><span style="color: #458588;">(</span>eq format 'ascii<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>format <span style="color: #79740e;">"[%s] &lt;denote:%s&gt;"</span> desc path<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
      <span style="color: #d65d0e;">(</span><span style="color: #458588;">(</span>eq format 'md<span style="color: #458588;">)</span> <span style="color: #458588;">(</span>format <span style="color: #79740e;">"[%s](%s)"</span> desc path<span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span>
      <span style="color: #d65d0e;">(</span>t path<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 </div>
 </div>
