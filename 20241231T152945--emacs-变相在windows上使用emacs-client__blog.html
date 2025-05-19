@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:54 -->
+<!-- 2025-05-19 周一 09:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-变相在windows上使用emacs-client</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -391,7 +391,7 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp">
+<pre class="src src-elisp"><code>
 <span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/set-gui</span> <span style="color: #b16286;">()</span>
   <span style="color: #b16286;">(</span>set-font <span style="color: #79740e;">"Cascadia Code"</span> <span style="color: #79740e;">"HarmonyOS Sans SC"</span> 32 32<span style="color: #b16286;">)</span>
   <span style="color: #b16286;">(</span>set-frame-position <span style="color: #8ec07c;">(</span>selected-frame<span style="color: #8ec07c;">)</span> 100 100<span style="color: #b16286;">)</span>
@@ -404,15 +404,15 @@ b {
     <span style="color: #b16286;">(</span><span style="color: #9d0006;">progn</span> <span style="color: #8ec07c;">(</span>server-start<span style="color: #8ec07c;">)</span>
            <span style="color: #8ec07c;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #8ec07c;">)</span>
            <span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
 然后将启动Emacs的快捷方式路径改为<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-nil">D:\Emacs\bin\emacsclientw.exe  -c -n -f %APPDATA%\emacs-local\server -e "(raise-frame)" -a "D:\Emacs\bin\runemacs.exe"
-</pre>
+<pre class="src src-nil"><code>D:\Emacs\bin\emacsclientw.exe  -c -n -f %APPDATA%\emacs-local\server -e "(raise-frame)" -a "D:\Emacs\bin\runemacs.exe"
+</code></pre>
 </div>
 
 <p>
@@ -420,8 +420,8 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span>global-set-key <span style="color: #b16286;">(</span>kbd <span style="color: #79740e;">"C-x C-c"</span><span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span><span style="color: #9d0006;">lambda</span> <span style="color: #8ec07c;">()</span> <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">interactive</span><span style="color: #8ec07c;">)</span> <span style="color: #8ec07c;">(</span>make-frame-invisible nil t<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span>global-set-key <span style="color: #b16286;">(</span>kbd <span style="color: #79740e;">"C-x C-c"</span><span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span><span style="color: #9d0006;">lambda</span> <span style="color: #8ec07c;">()</span> <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">interactive</span><span style="color: #8ec07c;">)</span> <span style="color: #8ec07c;">(</span>make-frame-invisible nil t<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</code></pre>
 </div>
 
 <p>
@@ -444,7 +444,7 @@ b {
 创建emacs-org-protocol.bat文件，内容如下：<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-bat">@<span style="color: #af3a03;">echo</span> off
+<pre class="src src-bat"><code>@<span style="color: #af3a03;">echo</span> off
 <span style="color: #af3a03;">echo</span> REGEDIT4 &gt;t1.reg
 <span style="color: #af3a03;">echo</span> <span style="color: #458588;">[</span>HKEY_CLASSES_ROOT\org-protocol<span style="color: #458588;">]</span> &gt;&gt;e1.reg
 <span style="color: #af3a03;">echo</span> @=<span style="color: #79740e;">"URL:Org Protocol"</span> &gt;&gt;e1.reg
@@ -453,7 +453,7 @@ b {
 <span style="color: #af3a03;">echo</span> <span style="color: #458588;">[</span>HKEY_CLASSES_ROOT\org-protocol\shell\open<span style="color: #458588;">]</span> &gt;&gt;e1.reg
 <span style="color: #af3a03;">echo</span> <span style="color: #458588;">[</span>HKEY_CLASSES_ROOT\org-protocol\shell\open\command<span style="color: #458588;">]</span> &gt;&gt;e1.reg
 <span style="color: #af3a03;">echo</span> @=<span style="color: #79740e;">"\"</span>D:\\Emacs\\bin\\emacsclientw.exe\<span style="color: #79740e;">"  -</span><span style="color: #79740e;">f</span><span style="color: #79740e;"> %APPDATA%\emacs-local\server \"</span>%%<span style="color: #076678;">1</span>\<span style="color: #79740e;">""</span> &gt;&gt;e1.reg
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -467,7 +467,7 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #a89984;">;; </span><span style="color: #a89984;">&#36825;&#37324;&#38754;&#21482;&#35774;&#32622;&#23383;&#20307;</span>
+<pre class="src src-elisp"><code><span style="color: #a89984;">;; </span><span style="color: #a89984;">&#36825;&#37324;&#38754;&#21482;&#35774;&#32622;&#23383;&#20307;</span>
 <span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/set-gui</span> <span style="color: #b16286;">()</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">if</span> <span style="color: #8ec07c;">(</span>eq system-type 'darwin<span style="color: #8ec07c;">)</span>
       <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">progn</span>
@@ -498,7 +498,7 @@ b {
 <span style="color: #458588;">(</span><span style="color: #9d0006;">ignore-errors</span> <span style="color: #b16286;">(</span>server-start<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 <span style="color: #a89984;">;; </span><span style="color: #a89984;">&#24403;&#21069;&#31383;&#21475;&#38544;&#34255;</span>
 <span style="color: #458588;">(</span>make-frame-invisible nil t<span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>

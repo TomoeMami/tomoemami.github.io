@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:54 -->
+<!-- 2025-05-19 周一 09:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-调用matplotlib画图-并存储到windows的临时文件夹中</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -391,25 +391,25 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><span style="color: #a89984;">#+NAME: myTimeTable</span>
+<pre class="src src-org"><code><span style="color: #a89984;">#+NAME: myTimeTable</span>
 <span style="color: #076678; background-color: #ebdbb2;">|1|2|</span>
 <span style="color: #076678; background-color: #ebdbb2;">|-+-|</span>
 <span style="color: #076678; background-color: #ebdbb2;">|3|4|</span>
-</pre>
+</code></pre>
 </div>
 <p>
 在python代码行的header里传入表格数据（在我用的org 9.6.14中数据会自动去除标题行和分割行，只剩下面的数据行）：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #a89984;">#</span><span style="color: #a89984;">+begin_src python :results file link :var data=myTimeTable</span>
+<pre class="src src-python"><code><span style="color: #a89984;">#</span><span style="color: #a89984;">+begin_src python :results file link :var data=myTimeTable</span>
 <span style="color: #9d0006;">import</span> os,matplotlib, numpy
 &#8230;&#8230;
 
 <span style="color: #076678;">savedir</span> = os.getenv<span style="color: #458588;">(</span><span style="color: #79740e;">'TEMP'</span><span style="color: #458588;">)</span>+<span style="color: #79740e;">'</span><span style="color: #8f3f71;">\\</span><span style="color: #79740e;">myTimeTable.png'</span>
 plt.savefig<span style="color: #458588;">(</span>savedir<span style="color: #458588;">)</span>
 <span style="color: #9d0006;">return</span> savedir
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -417,14 +417,14 @@ plt.savefig<span style="color: #458588;">(</span>savedir<span style="color: #458
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #a89984;">#</span><span style="color: #a89984;">+name: &#20195;&#30721;&#22359;name</span>
+<pre class="src src-python"><code><span style="color: #a89984;">#</span><span style="color: #a89984;">+name: &#20195;&#30721;&#22359;name</span>
 <span style="color: #a89984;">#</span><span style="color: #a89984;">+begin_src python :var filename=(org-element-property :name (org-element-context)) :results file link</span>
 <span style="color: #9d0006;">import</span> os,matplotlib, numpy
 &#8230;&#8230;
 <span style="color: #076678;">savedir</span> = os.getenv<span style="color: #458588;">(</span><span style="color: #79740e;">'TEMP'</span><span style="color: #458588;">)</span>+<span style="color: #79740e;">'</span><span style="color: #8f3f71;">\\</span><span style="color: #79740e;">'</span>+filename+<span style="color: #79740e;">'.png'</span>
 plt.savefig<span style="color: #458588;">(</span>savedir<span style="color: #458588;">)</span>
 <span style="color: #9d0006;">return</span> savedir
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -432,16 +432,16 @@ plt.savefig<span style="color: #458588;">(</span>savedir<span style="color: #458
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><span style="color: #a89984;">#+RESULTS:</span>
+<pre class="src src-org"><code><span style="color: #a89984;">#+RESULTS:</span>
 <span style="color: #689d6a; text-decoration: underline;"><a href="file:..../XXX.png">file:..../XXX.png</a></span>
-</pre>
+</code></pre>
 </div>
 <p>
 的图片，可以配合inline 图片相关函数使用<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #a89984;">;; </span><span style="color: #a89984;">(setq org-startup-with-inline-images t)</span>
+<pre class="src src-elisp"><code><span style="color: #a89984;">;; </span><span style="color: #a89984;">(setq org-startup-with-inline-images t)</span>
 <span style="color: #a89984;">;;; </span><span style="color: #a89984;">Only display inline images under current subtree.</span>
 <span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">org-display-subtree-inline-images</span> <span style="color: #b16286;">(</span><span style="color: #8f3f71;">&amp;optional</span> state<span style="color: #b16286;">)</span>
   <span style="color: #79740e;">"Toggle the display of inline images under current subtree.</span>
@@ -483,7 +483,7 @@ plt.savefig<span style="color: #458588;">(</span>savedir<span style="color: #458
 <span style="color: #a89984;">;;; </span><span style="color: #a89984;">auto display inline images on Org TAB cycle expand headlines.</span>
 <span style="color: #458588;">(</span>add-hook 'org-cycle-hook #'org-display-subtree-inline-images<span style="color: #458588;">)</span>
 <span style="color: #458588;">(</span>add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images<span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 <p>
 参考：<a href="https://emacs-china.org/t/org-link/13502/6">https://emacs-china.org/t/org-link/13502/6</a><br />

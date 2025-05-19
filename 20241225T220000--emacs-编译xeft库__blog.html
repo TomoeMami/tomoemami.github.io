@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-21 周一 11:54 -->
+<!-- 2025-05-19 周一 09:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-编译xeft库</title>
@@ -16,7 +16,7 @@
 
 body {
     margin: 2% auto;
-    width: 90%;
+    width: 100%;
     max-width: 100%;
     background-color: rgba(242,229,188,0.5);
     /* background-color: rgba(255,255,255,0.5); */
@@ -397,15 +397,15 @@ b {
 <h2 id="orga6fb8f5"><span class="section-number-2">1.</span> Windows</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org082586f" class="outline-3">
-<h3 id="org082586f"><span class="section-number-3">1.1.</span> 安装依赖</h3>
+<div id="outline-container-orgae80975" class="outline-3">
+<h3 id="orgae80975"><span class="section-number-3">1.1.</span> 安装依赖</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 根据你Emacs编译用的环境不同，选择不同的软件包。我用的ucrt自编译版本，所以这里选安装 <code>mingw-w64-ucrt-x86_64-xapian-core</code> 包：<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">pacman -S mingw-w64-ucrt-x86_64-xapian-core
-</pre>
+<pre class="src src-bash"><code>pacman -S mingw-w64-ucrt-x86_64-xapian-core
+</code></pre>
 </div>
 
 <p>
@@ -431,14 +431,14 @@ b {
 手动编辑 <code>PKGBUILD</code> 以下部分：<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-bash"><span style="color: #a89984;"># </span><span style="color: #a89984;">&#26368;&#26032;&#29256;&#26412;&#21495;&#20026;1.4.29</span>
+<pre class="src src-bash"><code><span style="color: #a89984;"># </span><span style="color: #a89984;">&#26368;&#26032;&#29256;&#26412;&#21495;&#20026;1.4.29</span>
 <span style="color: #076678;">pkgver</span>=1.4.29
 
 <span style="color: #a89984;"># </span><span style="color: #a89984;">&#30053;&#21435;sha256&#26816;&#26597;</span>
 <span style="color: #076678;">sha256sums</span>=<span style="color: #458588;">(</span><span style="color: #79740e;">'SKIP'</span>
             <span style="color: #79740e;">'SKIP'</span>
             <span style="color: #79740e;">'SKIP'</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 <p>
 运行 <code>pacman -S base-devel mingw-w64-ucrt-x86_64-autotools</code> 安装依赖。这里我用的ucrt64版本emacs所以上面安装的ucrt64。<br />
@@ -458,10 +458,10 @@ b {
 <h3 id="org920de5e"><span class="section-number-3">1.2.</span> 编译dll</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
-<pre class="src src-bash">git clone https://github.moeyy.xyz/https://github.com/casouri/xeft.git --depth 1 &amp;&amp; <span style="color: #af3a03;">cd</span> xeft
+<pre class="src src-bash"><code>git clone https://github.moeyy.xyz/https://github.com/casouri/xeft.git --depth 1 &amp;&amp; <span style="color: #af3a03;">cd</span> xeft
 
 make
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -477,12 +477,12 @@ make
 作者提供的预编译文件没有ARM架构的MacBook，需要自己编译。这里我用Homebrew安装的Emacs-plus@31。<br />
 </p>
 </div>
-<div id="outline-container-orgae80975" class="outline-3">
-<h3 id="orgae80975"><span class="section-number-3">2.1.</span> 安装依赖</h3>
+<div id="outline-container-orgdf94886" class="outline-3">
+<h3 id="orgdf94886"><span class="section-number-3">2.1.</span> 安装依赖</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
-<pre class="src src-bash">brew install xapian
-</pre>
+<pre class="src src-bash"><code>brew install xapian
+</code></pre>
 </div>
 </div>
 </div>
@@ -511,14 +511,14 @@ make
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">fap/ignore-errors-advice</span> <span style="color: #b16286;">(</span>orig-fun <span style="color: #8f3f71;">&amp;rest</span> args<span style="color: #b16286;">)</span>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">fap/ignore-errors-advice</span> <span style="color: #b16286;">(</span>orig-fun <span style="color: #8f3f71;">&amp;rest</span> args<span style="color: #b16286;">)</span>
   <span style="color: #b16286;">(</span><span style="color: #9d0006;">ignore-errors</span> <span style="color: #8ec07c;">(</span>apply orig-fun args<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 
 <span style="color: #458588;">(</span>advice-add 'xeft-create-note <span style="color: #af3a03;">:around</span> #'fap/ignore-errors-advice<span style="color: #458588;">)</span>
 
 <span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> xeft-filename-fn <span style="color: #b16286;">(</span><span style="color: #9d0006;">lambda</span> <span style="color: #8ec07c;">(</span>search-phrase<span style="color: #8ec07c;">)</span>
                            <span style="color: #8ec07c;">(</span>org-roam-capture- <span style="color: #af3a03;">:node</span> <span style="color: #d65d0e;">(</span>org-roam-node-create <span style="color: #af3a03;">:title</span> search-phrase<span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</code></pre>
 </div>
 
 <p>
@@ -529,8 +529,8 @@ make
 新建一个存放编译好成品文件的路径，这里用的 <code>~/.emacs.d/bin</code> 。然后添加 <code>load-path</code> ：<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><span style="color: #458588;">(</span>add-to-list 'load-path <span style="color: #79740e;">"~/.emacs.d/bin"</span><span style="color: #458588;">)</span>
-</pre>
+<pre class="src src-elisp"><code><span style="color: #458588;">(</span>add-to-list 'load-path <span style="color: #79740e;">"~/.emacs.d/bin"</span><span style="color: #458588;">)</span>
+</code></pre>
 </div>
 
 <p>
