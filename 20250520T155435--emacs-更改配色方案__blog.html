@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-05-21 周三 19:05 -->
+<!-- 2025-05-21 周三 19:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-更改配色方案</title>
@@ -378,15 +378,15 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-05-21 周三 19:05]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-05-21 周三 19:08]</span></span></p>
 </div>
 <div id="content" class="content">
 <h1 class="title">emacs-更改配色方案</h1>
 <p>
 这两天将emacs的配色方案由用了接近10年的<a href="https://github.com/greduan/emacs-theme-gruvbox">gruvbox-light-soft</a>换到了随机切换的<a href="https://github.com/protesilaos/ef-themes">ef-themes</a>。<br />
 </p>
-<div id="outline-container-org4479917" class="outline-2">
-<h2 id="org4479917"><span class="section-number-2">1.</span> 随机切换主题</h2>
+<div id="outline-container-orgdb2052d" class="outline-2">
+<h2 id="orgdb2052d"><span class="section-number-2">1.</span> 随机切换主题</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 我挑选了几个自己看得比较顺眼的 <code>ef-themes</code> 主题，参考官方配置设置启动Emacs时随机切换。<br />
@@ -412,14 +412,26 @@ b {
 </div>
 </div>
 </div>
-<div id="outline-container-orgde67c11" class="outline-2">
-<h2 id="orgde67c11"><span class="section-number-2">2.</span> 配置全局字形设置</h2>
+<div id="outline-container-org7cc35bb" class="outline-2">
+<h2 id="org7cc35bb"><span class="section-number-2">2.</span> 配置全局字形设置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 首先是把 <code>org-mode</code> 下所有的heading设置为正常字形，无行高调整；然后全局启用默认字体。我默认的字体是中英文1:2等宽的字体混合搭配（<a href="20241113T162500--emacs-字体选择__blog.html">emacs-字体选择</a>）。<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> ef-themes-headings <span style="color: #506fa0; font-style: italic;">; </span><span style="color: #506fa0; font-style: italic;">read the manual's entry or the doc string</span>
+<pre class="src src-elisp"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> modus-themes-italic-constructs t
+      modus-themes-bold-constructs nil<span style="color: #3c3bbe;">)</span>
+<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> modus-themes-headings <span style="color: #506fa0; font-style: italic;">; </span><span style="color: #506fa0; font-style: italic;">read the manual's entry or the doc string</span>
+      '<span style="color: #a01f64;">(</span><span style="color: #2f5f9f;">(</span>0 . <span style="color: #a04646;">(</span>regular 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+        <span style="color: #2f5f9f;">(</span>1 . <span style="color: #a04646;">(</span>regular 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+        <span style="color: #2f5f9f;">(</span>2 . <span style="color: #a04646;">(</span>regular 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+        <span style="color: #2f5f9f;">(</span>3 . <span style="color: #a04646;">(</span>regular 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+        <span style="color: #2f5f9f;">(</span>4 . <span style="color: #a04646;">(</span>regular 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+        <span style="color: #2f5f9f;">(</span>5 . <span style="color: #a04646;">(</span>regular 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span> <span style="color: #506fa0; font-style: italic;">; </span><span style="color: #506fa0; font-style: italic;">absence of weight means `</span><span style="color: #7022bf; font-style: italic;">bold</span><span style="color: #506fa0; font-style: italic;">'</span>
+        <span style="color: #2f5f9f;">(</span>6 . <span style="color: #a04646;">(</span>regular 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+        <span style="color: #2f5f9f;">(</span>7 . <span style="color: #a04646;">(</span>regular 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+        <span style="color: #2f5f9f;">(</span>t . <span style="color: #a04646;">(</span>regular 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> ef-themes-headings <span style="color: #506fa0; font-style: italic;">; </span><span style="color: #506fa0; font-style: italic;">read the manual's entry or the doc string</span>
       '<span style="color: #a01f64;">(</span><span style="color: #2f5f9f;">(</span>0 regular 1<span style="color: #2f5f9f;">)</span>
         <span style="color: #2f5f9f;">(</span>1 regular 1<span style="color: #2f5f9f;">)</span>
         <span style="color: #2f5f9f;">(</span>2 regular 1<span style="color: #2f5f9f;">)</span>
@@ -436,15 +448,15 @@ b {
 </div>
 </div>
 </div>
-<div id="outline-container-orgfeb6038" class="outline-2">
-<h2 id="orgfeb6038"><span class="section-number-2">3.</span> 配置自动取色</h2>
+<div id="outline-container-orga6c13de" class="outline-2">
+<h2 id="orga6c13de"><span class="section-number-2">3.</span> 配置自动取色</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 利用 <code>ef-themes-with-colors</code> 宏，自动化取色并设置。色彩名称可通过 <code>ef-themes-list-colors</code> 或 <code>ef-themes-list-colors-current</code> 查看。<br />
 </p>
 </div>
-<div id="outline-container-org7169775" class="outline-3">
-<h3 id="org7169775"><span class="section-number-3">3.1.</span> 自动化色彩配置</h3>
+<div id="outline-container-org4898307" class="outline-3">
+<h3 id="org4898307"><span class="section-number-3">3.1.</span> 自动化色彩配置</h3>
 <div class="outline-text-3" id="text-3-1">
 <div class="org-src-container">
 <pre class="src src-elisp"><code><span style="color: #506fa0; font-style: italic;">;; </span><span style="color: #506fa0; font-style: italic;">nano-modeline&#30340;&#37197;&#33394;</span>
@@ -453,18 +465,18 @@ b {
 <span style="color: #3c3bbe;">(</span>set-face-attribute 'nano-modeline-active nil <span style="color: #a01f64; font-weight: bold;">:background</span> <span style="color: #a01f64;">(</span><span style="color: #3c3bbe; font-weight: bold;">ef-themes-with-colors</span> bg-dim<span style="color: #a01f64;">)</span> <span style="color: #a01f64; font-weight: bold;">:foreground</span> <span style="color: #a01f64;">(</span><span style="color: #3c3bbe; font-weight: bold;">ef-themes-with-colors</span> fg-main<span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
 <span style="color: #506fa0; font-style: italic;">;;</span><span style="color: #506fa0; font-style: italic;">&#35774;&#32622;sis&#30340;&#29366;&#24577;&#20809;&#26631;&#39068;&#33394;</span>
 <span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> sis-other-cursor-color <span style="color: #a01f64;">(</span><span style="color: #3c3bbe; font-weight: bold;">ef-themes-with-colors</span> cyan-faint<span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
-<span style="color: #506fa0; font-style: italic;">;; </span><span style="color: #506fa0; font-style: italic;">&#35774;&#32622;org-TODO-keywords&#39068;&#33394;&#65292;&#36825;&#37324;&#27880;&#37322;&#25481;&#20165;&#20379;&#21442;&#32771;&#65292;&#20026;&#20102;&#22312;Windows&#19978;&#27491;&#30830;&#26174;&#31034;&#31895;&#20307;&#65292;&#25163;&#21160;&#25351;&#23450;&#20102;&#26356;&#31895;&#30340;&#23383;&#20307;&#21517;&#31216;&#12290;</span>
+<span style="color: #506fa0; font-style: italic;">;; </span><span style="color: #506fa0; font-style: italic;">&#35774;&#32622;org-TODO-keywords&#39068;&#33394;&#65292;&#36825;&#37324;&#27880;&#37322;&#25481;&#20165;&#20379;&#21442;&#32771;&#65292;&#20026;&#20102;&#27491;&#30830;&#26174;&#31034;&#31895;&#20307;&#65292;&#25163;&#21160;&#25351;&#23450;&#20102;&#26356;&#31895;&#30340;&#23383;&#20307;&#21517;&#31216;&#12290;</span>
 <span style="color: #506fa0; font-style: italic;">;; </span><span style="color: #506fa0; font-style: italic;">(if my-use-pc</span>
-<span style="color: #506fa0; font-style: italic;">;;     </span><span style="color: #506fa0; font-style: italic;">(setq org-todo-keyword-faces `(("TODO" . (:foreground ,(ef-themes-with-colors red-warmer) :family "LXGW Bright Code GB regular"))</span>
-<span style="color: #506fa0; font-style: italic;">;;                                    </span><span style="color: #506fa0; font-style: italic;">("HOLD" . (:foreground ,(ef-themes-with-colors yellow-warmer) :family "LXGW Bright Code GB regular"))</span>
-<span style="color: #506fa0; font-style: italic;">;;                                    </span><span style="color: #506fa0; font-style: italic;">("XXXX" . (:foreground ,(ef-themes-with-colors magenta-warmer) :family "LXGW Bright Code GB regular"))</span>
-<span style="color: #506fa0; font-style: italic;">;;                                    </span><span style="color: #506fa0; font-style: italic;">("DONE" . (:foreground ,(ef-themes-with-colors green-warmer) :family "LXGW Bright Code GB regular"))</span>
-<span style="color: #506fa0; font-style: italic;">;;                                    </span><span style="color: #506fa0; font-style: italic;">))</span>
-<span style="color: #506fa0; font-style: italic;">;;   </span><span style="color: #506fa0; font-style: italic;">(setq org-todo-keyword-faces `(("TODO" . org-todo)</span>
-<span style="color: #506fa0; font-style: italic;">;;                                  </span><span style="color: #506fa0; font-style: italic;">("HOLD" . ,(ef-themes-with-colors yellow-warmer))</span>
-<span style="color: #506fa0; font-style: italic;">;;                                  </span><span style="color: #506fa0; font-style: italic;">("XXXX" . ,(ef-themes-with-colors magenta-warmer))</span>
-<span style="color: #506fa0; font-style: italic;">;;                                  </span><span style="color: #506fa0; font-style: italic;">("DONE" . org-done)</span>
-<span style="color: #506fa0; font-style: italic;">;;                                  </span><span style="color: #506fa0; font-style: italic;">)))</span>
+<span style="color: #506fa0; font-style: italic;">;;       </span><span style="color: #506fa0; font-style: italic;">(setq org-todo-keyword-faces `(("TODO" . (:foreground ,(ef-themes-with-colors red-warmer) :family "LXGW Bright Code GB regular"))</span>
+<span style="color: #506fa0; font-style: italic;">;;                                      </span><span style="color: #506fa0; font-style: italic;">("HOLD" . (:foreground ,(ef-themes-with-colors yellow-warmer) :family "LXGW Bright Code GB regular"))</span>
+<span style="color: #506fa0; font-style: italic;">;;                                      </span><span style="color: #506fa0; font-style: italic;">("XXXX" . (:foreground ,(ef-themes-with-colors magenta-warmer) :family "LXGW Bright Code GB regular"))</span>
+<span style="color: #506fa0; font-style: italic;">;;                                      </span><span style="color: #506fa0; font-style: italic;">("DONE" . (:foreground ,(ef-themes-with-colors green-warmer) :family "LXGW Bright Code GB regular"))</span>
+<span style="color: #506fa0; font-style: italic;">;;                                      </span><span style="color: #506fa0; font-style: italic;">))</span>
+<span style="color: #506fa0; font-style: italic;">;;     </span><span style="color: #506fa0; font-style: italic;">(setq org-todo-keyword-faces `(("TODO" . (:foreground ,(ef-themes-with-colors red-warmer) :weight bold))</span>
+<span style="color: #506fa0; font-style: italic;">;;                                      </span><span style="color: #506fa0; font-style: italic;">("HOLD" . (:foreground ,(ef-themes-with-colors yellow-warmer) :weight bold ))</span>
+<span style="color: #506fa0; font-style: italic;">;;                                      </span><span style="color: #506fa0; font-style: italic;">("XXXX" . (:foreground ,(ef-themes-with-colors magenta-warmer) :weight bold ))</span>
+<span style="color: #506fa0; font-style: italic;">;;                                      </span><span style="color: #506fa0; font-style: italic;">("DONE" . (:foreground ,(ef-themes-with-colors green-warmer) :weight bold ))</span>
+<span style="color: #506fa0; font-style: italic;">;;                                      </span><span style="color: #506fa0; font-style: italic;">)))</span>
 </code></pre>
 </div>
 </div>
