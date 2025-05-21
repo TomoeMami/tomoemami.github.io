@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-05-19 周一 09:26 -->
+<!-- 2025-05-21 周三 19:05 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用advice自动更新ox-publish的待发布org-roam文件目录</title>
@@ -378,7 +378,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-05-19 周一 09:25]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-05-19 周一 09:32]</span></span></p>
 </div>
 <div id="content" class="content">
 <h1 class="title">使用advice自动更新ox-publish的待发布org-roam文件目录</h1>
@@ -399,25 +399,25 @@ b {
 <p>
 由于org-roam的所有文件均在一个文件夹内，又不需要将所有的文件作为博客内容发表，因此接下来会利用org-roam的功能，动态发布打上了 <code>blog</code> 标签的文件。<br />
 </p>
-<div id="outline-container-orgde0e16c" class="outline-2">
-<h2 id="orgde0e16c"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
+<div id="outline-container-org715cd84" class="outline-2">
+<h2 id="org715cd84"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 参考<a href="https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html">Vulpea的org-roam动态agenda</a>文件，创建函数如下：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/ox-files</span> <span style="color: #b16286;">()</span>
-  <span style="color: #79740e;">"Return a list of note files containing '</span><span style="color: #8f3f71;">blog</span><span style="color: #79740e;">' tag."</span> <span style="color: #a89984;">;</span>
-  <span style="color: #b16286;">(</span>seq-uniq
-   <span style="color: #8ec07c;">(</span>seq-map
+<pre class="src src-emacs-lisp"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">defun</span> <span style="color: #9f248a;">my/ox-files</span> <span style="color: #a01f64;">()</span>
+  <span style="color: #954f90; font-style: italic;">"Return a list of note files containing '</span><span style="color: #7022bf; font-style: italic;">blog</span><span style="color: #954f90; font-style: italic;">' tag."</span> <span style="color: #506fa0; font-style: italic;">;</span>
+  <span style="color: #a01f64;">(</span>seq-uniq
+   <span style="color: #2f5f9f;">(</span>seq-map
     #'car
-    <span style="color: #d65d0e;">(</span>org-roam-db-query
-     <span style="color: #458588;">[</span><span style="color: #af3a03;">:select</span> <span style="color: #b16286;">[</span>nodes:file<span style="color: #b16286;">]</span>
-              <span style="color: #af3a03;">:from</span> tags
-              <span style="color: #af3a03;">:left-join</span> nodes
-              <span style="color: #af3a03;">:on</span> <span style="color: #b16286;">(</span>= tags:node-id nodes:id<span style="color: #b16286;">)</span>
-              <span style="color: #af3a03;">:where</span> <span style="color: #b16286;">(</span>like tag <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">quote</span> <span style="color: #79740e;">"%\"blog\"%"</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+    <span style="color: #a04646;">(</span>org-roam-db-query
+     <span style="color: #7022bf;">[</span><span style="color: #a01f64; font-weight: bold;">:select</span> <span style="color: #9f248a;">[</span>nodes:file<span style="color: #9f248a;">]</span>
+              <span style="color: #a01f64; font-weight: bold;">:from</span> tags
+              <span style="color: #a01f64; font-weight: bold;">:left-join</span> nodes
+              <span style="color: #a01f64; font-weight: bold;">:on</span> <span style="color: #9f248a;">(</span>= tags:node-id nodes:id<span style="color: #9f248a;">)</span>
+              <span style="color: #a01f64; font-weight: bold;">:where</span> <span style="color: #9f248a;">(</span>like tag <span style="color: #d5305f;">(</span><span style="color: #3c3bbe; font-weight: bold;">quote</span> <span style="color: #a04646;">"%\"blog\"%"</span><span style="color: #d5305f;">)</span><span style="color: #9f248a;">)</span><span style="color: #7022bf;">]</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 
@@ -426,31 +426,31 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org669827c" class="outline-2">
-<h2 id="org669827c"><span class="section-number-2">2.</span> 配置ox-publish</h2>
+<div id="outline-container-org499cce5" class="outline-2">
+<h2 id="org499cce5"><span class="section-number-2">2.</span> 配置ox-publish</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 根据参考文献，需要指定 <code>org-publish-project-alist</code> 如下：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-publish-project-alist
-        `<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #79740e;">"posts"</span>
-           <span style="color: #af3a03;">:base-directory</span> ,website-directory
-           <span style="color: #af3a03;">:base-extension</span> <span style="color: #79740e;">"org"</span>
-           <span style="color: #af3a03;">:publishing-directory</span> ,my/publish-directory
-           <span style="color: #af3a03;">:publishing-function</span> org-html-publish-to-html
-           <span style="color: #af3a03;">:with-author</span> t
-           <span style="color: #af3a03;">:auto-sitemap</span> t
-           <span style="color: #af3a03;">:recursive</span> nil
-           <span style="color: #af3a03;">:exclude</span> <span style="color: #79740e;">".*"</span>
-           <span style="color: #af3a03;">:include</span> ,<span style="color: #d65d0e;">(</span>my/ox-files<span style="color: #d65d0e;">)</span>
-           <span style="color: #af3a03;">:html-link-home</span> <span style="color: #79740e;">"index.html"</span>
-           <span style="color: #af3a03;">:sitemap-filename</span> <span style="color: #79740e;">"index.org"</span>
-           <span style="color: #af3a03;">:sitemap-title</span> <span style="color: #79740e;">"&#30446;&#24405;"</span>
-           <span style="color: #af3a03;">:sitemap-sort-files</span> anti-chronologically
-           <span style="color: #af3a03;">:html-head:css</span> <span style="color: #79740e;">"&lt;link rel='</span><span style="color: #8f3f71;">stylesheet</span><span style="color: #79740e;">' type='</span><span style="color: #8f3f71;">text/css</span><span style="color: #79740e;">' href='</span><span style="color: #8f3f71;">/org.css</span><span style="color: #79740e;">'/&gt;"</span><span style="color: #8ec07c;">)</span>
-          <span style="color: #8ec07c;">(</span><span style="color: #79740e;">"personal-website"</span> <span style="color: #af3a03;">:components</span> <span style="color: #d65d0e;">(</span><span style="color: #79740e;">"posts"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> org-publish-project-alist
+        `<span style="color: #a01f64;">(</span><span style="color: #2f5f9f;">(</span><span style="color: #a04646;">"posts"</span>
+           <span style="color: #a01f64; font-weight: bold;">:base-directory</span> ,website-directory
+           <span style="color: #a01f64; font-weight: bold;">:base-extension</span> <span style="color: #a04646;">"org"</span>
+           <span style="color: #a01f64; font-weight: bold;">:publishing-directory</span> ,my/publish-directory
+           <span style="color: #a01f64; font-weight: bold;">:publishing-function</span> org-html-publish-to-html
+           <span style="color: #a01f64; font-weight: bold;">:with-author</span> t
+           <span style="color: #a01f64; font-weight: bold;">:auto-sitemap</span> t
+           <span style="color: #a01f64; font-weight: bold;">:recursive</span> nil
+           <span style="color: #a01f64; font-weight: bold;">:exclude</span> <span style="color: #a04646;">".*"</span>
+           <span style="color: #a01f64; font-weight: bold;">:include</span> ,<span style="color: #a04646;">(</span>my/ox-files<span style="color: #a04646;">)</span>
+           <span style="color: #a01f64; font-weight: bold;">:html-link-home</span> <span style="color: #a04646;">"index.html"</span>
+           <span style="color: #a01f64; font-weight: bold;">:sitemap-filename</span> <span style="color: #a04646;">"index.org"</span>
+           <span style="color: #a01f64; font-weight: bold;">:sitemap-title</span> <span style="color: #a04646;">"&#30446;&#24405;"</span>
+           <span style="color: #a01f64; font-weight: bold;">:sitemap-sort-files</span> anti-chronologically
+           <span style="color: #a01f64; font-weight: bold;">:html-head:css</span> <span style="color: #a04646;">"&lt;link rel='</span><span style="color: #7022bf;">stylesheet</span><span style="color: #a04646;">' type='</span><span style="color: #7022bf;">text/css</span><span style="color: #a04646;">' href='</span><span style="color: #7022bf;">/org.css</span><span style="color: #a04646;">'/&gt;"</span><span style="color: #2f5f9f;">)</span>
+          <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">"personal-website"</span> <span style="color: #a01f64; font-weight: bold;">:components</span> <span style="color: #a04646;">(</span><span style="color: #a04646;">"posts"</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 
@@ -459,33 +459,33 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org48b1a67" class="outline-2">
-<h2 id="org48b1a67"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
+<div id="outline-container-org8b3821c" class="outline-2">
+<h2 id="org8b3821c"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于上述 <code>org-publish-project-alist</code> 仅会执行单次，因此需要通过 <code>advice-add</code> 的方式让其在每次发布时均执行一次，达成动态更新的效果。<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-project-update</span> <span style="color: #b16286;">(</span><span style="color: #8f3f71;">&amp;optional</span> ARG PRED<span style="color: #b16286;">)</span> <span style="color: #a89984;">;;</span><span style="color: #a89984;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">setq</span> org-publish-project-alist
-        `<span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">(</span><span style="color: #79740e;">"posts"</span>
-           <span style="color: #af3a03;">:base-directory</span> ,website-directory
-           <span style="color: #af3a03;">:base-extension</span> <span style="color: #79740e;">"org"</span>
-           <span style="color: #af3a03;">:publishing-directory</span> ,my/publish-directory
-           <span style="color: #af3a03;">:publishing-function</span> org-html-publish-to-html
-           <span style="color: #af3a03;">:with-author</span> t
-           <span style="color: #af3a03;">:auto-sitemap</span> t
-           <span style="color: #af3a03;">:recursive</span> nil
-           <span style="color: #af3a03;">:exclude</span> <span style="color: #79740e;">".*"</span>
-           <span style="color: #af3a03;">:include</span> ,<span style="color: #458588;">(</span>my/ox-files<span style="color: #458588;">)</span>
-           <span style="color: #af3a03;">:html-link-home</span> <span style="color: #79740e;">"index.html"</span>
-           <span style="color: #af3a03;">:sitemap-filename</span> <span style="color: #79740e;">"index.org"</span>
-           <span style="color: #af3a03;">:sitemap-title</span> <span style="color: #79740e;">"&#30446;&#24405;"</span>
-           <span style="color: #af3a03;">:sitemap-sort-files</span> anti-chronologically
-           <span style="color: #af3a03;">:html-head:css</span> <span style="color: #79740e;">"&lt;link rel='</span><span style="color: #8f3f71;">stylesheet</span><span style="color: #79740e;">' type='</span><span style="color: #8f3f71;">text/css</span><span style="color: #79740e;">' href='</span><span style="color: #8f3f71;">/org.css</span><span style="color: #79740e;">'/&gt;"</span><span style="color: #d65d0e;">)</span>
-          <span style="color: #d65d0e;">(</span><span style="color: #79740e;">"personal-website"</span> <span style="color: #af3a03;">:components</span> <span style="color: #458588;">(</span><span style="color: #79740e;">"posts"</span><span style="color: #458588;">)</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-<span style="color: #458588;">(</span>advice-add 'org-export-dispatch <span style="color: #af3a03;">:before</span> 'my/org-project-update<span style="color: #458588;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">defun</span> <span style="color: #9f248a;">my/org-project-update</span> <span style="color: #a01f64;">(</span><span style="color: #b00234;">&amp;optional</span> ARG PRED<span style="color: #a01f64;">)</span> <span style="color: #506fa0; font-style: italic;">;;</span><span style="color: #506fa0; font-style: italic;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> org-publish-project-alist
+        `<span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"posts"</span>
+           <span style="color: #a01f64; font-weight: bold;">:base-directory</span> ,website-directory
+           <span style="color: #a01f64; font-weight: bold;">:base-extension</span> <span style="color: #a04646;">"org"</span>
+           <span style="color: #a01f64; font-weight: bold;">:publishing-directory</span> ,my/publish-directory
+           <span style="color: #a01f64; font-weight: bold;">:publishing-function</span> org-html-publish-to-html
+           <span style="color: #a01f64; font-weight: bold;">:with-author</span> t
+           <span style="color: #a01f64; font-weight: bold;">:auto-sitemap</span> t
+           <span style="color: #a01f64; font-weight: bold;">:recursive</span> nil
+           <span style="color: #a01f64; font-weight: bold;">:exclude</span> <span style="color: #a04646;">".*"</span>
+           <span style="color: #a01f64; font-weight: bold;">:include</span> ,<span style="color: #7022bf;">(</span>my/ox-files<span style="color: #7022bf;">)</span>
+           <span style="color: #a01f64; font-weight: bold;">:html-link-home</span> <span style="color: #a04646;">"index.html"</span>
+           <span style="color: #a01f64; font-weight: bold;">:sitemap-filename</span> <span style="color: #a04646;">"index.org"</span>
+           <span style="color: #a01f64; font-weight: bold;">:sitemap-title</span> <span style="color: #a04646;">"&#30446;&#24405;"</span>
+           <span style="color: #a01f64; font-weight: bold;">:sitemap-sort-files</span> anti-chronologically
+           <span style="color: #a01f64; font-weight: bold;">:html-head:css</span> <span style="color: #a04646;">"&lt;link rel='</span><span style="color: #7022bf;">stylesheet</span><span style="color: #a04646;">' type='</span><span style="color: #7022bf;">text/css</span><span style="color: #a04646;">' href='</span><span style="color: #7022bf;">/org.css</span><span style="color: #a04646;">'/&gt;"</span><span style="color: #a04646;">)</span>
+          <span style="color: #a04646;">(</span><span style="color: #a04646;">"personal-website"</span> <span style="color: #a01f64; font-weight: bold;">:components</span> <span style="color: #7022bf;">(</span><span style="color: #a04646;">"posts"</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<span style="color: #3c3bbe;">(</span>advice-add 'org-export-dispatch <span style="color: #a01f64; font-weight: bold;">:before</span> 'my/org-project-update<span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 
@@ -494,410 +494,404 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-orgc762f04" class="outline-2">
-<h2 id="orgc762f04"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
+<div id="outline-container-org00a05ba" class="outline-2">
+<h2 id="org00a05ba"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 利用 <code>org-export</code> 的hook自动设置，读取 <code>~/.emacs.d/org.css</code> 文件内容并插入发布的html文件中<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">defun</span> <span style="color: #b57614;">my/org-inline-css-hook</span> <span style="color: #b16286;">(</span>exporter<span style="color: #b16286;">)</span>
-  <span style="color: #79740e;">"Insert custom inline css"</span>
-  <span style="color: #b16286;">(</span><span style="color: #9d0006;">when</span> <span style="color: #8ec07c;">(</span>eq exporter 'html<span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> org-html-head-include-default-style nil<span style="color: #8ec07c;">)</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #9d0006;">setq</span> org-html-head <span style="color: #d65d0e;">(</span>concat <span style="color: #79740e;">"&lt;style type=\"text/css\"&gt;\n &lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/\n"</span> <span style="color: #458588;">(</span><span style="color: #9d0006;">with-temp-buffer</span> <span style="color: #b16286;">(</span>insert-file-contents <span style="color: #79740e;">"~/.emacs.d/org.css"</span><span style="color: #b16286;">)</span> <span style="color: #b16286;">(</span>buffer-string<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> <span style="color: #79740e;">"/*] ]&gt;*/--&gt;\n &lt;/style&gt;\n"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">defun</span> <span style="color: #9f248a;">my/org-inline-css-hook</span> <span style="color: #a01f64;">(</span>exporter<span style="color: #a01f64;">)</span>
+  <span style="color: #954f90; font-style: italic;">"Insert custom inline css"</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe; font-weight: bold;">when</span> <span style="color: #2f5f9f;">(</span>eq exporter 'html<span style="color: #2f5f9f;">)</span>
+    <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> org-html-head-include-default-style nil<span style="color: #2f5f9f;">)</span>
+    <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> org-html-head <span style="color: #a04646;">(</span>concat <span style="color: #a04646;">"&lt;style type=\"text/css\"&gt;\n &lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/\n"</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe; font-weight: bold;">with-temp-buffer</span> <span style="color: #9f248a;">(</span>insert-file-contents <span style="color: #a04646;">"~/.emacs.d/org.css"</span><span style="color: #9f248a;">)</span> <span style="color: #9f248a;">(</span>buffer-string<span style="color: #9f248a;">)</span><span style="color: #7022bf;">)</span> <span style="color: #a04646;">"/*] ]&gt;*/--&gt;\n &lt;/style&gt;\n"</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
 
-<span style="color: #458588;">(</span>add-hook 'org-export-before-processing-hook 'my/org-inline-css-hook<span style="color: #458588;">)</span>
+<span style="color: #3c3bbe;">(</span>add-hook 'org-export-before-processing-hook 'my/org-inline-css-hook<span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orge24c951" class="outline-2">
-<h2 id="orge24c951"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
+<div id="outline-container-orgeca97f2" class="outline-2">
+<h2 id="orgeca97f2"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orga045dcc" class="outline-3">
-<h3 id="orga045dcc"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
+<div id="outline-container-org3c69a9c" class="outline-3">
+<h3 id="org3c69a9c"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #458588;">(</span><span style="color: #9d0006;">setq</span> org-export-preserve-breaks t<span style="color: #458588;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe; font-weight: bold;">setq</span> org-export-preserve-breaks t<span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org944b427" class="outline-3">
-<h3 id="org944b427"><span class="section-number-3">5.2.</span> <a href="20241231T152821--emacs-使用ox-rss导出rss的xml文件__blog.html">emacs-使用ox-rss导出rss的xml文件</a></h3>
+<div id="outline-container-org9968b74" class="outline-3">
+<h3 id="org9968b74"><span class="section-number-3">5.2.</span> <a href="20241231T152821--emacs-使用ox-rss导出rss的xml文件__blog.html">emacs-使用ox-rss导出rss的xml文件</a></h3>
 </div>
-<div id="outline-container-orgfaea5fc" class="outline-3">
-<h3 id="orgfaea5fc"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
+<div id="outline-container-org2a4cd6e" class="outline-3">
+<h3 id="org2a4cd6e"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
-<pre class="src src-css"><code><span style="color: #a89984;">/* </span><span style="color: #a89984;">(progn (forward-line 2)</span>
-<span style="color: #a89984;">   (delete-region (point) (point-max))</span>
-<span style="color: #a89984;">   (insert-file-contents "~/.emacs.d/org.css")</span>
-<span style="color: #a89984;">   (goto-char (point-max))</span>
-<span style="color: #a89984;">   (insert "#+end_src"))</span><span style="color: #a89984;">*/</span>
+<pre class="src src-css"><code><span style="color: #506fa0; font-style: italic;">/*</span><span style="color: #506fa0; font-style: italic;">@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&amp;display=fallback");</span>
+<span style="color: #506fa0; font-style: italic;">@import url("https://fonts.googleapis.com/css2?family=Inconsolata&amp;display=fallback");</span>
+<span style="color: #506fa0; font-style: italic;">*/</span>
 
-<span style="color: #a89984;">/*</span><span style="color: #a89984;">@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&amp;display=fallback");</span>
-<span style="color: #a89984;">@import url("https://fonts.googleapis.com/css2?family=Inconsolata&amp;display=fallback");</span>
-<span style="color: #a89984;">*/</span>
+<span style="color: #9f248a;">body</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">margin</span>: 2% auto;
+    <span style="color: #3c3bbe; font-weight: bold;">width</span>: 100%;
+    <span style="color: #3c3bbe; font-weight: bold;">max-width</span>: 100%;
+    <span style="color: #3c3bbe; font-weight: bold;">background-color</span>: <span style="color: #000000; background-color: #f2e5bc;">rgba(242,229,188,0.5)</span>;
+    <span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">background-color: rgba(255,255,255,0.5);</span><span style="color: #506fa0; font-style: italic;"> */</span>
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 18px;
+    <span style="color: #3c3bbe; font-weight: bold;">line-height</span>: 1.4em;
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #a01f64; font-weight: bold;">@media</span> screen and <span style="color: #3c3bbe;">(</span>min-width: 600px<span style="color: #3c3bbe;">)</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #9f248a;">body</span> <span style="color: #a01f64;">{</span>
+        <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 18px;
+    <span style="color: #a01f64;">}</span>
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">body</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">margin</span>: 2% auto;
-    <span style="color: #9d0006;">width</span>: 100%;
-    <span style="color: #9d0006;">max-width</span>: 100%;
-    <span style="color: #9d0006;">background-color</span>: <span style="color: #000000; background-color: #f2e5bc;">rgba(242,229,188,0.5)</span>;
-    <span style="color: #a89984;">/* </span><span style="color: #a89984;">background-color: rgba(255,255,255,0.5);</span><span style="color: #a89984;"> */</span>
-    <span style="color: #9d0006;">font-size</span>: 18px;
-    <span style="color: #9d0006;">line-height</span>: 1.4em;
-<span style="color: #458588;">}</span>
-<span style="color: #af3a03;">@media</span> screen and <span style="color: #458588;">(</span>min-width: 600px<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-    <span style="color: #b57614;">body</span> <span style="color: #b16286;">{</span>
-        <span style="color: #9d0006;">font-size</span>: 18px;
-    <span style="color: #b16286;">}</span>
-<span style="color: #458588;">}</span>
+<span style="color: #a01f64; font-weight: bold;">@media</span> screen and <span style="color: #3c3bbe;">(</span>min-width: 910px<span style="color: #3c3bbe;">)</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #9f248a;">body</span> <span style="color: #a01f64;">{</span>
+        <span style="color: #3c3bbe; font-weight: bold;">width</span>: 900px;
+    <span style="color: #a01f64;">}</span>
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #9f248a;">#preamble</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">width</span>: 80%;
+    <span style="color: #3c3bbe; font-weight: bold;">max-width</span>: 980px;
+    <span style="color: #3c3bbe; font-weight: bold;">text-align</span>: left;
+    <span style="color: #3c3bbe; font-weight: bold;">margin</span>: auto;
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 80%;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #af3a03;">@media</span> screen and <span style="color: #458588;">(</span>min-width: 910px<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-    <span style="color: #b57614;">body</span> <span style="color: #b16286;">{</span>
-        <span style="color: #9d0006;">width</span>: 900px;
-    <span style="color: #b16286;">}</span>
-<span style="color: #458588;">}</span>
-<span style="color: #b57614;">#preamble</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">width</span>: 80%;
-    <span style="color: #9d0006;">max-width</span>: 980px;
-    <span style="color: #9d0006;">text-align</span>: left;
-    <span style="color: #9d0006;">margin</span>: auto;
-    <span style="color: #9d0006;">font-size</span>: 80%;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">hr</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">border</span>: none;
+    <span style="color: #3c3bbe; font-weight: bold;">border-top</span>: 5px double <span style="color: #ffffff; background-color: #333;">#333</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">margin</span>: 0px 0;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">hr</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">border</span>: none;
-    <span style="color: #9d0006;">border-top</span>: 5px double <span style="color: #ffffff; background-color: #333;">#333</span>;
-    <span style="color: #9d0006;">margin</span>: 0px 0;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.button</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">border</span>: none;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #000000;">black</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">padding</span>: 6px 14px;
+    <span style="color: #3c3bbe; font-weight: bold;">text-align</span>: center;
+    <span style="color: #3c3bbe; font-weight: bold;">text-decoration</span>: none;
+    <span style="color: #3c3bbe; font-weight: bold;">display</span>: inline-block;
+    <span style="color: #3c3bbe; font-weight: bold;">margin</span>: 4px 2px;
+    <span style="color: #3c3bbe; font-weight: bold;">transition-duration</span>: 0.4s;
+    <span style="color: #3c3bbe; font-weight: bold;">cursor</span>: pointer;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.button</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">border</span>: none;
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #000000;">black</span>;
-    <span style="color: #9d0006;">padding</span>: 6px 14px;
-    <span style="color: #9d0006;">text-align</span>: center;
-    <span style="color: #9d0006;">text-decoration</span>: none;
-    <span style="color: #9d0006;">display</span>: inline-block;
-    <span style="color: #9d0006;">margin</span>: 4px 2px;
-    <span style="color: #9d0006;">transition-duration</span>: 0.4s;
-    <span style="color: #9d0006;">cursor</span>: pointer;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.button:hover</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">background-color</span>: <span style="color: #ffffff; background-color: #3a1616;">#3a1616</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.button:hover</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">background-color</span>: <span style="color: #ffffff; background-color: #3a1616;">#3a1616</span>;
-    <span style="color: #9d0006;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.todo</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">background-color</span>: <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">padding</span>: .1em 0.3em;
+    <span style="color: #3c3bbe; font-weight: bold;">border-radius</span>: 3px;
+    <span style="color: #3c3bbe; font-weight: bold;">background-clip</span>: padding-box;
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: $code-size;
+    <span style="color: #3c3bbe; font-weight: bold;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    <span style="color: #3c3bbe; font-weight: bold;">line-height</span>: 1;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.todo</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">background-color</span>: <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
-    <span style="color: #9d0006;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
-    <span style="color: #9d0006;">padding</span>: .1em 0.3em;
-    <span style="color: #9d0006;">border-radius</span>: 3px;
-    <span style="color: #9d0006;">background-clip</span>: padding-box;
-    <span style="color: #9d0006;">font-size</span>: $code-size;
-    <span style="color: #9d0006;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-    <span style="color: #9d0006;">line-height</span>: 1;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.done</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">background-color</span>: <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">padding</span>: .1em 0.3em;
+    <span style="color: #3c3bbe; font-weight: bold;">border-radius</span>: 3px;
+    <span style="color: #3c3bbe; font-weight: bold;">background-clip</span>: padding-box;
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: $code-size;
+    <span style="color: #3c3bbe; font-weight: bold;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    <span style="color: #3c3bbe; font-weight: bold;">line-height</span>: 1;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.done</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">background-color</span>: <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
-    <span style="color: #9d0006;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
-    <span style="color: #9d0006;">padding</span>: .1em 0.3em;
-    <span style="color: #9d0006;">border-radius</span>: 3px;
-    <span style="color: #9d0006;">background-clip</span>: padding-box;
-    <span style="color: #9d0006;">font-size</span>: $code-size;
-    <span style="color: #9d0006;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-    <span style="color: #9d0006;">line-height</span>: 1;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">#postamble p</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 80%;
+    <span style="color: #3c3bbe; font-weight: bold;">margin</span>: .2em;
+    <span style="color: #3c3bbe; font-weight: bold;">text-align</span>: center;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">#postamble p</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">font-size</span>: 80%;
-    <span style="color: #9d0006;">margin</span>: .2em;
-    <span style="color: #9d0006;">text-align</span>: center;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">#content, .content</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">width</span>: 80%;
+    <span style="color: #3c3bbe; font-weight: bold;">max-width</span>: 980px;
+    <span style="color: #3c3bbe; font-weight: bold;">margin</span>: auto;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">#content, .content</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">width</span>: 80%;
-    <span style="color: #9d0006;">max-width</span>: 980px;
-    <span style="color: #9d0006;">margin</span>: auto;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">#org-div-home-and-up</span><span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: fixed;
+    <span style="color: #3c3bbe; font-weight: bold;">right</span>: 0.5em;
+    <span style="color: #3c3bbe; font-weight: bold;">margin-top</span>: 70px;
+    <span style="color: #3c3bbe; font-weight: bold;">font-family</span>:sans-serif;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">#org-div-home-and-up</span><span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">position</span>: fixed;
-    <span style="color: #9d0006;">right</span>: 0.5em;
-    <span style="color: #9d0006;">margin-top</span>: 70px;
-    <span style="color: #9d0006;">font-family</span>:sans-serif;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">#table-of-contents</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">margin-top</span>: 105px;
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 12pt;
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: fixed;
+    <span style="color: #3c3bbe; font-weight: bold;">left</span>: 0em;
+    <span style="color: #3c3bbe; font-weight: bold;">top</span>: 0em;
+    <span style="color: #3c3bbe; font-weight: bold;">background</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">max-height</span>: 80%;
+    <span style="color: #3c3bbe; font-weight: bold;">overflow</span>: auto;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">#table-of-contents</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">margin-top</span>: 105px;
-    <span style="color: #9d0006;">font-size</span>: 12pt;
-    <span style="color: #9d0006;">position</span>: fixed;
-    <span style="color: #9d0006;">left</span>: 0em;
-    <span style="color: #9d0006;">top</span>: 0em;
-    <span style="color: #9d0006;">background</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
-    <span style="color: #9d0006;">max-height</span>: 80%;
-    <span style="color: #9d0006;">overflow</span>: auto;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">#table-of-contents h2</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">display</span>: none;
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #9f248a;">#table-of-contents li</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">clear</span>: both;
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #9f248a;">.timestamp</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #928374;">#928374</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: $smaller;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">#table-of-contents h2</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">display</span>: none;
-<span style="color: #458588;">}</span>
-<span style="color: #b57614;">#table-of-contents li</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">clear</span>: both;
-<span style="color: #458588;">}</span>
-<span style="color: #b57614;">.timestamp</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #928374;">#928374</span>;
-    <span style="color: #9d0006;">font-size</span>: $smaller;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.timestamp-kwd</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #5f9ea0;">#5f9ea0</span>;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.timestamp-kwd</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #5f9ea0;">#5f9ea0</span>;
-<span style="color: #458588;">}</span>
+<span style="color: #a01f64; font-weight: bold;">@media</span> screen and <span style="color: #3c3bbe;">(</span>max-width: 1200px<span style="color: #3c3bbe;">)</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #9f248a;">#table-of-contents</span> <span style="color: #a01f64;">{</span>
+        <span style="color: #3c3bbe; font-weight: bold;">position</span>: relative;
+        <span style="color: #3c3bbe; font-weight: bold;">margin-top</span>: 0px;
+    <span style="color: #a01f64;">}</span>
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #af3a03;">@media</span> screen and <span style="color: #458588;">(</span>max-width: 1200px<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-    <span style="color: #b57614;">#table-of-contents</span> <span style="color: #b16286;">{</span>
-        <span style="color: #9d0006;">position</span>: relative;
-        <span style="color: #9d0006;">margin-top</span>: 0px;
-    <span style="color: #b16286;">}</span>
-<span style="color: #458588;">}</span>
+<span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">p:not(blockquote &gt; p) :not(ol &gt; p) {</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">text-indent: 2em;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">}</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #9f248a;">p</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">margin</span>: 1em auto;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #a89984;">/* </span><span style="color: #a89984;">p:not(blockquote &gt; p) :not(ol &gt; p) {</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">text-indent: 2em;</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/* </span><span style="color: #a89984;">}</span><span style="color: #a89984;"> */</span>
-<span style="color: #b57614;">p</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">margin</span>: 1em auto;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.title</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 30px;
+    <span style="color: #3c3bbe; font-weight: bold;">line-height</span>: 1.3;
+    <span style="color: #3c3bbe; font-weight: bold;">font-weight</span>: bold;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #0c2340;">#0c2340</span>;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.title</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">font-size</span>: 30px;
-    <span style="color: #9d0006;">line-height</span>: 1.3;
-    <span style="color: #9d0006;">font-weight</span>: bold;
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #0c2340;">#0c2340</span>;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">h2:not</span><span style="color: #3c3bbe;">(</span><span style="color: #9f248a;">#table-of-contents &gt; h2</span><span style="color: #3c3bbe;">)</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 30px;
+    <span style="color: #3c3bbe; font-weight: bold;">line-height</span>: 1.2;
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: relative;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #204060;">#204060</span>;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">h2:not</span><span style="color: #458588;">(</span><span style="color: #b57614;">#table-of-contents &gt; h2</span><span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">font-size</span>: 30px;
-    <span style="color: #9d0006;">line-height</span>: 1.2;
-    <span style="color: #9d0006;">position</span>: relative;
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #204060;">#204060</span>;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">h2::after</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">content</span>: <span style="color: #a04646;">""</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: absolute;
+    <span style="color: #3c3bbe; font-weight: bold;">left</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">bottom</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">width</span>: 100%;
+    <span style="color: #3c3bbe; font-weight: bold;">height</span>: 2px;
+    <span style="color: #3c3bbe; font-weight: bold;">background-color</span>: <span style="color: #ffffff; background-color: #000000;">black</span>;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">h2::after</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">content</span>: <span style="color: #79740e;">""</span>;
-    <span style="color: #9d0006;">position</span>: absolute;
-    <span style="color: #9d0006;">left</span>: 0;
-    <span style="color: #9d0006;">bottom</span>: 0;
-    <span style="color: #9d0006;">width</span>: 100%;
-    <span style="color: #9d0006;">height</span>: 2px;
-    <span style="color: #9d0006;">background-color</span>: <span style="color: #ffffff; background-color: #000000;">black</span>;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">h3:not</span><span style="color: #3c3bbe;">(</span><span style="color: #9f248a;">#table-of-contents &gt; h3</span><span style="color: #3c3bbe;">)</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 20px;
+    <span style="color: #3c3bbe; font-weight: bold;">line-height</span>: 1.1;
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: relative;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #4b748d;">#4b748d</span>;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">h3:not</span><span style="color: #458588;">(</span><span style="color: #b57614;">#table-of-contents &gt; h3</span><span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">font-size</span>: 20px;
-    <span style="color: #9d0006;">line-height</span>: 1.1;
-    <span style="color: #9d0006;">position</span>: relative;
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #4b748d;">#4b748d</span>;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">h3::after</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">content</span>: <span style="color: #a04646;">""</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: absolute;
+    <span style="color: #3c3bbe; font-weight: bold;">left</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">bottom</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">width</span>: 100%;
+    <span style="color: #3c3bbe; font-weight: bold;">height</span>: 2px;
+    <span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">border-bottom: 1px dashed black;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">h3::after</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">content</span>: <span style="color: #79740e;">""</span>;
-    <span style="color: #9d0006;">position</span>: absolute;
-    <span style="color: #9d0006;">left</span>: 0;
-    <span style="color: #9d0006;">bottom</span>: 0;
-    <span style="color: #9d0006;">width</span>: 100%;
-    <span style="color: #9d0006;">height</span>: 2px;
-    <span style="color: #a89984;">/* </span><span style="color: #a89984;">border-bottom: 1px dashed black;</span><span style="color: #a89984;"> */</span>
-<span style="color: #458588;">}</span>
-
-<span style="color: #b57614;">h4</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">font-size</span>: 14px;
-    <span style="color: #9d0006;">line-height</span>: 1.1;
-    <span style="color: #9d0006;">font-weight</span>: bold;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">h4</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 14px;
+    <span style="color: #3c3bbe; font-weight: bold;">line-height</span>: 1.1;
+    <span style="color: #3c3bbe; font-weight: bold;">font-weight</span>: bold;
+<span style="color: #3c3bbe;">}</span>
 
 
-<span style="color: #b57614;">a</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">cursor</span>: pointer;
-    <span style="color: #9d0006;">text-decoration</span>: none;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">a</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">cursor</span>: pointer;
+    <span style="color: #3c3bbe; font-weight: bold;">text-decoration</span>: none;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">a:link</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #458588;">#458588</span>;
-    <span style="color: #a89984;">/* </span><span style="color: #a89984;">text-decoration: underline;</span><span style="color: #a89984;"> */</span>
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">a:link</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #458588;">#458588</span>;
+    <span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">text-decoration: underline;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">a:hover</span> <span style="color: #458588;">{</span>
-    <span style="color: #a89984;">/* </span><span style="color: #a89984;">font-weight: bold;</span><span style="color: #a89984;"> */</span>
-    <span style="color: #9d0006;">text-decoration</span>: underline;
-    <span style="color: #a89984;">/* </span><span style="color: #a89984;">color: #076678;</span><span style="color: #a89984;"> */</span>
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">a:hover</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">font-weight: bold;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+    <span style="color: #3c3bbe; font-weight: bold;">text-decoration</span>: underline;
+    <span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">color: #076678;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.figure</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">text-align</span>: center;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.figure</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">text-align</span>: center;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">a:visited</span><span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #8f3f71;">#8f3f71</span>;
-    <span style="color: #a89984;">/* </span><span style="color: #a89984;">text-decoration: underline;</span><span style="color: #a89984;"> */</span>
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">a:visited</span><span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #8f3f71;">#8f3f71</span>;
+    <span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">text-decoration: underline;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">img</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">max-width</span>: 100%;
-    <span style="color: #9d0006;">vertical-align</span>: middle;
-<span style="color: #458588;">}</span>
-<span style="color: #b57614;">.MathJax_Display</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">margin</span>: 0<span style="color: #af3a03;">!important</span>;
-    <span style="color: #9d0006;">width</span>: $smaller<span style="color: #af3a03;">!important</span>;
-<span style="color: #458588;">}</span>
-<span style="color: #af3a03;">@media</span> screen and <span style="color: #458588;">(</span>max-width: 1200px<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-    <span style="color: #b57614;">img</span> <span style="color: #b16286;">{</span>
-        <span style="color: #9d0006;">width</span>: 400px;
-    <span style="color: #b16286;">}</span>
-    <span style="color: #b57614;">.MathJax_Display</span> <span style="color: #b16286;">{</span>
-        <span style="color: #9d0006;">margin</span>: 0<span style="color: #af3a03;">!important</span>;
-        <span style="color: #9d0006;">width</span>: $smaller<span style="color: #af3a03;">!important</span>;
-    <span style="color: #b16286;">}</span>
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">img</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">max-width</span>: 100%;
+    <span style="color: #3c3bbe; font-weight: bold;">vertical-align</span>: middle;
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #9f248a;">.MathJax_Display</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">margin</span>: 0<span style="color: #a01f64; font-weight: bold;">!important</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">width</span>: $smaller<span style="color: #a01f64; font-weight: bold;">!important</span>;
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #a01f64; font-weight: bold;">@media</span> screen and <span style="color: #3c3bbe;">(</span>max-width: 1200px<span style="color: #3c3bbe;">)</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #9f248a;">img</span> <span style="color: #a01f64;">{</span>
+        <span style="color: #3c3bbe; font-weight: bold;">width</span>: 400px;
+    <span style="color: #a01f64;">}</span>
+    <span style="color: #9f248a;">.MathJax_Display</span> <span style="color: #a01f64;">{</span>
+        <span style="color: #3c3bbe; font-weight: bold;">margin</span>: 0<span style="color: #a01f64; font-weight: bold;">!important</span>;
+        <span style="color: #3c3bbe; font-weight: bold;">width</span>: $smaller<span style="color: #a01f64; font-weight: bold;">!important</span>;
+    <span style="color: #a01f64;">}</span>
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.org-src-container</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">font-size</span>: 14px;
-    <span style="color: #9d0006;">outline</span>: 2px dashed <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-    <span style="color: #9d0006;">outline-offset</span>: 10px;
-    <span style="color: #9d0006;">position</span>: relative;
+<span style="color: #9f248a;">.org-src-container</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 14px;
+    <span style="color: #3c3bbe; font-weight: bold;">outline</span>: 2px dashed <span style="color: #000000; background-color: #ccc;">#ccc</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">outline-offset</span>: 10px;
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: relative;
 
-<span style="color: #458588;">}</span>
-<span style="color: #b57614;">.org-src-container&gt;pre</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">overflow</span>: auto;
-    <span style="color: #9d0006;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
-<span style="color: #458588;">}</span>
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #9f248a;">.org-src-container&gt;pre</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">overflow</span>: auto;
+    <span style="color: #3c3bbe; font-weight: bold;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.org-src-container&gt;pre:before</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">display</span>: block;
-    <span style="color: #9d0006;">position</span>: absolute;
-    <span style="color: #9d0006;">background-color</span>: <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
-    <span style="color: #9d0006;">top</span>: 0;
-    <span style="color: #9d0006;">right</span>: 0;
-    <span style="color: #9d0006;">padding</span>: 0 0.5em;
-    <span style="color: #9d0006;">border-bottom-left-radius</span>: 8px;
-    <span style="color: #9d0006;">border</span>: 0;
-    <span style="color: #9d0006;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
-    <span style="color: #9d0006;">font-size</span>: $code-size;
+<span style="color: #9f248a;">.org-src-container&gt;pre:before</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">display</span>: block;
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: absolute;
+    <span style="color: #3c3bbe; font-weight: bold;">background-color</span>: <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">top</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">right</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">padding</span>: 0 0.5em;
+    <span style="color: #3c3bbe; font-weight: bold;">border-bottom-left-radius</span>: 8px;
+    <span style="color: #3c3bbe; font-weight: bold;">border</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: $code-size;
 
-<span style="color: #458588;">}</span>
-<span style="color: #b57614;">pre</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">overflow</span>: auto;
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #9f248a;">pre</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">overflow</span>: auto;
 
-<span style="color: #458588;">}</span>
-<span style="color: #b57614;">.example</span><span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">font-size</span>: 14px;
-    <span style="color: #9d0006;">outline</span>: 2px dashed <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-    <span style="color: #9d0006;">outline-offset</span>: 10px;
-    <span style="color: #9d0006;">position</span>: relative;
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #9f248a;">.example</span><span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 14px;
+    <span style="color: #3c3bbe; font-weight: bold;">outline</span>: 2px dashed <span style="color: #000000; background-color: #ccc;">#ccc</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">outline-offset</span>: 10px;
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: relative;
     
-<span style="color: #458588;">}</span>
-<span style="color: #b57614;">.example::before</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">content</span>: <span style="color: #79740e;">"Results"</span>;
-<span style="color: #458588;">}</span>
-<span style="color: #b57614;">pre:before</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">display</span>: block;
-    <span style="color: #9d0006;">position</span>: absolute;
-    <span style="color: #9d0006;">background-color</span>: <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
-    <span style="color: #9d0006;">top</span>: 0;
-    <span style="color: #9d0006;">right</span>: 0;
-    <span style="color: #9d0006;">padding</span>: 0 0.5em;
-    <span style="color: #9d0006;">border-bottom-left-radius</span>: 8px;
-    <span style="color: #9d0006;">border</span>: 0;
-    <span style="color: #9d0006;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
-    <span style="color: #9d0006;">font-size</span>: $code-size;
-<span style="color: #458588;">}</span>
-<span style="color: #a89984;">/* </span><span style="color: #a89984;">.org-src-container::before {</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">content: "Copy";</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">position: absolute;</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">top: 5px;</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">right: 5px;</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">padding: 5px;</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">background-color: #ccc;</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">color: #fff;</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">border-radius: 3px;</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/*     </span><span style="color: #a89984;">cursor: pointer;</span><span style="color: #a89984;"> */</span>
-<span style="color: #a89984;">/* </span><span style="color: #a89984;">}</span><span style="color: #a89984;"> */</span>
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #9f248a;">.example::before</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">content</span>: <span style="color: #a04646;">"Results"</span>;
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #9f248a;">pre:before</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">display</span>: block;
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: absolute;
+    <span style="color: #3c3bbe; font-weight: bold;">background-color</span>: <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">top</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">right</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">padding</span>: 0 0.5em;
+    <span style="color: #3c3bbe; font-weight: bold;">border-bottom-left-radius</span>: 8px;
+    <span style="color: #3c3bbe; font-weight: bold;">border</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: $code-size;
+<span style="color: #3c3bbe;">}</span>
+<span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">.org-src-container::before {</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">content: "Copy";</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">position: absolute;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">top: 5px;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">right: 5px;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">padding: 5px;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">background-color: #ccc;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">color: #fff;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">border-radius: 3px;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/*     </span><span style="color: #506fa0; font-style: italic;">cursor: pointer;</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">}</span><span style="color: #506fa0; font-style: italic;"> */</span>
 
-<span style="color: #b57614;">code</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">font-size</span>: 16px;
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
-    <span style="color: #9d0006;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">code</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 16px;
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.subtitle</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">text-align</span>: right;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.subtitle</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">text-align</span>: right;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">blockquote</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">border-left</span>: 3px solid <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-    <span style="color: #9d0006;">padding-left</span>: 10px; <span style="color: #a89984;">/* </span><span style="color: #a89984;">Optional: add some left padding for the content</span><span style="color: #a89984;"> */</span>
-    <span style="color: #9d0006;">margin-inline-start</span>: 0px;
-    <span style="color: #9d0006;">margin-inline-end</span>: 0px;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">blockquote</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">border-left</span>: 3px solid <span style="color: #000000; background-color: #ccc;">#ccc</span>;
+    <span style="color: #3c3bbe; font-weight: bold;">padding-left</span>: 10px; <span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">Optional: add some left padding for the content</span><span style="color: #506fa0; font-style: italic;"> */</span>
+    <span style="color: #3c3bbe; font-weight: bold;">margin-inline-start</span>: 0px;
+    <span style="color: #3c3bbe; font-weight: bold;">margin-inline-end</span>: 0px;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.info</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">overflow</span>: hidden;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.info</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">overflow</span>: hidden;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.created</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">float</span>: right;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.created</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">float</span>: right;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.updated</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">float</span>: left;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.updated</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">float</span>: left;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">.org-ol</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">list-style-type</span>: decimal; <span style="color: #a89984;">/* </span><span style="color: #a89984;">Set the list style type to decimal numbers</span><span style="color: #a89984;"> */</span>
-    <span style="color: #a89984;">/* </span><span style="color: #a89984;">margin-left: 0.5em; /\* Add left margin to the list *\/</span><span style="color: #a89984;"> */</span>
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">.org-ol</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">list-style-type</span>: decimal; <span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">Set the list style type to decimal numbers</span><span style="color: #506fa0; font-style: italic;"> */</span>
+    <span style="color: #506fa0; font-style: italic;">/* </span><span style="color: #506fa0; font-style: italic;">margin-left: 0.5em; /\* Add left margin to the list *\/</span><span style="color: #506fa0; font-style: italic;"> */</span>
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">b</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">color</span>: <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">b</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">color</span>: <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">#footnotes</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">position</span>: fixed;
-    <span style="color: #9d0006;">left</span>: auto;
-    <span style="color: #9d0006;">right</span>: 0;
-    <span style="color: #9d0006;">top</span>: 105px;
-    <span style="color: #9d0006;">bottom</span>: 0;
-    <span style="color: #9d0006;">width</span>: 20%;
-    <span style="color: #9d0006;">padding</span>: 10px;
-    <span style="color: #9d0006;">overflow</span>: auto;
-    <span style="color: #9d0006;">font-size</span>: 14px;
-    <span style="color: #9d0006;">z-index</span>: 9999;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">#footnotes</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">position</span>: fixed;
+    <span style="color: #3c3bbe; font-weight: bold;">left</span>: auto;
+    <span style="color: #3c3bbe; font-weight: bold;">right</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">top</span>: 105px;
+    <span style="color: #3c3bbe; font-weight: bold;">bottom</span>: 0;
+    <span style="color: #3c3bbe; font-weight: bold;">width</span>: 20%;
+    <span style="color: #3c3bbe; font-weight: bold;">padding</span>: 10px;
+    <span style="color: #3c3bbe; font-weight: bold;">overflow</span>: auto;
+    <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 14px;
+    <span style="color: #3c3bbe; font-weight: bold;">z-index</span>: 9999;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #b57614;">#footnotes h2</span> <span style="color: #458588;">{</span>
-    <span style="color: #9d0006;">display</span>: none;
-<span style="color: #458588;">}</span>
+<span style="color: #9f248a;">#footnotes h2</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #3c3bbe; font-weight: bold;">display</span>: none;
+<span style="color: #3c3bbe;">}</span>
 
-<span style="color: #af3a03;">@media</span> screen and <span style="color: #458588;">(</span>max-width: 1200px<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-    <span style="color: #b57614;">#footnotes</span> <span style="color: #b16286;">{</span>
-        <span style="color: #9d0006;">position</span>: static;
-        <span style="color: #9d0006;">left</span>: 0;
-        <span style="color: #9d0006;">right</span>: 0;
-        <span style="color: #9d0006;">bottom</span>: 0;
-        <span style="color: #9d0006;">width</span>: 100%;
-        <span style="color: #9d0006;">max-height</span>: 30%;
-        <span style="color: #9d0006;">overflow</span>: auto;
-        <span style="color: #9d0006;">padding</span>: 10px;
-        <span style="color: #9d0006;">font-size</span>: 14px;
-        <span style="color: #9d0006;">z-index</span>: 9999;
-    <span style="color: #b16286;">}</span>
-<span style="color: #458588;">}</span>
+<span style="color: #a01f64; font-weight: bold;">@media</span> screen and <span style="color: #3c3bbe;">(</span>max-width: 1200px<span style="color: #3c3bbe;">)</span> <span style="color: #3c3bbe;">{</span>
+    <span style="color: #9f248a;">#footnotes</span> <span style="color: #a01f64;">{</span>
+        <span style="color: #3c3bbe; font-weight: bold;">position</span>: static;
+        <span style="color: #3c3bbe; font-weight: bold;">left</span>: 0;
+        <span style="color: #3c3bbe; font-weight: bold;">right</span>: 0;
+        <span style="color: #3c3bbe; font-weight: bold;">bottom</span>: 0;
+        <span style="color: #3c3bbe; font-weight: bold;">width</span>: 100%;
+        <span style="color: #3c3bbe; font-weight: bold;">max-height</span>: 30%;
+        <span style="color: #3c3bbe; font-weight: bold;">overflow</span>: auto;
+        <span style="color: #3c3bbe; font-weight: bold;">padding</span>: 10px;
+        <span style="color: #3c3bbe; font-weight: bold;">font-size</span>: 14px;
+        <span style="color: #3c3bbe; font-weight: bold;">z-index</span>: 9999;
+    <span style="color: #a01f64;">}</span>
+<span style="color: #3c3bbe;">}</span>
 </code></pre>
 </div>
 </div>
