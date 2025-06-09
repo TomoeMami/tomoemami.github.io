@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-06-09 周一 16:18 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-让beancount插件自动对齐适配中文</title>
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
+*/
+
+body {
+    margin: 2% auto;
+    width: 100%;
+    max-width: 100%;
+    background-color: rgba(242,229,188,0.5);
+    /* background-color: rgba(255,255,255,0.5); */
+    font-size: 18px;
+    line-height: 1.4em;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 910px) {
+    body {
+        width: 900px;
+    }
+}
+#preamble {
+    width: 80%;
+    max-width: 980px;
+    text-align: left;
+    margin: auto;
+    font-size: 80%;
+}
+
+hr {
+    border: none;
+    border-top: 5px double #333;
+    margin: 0px 0;
+}
+
+.button {
+    border: none;
+    color: black;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3a1616;
+    color: white;
+}
+
+.todo {
+    background-color: #9d0006;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+.done {
+    background-color: #427b58;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+#postamble p {
+    font-size: 80%;
+    margin: .2em;
+    text-align: center;
+}
+
+#content, .content {
+    width: 80%;
+    max-width: 980px;
+    margin: auto;
+}
+
+#org-div-home-and-up{
+    position: fixed;
+    right: 0.5em;
+    margin-top: 70px;
+    font-family:sans-serif;
+}
+
+#table-of-contents {
+    margin-top: 105px;
+    font-size: 12pt;
+    position: fixed;
+    left: 0em;
+    top: 0em;
+    background: white;
+    max-height: 80%;
+    overflow: auto;
+}
+
+#table-of-contents h2 {
+    display: none;
+}
+#table-of-contents li {
+    clear: both;
+}
+.timestamp {
+    color: #928374;
+    font-size: $smaller;
+}
+
+.timestamp-kwd {
+    color: #5f9ea0;
+}
+
+@media screen and (max-width: 1200px) {
+    #table-of-contents {
+        position: relative;
+        margin-top: 0px;
+    }
+}
+
+/* p:not(blockquote > p) :not(ol > p) { */
+/*     text-indent: 2em; */
+/* } */
+p {
+    margin: 1em auto;
+}
+
+.title {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: bold;
+    color: #0c2340;
+}
+
+h2:not(#table-of-contents > h2) {
+    font-size: 30px;
+    line-height: 1.2;
+    position: relative;
+    color: #204060;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+h3:not(#table-of-contents > h3) {
+    font-size: 20px;
+    line-height: 1.1;
+    position: relative;
+    color: #4b748d;
+}
+
+h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    /* border-bottom: 1px dashed black; */
+}
+
+h4 {
+    font-size: 14px;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:link {
+    color: #458588;
+    /* text-decoration: underline; */
+}
+
+a:hover {
+    /* font-weight: bold; */
+    text-decoration: underline;
+    /* color: #076678; */
+}
+
+.figure {
+    text-align: center;
+}
+
+a:visited{
+    color: #8f3f71;
+    /* text-decoration: underline; */
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+.MathJax_Display {
+    margin: 0!important;
+    width: $smaller!important;
+}
+@media screen and (max-width: 1200px) {
+    img {
+        width: 400px;
+    }
+    .MathJax_Display {
+        margin: 0!important;
+        width: $smaller!important;
+    }
+}
+
+.org-src-container {
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+
+}
+.org-src-container>pre {
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.org-src-container>pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+
+}
+pre {
+    overflow: auto;
+
+}
+.example{
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+    
+}
+.example::before {
+    content: "Results";
+}
+pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+}
+/* .org-src-container::before { */
+/*     content: "Copy"; */
+/*     position: absolute; */
+/*     top: 5px; */
+/*     right: 5px; */
+/*     padding: 5px; */
+/*     background-color: #ccc; */
+/*     color: #fff; */
+/*     border-radius: 3px; */
+/*     cursor: pointer; */
+/* } */
+
+code {
+    font-size: 16px;
+    color: #427b58;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 10px; /* Optional: add some left padding for the content */
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.info {
+    overflow: hidden;
+}
+
+.created {
+    float: right;
+}
+
+.updated {
+    float: left;
+}
+
+.org-ol {
+    list-style-type: decimal; /* Set the list style type to decimal numbers */
+    /* margin-left: 0.5em; /\* Add left margin to the list *\/ */
+}
+
+b {
+    color: #9d0006;
+}
+
+#footnotes {
+    position: fixed;
+    left: auto;
+    right: 0;
+    top: 105px;
+    bottom: 0;
+    width: 20%;
+    padding: 10px;
+    overflow: auto;
+    font-size: 14px;
+    z-index: 9999;
+}
+
+#footnotes h2 {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    #footnotes {
+        position: static;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 30%;
+        overflow: auto;
+        padding: 10px;
+        font-size: 14px;
+        z-index: 9999;
+    }
+}
+/*]]>*/-->
+ </style>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-06-09 周一 16:17]</span></span></p>
+</div>
+<div id="content" class="content">
+<h1 class="title">emacs-让beancount插件自动对齐适配中文</h1>
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2025-06-09 周一 16:13]</span></span><br />
+</p>
+
+<p>
+emacs上的 <code>beancount</code> 插件，由于开发者是外国人原因，对CJK字符支持一直很烂，对齐就是其中一例。<br />
+</p>
+
+<p>
+查看相关代码源码，会发现直接使用的 <code>length</code> 函数，正确考虑CJK方式的对齐应为 <code>string-width</code> 函数。<br />
+</p>
+
+<p>
+我们将 <code>beancount-align-numbers</code> 的函数中相关宽度判断函数修改，然后用 <code>advice</code> 宏在不修改原函数的情况下进行替换：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00; font-weight: bold;">defun</span> <span style="color: #a7601f;">adv/beancount-align-numbers</span> <span style="color: #557400;">(</span>begin end <span style="color: #444fcf;">&amp;optional</span> requested-currency-column<span style="color: #557400;">)</span>
+  <span style="color: #4f677f; font-style: italic;">"Align all numbers in the given region. CURRENCY-COLUMN is the character</span>
+<span style="color: #4f677f; font-style: italic;">at which to align the beginning of the amount's currency. If not specified, use</span>
+<span style="color: #4f677f; font-style: italic;">the smallest columns that will align all the numbers.  With a prefix argument,</span>
+<span style="color: #4f677f; font-style: italic;">align with the fill-column."</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00; font-weight: bold;">interactive</span> <span style="color: #ca3400;">"r"</span><span style="color: #557400;">)</span>
+
+  <span style="color: #8f6f4a; font-style: italic;">;; </span><span style="color: #8f6f4a; font-style: italic;">With a prefix argument, align with the fill-column.</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00; font-weight: bold;">when</span> current-prefix-arg
+    <span style="color: #bf4400;">(</span><span style="color: #006f00; font-weight: bold;">setq</span> requested-currency-column fill-column<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
+
+  <span style="color: #8f6f4a; font-style: italic;">;; </span><span style="color: #8f6f4a; font-style: italic;">Loop once in the region to find the length of the longest string before the</span>
+  <span style="color: #8f6f4a; font-style: italic;">;; </span><span style="color: #8f6f4a; font-style: italic;">number.</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00; font-weight: bold;">let</span> <span style="color: #bf4400;">(</span>prefix-widths
+        number-widths
+        <span style="color: #3f6faf;">(</span>number-padding <span style="color: #ca3400;">"  "</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00; font-weight: bold;">beancount-for-line-in-region</span>
+     begin end
+     <span style="color: #3f6faf;">(</span><span style="color: #006f00; font-weight: bold;">let</span> <span style="color: #00824f;">(</span><span style="color: #9a456f;">(</span>line <span style="color: #a2604f;">(</span>thing-at-point 'line<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+       <span style="color: #00824f;">(</span><span style="color: #006f00; font-weight: bold;">when</span> <span style="color: #9a456f;">(</span>string-match <span style="color: #a2604f;">(</span>concat <span style="color: #ca3400;">"</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">(</span><span style="color: #ca3400;">.*?</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">)</span><span style="color: #ca3400;">"</span>
+                                   <span style="color: #ca3400;">"[ \t]+"</span>
+                                   <span style="color: #ca3400;">"</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">(</span><span style="color: #ca3400;">"</span> beancount-number-regexp <span style="color: #ca3400;">"</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">)</span><span style="color: #ca3400;">"</span>
+                                   <span style="color: #ca3400;">"[ \t]+"</span>
+                                   beancount-currency-regexp<span style="color: #a2604f;">)</span>
+                           line<span style="color: #9a456f;">)</span>
+         <span style="color: #9a456f;">(</span><span style="color: #006f00; font-weight: bold;">push</span> <span style="color: #a2604f;">(</span>string-width <span style="color: #007a9f;">(</span>match-string 1 line<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span> prefix-widths<span style="color: #9a456f;">)</span>
+         <span style="color: #9a456f;">(</span><span style="color: #006f00; font-weight: bold;">push</span> <span style="color: #a2604f;">(</span>string-width <span style="color: #007a9f;">(</span>match-string 2 line<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span> number-widths<span style="color: #9a456f;">)</span>
+         <span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+
+    <span style="color: #bf4400;">(</span><span style="color: #006f00; font-weight: bold;">when</span> prefix-widths
+      <span style="color: #8f6f4a; font-style: italic;">;; </span><span style="color: #8f6f4a; font-style: italic;">Loop again to make the adjustments to the numbers.</span>
+      <span style="color: #3f6faf;">(</span><span style="color: #006f00; font-weight: bold;">let*</span> <span style="color: #00824f;">(</span><span style="color: #9a456f;">(</span>number-width <span style="color: #a2604f;">(</span>apply 'max number-widths<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
+             <span style="color: #9a456f;">(</span>number-format <span style="color: #a2604f;">(</span>format <span style="color: #ca3400;">"%%%ss"</span> number-width<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
+             <span style="color: #8f6f4a; font-style: italic;">;; </span><span style="color: #8f6f4a; font-style: italic;">Compute rightmost column of prefix.</span>
+             <span style="color: #9a456f;">(</span>max-prefix-width <span style="color: #a2604f;">(</span>apply 'max prefix-widths<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
+             <span style="color: #9a456f;">(</span>max-prefix-width
+              <span style="color: #a2604f;">(</span><span style="color: #006f00; font-weight: bold;">if</span> requested-currency-column
+                  <span style="color: #007a9f;">(</span>max <span style="color: #9f0d0f;">(</span>- requested-currency-column <span style="color: #a7601f;">(</span>string-width number-padding<span style="color: #a7601f;">)</span> number-width 1<span style="color: #9f0d0f;">)</span>
+                       max-prefix-width<span style="color: #007a9f;">)</span>
+                max-prefix-width<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
+             <span style="color: #9a456f;">(</span>prefix-format <span style="color: #a2604f;">(</span>format <span style="color: #ca3400;">"%%-%ss"</span> max-prefix-width<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
+             <span style="color: #00824f;">)</span>
+
+        <span style="color: #00824f;">(</span><span style="color: #006f00; font-weight: bold;">beancount-for-line-in-region</span>
+         begin end
+         <span style="color: #9a456f;">(</span><span style="color: #006f00; font-weight: bold;">let</span> <span style="color: #a2604f;">(</span><span style="color: #007a9f;">(</span>line <span style="color: #9f0d0f;">(</span>thing-at-point 'line<span style="color: #9f0d0f;">)</span><span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
+           <span style="color: #a2604f;">(</span><span style="color: #006f00; font-weight: bold;">when</span> <span style="color: #007a9f;">(</span>string-match <span style="color: #9f0d0f;">(</span>concat <span style="color: #ca3400;">"^</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">(</span><span style="color: #ca3400;">[</span><span style="color: #ca3400; font-weight: bold;">^</span><span style="color: #ca3400;">\"]*?</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">)</span><span style="color: #ca3400;">"</span>
+                                       <span style="color: #ca3400;">"[ \t]+"</span>
+                                       <span style="color: #ca3400;">"</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">(</span><span style="color: #ca3400;">"</span> beancount-number-regexp <span style="color: #ca3400;">"</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">)</span><span style="color: #ca3400;">"</span>
+                                       <span style="color: #ca3400;">"[ \t]+"</span>
+                                       <span style="color: #ca3400;">"</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">(</span><span style="color: #ca3400;">.*</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">)</span><span style="color: #ca3400;">$"</span><span style="color: #9f0d0f;">)</span>
+                               line<span style="color: #007a9f;">)</span>
+             <span style="color: #007a9f;">(</span>delete-region <span style="color: #9f0d0f;">(</span>line-beginning-position<span style="color: #9f0d0f;">)</span> <span style="color: #9f0d0f;">(</span>line-end-position<span style="color: #9f0d0f;">)</span><span style="color: #007a9f;">)</span>
+             <span style="color: #007a9f;">(</span><span style="color: #006f00; font-weight: bold;">let*</span> <span style="color: #9f0d0f;">(</span><span style="color: #a7601f;">(</span>prefix <span style="color: #557400;">(</span>match-string 1 line<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+                    <span style="color: #a7601f;">(</span>number <span style="color: #557400;">(</span>match-string 2 line<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+                    <span style="color: #a7601f;">(</span>rest <span style="color: #557400;">(</span>match-string 3 line<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span> <span style="color: #9f0d0f;">)</span>
+               <span style="color: #9f0d0f;">(</span>insert <span style="color: #a7601f;">(</span>format prefix-format prefix<span style="color: #a7601f;">)</span><span style="color: #9f0d0f;">)</span>
+               <span style="color: #9f0d0f;">(</span>insert number-padding<span style="color: #9f0d0f;">)</span>
+               <span style="color: #9f0d0f;">(</span>insert <span style="color: #a7601f;">(</span>format number-format number<span style="color: #a7601f;">)</span><span style="color: #9f0d0f;">)</span>
+               <span style="color: #9f0d0f;">(</span>insert <span style="color: #ca3400;">" "</span><span style="color: #9f0d0f;">)</span>
+               <span style="color: #9f0d0f;">(</span>insert rest<span style="color: #9f0d0f;">)</span><span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #a7601f;">(</span>advice-add #'beancount-align-numbers <span style="color: #557400; font-weight: bold;">:override</span> #'adv/beancount-align-numbers<span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+
+<p>
+为了排版方便，我们还可以覆盖掉 <code>C-c ;</code> 的默认函数，改为按一下对齐整个 <code>buffer</code> ：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00; font-weight: bold;">use-package</span> <span style="color: #00824f;">beancount</span>
+  <span style="color: #557400; font-weight: bold;">:bind</span>
+  <span style="color: #557400;">(</span><span style="color: #557400; font-weight: bold;">:map</span> beancount-mode-map
+        <span style="color: #bf4400;">(</span><span style="color: #ca3400;">"C-c ;"</span> . my/beancount-align-buffer<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+
+<span style="color: #a7601f;">(</span><span style="color: #006f00; font-weight: bold;">defun</span> <span style="color: #a7601f;">my/beancount-align-buffer</span> <span style="color: #557400;">()</span>
+  <span style="color: #4f677f; font-style: italic;">"Align postings under the point's paragraph.</span>
+<span style="color: #4f677f; font-style: italic;">This function looks for a posting in the previous transaction to</span>
+<span style="color: #4f677f; font-style: italic;">determine the column at which to align the transaction, or otherwise</span>
+<span style="color: #4f677f; font-style: italic;">the fill column, and align all the postings of this transaction to</span>
+<span style="color: #4f677f; font-style: italic;">this column."</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00; font-weight: bold;">interactive</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00; font-weight: bold;">let*</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>begin <span style="color: #00824f;">(</span><span style="color: #006f00; font-weight: bold;">save-excursion</span>
+                  <span style="color: #9a456f;">(</span>beginning-of-buffer<span style="color: #9a456f;">)</span>
+                  <span style="color: #9a456f;">(</span>point<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>end <span style="color: #00824f;">(</span><span style="color: #006f00; font-weight: bold;">save-excursion</span>
+                <span style="color: #9a456f;">(</span>end-of-buffer<span style="color: #9a456f;">)</span>
+                <span style="color: #9a456f;">(</span>point<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>currency-column <span style="color: #00824f;">(</span><span style="color: #006f00; font-weight: bold;">or</span> <span style="color: #9a456f;">(</span>beancount-find-previous-alignment-column<span style="color: #9a456f;">)</span>
+                              fill-column<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>beancount-align-numbers begin end currency-column<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+</div>
+</body>
+</html>
