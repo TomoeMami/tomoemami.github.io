@@ -6,7 +6,7 @@
 <!-- 2025-06-17 周二 10:47 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>翻译-战胜拖延症：建立能让你持续高效产出的系统</title>
+<title>emacs-org-mode中同步滴答清单内容</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -378,61 +378,117 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-06-13 周五 11:55]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-06-17 周二 10:46]</span></span></p>
 </div>
 <div id="content" class="content">
-<h1 class="title">翻译-战胜拖延症：建立能让你持续高效产出的系统</h1>
-<blockquote>
+<h1 class="title">emacs-org-mode中同步滴答清单内容</h1>
 <p>
-<a href="https://www.ruanyifeng.com/blog/2025/06/weekly-issue-352.html">科技爱好者周刊（第 352 期）</a>推荐<br />
+<a href="https://github.com/TomoeMami/dida">GitHub下载链接</a><br />
 </p>
-</blockquote>
+<div id="outline-container-org954123f" class="outline-2">
+<h2 id="org954123f"><span class="section-number-2">1.</span> 使用介绍</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>本地载入<br /></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> <span style="color: #531ab6;">plz</span><span style="color: #000000;">)</span>
+
+<span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> <span style="color: #531ab6;">dida</span>
+ <span style="color: #721045;">:load-path</span> <span style="color: #00598b;">"path/to/dida.el/"</span><span style="color: #000000;">)</span>
+</code></pre>
+</div>
+
+<ul class="org-ul">
+<li>然后在<a href="https://developer.dida365.com/manage">dida apps</a>界面申请APP，填入APP名称（随便填），生成，返回。<br /></li>
+
+<li>点击 <code>Edit</code> ，将网页上的 <code>OAuth redirect URL</code> 设置为 <code>http://localhost:1145</code> 。<br /></li>
+
+<li>将生成的 <code>client-id</code> <code>client-secret</code> 对应填入本地变量 <code>dida-client-id</code> <code>dida-client-secret</code> 中<br /></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">setq</span> dida-client-id <span style="color: #00598b;">"114514"</span><span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #0031a9;">setq</span> dida-client-secret <span style="color: #00598b;">"1919810"</span><span style="color: #000000;">)</span>
+</code></pre>
+</div>
+
+<ul class="org-ul">
+<li>并设置同步到的本地文件路径 <code>dida-sync-file</code> 。<br /></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">setq</span> dida-sync-file <span style="color: #00598b;">"path/to/your/org/file"</span><span style="color: #000000;">)</span>
+</code></pre>
+</div>
+
+<ul class="org-ul">
+<li>执行 <code>dida-authorize</code> ，自动打开授权网页，点击「同意」后跳转到本地网页，此时已将Code自动传递进了 <code>kill-ring</code> 。<br /></li>
+
+<li>返回Emacs，按 <code>C-y</code> 直接粘贴到 <code>mini-buffer</code> 中。这就完成了一次授权。<br /></li>
+
+<li>最后自定义同步策略。<br /></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">dida-sync</span> <span style="color: #dd22dd;">()</span>
+  <span style="color: #304463; font-style: italic;">"&#20808;push&#20877;fetch&#65292;&#20197;&#20113;&#31471;&#20026;&#20934;"</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>dida-push<span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>dida-fetch<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+
+<span style="color: #7f0000; font-style: italic;">;; </span><span style="color: #7f0000; font-style: italic;">&#21551;&#21160;&#21518;fetch&#19968;&#27425;</span>
+<span style="color: #000000;">(</span>add-hook 'after-init-hook #'dida-fetch<span style="color: #000000;">)</span>
+
+<span style="color: #7f0000; font-style: italic;">;; </span><span style="color: #7f0000; font-style: italic;">&#38386;&#32622;240&#31186;&#21518;&#20808;push&#20877;fetch&#19968;&#27425;</span>
+<span style="color: #000000;">(</span>run-with-idle-timer 240 t #'dida-sync<span style="color: #000000;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6137970" class="outline-2">
+<h2 id="org6137970"><span class="section-number-2">2.</span> 细节说明</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+由于dida api只会返回 <code>TODO</code> 状态的task，且只有 <code>dueDate</code> ，不区分 <code>SCHEDULED</code> 和 <code>DEADLINE</code> ，因此我在push时做了如下处理：<br />
+</p>
+
+<ul class="org-ul">
+<li>如果本地任务有 <code>SCHEDULED</code><br /></li>
+</ul>
 
 <p>
-<a href="https://spectrum.ieee.org/getting-past-procastination">战胜拖延症：建立能让你持续高效产出的系统</a><br />
+&#x2013;&gt;则创建/更新一个dida task，记录 <code>SCHEDULED</code> 提醒时间<br />
+</p>
+
+<ul class="org-ul">
+<li>如果本地任务有 <code>DEADLINE</code><br /></li>
+</ul>
+
+<p>
+&#x2013;&gt;则创建/更新一个dida task，在title前加上 <code>[D]</code> ，记录 <code>DEADLINE</code> 提醒时间<br />
 </p>
 
 <p>
-Rahul Pandey 05 Jun 2025<br />
+同样地，fetch时做了对应操作：<br />
 </p>
 
-<blockquote>
-<p>
-拉胡尔·潘迪是 Taro 的创始人，这是一个由 YC 支持的面向技术专业人士的职业平台。<br />
-</p>
-</blockquote>
+<ul class="org-ul">
+<li>如果title前有 <code>[D]</code> ，则先暂存并跳过。<br /></li>
+
+<li>然后逐一检查暂存内容，看buffer中有无去掉 <code>[D]</code> 后title的heading。<br /></li>
+</ul>
 
 <p>
-在 Meta 和 Pinterest 等高速发展的科技公司工作十年间，我始终与拖延症作斗争。每当接到重要项目时，我就是无法让自己开始工作。分心的原因五花八门——不断查看邮件、阅读无关文档、甚至刷社交媒体。但结果总是一样：那种在重要事项上毫无进展的焦虑感如影随形。<br />
-</p>
-
-<p>
-归根结底，时间才是唯一重要的资源。每分钟流逝，你都在决定如何度过人生。多数人使用时间的方式效率低下。尤其在科技行业，任务与工具日新月异，我们必须保持适应能力。顶尖工程师的过人之处在于：他们建立了能持续保持高效产出的系统。<br />
+&#x2013;&gt;如果有，则在该heading上添加对应id和deadline信息<br />
 </p>
 
 <p>
-改变我对效率认知的核心观点是：<b>行动催生动力</b>，而非相反。你不该在等待动力「降临」时查看邮件或刷 Instagram。相反，只需开始做任何能推动目标的事，你会发现动力自然随之而来。<br />
+&#x2013;&gt;如果没有，则将暂存的heading信息插入到文件最尾端<br />
 </p>
-
-<p>
-例如，如果我工作中遇到一个高优先级、复杂的修复漏洞挑战，我的方法是把问题分解成更简单的部分。能否简单地添加一条日志语句来打印相关变量的值？此刻我的目标并非解决漏洞，而是向前迈出一小步。<br />
-</p>
-
-<p>
-这会形成一个强大的良性循环：你高效工作→感觉良好→进而更加高效。<br />
-</p>
-
-<p>
-遗憾的是，许多工程师陷入了相反的恶性循环，即拖延的螺旋式下降：效率低下→情绪低落→效率更低。<br />
-</p>
-
-<p>
-认为动力会随着进展自然产生的理念，让我们得以降低进入良性循环所需的启动能量。作家兼励志演说家托尼·罗宾斯曾提出一个相关概念——“行动创造情绪”。我们的行为举止，甚至身体动作的方式，都会影响自身感受。当你意识到可以掌控自己的动力时，就能实现无压力的高效状态。<br />
-</p>
-
-<p>
-——拉胡尔<br />
-</p>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
