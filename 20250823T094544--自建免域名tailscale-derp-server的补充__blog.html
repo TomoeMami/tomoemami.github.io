@@ -6,7 +6,7 @@
 <!-- 2025-08-23 周六 09:56 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>emacs-字体选择</title>
+<title>自建免域名Tailscale DERP Server的补充</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -378,61 +378,91 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-22 周五 10:32]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-23 周六 09:56]</span></span></p>
 </div>
 <div id="content" class="content">
-<h1 class="title">emacs-字体选择</h1>
+<h1 class="title">自建免域名Tailscale DERP Server的补充</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-11-13 周三 16:25]</span></span><br />
+Tailscale官方中介服务器不在大陆，所以我们可以租用云服务器然后自建一个，提供低延迟服务。<br />
 </p>
 
 <p>
-方正宋刻本秀楷M的粗细度刚好与Cascadia Code SemiLight配合；<br />
-方正聚珍新仿的粗细度与Cascadia Code Light刚好一致<br />
-汉仪书仿55S是传统的仿宋字型，但是粗细度比默认的仿宋好很多，有5个字重可调<br />
-搭配上Windows的Emacs 31版本新增的Direct Write支持，显示效果挺不错的。<br />
+<a href="https://blog.sleepstars.net/archives/ji-yu-docker-compose">自建免备案防偷 Tailscale 国内中继（DERP）教程</a><br />
 </p>
 
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-11-13 周三 16:20]</span></span>：汉仪书仿的字高并不固定，随着字号的变化会有行高的变化；宋刻本秀楷的字型大小会有跃动，不适合长篇文字，最后换回了方正聚珍新仿。<br />
+<a href="https://ameow.xyz/archives/tailscale-derp-server-deployment">Tailscale DERP Server 简明部署教程（纯 IP 方式）</a><br />
 </p>
 
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 10:35]</span></span>：目前字体配置如下：<br />
+以上两篇文章已经说得很全面了，我这里补充几个萌新可能遇见问题的地方（以第二篇文章为例）。<br />
+</p>
+<div id="outline-container-org3e68336" class="outline-2">
+<h2 id="org3e68336"><span class="section-number-2">1.</span> 端口设置</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+在 <code>docker-compose.yml</code> 中，需要设置连接的端口：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00; font-weight: bold;">defun</span> <span style="color: #a7601f;">set-font</span> <span style="color: #557400;">(</span>english chinese english-size chinese-size<span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span>set-face-attribute 'default nil <span style="color: #557400; font-weight: bold;">:font</span>
-                      <span style="color: #bf4400;">(</span>format   <span style="color: #ca3400;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #bf4400;">)</span>
-                      <span style="color: #8f6f4a; font-style: italic;">;; </span><span style="color: #8f6f4a; font-style: italic;">(font-spec :family english :size english-size :weight 'semi-light)
-</span>                      <span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span>set-face-attribute 'fixed-pitch nil <span style="color: #557400; font-weight: bold;">:font</span>
-                      <span style="color: #bf4400;">(</span>format   <span style="color: #ca3400;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #bf4400;">)</span>
-                      <span style="color: #8f6f4a; font-style: italic;">;; </span><span style="color: #8f6f4a; font-style: italic;">(font-spec :family english :size english-size :weight 'semi-light)
-</span>                      <span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span>set-face-attribute 'variable-pitch nil <span style="color: #557400; font-weight: bold;">:font</span>
-                      <span style="color: #bf4400;">(</span>format   <span style="color: #ca3400;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00; font-weight: bold;">dolist</span> <span style="color: #bf4400;">(</span>charset '<span style="color: #3f6faf;">(</span>kana han cjk-misc bopomofo<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span>set-fontset-font <span style="color: #3f6faf;">(</span>frame-parameter nil 'font<span style="color: #3f6faf;">)</span> charset
-                      <span style="color: #3f6faf;">(</span>font-spec <span style="color: #557400; font-weight: bold;">:family</span> chinese <span style="color: #557400; font-weight: bold;">:size</span> chinese-size<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
-<span style="color: #a7601f;">(</span>set-font <span style="color: #ca3400;">"IBM Plex Mono"</span> <span style="color: #ca3400;">"FangSongCode"</span> 40 40<span style="color: #a7601f;">)</span>
-<span style="color: #a7601f;">(</span>set-fontset-font t 'emoji <span style="color: #557400;">(</span>font-spec <span style="color: #557400; font-weight: bold;">:family</span> <span style="color: #ca3400;">"Segoe UI Emoji"</span><span style="color: #557400;">)</span> nil 'prepend<span style="color: #a7601f;">)</span>
-<span style="color: #a7601f;">(</span>set-fontset-font t 'symbol <span style="color: #557400;">(</span>font-spec <span style="color: #557400; font-weight: bold;">:family</span> <span style="color: #ca3400;">"Cascadia Mono NF SemiLight"</span><span style="color: #557400;">)</span> nil 'prepend<span style="color: #a7601f;">)</span>
+<pre class="src src-docker"><code>services:
+  derper:
+    environment:
+      - DERP_ADDR=:13477
+    ports:
+      - "13477:13477"
+      - "13478:3478/udp"
 </code></pre>
 </div>
 
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-03-12 周三 14:07]</span></span>： 改用聚珍新仿与Monaspace Argon作为中英文字体，Cascadia Mono NF SemiLight作为symbol字体。<br />
+这里的三个 <code>13477</code> 是可以自己填的，随便怎么设置，只要保持一致，且在服务器防火墙上开通对应端口的 <code>tcp</code> 就好。 <code>13478</code> 也可以自定义，不过需要开通对应端口的 <code>udp</code> 权限。 <code>3478/udp</code> 别动，是绑定死的docker内端口。<br />
 </p>
 
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-05-18 周日 00:19]</span></span>：英文字体改为<a href="https://github.com/lxgw/LxgwBright-Code">LXGW Bright Code light</a>（改等宽）。本来用的Monaspace Argon据说在1.3会<a href="https://github.com/githubnext/monaspace/issues/22">放出窄版</a>，到时候试试看。<br />
+如果发现自定义了端口也无法连接，考虑更换更高位的端口，有的国内云厂商会一刀切封禁低位端口。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org6036212" class="outline-2">
+<h2 id="org6036212"><span class="section-number-2">2.</span> ACL规则</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<code>derpMap</code> 开头的那段规则存放的位置是在最底部，不可直接覆盖，具体位置如下：<br />
 </p>
 
-<p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-08-22 周五 10:28]</span></span> 今天发现Monaspace Argon的窄版移动到「SomeDay」了，但是1:2/2:3/3:5的<a href="https://github.com/githubnext/monaspace/issues/59">issue</a>又移动到了「1.4」，很神秘。<br />
-</p>
+<div class="org-src-container">
+<pre class="src src-json"><code>{
+//……上略
+//Test asccess rules every time they're saved.
+//"tests": [
+//{
+// ……
+//},
+//],
+//直接复制，粘贴在上面这段话的下面
+"derpMap": {
+		"OmitDefaultRegions": false,
+		"Regions": {"900": {
+			"RegionID":   900,
+			"RegionCode": "gz", // 按需要填
+			"RegionName": "Guangzhou", // 按需要填
+			"Nodes": [{
+				"Name":      "myderper", // 按需要填
+				"RegionID":  900,
+				"HostName":  "IP/HOST", // 改成自己的 IP/域名
+				"DERPPort":  13477,
+				"STUNPort":  13478,
+				"CanPort80": false,
+				"InsecureForTests": true // 去掉域名证书检测
+			}],
+		}},
+	}
+}
+</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
