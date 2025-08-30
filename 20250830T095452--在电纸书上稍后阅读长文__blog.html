@@ -6,7 +6,7 @@
 <!-- 2025-08-30 六 10:24 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>emacs-org-mode中同步bangumi的收看进度</title>
+<title>在电纸书上稍后阅读长文</title>
 <meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -379,123 +379,136 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-15 五 11:46]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-30 六 10:24]</span></span></p>
 </div>
 <div id="content" class="content">
-<h1 class="title">emacs-org-mode中同步bangumi的收看进度</h1>
+<h1 class="title">在电纸书上稍后阅读长文</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-02-16 日 01:00]</span></span><br />
+可能出于对自己阅读兴趣的自信，又或者真的需要大量读小说/专业书籍/盗版or正版电子书，总之你购买了一个电纸书（E-Ink阅读器）。<br />
 </p>
 
 <p>
-（部分）同步Bangumi的观看进度。<br />
+问题在于，日常生活、网上冲浪时，大量信息并不是一份独立、完善的「书籍」，而是一篇篇网页文章，散落在互联网上。电纸书针对「书籍阅读」开发，难以应对这种松散场景。因此，我们需要一些开源软件的帮助：稍后阅读软件「Readeck」和一个阅读软件「KOReader」。<br />
 </p>
-
-<p>
-完全同步内容：某一条目的观看情况（在看、看过、抛弃）。<br />
-</p>
-
-<p>
-部分同步内容：某一条目章节的观看情况，只能增不能减。<br />
-</p>
-<div id="outline-container-org3f98502" class="outline-2">
-<h2 id="org3f98502"><span class="section-number-2">1.</span> 基础配置</h2>
+<div id="outline-container-orgbacd8bd" class="outline-2">
+<h2 id="orgbacd8bd"><span class="section-number-2">1.</span> 搭建Readeck</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-需要安装 <code>plz</code> 包以处理HTTP请求。<br />
-后面的具体配置细则请直接复制粘贴即可<br />
+首先，我们需要把散落的文章收集汇总到一处。<br />
+</p>
+
+<p>
+为了方便手机收集文章，最好是在一个有公网IP/域名的设备上运行Readeck。<br />
+</p>
+
+<p>
+假设现在已经有了一个IP地址为 <code>114.514.191.180</code> 的Linux服务器，只需要按<a href="https://readeck.org/en/docs/">官方手册指南</a>下载二进制安装即可：<br />
+</p>
+
+<p>
+首先创建文件夹：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #6a5937; font-style: italic;">;; </span><span style="color: #6a5937; font-style: italic;">&#22312;&#36825;&#37324; https://next.bgm.tv/demo/access-token &#30003;&#35831;token&#65292;&#28982;&#21518;&#21462;&#28040;&#19979;&#19968;&#34892;&#30340;&#27880;&#37322;&#24182;&#22635;&#20837;&#20320;&#30340;TOKEN
-</span><span style="color: #6a5937; font-style: italic;">;; </span><span style="color: #6a5937; font-style: italic;">(setq my/bgm-token "YOUR-BANGUMI-ACCESS-TOKEN")
-</span><span style="color: #882000;">(</span><span style="color: #702f1f; font-weight: bold;">require</span> '<span style="color: #006e50;">bangumi</span><span style="color: #882000;">)</span>
+<pre class="src src-bash"><code>mkdir -p readeck-install
 
-<span style="color: #882000;">(</span><span style="color: #702f1f; font-weight: bold;">defun</span> <span style="color: #882000;">my/bgm-update-subject-conditions</span> <span style="color: #304f60;">(</span>subject todo<span style="color: #304f60;">)</span>
-  <span style="color: #42573f; font-style: italic;">"&#23558;&#26465;&#20214;&#21028;&#26029;&#21333;&#29420;&#25552;&#21462;&#20986;&#26469;&#65292;&#20415;&#20110;&#29992;&#25143;&#33258;&#23450;&#20041;"</span>
-  <span style="color: #304f60;">(</span><span style="color: #702f1f; font-weight: bold;">and</span> subject
-       <span style="color: #702f1f;">(</span>not <span style="color: #006e50;">(</span><span style="color: #702f1f; font-weight: bold;">and</span> <span style="color: #6b4500;">(</span>org-entry-get nil <span style="color: #3a7800;">"RESCHEDULE_CRON"</span><span style="color: #6b4500;">)</span> <span style="color: #6b4500;">(</span><span style="color: #702f1f; font-weight: bold;">or</span> <span style="color: #8f0038;">(</span>string-equal todo <span style="color: #3a7800;">"DONE"</span><span style="color: #8f0038;">)</span> <span style="color: #8f0038;">(</span>string-equal todo <span style="color: #3a7800;">"TODO"</span><span style="color: #8f0038;">)</span><span style="color: #6b4500;">)</span><span style="color: #006e50;">)</span><span style="color: #702f1f;">)</span><span style="color: #304f60;">)</span><span style="color: #882000;">)</span>
-
-<span style="color: #882000;">(</span><span style="color: #702f1f; font-weight: bold;">setq</span> my/bgm-plz-proxy '<span style="color: #304f60;">(</span><span style="color: #3a7800;">"--proxy"</span> <span style="color: #3a7800;">"http://127.0.0.1:7890"</span><span style="color: #304f60;">)</span><span style="color: #882000;">)</span>
-<span style="color: #6a5937; font-style: italic;">;; </span><span style="color: #6a5937; font-style: italic;">&#22312;TODO&#20851;&#38190;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;subject
-</span><span style="color: #882000;">(</span>add-hook 'org-after-todo-state-change-hook #'my/bgm-update-subject<span style="color: #882000;">)</span>
-<span style="color: #6a5937; font-style: italic;">;; </span><span style="color: #6a5937; font-style: italic;">&#22312;checkbox&#32479;&#35745;&#25968;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;episode
-</span><span style="color: #882000;">(</span>add-hook 'org-checkbox-statistics-hook #'my/bgm-async-update-episodes<span style="color: #882000;">)</span>
-
+<span style="color: #775228; font-weight: bold;">cd</span> readeck-install
 </code></pre>
 </div>
 
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-08-15 五 11:45]</span></span>：这里我重定义了 <code>my/bgm-update-subject-conditions</code> 函数，以便用<a href="https://github.com/Raemi/org-reschedule-by-rule">org-reschedule-by-rule</a>包重复，参见<a href="20250814T171955--emacs-使用cron风格设置任务重复__blog.html">emacs-使用cron风格设置任务重复</a>。<br />
+<a href="https://readeck.org/en/download">从这里</a>下载最新的分发文件，记得把链接替换一下：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><code>wget -O readeck https://codeberg.org/readeck/readeck/releases/download/0.19.2/readeck-0.19.2-linux-amd64
+
+chmod a+x readeck
+</code></pre>
+</div>
+
+<p>
+由于readeck默认不是后台模式，用 <code>screen</code> 新建一个进程页面：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><code>screen -S readeck
+
+./readeck serve
+</code></pre>
+</div>
+
+<p>
+然后可以按 <code>Ctrl+c</code> 数次退出，并编辑 <code>config.toml</code> ，修改下面部分：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-toml"><code>[<span style="color: #226022;">server</span>]
+<span style="color: #125a7f;">host</span> = 127.0.0.1
+<span style="color: #125a7f;">port</span> = 8000
+</code></pre>
+</div>
+
+<p>
+为<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-toml"><code>[<span style="color: #226022;">server</span>]
+<span style="color: #125a7f;">host</span> = 0.0.0.0
+<span style="color: #125a7f;">port</span> = 8000
+</code></pre>
+</div>
+
+<p>
+并把服务器防火墙的 <code>8000</code> 端口放行。<br />
 </p>
 </div>
 </div>
-<div id="outline-container-org5934eb2" class="outline-2">
-<h2 id="org5934eb2"><span class="section-number-2">2.</span> 使用方法</h2>
+<div id="outline-container-org6b4c7ac" class="outline-2">
+<h2 id="org6b4c7ac"><span class="section-number-2">2.</span> 配置readeck</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-首先是创建一个不含TODO关键字的heading，然后按 <code>C-c C-x p</code> 为其输入 <code>BGM</code> 的属性，具体值为Bangumi网站上的对应值（如该条目的页面网址为 <a href="https://bgm.tv/subject/454684">https://bgm.tv/subject/454684</a> ，则应输入 454684。<br />
+访问服务器对应端口（这里是 <code>http://114.514.191.180:8000</code> ），会要求你进行初次用户注册。<br />
 </p>
-
-<div class="org-src-container">
-<pre class="src src-org"><code>\*** AveMujica
-<span style="color: #685f53;">:PROPERTIES:</span>
-<span style="color: #685f53;">:BGM:</span>      <span style="color: #524874;">454684</span>
-<span style="color: #685f53;">:END:</span>
-</code></pre>
-</div>
 
 <p>
-然后变更其TODO状态，如果变成TODO，则Bangumi网站上会同步变为在看；变到DONE，则同步变为看过；变到XXXX，则同步变为抛弃。<br />
+注册之后，我们可以参考少数派的<a href="https://sspai.com/post/89289">这篇文章</a>设置浏览器扩展、iOS快捷方式。<br />
 </p>
-
-<div class="org-src-container">
-<pre class="src src-org"><code>\*** TODO AveMujica
-<span style="color: #685f53;">:PROPERTIES:</span>
-<span style="color: #685f53;">:BGM:</span>      <span style="color: #524874;">454684</span>
-<span style="color: #685f53;">:END:</span>
-</code></pre>
-</div>
 
 <p>
-最后，为其添加checkbox以及checkbox的统计。<br />
-</p>
-
-<div class="org-src-container">
-<pre class="src src-org"><code>\*** AveMujica<span style="color: #9a0000;">[0/12]</span>
-<span style="color: #685f53;">:PROPERTIES:</span>
-<span style="color: #685f53;">:BGM:</span>      <span style="color: #524874;">454684</span>
-<span style="color: #685f53;">:END:</span>
-1. <span style="color: #843300;">[ ]</span>
-2. <span style="color: #843300;">[ ]</span> 
-3. <span style="color: #843300;">[ ]</span> 
-4. <span style="color: #843300;">[ ]</span> 
-5. <span style="color: #843300;">[ ]</span> 
-6. <span style="color: #843300;">[ ]</span> 
-7. <span style="color: #843300;">[ ]</span> 
-8. <span style="color: #843300;">[ ]</span> 
-9. <span style="color: #843300;">[ ]</span> 
-10. <span style="color: #843300;">[ ]</span> 
-11. <span style="color: #843300;">[ ]</span> 
-12. <span style="color: #843300;">[ ]</span> 
-</code></pre>
-</div>
-
-<p>
-当你调整一个checkbox之后，进度统计变成 <code>[N/12]</code> ，则会将Bangumi网站上前 <code>N</code> 章的观看进度设置为已看。<br />
+对应的OPDS域名应为 <code>http://114.514.191.180:8000/opds</code> ，<br />
 </p>
 </div>
 </div>
-<div id="outline-container-org5b7bcca" class="outline-2">
-<h2 id="org5b7bcca"><span class="section-number-2">3.</span> 注意事项</h2>
+<div id="outline-container-org3b2848b" class="outline-2">
+<h2 id="org3b2848b"><span class="section-number-2">3.</span> 配置KOReader</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-注意，这里我偷了一个懒，观看进度是根据 <code>[0/12]</code> 的前面数字判断的。如果你跳跃式观看，比如只看了第2、3、4集，checkbox统计数据会变成 <code>[3/12]</code> ，则以上代码依然会自动标记前3集为已读。<br />
+由于我用的安卓电纸书，直接<a href="https://github.com/koreader/koreader/releases">从GitHub</a>下载apk安装就行。<br />
 </p>
 
 <p>
-所以说是（部分）同步，实际上只有TODO关键词可以完全同步，观看进度只能增不能减（心虚）。<br />
+为了通过OPDS浏览Readeck，请参考<a href="https://github.com/koreader/koreader/wiki/OPDS-support">KOReader Wiki的这个章节</a>。<br />
 </p>
+
+<p>
+注意，根据<a href="https://codeberg.org/readeck/readeck/pulls/603">这个commit</a>，Readeck已经移除了「应用密码」功能。所以在通过KOReader访问Readeck的OPDS时，下方的密码需要填入Readeck生成的API密钥。<br />
+</p>
+
+<p>
+附：Readeck对API密钥的说明<br />
+</p>
+
+<blockquote>
+<p>
+作为密码<br />
+或者，您可以将此令牌用作 HTTP 基本身份验证的密码。<br />
+</p>
+
+<p>
+例如，如果应用程序仅接受用户名和密码，您可以将此令牌作为密码提供。 用户名被忽略，可以是任何值，包括空值。<br />
+</p>
+</blockquote>
 </div>
 </div>
 </div>
