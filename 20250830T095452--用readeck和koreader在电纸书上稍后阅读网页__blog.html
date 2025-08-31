@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-08-31 日 09:29 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>用Readeck和KOReader在电纸书上稍后阅读网页</title>
+<meta name="author" content="ahs" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
+*/
+
+body {
+    margin: 2% auto;
+    width: 100%;
+    max-width: 100%;
+    background-color: rgba(242,229,188,0.5);
+    /* background-color: rgba(255,255,255,0.5); */
+    font-size: 18px;
+    line-height: 1.4em;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 910px) {
+    body {
+        width: 900px;
+    }
+}
+#preamble {
+    width: 80%;
+    max-width: 980px;
+    text-align: left;
+    margin: auto;
+    font-size: 80%;
+}
+
+hr {
+    border: none;
+    border-top: 5px double #333;
+    margin: 0px 0;
+}
+
+.button {
+    border: none;
+    color: black;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3a1616;
+    color: white;
+}
+
+.todo {
+    background-color: #9d0006;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+.done {
+    background-color: #427b58;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+#postamble p {
+    font-size: 80%;
+    margin: .2em;
+    text-align: center;
+}
+
+#content, .content {
+    width: 80%;
+    max-width: 980px;
+    margin: auto;
+}
+
+#org-div-home-and-up{
+    position: fixed;
+    right: 0.5em;
+    margin-top: 70px;
+    font-family:sans-serif;
+}
+
+#table-of-contents {
+    margin-top: 105px;
+    font-size: 12pt;
+    position: fixed;
+    left: 0em;
+    top: 0em;
+    background: white;
+    max-height: 80%;
+    overflow: auto;
+}
+
+#table-of-contents h2 {
+    display: none;
+}
+#table-of-contents li {
+    clear: both;
+}
+.timestamp {
+    color: #928374;
+    font-size: $smaller;
+}
+
+.timestamp-kwd {
+    color: #5f9ea0;
+}
+
+@media screen and (max-width: 1200px) {
+    #table-of-contents {
+        position: relative;
+        margin-top: 0px;
+    }
+}
+
+/* p:not(blockquote > p) :not(ol > p) { */
+/*     text-indent: 2em; */
+/* } */
+p {
+    margin: 1em auto;
+}
+
+.title {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: bold;
+    color: #0c2340;
+}
+
+h2:not(#table-of-contents > h2) {
+    font-size: 30px;
+    line-height: 1.2;
+    position: relative;
+    color: #204060;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+h3:not(#table-of-contents > h3) {
+    font-size: 20px;
+    line-height: 1.1;
+    position: relative;
+    color: #4b748d;
+}
+
+h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    /* border-bottom: 1px dashed black; */
+}
+
+h4 {
+    font-size: 14px;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:link {
+    color: #458588;
+    /* text-decoration: underline; */
+}
+
+a:hover {
+    /* font-weight: bold; */
+    text-decoration: underline;
+    /* color: #076678; */
+}
+
+.figure {
+    text-align: center;
+}
+
+a:visited{
+    color: #8f3f71;
+    /* text-decoration: underline; */
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+.MathJax_Display {
+    margin: 0!important;
+    width: $smaller!important;
+}
+@media screen and (max-width: 1200px) {
+    img {
+        width: 400px;
+    }
+    .MathJax_Display {
+        margin: 0!important;
+        width: $smaller!important;
+    }
+}
+
+.org-src-container {
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+
+}
+.org-src-container>pre {
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.org-src-container>pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+
+}
+pre {
+    overflow: auto;
+
+}
+.example{
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+    
+}
+.example::before {
+    content: "Results";
+}
+pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+}
+/* .org-src-container::before { */
+/*     content: "Copy"; */
+/*     position: absolute; */
+/*     top: 5px; */
+/*     right: 5px; */
+/*     padding: 5px; */
+/*     background-color: #ccc; */
+/*     color: #fff; */
+/*     border-radius: 3px; */
+/*     cursor: pointer; */
+/* } */
+
+code {
+    font-size: 16px;
+    color: #427b58;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 10px; /* Optional: add some left padding for the content */
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.info {
+    overflow: hidden;
+}
+
+.created {
+    float: right;
+}
+
+.updated {
+    float: left;
+}
+
+.org-ol {
+    list-style-type: decimal; /* Set the list style type to decimal numbers */
+    /* margin-left: 0.5em; /\* Add left margin to the list *\/ */
+}
+
+b {
+    color: #9d0006;
+}
+
+#footnotes {
+    position: fixed;
+    left: auto;
+    right: 0;
+    top: 105px;
+    bottom: 0;
+    width: 20%;
+    padding: 10px;
+    overflow: auto;
+    font-size: 14px;
+    z-index: 9999;
+}
+
+#footnotes h2 {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    #footnotes {
+        position: static;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 30%;
+        overflow: auto;
+        padding: 10px;
+        font-size: 14px;
+        z-index: 9999;
+    }
+}
+/*]]>*/-->
+ </style>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-31 日 09:28]</span></span></p>
+</div>
+<div id="content" class="content">
+<h1 class="title">用Readeck和KOReader在电纸书上稍后阅读网页</h1>
+<p>
+可能出于对自己阅读兴趣的自信，又或者真的需要大量读小说/专业书籍/盗版or正版电子书，总之你购买了一个电纸书（E-Ink阅读器）。<br />
+</p>
+
+<p>
+问题在于，日常生活、网上冲浪时，大量信息并不是一份独立、完善的「书籍」，而是一篇篇网页文章，散落在互联网上。电纸书针对「书籍阅读」开发，难以应对这种松散场景。因此，我们需要一些开源软件的帮助：稍后阅读软件「Readeck」和一个阅读软件「KOReader」。<br />
+</p>
+<div id="outline-container-org1d902d5" class="outline-2">
+<h2 id="org1d902d5"><span class="section-number-2">1.</span> 搭建Readeck</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+首先，我们需要把散落的文章收集汇总到一处。<br />
+</p>
+
+<p>
+为了方便手机收集文章，最好是在一个有公网IP/域名的设备上运行Readeck。<br />
+</p>
+
+<p>
+假设现在已经有了一个IP地址为 <code>114.514.191.180</code> 的Linux服务器，只需要按<a href="https://readeck.org/en/docs/">官方手册指南</a>下载二进制安装即可：<br />
+</p>
+
+<p>
+首先创建文件夹：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><code>mkdir -p readeck-install
+
+<span style="color: #557400; font-weight: bold;">cd</span> readeck-install
+</code></pre>
+</div>
+
+<p>
+<a href="https://readeck.org/en/download">从这里</a>下载最新的分发文件，记得把链接替换一下：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><code>wget -O readeck https://codeberg.org/readeck/readeck/releases/download/0.19.2/readeck-0.19.2-linux-amd64
+
+chmod a+x readeck
+</code></pre>
+</div>
+
+<p>
+由于readeck默认不是后台模式，用 <code>screen</code> 新建一个进程页面：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><code>screen -S readeck
+
+./readeck serve
+</code></pre>
+</div>
+
+<p>
+然后可以按 <code>Ctrl+c</code> 数次退出，并编辑 <code>config.toml</code> ，修改下面部分：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-toml"><code>[<span style="color: #444fcf;">server</span>]
+<span style="color: #007a9f;">host</span> = 127.0.0.1
+<span style="color: #007a9f;">port</span> = 8000
+</code></pre>
+</div>
+
+<p>
+为<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-toml"><code>[<span style="color: #444fcf;">server</span>]
+<span style="color: #007a9f;">host</span> = 0.0.0.0
+<span style="color: #007a9f;">port</span> = 8000
+</code></pre>
+</div>
+
+<p>
+并把服务器防火墙的 <code>8000</code> 端口放行。<br />
+</p>
+
+<p>
+这样一来，你就可以通过网页访问搭建的Readeck了。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org204e2da" class="outline-2">
+<h2 id="org204e2da"><span class="section-number-2">2.</span> 配置readeck</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+访问服务器对应端口（示例为 <code>http://114.514.191.180:8000</code> ），会要求你进行初次用户注册。<br />
+</p>
+
+<p>
+注册之后，我们可以参考少数派的<a href="https://sspai.com/post/89289">这篇文章</a>设置浏览器扩展、iOS快捷方式。<br />
+</p>
+
+<p>
+根据我的测试，浏览器扩展可以根据当前页面内容较好提取文章，即使你用的网页翻译软件，也可以把翻译结果保存下来。<br />
+</p>
+
+<p>
+配置readeck浏览器插件？实际上根本不需要怎么介绍吧。<br />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">选项</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">账号</td>
+<td class="org-left">注册的账号</td>
+</tr>
+
+<tr>
+<td class="org-left">密码</td>
+<td class="org-left">注册的密码</td>
+</tr>
+
+<tr>
+<td class="org-left">网址</td>
+<td class="org-left">这里是 <code>http://114.514.191.180:8000</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+然后浏览器扩展会自动注册一个名为 <code>browser-extension</code> 的API令牌，并自动使用。<br />
+</p>
+
+<p>
+Readeck默认有OPDS功能，可以通过网址访问自动转换出来的EPUB格式电子书。对应的OPDS域名应为 <code>http://114.514.191.180:8000/opds</code> <br />
+</p>
+</div>
+</div>
+<div id="outline-container-orgb9de778" class="outline-2">
+<h2 id="orgb9de778"><span class="section-number-2">3.</span> 配置KOReader</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+由于我用的安卓电纸书，直接<a href="https://github.com/koreader/koreader/releases">从GitHub</a>下载apk安装就行。下面以最新版（2025-08）为例。<br />
+</p>
+
+<p>
+为了通过OPDS浏览Readeck，请参考<a href="https://github.com/koreader/koreader/wiki/OPDS-support">KOReader Wiki的这个章节</a>，下面简述一下。<br />
+</p>
+
+<p>
+点击KOReader默认界面（文件浏览）的上侧中间位置（KOREADER Logo），点击放大镜按钮，点击最下方的「OPDS书目」，进入OPDS页面。<br />
+</p>
+
+<p>
+点击左上角三横，选择「添加目录」，输入下列信息<br />
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">选项</th>
+<th scope="col" class="org-left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">书目名称</td>
+<td class="org-left">自定义显示的名称，随便起</td>
+</tr>
+
+<tr>
+<td class="org-left">书目url</td>
+<td class="org-left">上一节所说的「对应OPDS域名」</td>
+</tr>
+
+<tr>
+<td class="org-left">用户名</td>
+<td class="org-left">见下文</td>
+</tr>
+
+<tr>
+<td class="org-left">密码</td>
+<td class="org-left">见下文</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+注意，根据<a href="https://codeberg.org/readeck/readeck/pulls/603">这个commit</a>，Readeck已经移除了「应用密码」功能。所以这里的用户名我们随便填，但密码需要填入Readeck生成的API令牌。<br />
+</p>
+
+<blockquote>
+<p>
+作为密码<br />
+或者，您可以将此令牌用作 HTTP 基本身份验证的密码。<br />
+</p>
+
+<p>
+例如，如果应用程序仅接受用户名和密码，您可以将此令牌作为密码提供。 用户名被忽略，可以是任何值，包括空值。<br />
+</p>
+</blockquote>
+
+<p>
+保存之后，我们就可以点击查看了。从上到下为五个类别：未读书签、已归档书签、已收藏书签、全部书签、书签收藏集。<br />
+</p>
+
+<p>
+前面四个只能单独一份份查看网页，也就是说每一个收藏的网页都需要单独下载一个文件。虽然KOReader在阅读完一个文件后会智能弹窗提示是否删除文件，但删除完了后又会自动返回默认目录，然后要再多点几次进入OPDS页面。<br />
+</p>
+
+<p>
+如果想一次性把所有收藏的网页下载为一份电子书，需要创建收藏集。在Readeck的书签页面侧栏最下方，具体路径为 <code>http://114.514.191.180:8000/bookmarks/collections</code> 。<br />
+</p>
+
+<p>
+点击「创建新收藏集」，然后右侧可以起名、填入搜索条件。如果你只想看前一天到今天的书签，则可调整起始日期为「前 -1 天」，结束日期为「前 0 天」，然后保存。需要点一下加减，否则什么也不操作的话不会输入「前 0 天」。<br />
+</p>
+
+<p>
+这样一来，在刚才提到的OPDS页面，选择最下方「书签收藏集」，就能看见我们刚才创建的收藏集了。点进去，选择第一个「收藏集电子书」，则可以将收藏集匹配的所有网页合并为一个EPUB文件下载浏览。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-orgcb99889" class="outline-2">
+<h2 id="orgcb99889"><span class="section-number-2">4.</span> 一键清空书签的elisp代码</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Readeck并未提供批量选择功能，因此写了一段小elisp代码，通过API一键清空所有书签，需要安装 <code>plz</code> 包：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00; font-weight: bold;">defun</span> <span style="color: #a7601f;">my/delete-all-readeck</span> <span style="color: #557400;">()</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00; font-weight: bold;">interactive</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00; font-weight: bold;">let*</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>api-token <span style="color: #ca3400;">"&#29992;&#29983;&#25104;&#30340;API&#26367;&#25442;&#36825;&#37324;"</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>server-url <span style="color: #ca3400;">"&#29992;readeck&#26381;&#21153;&#22120;&#38142;&#25509;&#26367;&#25442;&#36825;&#37324;&#65292;&#24102;http&#12289;&#31471;&#21475;&#65292;&#19981;&#24102;&#26012;&#26464;&#65292;&#22914;http://114.514.191.98:8000"</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>bookmarks <span style="color: #00824f;">(</span>plz 'get <span style="color: #9a456f;">(</span>concat server-url <span style="color: #ca3400;">"/api/bookmarks"</span><span style="color: #9a456f;">)</span>
+                     <span style="color: #557400; font-weight: bold;">:headers</span> `<span style="color: #9a456f;">(</span><span style="color: #a2604f;">(</span><span style="color: #ca3400;">"User-Agent"</span> . <span style="color: #ca3400;">"tomoemami/emacs"</span><span style="color: #a2604f;">)</span>
+                                <span style="color: #a2604f;">(</span><span style="color: #ca3400;">"Authorization"</span> . <span style="color: #007a9f;">(</span>concat <span style="color: #ca3400;">"Bearer "</span> api-token<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
+                                <span style="color: #a2604f;">(</span><span style="color: #ca3400;">"Accept"</span> . <span style="color: #ca3400;">"application/json"</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
+                     <span style="color: #557400; font-weight: bold;">:as</span> #'json-read<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00; font-weight: bold;">dolist</span> <span style="color: #3f6faf;">(</span>bookmark <span style="color: #00824f;">(</span>seq-into bookmarks 'list<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+      <span style="color: #3f6faf;">(</span><span style="color: #006f00; font-weight: bold;">when-let*</span> <span style="color: #00824f;">(</span><span style="color: #9a456f;">(</span>id <span style="color: #a2604f;">(</span>alist-get 'id bookmark<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+        <span style="color: #00824f;">(</span>call-process-shell-command <span style="color: #9a456f;">(</span>concat <span style="color: #ca3400;">"curl -X DELETE '"</span> server-url <span style="color: #ca3400;">"/api/bookmarks/"</span> id <span style="color: #ca3400;">"' -H 'accept: application/json' -H 'Authorization: Bearer "</span> api-token <span style="color: #ca3400;">"' -H 'User-Agent: tomoemami/emacs'"</span><span style="color: #9a456f;">)</span> nil 0<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>message <span style="color: #ca3400;">"Readeck bookmarks DELETED"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+</div>
+</body>
+</html>
