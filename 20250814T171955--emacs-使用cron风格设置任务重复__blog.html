@@ -3,10 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-09-01 周一 22:05 -->
+<!-- 2025-09-09 二 20:15 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用cron风格设置任务重复</title>
+<meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -378,12 +379,12 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-15 周五 11:57]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-09-09 二 20:15]</span></span></p>
 </div>
 <div id="content" class="content">
 <h1 class="title">emacs-使用cron风格设置任务重复</h1>
-<div id="outline-container-orgfbdd7ea" class="outline-2">
-<h2 id="orgfbdd7ea"><span class="section-number-2">1.</span> 前言</h2>
+<div id="outline-container-orgeaa7125" class="outline-2">
+<h2 id="orgeaa7125"><span class="section-number-2">1.</span> 前言</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</code> 、 <code>DEADLINE</code> 和 <code>TIMESTAMP/SEXP</code> 之间的微妙差异。一般来说，只要使用基础的 <code>reapter</code> ，如 <code>.+</code> 和 <code>++</code> ，便足以应付绝大部分待办事项重复，更复杂日程则可以通过 <code>%</code> 开头的sexp来表示。但是在一些特定的场景，这一套系统便有了不便。<br />
@@ -394,7 +395,7 @@ org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
 <span style="color: #68708a;">SCHEDULED:</span><span style="color: #5a7400;">&lt;2025-08-11 Mon ++1w&gt;</span>
 </code></pre>
 </div>
@@ -408,7 +409,7 @@ org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
 <span style="color: #68708a;">SCHEDULED:</span><span style="color: #5a7400;">&lt;2025-08-16 Sat ++1w&gt;</span>
 </code></pre>
 </div>
@@ -418,7 +419,7 @@ org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
 <span style="color: #68708a;">SCHEDULED:</span><span style="color: #5a7400;">&lt;2025-08-23 Sat ++1w&gt;</span>
 </code></pre>
 </div>
@@ -434,10 +435,14 @@ org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</
 <p>
 这时候，就轮到<a href="https://github.com/Raemi/org-reschedule-by-rule">org-reschedule-by-rule</a>包登场了。<br />
 </p>
+
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2025-09-09 二 20:08]</span></span> ： 我修改了该包，移除了python依赖并进行了一些小改动，重新发布在<a href="https://github.com/TomoeMami/org-repeat-by-cron.el">org-repeat-by-cron</a>这里。不需要下文的安装依赖即可使用。<br />
+</p>
 </div>
 </div>
-<div id="outline-container-org108a352" class="outline-2">
-<h2 id="org108a352"><span class="section-number-2">2.</span> 依赖安装</h2>
+<div id="outline-container-org2d0f1b1" class="outline-2">
+<h2 id="org2d0f1b1"><span class="section-number-2">2.</span> 依赖安装</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 该包依赖Python的 <code>croniter</code> 包，需要安装。<br />
@@ -452,8 +457,8 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </p>
 </div>
 </div>
-<div id="outline-container-org675a30d" class="outline-2">
-<h2 id="org675a30d"><span class="section-number-2">3.</span> 使用</h2>
+<div id="outline-container-org976d26b" class="outline-2">
+<h2 id="org976d26b"><span class="section-number-2">3.</span> 使用</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 将GitHub上的 <code>org-reschedule-by-rule.el</code> 放到 <code>路径A</code> 中，然后配置 <code>use-package</code> 即可。<br />
@@ -470,7 +475,7 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 以先前的例子为例，设置任务的 <code>RESCHEDULE_CRON</code> 属性即可。<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
 <span style="color: #68708a;">SCHEDULED:</span><span style="color: #5a7400;">&lt;2025-08-23 Sat&gt;</span>
 <span style="color: #68708a;">:PROPERTIES:</span>
 <span style="color: #68708a;">:RESCHEDULE_CRON:</span> <span style="color: #80431a;">* * Mon</span>
@@ -506,7 +511,7 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
 <span style="color: #68708a;">SCHEDULED:</span> <span style="color: #5a7400;">&lt;2025-08-25 &#21608;&#19968;&gt;</span>
 <span style="color: #68708a;">:PROPERTIES:</span>
 <span style="color: #68708a;">:RESCHEDULE_CRON:</span> <span style="color: #80431a;">* * Mon</span>
@@ -524,28 +529,28 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </p>
 </div>
 </div>
-<div id="outline-container-org5ca8f7d" class="outline-2">
-<h2 id="org5ca8f7d"><span class="section-number-2">4.</span> 流程解析</h2>
+<div id="outline-container-org060e63e" class="outline-2">
+<h2 id="org060e63e"><span class="section-number-2">4.</span> 流程解析</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orgd03bb43" class="outline-3">
-<h3 id="orgd03bb43"><span class="section-number-3">4.1.</span> 监听</h3>
+<div id="outline-container-orgdf4ab9e" class="outline-3">
+<h3 id="orgdf4ab9e"><span class="section-number-3">4.1.</span> 监听</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 监听 Org 任务状态变化，当任务被标记为 <code>DONE</code> 时触发。<br />
 </p>
 </div>
 </div>
-<div id="outline-container-orgbf5c693" class="outline-3">
-<h3 id="orgbf5c693"><span class="section-number-3">4.2.</span> 读取规则</h3>
+<div id="outline-container-orgc8abf38" class="outline-3">
+<h3 id="orgc8abf38"><span class="section-number-3">4.2.</span> 读取规则</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 检查当前任务是否定义了 <code>RESCHEDULE_INTERVAL</code> 或 <code>RESCHEDULE_CRON</code> 属性，无则跳过<br />
 </p>
 </div>
 </div>
-<div id="outline-container-org45a1e46" class="outline-3">
-<h3 id="org45a1e46"><span class="section-number-3">4.3.</span> 计算下一个调度日期</h3>
+<div id="outline-container-org57751c7" class="outline-3">
+<h3 id="org57751c7"><span class="section-number-3">4.3.</span> 计算下一个调度日期</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 首先需要确定计算的起点（基准时间）。会优先使用 <code>RESCHEDULE_ANCHOR</code> 的值。如果不存在，则退而求其次使用任务当前的 <code>SCHEDULED</code> 时间戳，如果连这个也没有，就使用当前时间。<br />
@@ -594,8 +599,8 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </div>
 </div>
 </div>
-<div id="outline-container-org6d39a37" class="outline-3">
-<h3 id="org6d39a37"><span class="section-number-3">4.4.</span> 更新计划</h3>
+<div id="outline-container-org56fbc62" class="outline-3">
+<h3 id="org56fbc62"><span class="section-number-3">4.4.</span> 更新计划</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 最后会将计算出的新日期同时更新到任务的 <code>SCHEDULED</code> 时间戳和 <code>RESCHEDULE_ANCHOR</code> 属性中，并将任务状态重置为 <code>TODO</code> 。<br />
@@ -603,12 +608,12 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </div>
 </div>
 </div>
-<div id="outline-container-orgc7bb65e" class="outline-2">
-<h2 id="orgc7bb65e"><span class="section-number-2">5.</span> 更多示例</h2>
+<div id="outline-container-org836cce5" class="outline-2">
+<h2 id="org836cce5"><span class="section-number-2">5.</span> 更多示例</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org799d631" class="outline-3">
-<h3 id="org799d631"><span class="section-number-3">5.1.</span> 每月第三个和最后一个周五</h3>
+<div id="outline-container-orge029089" class="outline-3">
+<h3 id="orge029089"><span class="section-number-3">5.1.</span> 每月第三个和最后一个周五</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * * 5#3,L5
@@ -616,8 +621,8 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </div>
 </div>
 </div>
-<div id="outline-container-org28eb193" class="outline-3">
-<h3 id="org28eb193"><span class="section-number-3">5.2.</span> 每月最后一个星期一</h3>
+<div id="outline-container-orgdb177c5" class="outline-3">
+<h3 id="orgdb177c5"><span class="section-number-3">5.2.</span> 每月最后一个星期一</h3>
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * * L1
@@ -629,8 +634,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </p>
 </div>
 </div>
-<div id="outline-container-orge7c08bd" class="outline-3">
-<h3 id="orge7c08bd"><span class="section-number-3">5.3.</span> 每周一上午 9 点</h3>
+<div id="outline-container-org00bbf4f" class="outline-3">
+<h3 id="org00bbf4f"><span class="section-number-3">5.3.</span> 每周一上午 9 点</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: 0 9 * * Mon
@@ -638,8 +643,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </div>
 </div>
 </div>
-<div id="outline-container-orga98c666" class="outline-3">
-<h3 id="orga98c666"><span class="section-number-3">5.4.</span> 每月第三个周四</h3>
+<div id="outline-container-org6caa6ef" class="outline-3">
+<h3 id="org6caa6ef"><span class="section-number-3">5.4.</span> 每月第三个周四</h3>
 <div class="outline-text-3" id="text-5-4">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * * Thu#3
@@ -647,8 +652,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </div>
 </div>
 </div>
-<div id="outline-container-org4f409ae" class="outline-3">
-<h3 id="org4f409ae"><span class="section-number-3">5.5.</span> 下周一或周五</h3>
+<div id="outline-container-orgd1da7b5" class="outline-3">
+<h3 id="orgd1da7b5"><span class="section-number-3">5.5.</span> 下周一或周五</h3>
 <div class="outline-text-3" id="text-5-5">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * * Mon,Fri
@@ -656,8 +661,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </div>
 </div>
 </div>
-<div id="outline-container-org77cf9e3" class="outline-3">
-<h3 id="org77cf9e3"><span class="section-number-3">5.6.</span> 从特定锚点起每 2 天</h3>
+<div id="outline-container-org10c782a" class="outline-3">
+<h3 id="org10c782a"><span class="section-number-3">5.6.</span> 从特定锚点起每 2 天</h3>
 <div class="outline-text-3" id="text-5-6">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_INTERVAL: 2d
@@ -666,8 +671,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </div>
 </div>
 </div>
-<div id="outline-container-orged7eff2" class="outline-3">
-<h3 id="orged7eff2"><span class="section-number-3">5.7.</span> 每季度第一个星期一</h3>
+<div id="outline-container-orgbdbf5bb" class="outline-3">
+<h3 id="orgbdbf5bb"><span class="section-number-3">5.7.</span> 每季度第一个星期一</h3>
 <div class="outline-text-3" id="text-5-7">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * Jan,Apr,Jul,Oct Mon#1
