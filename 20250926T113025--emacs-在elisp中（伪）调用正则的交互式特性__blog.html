@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-09-26 周五 13:52 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-在elisp中（伪）调用正则的交互式特性</title>
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
+*/
+
+body {
+    margin: 2% auto;
+    width: 100%;
+    max-width: 100%;
+    background-color: rgba(242,229,188,0.5);
+    /* background-color: rgba(255,255,255,0.5); */
+    font-size: 18px;
+    line-height: 1.4em;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 910px) {
+    body {
+        width: 900px;
+    }
+}
+#preamble {
+    width: 80%;
+    max-width: 980px;
+    text-align: left;
+    margin: auto;
+    font-size: 80%;
+}
+
+hr {
+    border: none;
+    border-top: 5px double #333;
+    margin: 0px 0;
+}
+
+.button {
+    border: none;
+    color: black;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3a1616;
+    color: white;
+}
+
+.todo {
+    background-color: #9d0006;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+.done {
+    background-color: #427b58;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+#postamble p {
+    font-size: 80%;
+    margin: .2em;
+    text-align: center;
+}
+
+#content, .content {
+    width: 80%;
+    max-width: 980px;
+    margin: auto;
+}
+
+#org-div-home-and-up{
+    position: fixed;
+    right: 0.5em;
+    margin-top: 70px;
+    font-family:sans-serif;
+}
+
+#table-of-contents {
+    margin-top: 105px;
+    font-size: 12pt;
+    position: fixed;
+    left: 0em;
+    top: 0em;
+    background: white;
+    max-height: 80%;
+    overflow: auto;
+}
+
+#table-of-contents h2 {
+    display: none;
+}
+#table-of-contents li {
+    clear: both;
+}
+.timestamp {
+    color: #928374;
+    font-size: $smaller;
+}
+
+.timestamp-kwd {
+    color: #5f9ea0;
+}
+
+@media screen and (max-width: 1200px) {
+    #table-of-contents {
+        position: relative;
+        margin-top: 0px;
+    }
+}
+
+/* p:not(blockquote > p) :not(ol > p) { */
+/*     text-indent: 2em; */
+/* } */
+p {
+    margin: 1em auto;
+}
+
+.title {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: bold;
+    color: #0c2340;
+}
+
+h2:not(#table-of-contents > h2) {
+    font-size: 30px;
+    line-height: 1.2;
+    position: relative;
+    color: #204060;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+h3:not(#table-of-contents > h3) {
+    font-size: 20px;
+    line-height: 1.1;
+    position: relative;
+    color: #4b748d;
+}
+
+h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    /* border-bottom: 1px dashed black; */
+}
+
+h4 {
+    font-size: 14px;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:link {
+    color: #458588;
+    /* text-decoration: underline; */
+}
+
+a:hover {
+    /* font-weight: bold; */
+    text-decoration: underline;
+    /* color: #076678; */
+}
+
+.figure {
+    text-align: center;
+}
+
+a:visited{
+    color: #8f3f71;
+    /* text-decoration: underline; */
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+.MathJax_Display {
+    margin: 0!important;
+    width: $smaller!important;
+}
+@media screen and (max-width: 1200px) {
+    img {
+        width: 400px;
+    }
+    .MathJax_Display {
+        margin: 0!important;
+        width: $smaller!important;
+    }
+}
+
+.org-src-container {
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+
+}
+.org-src-container>pre {
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.org-src-container>pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+
+}
+pre {
+    overflow: auto;
+
+}
+.example{
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+    
+}
+.example::before {
+    content: "Results";
+}
+pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+}
+/* .org-src-container::before { */
+/*     content: "Copy"; */
+/*     position: absolute; */
+/*     top: 5px; */
+/*     right: 5px; */
+/*     padding: 5px; */
+/*     background-color: #ccc; */
+/*     color: #fff; */
+/*     border-radius: 3px; */
+/*     cursor: pointer; */
+/* } */
+
+code {
+    font-size: 16px;
+    color: #427b58;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 10px; /* Optional: add some left padding for the content */
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.info {
+    overflow: hidden;
+}
+
+.created {
+    float: right;
+}
+
+.updated {
+    float: left;
+}
+
+.org-ol {
+    list-style-type: decimal; /* Set the list style type to decimal numbers */
+    /* margin-left: 0.5em; /\* Add left margin to the list *\/ */
+}
+
+b {
+    color: #9d0006;
+}
+
+#footnotes {
+    position: fixed;
+    left: auto;
+    right: 0;
+    top: 105px;
+    bottom: 0;
+    width: 20%;
+    padding: 10px;
+    overflow: auto;
+    font-size: 14px;
+    z-index: 9999;
+}
+
+#footnotes h2 {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    #footnotes {
+        position: static;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 30%;
+        overflow: auto;
+        padding: 10px;
+        font-size: 14px;
+        z-index: 9999;
+    }
+}
+/*]]>*/-->
+ </style>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-09-26 周五 13:50]</span></span></p>
+</div>
+<div id="content" class="content">
+<h1 class="title">emacs-在elisp中（伪）调用正则的交互式特性</h1>
+<p>
+Emacs 用户常常会用到强大的交互式替换命令，如 <code>replace-regexp</code> 和 <code>query-replace-regexp</code> 。除了基本的文本替换和捕获组反向引用（如 <code>\&amp;</code> 和 <code>\1</code> ）之外，交互式替换还支持两个鲜为人知但功能强大的特殊序列：<br />
+</p>
+
+<ol class="org-ol">
+<li><code>\,(...)</code> ：允许在替换字符串中执行任意 Elisp 表达式，并将其结果插入。<br /></li>
+<li><code>\#</code> ：代表当前是第几次替换，从 0 开始计数。<br /></li>
+</ol>
+
+<p>
+然而，这些便利的特性，在 Elisp 编程中通过非交互式代码调用时，却无法直接使用。因此我通过以下两个自定义函数，部分实现了调用正则的交互式特性。<br />
+</p>
+<div id="outline-container-org8922d0b" class="outline-2">
+<h2 id="org8922d0b"><span class="section-number-2">1.</span> 求值函数 <code>my/eval-lisp-in-string</code></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+这个函数是实现 <code>\,(...)</code> 功能的核心。它的任务是在一个字符串中找出所有 <code>,(...)</code> 形式的表达式，对括号内的 Lisp 代码求值，然后用求值结果替换掉 <code>,(...)</code> 本身。<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310; font-weight: bold;">defun</span> <span style="color: #5a7400;">my/eval-lisp-in-string</span> <span style="color: #a26310;">(</span>str<span style="color: #a26310;">)</span>
+  <span style="color: #b05350; font-style: italic;">"&#22312;&#23383;&#31526;&#20018; STR &#20013;&#26597;&#25214;&#25152;&#26377; `,(...)` &#24418;&#24335;&#12290;
+&#23545;&#25324;&#21495;&#20869;&#30340; S-&#34920;&#36798;&#24335;&#27714;&#20540;&#65292;&#24182;&#29992;&#20854;&#32467;&#26524;&#26367;&#25442;&#21407;&#22987;&#24418;&#24335;&#12290;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310; font-weight: bold;">with-temp-buffer</span>
+    <span style="color: #5a7400;">(</span>insert str<span style="color: #5a7400;">)</span>
+    <span style="color: #5a7400;">(</span>goto-char <span style="color: #c02945;">(</span>point-max<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span> <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">&#20174;&#32531;&#20914;&#21306;&#26411;&#23614;&#24320;&#22987;
+</span>    <span style="color: #5a7400;">(</span><span style="color: #a26310; font-weight: bold;">save-match-data</span>
+      <span style="color: #7f6f1a; font-style: italic;">;; </span><span style="color: #7f6f1a; font-style: italic;">&#20174;&#21518;&#21521;&#21069;&#25628;&#32034;&#65292;&#36825;&#26679;&#26367;&#25442;&#25805;&#20316;&#19981;&#20250;&#24433;&#21709;&#21518;&#32493;&#25628;&#32034;&#30340;&#20301;&#32622;
+</span>      <span style="color: #c02945;">(</span><span style="color: #a26310; font-weight: bold;">while</span> <span style="color: #4060a0;">(</span>re-search-backward <span style="color: #c74400;">",("</span> nil t<span style="color: #4060a0;">)</span>
+        <span style="color: #4060a0;">(</span><span style="color: #a26310; font-weight: bold;">let*</span> <span style="color: #aa3e74;">(</span><span style="color: #008250;">(</span>match-start <span style="color: #b02f80;">(</span>match-beginning 0<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span> <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">"," &#30340;&#20301;&#32622;
+</span>               <span style="color: #008250;">(</span>sexp-start <span style="color: #b02f80;">(</span>match-end 0<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>     <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">"(" &#30340;&#20301;&#32622;
+</span>          
+          <span style="color: #7f6f1a; font-style: italic;">;; </span><span style="color: #7f6f1a; font-style: italic;">&#20351;&#29992; save-excursion &#26469;&#26597;&#25214; S-&#34920;&#36798;&#24335;&#30340;&#32467;&#26463;&#20301;&#32622;&#65292;&#32780;&#19981;&#20250;&#27704;&#20037;&#31227;&#21160;&#20809;&#26631;
+</span>          <span style="color: #aa3e74;">(</span><span style="color: #a26310; font-weight: bold;">save-excursion</span>
+            <span style="color: #008250;">(</span>goto-char sexp-start<span style="color: #008250;">)</span> <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">&#31227;&#21160;&#21040; "(" &#20043;&#21518;
+</span>            <span style="color: #008250;">(</span>backward-char<span style="color: #008250;">)</span>        <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">&#31227;&#21160;&#21040; "(" &#20043;&#19978;
+</span>            
+            <span style="color: #008250;">(</span><span style="color: #a26310; font-weight: bold;">let*</span> <span style="color: #b02f80;">(</span><span style="color: #0f708a;">(</span>sexp-string <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">&#25552;&#21462; S-&#34920;&#36798;&#24335;&#30340;&#23383;&#31526;&#20018;
+</span>                    <span style="color: #ba5205;">(</span>buffer-substring-no-properties
+                     <span style="color: #a26310;">(</span>point<span style="color: #a26310;">)</span> <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">S-&#34920;&#36798;&#24335;&#30340;&#36215;&#22987;&#28857;
+</span>                     <span style="color: #a26310;">(</span><span style="color: #a26310; font-weight: bold;">progn</span> <span style="color: #5a7400;">(</span>forward-sexp<span style="color: #5a7400;">)</span> <span style="color: #5a7400;">(</span>point<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span><span style="color: #0f708a;">)</span> <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">S-&#34920;&#36798;&#24335;&#30340;&#32467;&#26463;&#28857;
+</span>                   <span style="color: #0f708a;">(</span>match-end <span style="color: #ba5205;">(</span>point<span style="color: #ba5205;">)</span><span style="color: #0f708a;">)</span> <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">&#35760;&#24405;&#19979; S-&#34920;&#36798;&#24335;&#30340;&#32467;&#26463;&#20301;&#32622;
+</span>                   <span style="color: #0f708a;">(</span>replacement-text <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">&#35745;&#31639;&#26367;&#25442;&#29992;&#30340;&#25991;&#26412;
+</span>                    <span style="color: #ba5205;">(</span><span style="color: #a26310; font-weight: bold;">condition-case</span> err <span style="color: #7f6f1a; font-style: italic;">; </span><span style="color: #7f6f1a; font-style: italic;">&#25429;&#33719;&#21487;&#33021;&#21457;&#29983;&#30340;&#38169;&#35823;
+</span>                        <span style="color: #7f6f1a; font-style: italic;">;; </span><span style="color: #7f6f1a; font-style: italic;">&#26680;&#24515;&#27714;&#20540;&#36923;&#36753;
+</span>                        <span style="color: #a26310;">(</span>format <span style="color: #c74400;">"%s"</span> <span style="color: #5a7400;">(</span>eval <span style="color: #c02945;">(</span>car <span style="color: #4060a0;">(</span>read-from-string <span style="color: #aa3e74;">(</span>format <span style="color: #c74400;">"(progn %s)"</span> sexp-string<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+                      <span style="color: #7f6f1a; font-style: italic;">;; </span><span style="color: #7f6f1a; font-style: italic;">&#22914;&#26524;&#27714;&#20540;&#20986;&#38169;&#65292;&#23558;&#38169;&#35823;&#20449;&#24687;&#20316;&#20026;&#26367;&#25442;&#25991;&#26412;
+</span>                      <span style="color: #a26310;">(</span><span style="color: #ba5205;">error</span> <span style="color: #5a7400;">(</span>format <span style="color: #c74400;">"&lt;&#27714;&#20540;&#38169;&#35823;: %s&gt;"</span> <span style="color: #c02945;">(</span>error-message-string err<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span><span style="color: #0f708a;">)</span><span style="color: #b02f80;">)</span>
+              
+              <span style="color: #7f6f1a; font-style: italic;">;; </span><span style="color: #7f6f1a; font-style: italic;">&#25191;&#34892;&#26367;&#25442;&#25805;&#20316;
+</span>              <span style="color: #b02f80;">(</span>delete-region match-start match-end<span style="color: #b02f80;">)</span>
+              <span style="color: #b02f80;">(</span>goto-char match-start<span style="color: #b02f80;">)</span>
+              <span style="color: #b02f80;">(</span>insert replacement-text<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    <span style="color: #7f6f1a; font-style: italic;">;; </span><span style="color: #7f6f1a; font-style: italic;">&#36820;&#22238;&#25972;&#20010;&#32531;&#20914;&#21306;&#34987;&#20462;&#25913;&#21518;&#30340;&#26368;&#32456;&#32467;&#26524;
+</span>    <span style="color: #5a7400;">(</span>buffer-string<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+</code></pre>
+</div>
+
+
+<p>
+代码逻辑:<br />
+</p>
+
+<ol class="org-ol">
+<li>函数利用 <code>with-temp-buffer</code> 创建一个临时的工作区，避免污染当前缓冲区。<br /></li>
+<li>通过 <code>re-search-backward</code> 从字符串末尾开始搜索 <code>,(</code>, 这样做的好处是，每次替换后，不会影响下一次搜索的起始位置。<br /></li>
+<li>找到 <code>,(</code> 后，使用 <code>forward-sexp</code> 来精确定位匹配的 <code>)</code> ，从而提取出括号内完整的 Lisp 代码字符串。<br /></li>
+<li>核心的求值操作通过 <code>eval</code> 和 <code>read-from-string</code> 完成。<br /></li>
+<li>最后，将原始的 <code>,(...)</code> 文本删除，并在原位置插入求值后的结果字符串。<br /></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgc076769" class="outline-2">
+<h2 id="orgc076769"><span class="section-number-2">2.</span> 替换函数 <code>my/replace-regexp</code></h2>
+<div class="outline-text-2" id="text-2">
+<p>
+现在，我们构建 <code>my/replace-regexp</code> 函数。它会从光标开始循环搜索给定的正则表达式，并对每一次匹配，处理替换字符串中的所有特殊序列，最后完成替换。<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310; font-weight: bold;">defun</span> <span style="color: #5a7400;">my/replace-regexp</span> <span style="color: #a26310;">(</span>regexp rep<span style="color: #a26310;">)</span>
+  <span style="color: #b05350; font-style: italic;">"&#26367;&#25442;&#23383;&#31526;&#20018; (REP) &#25903;&#25345;&#20197;&#19979;&#29305;&#27530;&#24207;&#21015;&#65306;
+  \\&amp;      - &#20195;&#34920;&#25972;&#20010;&#21305;&#37197;&#21040;&#30340;&#25991;&#26412;&#12290;
+  \\1, \\2 ... - &#20195;&#34920;&#27491;&#21017;&#34920;&#36798;&#24335;&#20013;&#31532;N&#20010;&#25429;&#33719;&#32452;&#21305;&#37197;&#21040;&#30340;&#25991;&#26412;&#12290;
+  ,(...)  - &#25324;&#21495;&#20013;&#30340;&#20869;&#23481;&#20250;&#34987;&#24403;&#20316; Lisp &#34920;&#36798;&#24335;&#26469;&#27714;&#20540;&#65292;&#20854;&#32467;&#26524;&#20250;&#20316;&#20026;&#26367;&#25442;&#20869;&#23481;&#12290;
+  \\#      - &#20195;&#34920;&#36825;&#26159;&#31532;&#20960;&#27425;&#26367;&#25442;&#65288;&#20174;1&#24320;&#22987;&#35745;&#25968;&#65289;&#12290;
+
+&#20363;&#22914;&#65306;
+  - &#29992; `foo(\\d+)` &#26367;&#25442; `bar\\1` &#20250;&#23558; `foo123` &#21464;&#20026; `bar123`&#12290;
+  - &#29992; `\\w+` &#26367;&#25442; `\\,(upcase \\&amp;)` &#20250;&#23558;&#25152;&#26377;&#21333;&#35789;&#36716;&#20026;&#22823;&#20889;&#12290;
+  - &#29992; `^` &#26367;&#25442; `\\# ` &#20250;&#22312;&#27599;&#19968;&#34892;&#30340;&#34892;&#39318;&#25554;&#20837;&#34892;&#21495;&#12290;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310; font-weight: bold;">let</span> <span style="color: #5a7400;">(</span><span style="color: #c02945;">(</span>count 0<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    <span style="color: #5a7400;">(</span><span style="color: #a26310; font-weight: bold;">while</span> <span style="color: #c02945;">(</span>re-search-forward regexp nil t<span style="color: #c02945;">)</span>
+      <span style="color: #c02945;">(</span><span style="color: #a26310; font-weight: bold;">let*</span> <span style="color: #4060a0;">(</span><span style="color: #aa3e74;">(</span>rep-with-count
+              <span style="color: #008250;">(</span>replace-regexp-in-string <span style="color: #c74400;">"\\\\#"</span> <span style="color: #b02f80;">(</span>number-to-string count<span style="color: #b02f80;">)</span> rep t t<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+             <span style="color: #aa3e74;">(</span>rep-with-args
+              <span style="color: #008250;">(</span>substring-no-properties <span style="color: #b02f80;">(</span>match-substitute-replacement rep-with-count<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+             <span style="color: #aa3e74;">(</span>rep-with-func
+              <span style="color: #008250;">(</span>my/eval-lisp-in-string rep-with-args<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span>
+        <span style="color: #4060a0;">(</span>replace-match rep-with-func t<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+      <span style="color: #c02945;">(</span><span style="color: #a26310; font-weight: bold;">setq</span> count <span style="color: #4060a0;">(</span>1+ count<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+</code></pre>
+</div>
+<p>
+代码逻辑：<br />
+</p>
+
+<ol class="org-ol">
+<li><code>while</code> 循环和 <code>re-search-forward</code> 会从光标处开始，遍历当前缓冲区中所有匹配 <code>regexp</code> 的地方<br /></li>
+<li>在进入核心处理逻辑之前，首先使用 <code>replace-regexp-in-string</code> 将替换模板 <code>rep</code> 中的 <code>\\#</code> 替换成当前的计数值 <code>count</code> 。<br /></li>
+<li><code>match-substitute-replacement</code> 函数处理上一步得到的 <code>rep-with-count</code> 中 <code>\\&amp;</code> （整个匹配）和 <code>\\N</code> （捕获组）。<br /></li>
+<li>将处理完其他序列的字符串交给 <code>my/eval-lisp-in-string</code> 函数，完成 Lisp 表达式 <code>,(...)</code> 的求值和替换。<br /></li>
+<li>调用 <code>replace-match</code> 将最终的替换字符串 <code>rep-with-func</code> 应用到缓冲区，完成单次匹配的替换。<br /></li>
+<li><code>count</code> 在每次循环后加一，为下一次处理 <code>\\#</code> 做好准备。<br /></li>
+</ol>
+
+<p>
+注意，这里如果我们沿用交互式正则替换的符号，用 <code>\\,(...)</code> 来引导表达式，则 <code>match-substitute-replacement</code> 函数会报错，故改用 <code>,(...)</code><br />
+</p>
+</div>
+</div>
+<div id="outline-container-orgb8baa7b" class="outline-2">
+<h2 id="orgb8baa7b"><span class="section-number-2">3.</span> 使用例</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+假设我们缓冲区中有以下内容：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nil"><code>hello world
+foo123
+bar456
+</code></pre>
+</div>
+</div>
+<div id="outline-container-org53dd914" class="outline-3">
+<h3 id="org53dd914"><span class="section-number-3">3.1.</span> 示例 1：小写转大写</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+假设我们想将缓冲区中所有英文字母转换为大写。<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310; font-weight: bold;">with-temp-buffer</span>
+  <span style="color: #a26310;">(</span>insert <span style="color: #c74400;">"hello world
+foo123
+bar456"</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>goto-char <span style="color: #5a7400;">(</span>point-min<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>my/replace-regexp <span style="color: #c74400;">"[a-z]+"</span> <span style="color: #c74400;">",(upcase (symbol-name '\\&amp;))"</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>buffer-string<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>  
+</code></pre>
+</div>
+
+<p>
+运行结果：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-nil"><code>HELLO WORLD
+FOO123
+BAR456
+</code></pre>
+</div>
+
+<p>
+注意， <code>\\&amp;</code> 会被 <code>match-substitute-replacement</code> 替换为匹配到的英文字母本身，是一个符号。所以需要通过 <code>(symbol-name '\\&amp;)</code> 将其转化为其他函数可识别的字符串。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-orga05d02b" class="outline-3">
+<h3 id="orga05d02b"><span class="section-number-3">3.2.</span> 示例 2：为每一行添加行号</h3>
+<div class="outline-text-3" id="text-3-2">
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310; font-weight: bold;">with-temp-buffer</span>
+  <span style="color: #a26310;">(</span>insert <span style="color: #c74400;">"hello world
+foo123
+bar456"</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>goto-char <span style="color: #5a7400;">(</span>point-min<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>my/replace-regexp <span style="color: #c74400;">"^"</span> <span style="color: #c74400;">"\\# "</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>buffer-string<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>  
+</code></pre>
+</div>
+
+<p>
+运行结果：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-nil"><code>0 hello world
+1 foo123
+2 bar456
+</code></pre>
+</div>
+
+<p>
+<code>my/replace-regexp</code> 会在每一行的开头进行匹配。第一次匹配时， <code>\\#</code> 被替换为 <code>0</code> ；第二次为 <code>1</code> ，以此类推，轻松实现行号的添加。<br />
+</p>
+
+<p>
+为保持与交互式函数的一致性，这里计数依然从0开始。需要计数从1开始，请看下一个例子。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org1636af7" class="outline-3">
+<h3 id="org1636af7"><span class="section-number-3">3.3.</span> 示例 3：数学运算</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+我们希望行数从1开始。<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310; font-weight: bold;">with-temp-buffer</span>
+  <span style="color: #a26310;">(</span>insert <span style="color: #c74400;">"hello world
+foo123
+bar456"</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>goto-char <span style="color: #5a7400;">(</span>point-min<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>my/replace-regexp <span style="color: #c74400;">"^"</span> <span style="color: #c74400;">",(1+ \\#) "</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>buffer-string<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>  
+</code></pre>
+</div>
+
+<p>
+运行结果：<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-nil"><code>1 hello world
+2 foo123
+3 bar456
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdfda05a" class="outline-3">
+<h3 id="orgdfda05a"><span class="section-number-3">3.4.</span> 示例 4: 综合示例</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+我们想将数字都乘以2再加上1000乘以替换次数的值。<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310; font-weight: bold;">with-temp-buffer</span>
+  <span style="color: #a26310;">(</span>insert <span style="color: #c74400;">"hello world
+foo123
+bar456"</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>goto-char <span style="color: #5a7400;">(</span>point-min<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>my/replace-regexp <span style="color: #c74400;">"</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">(</span><span style="color: #c74400;">[0-9]+</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">)</span><span style="color: #c74400;">"</span> <span style="color: #c74400;">",(+ (* 1000 \\#) (* 2 \\1)) "</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>buffer-string<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>  
+</code></pre>
+</div>
+
+<p>
+运行结果：<br />
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nil"><code>hello world
+foo246 
+bar1912 
+</code></pre>
+</div>
+
+<p>
+这个例子综合了多种特性：<br />
+</p>
+
+<ol class="org-ol">
+<li><code>\\#</code> 被替换为匹配次数，从0开始。<br /></li>
+<li>在 <code>,(* 2 \\1)</code> 表达式中， <code>\\1</code> 被 <code>match-substitute-replacement</code> 替换为捕获到的数字符号。<br /></li>
+<li>Lisp 代码 <code>(+ (* 1000 \\#) (* 2 \\1))</code> 完成计算。<br /></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+</div>
+</body>
+</html>
