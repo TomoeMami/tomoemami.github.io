@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-03 周五 20:40 -->
+<!-- 2025-10-03 周五 23:04 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在Windows上使用vterm</title>
@@ -378,7 +378,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-10-03 周五 20:40]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-10-03 周五 23:04]</span></span></p>
 </div>
 <div id="content" class="content">
 <h1 class="title">emacs-在Windows上使用vterm</h1>
@@ -391,20 +391,17 @@ b {
 <ol class="org-ol">
 <li>下载<a href="https://github.com/xhcoding/conpty-proxy/releases/tag/v1.0.1">conpty_proxy.exe</a> ，放到想放的位置（我这里放到 <code>~/.emacs.d/bin/</code> )<br /></li>
 <li>下载<a href="https://github.com/xhcoding/emacs-libvterm/blob/master/vterm.el">vterm.el</a> ，放到习惯的位置（我这里放到 <code>~/.emacs.d/elpa/</code> )<br /></li>
-<li>下载<a href="https://github.com/TomoeMami/emacs-libvterm/actions/runs/18222300427">对应的dll</a> （有ucrt和普通的版本可选），放到想放的位置（我这里放到 <code>~/.emacs.d/bin/</code> )<br /></li>
+<li>下载<a href="https://github.com/TomoeMami/emacs-libvterm/actions">对应的dll</a> （有ucrt和普通的版本可选），放到想放的位置（我这里放到 <code>~/.emacs.d/bin/</code> )<br /></li>
 <li><p>
 配置emacs的启动文件。注意如果启动时设置了 <code>load-suffixes</code> 等变量，需要在恢复后再配置 <code>vterm</code> 。<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span>add-to-list 'load-path <span style="color: #a04650;">"~/.emacs.d/bin"</span><span style="color: #906045;">)</span>
-<span style="color: #906045;">(</span><span style="color: #906045; font-weight: bold;">use-package</span> <span style="color: #5059c0;">vterm</span>
-  <span style="color: #97508f; font-weight: bold;">:load-path</span> <span style="color: #a04650;">"~/.emacs.d/elpa/"</span>
-  <span style="color: #97508f; font-weight: bold;">:config</span>
-  <span style="color: #9f4e74;">(</span><span style="color: #906045; font-weight: bold;">setq</span> vterm-shell <span style="color: #a04650;">"powershell"</span><span style="color: #9f4e74;">)</span>
-  <span style="color: #9f4e74;">(</span><span style="color: #906045; font-weight: bold;">defun</span> <span style="color: #4f60a0;">adv/vterm--conpty-proxy-path</span> <span style="color: #5059c0;">()</span>
-    <span style="color: #7a5c50; font-style: italic;">"Path of conpty_proxy.exe."</span>
-    <span style="color: #5059c0;">(</span>expand-file-name <span style="color: #a04650;">"~/.emacs.d/bin/conpty_proxy.exe"</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
-  <span style="color: #9f4e74;">(</span>advice-add #'vterm--conpty-proxy-path <span style="color: #97508f; font-weight: bold;">:override</span> #'adv/vterm--conpty-proxy-path<span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #cf2f4f;">(</span>add-to-list 'load-path <span style="color: #b6540f;">"~/.emacs.d/bin"</span><span style="color: #cf2f4f;">)</span>
+<span style="color: #cf2f4f;">(</span><span style="color: #007f68; font-weight: bold;">use-package</span> <span style="color: #d03003;">vterm</span>
+  <span style="color: #1a870f; font-weight: bold;">:load-path</span> <span style="color: #b6540f;">"~/.emacs.d/elpa/"</span>
+  <span style="color: #1a870f; font-weight: bold;">:config</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68; font-weight: bold;">when</span> <span style="color: #cb26a0;">(</span>eq system-type 'windows-nt<span style="color: #cb26a0;">)</span>
+    <span style="color: #cb26a0;">(</span><span style="color: #007f68; font-weight: bold;">setq</span> vterm-shell <span style="color: #b6540f;">"powershell"</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div></li>
 <li><code>M-x vterm</code> <br /></li>
