@@ -3,11 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-09-09 二 20:15 -->
+<!-- 2025-10-03 周五 20:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用cron风格设置任务重复</title>
-<meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -379,12 +378,12 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-09-09 二 20:15]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-09-09 周二 20:15]</span></span></p>
 </div>
 <div id="content" class="content">
 <h1 class="title">emacs-使用cron风格设置任务重复</h1>
-<div id="outline-container-orgeaa7125" class="outline-2">
-<h2 id="orgeaa7125"><span class="section-number-2">1.</span> 前言</h2>
+<div id="outline-container-orgd86c692" class="outline-2">
+<h2 id="orgd86c692"><span class="section-number-2">1.</span> 前言</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</code> 、 <code>DEADLINE</code> 和 <code>TIMESTAMP/SEXP</code> 之间的微妙差异。一般来说，只要使用基础的 <code>reapter</code> ，如 <code>.+</code> 和 <code>++</code> ，便足以应付绝大部分待办事项重复，更复杂日程则可以通过 <code>%</code> 开头的sexp来表示。但是在一些特定的场景，这一套系统便有了不便。<br />
@@ -395,8 +394,8 @@ org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
-<span style="color: #68708a;">SCHEDULED:</span><span style="color: #5a7400;">&lt;2025-08-11 Mon ++1w&gt;</span>
+<pre class="src src-org"><code><span style="color: #9f4e74;">* </span><span style="color: #b21f00;">TODO</span><span style="color: #9f4e74;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<span style="color: #6f6877;">SCHEDULED:</span><span style="color: #97508f;">&lt;2025-08-11 Mon ++1w&gt;</span>
 </code></pre>
 </div>
 
@@ -409,8 +408,8 @@ org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
-<span style="color: #68708a;">SCHEDULED:</span><span style="color: #5a7400;">&lt;2025-08-16 Sat ++1w&gt;</span>
+<pre class="src src-org"><code><span style="color: #9f4e74;">* </span><span style="color: #b21f00;">TODO</span><span style="color: #9f4e74;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<span style="color: #6f6877;">SCHEDULED:</span><span style="color: #97508f;">&lt;2025-08-16 Sat ++1w&gt;</span>
 </code></pre>
 </div>
 
@@ -419,8 +418,8 @@ org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
-<span style="color: #68708a;">SCHEDULED:</span><span style="color: #5a7400;">&lt;2025-08-23 Sat ++1w&gt;</span>
+<pre class="src src-org"><code><span style="color: #9f4e74;">* </span><span style="color: #b21f00;">TODO</span><span style="color: #9f4e74;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<span style="color: #6f6877;">SCHEDULED:</span><span style="color: #97508f;">&lt;2025-08-23 Sat ++1w&gt;</span>
 </code></pre>
 </div>
 
@@ -437,12 +436,12 @@ org-mode的任务管理功能一直为人所称道，特别是 <code>SCHEDULED</
 </p>
 
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-09-09 二 20:08]</span></span> ： 我修改了该包，移除了python依赖并进行了一些小改动，重新发布在<a href="https://github.com/TomoeMami/org-repeat-by-cron.el">org-repeat-by-cron</a>这里。不需要下文的安装依赖即可使用。<br />
+<span class="timestamp-wrapper"><span class="timestamp">[2025-09-09 周二 20:08]</span></span> ： 我修改了该包，移除了python依赖并进行了一些小改动，重新发布在<a href="https://github.com/TomoeMami/org-repeat-by-cron.el">org-repeat-by-cron</a>这里。不需要下文的安装依赖即可使用。<br />
 </p>
 </div>
 </div>
-<div id="outline-container-org2d0f1b1" class="outline-2">
-<h2 id="org2d0f1b1"><span class="section-number-2">2.</span> 依赖安装</h2>
+<div id="outline-container-org0900e6f" class="outline-2">
+<h2 id="org0900e6f"><span class="section-number-2">2.</span> 依赖安装</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 该包依赖Python的 <code>croniter</code> 包，需要安装。<br />
@@ -457,17 +456,17 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </p>
 </div>
 </div>
-<div id="outline-container-org976d26b" class="outline-2">
-<h2 id="org976d26b"><span class="section-number-2">3.</span> 使用</h2>
+<div id="outline-container-orga660781" class="outline-2">
+<h2 id="orga660781"><span class="section-number-2">3.</span> 使用</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 将GitHub上的 <code>org-reschedule-by-rule.el</code> 放到 <code>路径A</code> 中，然后配置 <code>use-package</code> 即可。<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310; font-weight: bold;">use-package</span> <span style="color: #3f60af;">org-reschedule-by-rule</span>
-  <span style="color: #946830; font-weight: bold;">:demand</span> t
-  <span style="color: #946830; font-weight: bold;">:load-path</span> <span style="color: #c74400;">"&#36335;&#24452;A"</span><span style="color: #ba5205;">)</span>
+<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045; font-weight: bold;">use-package</span> <span style="color: #5059c0;">org-reschedule-by-rule</span>
+  <span style="color: #97508f; font-weight: bold;">:demand</span> t
+  <span style="color: #97508f; font-weight: bold;">:load-path</span> <span style="color: #a04650;">"&#36335;&#24452;A"</span><span style="color: #906045;">)</span>
 </code></pre>
 </div>
 
@@ -475,11 +474,11 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 以先前的例子为例，设置任务的 <code>RESCHEDULE_CRON</code> 属性即可。<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
-<span style="color: #68708a;">SCHEDULED:</span><span style="color: #5a7400;">&lt;2025-08-23 Sat&gt;</span>
-<span style="color: #68708a;">:PROPERTIES:</span>
-<span style="color: #68708a;">:RESCHEDULE_CRON:</span> <span style="color: #80431a;">* * Mon</span>
-<span style="color: #68708a;">:END:</span>
+<pre class="src src-org"><code><span style="color: #9f4e74;">* </span><span style="color: #b21f00;">TODO</span><span style="color: #9f4e74;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<span style="color: #6f6877;">SCHEDULED:</span><span style="color: #97508f;">&lt;2025-08-23 Sat&gt;</span>
+<span style="color: #6f6877;">:PROPERTIES:</span>
+<span style="color: #6f6877;">:RESCHEDULE_CRON:</span> <span style="color: #55447f;">* * Mon</span>
+<span style="color: #6f6877;">:END:</span>
 </code></pre>
 </div>
 
@@ -493,12 +492,12 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 
 <div class="org-src-container">
 <pre class="src src-bash"><code>  * * * * * 
-<span style="color: #7f6f1a; font-style: italic;"># </span><span style="color: #7f6f1a; font-style: italic;">| | | | |
-</span><span style="color: #7f6f1a; font-style: italic;"># </span><span style="color: #7f6f1a; font-style: italic;">| | | | &#21608;&#20960; (0&#8211;6) (&#25110;&#32773;&#33521;&#25991;&#31616;&#20889; Sun Mon Tue Wed Thu Fri Sat)
-</span><span style="color: #7f6f1a; font-style: italic;"># </span><span style="color: #7f6f1a; font-style: italic;">| | | &#26376;&#20221; (1&#8211;12)            
-</span><span style="color: #7f6f1a; font-style: italic;"># </span><span style="color: #7f6f1a; font-style: italic;">| | &#26085;&#26399; (1&#8211;31)
-</span><span style="color: #7f6f1a; font-style: italic;"># </span><span style="color: #7f6f1a; font-style: italic;">| &#23567;&#26102; (0&#8211;23)
-</span><span style="color: #7f6f1a; font-style: italic;"># </span><span style="color: #7f6f1a; font-style: italic;">&#20998;&#38047; (0&#8211;59)</span>
+<span style="color: #475d80; font-style: italic;"># </span><span style="color: #475d80; font-style: italic;">| | | | |
+</span><span style="color: #475d80; font-style: italic;"># </span><span style="color: #475d80; font-style: italic;">| | | | &#21608;&#20960; (0&#8211;6) (&#25110;&#32773;&#33521;&#25991;&#31616;&#20889; Sun Mon Tue Wed Thu Fri Sat)
+</span><span style="color: #475d80; font-style: italic;"># </span><span style="color: #475d80; font-style: italic;">| | | &#26376;&#20221; (1&#8211;12)            
+</span><span style="color: #475d80; font-style: italic;"># </span><span style="color: #475d80; font-style: italic;">| | &#26085;&#26399; (1&#8211;31)
+</span><span style="color: #475d80; font-style: italic;"># </span><span style="color: #475d80; font-style: italic;">| &#23567;&#26102; (0&#8211;23)
+</span><span style="color: #475d80; font-style: italic;"># </span><span style="color: #475d80; font-style: italic;">&#20998;&#38047; (0&#8211;59)</span>
 </code></pre>
 </div>
 
@@ -511,12 +510,12 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a26310;">* </span><span style="color: #c74400; font-weight: bold;">TODO</span><span style="color: #a26310;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
-<span style="color: #68708a;">SCHEDULED:</span> <span style="color: #5a7400;">&lt;2025-08-25 &#21608;&#19968;&gt;</span>
-<span style="color: #68708a;">:PROPERTIES:</span>
-<span style="color: #68708a;">:RESCHEDULE_CRON:</span> <span style="color: #80431a;">* * Mon</span>
-<span style="color: #68708a;">:RESCHEDULE_ANCHOR:</span> <span style="color: #80431a;">2025-08-25 &#21608;&#19968;</span>
-<span style="color: #68708a;">:END:</span>
+<pre class="src src-org"><code><span style="color: #9f4e74;">* </span><span style="color: #b21f00;">TODO</span><span style="color: #9f4e74;"> &#26126;&#22825;&#65292;&#32654;&#39135;&#24191;&#22330;&#35265;&#12290;</span>
+<span style="color: #6f6877;">SCHEDULED:</span> <span style="color: #97508f;">&lt;2025-08-25 &#21608;&#19968;&gt;</span>
+<span style="color: #6f6877;">:PROPERTIES:</span>
+<span style="color: #6f6877;">:RESCHEDULE_CRON:</span> <span style="color: #55447f;">* * Mon</span>
+<span style="color: #6f6877;">:RESCHEDULE_ANCHOR:</span> <span style="color: #55447f;">2025-08-25 &#21608;&#19968;</span>
+<span style="color: #6f6877;">:END:</span>
 </code></pre>
 </div>
 
@@ -529,28 +528,28 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </p>
 </div>
 </div>
-<div id="outline-container-org060e63e" class="outline-2">
-<h2 id="org060e63e"><span class="section-number-2">4.</span> 流程解析</h2>
+<div id="outline-container-org79edd98" class="outline-2">
+<h2 id="org79edd98"><span class="section-number-2">4.</span> 流程解析</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-orgdf4ab9e" class="outline-3">
-<h3 id="orgdf4ab9e"><span class="section-number-3">4.1.</span> 监听</h3>
+<div id="outline-container-orgf7a32da" class="outline-3">
+<h3 id="orgf7a32da"><span class="section-number-3">4.1.</span> 监听</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 监听 Org 任务状态变化，当任务被标记为 <code>DONE</code> 时触发。<br />
 </p>
 </div>
 </div>
-<div id="outline-container-orgc8abf38" class="outline-3">
-<h3 id="orgc8abf38"><span class="section-number-3">4.2.</span> 读取规则</h3>
+<div id="outline-container-orged4c1b6" class="outline-3">
+<h3 id="orged4c1b6"><span class="section-number-3">4.2.</span> 读取规则</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 检查当前任务是否定义了 <code>RESCHEDULE_INTERVAL</code> 或 <code>RESCHEDULE_CRON</code> 属性，无则跳过<br />
 </p>
 </div>
 </div>
-<div id="outline-container-org57751c7" class="outline-3">
-<h3 id="org57751c7"><span class="section-number-3">4.3.</span> 计算下一个调度日期</h3>
+<div id="outline-container-org562f3f8" class="outline-3">
+<h3 id="org562f3f8"><span class="section-number-3">4.3.</span> 计算下一个调度日期</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 首先需要确定计算的起点（基准时间）。会优先使用 <code>RESCHEDULE_ANCHOR</code> 的值。如果不存在，则退而求其次使用任务当前的 <code>SCHEDULED</code> 时间戳，如果连这个也没有，就使用当前时间。<br />
@@ -572,35 +571,35 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 代码逻辑：<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><code><span style="color: #a26310; font-weight: bold;">if</span> interval:
-    <span style="color: #0f708a;">&#20559;&#31227;</span> = &#35745;&#31639;&#20559;&#31227;<span style="color: #ba5205;">(</span>interval<span style="color: #ba5205;">)</span> <span style="color: #7f6f1a; font-style: italic;">#</span><span style="color: #7f6f1a; font-style: italic;">&#21487;&#36873;&#21333;&#20301;&#20026; h d w m y &#23567;&#26102; &#22825; &#21608; &#26376; &#24180;
-</span>    <span style="color: #0f708a;">&#20505;&#36873;&#26102;&#38388;</span> = &#22522;&#20934;&#26102;&#38388; + &#20559;&#31227;
-    <span style="color: #0f708a;">&#35745;&#25968;</span> = 0
-    <span style="color: #a26310; font-weight: bold;">while</span> <span style="color: #3f60af;">True</span>:
-    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #0f708a;">&#35745;&#25968;</span> += 1
-    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #a26310; font-weight: bold;">if</span> &#35745;&#25968; &gt; &#26368;&#22823;&#23581;&#35797;&#27425;&#25968;:
-    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #e1a7c6ff9797;"> </span>   sys.<span style="color: #3f60af;">exit</span><span style="color: #ba5205;">(</span>1<span style="color: #ba5205;">)</span> <span style="color: #7f6f1a; font-style: italic;">#</span><span style="color: #7f6f1a; font-style: italic;">&#25253;&#38169;
-</span>    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #a26310; font-weight: bold;">if</span> &#20505;&#36873;&#26102;&#38388; &gt; &#24403;&#21069;&#26102;&#38388; <span style="color: #a26310; font-weight: bold;">and</span> <span style="color: #ba5205;">(</span>cron&#34920;&#36798;&#24335; <span style="color: #a26310; font-weight: bold;">is</span> <span style="color: #3f60af;">None</span> <span style="color: #a26310; font-weight: bold;">or</span> croniter.<span style="color: #a26310; font-weight: bold;">match</span><span style="color: #a26310;">(</span>cron&#34920;&#36798;&#24335;, &#20505;&#36873;&#26102;&#38388; <span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>:
-    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #0f708a;">&#36755;&#20986;&#26102;&#38388;</span> = &#20505;&#36873;&#26102;&#38388; 
-    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #a26310; font-weight: bold;">break</span>
-    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #0f708a;">&#20505;&#36873;&#26102;&#38388;</span> += &#20559;&#31227;
-<span style="color: #a26310; font-weight: bold;">elif</span> cron_&#34920;&#36798;&#24335;:
-    <span style="color: #0f708a;">n</span> = croniter.croniter<span style="color: #ba5205;">(</span>cron&#34920;&#36798;&#24335;, &#22522;&#20934;&#26102;&#38388;<span style="color: #ba5205;">)</span> <span style="color: #7f6f1a; font-style: italic;">#</span><span style="color: #7f6f1a; font-style: italic;">&#36825;&#26159;&#20010;&#36845;&#20195;&#22120;
-</span>    <span style="color: #0f708a;">&#36755;&#20986;&#26102;&#38388;</span> = n.get_next<span style="color: #ba5205;">(</span>datetime<span style="color: #ba5205;">)</span> <span style="color: #7f6f1a; font-style: italic;">#</span><span style="color: #7f6f1a; font-style: italic;">&#27599;&#27425;&#36825;&#26679;&#35843;&#29992;&#37117;&#20250;&#33719;&#21462;&#21040;&#20174;&#22522;&#20934;&#26102;&#38388;&#24320;&#22987;&#65292;&#28385;&#36275;cron&#34920;&#36798;&#24335;&#30340;&#19979;&#19968;&#20010;&#20540;
-</span>    <span style="color: #0f708a;">&#35745;&#25968;</span> = 0
-    <span style="color: #a26310; font-weight: bold;">while</span> &#36755;&#20986;&#26102;&#38388; &lt;= &#24403;&#21069;&#26102;&#38388;:
-    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #0f708a;">&#35745;&#25968;</span> += 1
-    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #a26310; font-weight: bold;">if</span> &#35745;&#25968; &gt; &#26368;&#22823;&#23581;&#35797;&#27425;&#25968;:
-    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #e1a7c6ff9797;"> </span>   sys.<span style="color: #3f60af;">exit</span><span style="color: #ba5205;">(</span>1<span style="color: #ba5205;">)</span> <span style="color: #7f6f1a; font-style: italic;">#</span><span style="color: #7f6f1a; font-style: italic;">&#25253;&#38169;
-</span>    <span style="color: #e1a7c6ff9797;"> </span>   <span style="color: #0f708a;">&#36755;&#20986;&#26102;&#38388;</span> = n.get_next<span style="color: #ba5205;">(</span>datetime<span style="color: #ba5205;">)</span> 
-<span style="color: #a26310; font-weight: bold;">else</span>:
-    sys.<span style="color: #3f60af;">exit</span><span style="color: #ba5205;">(</span>1<span style="color: #ba5205;">)</span> <span style="color: #7f6f1a; font-style: italic;">#</span><span style="color: #7f6f1a; font-style: italic;">&#25253;&#38169;</span>
+<pre class="src src-python"><code><span style="color: #906045; font-weight: bold;">if</span> interval:
+    <span style="color: #9f4e74;">&#20559;&#31227;</span> <span style="color: #4f204f;">=</span> &#35745;&#31639;&#20559;&#31227;<span style="color: #906045;">(</span>interval<span style="color: #906045;">)</span> <span style="color: #475d80; font-style: italic;">#</span><span style="color: #475d80; font-style: italic;">&#21487;&#36873;&#21333;&#20301;&#20026; h d w m y &#23567;&#26102; &#22825; &#21608; &#26376; &#24180;
+</span>    <span style="color: #9f4e74;">&#20505;&#36873;&#26102;&#38388;</span> <span style="color: #4f204f;">=</span> &#22522;&#20934;&#26102;&#38388; <span style="color: #4f204f;">+</span> &#20559;&#31227;
+    <span style="color: #9f4e74;">&#35745;&#25968;</span> <span style="color: #4f204f;">=</span> 0
+    <span style="color: #906045; font-weight: bold;">while</span> <span style="color: #5059c0;">True</span>:
+    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #9f4e74;">&#35745;&#25968;</span> <span style="color: #4f204f;">+=</span> 1
+    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #906045; font-weight: bold;">if</span> &#35745;&#25968; <span style="color: #4f204f;">&gt;</span> &#26368;&#22823;&#23581;&#35797;&#27425;&#25968;:
+    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #d88aba0cbcf5;"> </span>   sys.<span style="color: #5059c0;">exit</span><span style="color: #906045;">(</span>1<span style="color: #906045;">)</span> <span style="color: #475d80; font-style: italic;">#</span><span style="color: #475d80; font-style: italic;">&#25253;&#38169;
+</span>    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #906045; font-weight: bold;">if</span> &#20505;&#36873;&#26102;&#38388; <span style="color: #4f204f;">&gt;</span> &#24403;&#21069;&#26102;&#38388; <span style="color: #906045; font-weight: bold;">and</span> <span style="color: #906045;">(</span>cron&#34920;&#36798;&#24335; <span style="color: #906045; font-weight: bold;">is</span> <span style="color: #5059c0;">None</span> <span style="color: #906045; font-weight: bold;">or</span> croniter.<span style="color: #906045; font-weight: bold;">match</span><span style="color: #9f4e74;">(</span>cron&#34920;&#36798;&#24335;, &#20505;&#36873;&#26102;&#38388; <span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>:
+    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #9f4e74;">&#36755;&#20986;&#26102;&#38388;</span> <span style="color: #4f204f;">=</span> &#20505;&#36873;&#26102;&#38388; 
+    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #906045; font-weight: bold;">break</span>
+    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #9f4e74;">&#20505;&#36873;&#26102;&#38388;</span> <span style="color: #4f204f;">+=</span> &#20559;&#31227;
+<span style="color: #906045; font-weight: bold;">elif</span> cron_&#34920;&#36798;&#24335;:
+    <span style="color: #9f4e74;">n</span> <span style="color: #4f204f;">=</span> croniter.croniter<span style="color: #906045;">(</span>cron&#34920;&#36798;&#24335;, &#22522;&#20934;&#26102;&#38388;<span style="color: #906045;">)</span> <span style="color: #475d80; font-style: italic;">#</span><span style="color: #475d80; font-style: italic;">&#36825;&#26159;&#20010;&#36845;&#20195;&#22120;
+</span>    <span style="color: #9f4e74;">&#36755;&#20986;&#26102;&#38388;</span> <span style="color: #4f204f;">=</span> n.get_next<span style="color: #906045;">(</span>datetime<span style="color: #906045;">)</span> <span style="color: #475d80; font-style: italic;">#</span><span style="color: #475d80; font-style: italic;">&#27599;&#27425;&#36825;&#26679;&#35843;&#29992;&#37117;&#20250;&#33719;&#21462;&#21040;&#20174;&#22522;&#20934;&#26102;&#38388;&#24320;&#22987;&#65292;&#28385;&#36275;cron&#34920;&#36798;&#24335;&#30340;&#19979;&#19968;&#20010;&#20540;
+</span>    <span style="color: #9f4e74;">&#35745;&#25968;</span> <span style="color: #4f204f;">=</span> 0
+    <span style="color: #906045; font-weight: bold;">while</span> &#36755;&#20986;&#26102;&#38388; <span style="color: #4f204f;">&lt;=</span> &#24403;&#21069;&#26102;&#38388;:
+    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #9f4e74;">&#35745;&#25968;</span> <span style="color: #4f204f;">+=</span> 1
+    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #906045; font-weight: bold;">if</span> &#35745;&#25968; <span style="color: #4f204f;">&gt;</span> &#26368;&#22823;&#23581;&#35797;&#27425;&#25968;:
+    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #d88aba0cbcf5;"> </span>   sys.<span style="color: #5059c0;">exit</span><span style="color: #906045;">(</span>1<span style="color: #906045;">)</span> <span style="color: #475d80; font-style: italic;">#</span><span style="color: #475d80; font-style: italic;">&#25253;&#38169;
+</span>    <span style="color: #d88aba0cbcf5;"> </span>   <span style="color: #9f4e74;">&#36755;&#20986;&#26102;&#38388;</span> <span style="color: #4f204f;">=</span> n.get_next<span style="color: #906045;">(</span>datetime<span style="color: #906045;">)</span> 
+<span style="color: #906045; font-weight: bold;">else</span>:
+    sys.<span style="color: #5059c0;">exit</span><span style="color: #906045;">(</span>1<span style="color: #906045;">)</span> <span style="color: #475d80; font-style: italic;">#</span><span style="color: #475d80; font-style: italic;">&#25253;&#38169;</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org56fbc62" class="outline-3">
-<h3 id="org56fbc62"><span class="section-number-3">4.4.</span> 更新计划</h3>
+<div id="outline-container-orge2d16cf" class="outline-3">
+<h3 id="orge2d16cf"><span class="section-number-3">4.4.</span> 更新计划</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 最后会将计算出的新日期同时更新到任务的 <code>SCHEDULED</code> 时间戳和 <code>RESCHEDULE_ANCHOR</code> 属性中，并将任务状态重置为 <code>TODO</code> 。<br />
@@ -608,12 +607,12 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </div>
 </div>
 </div>
-<div id="outline-container-org836cce5" class="outline-2">
-<h2 id="org836cce5"><span class="section-number-2">5.</span> 更多示例</h2>
+<div id="outline-container-org9378f5b" class="outline-2">
+<h2 id="org9378f5b"><span class="section-number-2">5.</span> 更多示例</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orge029089" class="outline-3">
-<h3 id="orge029089"><span class="section-number-3">5.1.</span> 每月第三个和最后一个周五</h3>
+<div id="outline-container-org51ecc47" class="outline-3">
+<h3 id="org51ecc47"><span class="section-number-3">5.1.</span> 每月第三个和最后一个周五</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * * 5#3,L5
@@ -621,8 +620,8 @@ MacOS或Linux上： 在终端中输入 <code>pip3 install croniter --break-syste
 </div>
 </div>
 </div>
-<div id="outline-container-orgdb177c5" class="outline-3">
-<h3 id="orgdb177c5"><span class="section-number-3">5.2.</span> 每月最后一个星期一</h3>
+<div id="outline-container-orge1b6424" class="outline-3">
+<h3 id="orge1b6424"><span class="section-number-3">5.2.</span> 每月最后一个星期一</h3>
 <div class="outline-text-3" id="text-5-2">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * * L1
@@ -634,8 +633,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </p>
 </div>
 </div>
-<div id="outline-container-org00bbf4f" class="outline-3">
-<h3 id="org00bbf4f"><span class="section-number-3">5.3.</span> 每周一上午 9 点</h3>
+<div id="outline-container-org5a26fb4" class="outline-3">
+<h3 id="org5a26fb4"><span class="section-number-3">5.3.</span> 每周一上午 9 点</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: 0 9 * * Mon
@@ -643,8 +642,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </div>
 </div>
 </div>
-<div id="outline-container-org6caa6ef" class="outline-3">
-<h3 id="org6caa6ef"><span class="section-number-3">5.4.</span> 每月第三个周四</h3>
+<div id="outline-container-orgf675296" class="outline-3">
+<h3 id="orgf675296"><span class="section-number-3">5.4.</span> 每月第三个周四</h3>
 <div class="outline-text-3" id="text-5-4">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * * Thu#3
@@ -652,8 +651,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </div>
 </div>
 </div>
-<div id="outline-container-orgd1da7b5" class="outline-3">
-<h3 id="orgd1da7b5"><span class="section-number-3">5.5.</span> 下周一或周五</h3>
+<div id="outline-container-orgc531f39" class="outline-3">
+<h3 id="orgc531f39"><span class="section-number-3">5.5.</span> 下周一或周五</h3>
 <div class="outline-text-3" id="text-5-5">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * * Mon,Fri
@@ -661,8 +660,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </div>
 </div>
 </div>
-<div id="outline-container-org10c782a" class="outline-3">
-<h3 id="org10c782a"><span class="section-number-3">5.6.</span> 从特定锚点起每 2 天</h3>
+<div id="outline-container-org9f8b743" class="outline-3">
+<h3 id="org9f8b743"><span class="section-number-3">5.6.</span> 从特定锚点起每 2 天</h3>
 <div class="outline-text-3" id="text-5-6">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_INTERVAL: 2d
@@ -671,8 +670,8 @@ L 表示「当月最后一个」， 1 指一周的第一天（周一/Mon）<br /
 </div>
 </div>
 </div>
-<div id="outline-container-orgbdbf5bb" class="outline-3">
-<h3 id="orgbdbf5bb"><span class="section-number-3">5.7.</span> 每季度第一个星期一</h3>
+<div id="outline-container-orgbf41ec2" class="outline-3">
+<h3 id="orgbf41ec2"><span class="section-number-3">5.7.</span> 每季度第一个星期一</h3>
 <div class="outline-text-3" id="text-5-7">
 <div class="org-src-container">
 <pre class="src src-nil"><code>:RESCHEDULE_CRON: * Jan,Apr,Jul,Oct Mon#1
