@@ -6,7 +6,7 @@
 <!-- 2025-10-16 周四 15:19 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>取消ubo导致bing出错的规则</title>
+<title>emacs-在Windows上使用majutsu管理git</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -378,21 +378,90 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-25 周二 09:50]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-10-16 周四 15:17]</span></span></p>
 </div>
 <div id="content" class="content">
-<h1 class="title">取消ubo导致bing出错的规则</h1>
+<h1 class="title">emacs-在Windows上使用majutsu管理git</h1>
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-12-11 周三 14:18]</span></span><br />
+想必使用Emacs的你，应该听说过Git。虽然功能强大且成为了现代社区开发的基石之一，但Git的使用难度着实不低。幸好，我们Emacs上有一个伟大的pcakage <a href="https://github.com/magit/magit">Magit</a> ，可以极大程度提升Git使用幸福度。<br />
 </p>
 
 <p>
-经常使用国内bing的朋友可能会发现，近期bing首页剩下的选项寥寥无几，其实是因为一些正确的候选项被错误屏蔽导致的。<br />
+然而在Windows上，Magit的性能相当差，根据<a href="https://github.com/magit/magit/discussions/5301">有关讨论</a>，主要是因为magit会运行大量 git 进程来收集所需信息，而Windows上创建进程的代价又相对较高。<br />
 </p>
 
 <p>
-修复方法：在UBO的设置里面「规则列表」中取消勾选「内置」中的「uBlock filters – Quick fixes」<br />
+时间来到了2025年，在Rewrite It In Rust的风潮中，许多经典的Linux工具被Rust重写，而Git也有一个以Rust编写的相似软件：<a href="https://github.com/jj-vcs/jj">Jujutsu</a>。简单来说，jj能够管理Git的repo，采用了简化一点的设计思路，当然也有缺少的功能。不过最重要的是，在Windows上用Majutsu+Jujutsu比Magit+Git响应速度更快。<br />
 </p>
+<div id="outline-container-org6574bad" class="outline-2">
+<h2 id="org6574bad"><span class="section-number-2">1.</span> 配置Git、Jujutsu</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Jujutsu需要和Git一起安装，在管理repo之后也会调用Git进行push/fetch等操作。<br />
+</p>
+
+<p>
+根据<a href="https://cevolve05.github.io/post/2024/10/05/fix-scoop-git-not-use-win32-openssh/">这篇帖子</a>，Windows上的Git不能用scoop安装，需要下载Installer，并在安装的过程中勾选「使用外部 OpenSSH」。如果你不幸通过scoop安装了，请卸载并改用<a href="https://gitforwindows.org/">官方的安装包</a>（否则你会发现jj无法push）。<br />
+</p>
+
+<p>
+Jujutsu可以通过scoop安装，直接 <code>scoop install jj</code> 就行了。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-org0e0e17e" class="outline-2">
+<h2 id="org0e0e17e"><span class="section-number-2">2.</span> 配置majutsu</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+如果你用的emacs 30+ 的版本，可以用 <code>use-package</code> 的 <code>:vc</code> 关键字直接从Github Repo安装Majutsu。<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">use-package</span> majutsu
+  <span style="color: #6a4a9f; font-weight: bold;">:vc</span> <span style="color: #894852;">(</span><span style="color: #6a4a9f; font-weight: bold;">:url</span> <span style="color: #007047;">"https://github.com/0WD0/majutsu"</span>
+            <span style="color: #6a4a9f; font-weight: bold;">:rev</span> <span style="color: #6a4a9f; font-weight: bold;">:newest</span><span style="color: #894852;">)</span>
+  <span style="color: #6a4a9f; font-weight: bold;">:bind</span>
+  <span style="color: #894852;">(</span><span style="color: #306630;">(</span><span style="color: #007047;">"C-x j"</span> . majutsu-log<span style="color: #306630;">)</span>
+   <span style="color: #306630;">(</span><span style="color: #007047;">"C-x C-j"</span> . majutsu-log<span style="color: #306630;">)</span><span style="color: #894852;">)</span><span style="color: #355500;">)</span>
+</code></pre>
+</div>
+
+<p>
+不然的话，也可以用其他方式，或者手动下载相关文件。<br />
+</p>
+</div>
+</div>
+<div id="outline-container-orgc0e5db7" class="outline-2">
+<h2 id="orgc0e5db7"><span class="section-number-2">3.</span> 使用majutsu</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<code>C-x j</code> 进入majutsu界面。jujutsu的思路和git不一样，取消了暂存区等功能，当前文件的状态是一个未命名的新HEAD，commit之后就会固定。<br />
+</p>
+
+<p>
+一个简单的工作流程是：<br />
+</p>
+
+<p>
+在当前repo里进行一些变更，等觉得应该保存当前状态了，就 <code>C-x j</code> 然后 <code>c</code> ，输入commit内容，生成一个commit。<br />
+</p>
+
+<p>
+如果想上传了，就 <code>C-x j</code> 然后将光标移动至想更新到的commit上，再 <code>b</code> <code>s</code> ，将 <code>main</code> 移动过来，最后 <code>G</code> <code>p</code> <code>p</code> 推送。<br />
+</p>
+
+<p>
+更详细的介绍，请看下面两个教程：<br />
+</p>
+
+<p>
+<a href="https://maddie.wtf/posts/2025-07-21-jujutsu-for-busy-devs">忙碌开发者的jujutsu教程</a><br />
+</p>
+
+<p>
+<a href="https://jj-for-everyone.github.io/introduction.html">每个人的jujutsu教程</a><br />
+</p>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
