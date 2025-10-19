@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-16 周四 15:19 -->
+<!-- 2025-10-19 周日 16:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-添加org-ql-view为org-mode-link</title>
@@ -390,8 +390,8 @@ b {
 在使用org-ql的时候，我发现<a href="https://github.com/alphapapa/org-ql?tab=readme-ov-file#links">官方说明里推荐的</a>形如<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #355500;">[</span><span style="color: #894852;">[</span>org-ql-search:todo:NEXT priority:A<span style="color: #894852;">]</span><span style="color: #355500;">]</span>
-<span style="color: #355500;">[</span><span style="color: #894852;">[</span>org-ql-search:<span style="color: #306630;">(</span><span style="color: #894852; font-weight: bold;">and</span> <span style="color: #00677f;">(</span>todo <span style="color: #007047;">"NEXT"</span><span style="color: #00677f;">)</span> <span style="color: #00677f;">(</span>priority <span style="color: #007047;">"A"</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span><span style="color: #894852;">]</span><span style="color: #355500;">]</span>
+<pre class="src src-elisp"><code><span style="color: #007000;">[</span><span style="color: #8f2f30;">[</span>org-ql-search:todo:NEXT priority:A<span style="color: #8f2f30;">]</span><span style="color: #007000;">]</span>
+<span style="color: #007000;">[</span><span style="color: #8f2f30;">[</span>org-ql-search:<span style="color: #00704f;">(</span><span style="color: #8f2f30; font-weight: bold;">and</span> <span style="color: #906200;">(</span>todo <span style="color: #557000;">"NEXT"</span><span style="color: #906200;">)</span> <span style="color: #906200;">(</span>priority <span style="color: #557000;">"A"</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">]</span><span style="color: #007000;">]</span>
 </code></pre>
 </div>
 <p>
@@ -405,22 +405,22 @@ b {
 所以可以保存常用的org-ql-view搜索，然后添加以下代码，通过形如 <code>[[qlview: 个人事项]</code> 的org-link快速启动org-ql-view指定结果<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #355500;">(</span>org-add-link-type
- <span style="color: #007047;">"qlview"</span> 'my/org-ql-view<span style="color: #355500;">)</span>
-<span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">defun</span> <span style="color: #355500;">my/org-ql-view</span> <span style="color: #894852;">(</span>name<span style="color: #894852;">)</span>
-  <span style="color: #4f677f; font-style: italic;">"View saved org-ql-view"</span>
-  <span style="color: #894852;">(</span>org-ql-view name<span style="color: #894852;">)</span><span style="color: #355500;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007000;">(</span>org-add-link-type
+ <span style="color: #557000;">"qlview"</span> 'my/org-ql-view<span style="color: #007000;">)</span>
+<span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my/org-ql-view</span> <span style="color: #8f2f30;">(</span>name<span style="color: #8f2f30;">)</span>
+  <span style="color: #8d6068; font-style: italic;">"View saved org-ql-view"</span>
+  <span style="color: #8f2f30;">(</span>org-ql-view name<span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
-<div id="outline-container-org55223f7" class="outline-2">
-<h2 id="org55223f7"><span class="section-number-2">1.</span> 补充 org-ql-search 的相关语句</h2>
+<div id="outline-container-orgdbb86d0" class="outline-2">
+<h2 id="orgdbb86d0"><span class="section-number-2">1.</span> 补充 org-ql-search 的相关语句</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #355500;">(</span>org-add-link-type
- <span style="color: #007047;">"qlsearch"</span> 'my/org-ql-search<span style="color: #355500;">)</span>
-<span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">defun</span> <span style="color: #355500;">my/org-ql-search</span> <span style="color: #894852;">(</span>query<span style="color: #894852;">)</span>
-  <span style="color: #4f677f; font-style: italic;">"Search query in default mode"</span>
-  <span style="color: #894852;">(</span>org-ql-search <span style="color: #306630;">(</span>org-agenda-files<span style="color: #306630;">)</span> query <span style="color: #6a4a9f; font-weight: bold;">:narrow</span> nil <span style="color: #6a4a9f; font-weight: bold;">:super-groups</span> '<span style="color: #306630;">(</span><span style="color: #00677f;">(</span><span style="color: #6a4a9f; font-weight: bold;">:auto-tags</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span> <span style="color: #6a4a9f; font-weight: bold;">:sort</span> nil<span style="color: #894852;">)</span><span style="color: #355500;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007000;">(</span>org-add-link-type
+ <span style="color: #557000;">"qlsearch"</span> 'my/org-ql-search<span style="color: #007000;">)</span>
+<span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my/org-ql-search</span> <span style="color: #8f2f30;">(</span>query<span style="color: #8f2f30;">)</span>
+  <span style="color: #8d6068; font-style: italic;">"Search query in default mode"</span>
+  <span style="color: #8f2f30;">(</span>org-ql-search <span style="color: #00704f;">(</span>org-agenda-files<span style="color: #00704f;">)</span> query <span style="color: #00704f; font-weight: bold;">:narrow</span> nil <span style="color: #00704f; font-weight: bold;">:super-groups</span> '<span style="color: #00704f;">(</span><span style="color: #906200;">(</span><span style="color: #00704f; font-weight: bold;">:auto-tags</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span> <span style="color: #00704f; font-weight: bold;">:sort</span> nil<span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 </div>

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-16 周四 15:19 -->
+<!-- 2025-10-19 周日 16:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>用Readeck和KOReader在电纸书上稍后阅读网页</title>
@@ -389,8 +389,8 @@ b {
 <p>
 问题在于，日常生活、网上冲浪时，大量信息并不是一份独立、完善的「书籍」，而是一篇篇网页文章，散落在互联网上。电纸书针对「书籍阅读」开发，难以应对这种松散场景。因此，我们需要一些开源软件的帮助：稍后阅读软件「Readeck」和一个阅读软件「KOReader」。<br />
 </p>
-<div id="outline-container-org696739f" class="outline-2">
-<h2 id="org696739f"><span class="section-number-2">1.</span> 搭建Readeck</h2>
+<div id="outline-container-org392edec" class="outline-2">
+<h2 id="org392edec"><span class="section-number-2">1.</span> 搭建Readeck</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 首先，我们需要把散落的文章收集汇总到一处。<br />
@@ -411,7 +411,7 @@ b {
 <div class="org-src-container">
 <pre class="src src-bash"><code>mkdir -p readeck-install
 
-<span style="color: #6a4a9f; font-weight: bold;">cd</span> readeck-install
+<span style="color: #00704f; font-weight: bold;">cd</span> readeck-install
 </code></pre>
 </div>
 
@@ -441,9 +441,9 @@ chmod a+x readeck
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml"><code>[<span style="color: #162f8f; font-weight: bold;">server</span>]
-<span style="color: #80308f;">host</span> = 127.0.0.1
-<span style="color: #80308f;">port</span> = 8000
+<pre class="src src-toml"><code>[<span style="color: #b0000f; font-weight: bold;">server</span>]
+<span style="color: #aa184f;">host</span> = 127.0.0.1
+<span style="color: #aa184f;">port</span> = 8000
 </code></pre>
 </div>
 
@@ -452,9 +452,9 @@ chmod a+x readeck
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml"><code>[<span style="color: #162f8f; font-weight: bold;">server</span>]
-<span style="color: #80308f;">host</span> = 0.0.0.0
-<span style="color: #80308f;">port</span> = 8000
+<pre class="src src-toml"><code>[<span style="color: #b0000f; font-weight: bold;">server</span>]
+<span style="color: #aa184f;">host</span> = 0.0.0.0
+<span style="color: #aa184f;">port</span> = 8000
 </code></pre>
 </div>
 
@@ -467,8 +467,8 @@ chmod a+x readeck
 </p>
 </div>
 </div>
-<div id="outline-container-org46d9fb5" class="outline-2">
-<h2 id="org46d9fb5"><span class="section-number-2">2.</span> 配置readeck</h2>
+<div id="outline-container-org4476056" class="outline-2">
+<h2 id="org4476056"><span class="section-number-2">2.</span> 配置readeck</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 访问服务器对应端口（示例为 <code>http://114.514.191.180:8000</code> ），会要求你进行初次用户注册。<br />
@@ -527,8 +527,8 @@ Readeck默认有OPDS功能，可以通过网址访问自动转换出来的EPUB�
 </p>
 </div>
 </div>
-<div id="outline-container-orgdb4461c" class="outline-2">
-<h2 id="orgdb4461c"><span class="section-number-2">3.</span> 配置KOReader</h2>
+<div id="outline-container-org0ea5448" class="outline-2">
+<h2 id="org0ea5448"><span class="section-number-2">3.</span> 配置KOReader</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于我用的安卓电纸书，直接<a href="https://github.com/koreader/koreader/releases">从GitHub</a>下载apk安装就行。下面以最新版（2025-08）为例。<br />
@@ -619,32 +619,32 @@ Readeck默认有OPDS功能，可以通过网址访问自动转换出来的EPUB�
 </p>
 </div>
 </div>
-<div id="outline-container-orgfe55069" class="outline-2">
-<h2 id="orgfe55069"><span class="section-number-2">4.</span> （废弃）一键清空书签的elisp代码</h2>
+<div id="outline-container-org5e6c7d5" class="outline-2">
+<h2 id="org5e6c7d5"><span class="section-number-2">4.</span> （废弃）一键清空书签的elisp代码</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Readeck并未提供批量选择功能，因此写了一段小elisp代码，通过API一键清空所有书签，需要安装 <code>plz</code> 包：<br />
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">defun</span> <span style="color: #355500;">my/delete-all-readeck</span> <span style="color: #894852;">()</span>
-  <span style="color: #894852;">(</span><span style="color: #894852; font-weight: bold;">interactive</span><span style="color: #894852;">)</span>
-  <span style="color: #894852;">(</span><span style="color: #894852; font-weight: bold;">let*</span> <span style="color: #306630;">(</span><span style="color: #00677f;">(</span>api-token <span style="color: #007047;">"&#29992;&#29983;&#25104;&#30340;API&#26367;&#25442;&#36825;&#37324;"</span><span style="color: #00677f;">)</span>
-         <span style="color: #00677f;">(</span>server-url <span style="color: #007047;">"&#29992;readeck&#26381;&#21153;&#22120;&#38142;&#25509;&#26367;&#25442;&#36825;&#37324;&#65292;&#24102;http&#12289;&#31471;&#21475;&#65292;&#19981;&#24102;&#26012;&#26464;&#65292;&#22914;http://114.514.191.98:8000"</span><span style="color: #00677f;">)</span>
-         <span style="color: #00677f;">(</span>bookmarks <span style="color: #5032aa;">(</span>plz 'get <span style="color: #9f356a;">(</span>concat server-url <span style="color: #007047;">"/api/bookmarks"</span><span style="color: #9f356a;">)</span>
-                     <span style="color: #6a4a9f; font-weight: bold;">:headers</span> `<span style="color: #9f356a;">(</span><span style="color: #00601f;">(</span><span style="color: #007047;">"User-Agent"</span> . <span style="color: #007047;">"tomoemami/emacs"</span><span style="color: #00601f;">)</span>
-                                <span style="color: #00601f;">(</span><span style="color: #007047;">"Authorization"</span> . <span style="color: #9a501f;">(</span>concat <span style="color: #007047;">"Bearer "</span> api-token<span style="color: #9a501f;">)</span><span style="color: #00601f;">)</span>
-                                <span style="color: #00601f;">(</span><span style="color: #007047;">"Accept"</span> . <span style="color: #007047;">"application/json"</span><span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span>
-                     <span style="color: #6a4a9f; font-weight: bold;">:as</span> #'json-read<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
-    <span style="color: #306630;">(</span><span style="color: #894852; font-weight: bold;">dolist</span> <span style="color: #00677f;">(</span>bookmark <span style="color: #5032aa;">(</span>seq-into bookmarks 'list<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-      <span style="color: #00677f;">(</span><span style="color: #894852; font-weight: bold;">when-let*</span> <span style="color: #5032aa;">(</span><span style="color: #9f356a;">(</span>id <span style="color: #00601f;">(</span>alist-get 'id bookmark<span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span><span style="color: #5032aa;">)</span>
-        <span style="color: #5032aa;">(</span>call-process-shell-command <span style="color: #9f356a;">(</span>concat <span style="color: #007047;">"curl -X DELETE '"</span> server-url <span style="color: #007047;">"/api/bookmarks/"</span> id <span style="color: #007047;">"' -H 'accept: application/json' -H 'Authorization: Bearer "</span> api-token <span style="color: #007047;">"' -H 'User-Agent: tomoemami/emacs'"</span><span style="color: #9f356a;">)</span> nil 0<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
-    <span style="color: #306630;">(</span>message <span style="color: #007047;">"Readeck bookmarks DELETED"</span><span style="color: #306630;">)</span><span style="color: #894852;">)</span><span style="color: #355500;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my/delete-all-readeck</span> <span style="color: #8f2f30;">()</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">interactive</span><span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">let*</span> <span style="color: #00704f;">(</span><span style="color: #906200;">(</span>api-token <span style="color: #557000;">"&#29992;&#29983;&#25104;&#30340;API&#26367;&#25442;&#36825;&#37324;"</span><span style="color: #906200;">)</span>
+         <span style="color: #906200;">(</span>server-url <span style="color: #557000;">"&#29992;readeck&#26381;&#21153;&#22120;&#38142;&#25509;&#26367;&#25442;&#36825;&#37324;&#65292;&#24102;http&#12289;&#31471;&#21475;&#65292;&#19981;&#24102;&#26012;&#26464;&#65292;&#22914;http://114.514.191.98:8000"</span><span style="color: #906200;">)</span>
+         <span style="color: #906200;">(</span>bookmarks <span style="color: #557000;">(</span>plz 'get <span style="color: #0f7688;">(</span>concat server-url <span style="color: #557000;">"/api/bookmarks"</span><span style="color: #0f7688;">)</span>
+                     <span style="color: #00704f; font-weight: bold;">:headers</span> `<span style="color: #0f7688;">(</span><span style="color: #8a6340;">(</span><span style="color: #557000;">"User-Agent"</span> . <span style="color: #557000;">"tomoemami/emacs"</span><span style="color: #8a6340;">)</span>
+                                <span style="color: #8a6340;">(</span><span style="color: #557000;">"Authorization"</span> . <span style="color: #aa184f;">(</span>concat <span style="color: #557000;">"Bearer "</span> api-token<span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span>
+                                <span style="color: #8a6340;">(</span><span style="color: #557000;">"Accept"</span> . <span style="color: #557000;">"application/json"</span><span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span>
+                     <span style="color: #00704f; font-weight: bold;">:as</span> #'json-read<span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+    <span style="color: #00704f;">(</span><span style="color: #8f2f30; font-weight: bold;">dolist</span> <span style="color: #906200;">(</span>bookmark <span style="color: #557000;">(</span>seq-into bookmarks 'list<span style="color: #557000;">)</span><span style="color: #906200;">)</span>
+      <span style="color: #906200;">(</span><span style="color: #8f2f30; font-weight: bold;">when-let*</span> <span style="color: #557000;">(</span><span style="color: #0f7688;">(</span>id <span style="color: #8a6340;">(</span>alist-get 'id bookmark<span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span><span style="color: #557000;">)</span>
+        <span style="color: #557000;">(</span>call-process-shell-command <span style="color: #0f7688;">(</span>concat <span style="color: #557000;">"curl -X DELETE '"</span> server-url <span style="color: #557000;">"/api/bookmarks/"</span> id <span style="color: #557000;">"' -H 'accept: application/json' -H 'Authorization: Bearer "</span> api-token <span style="color: #557000;">"' -H 'User-Agent: tomoemami/emacs'"</span><span style="color: #0f7688;">)</span> nil 0<span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+    <span style="color: #00704f;">(</span>message <span style="color: #557000;">"Readeck bookmarks DELETED"</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbdd029f" class="outline-2">
-<h2 id="orgbdd029f"><span class="section-number-2">5.</span> 一键点击页面所有删除按键的js脚本</h2>
+<div id="outline-container-org30c3d8b" class="outline-2">
+<h2 id="org30c3d8b"><span class="section-number-2">5.</span> 一键点击页面所有删除按键的js脚本</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 用脚本管理器安装，记得把 <code>//@match</code> 后的链接替换为自建的Readeck链接<br />

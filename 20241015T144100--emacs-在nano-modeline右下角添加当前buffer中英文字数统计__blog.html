@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-16 周四 15:19 -->
+<!-- 2025-10-19 周日 16:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在nano-modeline右下角添加当前buffer中英文字数统计</title>
@@ -385,11 +385,11 @@ b {
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-15 周二 14:41]</span></span><br />
 </p>
-<div id="outline-container-org7a14995" class="outline-2">
-<h2 id="org7a14995"><span class="section-number-2">1.</span> 加载第三方包</h2>
+<div id="outline-container-org3237e5d" class="outline-2">
+<h2 id="org3237e5d"><span class="section-number-2">1.</span> 加载第三方包</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-lisp"><code><span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">require</span> '<span style="color: #5032aa;">advance-words-count</span><span style="color: #355500;">)</span>
+<pre class="src src-lisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">require</span> '<span style="color: #a23ea4;">advance-words-count</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 
@@ -402,16 +402,16 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org929a5e3" class="outline-2">
-<h2 id="org929a5e3"><span class="section-number-2">2.</span> 覆盖右下角数据（旧）</h2>
+<div id="outline-container-orgc0a29d3" class="outline-2">
+<h2 id="orgc0a29d3"><span class="section-number-2">2.</span> 覆盖右下角数据（旧）</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-lisp"><code><span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">defun</span> <span style="color: #355500;">nano-modeline-cursor-position</span> <span style="color: #894852;">(</span><span style="color: #162f8f; font-weight: bold;">&amp;optional</span> format<span style="color: #894852;">)</span>
-  <span style="color: #4f677f; font-style: italic;">"Cursor position using given FORMAT."</span>
-  <span style="color: #894852;">(</span><span style="color: #894852; font-weight: bold;">let</span> <span style="color: #306630;">(</span><span style="color: #00677f;">(</span>format <span style="color: #5032aa;">(</span>or format <span style="color: #007047;">"%l:%c "</span><span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
-    <span style="color: #306630;">(</span>propertize <span style="color: #00677f;">(</span>format-mode-line '<span style="color: #5032aa;">(</span> <span style="color: #9f356a;">(</span><span style="color: #6a4a9f; font-weight: bold;">:eval</span> <span style="color: #00601f;">(</span>format <span style="color: #007047;">"%s&#23383;"</span> <span style="color: #9a501f;">(</span>+ <span style="color: #6a4a9f;">(</span>words-count <span style="color: #355500;">(</span>point-min<span style="color: #355500;">)</span> <span style="color: #355500;">(</span>point-max<span style="color: #355500;">)</span> words-count-rule-ansci<span style="color: #6a4a9f;">)</span> <span style="color: #6a4a9f;">(</span>words-count <span style="color: #355500;">(</span>point-min<span style="color: #355500;">)</span> <span style="color: #355500;">(</span>point-max<span style="color: #355500;">)</span> words-count-rule-CJK<span style="color: #6a4a9f;">)</span><span style="color: #9a501f;">)</span><span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span> <span style="color: #007047;">"   "</span><span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-                'face <span style="color: #00677f;">(</span>nano-modeline-face 'secondary<span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
-    <span style="color: #894852;">)</span><span style="color: #355500;">)</span>
+<pre class="src src-lisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">nano-modeline-cursor-position</span> <span style="color: #8f2f30;">(</span><span style="color: #b0000f; font-weight: bold;">&amp;optional</span> format<span style="color: #8f2f30;">)</span>
+  <span style="color: #8d6068; font-style: italic;">"Cursor position using given FORMAT."</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">let</span> <span style="color: #00704f;">(</span><span style="color: #906200;">(</span>format <span style="color: #557000;">(</span>or format <span style="color: #557000;">"%l:%c "</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+    <span style="color: #00704f;">(</span>propertize <span style="color: #906200;">(</span>format-mode-line '<span style="color: #557000;">(</span> <span style="color: #0f7688;">(</span><span style="color: #00704f; font-weight: bold;">:eval</span> <span style="color: #8a6340;">(</span>format <span style="color: #557000;">"%s&#23383;"</span> <span style="color: #aa184f;">(</span>+ <span style="color: #3f69af;">(</span>words-count <span style="color: #007000;">(</span>point-min<span style="color: #007000;">)</span> <span style="color: #007000;">(</span>point-max<span style="color: #007000;">)</span> words-count-rule-ansci<span style="color: #3f69af;">)</span> <span style="color: #3f69af;">(</span>words-count <span style="color: #007000;">(</span>point-min<span style="color: #007000;">)</span> <span style="color: #007000;">(</span>point-max<span style="color: #007000;">)</span> words-count-rule-CJK<span style="color: #3f69af;">)</span><span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span> <span style="color: #557000;">"   "</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span>
+                'face <span style="color: #906200;">(</span>nano-modeline-face 'secondary<span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+    <span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 
@@ -420,43 +420,43 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-orge2599e0" class="outline-2">
-<h2 id="orge2599e0"><span class="section-number-2">3.</span> 覆盖右下角数据（新）</h2>
+<div id="outline-container-orgbee0af8" class="outline-2">
+<h2 id="orgbee0af8"><span class="section-number-2">3.</span> 覆盖右下角数据（新）</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 <span class="timestamp-wrapper"><span class="timestamp">[2024-10-17 周四 17:40]</span></span>：观察到在大中文字符的情况下（6w+）存在滚动时的明显性能损失，采取以下方式迂回：<br />
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lisp"><code><span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">defvar</span> <span style="color: #80308f;">my/buffer-words</span> 0
-  <span style="color: #4f677f; font-style: italic;">"The number of characters in the current buffer."</span><span style="color: #355500;">)</span>
+<pre class="src src-lisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defvar</span> <span style="color: #aa184f;">my/buffer-words</span> 0
+  <span style="color: #8d6068; font-style: italic;">"The number of characters in the current buffer."</span><span style="color: #007000;">)</span>
 
-<span style="color: #7f4f4a; font-style: italic;">;;</span><span style="color: #7f4f4a; font-style: italic;">&#21464;&#25104;buffer-local&#21464;&#37327;&#65292;&#30830;&#20445;&#21478;&#19968;&#20010;buffer&#30340;modeline&#19981;&#20250;&#21463;&#21040;&#24433;&#21709;
-</span><span style="color: #355500;">(</span>make-variable-buffer-local 'my/buffer-words<span style="color: #355500;">)</span>
+<span style="color: #6e678f; font-style: italic;">;;</span><span style="color: #6e678f; font-style: italic;">&#21464;&#25104;buffer-local&#21464;&#37327;&#65292;&#30830;&#20445;&#21478;&#19968;&#20010;buffer&#30340;modeline&#19981;&#20250;&#21463;&#21040;&#24433;&#21709;
+</span><span style="color: #007000;">(</span>make-variable-buffer-local 'my/buffer-words<span style="color: #007000;">)</span>
 
-<span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">defun</span> <span style="color: #355500;">my/buffer-words-count</span> <span style="color: #894852;">()</span>
-  <span style="color: #4f677f; font-style: italic;">"Return the number of characters in the current buffer."</span>
-  <span style="color: #894852;">(</span>setq my/buffer-words
-        <span style="color: #306630;">(</span>+ <span style="color: #00677f;">(</span>words-count <span style="color: #5032aa;">(</span>point-min<span style="color: #5032aa;">)</span> <span style="color: #5032aa;">(</span>point-max<span style="color: #5032aa;">)</span> words-count-rule-CJK<span style="color: #00677f;">)</span>
-           <span style="color: #00677f;">(</span>words-count <span style="color: #5032aa;">(</span>point-min<span style="color: #5032aa;">)</span> <span style="color: #5032aa;">(</span>point-max<span style="color: #5032aa;">)</span> words-count-rule-ansci <span style="color: #00677f;">)</span><span style="color: #306630;">)</span><span style="color: #894852;">)</span>
-  <span style="color: #894852;">(</span>force-mode-line-update<span style="color: #894852;">)</span><span style="color: #355500;">)</span>
+<span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my/buffer-words-count</span> <span style="color: #8f2f30;">()</span>
+  <span style="color: #8d6068; font-style: italic;">"Return the number of characters in the current buffer."</span>
+  <span style="color: #8f2f30;">(</span>setq my/buffer-words
+        <span style="color: #00704f;">(</span>+ <span style="color: #906200;">(</span>words-count <span style="color: #557000;">(</span>point-min<span style="color: #557000;">)</span> <span style="color: #557000;">(</span>point-max<span style="color: #557000;">)</span> words-count-rule-CJK<span style="color: #906200;">)</span>
+           <span style="color: #906200;">(</span>words-count <span style="color: #557000;">(</span>point-min<span style="color: #557000;">)</span> <span style="color: #557000;">(</span>point-max<span style="color: #557000;">)</span> words-count-rule-ansci <span style="color: #906200;">)</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span>force-mode-line-update<span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 
-<span style="color: #7f4f4a; font-style: italic;">;;</span><span style="color: #7f4f4a; font-style: italic;">&#31383;&#21475;&#20999;&#25442;&#21518;
-</span><span style="color: #355500;">(</span>add-hook 'window-configuration-change-hook 'my/buffer-words-count<span style="color: #355500;">)</span>
-<span style="color: #7f4f4a; font-style: italic;">;; </span><span style="color: #7f4f4a; font-style: italic;">buffer&#35843;&#25972;&#21518;
-</span><span style="color: #355500;">(</span>add-hook 'buffer-list-update-hook 'my/buffer-words-count<span style="color: #355500;">)</span>
-<span style="color: #7f4f4a; font-style: italic;">;; </span><span style="color: #7f4f4a; font-style: italic;">&#31354;&#38386;&#26102;&#65288;&#38024;&#23545;scratch&#65289;
-</span><span style="color: #355500;">(</span>run-with-idle-timer 2 t 'my/buffer-words-count<span style="color: #355500;">)</span>
+<span style="color: #6e678f; font-style: italic;">;;</span><span style="color: #6e678f; font-style: italic;">&#31383;&#21475;&#20999;&#25442;&#21518;
+</span><span style="color: #007000;">(</span>add-hook 'window-configuration-change-hook 'my/buffer-words-count<span style="color: #007000;">)</span>
+<span style="color: #6e678f; font-style: italic;">;; </span><span style="color: #6e678f; font-style: italic;">buffer&#35843;&#25972;&#21518;
+</span><span style="color: #007000;">(</span>add-hook 'buffer-list-update-hook 'my/buffer-words-count<span style="color: #007000;">)</span>
+<span style="color: #6e678f; font-style: italic;">;; </span><span style="color: #6e678f; font-style: italic;">&#31354;&#38386;&#26102;&#65288;&#38024;&#23545;scratch&#65289;
+</span><span style="color: #007000;">(</span>run-with-idle-timer 2 t 'my/buffer-words-count<span style="color: #007000;">)</span>
 
-<span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">defun</span> <span style="color: #355500;">nano-modeline-cursor-position</span> <span style="color: #894852;">(</span><span style="color: #162f8f; font-weight: bold;">&amp;optional</span> format<span style="color: #894852;">)</span>
-  <span style="color: #4f677f; font-style: italic;">"Cursor position using given FORMAT."</span>
-  <span style="color: #894852;">(</span><span style="color: #894852; font-weight: bold;">let</span> <span style="color: #306630;">(</span><span style="color: #00677f;">(</span>format <span style="color: #5032aa;">(</span>or format <span style="color: #007047;">"%l:%c "</span><span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
-    <span style="color: #7f4f4a; font-style: italic;">;; </span><span style="color: #7f4f4a; font-style: italic;">(propertize (format-mode-line '("  "))
-</span>    <span style="color: #7f4f4a; font-style: italic;">;;             </span><span style="color: #7f4f4a; font-style: italic;">'face (nano-modeline-face 'secondary))
-</span>    <span style="color: #306630;">(</span>propertize <span style="color: #00677f;">(</span>format-mode-line '<span style="color: #5032aa;">(</span><span style="color: #9f356a;">(</span><span style="color: #6a4a9f; font-weight: bold;">:eval</span> <span style="color: #00601f;">(</span>format <span style="color: #007047;">"%s&#23383;"</span> my/buffer-words
-                                                   <span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span> <span style="color: #b04300; font-weight: bold;">"   "</span><span style="color: #5032aa; font-weight: bold;">)</span><span style="color: #00677f; font-weight: bold;">)</span>
-                'face <span style="color: #00677f;">(</span>nano-modeline-face 'secondary<span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
-    <span style="color: #894852;">)</span><span style="color: #355500;">)</span>
+<span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">nano-modeline-cursor-position</span> <span style="color: #8f2f30;">(</span><span style="color: #b0000f; font-weight: bold;">&amp;optional</span> format<span style="color: #8f2f30;">)</span>
+  <span style="color: #8d6068; font-style: italic;">"Cursor position using given FORMAT."</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">let</span> <span style="color: #00704f;">(</span><span style="color: #906200;">(</span>format <span style="color: #557000;">(</span>or format <span style="color: #557000;">"%l:%c "</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+    <span style="color: #6e678f; font-style: italic;">;; </span><span style="color: #6e678f; font-style: italic;">(propertize (format-mode-line '("  "))
+</span>    <span style="color: #6e678f; font-style: italic;">;;             </span><span style="color: #6e678f; font-style: italic;">'face (nano-modeline-face 'secondary))
+</span>    <span style="color: #00704f;">(</span>propertize <span style="color: #906200;">(</span>format-mode-line '<span style="color: #557000;">(</span><span style="color: #0f7688;">(</span><span style="color: #00704f; font-weight: bold;">:eval</span> <span style="color: #8a6340;">(</span>format <span style="color: #557000;">"%s&#23383;"</span> my/buffer-words
+                                                   <span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span> <span style="color: #906200; font-weight: bold;">"   "</span><span style="color: #557000; font-weight: bold;">)</span><span style="color: #906200; font-weight: bold;">)</span>
+                'face <span style="color: #906200;">(</span>nano-modeline-face 'secondary<span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+    <span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 

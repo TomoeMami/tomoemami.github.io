@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-10-16 周四 15:19 -->
+<!-- 2025-10-19 周日 16:07 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-调用matplotlib画图-并存储到windows的临时文件夹中</title>
@@ -391,10 +391,10 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #676470;">#+NAME: myTimeTable</span>
-<span style="color: #5f5f1f;">|1|2|</span><span style="color: #5f5f1f;">
-</span><span style="color: #5f5f1f;">|-+-|</span><span style="color: #5f5f1f;">
-</span><span style="color: #5f5f1f;">|3|4|</span>
+<pre class="src src-org"><code><span style="color: #6e678f;">#+NAME: myTimeTable</span>
+<span style="color: #8a5f4a;">|1|2|</span><span style="color: #8a5f4a;">
+</span><span style="color: #8a5f4a;">|-+-|</span><span style="color: #8a5f4a;">
+</span><span style="color: #8a5f4a;">|3|4|</span>
 </code></pre>
 </div>
 <p>
@@ -402,13 +402,13 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><code><span style="color: #7f4f4a; font-style: italic;">#</span><span style="color: #7f4f4a; font-style: italic;">+begin_src python :results file link :var data=myTimeTable
-</span><span style="color: #894852; font-weight: bold;">import</span> os,matplotlib, numpy
+<pre class="src src-python"><code><span style="color: #6e678f; font-style: italic;">#</span><span style="color: #6e678f; font-style: italic;">+begin_src python :results file link :var data=myTimeTable
+</span><span style="color: #8f2f30; font-weight: bold;">import</span> os,matplotlib, numpy
 &#8230;&#8230;
 
-<span style="color: #80308f;">savedir</span> <span style="color: #221321;">=</span> os.getenv<span style="color: #355500;">(</span><span style="color: #007047;">'TEMP'</span><span style="color: #355500;">)</span><span style="color: #221321;">+</span><span style="color: #007047;">'</span><span style="color: #5032aa;">\\</span><span style="color: #007047;">myTimeTable.png'</span>
-plt.savefig<span style="color: #355500;">(</span>savedir<span style="color: #355500;">)</span>
-<span style="color: #894852; font-weight: bold;">return</span> savedir
+<span style="color: #aa184f;">savedir</span> <span style="color: #393330;">=</span> os.getenv<span style="color: #007000;">(</span><span style="color: #557000;">'TEMP'</span><span style="color: #007000;">)</span><span style="color: #393330;">+</span><span style="color: #557000;">'</span><span style="color: #a23ea4;">\\</span><span style="color: #557000;">myTimeTable.png'</span>
+plt.savefig<span style="color: #007000;">(</span>savedir<span style="color: #007000;">)</span>
+<span style="color: #8f2f30; font-weight: bold;">return</span> savedir
 </code></pre>
 </div>
 
@@ -417,13 +417,13 @@ plt.savefig<span style="color: #355500;">(</span>savedir<span style="color: #355
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><code><span style="color: #7f4f4a; font-style: italic;">#</span><span style="color: #7f4f4a; font-style: italic;">+name: &#20195;&#30721;&#22359;name
-</span><span style="color: #7f4f4a; font-style: italic;">#</span><span style="color: #7f4f4a; font-style: italic;">+begin_src python :var filename=(org-element-property :name (org-element-context)) :results file link
-</span><span style="color: #894852; font-weight: bold;">import</span> os,matplotlib, numpy
+<pre class="src src-python"><code><span style="color: #6e678f; font-style: italic;">#</span><span style="color: #6e678f; font-style: italic;">+name: &#20195;&#30721;&#22359;name
+</span><span style="color: #6e678f; font-style: italic;">#</span><span style="color: #6e678f; font-style: italic;">+begin_src python :var filename=(org-element-property :name (org-element-context)) :results file link
+</span><span style="color: #8f2f30; font-weight: bold;">import</span> os,matplotlib, numpy
 &#8230;&#8230;
-<span style="color: #80308f;">savedir</span> <span style="color: #221321;">=</span> os.getenv<span style="color: #355500;">(</span><span style="color: #007047;">'TEMP'</span><span style="color: #355500;">)</span><span style="color: #221321;">+</span><span style="color: #007047;">'</span><span style="color: #5032aa;">\\</span><span style="color: #007047;">'</span><span style="color: #221321;">+</span>filename<span style="color: #221321;">+</span><span style="color: #007047;">'.png'</span>
-plt.savefig<span style="color: #355500;">(</span>savedir<span style="color: #355500;">)</span>
-<span style="color: #894852; font-weight: bold;">return</span> savedir
+<span style="color: #aa184f;">savedir</span> <span style="color: #393330;">=</span> os.getenv<span style="color: #007000;">(</span><span style="color: #557000;">'TEMP'</span><span style="color: #007000;">)</span><span style="color: #393330;">+</span><span style="color: #557000;">'</span><span style="color: #a23ea4;">\\</span><span style="color: #557000;">'</span><span style="color: #393330;">+</span>filename<span style="color: #393330;">+</span><span style="color: #557000;">'.png'</span>
+plt.savefig<span style="color: #007000;">(</span>savedir<span style="color: #007000;">)</span>
+<span style="color: #8f2f30; font-weight: bold;">return</span> savedir
 </code></pre>
 </div>
 
@@ -432,8 +432,8 @@ plt.savefig<span style="color: #355500;">(</span>savedir<span style="color: #355
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #676470;">#+RESULTS:</span>
-<span style="color: #00601f; text-decoration: underline;"><a href="file:..../XXX.png">file:..../XXX.png</a></span>
+<pre class="src src-org"><code><span style="color: #6e678f;">#+RESULTS:</span>
+<span style="color: #00704f; text-decoration: underline;"><a href="file:..../XXX.png">file:..../XXX.png</a></span>
 </code></pre>
 </div>
 <p>
@@ -441,55 +441,55 @@ plt.savefig<span style="color: #355500;">(</span>savedir<span style="color: #355
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #7f4f4a; font-style: italic;">;; </span><span style="color: #7f4f4a; font-style: italic;">(setq org-startup-with-inline-images t)
-</span><span style="color: #7f4f4a; font-style: italic;">;;; </span><span style="color: #7f4f4a; font-style: italic;">Only display inline images under current subtree.
-</span><span style="color: #355500;">(</span><span style="color: #894852; font-weight: bold;">defun</span> <span style="color: #355500;">org-display-subtree-inline-images</span> <span style="color: #894852;">(</span><span style="color: #162f8f; font-weight: bold;">&amp;optional</span> state<span style="color: #894852;">)</span>
-  <span style="color: #4f677f; font-style: italic;">"Toggle the display of inline images under current subtree.
-INCLUDE-LINKED is passed to `</span><span style="color: #5032aa; font-style: italic;">org-display-inline-images</span><span style="color: #4f677f; font-style: italic;">'."</span>
-  <span style="color: #894852;">(</span><span style="color: #894852; font-weight: bold;">interactive</span><span style="color: #894852;">)</span>
-  <span style="color: #894852;">(</span><span style="color: #894852; font-weight: bold;">save-excursion</span>
-    <span style="color: #306630;">(</span><span style="color: #894852; font-weight: bold;">save-restriction</span>
-      <span style="color: #00677f;">(</span>org-narrow-to-subtree<span style="color: #00677f;">)</span>
-      <span style="color: #00677f;">(</span><span style="color: #894852; font-weight: bold;">let*</span> <span style="color: #5032aa;">(</span><span style="color: #9f356a;">(</span>beg <span style="color: #00601f;">(</span>point-min<span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span>
-             <span style="color: #9f356a;">(</span>end <span style="color: #00601f;">(</span>point-max<span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span>
-             <span style="color: #9f356a;">(</span>image-overlays <span style="color: #00601f;">(</span>cl-intersection
+<pre class="src src-elisp"><code><span style="color: #6e678f; font-style: italic;">;; </span><span style="color: #6e678f; font-style: italic;">(setq org-startup-with-inline-images t)
+</span><span style="color: #6e678f; font-style: italic;">;;; </span><span style="color: #6e678f; font-style: italic;">Only display inline images under current subtree.
+</span><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">org-display-subtree-inline-images</span> <span style="color: #8f2f30;">(</span><span style="color: #b0000f; font-weight: bold;">&amp;optional</span> state<span style="color: #8f2f30;">)</span>
+  <span style="color: #8d6068; font-style: italic;">"Toggle the display of inline images under current subtree.
+INCLUDE-LINKED is passed to `</span><span style="color: #a23ea4; font-style: italic;">org-display-inline-images</span><span style="color: #8d6068; font-style: italic;">'."</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">interactive</span><span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">save-excursion</span>
+    <span style="color: #00704f;">(</span><span style="color: #8f2f30; font-weight: bold;">save-restriction</span>
+      <span style="color: #906200;">(</span>org-narrow-to-subtree<span style="color: #906200;">)</span>
+      <span style="color: #906200;">(</span><span style="color: #8f2f30; font-weight: bold;">let*</span> <span style="color: #557000;">(</span><span style="color: #0f7688;">(</span>beg <span style="color: #8a6340;">(</span>point-min<span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span>
+             <span style="color: #0f7688;">(</span>end <span style="color: #8a6340;">(</span>point-max<span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span>
+             <span style="color: #0f7688;">(</span>image-overlays <span style="color: #8a6340;">(</span>cl-intersection
                               org-inline-image-overlays
-                              <span style="color: #9a501f;">(</span>overlays-in beg end<span style="color: #9a501f;">)</span><span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span>
-             <span style="color: #9f356a;">(</span>display-inline-images-local
-              <span style="color: #00601f;">(</span><span style="color: #894852; font-weight: bold;">lambda</span> <span style="color: #9a501f;">()</span>
-                <span style="color: #9a501f;">(</span>org-display-inline-images t t beg end<span style="color: #9a501f;">)</span>
-                <span style="color: #9a501f;">(</span><span style="color: #894852; font-weight: bold;">setq</span> image-overlays <span style="color: #6a4a9f;">(</span>cl-intersection
+                              <span style="color: #aa184f;">(</span>overlays-in beg end<span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span>
+             <span style="color: #0f7688;">(</span>display-inline-images-local
+              <span style="color: #8a6340;">(</span><span style="color: #8f2f30; font-weight: bold;">lambda</span> <span style="color: #aa184f;">()</span>
+                <span style="color: #aa184f;">(</span>org-display-inline-images t t beg end<span style="color: #aa184f;">)</span>
+                <span style="color: #aa184f;">(</span><span style="color: #8f2f30; font-weight: bold;">setq</span> image-overlays <span style="color: #3f69af;">(</span>cl-intersection
                                       org-inline-image-overlays
-                                      <span style="color: #355500;">(</span>overlays-in beg end<span style="color: #355500;">)</span><span style="color: #6a4a9f;">)</span><span style="color: #9a501f;">)</span>
-                <span style="color: #9a501f;">(</span><span style="color: #894852; font-weight: bold;">if</span> <span style="color: #6a4a9f;">(</span><span style="color: #894852; font-weight: bold;">and</span> <span style="color: #355500;">(</span>org-called-interactively-p<span style="color: #355500;">)</span> image-overlays<span style="color: #6a4a9f;">)</span>
-                    <span style="color: #6a4a9f;">(</span>message <span style="color: #007047;">"%d images displayed inline"</span>
-                             <span style="color: #355500;">(</span>length image-overlays<span style="color: #355500;">)</span><span style="color: #6a4a9f;">)</span><span style="color: #9a501f;">)</span><span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span>
-             <span style="color: #9f356a;">(</span>hide-inline-images-local
-              <span style="color: #00601f;">(</span><span style="color: #894852; font-weight: bold;">lambda</span> <span style="color: #9a501f;">()</span>
-                <span style="color: #9a501f;">(</span>org-remove-inline-images<span style="color: #9a501f;">)</span>
-                <span style="color: #9a501f;">(</span>message <span style="color: #007047;">"Inline image display turned off"</span><span style="color: #9a501f;">)</span><span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span><span style="color: #5032aa;">)</span>
-        <span style="color: #5032aa;">(</span><span style="color: #894852; font-weight: bold;">if</span> state
-            <span style="color: #9f356a;">(</span><span style="color: #894852; font-weight: bold;">pcase</span> state
-              <span style="color: #00601f;">(</span>'subtree
-               <span style="color: #9a501f;">(</span>funcall display-inline-images-local<span style="color: #9a501f;">)</span><span style="color: #00601f;">)</span>
-              <span style="color: #00601f;">(</span>'folded
-               <span style="color: #9a501f;">(</span>funcall hide-inline-images-local<span style="color: #9a501f;">)</span><span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span>
-          <span style="color: #9f356a;">(</span><span style="color: #894852; font-weight: bold;">if</span> image-overlays
-              <span style="color: #00601f;">(</span>funcall display-inline-images-local<span style="color: #00601f;">)</span>
-            <span style="color: #00601f;">(</span>funcall hide-inline-images-local<span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span><span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span><span style="color: #894852;">)</span><span style="color: #355500;">)</span>
+                                      <span style="color: #007000;">(</span>overlays-in beg end<span style="color: #007000;">)</span><span style="color: #3f69af;">)</span><span style="color: #aa184f;">)</span>
+                <span style="color: #aa184f;">(</span><span style="color: #8f2f30; font-weight: bold;">if</span> <span style="color: #3f69af;">(</span><span style="color: #8f2f30; font-weight: bold;">and</span> <span style="color: #007000;">(</span>org-called-interactively-p<span style="color: #007000;">)</span> image-overlays<span style="color: #3f69af;">)</span>
+                    <span style="color: #3f69af;">(</span>message <span style="color: #557000;">"%d images displayed inline"</span>
+                             <span style="color: #007000;">(</span>length image-overlays<span style="color: #007000;">)</span><span style="color: #3f69af;">)</span><span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span>
+             <span style="color: #0f7688;">(</span>hide-inline-images-local
+              <span style="color: #8a6340;">(</span><span style="color: #8f2f30; font-weight: bold;">lambda</span> <span style="color: #aa184f;">()</span>
+                <span style="color: #aa184f;">(</span>org-remove-inline-images<span style="color: #aa184f;">)</span>
+                <span style="color: #aa184f;">(</span>message <span style="color: #557000;">"Inline image display turned off"</span><span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span><span style="color: #557000;">)</span>
+        <span style="color: #557000;">(</span><span style="color: #8f2f30; font-weight: bold;">if</span> state
+            <span style="color: #0f7688;">(</span><span style="color: #8f2f30; font-weight: bold;">pcase</span> state
+              <span style="color: #8a6340;">(</span>'subtree
+               <span style="color: #aa184f;">(</span>funcall display-inline-images-local<span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span>
+              <span style="color: #8a6340;">(</span>'folded
+               <span style="color: #aa184f;">(</span>funcall hide-inline-images-local<span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span>
+          <span style="color: #0f7688;">(</span><span style="color: #8f2f30; font-weight: bold;">if</span> image-overlays
+              <span style="color: #8a6340;">(</span>funcall display-inline-images-local<span style="color: #8a6340;">)</span>
+            <span style="color: #8a6340;">(</span>funcall hide-inline-images-local<span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 
-<span style="color: #355500;">(</span>define-key org-mode-map <span style="color: #894852;">(</span>kbd <span style="color: #007047;">"C-c C-x C-v"</span><span style="color: #894852;">)</span> 'org-display-subtree-inline-images<span style="color: #355500;">)</span>
+<span style="color: #007000;">(</span>define-key org-mode-map <span style="color: #8f2f30;">(</span>kbd <span style="color: #557000;">"C-c C-x C-v"</span><span style="color: #8f2f30;">)</span> 'org-display-subtree-inline-images<span style="color: #007000;">)</span>
 
-<span style="color: #7f4f4a; font-style: italic;">;;; </span><span style="color: #7f4f4a; font-style: italic;">auto display inline images on Org TAB cycle expand headlines.
-</span><span style="color: #355500;">(</span>add-hook 'org-cycle-hook #'org-display-subtree-inline-images<span style="color: #355500;">)</span>
-<span style="color: #355500;">(</span>add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images<span style="color: #355500;">)</span>
+<span style="color: #6e678f; font-style: italic;">;;; </span><span style="color: #6e678f; font-style: italic;">auto display inline images on Org TAB cycle expand headlines.
+</span><span style="color: #007000;">(</span>add-hook 'org-cycle-hook #'org-display-subtree-inline-images<span style="color: #007000;">)</span>
+<span style="color: #007000;">(</span>add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images<span style="color: #007000;">)</span>
 </code></pre>
 </div>
 <p>
 参考：<a href="https://emacs-china.org/t/org-link/13502/6">https://emacs-china.org/t/org-link/13502/6</a><br />
 </p>
-<div id="outline-container-org02000a1" class="outline-2">
-<h2 id="org02000a1"><span class="section-number-2">1.</span> 通过代码块引用的方式重复使用部分代码</h2>
+<div id="outline-container-org7fb32af" class="outline-2">
+<h2 id="org7fb32af"><span class="section-number-2">1.</span> 通过代码块引用的方式重复使用部分代码</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在代码块上方加上 <code>#+NAME: line-plot</code> ，然后在需要引用的代码块上加上 <code>:noweb yes</code> 参数，再在内部通过 <code>&lt;&lt;pie-plot&gt;&gt;</code> 的方式即可复用代码。<br />
