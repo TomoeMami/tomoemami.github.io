@@ -1,0 +1,845 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-11-11 周二 15:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-我的GUI配置</title>
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
+*/
+
+body {
+    margin: 2% auto;
+    width: 100%;
+    max-width: 100%;
+    background-color: rgba(242,229,188,0.5);
+    /* background-color: rgba(255,255,255,0.5); */
+    font-size: 18px;
+    line-height: 1.4em;
+}
+@media screen and (min-width: 600px) {
+    body {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 910px) {
+    body {
+        width: 900px;
+    }
+}
+#preamble {
+    width: 80%;
+    max-width: 980px;
+    text-align: left;
+    margin: auto;
+    font-size: 80%;
+}
+
+hr {
+    border: none;
+    border-top: 5px double #333;
+    margin: 0px 0;
+}
+
+.button {
+    border: none;
+    color: black;
+    padding: 6px 14px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #3a1616;
+    color: white;
+}
+
+.todo {
+    background-color: #9d0006;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+.done {
+    background-color: #427b58;
+    color: #fbf1c7;
+    padding: .1em 0.3em;
+    border-radius: 3px;
+    background-clip: padding-box;
+    font-size: $code-size;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    line-height: 1;
+}
+
+#postamble p {
+    font-size: 80%;
+    margin: .2em;
+    text-align: center;
+}
+
+#content, .content {
+    width: 80%;
+    max-width: 980px;
+    margin: auto;
+}
+
+#org-div-home-and-up{
+    position: fixed;
+    right: 0.5em;
+    margin-top: 70px;
+    font-family:sans-serif;
+}
+
+#table-of-contents {
+    margin-top: 105px;
+    font-size: 12pt;
+    position: fixed;
+    left: 0em;
+    top: 0em;
+    background: white;
+    max-height: 80%;
+    overflow: auto;
+}
+
+#table-of-contents h2 {
+    display: none;
+}
+#table-of-contents li {
+    clear: both;
+}
+.timestamp {
+    color: #928374;
+    font-size: $smaller;
+}
+
+.timestamp-kwd {
+    color: #5f9ea0;
+}
+
+@media screen and (max-width: 1200px) {
+    #table-of-contents {
+        position: relative;
+        margin-top: 0px;
+    }
+}
+
+/* p:not(blockquote > p) :not(ol > p) { */
+/*     text-indent: 2em; */
+/* } */
+p {
+    margin: 1em auto;
+}
+
+.title {
+    font-size: 30px;
+    line-height: 1.3;
+    font-weight: bold;
+    color: #0c2340;
+}
+
+h2:not(#table-of-contents > h2) {
+    font-size: 30px;
+    line-height: 1.2;
+    position: relative;
+    color: #204060;
+}
+
+h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+h3:not(#table-of-contents > h3) {
+    font-size: 20px;
+    line-height: 1.1;
+    position: relative;
+    color: #4b748d;
+}
+
+h3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    /* border-bottom: 1px dashed black; */
+}
+
+h4 {
+    font-size: 14px;
+    line-height: 1.1;
+    font-weight: bold;
+}
+
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:link {
+    color: #458588;
+    /* text-decoration: underline; */
+}
+
+a:hover {
+    /* font-weight: bold; */
+    text-decoration: underline;
+    /* color: #076678; */
+}
+
+.figure {
+    text-align: center;
+}
+
+a:visited{
+    color: #8f3f71;
+    /* text-decoration: underline; */
+}
+
+img {
+    max-width: 100%;
+    vertical-align: middle;
+}
+.MathJax_Display {
+    margin: 0!important;
+    width: $smaller!important;
+}
+@media screen and (max-width: 1200px) {
+    img {
+        width: 400px;
+    }
+    .MathJax_Display {
+        margin: 0!important;
+        width: $smaller!important;
+    }
+}
+
+.org-src-container {
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+
+}
+.org-src-container>pre {
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.org-src-container>pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+
+}
+pre {
+    overflow: auto;
+
+}
+.example{
+    font-size: 14px;
+    outline: 2px dashed #ccc;
+    outline-offset: 10px;
+    position: relative;
+    
+}
+.example::before {
+    content: "Results";
+}
+pre:before {
+    display: block;
+    position: absolute;
+    background-color: #b3b3b3;
+    top: 0;
+    right: 0;
+    padding: 0 0.5em;
+    border-bottom-left-radius: 8px;
+    border: 0;
+    color: white;
+    font-size: $code-size;
+}
+/* .org-src-container::before { */
+/*     content: "Copy"; */
+/*     position: absolute; */
+/*     top: 5px; */
+/*     right: 5px; */
+/*     padding: 5px; */
+/*     background-color: #ccc; */
+/*     color: #fff; */
+/*     border-radius: 3px; */
+/*     cursor: pointer; */
+/* } */
+
+code {
+    font-size: 16px;
+    color: #427b58;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+}
+
+.subtitle {
+    text-align: right;
+}
+
+blockquote {
+    border-left: 3px solid #ccc;
+    padding-left: 10px; /* Optional: add some left padding for the content */
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.info {
+    overflow: hidden;
+}
+
+.created {
+    float: right;
+}
+
+.updated {
+    float: left;
+}
+
+.org-ol {
+    list-style-type: decimal; /* Set the list style type to decimal numbers */
+    /* margin-left: 0.5em; /\* Add left margin to the list *\/ */
+}
+
+b {
+    color: #9d0006;
+}
+
+#footnotes {
+    position: fixed;
+    left: auto;
+    right: 0;
+    top: 105px;
+    bottom: 0;
+    width: 20%;
+    padding: 10px;
+    overflow: auto;
+    font-size: 14px;
+    z-index: 9999;
+}
+
+#footnotes h2 {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    #footnotes {
+        position: static;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        max-height: 30%;
+        overflow: auto;
+        padding: 10px;
+        font-size: 14px;
+        z-index: 9999;
+    }
+}
+/*]]>*/-->
+ </style>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-11 周二 15:19]</span></span></p>
+</div>
+<div id="content" class="content">
+<h1 class="title">emacs-我的GUI配置</h1>
+<p>
+看见<a href="https://emacs-china.org/t/emacs/30399/5">你有什么让 Emacs 更美观的技巧？</a> ，突然发现我还没分享过自己的Emacs GUI配置，现记录如下。<br />
+</p>
+<div id="outline-container-orgc400e3c" class="outline-2">
+<h2 id="orgc400e3c"><span class="section-number-2">1.</span> 示例图</h2>
+<div class="outline-text-2" id="text-1">
+
+<div id="org7b10f91" class="figure">
+<p><img src="./PixPin_2025-11-11_15-15-50.webp" alt="PixPin_2025-11-11_15-15-50.webp" /><br />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org532f446" class="outline-2">
+<h2 id="org532f446"><span class="section-number-2">2.</span> 配色</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org1d1d194" class="outline-3">
+<h3 id="org1d1d194"><span class="section-number-3">2.1.</span> 随机轮换ef-themes</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+我喜欢 <code>ef-themes</code> ，所以挑选了其中几个比较看顺眼的主题随机应用。<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> modus-themes<span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> ef-themes<span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> modus-themes-headings <span style="color: #a65f6a;">; </span><span style="color: #a65f6a;">read the manual's entry or the doc string
+</span>      '<span style="color: #4f54aa;">(</span><span style="color: #ba35af;">(</span>0 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+        <span style="color: #ba35af;">(</span>1 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+        <span style="color: #ba35af;">(</span>2 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+        <span style="color: #ba35af;">(</span>3 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+        <span style="color: #ba35af;">(</span>4 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+        <span style="color: #ba35af;">(</span>5 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span> <span style="color: #a65f6a;">; </span><span style="color: #a65f6a;">absence of weight means `</span><span style="color: #065fff;">bold</span><span style="color: #a65f6a;">'
+</span>        <span style="color: #ba35af;">(</span>6 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+        <span style="color: #ba35af;">(</span>7 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+        <span style="color: #ba35af;">(</span>t . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">They are nil by default...
+</span><span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> modus-themes-mixed-fonts t<span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Disable all other themes to avoid awkward blending:
+</span><span style="color: #008858;">(</span>mapc #'disable-theme custom-enabled-themes<span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Random load the theme of choice:  
+</span><span style="color: #008858;">(</span><span style="color: #6052cf;">let*</span> <span style="color: #4f54aa;">(</span><span style="color: #ba35af;">(</span>themes '<span style="color: #1f77bb;">(</span>ef-arbutus ef-cyprus ef-day ef-eagle ef-elea-light ef-frost ef-kassio ef-light ef-maris-light ef-melissa-light ef-reverie ef-spring ef-summer ef-trio-light<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+       <span style="color: #ba35af;">(</span>loaded <span style="color: #1f77bb;">(</span>seq-random-elt themes<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>load-theme loaded <span style="color: #ba35af;">:no-confirm</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgac6082b" class="outline-3">
+<h3 id="orgac6082b"><span class="section-number-3">2.2.</span> 代码块颜色一体化</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+默认的代码块内部颜色不会变，这里调整为整体深色<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> org-fontify-quote-and-verse-blocks t<span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span>set-face-attribute 'org-code nil <span style="color: #ba35af;">:background</span>
+                     <span style="color: #4f54aa;">(</span>face-attribute 'org-block <span style="color: #ba35af;">:background</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org06cd1ae" class="outline-3">
+<h3 id="org06cd1ae"><span class="section-number-3">2.3.</span> 设置sis的光标颜色</h3>
+<div class="outline-text-3" id="text-2-3">
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> sis-other-cursor-color <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> cursor<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> sis-default-cursor-color <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> fg-dim<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2b5bad2" class="outline-3">
+<h3 id="org2b5bad2"><span class="section-number-3">2.4.</span> 设置org-todo-keywords颜色</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+MacOS上可以在指定bold时自动选择更粗字体，但Windows上需要手动选用粗一点的字体，然后再加粗。<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#35774;&#32622;org-TODO-keywords&#39068;&#33394;
+</span><span style="color: #008858;">(</span><span style="color: #6052cf;">if</span> <span style="color: #4f54aa;">(</span>eq system-type 'darwin<span style="color: #4f54aa;">)</span>
+    <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> org-todo-keyword-faces `<span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span><span style="color: #4250ef;">"TODO"</span> . <span style="color: #b65050;">(</span><span style="color: #ba35af;">:foreground</span> ,<span style="color: #6052cf;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> red-warmer<span style="color: #6052cf;">)</span> <span style="color: #ba35af;">:weight</span> bold<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+                                     <span style="color: #1f77bb;">(</span><span style="color: #4250ef;">"HOLD"</span> . <span style="color: #b65050;">(</span><span style="color: #ba35af;">:foreground</span> ,<span style="color: #6052cf;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> yellow-warmer<span style="color: #6052cf;">)</span> <span style="color: #ba35af;">:weight</span> bold <span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+                                     <span style="color: #1f77bb;">(</span><span style="color: #4250ef;">"XXXX"</span> . <span style="color: #b65050;">(</span><span style="color: #ba35af;">:foreground</span> ,<span style="color: #6052cf;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> magenta-warmer<span style="color: #6052cf;">)</span> <span style="color: #ba35af;">:weight</span> bold <span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+                                     <span style="color: #1f77bb;">(</span><span style="color: #4250ef;">"DONE"</span> . <span style="color: #b65050;">(</span><span style="color: #ba35af;">:foreground</span> ,<span style="color: #6052cf;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> green-warmer<span style="color: #6052cf;">)</span> <span style="color: #ba35af;">:weight</span> bold <span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> org-todo-keyword-faces `<span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span><span style="color: #4250ef;">"TODO"</span> . <span style="color: #b65050;">(</span><span style="color: #ba35af;">:foreground</span> ,<span style="color: #6052cf;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> red-warmer<span style="color: #6052cf;">)</span> <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"LXGW Bright Code GB regular"</span> <span style="color: #ba35af;">:weight</span> bold<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+                                     <span style="color: #1f77bb;">(</span><span style="color: #4250ef;">"HOLD"</span> . <span style="color: #b65050;">(</span><span style="color: #ba35af;">:foreground</span> ,<span style="color: #6052cf;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> yellow-warmer<span style="color: #6052cf;">)</span> <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"LXGW Bright Code GB regular"</span> <span style="color: #ba35af;">:weight</span> bold<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+                                     <span style="color: #1f77bb;">(</span><span style="color: #4250ef;">"XXXX"</span> . <span style="color: #b65050;">(</span><span style="color: #ba35af;">:foreground</span> ,<span style="color: #6052cf;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> magenta-warmer<span style="color: #6052cf;">)</span> <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"LXGW Bright Code GB regular"</span> <span style="color: #ba35af;">:weight</span> bold<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+                                     <span style="color: #1f77bb;">(</span><span style="color: #4250ef;">"DONE"</span> . <span style="color: #b65050;">(</span><span style="color: #ba35af;">:foreground</span> ,<span style="color: #6052cf;">(</span><span style="color: #6052cf;">modus-themes-with-colors</span> green-warmer<span style="color: #6052cf;">)</span> <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"LXGW Bright Code GB regular"</span> <span style="color: #ba35af;">:weight</span> bold<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org0376f0e" class="outline-2">
+<h2 id="org0376f0e"><span class="section-number-2">3.</span> modeline</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+我用 <code>nano-modeline</code> ，简约实用。同时进行了一些modeline展示项的自定义化<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> nano-modeline
+  <span style="color: #ba35af;">:demand</span> t
+  <span style="color: #ba35af;">:config</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq-default</span> mode-line-format nil<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'prog-mode-hook            #'nano-modeline-prog-mode<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'text-mode-hook            #'nano-modeline-text-mode<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'org-mode-hook             #'nano-modeline-org-mode<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'elfeed-show-mode-hook     #'nano-modeline-elfeed-entry-mode<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'elfeed-search-mode-hook   #'nano-modeline-elfeed-search-mode<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'term-mode-hook            #'nano-modeline-term-mode<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'messages-buffer-mode-hook #'nano-modeline-message-mode<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'org-capture-mode-hook     #'nano-modeline-org-capture-mode<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'org-agenda-mode-hook      #'nano-modeline-org-agenda-mode<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>nano-modeline-text-mode t<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> nano-modeline-window-dedicated-symbol '<span style="color: #ba35af;">(</span><span style="color: #4250ef;">"&#9679; "</span> . <span style="color: #4250ef;">""</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+<div id="outline-container-org6f7ae3b" class="outline-3">
+<h3 id="org6f7ae3b"><span class="section-number-3">3.1.</span> 覆盖Git图标</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Windows上的nerd-icon有时会有问题，这里用纯文本代替<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">nano-modeline-git-info</span> <span style="color: #4f54aa;">(</span><span style="color: #008858;">&amp;optional</span> symbol<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Git information as (branch, file status)"</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">when</span> vc-mode
+      <span style="color: #ba35af;">(</span><span style="color: #6052cf;">when-let*</span> <span style="color: #1f77bb;">(</span><span style="color: #b65050;">(</span>file <span style="color: #6052cf;">(</span>buffer-file-name<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
+                  <span style="color: #b65050;">(</span>branch <span style="color: #6052cf;">(</span>substring-no-properties vc-mode 5<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
+                  <span style="color: #b65050;">(</span>state <span style="color: #6052cf;">(</span>vc-state file<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>propertize <span style="color: #b65050;">(</span>format <span style="color: #4250ef;">"(%s %s, %s)"</span> <span style="color: #6052cf;">(</span><span style="color: #6052cf;">or</span> symbol <span style="color: #4250ef;">"Git"</span> branch state<span style="color: #6052cf;">)</span>
+                    'face <span style="color: #6052cf;">(</span>nano-modeline-face 'primary<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdee3ef8" class="outline-3">
+<h3 id="orgdee3ef8"><span class="section-number-3">3.2.</span> 添加org文件中的路径显示</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+下面的函数为 <code>nano-modeline</code> 添加了 <code>org-mode</code> 中的路径显示功能<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/nano-modeline-path-info</span> <span style="color: #4f54aa;">()</span>
+  <span style="color: #506fa0;">"Current cursor path info as 'outline1 &gt; outline2' "</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">when</span> <span style="color: #ba35af;">(</span>eq major-mode 'org-mode<span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>propertize <span style="color: #1f77bb;">(</span>format-mode-line '<span style="color: #b65050;">(</span><span style="color: #6052cf;">(</span><span style="color: #ba35af;">:eval</span> <span style="color: #d51272;">(</span>format <span style="color: #4250ef;">"::%s"</span> <span style="color: #008858;">(</span>mapconcat <span style="color: #a45f22;">(</span><span style="color: #6052cf;">lambda</span> <span style="color: #008858;">(</span>x<span style="color: #008858;">)</span> <span style="color: #008858;">(</span><span style="color: #6052cf;">let</span> <span style="color: #4f54aa;">(</span><span style="color: #ba35af;">(</span>y <span style="color: #1f77bb;">(</span>string-trim-left x <span style="color: #4250ef;">"COMMENT "</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+                                                                                   <span style="color: #4f54aa;">(</span>truncate-string-to-width y 22<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span><span style="color: #a45f22;">)</span>
+                                                                     <span style="color: #a45f22;">(</span>org-ql--outline-path<span style="color: #a45f22;">)</span>
+                                                            <span style="color: #4250ef;">"&#9657;"</span><span style="color: #008858;">)</span><span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+                'face <span style="color: #1f77bb;">(</span>nano-modeline-face 'secondary <span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">adv/nano-modeline-org-mode</span> <span style="color: #4f54aa;">()</span>
+  <span style="color: #506fa0;">"Nano line for org mode"</span>
+  <span style="color: #4f54aa;">(</span>funcall nano-modeline-position
+           '<span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>nano-modeline-buffer-status<span style="color: #1f77bb;">)</span> <span style="color: #4250ef;">" "</span>
+             <span style="color: #1f77bb;">(</span>nano-modeline-org-buffer-name<span style="color: #1f77bb;">)</span> <span style="color: #4250ef;">" "</span>
+             <span style="color: #1f77bb;">(</span>my/nano-modeline-path-info<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+           '<span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>nano-modeline-cursor-position<span style="color: #1f77bb;">)</span>
+             <span style="color: #1f77bb;">(</span>nano-modeline-window-dedicated<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span>advice-add #'nano-modeline-org-mode <span style="color: #ba35af;">:override</span> #'adv/nano-modeline-org-mode<span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaee50b1" class="outline-3">
+<h3 id="orgaee50b1"><span class="section-number-3">3.3.</span> 添加buffer字数统计</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+下面的函数为 <code>nano-modeline</code> 添加了字数统计功能，用到的统计库在这里：<a href="https://github.com/LdBeth/advance-words-count.el">https://github.com/LdBeth/advance-words-count.el</a><br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">&#23450;&#20041;buffer-words&#21464;&#37327;
+</span><span style="color: #008858;">(</span><span style="color: #6052cf;">defvar</span> <span style="color: #1f77bb;">my/buffer-words</span> 0
+  <span style="color: #506fa0;">"The number of characters in the current buffer."</span><span style="color: #008858;">)</span>
+
+<span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">&#21464;&#25104;buffer-local&#21464;&#37327;&#65292;&#30830;&#20445;&#21478;&#19968;&#20010;buffer&#30340;modeline&#19981;&#20250;&#21463;&#21040;&#24433;&#21709;
+</span><span style="color: #008858;">(</span>make-variable-buffer-local 'my/buffer-words<span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#24341;&#29992;&#31532;&#19977;&#26041;&#32479;&#35745;&#24211;
+</span><span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> advance-words-count
+  <span style="color: #ba35af;">:load-path</span> <span style="color: #4250ef;">"~/.emacs.d/elpa/"</span><span style="color: #008858;">)</span>
+
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#19979;&#38754;&#20989;&#25968;&#32479;&#35745;&#24182;&#26356;&#26032;&#24403;&#21069;buffer&#23383;&#25968;
+</span><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/buffer-words-count</span> <span style="color: #4f54aa;">()</span>
+  <span style="color: #506fa0;">"Return the number of characters in the current buffer."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">unless</span> <span style="color: #ba35af;">(</span>&gt; my/buffer-words 50000<span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">setq</span> my/buffer-words
+          <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">if</span> <span style="color: #b65050;">(</span>use-region-p<span style="color: #b65050;">)</span>
+              <span style="color: #b65050;">(</span>+ <span style="color: #6052cf;">(</span>words-count <span style="color: #d51272;">(</span>region-beginning<span style="color: #d51272;">)</span> <span style="color: #d51272;">(</span>region-end<span style="color: #d51272;">)</span> words-count-rule-CJK<span style="color: #6052cf;">)</span>
+                 <span style="color: #6052cf;">(</span>words-count <span style="color: #d51272;">(</span>region-beginning<span style="color: #d51272;">)</span> <span style="color: #d51272;">(</span>region-end<span style="color: #d51272;">)</span> words-count-rule-ansci<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
+            <span style="color: #b65050;">(</span>+ <span style="color: #6052cf;">(</span>words-count <span style="color: #d51272;">(</span>point-min<span style="color: #d51272;">)</span> <span style="color: #d51272;">(</span>point-max<span style="color: #d51272;">)</span> words-count-rule-CJK<span style="color: #6052cf;">)</span>
+               <span style="color: #6052cf;">(</span>words-count <span style="color: #d51272;">(</span>point-min<span style="color: #d51272;">)</span> <span style="color: #d51272;">(</span>point-max<span style="color: #d51272;">)</span> words-count-rule-ansci<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>force-mode-line-update<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+
+<span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">&#31383;&#21475;&#20999;&#25442;&#21518;&#26356;&#26032;&#23383;&#25968;
+</span><span style="color: #008858;">(</span>add-hook 'window-configuration-change-hook #'my/buffer-words-count<span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">buffer&#35843;&#25972;&#21518;&#26356;&#26032;&#23383;&#25968;
+</span><span style="color: #008858;">(</span>add-hook 'buffer-list-update-hook #'my/buffer-words-count<span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#31354;&#38386;&#26102;&#65288;&#38024;&#23545;scratch&#65289;&#26356;&#26032;&#23383;&#25968;
+</span><span style="color: #008858;">(</span>run-with-idle-timer 2 t #'my/buffer-words-count<span style="color: #008858;">)</span>
+
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#33258;&#23450;&#20041;nano-modeline&#30340;&#20869;&#23481;
+</span><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">adv/nano-modeline-cursor-position</span> <span style="color: #4f54aa;">(</span><span style="color: #008858;">&amp;optional</span> format<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Cursor position using given FORMAT."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">let</span> <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>format <span style="color: #b65050;">(</span><span style="color: #6052cf;">or</span> format <span style="color: #4250ef;">"%l:%c "</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>propertize <span style="color: #1f77bb;">(</span>format-mode-line '<span style="color: #b65050;">(</span>
+                                    <span style="color: #4250ef;">"%l:%c/"</span>
+                                    <span style="color: #6052cf;">(</span><span style="color: #ba35af;">:eval</span> <span style="color: #d51272;">(</span>format <span style="color: #4250ef;">"%s&#23383;"</span> my/buffer-words<span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span> <span style="color: #4250ef;">"  "</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+                'face <span style="color: #1f77bb;">(</span>nano-modeline-face 'secondary <span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span>advice-add #'nano-modeline-cursor-position <span style="color: #ba35af;">:override</span> #'adv/nano-modeline-cursor-position<span style="color: #008858;">)</span>
+
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">adv/nano-modeline-org-agenda-date</span> <span style="color: #4f54aa;">(</span><span style="color: #008858;">&amp;optional</span> format<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Date at point in org agenda  using given FORMAT"</span>
+
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">when-let*</span> <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>day <span style="color: #b65050;">(</span><span style="color: #6052cf;">or</span> <span style="color: #6052cf;">(</span>org-get-at-bol 'ts-date<span style="color: #6052cf;">)</span>
+                       <span style="color: #6052cf;">(</span>org-get-at-bol 'day<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+              <span style="color: #1f77bb;">(</span>date <span style="color: #b65050;">(</span>calendar-gregorian-from-absolute day<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+              <span style="color: #1f77bb;">(</span>day <span style="color: #b65050;">(</span>nth 1 date<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+              <span style="color: #1f77bb;">(</span>month <span style="color: #b65050;">(</span>nth 0 date<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+              <span style="color: #1f77bb;">(</span>year <span style="color: #b65050;">(</span>nth 2 date<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+              <span style="color: #1f77bb;">(</span>date <span style="color: #b65050;">(</span>encode-time 0 0 0 day month year<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>propertize <span style="color: #1f77bb;">(</span>format-time-string <span style="color: #b65050;">(</span><span style="color: #6052cf;">or</span> format <span style="color: #4250ef;">"%A %-e %B %Y     "</span><span style="color: #b65050;">)</span> date<span style="color: #1f77bb;">)</span>
+                'face <span style="color: #1f77bb;">(</span>nano-modeline-face 'secondary<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span>advice-add #'nano-modeline-org-agenda-date <span style="color: #ba35af;">:override</span> #'adv/nano-modeline-org-agenda-date<span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1390f7b" class="outline-2">
+<h2 id="org1390f7b"><span class="section-number-2">4.</span> 字体配置</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org6b71e53" class="outline-3">
+<h3 id="org6b71e53"><span class="section-number-3">4.1.</span> 自定义设置字体函数</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+在这里定义 <code>set-font</code> 函数，接受 英文字体名、中文字体名、英文尺寸、中文尺寸 四个参数<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">set-font</span> <span style="color: #4f54aa;">(</span>english chinese english-size chinese-size<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>set-face-attribute 'default nil <span style="color: #ba35af;">:font</span>
+                      <span style="color: #ba35af;">(</span>format   <span style="color: #4250ef;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>set-face-attribute 'fixed-pitch nil <span style="color: #ba35af;">:font</span>
+                      <span style="color: #ba35af;">(</span>format   <span style="color: #4250ef;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>set-face-attribute 'variable-pitch nil <span style="color: #ba35af;">:font</span>
+                      <span style="color: #ba35af;">(</span>format   <span style="color: #4250ef;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">dolist</span> <span style="color: #ba35af;">(</span>charset '<span style="color: #1f77bb;">(</span>kana han cjk-misc bopomofo<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>set-fontset-font <span style="color: #1f77bb;">(</span>frame-parameter nil 'font<span style="color: #1f77bb;">)</span> charset
+                      <span style="color: #1f77bb;">(</span>font-spec <span style="color: #ba35af;">:family</span> chinese <span style="color: #ba35af;">:size</span> chinese-size<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org282c653" class="outline-3">
+<h3 id="org282c653"><span class="section-number-3">4.2.</span> GUI及不同设备单独函数</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+<code>my/set-gui</code> 函数根据设备类型和名称进行不同的设置。相关字体链接：<br />
+</p>
+<ul class="org-ul">
+<li><a href="https://github.com/lxgw/LxgwBright-Code">LXGW Bright Code GB</a><br /></li>
+<li><a href="https://github.com/zhimoe/programming-fonts">FangSongCode</a><br /></li>
+<li><a href="https://github.com/13rac1/twemoji-color-font">Twitter Color Emoji</a><br /></li>
+<li><a href="https://github.com/microsoft/cascadia-code">Cascadia Mono NF SemiLight</a><br /></li>
+<li><a href="https://www.nerdfonts.com/font-downloads">Symbols Nerd Font Mono</a><br /></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/set-gui</span> <span style="color: #4f54aa;">()</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">interactive</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">if</span> <span style="color: #ba35af;">(</span>eq system-type 'darwin<span style="color: #ba35af;">)</span>
+      <span style="color: #ba35af;">(</span><span style="color: #6052cf;">progn</span>
+        <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#19982;Win&#19981;&#21516;&#65292;Mac&#38656;&#35201;&#22312;&#20989;&#25968;&#20013;&#25351;&#23450;light&#23383;&#20307;
+</span>        <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">set-font</span> <span style="color: #b65050;">(</span>english chinese english-size chinese-size<span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span>set-face-attribute 'default nil <span style="color: #ba35af;">:font</span>
+                              <span style="color: #6052cf;">(</span>font-spec <span style="color: #ba35af;">:family</span> english <span style="color: #ba35af;">:size</span> english-size <span style="color: #ba35af;">:weight</span> 'light<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span>set-face-attribute 'fixed-pitch nil <span style="color: #ba35af;">:font</span>
+                              <span style="color: #6052cf;">(</span>font-spec <span style="color: #ba35af;">:family</span> english <span style="color: #ba35af;">:size</span> english-size <span style="color: #ba35af;">:weight</span> 'light<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span>set-face-attribute 'variable-pitch nil <span style="color: #ba35af;">:font</span>
+                              <span style="color: #6052cf;">(</span>format   <span style="color: #4250ef;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span><span style="color: #6052cf;">dolist</span> <span style="color: #6052cf;">(</span>charset '<span style="color: #d51272;">(</span>kana han cjk-misc bopomofo<span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span>
+            <span style="color: #6052cf;">(</span>set-fontset-font <span style="color: #d51272;">(</span>frame-parameter nil 'font<span style="color: #d51272;">)</span> charset
+                              <span style="color: #d51272;">(</span>font-spec <span style="color: #ba35af;">:family</span> chinese <span style="color: #ba35af;">:size</span> chinese-size<span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>set-font <span style="color: #4250ef;">"LXGW Bright Code GB"</span> <span style="color: #4250ef;">"FangSongCode"</span> 22 22<span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>set-fontset-font t 'emoji <span style="color: #b65050;">(</span>font-spec <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"Twitter Color Emoji"</span><span style="color: #b65050;">)</span> nil 'prepend<span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>set-fontset-font t 'symbol <span style="color: #b65050;">(</span>font-spec <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"Cascadia Mono NF SemiLight"</span><span style="color: #b65050;">)</span> nil 'prepend<span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>set-frame-parameter <span style="color: #b65050;">(</span>selected-frame<span style="color: #b65050;">)</span> 'fullscreen 'maximized<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">&#25105;&#21482;&#22312;MacOS&#21644;Windows&#19978;&#29992;Emacs&#65292;&#25152;&#20197;&#38750;Mac&#21363;Win
+</span>    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">progn</span>
+      <span style="color: #1f77bb;">(</span>set-font <span style="color: #4250ef;">"LXGW Bright Code GB light"</span> <span style="color: #4250ef;">"FangSongCode"</span> 42 42<span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span>set-fontset-font t 'emoji <span style="color: #b65050;">(</span>font-spec <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"Segoe UI Emoji"</span><span style="color: #b65050;">)</span> nil 'prepend<span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span>set-fontset-font t 'symbol <span style="color: #b65050;">(</span>font-spec <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"Symbols Nerd Font Mono"</span><span style="color: #b65050;">)</span> nil 'prepend<span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">let*</span> <span style="color: #b65050;">(</span><span style="color: #6052cf;">(</span>display-width <span style="color: #d51272;">(</span>display-pixel-width<span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span>
+             <span style="color: #6052cf;">(</span>display-height <span style="color: #d51272;">(</span>display-pixel-height<span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span>
+             <span style="color: #6052cf;">(</span>frame-width <span style="color: #d51272;">(</span>floor <span style="color: #008858;">(</span>* 0.8 display-width<span style="color: #008858;">)</span><span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span>
+             <span style="color: #6052cf;">(</span>frame-height <span style="color: #d51272;">(</span>floor <span style="color: #008858;">(</span>* 0.73 display-height<span style="color: #008858;">)</span><span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span>
+             <span style="color: #6052cf;">(</span>left-offset <span style="color: #d51272;">(</span>floor <span style="color: #008858;">(</span>* 0.1 display-width<span style="color: #008858;">)</span><span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span>
+             <span style="color: #6052cf;">(</span>top-offset <span style="color: #d51272;">(</span>floor <span style="color: #008858;">(</span>* 0.1 display-height<span style="color: #008858;">)</span><span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
+        <span style="color: #b65050;">(</span>set-frame-position <span style="color: #6052cf;">(</span>selected-frame<span style="color: #6052cf;">)</span> left-offset top-offset<span style="color: #b65050;">)</span>
+        <span style="color: #b65050;">(</span>set-frame-size <span style="color: #6052cf;">(</span>selected-frame<span style="color: #6052cf;">)</span> frame-width frame-height t<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>sis-set-english<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>select-frame-set-input-focus <span style="color: #ba35af;">(</span>selected-frame<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+
+<span style="color: #008858;">(</span>my/set-gui<span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">server&#27169;&#24335;&#19979;&#38656;&#35201;&#21551;&#29992;&#20197;&#19979;hook
+</span><span style="color: #008858;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb7f26d6" class="outline-3">
+<h3 id="orgb7f26d6"><span class="section-number-3">4.3.</span> nerd-icons</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+美化图标设置<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> nerd-icons<span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> nerd-icons-ibuffer
+  <span style="color: #ba35af;">:ensure</span> t
+  <span style="color: #ba35af;">:hook</span> <span style="color: #4f54aa;">(</span>ibuffer-mode-hook . nerd-icons-ibuffer-mode<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> nerd-icons-dired
+  <span style="color: #ba35af;">:ensure</span> t
+  <span style="color: #ba35af;">:hook</span>
+  <span style="color: #4f54aa;">(</span>dired-mode-hook . nerd-icons-dired-mode<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> nerd-icons-corfu
+  <span style="color: #ba35af;">:ensure</span> t
+  <span style="color: #ba35af;">:after</span> corfu
+  <span style="color: #ba35af;">:config</span>
+  <span style="color: #4f54aa;">(</span>add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> nerd-icons-completion
+  <span style="color: #ba35af;">:ensure</span> t
+  <span style="color: #ba35af;">:config</span>
+  <span style="color: #4f54aa;">(</span>nerd-icons-completion-mode<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdbbcae3" class="outline-2">
+<h2 id="orgdbbcae3"><span class="section-number-2">5.</span> 杂项微调</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orgbfe4c69" class="outline-3">
+<h3 id="orgbfe4c69"><span class="section-number-3">5.1.</span> 关闭滚动条</h3>
+<div class="outline-text-3" id="text-5-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #008858;">(</span>scroll-bar-mode -1<span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9e98bd2" class="outline-3">
+<h3 id="org9e98bd2"><span class="section-number-3">5.2.</span> 关闭鼠标缩放手势</h3>
+<div class="outline-text-3" id="text-5-2">
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span>define-key global-map <span style="color: #4f54aa;">(</span>kbd <span style="color: #4250ef;">"C-&lt;wheel-up&gt;"</span><span style="color: #4f54aa;">)</span>  nil<span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span>define-key global-map <span style="color: #4f54aa;">(</span>kbd <span style="color: #4250ef;">"C-&lt;wheel-down&gt;"</span><span style="color: #4f54aa;">)</span>  nil<span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdff4060" class="outline-3">
+<h3 id="orgdff4060"><span class="section-number-3">5.3.</span> 选定区域高亮</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+以便选中的区域会高亮显示<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #008858;">(</span>transient-mark-mode 1<span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb802892" class="outline-3">
+<h3 id="orgb802892"><span class="section-number-3">5.4.</span> 关闭工具栏</h3>
+<div class="outline-text-3" id="text-5-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #008858;">(</span>tool-bar-mode 0<span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0aaea9e" class="outline-3">
+<h3 id="org0aaea9e"><span class="section-number-3">5.5.</span> 自定义标题栏内容</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+将窗口标题栏的内容设置为 <code>Emacs:</code> + <code>(buffer-name)</code> <br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">(autoload 'ibuffer "ibuffer" "List buffers." t)
+</span><span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> frame-title-format <span style="color: #4250ef;">"Emacs: %b"</span><span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf321973" class="outline-3">
+<h3 id="orgf321973"><span class="section-number-3">5.6.</span> 鼠标滚轮设置</h3>
+<div class="outline-text-3" id="text-5-6">
+<p>
+设置鼠标滚轮的滚动量、滚动速度和滚动点<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> mouse-wheel-scroll-amount '<span style="color: #4f54aa;">(</span>2 <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>shift<span style="color: #1f77bb;">)</span> . 1<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span> <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">one line at a time
+</span>      mouse-wheel-progressive-speed nil <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">don't accelerate scrolling
+</span>      mouse-wheel-follow-mouse 't <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">scroll window under mouse
+</span>      <span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9d5b9f5" class="outline-3">
+<h3 id="org9d5b9f5"><span class="section-number-3">5.7.</span> 减少闪烁</h3>
+<div class="outline-text-3" id="text-5-7">
+<p>
+根据相关新闻：git@github.com:emacs-mirror/emacs/blob/c77ef7d193cfba2e06846012abeb684e37d228a9/etc/NEWS#L2234-L2247<br />
+</p>
+<blockquote>
+<p>
+Emacs now supports double-buffering on MS-Windows to reduce display flicker.<br />
+(This was supported on Free systems since Emacs 26.1.)<br />
+</p>
+
+<p>
+To disable double-buffering (e.g., if it causes display problems), set<br />
+the frame parameter 'inhibit-double-buffering' to a non-nil value.<br />
+You can do that either by adding<br />
+</p>
+
+<p>
+'(inhibit-double-buffering . t)<br />
+</p>
+
+<p>
+to 'default-frame-alist', or by modifying the frame parameters of the<br />
+selected frame by evaluating<br />
+</p>
+
+<p>
+(modify-frame-parameters nil '((inhibit-double-buffering . t)))<br />
+</p>
+</blockquote>
+<p>
+实际上应该保持 <code>nil</code> 。<br />
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span>modify-frame-parameters nil '<span style="color: #4f54aa;">(</span><span style="color: #ba35af;">(</span>inhibit-double-buffering . nil<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+</div>
+</body>
+</html>
