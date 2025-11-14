@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-10-19 周日 16:07 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-11-14 周五 13:53 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>自建免域名Tailscale DERP Server的补充</title>
 <meta name="generator" content="Org Mode" />
@@ -193,6 +191,14 @@ h4 {
     font-weight: bold;
 }
 
+details {
+  padding: .7em 1em .5em;
+  border-radius: 15px;
+  font-size: 0.95em;
+  border: 2px solid #ccc;
+  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
+  margin-block: 1em;
+}
 
 a {
     cursor: pointer;
@@ -381,27 +387,28 @@ b {
 <p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-23 周六 09:56]</span></span></p>
 </div>
 <div id="content" class="content">
+<header>
 <h1 class="title">自建免域名Tailscale DERP Server的补充</h1>
-<p>
-Tailscale官方中介服务器不在大陆，所以我们可以租用云服务器然后自建一个，提供低延迟服务。<br />
+</header><p>
+Tailscale官方中介服务器不在大陆，所以我们可以租用云服务器然后自建一个，提供低延迟服务。<br>
 </p>
 
 <p>
-<a href="https://blog.sleepstars.net/archives/ji-yu-docker-compose">自建免备案防偷 Tailscale 国内中继（DERP）教程</a><br />
+<a href="https://blog.sleepstars.net/archives/ji-yu-docker-compose">自建免备案防偷 Tailscale 国内中继（DERP）教程</a><br>
 </p>
 
 <p>
-<a href="https://ameow.xyz/archives/tailscale-derp-server-deployment">Tailscale DERP Server 简明部署教程（纯 IP 方式）</a><br />
+<a href="https://ameow.xyz/archives/tailscale-derp-server-deployment">Tailscale DERP Server 简明部署教程（纯 IP 方式）</a><br>
 </p>
 
 <p>
-以上两篇文章已经说得很全面了，我这里补充几个萌新可能遇见问题的地方（以第二篇文章为例）。<br />
+以上两篇文章已经说得很全面了，我这里补充几个萌新可能遇见问题的地方（以第二篇文章为例）。<br>
 </p>
-<div id="outline-container-orgd6cb12f" class="outline-2">
-<h2 id="orgd6cb12f"><span class="section-number-2">1.</span> 端口设置</h2>
+<div id="outline-container-org30b97a6" class="outline-2">
+<h2 id="org30b97a6"><span class="section-number-2">1.</span> 端口设置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-在 <code>docker-compose.yml</code> 中，需要设置连接的端口：<br />
+在 <code>docker-compose.yml</code> 中，需要设置连接的端口：<br>
 </p>
 
 <div class="org-src-container">
@@ -416,19 +423,19 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 </div>
 
 <p>
-这里的三个 <code>13477</code> 是可以自己填的，随便怎么设置，只要保持一致，且在服务器防火墙上开通对应端口的 <code>tcp</code> 就好。 <code>13478</code> 也可以自定义，不过需要开通对应端口的 <code>udp</code> 权限。 <code>3478/udp</code> 别动，是绑定死的docker内端口。<br />
+这里的三个 <code>13477</code> 是可以自己填的，随便怎么设置，只要保持一致，且在服务器防火墙上开通对应端口的 <code>tcp</code> 就好。 <code>13478</code> 也可以自定义，不过需要开通对应端口的 <code>udp</code> 权限。 <code>3478/udp</code> 别动，是绑定死的docker内端口。<br>
 </p>
 
 <p>
-如果发现自定义了端口也无法连接，考虑更换更高位的端口，有的国内云厂商会一刀切封禁低位端口。<br />
+如果发现自定义了端口也无法连接，考虑更换更高位的端口，有的国内云厂商会一刀切封禁低位端口。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgfd62395" class="outline-2">
-<h2 id="orgfd62395"><span class="section-number-2">2.</span> ACL规则</h2>
+<div id="outline-container-org61434c0" class="outline-2">
+<h2 id="org61434c0"><span class="section-number-2">2.</span> ACL规则</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-<code>derpMap</code> 开头的那段规则存放的位置是在最底部，不可直接覆盖，具体位置如下：<br />
+<code>derpMap</code> 开头的那段规则存放的位置是在最底部，不可直接覆盖，具体位置如下：<br>
 </p>
 
 <div class="org-src-container">

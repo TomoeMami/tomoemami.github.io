@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-10-19 周日 16:07 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-11-14 周五 13:53 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-org-mode中同步滴答清单内容</title>
 <meta name="generator" content="Org Mode" />
@@ -193,6 +191,14 @@ h4 {
     font-weight: bold;
 }
 
+details {
+  padding: .7em 1em .5em;
+  border-radius: 15px;
+  font-size: 0.95em;
+  border: 2px solid #ccc;
+  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
+  margin-block: 1em;
+}
 
 a {
     cursor: pointer;
@@ -378,125 +384,56 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-06-17 周二 15:46]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-14 周五 13:53]</span></span></p>
 </div>
 <div id="content" class="content">
+<header>
 <h1 class="title">emacs-org-mode中同步滴答清单内容</h1>
-<p>
-<a href="https://github.com/TomoeMami/dida">GitHub下载链接</a><br />
+</header><p>
+<a href="https://github.com/TomoeMami/dida">GitHub下载链接</a><br>
 </p>
-<div id="outline-container-orga92e3a9" class="outline-2">
-<h2 id="orga92e3a9"><span class="section-number-2">1.</span> 使用介绍</h2>
+<div id="outline-container-org3e0685a" class="outline-2">
+<h2 id="org3e0685a"><span class="section-number-2">1.</span> 基础配置</h2>
 <div class="outline-text-2" id="text-1">
-<ul class="org-ul">
-<li>本地载入<br /></li>
-</ul>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">use-package</span> plz<span style="color: #007000;">)</span>
-
-<span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">use-package</span> dida
- <span style="color: #00704f; font-weight: bold;">:load-path</span> <span style="color: #557000;">"path/to/dida.el/"</span><span style="color: #007000;">)</span>
-</code></pre>
+<p>
+请参考github的README<br>
+</p>
 </div>
-
-<ul class="org-ul">
-<li>然后在<a href="https://developer.dida365.com/manage">dida apps</a>界面申请APP，填入APP名称（随便填），生成，返回。<br /></li>
-
-<li>点击 <code>Edit</code> ，将网页上的 <code>OAuth redirect URL</code> 设置为 <code>http://localhost:1145</code> 。<br /></li>
-
-<li>将生成的 <code>client-id</code> <code>client-secret</code> 对应填入本地变量 <code>dida-client-id</code> <code>dida-client-secret</code> 中<br /></li>
-</ul>
-
+<div id="outline-container-orgcfcc7c6" class="outline-3">
+<h3 id="orgcfcc7c6"><span class="section-number-3">1.1.</span> 进阶配置</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+将 <code>dida.org</code> 中的事项refile到其他文件并把滴答清单该事项删除的函数<br>
+</p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">setq</span> dida-client-id <span style="color: #557000;">"114514"</span><span style="color: #007000;">)</span>
-<span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">setq</span> dida-client-secret <span style="color: #557000;">"1919810"</span><span style="color: #007000;">)</span>
-</code></pre>
-</div>
-
-<ul class="org-ul">
-<li>并设置同步到的本地文件路径 <code>dida-sync-file</code> 。<br /></li>
-</ul>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">setq</span> dida-sync-file <span style="color: #557000;">"path/to/your/org/file"</span><span style="color: #007000;">)</span>
-</code></pre>
-</div>
-
-<ul class="org-ul">
-<li>执行 <code>dida-authorize</code> ，自动打开授权网页，点击「同意」后跳转到本地网页，此时已将Code自动传递进了 <code>kill-ring</code> 。<br /></li>
-
-<li>返回Emacs，按 <code>C-y</code> 直接粘贴到 <code>mini-buffer</code> 中。这就完成了一次授权。<br /></li>
-
-<li>最后自定义同步策略。<br /></li>
-</ul>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">dida-sync</span> <span style="color: #8f2f30;">()</span>
-  <span style="color: #8d6068; font-style: italic;">"&#20808;push&#20877;fetch&#65292;&#20197;&#20113;&#31471;&#20026;&#20934;"</span>
-  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">interactive</span><span style="color: #8f2f30;">)</span>
-  <span style="color: #8f2f30;">(</span>dida-push<span style="color: #8f2f30;">)</span>
-  <span style="color: #8f2f30;">(</span>dida-fetch<span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
-
-<span style="color: #6e678f; font-style: italic;">;; </span><span style="color: #6e678f; font-style: italic;">&#21551;&#21160;&#21518;fetch&#19968;&#27425;
-</span><span style="color: #007000;">(</span>add-hook 'after-init-hook #'dida-fetch<span style="color: #007000;">)</span>
-
-<span style="color: #6e678f; font-style: italic;">;; </span><span style="color: #6e678f; font-style: italic;">&#38386;&#32622;240&#31186;&#21518;&#20808;push&#20877;fetch&#19968;&#27425;
-</span><span style="color: #007000;">(</span>run-with-idle-timer 240 t #'dida-sync<span style="color: #007000;">)</span>
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">akirak/org-refile-to-cpb-today</span> <span style="color: #557400;">(</span>arg<span style="color: #557400;">)</span>
+  <span style="color: #4f677f;">"&#26681;&#25454;&#19981;&#21516;&#24773;&#20917;&#35843;&#25972;refile&#30340;&#30446;&#26631;"</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span> <span style="color: #ca3400;">"P"</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">when</span> <span style="color: #bf4400;">(</span>org-entry-is-todo-p<span style="color: #bf4400;">)</span>
+      <span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">dida&#30340;&#35201;&#20808;&#21457;&#36865;delete
+</span>      <span style="color: #bf4400;">(</span><span style="color: #006f00;">when</span> <span style="color: #3f6faf;">(</span>string-match <span style="color: #ca3400;">"dida.org"</span> <span style="color: #00824f;">(</span>buffer-file-name<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+        <span style="color: #3f6faf;">(</span>dida-delete-task <span style="color: #00824f;">(</span>org-entry-get nil <span style="color: #ca3400;">"DIDA_PID"</span> t<span style="color: #00824f;">)</span> <span style="color: #00824f;">(</span>org-entry-get nil <span style="color: #ca3400;">"DIDA_TID"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf266305" class="outline-2">
-<h2 id="orgf266305"><span class="section-number-2">2.</span> 细节说明</h2>
+</div>
+<div id="outline-container-org6ada9eb" class="outline-2">
+<h2 id="org6ada9eb"><span class="section-number-2">2.</span> 使用流程</h2>
 <div class="outline-text-2" id="text-2">
-<p>
-由于dida api只会返回 <code>TODO</code> 状态的task，且只有 <code>dueDate</code> ，不区分 <code>SCHEDULED</code> 和 <code>DEADLINE</code> ，因此我在push时做了如下处理：<br />
-</p>
-
-<ul class="org-ul">
-<li>如果本地任务有 <code>SCHEDULED</code><br />
-则创建/更新一个dida task，记录 <code>SCHEDULED</code> 提醒时间<br /></li>
-
-<li>如果本地任务有 <code>DEADLINE</code><br />
-则创建/更新一个dida task，在title前加上 <code>[D]</code> ，记录 <code>DEADLINE</code> 提醒时间<br /></li>
-</ul>
-
-<p>
-同样地，fetch时做了对应操作：<br />
-</p>
-
-<ul class="org-ul">
-<li>如果title前有 <code>[D]</code> ，则先暂存并跳过。<br /></li>
-
-<li>然后逐一检查暂存内容，看buffer中有无去掉 <code>[D]</code> 后title的heading。<br />
-如果有，则在该heading上添加对应id和deadline信息<br />
-如果没有，则将暂存的heading信息插入到文件最尾端<br /></li>
-</ul>
+<ol class="org-ol">
+<li>不在电脑旁边时，用滴答清单快速录入待办事项到指定清单中<br></li>
+<li>启动Emacs，同步dida清单到本地<br></li>
+<li>切换到 <code>dida.org</code> ，调用上述函数将事项refile到其他org文件中，同时删除滴答清单中的内容；或者将里面的TODO标为DONE，则会自动完成滴答清单中对应事项<br></li>
+</ol>
 </div>
 </div>
-<div id="outline-container-org4774fe2" class="outline-2">
-<h2 id="org4774fe2"><span class="section-number-2">3.</span> 已知问题</h2>
+<div id="outline-container-org9b4d115" class="outline-2">
+<h2 id="org9b4d115"><span class="section-number-2">3.</span> 一些建议</h2>
 <div class="outline-text-2" id="text-3">
-<ul class="org-ul">
-<li>滴答清单不支持 <b>标签</b> ，故org-mode中的 <code>tag</code> 在上传后会被丢弃<br /></li>
-<li>对于隔日重复，滴答清单无法在api中区分 <code>.+</code> 和 <code>++</code> ，反而对于周/月有指示区分。 滴答的 <code>.+</code> 支持到日周月，而 <code>++</code> 支持到日周月年。目前push时不做区分，统一转换为单纯的 <code>+</code> ，代表 <code>++</code> <br /></li>
-<li>滴答清单不支持 <code>TODO-KEYWORDS</code> ，上传后会丢失自定义的 <code>TODO-KEYWORDS</code> 信息<br /></li>
-</ul>
-
 <p>
-临时解决方案：在处理org-mode heading前添加一次判断，将满足条件的heading移动到另一个本地org文件中<br />
+因为这个库不会保存org标题的meta内容，所以不建议主力使用，仅作为事项收集的inbox用即可。<br>
 </p>
-
-<div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #6e678f; font-style: italic;">;; </span><span style="color: #6e678f; font-style: italic;">&#20197;&#19979;&#20989;&#25968;&#22312;push&#21069;&#20250;&#33258;&#21160;&#23558;dida.org&#20013;&#26631;&#20026;HOLD&#25110;&#26377;.+&#37325;&#22797;&#39033;&#36716;&#31227;&#21040;timeline.org
-</span><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my/move-item-out-of-dida</span> <span style="color: #8f2f30;">()</span>
-  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">when</span> <span style="color: #00704f;">(</span><span style="color: #8f2f30; font-weight: bold;">or</span> <span style="color: #906200;">(</span>equal <span style="color: #557000;">"HOLD"</span> <span style="color: #557000;">(</span>nth 2 <span style="color: #0f7688;">(</span>org-heading-components<span style="color: #0f7688;">)</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span>
-            <span style="color: #906200;">(</span><span style="color: #8f2f30; font-weight: bold;">and</span> <span style="color: #557000;">(</span>org-get-repeat<span style="color: #557000;">)</span> <span style="color: #557000;">(</span>string-match <span style="color: #557000;">".+"</span> <span style="color: #0f7688;">(</span>org-get-repeat<span style="color: #0f7688;">)</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
-    <span style="color: #00704f;">(</span>org-reverse-datetree-refile-to-file my-org-timeline <span style="color: #906200;">(</span>current-time<span style="color: #906200;">)</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
-<span style="color: #007000;">(</span>advice-add #'dida--heading-to-task <span style="color: #00704f; font-weight: bold;">:before</span> #'my/move-item-out-of-dida<span style="color: #007000;">)</span>
-</code></pre>
-</div>
 </div>
 </div>
 </div>

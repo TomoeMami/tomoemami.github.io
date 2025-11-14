@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-10-19 周日 16:07 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-11-14 周五 13:53 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-添加农历纪念日</title>
 <meta name="generator" content="Org Mode" />
@@ -193,6 +191,14 @@ h4 {
     font-weight: bold;
 }
 
+details {
+  padding: .7em 1em .5em;
+  border-radius: 15px;
+  font-size: 0.95em;
+  border: 2px solid #ccc;
+  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
+  margin-block: 1em;
+}
 
 a {
     cursor: pointer;
@@ -381,25 +387,26 @@ b {
 <p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-04-09 周三 11:37]</span></span></p>
 </div>
 <div id="content" class="content">
+<header>
 <h1 class="title">emacs-添加农历纪念日</h1>
-<p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-04-26 周五 09:00]</span></span><br />
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-04-26T09:00:00">[2024-04-26 周五 09:00]</time></span><br>
 </p>
 
 <p>
-纪念日可以显示在 <code>org-agenda</code> 中。要添加公历的纪念日，可以在 <code>org-agenda-files</code> 的某一文件中新建一行，输入以下代码（这里开启iso日期表示法）<br />
+纪念日可以显示在 <code>org-agenda</code> 中。要添加公历的纪念日，可以在 <code>org-agenda-files</code> 的某一文件中新建一行，输入以下代码（这里开启iso日期表示法）<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #6e678f; font-style: italic;">;;</span><span style="color: #6e678f; font-style: italic;">&#24320;&#21551;iso&#26085;&#26399;&#34920;&#31034;&#27861; &#24180; &#26376; &#26085;
-</span><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">setq</span> calendar-date-style 'iso<span style="color: #007000;">)</span>
+<pre class="src src-elisp"><code><span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#24320;&#21551;iso&#26085;&#26399;&#34920;&#31034;&#27861; &#24180; &#26376; &#26085;
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> calendar-date-style 'iso<span style="color: #a7601f;">)</span>
 
-%%<span style="color: #007000;">(</span>diary-anniversary 1949 10 1<span style="color: #007000;">)</span> &#26032;&#20013;&#22269;&#31532; %d &#20010;&#20844;&#21382;&#29983;&#26085;
+%%<span style="color: #a7601f;">(</span>diary-anniversary 1949 10 1<span style="color: #a7601f;">)</span> &#26032;&#20013;&#22269;&#31532; %d &#20010;&#20844;&#21382;&#29983;&#26085;
 </code></pre>
 </div>
 
 <p>
-到了10月1日，就会在 <code>org-agenda</code> 中当天日程最下方显示为：<br />
+到了10月1日，就会在 <code>org-agenda</code> 中当天日程最下方显示为：<br>
 </p>
 
 <div class="org-src-container">
@@ -408,41 +415,41 @@ b {
 </div>
 
 <p>
-添加农历纪念日需要用到另一个函数 <code>diary-chinese-anniversary</code> ，但这个函数接受的第三个可选参数 <code>year</code> 是黄帝纪年的第几次循环的第几个项拼接起来的，不能直接填入公元年份。<br />
+添加农历纪念日需要用到另一个函数 <code>diary-chinese-anniversary</code> ，但这个函数接受的第三个可选参数 <code>year</code> 是黄帝纪年的第几次循环的第几个项拼接起来的，不能直接填入公元年份。<br>
 </p>
 
 <p>
-以农历1949年八月初十（1949年10月1日）为例，这里开启iso日期表示法：<br />
+以农历1949年八月初十（1949年10月1日）为例，这里开启iso日期表示法：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #6e678f; font-style: italic;">;;</span><span style="color: #6e678f; font-style: italic;">&#24320;&#21551;iso&#26085;&#26399;&#34920;&#31034;&#27861; &#24180; &#26376; &#26085;
-</span><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">setq</span> calendar-date-style 'iso<span style="color: #007000;">)</span>
+<pre class="src src-elisp"><code><span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#24320;&#21551;iso&#26085;&#26399;&#34920;&#31034;&#27861; &#24180; &#26376; &#26085;
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> calendar-date-style 'iso<span style="color: #a7601f;">)</span>
 
-<span style="color: #6e678f; font-style: italic;">;;</span><span style="color: #6e678f; font-style: italic;">&#21551;&#29992;&#20869;&#32622;cal-china&#21253;
-</span><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">use-package</span> cal-china
-  <span style="color: #00704f; font-weight: bold;">:load-path</span> <span style="color: #557000;">"~/elpa/"</span><span style="color: #007000;">)</span>
+<span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#21551;&#29992;&#20869;&#32622;cal-china&#21253;
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> cal-china
+  <span style="color: #557400;">:load-path</span> <span style="color: #ca3400;">"~/elpa/"</span><span style="color: #a7601f;">)</span>
 
-<span style="color: #6e678f; font-style: italic;">;;</span><span style="color: #6e678f; font-style: italic;">cal-china&#30340;diary-chinese-anniversary&#20989;&#25968;&#20165;&#25903;&#25345;american&#26085;&#26399;&#26684;&#24335;&#65292;&#38656;&#35201;let&#23616;&#37096;&#23450;&#20041;&#21464;&#37327;
-</span><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my/diary-chinese-anniversary</span> <span style="color: #8f2f30;">(</span>year month day<span style="color: #8f2f30;">)</span>
-  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">let</span> <span style="color: #00704f;">(</span><span style="color: #906200;">(</span>calendar-date-style 'american<span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
-    <span style="color: #00704f;">(</span>diary-chinese-anniversary month day year nil<span style="color: #00704f;">)</span>
-    <span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
+<span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">cal-china&#30340;diary-chinese-anniversary&#20989;&#25968;&#20165;&#25903;&#25345;american&#26085;&#26399;&#26684;&#24335;&#65292;&#38656;&#35201;let&#23616;&#37096;&#23450;&#20041;&#21464;&#37327;
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/diary-chinese-anniversary</span> <span style="color: #557400;">(</span>year month day<span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>calendar-date-style 'american<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>diary-chinese-anniversary month day year nil<span style="color: #bf4400;">)</span>
+    <span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
 
-<span style="color: #6e678f; font-style: italic;">;;</span><span style="color: #6e678f; font-style: italic;">&#35745;&#31639;&#32473;&#23450;&#20844;&#21382;&#26085;&#26399;&#30340;&#20892;&#21382;&#24180;&#20221;
-</span><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my/chinese-year</span> <span style="color: #8f2f30;">(</span>year month day<span style="color: #8f2f30;">)</span>
-    <span style="color: #8f2f30;">(</span>+ <span style="color: #00704f;">(</span>* 100 <span style="color: #906200;">(</span>car <span style="color: #557000;">(</span>calendar-chinese-from-absolute <span style="color: #0f7688;">(</span>calendar-absolute-from-gregorian <span style="color: #8a6340;">(</span>diary-make-date year month day<span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
-       <span style="color: #00704f;">(</span>cadr <span style="color: #906200;">(</span>calendar-chinese-from-absolute <span style="color: #557000;">(</span>calendar-absolute-from-gregorian <span style="color: #0f7688;">(</span>diary-make-date year month day<span style="color: #0f7688;">)</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
-       <span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
+<span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#35745;&#31639;&#32473;&#23450;&#20844;&#21382;&#26085;&#26399;&#30340;&#20892;&#21382;&#24180;&#20221;
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/chinese-year</span> <span style="color: #557400;">(</span>year month day<span style="color: #557400;">)</span>
+    <span style="color: #557400;">(</span>+ <span style="color: #bf4400;">(</span>* 100 <span style="color: #3f6faf;">(</span>car <span style="color: #00824f;">(</span>calendar-chinese-from-absolute <span style="color: #9a456f;">(</span>calendar-absolute-from-gregorian <span style="color: #a2604f;">(</span>diary-make-date year month day<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+       <span style="color: #bf4400;">(</span>cadr <span style="color: #3f6faf;">(</span>calendar-chinese-from-absolute <span style="color: #00824f;">(</span>calendar-absolute-from-gregorian <span style="color: #9a456f;">(</span>diary-make-date year month day<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+       <span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
 </code></pre>
 </div>
 
 <p>
-这样就可以通过下面这行代码来显示农历1949年八月初十（1949年10月1日）人的农历生日提醒了。<br />
+这样就可以通过下面这行代码来显示农历1949年八月初十（1949年10月1日）人的农历生日提醒了。<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code>%%<span style="color: #007000;">(</span>my/diary-chinese-anniversary <span style="color: #8f2f30;">(</span>my/chinese-year 1949 10 1<span style="color: #8f2f30;">)</span> 8 10<span style="color: #007000;">)</span> &#26032;&#20013;&#22269;&#31532; %d &#20010;&#20892;&#21382;&#29983;&#26085;
+<pre class="src src-elisp"><code>%%<span style="color: #a7601f;">(</span>my/diary-chinese-anniversary <span style="color: #557400;">(</span>my/chinese-year 1949 10 1<span style="color: #557400;">)</span> 8 10<span style="color: #a7601f;">)</span> &#26032;&#20013;&#22269;&#31532; %d &#20010;&#20892;&#21382;&#29983;&#26085;
 </code></pre>
 </div>
 </div>

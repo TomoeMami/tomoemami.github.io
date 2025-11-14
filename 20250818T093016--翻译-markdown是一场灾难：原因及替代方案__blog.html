@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-10-19 周日 16:07 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-11-14 周五 13:53 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>翻译-Markdown是一场灾难：原因及替代方案</title>
 <meta name="generator" content="Org Mode" />
@@ -193,6 +191,14 @@ h4 {
     font-weight: bold;
 }
 
+details {
+  padding: .7em 1em .5em;
+  border-radius: 15px;
+  font-size: 0.95em;
+  border: 2px solid #ccc;
+  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
+  margin-block: 1em;
+}
 
 a {
     cursor: pointer;
@@ -381,771 +387,772 @@ b {
 <p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-18 周一 14:28]</span></span></p>
 </div>
 <div id="content" class="content">
+<header>
 <h1 class="title">翻译-Markdown是一场灾难：原因及替代方案</h1>
-<p>
-原出处：<a href="https://karl-voit.at/2025/08/17/Markdown-disaster/">Markdown 是一场灾难：原因及替代方案</a><br />
-原作者：karl-voit， 2025-08-17<br />
-翻译：DeepSeek V3<br />
+</header><p>
+原出处：<a href="https://karl-voit.at/2025/08/17/Markdown-disaster/">Markdown 是一场灾难：原因及替代方案</a><br>
+原作者：karl-voit， 2025-08-17<br>
+翻译：DeepSeek V3<br>
 </p>
 
 <p>
-本文旨在——但愿够格——批判将 <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> 作为<a href="https://en.wikipedia.org/wiki/Lightweight_markup_language">轻量级标记语言（LML）</a>使用的现象，其实有更适合完成相同任务的其他 LML 存在。<br />
+本文旨在——但愿够格——批判将 <a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> 作为<a href="https://en.wikipedia.org/wiki/Lightweight_markup_language">轻量级标记语言（LML）</a>使用的现象，其实有更适合完成相同任务的其他 LML 存在。<br>
 </p>
 
 <p>
-我十分清楚 Markdown 是目前该领域使用 <b>最</b> 广泛的语法。其普及程度之高，以至于多数人认为 Markdown 是唯一的轻量级标记语言。<br />
+我十分清楚 Markdown 是目前该领域使用 <b>最</b> 广泛的语法。其普及程度之高，以至于多数人认为 Markdown 是唯一的轻量级标记语言。<br>
 </p>
 
 <p>
-我的观点是，对于轻量级标记语言应用而言，Markdown 是一种糟糕的语法选择。我认为自己持有充分的论据支持这一观点。同时我也会推荐设计更合理的轻量级标记语言替代方案，这既能简化你的个人数字生活，也能惠及即将学习主要标记语言的众多使用者。<br />
+我的观点是，对于轻量级标记语言应用而言，Markdown 是一种糟糕的语法选择。我认为自己持有充分的论据支持这一观点。同时我也会推荐设计更合理的轻量级标记语言替代方案，这既能简化你的个人数字生活，也能惠及即将学习主要标记语言的众多使用者。<br>
 </p>
 
 <p>
-我会尝试从基础概念开始解释所有内容。此外，我会将所有解释置于特定语境中，以便非技术背景人士也能理解。当然，如果你已经了解文件格式等概念，完全可以跳过相关章节。<br />
+我会尝试从基础概念开始解释所有内容。此外，我会将所有解释置于特定语境中，以便非技术背景人士也能理解。当然，如果你已经了解文件格式等概念，完全可以跳过相关章节。<br>
 </p>
 
 <ul class="org-ul">
-<li>为何我要费心探讨？<br /></li>
-<li>为何你应当关注？<br /></li>
-<li>你将在这里学到的内容<br /></li>
-<li>什么是轻量级标记语言（LML）？<br /></li>
-<li>Orgdown：另一种LML选择<br /></li>
-<li>我还是不明白LML是什么意思<br /></li>
-<li>LML 的主要特性<br /></li>
-<li>那么现在该怎么办？<br /></li>
-<li>Markdown 的起源<br /></li>
-<li>Markdown 的变体<br /></li>
-<li>Orgdown 与原版 Markdown 的对比<br /></li>
-<li>Markdown 对人类阅读友好<br /></li>
-<li>Markdown 对人类学习不友好<br /></li>
-<li>Markdown 对人类输入不友好<br /></li>
-<li>Markdown 难以被工具处理<br /></li>
-<li>Markdown 已无药可救<br /></li>
-<li>有哪些替代方案？<br /></li>
-<li>Orgdown 作为替代方案之一<br /></li>
-<li>总结<br /></li>
-<li>相关观点<br /></li>
+<li>为何我要费心探讨？<br></li>
+<li>为何你应当关注？<br></li>
+<li>你将在这里学到的内容<br></li>
+<li>什么是轻量级标记语言（LML）？<br></li>
+<li>Orgdown：另一种LML选择<br></li>
+<li>我还是不明白LML是什么意思<br></li>
+<li>LML 的主要特性<br></li>
+<li>那么现在该怎么办？<br></li>
+<li>Markdown 的起源<br></li>
+<li>Markdown 的变体<br></li>
+<li>Orgdown 与原版 Markdown 的对比<br></li>
+<li>Markdown 对人类阅读友好<br></li>
+<li>Markdown 对人类学习不友好<br></li>
+<li>Markdown 对人类输入不友好<br></li>
+<li>Markdown 难以被工具处理<br></li>
+<li>Markdown 已无药可救<br></li>
+<li>有哪些替代方案？<br></li>
+<li>Orgdown 作为替代方案之一<br></li>
+<li>总结<br></li>
+<li>相关观点<br></li>
 </ul>
 
 <p>
-（太长不看版：除了 Markdown 的其他设计问题外，由于存在各种不同风格的 Markdown 变体，实际使用中会遇到太多问题，而设计更好的轻量级标记语言提供了更优替代方案，且工具支持几乎相当。因此你无需改变现有工作流程，只需切换到更好的语法即可。）<br />
+（太长不看版：除了 Markdown 的其他设计问题外，由于存在各种不同风格的 Markdown 变体，实际使用中会遇到太多问题，而设计更好的轻量级标记语言提供了更优替代方案，且工具支持几乎相当。因此你无需改变现有工作流程，只需切换到更好的语法即可。）<br>
 </p>
-<div id="outline-container-orgc694466" class="outline-2">
-<h2 id="orgc694466"><span class="section-number-2">1.</span> 为何我要费心探讨？</h2>
+<div id="outline-container-orge67ec88" class="outline-2">
+<h2 id="orge67ec88"><span class="section-number-2">1.</span> 为何我要费心探讨？</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-在我的商业工作中，每天都需要多次使用不同的基于 Markdown 的工具。而在个人生活中，尽管基于本文提到的论点我希望尽量减少接触，但依然避不开 Markdown 的身影。<br />
+在我的商业工作中，每天都需要多次使用不同的基于 Markdown 的工具。而在个人生活中，尽管基于本文提到的论点我希望尽量减少接触，但依然避不开 Markdown 的身影。<br>
 </p>
 
 
 <p>
-此外，出于对<a href="https://karl-voit.at/tags/pim">个人信息管理(PIM)</a>的兴趣，我的目标之一就是帮助人们找到<a href="https://karl-voit.at/2021/01/18/tool-choices">适合工作的工具</a>。当<a href="https://www.azquotes.com/quote/1345564">使用优秀的技术解决方案替代糟糕或平庸的方案</a>时，我确实能获得某种个人满足感。<br />
+此外，出于对<a href="https://karl-voit.at/tags/pim">个人信息管理(PIM)</a>的兴趣，我的目标之一就是帮助人们找到<a href="https://karl-voit.at/2021/01/18/tool-choices">适合工作的工具</a>。当<a href="https://www.azquotes.com/quote/1345564">使用优秀的技术解决方案替代糟糕或平庸的方案</a>时，我确实能获得某种个人满足感。<br>
 </p>
 
 
 <p>
-在使用 Markdown 相关流程长达多年之后，我深切体会到了与之相关的痛点。与大多数人不同，我实际上能识别并意识到那些被人们视为理所当然、甚至默认别无选择的细微问题。<br />
+在使用 Markdown 相关流程长达多年之后，我深切体会到了与之相关的痛点。与大多数人不同，我实际上能识别并意识到那些被人们视为理所当然、甚至默认别无选择的细微问题。<br>
 </p>
 
 
 <p>
-根据我的经验，许多 Markdown 替代方案并不存在与 Markdown 相关的那些缺陷。由于大多数人没有接触过这些替代方案，网络上关于 Markdown 实用性的讨论最终演变成我试图推广替代方案，而其他人似乎认为我想剥夺他们的轻量级标记语言工作流，代之以可能更不适合的技术方案——比如文本处理、文字处理、复杂标记语言之类。<br />
+根据我的经验，许多 Markdown 替代方案并不存在与 Markdown 相关的那些缺陷。由于大多数人没有接触过这些替代方案，网络上关于 Markdown 实用性的讨论最终演变成我试图推广替代方案，而其他人似乎认为我想剥夺他们的轻量级标记语言工作流，代之以可能更不适合的技术方案——比如文本处理、文字处理、复杂标记语言之类。<br>
 </p>
 
 
 <p>
-部分讨论确实发生在社交媒体平台上，由于篇幅限制和必要的精简要求，我无法完整表达和传递观点。因此我筹划这篇文章已久，以便能直接分享链接，而非在短消息平台上徒劳地阐述论点。<br />
+部分讨论确实发生在社交媒体平台上，由于篇幅限制和必要的精简要求，我无法完整表达和传递观点。因此我筹划这篇文章已久，以便能直接分享链接，而非在短消息平台上徒劳地阐述论点。<br>
 </p>
 
 
 <p>
-当所有论点都以完整篇幅呈现于此，你便能自行判断这些论点和影响是否适用于自身情况。当然，无论结果如何，你完全有权利继续偏爱 Markdown 语法。你的选择，你的数据，你的付出，你的未来。<br />
+当所有论点都以完整篇幅呈现于此，你便能自行判断这些论点和影响是否适用于自身情况。当然，无论结果如何，你完全有权利继续偏爱 Markdown 语法。你的选择，你的数据，你的付出，你的未来。<br>
 </p>
 
 
 <p>
-不过你可能会发现，这里提到的某些问题同样会影响你的工作流程，渐渐地你或许会认同我的观点：Markdown 在这里根本算不上最佳选择。;-)<br />
+不过你可能会发现，这里提到的某些问题同样会影响你的工作流程，渐渐地你或许会认同我的观点：Markdown 在这里根本算不上最佳选择。;-)<br>
 </p>
 
 
 <p>
-我的最终目标是让他人决定的 Markdown 接触量降至最低限度，这样我就能用设计更优良的语法语言来替代它。<br />
+我的最终目标是让他人决定的 Markdown 接触量降至最低限度，这样我就能用设计更优良的语法语言来替代它。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgc57aec3" class="outline-2">
-<h2 id="orgc57aec3"><span class="section-number-2">2.</span> 为何你应当关注？</h2>
+<div id="outline-container-org367e5f5" class="outline-2">
+<h2 id="org367e5f5"><span class="section-number-2">2.</span> 为何你应当关注？</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-通过使用 Markdown 语法记录信息，你实际上为这些信息的未来（重复）使用限定了形式。若这种选择对你自身数据的处理产生负面影响，你将感受到日益明显的局限性。当你的知识库中存在大量以某种 Markdown 格式编写的内容时，将其转换为更合适的格式会引发越来越多的问题——随着手动检查等环节的增加，转换工作量呈线性增长。假设转换单份文档需要十分钟，那么知识管理系统中的一千份文档将耗费你整整一个月的全职工作时间。而对于<a href="https://karl-voit.at/2020/05/03/current-org-files">长期维护的知识管理系统</a>而言，千份文档的规模根本算不上庞大。<br />
+通过使用 Markdown 语法记录信息，你实际上为这些信息的未来（重复）使用限定了形式。若这种选择对你自身数据的处理产生负面影响，你将感受到日益明显的局限性。当你的知识库中存在大量以某种 Markdown 格式编写的内容时，将其转换为更合适的格式会引发越来越多的问题——随着手动检查等环节的增加，转换工作量呈线性增长。假设转换单份文档需要十分钟，那么知识管理系统中的一千份文档将耗费你整整一个月的全职工作时间。而对于<a href="https://karl-voit.at/2020/05/03/current-org-files">长期维护的知识管理系统</a>而言，千份文档的规模根本算不上庞大。<br>
 </p>
 
 <p>
-如果你认同这里提到的某些问题，那么你就是在耗费自己的时间来处理变通方案、修复、不必要的转换等等。<br />
+如果你认同这里提到的某些问题，那么你就是在耗费自己的时间来处理变通方案、修复、不必要的转换等等。<br>
 </p>
 
 <p>
-然而，我最关键的论点并非关乎你自身和你的数据。最重要的论点是针对大多数 Markdown 用户的：那些将来会开始学习并使用轻量级标记语言的人。那些现在年纪尚幼的人，那些甚至尚未出生的人。<br />
-</p>
-
-
-<p>
-因此，当我提到学习 LML 语法相关的问题时，你不应该只考虑自己——毕竟你很可能已经通过适应克服了某些语法怪癖。实际上你还应该考虑所有未来需要投入学习精力的人们。所以，缺乏一致性和逻辑性正是我在此最重要的论点之一。<br />
+然而，我最关键的论点并非关乎你自身和你的数据。最重要的论点是针对大多数 Markdown 用户的：那些将来会开始学习并使用轻量级标记语言的人。那些现在年纪尚幼的人，那些甚至尚未出生的人。<br>
 </p>
 
 
 <p>
-为确保我们理解一致：我并非要否定使用 Markdown 这类轻量级标记语言实现的优秀工作流程。我只是想指出，通过使用设计更完善的轻量级标记语言，同样可以实现这类工作流程。<br />
+因此，当我提到学习 LML 语法相关的问题时，你不应该只考虑自己——毕竟你很可能已经通过适应克服了某些语法怪癖。实际上你还应该考虑所有未来需要投入学习精力的人们。所以，缺乏一致性和逻辑性正是我在此最重要的论点之一。<br>
 </p>
 
 
 <p>
-遗憾的是，这里提到的一些问题看似非常细微琐碎，但其影响却不容忽视。随着轻量级标记语言日益普及并在各类工具中广泛应用，我们确实应该确保所选用的标记语言足够优秀——这无关个人好恶。<br />
+为确保我们理解一致：我并非要否定使用 Markdown 这类轻量级标记语言实现的优秀工作流程。我只是想指出，通过使用设计更完善的轻量级标记语言，同样可以实现这类工作流程。<br>
+</p>
+
+
+<p>
+遗憾的是，这里提到的一些问题看似非常细微琐碎，但其影响却不容忽视。随着轻量级标记语言日益普及并在各类工具中广泛应用，我们确实应该确保所选用的标记语言足够优秀——这无关个人好恶。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orga6f2054" class="outline-2">
-<h2 id="orga6f2054"><span class="section-number-2">3.</span> 你将在这里学到的内容</h2>
+<div id="outline-container-orgee824a4" class="outline-2">
+<h2 id="orgee824a4"><span class="section-number-2">3.</span> 你将在这里学到的内容</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
-<li>什么是 LMLs？<br /></li>
-<li>为什么 LML 是个绝妙的主意？<br /></li>
-<li>如何使用 LML？<br /></li>
-<li>为何最主流的轻量级标记语言是个反面教材<br /></li>
-<li>替代方案（举例说明）<br /></li>
+<li>什么是 LMLs？<br></li>
+<li>为什么 LML 是个绝妙的主意？<br></li>
+<li>如何使用 LML？<br></li>
+<li>为何最主流的轻量级标记语言是个反面教材<br></li>
+<li>替代方案（举例说明）<br></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc653e0e" class="outline-2">
-<h2 id="orgc653e0e"><span class="section-number-2">4.</span> 什么是轻量级标记语言（LML）？</h2>
+<div id="outline-container-orge84355f" class="outline-2">
+<h2 id="orge84355f"><span class="section-number-2">4.</span> 什么是轻量级标记语言（LML）？</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-我认为「轻量级标记」或「轻量级标记语言」这个术语并没有严格的定义。因此，我倾向于参考维基百科等常见来源。截至 2025 年 5 月 10 日，<a href="https://en.wikipedia.org/wiki/Lightweight_markup_language">英文维基百科关于轻量级标记语言的词条</a>这样写道：<br />
+我认为「轻量级标记」或「轻量级标记语言」这个术语并没有严格的定义。因此，我倾向于参考维基百科等常见来源。截至 2025 年 5 月 10 日，<a href="https://en.wikipedia.org/wiki/Lightweight_markup_language">英文维基百科关于轻量级标记语言的词条</a>这样写道：<br>
 </p>
 
 <blockquote>
 <p>
-<b>轻量级标记语言（LML）</b> ，亦称 <b>简易</b> 或 <b>人性化标记语言</b> ，是一种语法简洁、无侵入性的标记语言。其设计初衷是让用户能够使用任何通用文本编辑器轻松编写，并以原始格式直接阅读。轻量级标记语言适用于需要同时阅读原始文档与最终渲染输出的应用场景。<br />
+<b>轻量级标记语言（LML）</b> ，亦称 <b>简易</b> 或 <b>人性化标记语言</b> ，是一种语法简洁、无侵入性的标记语言。其设计初衷是让用户能够使用任何通用文本编辑器轻松编写，并以原始格式直接阅读。轻量级标记语言适用于需要同时阅读原始文档与最终渲染输出的应用场景。<br>
 </p>
 </blockquote>
 
 <p>
-我完全赞同这一观点。<br />
+我完全赞同这一观点。<br>
 </p>
 
 
 <p>
-然而，维基百科词条后续在未明确说明的情况下，又提及了 HTML 和 LaTeX。为免歧义，特此说明：根据本文定义，轻量级标记语言特指维基百科词条后文列举的语法类语言，例如 Markdown 等。<br />
+然而，维基百科词条后续在未明确说明的情况下，又提及了 HTML 和 LaTeX。为免歧义，特此说明：根据本文定义，轻量级标记语言特指维基百科词条后文列举的语法类语言，例如 Markdown 等。<br>
 </p>
 
 
 <blockquote>
 <p>
-包括 AsciiDoc、atx、BBCode、Creole、Crossmark、Djot、Epytext、Haml、JsonML、MakeDoc、Markdown、Org-mode、POD（Perl）、reST（Python）、RD（Ruby）、Setext、SiSU、SPIP、Xupl、Texy!、Textile、txt2tags、UDO 和 Wikitext。<br />
+包括 AsciiDoc、atx、BBCode、Creole、Crossmark、Djot、Epytext、Haml、JsonML、MakeDoc、Markdown、Org-mode、POD（Perl）、reST（Python）、RD（Ruby）、Setext、SiSU、SPIP、Xupl、Texy!、Textile、txt2tags、UDO 和 Wikitext。<br>
 </p>
 </blockquote>
 
 <p>
-在我看来，非轻量级标记语言（LML）的语法<a href="https://en.wiktionary.org/wiki/syntax">体系</a>：HTML、XML、(La)TeX 这类「复杂」标记语言，其输入操作远谈不上轻松简便。<br />
+在我看来，非轻量级标记语言（LML）的语法<a href="https://en.wiktionary.org/wiki/syntax">体系</a>：HTML、XML、(La)TeX 这类「复杂」标记语言，其输入操作远谈不上轻松简便。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org019f522" class="outline-2">
-<h2 id="org019f522"><span class="section-number-2">5.</span> Orgdown：另一种LML选择</h2>
+<div id="outline-container-org81cf065" class="outline-2">
+<h2 id="org81cf065"><span class="section-number-2">5.</span> Orgdown：另一种LML选择</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-此外，我想补充一个关于 Org-mode 语法特性的个人见解："Org-mode"实际上包含两个不同层面的含义：<br />
+此外，我想补充一个关于 Org-mode 语法特性的个人见解："Org-mode"实际上包含两个不同层面的含义：<br>
 </p>
 
 <ol class="org-ol">
-<li><a href="https://karl-voit.at/tags/emacs">一个 Elisp 实现</a>，用于支持文本处理，如添加新标题、折叠/展开章节等<br /></li>
-<li><a href="https://orgmode.org/worg/org-syntax.html">一种 LML 语法</a>，由上述 Elisp 实现进行解析<br /></li>
+<li><a href="https://karl-voit.at/tags/emacs">一个 Elisp 实现</a>，用于支持文本处理，如添加新标题、折叠/展开章节等<br></li>
+<li><a href="https://orgmode.org/worg/org-syntax.html">一种 LML 语法</a>，由上述 Elisp 实现进行解析<br></li>
 </ol>
 
 <p>
-这导致了许多讨论中的大量困扰。因此，我为 Org-mode 的语法提出了一个不同的名称。这种 LML 应被称为「<a href="https://karl-voit.at/2021/11/27/orgdown/">Orgdown</a>」。<br />
+这导致了许多讨论中的大量困扰。因此，我为 Org-mode 的语法提出了一个不同的名称。这种 LML 应被称为「<a href="https://karl-voit.at/2021/11/27/orgdown/">Orgdown</a>」。<br>
 </p>
 
 
 <p>
-我已在<a href="https://karl-voit.at/2021/11/27/orgdown">这篇博客文章</a>中详细阐述了我的动机及其他内容。因此请注意，为简化和明确此处的讨论，我将使用「Orgdown」而非「Org-mode 的语法」这一术语。我强烈建议您遵循此例，以避免此类误解。<br />
+我已在<a href="https://karl-voit.at/2021/11/27/orgdown">这篇博客文章</a>中详细阐述了我的动机及其他内容。因此请注意，为简化和明确此处的讨论，我将使用「Orgdown」而非「Org-mode 的语法」这一术语。我强烈建议您遵循此例，以避免此类误解。<br>
 </p>
 
 
 <p>
-本文有时会将 Markdown 与 Orgdown 进行比较。这是因为我个人偏爱的轻量级标记语言是 Orgdown。但 <b>您不应认为 Orgdown 是 Markdown 唯一的替代方案</b> 。只是由于我个人主要使用这种特定语法，因此在讨论相关概念时，我会很自然地举出 Orgdown 的例子来进行说明。<br />
+本文有时会将 Markdown 与 Orgdown 进行比较。这是因为我个人偏爱的轻量级标记语言是 Orgdown。但 <b>您不应认为 Orgdown 是 Markdown 唯一的替代方案</b> 。只是由于我个人主要使用这种特定语法，因此在讨论相关概念时，我会很自然地举出 Orgdown 的例子来进行说明。<br>
 </p>
 
 
 <p>
-即便你永远不会亲自使用 Orgdown，本文的核心理念依然成立——任何其他没有 Markdown 缺陷的轻量级标记语言都适用。<br />
+即便你永远不会亲自使用 Orgdown，本文的核心理念依然成立——任何其他没有 Markdown 缺陷的轻量级标记语言都适用。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgd360125" class="outline-2">
-<h2 id="orgd360125"><span class="section-number-2">6.</span> 我还是不明白LML是什么意思</h2>
+<div id="outline-container-orgd92541f" class="outline-2">
+<h2 id="orgd92541f"><span class="section-number-2">6.</span> 我还是不明白LML是什么意思</h2>
 <div class="outline-text-2" id="text-6">
 <p>
-哦，没错。刚才列举了不少名字。但如果你没用过其中任何一种语言，你可能还是不明白 LML 是什么，以及它们如何为你的工作流程提供卓越服务。<br />
+哦，没错。刚才列举了不少名字。但如果你没用过其中任何一种语言，你可能还是不明白 LML 是什么，以及它们如何为你的工作流程提供卓越服务。<br>
 </p>
 
 <p>
-别担心。我会在本文中简要说明核心理念：FIXXME: 尽快完成并链接我的文章 ;-)<br />
+别担心。我会在本文中简要说明核心理念：FIXXME: 尽快完成并链接我的文章 ;-)<br>
 </p>
 
 <p>
-The Main Characteristics of an LML<br />
+The Main Characteristics of an LML<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgfcb5e78" class="outline-2">
-<h2 id="orgfcb5e78"><span class="section-number-2">7.</span> LML 的主要特性</h2>
+<div id="outline-container-org99ca0a6" class="outline-2">
+<h2 id="org99ca0a6"><span class="section-number-2">7.</span> LML 的主要特性</h2>
 <div class="outline-text-2" id="text-7">
 <p>
-对我来说，一种轻量级标记语言最重要的特性包括：<br />
+对我来说，一种轻量级标记语言最重要的特性包括：<br>
 </p>
 
 <ul class="org-ul">
-<li>LML 对人类而言 <b>易于阅读</b><br /></li>
-<li>LML 对人类而言 <b>易于掌握</b> <br /></li>
-<li>LML <b>易于人工输入</b> （或由工具生成）<br /></li>
-<li>LML 对工具而言 <b>易于处理</b><br /></li>
+<li>LML 对人类而言 <b>易于阅读</b><br></li>
+<li>LML 对人类而言 <b>易于掌握</b> <br></li>
+<li>LML <b>易于人工输入</b> （或由工具生成）<br></li>
+<li>LML 对工具而言 <b>易于处理</b><br></li>
 </ul>
 
 <p>
-这非常重要。因此，让我们花些时间逐一解释。<br />
+这非常重要。因此，让我们花些时间逐一解释。<br>
 </p>
 </div>
-<div id="outline-container-org23a1ed6" class="outline-3">
-<h3 id="org23a1ed6"><span class="section-number-3">7.1.</span> LML 对人类而言易于阅读</h3>
+<div id="outline-container-orgd8aa525" class="outline-3">
+<h3 id="orgd8aa525"><span class="section-number-3">7.1.</span> LML 对人类而言易于阅读</h3>
 <div class="outline-text-3" id="text-7-1">
 <p>
-用轻量级标记语言编写的文本信息应该易于阅读，即使对完全不了解这类语言存在的人也是如此。<br />
+用轻量级标记语言编写的文本信息应该易于阅读，即使对完全不了解这类语言存在的人也是如此。<br>
 </p>
 
 
 <p>
-这或许是任何轻量级标记语言（LML）都需要满足的最重要标准。简而言之，LML 是一种约定俗成的文本元素格式化方式。如果连这一点都做不到，那么其最根本的用途就无法实现。迄今为止，我所见过的几乎所有 LML 都具备这一特性，Markdown 也不例外。<br />
+这或许是任何轻量级标记语言（LML）都需要满足的最重要标准。简而言之，LML 是一种约定俗成的文本元素格式化方式。如果连这一点都做不到，那么其最根本的用途就无法实现。迄今为止，我所见过的几乎所有 LML 都具备这一特性，Markdown 也不例外。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org600b12b" class="outline-3">
-<h3 id="org600b12b"><span class="section-number-3">7.2.</span> LML 对人类而言易于掌握</h3>
+<div id="outline-container-orgd371959" class="outline-3">
+<h3 id="orgd371959"><span class="section-number-3">7.2.</span> LML 对人类而言易于掌握</h3>
 <div class="outline-text-3" id="text-7-2">
 <p>
-我想强调可学习性对我而言为何如此重要。试想如今有多少人正在使用轻量级标记语言。<br />
+我想强调可学习性对我而言为何如此重要。试想如今有多少人正在使用轻量级标记语言。<br>
 </p>
 
 <p>
-有个数字概念吗？<br />
-</p>
-
-
-<p>
-好的，现在想象一下未来会使用 LML 的人数。想想看。所有人。从现在开始直到你想象的尽头。<br />
+有个数字概念吗？<br>
 </p>
 
 
 <p>
-也得出一个数字了吗？<br />
+好的，现在想象一下未来会使用 LML 的人数。想想看。所有人。从现在开始直到你想象的尽头。<br>
 </p>
 
 
 <p>
-如果你没得出第二个数字远高于第一个的结论，我反而会感到惊讶。既然如此，显然需要学习当前 LML 规范的人数将远超迄今为止使用过它的人数。<br />
+也得出一个数字了吗？<br>
 </p>
 
 
 <p>
-让我们以另一个更明显的学习曲线为例。<br />
+如果你没得出第二个数字远高于第一个的结论，我反而会感到惊讶。既然如此，显然需要学习当前 LML 规范的人数将远超迄今为止使用过它的人数。<br>
 </p>
 
 
 <p>
-假设你花了数年时间学习一门特定的编程语言。凭借这些知识和经验，你能够轻松完成该语言的基础任务。你不再需要考虑那些形式化的模板代码，也不必过多纠结于编程语言的语法细节。你可以将注意力集中在源代码需要解决的实际问题上。<br />
+让我们以另一个更明显的学习曲线为例。<br>
 </p>
 
 
 <p>
-对于使用 LML 这类简单工具的用户来说，同样存在这种问题。如果 LML 设计得不好，你首先需要死记硬背一些规则，这样才能从一开始就不混淆那些不太直观的内容。<br />
+假设你花了数年时间学习一门特定的编程语言。凭借这些知识和经验，你能够轻松完成该语言的基础任务。你不再需要考虑那些形式化的模板代码，也不必过多纠结于编程语言的语法细节。你可以将注意力集中在源代码需要解决的实际问题上。<br>
 </p>
 
 
 <p>
-然而，如果你已经过了那个阶段，千万别忘记有些功能从一开始就不那么直观。你只是适应了这个工具，却忘记了最初使用它时的感受。<br />
+对于使用 LML 这类简单工具的用户来说，同样存在这种问题。如果 LML 设计得不好，你首先需要死记硬背一些规则，这样才能从一开始就不混淆那些不太直观的内容。<br>
 </p>
 
 
 <p>
-这正是我的观点：讨论轻量级标记语言设计时，必须站在初学者的立场思考。即便这项技术给你留下了极其简单的印象。即便你曾是掌握这套规则的人，如今看来那些规则对你已微不足道。<br />
+然而，如果你已经过了那个阶段，千万别忘记有些功能从一开始就不那么直观。你只是适应了这个工具，却忘记了最初使用它时的感受。<br>
 </p>
 
 
 <p>
-可学习性如此重要的另一个原因在于人们并非每天都接触某些事物。当你每年只做一次报税时，很可能需要一些指引、些许帮助或书面流程，以免遗漏什么——你懂的。但对税务会计师而言，同样的任务却微不足道。他们不需要这些辅助工具。手头的工作如此熟悉，完全可以独立完成。<br />
+这正是我的观点：讨论轻量级标记语言设计时，必须站在初学者的立场思考。即便这项技术给你留下了极其简单的印象。即便你曾是掌握这套规则的人，如今看来那些规则对你已微不足道。<br>
 </p>
 
 
 <p>
-回到 LML 的话题上，对于每年只更新一两次 Markdown 文档的人来说也存在类似问题。他们可能会忘记如何编写标题、项目列表的格式规范，或是带描述的 URL 该如何呈现。<br />
+可学习性如此重要的另一个原因在于人们并非每天都接触某些事物。当你每年只做一次报税时，很可能需要一些指引、些许帮助或书面流程，以免遗漏什么——你懂的。但对税务会计师而言，同样的任务却微不足道。他们不需要这些辅助工具。手头的工作如此熟悉，完全可以独立完成。<br>
 </p>
 
 
 <p>
-因此，在比较轻量级标记语言时，易学性也至关重要。而这通常是轻量级标记语言专业人士容易忽视的方面——因为他们对当前使用的语言已太过熟悉，以至于忘记了初次接触该语言用户的体验。<br />
+回到 LML 的话题上，对于每年只更新一两次 Markdown 文档的人来说也存在类似问题。他们可能会忘记如何编写标题、项目列表的格式规范，或是带描述的 URL 该如何呈现。<br>
 </p>
 
 
 <p>
-优秀的 LML 设计需要将其用户的认知负担降至绝对最低。<br />
+因此，在比较轻量级标记语言时，易学性也至关重要。而这通常是轻量级标记语言专业人士容易忽视的方面——因为他们对当前使用的语言已太过熟悉，以至于忘记了初次接触该语言用户的体验。<br>
+</p>
+
+
+<p>
+优秀的 LML 设计需要将其用户的认知负担降至绝对最低。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org4d7f856" class="outline-3">
-<h3 id="org4d7f856"><span class="section-number-3">7.3.</span> LML 易于人工输入</h3>
+<div id="outline-container-org78bab8c" class="outline-3">
+<h3 id="org78bab8c"><span class="section-number-3">7.3.</span> LML 易于人工输入</h3>
 <div class="outline-text-3" id="text-7-3">
 <p>
-LML 最初的构想之一就是用于手动编写电子邮件。我确实认为广泛采用语法约定会是个绝佳的主意。<br />
+LML 最初的构想之一就是用于手动编写电子邮件。我确实认为广泛采用语法约定会是个绝佳的主意。<br>
 </p>
 
 
 <p>
-既然我们本应在任何地方都能使用轻量级标记语言，那么幻想存在能完美辅助插入新标题、扩展表格、重新格式化列表等操作的工具支持，恐怕是不切实际的。<br />
+既然我们本应在任何地方都能使用轻量级标记语言，那么幻想存在能完美辅助插入新标题、扩展表格、重新格式化列表等操作的工具支持，恐怕是不切实际的。<br>
 </p>
 
 
 <p>
-（例外情况：<a href="https://karl-voit.at/tags/emacs">Emacs</a> 凭借其极高的灵活性和多功能性，确实能在任何文本输入场景提供工具支持，不过这又是另一个话题了。）<br />
+（例外情况：<a href="https://karl-voit.at/tags/emacs">Emacs</a> 凭借其极高的灵活性和多功能性，确实能在任何文本输入场景提供工具支持，不过这又是另一个话题了。）<br>
 </p>
 
 
 <p>
-因此，一个设计良好的轻量级标记语言必须便于人工输入，即便完全没有任何工具支持也应如此。<br />
+因此，一个设计良好的轻量级标记语言必须便于人工输入，即便完全没有任何工具支持也应如此。<br>
 </p>
 
 
 <p>
-你可能需要在多种不同场景下使用它，比如撰写邮件、编写书籍、填写网页表单等等。<br />
+你可能需要在多种不同场景下使用它，比如撰写邮件、编写书籍、填写网页表单等等。<br>
 </p>
 
 
 <p>
-如果 LML 没有针对便捷输入进行优化，这种额外的手动操作将一直困扰着你，即使你已经妥协并且不再意识到这一点。;-）<br />
+如果 LML 没有针对便捷输入进行优化，这种额外的手动操作将一直困扰着你，即使你已经妥协并且不再意识到这一点。;-）<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgf601697" class="outline-3">
-<h3 id="orgf601697"><span class="section-number-3">7.4.</span> LML 对工具而言易于处理</h3>
+<div id="outline-container-org9460ff5" class="outline-3">
+<h3 id="org9460ff5"><span class="section-number-3">7.4.</span> LML 对工具而言易于处理</h3>
 <div class="outline-text-3" id="text-7-4">
 <p>
-最后同样重要的是，使用轻量级标记语言（LML）编写的格式化文本信息往往并非「一次编写，仅供人类阅读」那么简单。<br />
+最后同样重要的是，使用轻量级标记语言（LML）编写的格式化文本信息往往并非「一次编写，仅供人类阅读」那么简单。<br>
 </p>
 
 
 <p>
-它可以，但不该仅限于此。<br />
+它可以，但不该仅限于此。<br>
 </p>
 
 
 <p>
-例如，如果你的知识库确实是用某种特定标记语言编写的，而你又想就这个主题写博客，那么能够毫不费力地将文本复用于其他场景会非常有用。<br />
+例如，如果你的知识库确实是用某种特定标记语言编写的，而你又想就这个主题写博客，那么能够毫不费力地将文本复用于其他场景会非常有用。<br>
 </p>
 
 
 <p>
-即便你从未考虑过在其他场景复用文本内容，保留这种可能性对未来的你而言也极具价值。<br />
+即便你从未考虑过在其他场景复用文本内容，保留这种可能性对未来的你而言也极具价值。<br>
 </p>
 
 
 <p>
-典型的工作流程如下：<br />
+典型的工作流程如下：<br>
 </p>
 
 
 <ul class="org-ul">
-<li>LML：你可以用 LML 语法格式自行编写文本。<br /></li>
-<li>转换器/生成器：使用工具读取文本并将其转换为所需的另一种格式。<br /></li>
-<li>最终结果：可能是，例如网页的 HTML 页面、PDF 文件、ODT/docx 文档或电子书（epub 格式）。<br /></li>
+<li>LML：你可以用 LML 语法格式自行编写文本。<br></li>
+<li>转换器/生成器：使用工具读取文本并将其转换为所需的另一种格式。<br></li>
+<li>最终结果：可能是，例如网页的 HTML 页面、PDF 文件、ODT/docx 文档或电子书（epub 格式）。<br></li>
 </ul>
 
 <p>
-基本原则是：当文本在不同情境中被重复使用时，不应进行人工重写。如果你无法复用知识库中的文本，就不应该将其发布为博客文章。如果你想写书，若笔记片段已具备出版质量却无法最大限度复用，这种做法是低效的。<br />
+基本原则是：当文本在不同情境中被重复使用时，不应进行人工重写。如果你无法复用知识库中的文本，就不应该将其发布为博客文章。如果你想写书，若笔记片段已具备出版质量却无法最大限度复用，这种做法是低效的。<br>
 </p>
 
 
 <p>
-信息复用需要尽可能顺畅无阻。<br />
+信息复用需要尽可能顺畅无阻。<br>
 </p>
 
 
 <p>
-如果 LML 的设计增加了额外工作量，它就失去了存在的意义。<br />
+如果 LML 的设计增加了额外工作量，它就失去了存在的意义。<br>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc35bc4b" class="outline-2">
-<h2 id="orgc35bc4b"><span class="section-number-2">8.</span> 那么现在该怎么办？</h2>
+<div id="outline-container-org27c54c2" class="outline-2">
+<h2 id="org27c54c2"><span class="section-number-2">8.</span> 那么现在该怎么办？</h2>
 <div class="outline-text-2" id="text-8">
 <p>
-在前面的章节中，我已经总结了一个设计良好的轻量级标记语言需要涵盖哪些基本特性。<br />
+在前面的章节中，我已经总结了一个设计良好的轻量级标记语言需要涵盖哪些基本特性。<br>
 </p>
 
 
 <p>
-我的个人经验是，Markdown 作为当下使用最广泛的轻量级标记语言，在大多数特性上都表现欠佳。<br />
+我的个人经验是，Markdown 作为当下使用最广泛的轻量级标记语言，在大多数特性上都表现欠佳。<br>
 </p>
 
 
 <p>
-在接下来的章节中，我将解释为何会得出这个颇具争议的结论。<br />
+在接下来的章节中，我将解释为何会得出这个颇具争议的结论。<br>
 </p>
 
 
 <p>
-请务必记住：我并非要剥夺您使用轻量级标记语言的工作流程。只是认为，若您能改用比 Markdown 更优秀的轻量级标记语言，将会获得更愉悦的体验。<br />
+请务必记住：我并非要剥夺您使用轻量级标记语言的工作流程。只是认为，若您能改用比 Markdown 更优秀的轻量级标记语言，将会获得更愉悦的体验。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org5bf2132" class="outline-2">
-<h2 id="org5bf2132"><span class="section-number-2">9.</span> Markdown 的起源</h2>
+<div id="outline-container-org157d83f" class="outline-2">
+<h2 id="org157d83f"><span class="section-number-2">9.</span> Markdown 的起源</h2>
 <div class="outline-text-2" id="text-9">
 <p>
-了解 Markdown 的早期发展历程很有帮助。<br />
+了解 Markdown 的早期发展历程很有帮助。<br>
 </p>
 
 <p>
-据我所知，这是最早公开提及 Markdown 的文献之一：<a href="https://daringfireball.net/projects/markdown/">2004 年 12 月 17 日发表在 Daring Fireball 上的一篇博客文章</a>。<br />
+据我所知，这是最早公开提及 Markdown 的文献之一：<a href="https://daringfireball.net/projects/markdown/">2004 年 12 月 17 日发表在 Daring Fireball 上的一篇博客文章</a>。<br>
 </p>
 
 <p>
-它还附带了一个语法示例文件：<a href="https://daringfireball.net/projects/markdown/syntax.text">https://daringfireball.net/projects/markdown/syntax.text</a><br />
+它还附带了一个语法示例文件：<a href="https://daringfireball.net/projects/markdown/syntax.text">https://daringfireball.net/projects/markdown/syntax.text</a><br>
 </p>
 
 <p>
-该定义包含以下语法元素：<br />
+该定义包含以下语法元素：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code><span style="color: #6e678f;">-</span> &#20869;&#32852; HTML
-  <span style="color: #6e678f;">-</span> &#12300;&#23545;&#20110; Markdown &#35821;&#27861;&#26410;&#28085;&#30422;&#30340;&#20219;&#20309;&#26631;&#35760;&#65292;&#20320;&#21482;&#38656;&#30452;&#25509;&#20351;&#29992; HTML &#26412;&#36523;&#12290;&#12301;
-<span style="color: #6e678f;">-</span> &#27573;&#33853;
-<span style="color: #6e678f;">-</span> &#22810;&#31181;&#26631;&#39064;&#31867;&#22411;
-  <span style="color: #6e678f;">-</span> Setext &#39118;&#26684;&#30340;&#26631;&#39064;&#22914;&#19979;&#65306;
+<pre class="src src-markdown"><code><span style="color: #59786f;">-</span> &#20869;&#32852; HTML
+  <span style="color: #59786f;">-</span> &#12300;&#23545;&#20110; Markdown &#35821;&#27861;&#26410;&#28085;&#30422;&#30340;&#20219;&#20309;&#26631;&#35760;&#65292;&#20320;&#21482;&#38656;&#30452;&#25509;&#20351;&#29992; HTML &#26412;&#36523;&#12290;&#12301;
+<span style="color: #59786f;">-</span> &#27573;&#33853;
+<span style="color: #59786f;">-</span> &#22810;&#31181;&#26631;&#39064;&#31867;&#22411;
+  <span style="color: #59786f;">-</span> Setext &#39118;&#26684;&#30340;&#26631;&#39064;&#22914;&#19979;&#65306;
     1st level heading
     =================
     2nd level heading
     -----------------
-  <span style="color: #6e678f;">-</span> &#23553;&#38381;&#24335; Atx &#39118;&#26684;&#26631;&#39064;&#65288;&#21069;&#21518;&#22343;&#24102;&#20117;&#21495;&#65289;
+  <span style="color: #59786f;">-</span> &#23553;&#38381;&#24335; Atx &#39118;&#26684;&#26631;&#39064;&#65288;&#21069;&#21518;&#22343;&#24102;&#20117;&#21495;&#65289;
     ,# first level heading #
     ,## 2nd level heading ##
-  <span style="color: #6e678f;">-</span> &#24320;&#25918;&#24335; ATX &#39118;&#26684;&#26631;&#39064;&#65288;&#21069;&#32622;&#20117;&#21495;&#23383;&#31526;&#65289;
+  <span style="color: #59786f;">-</span> &#24320;&#25918;&#24335; ATX &#39118;&#26684;&#26631;&#39064;&#65288;&#21069;&#32622;&#20117;&#21495;&#23383;&#31526;&#65289;
     ,# first level heading
     ,## 2nd level heading
-<span style="color: #6e678f;">-</span> &#24341;&#29992;&#65288;&#20351;&#29992; &gt; &#23383;&#31526;&#65289;
-<span style="color: #6e678f;">-</span> &#21015;&#34920;&#65288;&#20351;&#29992; *&#12289;+&#12289;-&#12289;1. &#21450; HTML&#65289;
-<span style="color: #6e678f;">-</span> &#20195;&#30721;&#22359;&#65288;&#32553;&#36827;&#8805;4 &#20010;&#31354;&#26684;&#25110;&#8805;1 &#20010;&#21046;&#34920;&#31526;&#65289;
-<span style="color: #6e678f;">-</span> &#27700;&#24179;&#20998;&#21106;&#32447;&#65288;&#20351;&#29992;&#8805;3 &#20010;&#36830;&#23383;&#31526;&#12289;&#26143;&#21495;&#25110;&#19979;&#21010;&#32447;&#65289;
-<span style="color: #6e678f;">-</span> &#32593;&#39029;&#38142;&#25509;
-  <span style="color: #6e678f;">-</span> <span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">an example</span><span style="color: #6e678f;">](</span><span style="color: #8a5f4a;">http://example.com/</span><span style="color: #6e678f; font-style: italic;"> "Title"</span><span style="color: #6e678f;">)</span>
-  <span style="color: #6e678f;">-</span> &#33258;&#21160;&#38142;&#25509;: <span style="color: #6e678f;"><a href="http://example.com/">&lt;</a></span><span style="color: #00704f; text-decoration: underline;"><a href="http://example.com/">http://example.com/</a></span><span style="color: #6e678f;"><a href="http://example.com/">&gt;</a></span>
-<span style="color: #6e678f;">-</span> &#25991;&#20214;&#38142;&#25509;
-  <span style="color: #6e678f;">-</span> <span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">a sub directory</span><span style="color: #6e678f;">](</span><span style="color: #8a5f4a;">/subdir/</span><span style="color: #6e678f;">)</span>
-<span style="color: #6e678f;">-</span> &#21442;&#32771;&#24335;&#38142;&#25509;
-  <span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">an example</span><span style="color: #6e678f;">][</span><span style="color: #6e678f;">myid</span><span style="color: #6e678f;">]</span>
-  <span style="color: #6e678f;">[</span><span style="color: #6e678f;">myid</span><span style="color: #6e678f;">]:</span> <span style="color: #8a5f4a;">http://example.com/</span> <span style="color: #6e678f; font-style: italic;"> "Optional Title Here"</span>
-  <span style="color: #6e678f;">-</span> &#38142;&#25509; URL &#21487;&#20197;&#36873;&#25321;&#24615;&#22320;&#29992;&#23574;&#25324;&#21495;&#25324;&#36215;&#26469;
-  <span style="color: #6e678f;">-</span> ID &#19981;&#21306;&#20998;&#22823;&#23567;&#20889;
-  <span style="color: #6e678f;">-</span> &#38544;&#24615;&#38142;&#25509;&#65306;
-    <span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">myid</span><span style="color: #6e678f;">][]</span>
-<span style="color: #6e678f;">-</span> &#24378;&#35843;&#65288;&#21253;&#25324;&#35789;&#20869;&#24378;&#35843;&#65289;
-  ,<span style="color: #6e678f;">*</span><span style="font-style: italic;">em</span><span style="color: #6e678f;">*</span> or ,<span style="color: #6e678f;">_</span><span style="font-style: italic;">em</span><span style="color: #6e678f;">_</span>
-  ,<span style="color: #6e678f;">**</span><span style="font-weight: bold;">strong</span><span style="color: #6e678f;">**</span> or ,<span style="color: #6e678f;">__</span><span style="font-weight: bold;">strong</span><span style="color: #6e678f;">__</span>
-<span style="color: #6e678f;">-</span> &#20195;&#30721;
-  <span style="color: #6e678f;">-</span> &#27573;&#33853;&#20013;&#30340;&#21333;&#21453;&#24341;&#21495;
-  <span style="color: #6e678f;">-</span> &#21487;&#36873;&#30340;&#22810;&#37325;&#21453;&#24341;&#21495;
-<span style="color: #6e678f;">-</span> &#22270;&#29255;&#24341;&#29992;
-  <span style="color: #6e678f;">![</span><span style="color: #00704f; text-decoration: underline;">Alt text</span><span style="color: #6e678f;">](</span><span style="color: #8a5f4a;">/path/to/img.jpg</span><span style="color: #6e678f; font-style: italic;"> "Optional title"</span><span style="color: #6e678f;">)</span>
-<span style="color: #6e678f;">-</span> &#20351;&#29992;&#21453;&#26012;&#26464;&#36716;&#20041;&#19978;&#36848;&#23383;&#38754;&#23383;&#31526;
+<span style="color: #59786f;">-</span> &#24341;&#29992;&#65288;&#20351;&#29992; &gt; &#23383;&#31526;&#65289;
+<span style="color: #59786f;">-</span> &#21015;&#34920;&#65288;&#20351;&#29992; *&#12289;+&#12289;-&#12289;1. &#21450; HTML&#65289;
+<span style="color: #59786f;">-</span> &#20195;&#30721;&#22359;&#65288;&#32553;&#36827;&#8805;4 &#20010;&#31354;&#26684;&#25110;&#8805;1 &#20010;&#21046;&#34920;&#31526;&#65289;
+<span style="color: #59786f;">-</span> &#27700;&#24179;&#20998;&#21106;&#32447;&#65288;&#20351;&#29992;&#8805;3 &#20010;&#36830;&#23383;&#31526;&#12289;&#26143;&#21495;&#25110;&#19979;&#21010;&#32447;&#65289;
+<span style="color: #59786f;">-</span> &#32593;&#39029;&#38142;&#25509;
+  <span style="color: #59786f;">-</span> <span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">an example</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">http://example.com/</span><span style="color: #8f6f4a;"> "Title"</span><span style="color: #59786f;">)</span>
+  <span style="color: #59786f;">-</span> &#33258;&#21160;&#38142;&#25509;: <span style="color: #59786f;"><a href="http://example.com/">&lt;</a></span><span style="color: #a7601f; text-decoration: underline;"><a href="http://example.com/">http://example.com/</a></span><span style="color: #59786f;"><a href="http://example.com/">&gt;</a></span>
+<span style="color: #59786f;">-</span> &#25991;&#20214;&#38142;&#25509;
+  <span style="color: #59786f;">-</span> <span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">a sub directory</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">/subdir/</span><span style="color: #59786f;">)</span>
+<span style="color: #59786f;">-</span> &#21442;&#32771;&#24335;&#38142;&#25509;
+  <span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">an example</span><span style="color: #59786f;">][</span><span style="color: #59786f;">myid</span><span style="color: #59786f;">]</span>
+  <span style="color: #59786f;">[</span><span style="color: #59786f;">myid</span><span style="color: #59786f;">]:</span> <span style="color: #7f475a;">http://example.com/</span> <span style="color: #8f6f4a;"> "Optional Title Here"</span>
+  <span style="color: #59786f;">-</span> &#38142;&#25509; URL &#21487;&#20197;&#36873;&#25321;&#24615;&#22320;&#29992;&#23574;&#25324;&#21495;&#25324;&#36215;&#26469;
+  <span style="color: #59786f;">-</span> ID &#19981;&#21306;&#20998;&#22823;&#23567;&#20889;
+  <span style="color: #59786f;">-</span> &#38544;&#24615;&#38142;&#25509;&#65306;
+    <span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">myid</span><span style="color: #59786f;">][]</span>
+<span style="color: #59786f;">-</span> &#24378;&#35843;&#65288;&#21253;&#25324;&#35789;&#20869;&#24378;&#35843;&#65289;
+  ,<span style="color: #59786f;">*</span><span style="font-style: italic;">em</span><span style="color: #59786f;">*</span> or ,<span style="color: #59786f;">_</span><span style="font-style: italic;">em</span><span style="color: #59786f;">_</span>
+  ,<span style="color: #59786f;">**</span><span style="font-weight: bold;">strong</span><span style="color: #59786f;">**</span> or ,<span style="color: #59786f;">__</span><span style="font-weight: bold;">strong</span><span style="color: #59786f;">__</span>
+<span style="color: #59786f;">-</span> &#20195;&#30721;
+  <span style="color: #59786f;">-</span> &#27573;&#33853;&#20013;&#30340;&#21333;&#21453;&#24341;&#21495;
+  <span style="color: #59786f;">-</span> &#21487;&#36873;&#30340;&#22810;&#37325;&#21453;&#24341;&#21495;
+<span style="color: #59786f;">-</span> &#22270;&#29255;&#24341;&#29992;
+  <span style="color: #59786f;">![</span><span style="color: #a7601f; text-decoration: underline;">Alt text</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">/path/to/img.jpg</span><span style="color: #8f6f4a;"> "Optional title"</span><span style="color: #59786f;">)</span>
+<span style="color: #59786f;">-</span> &#20351;&#29992;&#21453;&#26012;&#26464;&#36716;&#20041;&#19978;&#36848;&#23383;&#38754;&#23383;&#31526;
 </code></pre>
 </div>
 
 <p>
-就这些吧。<br />
+就这些吧。<br>
 </p>
 
 <p>
-写邮件和简单文本文档确实够用了。这点我承认。<br />
+写邮件和简单文本文档确实够用了。这点我承认。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org313f9e4" class="outline-2">
-<h2 id="org313f9e4"><span class="section-number-2">10.</span> Markdown 的变体</h2>
+<div id="outline-container-org423b5d9" class="outline-2">
+<h2 id="org423b5d9"><span class="section-number-2">10.</span> Markdown 的变体</h2>
 <div class="outline-text-2" id="text-10">
 <p>
-然而，当涉及许多其他场景时，人们需要更多语法元素。<br />
+然而，当涉及许多其他场景时，人们需要更多语法元素。<br>
 </p>
 
 
 <p>
-灾难就此开始蔓延。一些在工具中采用早期 Markdown 的开发者开始 <b>扩展语法，添加新的语法元素</b> 。某个应用增加了脚注功能，另一个则添加了标题内部链接，还有的应用增加了更多处理源代码的选项，更有甚者添加了其他五花八门的功能。<br />
+灾难就此开始蔓延。一些在工具中采用早期 Markdown 的开发者开始 <b>扩展语法，添加新的语法元素</b> 。某个应用增加了脚注功能，另一个则添加了标题内部链接，还有的应用增加了更多处理源代码的选项，更有甚者添加了其他五花八门的功能。<br>
 </p>
 
 
 <p>
-而且没有人将这些语法扩展「合并」回原始源代码。你懂的。<br />
+而且没有人将这些语法扩展「合并」回原始源代码。你懂的。<br>
 </p>
 
 <p>
-这样一来，我们确实拥有了一系列所谓的 Markdown 「变体」。<br />
-</p>
-
-
-<p>
-<a href="https://git.sr.ht/~xigoi/markdown-monster/blob/master/monster.md?__goaway_challenge=meta-refresh&amp;__goaway_id=aeac9f01dc1a4cb2dd759d25b1a975db">Markdown Monster 工具</a>识别出 24 种不同的 Markdown 变体。而实际存在的 Markdown 变体数量很可能远超这个数字，这丝毫不会令人惊讶。<br />
+这样一来，我们确实拥有了一系列所谓的 Markdown 「变体」。<br>
 </p>
 
 
 <p>
-市面上有许多工具——比如当下热门的 <a href="https://en.wikipedia.org/wiki/Obsidian_(software)">Obsidian</a>——通过可选插件提供功能扩展。其中部分插件还会引入自己专用的语法元素。若想妥善复用这些元素，在格式转换时自然也需要处理这些特殊语法。遗憾的是，这些私有语法扩展确实让情况变得更加糟糕。因此，即便你使用的是人类可读的文本，使用这类插件最终仍会导致某种形式的 <b>锁定</b> 。可悲的是，大多数人往往要等到遭遇信息损失时，才会意识到这个问题。<br />
+<a href="https://git.sr.ht/~xigoi/markdown-monster/blob/master/monster.md?__goaway_challenge=meta-refresh&amp;__goaway_id=aeac9f01dc1a4cb2dd759d25b1a975db">Markdown Monster 工具</a>识别出 24 种不同的 Markdown 变体。而实际存在的 Markdown 变体数量很可能远超这个数字，这丝毫不会令人惊讶。<br>
 </p>
 
 
 <p>
-以下是<a href="https://en.wikipedia.org/wiki/Markdown">维基百科关于 Markdown 条目</a>中的一段引文：<br />
+市面上有许多工具——比如当下热门的 <a href="https://en.wikipedia.org/wiki/Obsidian_(software)">Obsidian</a>——通过可选插件提供功能扩展。其中部分插件还会引入自己专用的语法元素。若想妥善复用这些元素，在格式转换时自然也需要处理这些特殊语法。遗憾的是，这些私有语法扩展确实让情况变得更加糟糕。因此，即便你使用的是人类可读的文本，使用这类插件最终仍会导致某种形式的 <b>锁定</b> 。可悲的是，大多数人往往要等到遭遇信息损失时，才会意识到这个问题。<br>
+</p>
+
+
+<p>
+以下是<a href="https://en.wikipedia.org/wiki/Markdown">维基百科关于 Markdown 条目</a>中的一段引文：<br>
 </p>
 
 <blockquote>
 <p>
-Markdown 最初的描述存在模糊之处，引发了许多悬而未决的问题，导致各种实现版本有意或无意地偏离了原始版本。这一问题在 2014 年得到解决，当时长期参与 Markdown 开发的贡献者们发布了 CommonMark——一个明确的 Markdown 规范及测试套件。<br />
+Markdown 最初的描述存在模糊之处，引发了许多悬而未决的问题，导致各种实现版本有意或无意地偏离了原始版本。这一问题在 2014 年得到解决，当时长期参与 Markdown 开发的贡献者们发布了 CommonMark——一个明确的 Markdown 规范及测试套件。<br>
 </p>
 </blockquote>
 
 <p>
-确实，曾有人尝试统一或标准化 Markdown。<a href="https://xkcd.com/927/">但由于普遍规律的存在，这反而催生了更多变体版本。</a><br />
+确实，曾有人尝试统一或标准化 Markdown。<a href="https://xkcd.com/927/">但由于普遍规律的存在，这反而催生了更多变体版本。</a><br>
 </p>
 
 
 <p>
-在日常工作中，诸如 <a href="https://en.wikipedia.org/wiki/MultiMarkdown">MultiMarkdown</a>、Markdown Extra、<a href="https://commonmark.org/">CommonMark</a> 等 Markdown 标准规范并未发挥特别重要的作用。真正重要的是由 <a href="https://en.wikipedia.org/wiki/Pandoc">pandoc</a> 或 <a href="https://github.github.com/gfm/">GitHub 风味 Markdown（GFM）</a>等工具确立的隐性标准——后者也被 <a href="https://en.wikipedia.org/wiki/Gitlab">GitLab</a> 所采用。<br />
+在日常工作中，诸如 <a href="https://en.wikipedia.org/wiki/MultiMarkdown">MultiMarkdown</a>、Markdown Extra、<a href="https://commonmark.org/">CommonMark</a> 等 Markdown 标准规范并未发挥特别重要的作用。真正重要的是由 <a href="https://en.wikipedia.org/wiki/Pandoc">pandoc</a> 或 <a href="https://github.github.com/gfm/">GitHub 风味 Markdown（GFM）</a>等工具确立的隐性标准——后者也被 <a href="https://en.wikipedia.org/wiki/Gitlab">GitLab</a> 所采用。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org486cb7a" class="outline-2">
-<h2 id="org486cb7a"><span class="section-number-2">11.</span> Orgdown 与原版 Markdown 的对比</h2>
+<div id="outline-container-org502dee9" class="outline-2">
+<h2 id="org502dee9"><span class="section-number-2">11.</span> Orgdown 与原版 Markdown 的对比</h2>
 <div class="outline-text-2" id="text-11">
 <p>
-为了让您了解 Orgdown 中那些不属于原始 Markdown 的语法元素，我从这份<a href="https://orgmode.org/worg/org-syntax.html">语法概览</a>中摘录了部分内容：<br />
+为了让您了解 Orgdown 中那些不属于原始 Markdown 的语法元素，我从这份<a href="https://orgmode.org/worg/org-syntax.html">语法概览</a>中摘录了部分内容：<br>
 </p>
 
 <ul class="org-ul">
-<li>上标/下标<br /></li>
-<li>下划线文本<br /></li>
-<li>斜体文本<br /></li>
-<li>原样文本<br /></li>
-<li>删除线文本<br /></li>
-<li>表格<br /></li>
-<li>复选框/内联任务<br /></li>
-<li>抽屉/属性中的元数据（键/值）<br /></li>
-<li>非代码块或行内 HTML 的其他区块：引用、诗句、示例、LaTeX 公式等…<br /></li>
-<li>注释（区块或行内）<br /></li>
-<li>标题标签<br /></li>
-<li>优先级标记<br /></li>
-<li>标题任务状态<br /></li>
-<li>标题引用<br /></li>
-<li>时间戳、日期戳<br /></li>
-<li>宏指令<br /></li>
+<li>上标/下标<br></li>
+<li>下划线文本<br></li>
+<li>斜体文本<br></li>
+<li>原样文本<br></li>
+<li>删除线文本<br></li>
+<li>表格<br></li>
+<li>复选框/内联任务<br></li>
+<li>抽屉/属性中的元数据（键/值）<br></li>
+<li>非代码块或行内 HTML 的其他区块：引用、诗句、示例、LaTeX 公式等…<br></li>
+<li>注释（区块或行内）<br></li>
+<li>标题标签<br></li>
+<li>优先级标记<br></li>
+<li>标题任务状态<br></li>
+<li>标题引用<br></li>
+<li>时间戳、日期戳<br></li>
+<li>宏指令<br></li>
 </ul>
 
 <p>
-要知道，其中一些功能在文本写作中远不止是锦上添花。当你将其他轻量级标记语言与原始 Markdown 定义进行比较时，很容易就能列出一份类似的清单。这绝非 Orgdown 特有的问题。<br />
+要知道，其中一些功能在文本写作中远不止是锦上添花。当你将其他轻量级标记语言与原始 Markdown 定义进行比较时，很容易就能列出一份类似的清单。这绝非 Orgdown 特有的问题。<br>
 </p>
 
 <p>
-有鉴于此，我认为 Markdown 作为一种轻量级标记语言是极其糟糕的选择：<br />
+有鉴于此，我认为 Markdown 作为一种轻量级标记语言是极其糟糕的选择：<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orge565897" class="outline-2">
-<h2 id="orge565897"><span class="section-number-2">12.</span> Markdown 对人类阅读友好</h2>
+<div id="outline-container-org4df3781" class="outline-2">
+<h2 id="org4df3781"><span class="section-number-2">12.</span> Markdown 对人类阅读友好</h2>
 <div class="outline-text-2" id="text-12">
 <p>
-好吧，如果 Markdown 在这里也会失败，那它现在很可能就不会有这么显赫的市场地位了。<br />
+好吧，如果 Markdown 在这里也会失败，那它现在很可能就不会有这么显赫的市场地位了。<br>
 </p>
 
 
 <p>
-那么让我们把注意力集中在这里的其他方面。<br />
+那么让我们把注意力集中在这里的其他方面。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgb350f38" class="outline-2">
-<h2 id="orgb350f38"><span class="section-number-2">13.</span> Markdown 对人类学习不友好</h2>
+<div id="outline-container-org10daeeb" class="outline-2">
+<h2 id="org10daeeb"><span class="section-number-2">13.</span> Markdown 对人类学习不友好</h2>
 <div class="outline-text-2" id="text-13">
 <p>
-多次讨论中我发现，长期使用 Markdown 的人往往难以理解本文的论述逻辑。究其原因，我认为是他们已无法代入 Markdown 初学者的视角。若您此刻仍感困惑，建议重读前文"人类易于掌握 LML"章节。<br />
+多次讨论中我发现，长期使用 Markdown 的人往往难以理解本文的论述逻辑。究其原因，我认为是他们已无法代入 Markdown 初学者的视角。若您此刻仍感困惑，建议重读前文"人类易于掌握 LML"章节。<br>
 </p>
 
 
 <p>
-为优化学习效果，保持 <b>一致性</b> 是关键。<br />
+为优化学习效果，保持 <b>一致性</b> 是关键。<br>
 </p>
 
 
 <p>
-新用户若发现实际效果与预期不符，往往会感到沮丧。当 Markdown 语法仅由人工编写且仅供人工阅读时，这并不构成问题。真正的隐患往往在文本撰写完成很久之后才显现——当工具对 Markdown 进行解析后处理时。<br />
+新用户若发现实际效果与预期不符，往往会感到沮丧。当 Markdown 语法仅由人工编写且仅供人工阅读时，这并不构成问题。真正的隐患往往在文本撰写完成很久之后才显现——当工具对 Markdown 进行解析后处理时。<br>
 </p>
 
 
 <p>
-初次学习某事物时，不一致性显然是个障碍。然而，不一致性还有另一个弊端：它会干扰已掌握知识的正确提取。<br />
+初次学习某事物时，不一致性显然是个障碍。然而，不一致性还有另一个弊端：它会干扰已掌握知识的正确提取。<br>
 </p>
 
 
 <p>
-因此，如果某些内容存在不一致性，不仅会在你学习时带来困扰。当你试图应用已掌握的知识时，若需要记忆这些不一致的内容而非运用人类大脑与一致的 LML 设计逻辑，同样会造成挫败感。<br />
+因此，如果某些内容存在不一致性，不仅会在你学习时带来困扰。当你试图应用已掌握的知识时，若需要记忆这些不一致的内容而非运用人类大脑与一致的 LML 设计逻辑，同样会造成挫败感。<br>
 </p>
 
 
 <p>
-让我们通过一些语法示例来讨论 Markdown 的不一致性。<br />
+让我们通过一些语法示例来讨论 Markdown 的不一致性。<br>
 </p>
 </div>
-<div id="outline-container-org02f89a1" class="outline-3">
-<h3 id="org02f89a1"><span class="section-number-3">13.1.</span> MD 不一致性：带描述的 URL</h3>
+<div id="outline-container-org2377c78" class="outline-3">
+<h3 id="org2377c78"><span class="section-number-3">13.1.</span> MD 不一致性：带描述的 URL</h3>
 <div class="outline-text-3" id="text-13-1">
 <p>
-在 Markdown 中插入简单 URL 非常容易：<a href="https://karl-voit.at">https://karl-voit.at</a> 几乎在所有 Markdown 应用中都会被转换为可点击的链接。<br />
+在 Markdown 中插入简单 URL 非常容易：<a href="https://karl-voit.at">https://karl-voit.at</a> 几乎在所有 Markdown 应用中都会被转换为可点击的链接。<br>
 </p>
 
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code><span style="font-weight: bold;">https</span><span style="color: #6e678f;">:</span><span style="color: #557000;">//Karl-Voit.at</span>
+<pre class="src src-markdown"><code>https<span style="color: #59786f;">:</span><span style="color: #ca3400;">//Karl-Voit.at</span>
 </code></pre>
 </div>
 
 <p>
-如你所见，无需使用任何特殊字符来标记 URL。<br />
+如你所见，无需使用任何特殊字符来标记 URL。<br>
 </p>
 
 
 <p>
-当有人想要插入带有描述文本的 URL 时，问题就变得棘手了。<br />
+当有人想要插入带有描述文本的 URL 时，问题就变得棘手了。<br>
 </p>
 
 
 <p>
-在我看来，最主要的问题在于 URL 部分。因为你可以像上面展示的那样直接使用简单的 URL 链接，描述文字完全是可选项。<br />
+在我看来，最主要的问题在于 URL 部分。因为你可以像上面展示的那样直接使用简单的 URL 链接，描述文字完全是可选项。<br>
 </p>
 
 
 <p>
-所以当你需要插入带描述的链接时，就必须添加一些固定格式。不知为何，Markdown 要求这种固定格式包含不同类型的字符：既需要圆括号又需要方括号。<br />
+所以当你需要插入带描述的链接时，就必须添加一些固定格式。不知为何，Markdown 要求这种固定格式包含不同类型的字符：既需要圆括号又需要方括号。<br>
 </p>
 
 
 <p>
-我不明白为什么 Markdown 设计者认为这种设计是合理的——明明通过位置就能区分 URL 和描述文本。<br />
+我不明白为什么 Markdown 设计者认为这种设计是合理的——明明通过位置就能区分 URL 和描述文本。<br>
 </p>
 
 
 <p>
-无论如何，当你为 Markdown 的 URL 添加描述时，你会得到：<br />
+无论如何，当你为 Markdown 的 URL 添加描述时，你会得到：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code>(<span style="color: #00704f; text-decoration: underline;">https://Karl-Voit.at)[My</span> webpage]
+<pre class="src src-markdown"><code>(<span style="color: #a7601f; text-decoration: underline;">https://Karl-Voit.at)[My</span> webpage]
 </code></pre>
 </div>
 
 <p>
-哦。还是说反了？<br />
+哦。还是说反了？<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code><span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">https://Karl-Voit.at</span><span style="color: #6e678f;">](</span><span style="color: #8a5f4a;">My webpage</span><span style="color: #6e678f;">)</span>
+<pre class="src src-markdown"><code><span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">https://Karl-Voit.at</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">My webpage</span><span style="color: #59786f;">)</span>
 </code></pre>
 </div>
 
 <p>
-你可能会惊讶，当我几天没写 Markdown 时，自己也需要经常查阅这些内容。<br />
+你可能会惊讶，当我几天没写 Markdown 时，自己也需要经常查阅这些内容。<br>
 </p>
 
 
 <p>
-然后你意识到，在 Markdown 中「URL 是主导部分而描述作为可选第二元素」这个合乎逻辑的假设某种程度上是错误的。实际情况似乎是：在 Markdown 里你应该假设存在一段文本，而 URL 只是可选的附加内容。这本身没问题，但至少在我看来，这种思维方式与简单的 URL 语法元素存在冲突。<br />
+然后你意识到，在 Markdown 中「URL 是主导部分而描述作为可选第二元素」这个合乎逻辑的假设某种程度上是错误的。实际情况似乎是：在 Markdown 里你应该假设存在一段文本，而 URL 只是可选的附加内容。这本身没问题，但至少在我看来，这种思维方式与简单的 URL 语法元素存在冲突。<br>
 </p>
 
 
 <p>
-因此，Markdown 中带描述的正确 URL 语法是：<br />
+因此，Markdown 中带描述的正确 URL 语法是：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code><span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">My webpage</span><span style="color: #6e678f;">](</span><span style="color: #8a5f4a;">https://Karl-Voit.at</span><span style="color: #6e678f;">)</span>
+<pre class="src src-markdown"><code><span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">My webpage</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">https://Karl-Voit.at</span><span style="color: #59786f;">)</span>
 </code></pre>
 </div>
 
 <p>
-是的，你先写描述，再写网址。先用方括号，再用圆括号。<br />
+是的，你先写描述，再写网址。先用方括号，再用圆括号。<br>
 </p>
 
 
 <p>
-希望你现在能理解为何我认为 Markdown 中的 URL 语法不够直观。<br />
+希望你现在能理解为何我认为 Markdown 中的 URL 语法不够直观。<br>
 </p>
 
 
 <p>
-这不仅仅是我个人的感受。这种令人恼火的 Markdown 网址语法设计早已成为网络迷因。<br />
+这不仅仅是我个人的感受。这种令人恼火的 Markdown 网址语法设计早已成为网络迷因。<br>
 </p>
 
 <p>
-想找点乐子的话，不妨猜猜看如何在 URL 中添加替代文本或标题。我猜大多数 Markdown 用户如果不是天天写这个，恐怕都得查一查才知道。<br />
+想找点乐子的话，不妨猜猜看如何在 URL 中添加替代文本或标题。我猜大多数 Markdown 用户如果不是天天写这个，恐怕都得查一查才知道。<br>
 </p>
 
 
 <p>
-但还有一些其他语法元素我也觉得存在问题。<br />
+但还有一些其他语法元素我也觉得存在问题。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org5a60592" class="outline-3">
-<h3 id="org5a60592"><span class="section-number-3">13.2.</span> MD 不一致性：标题</h3>
+<div id="outline-container-orgef99d59" class="outline-3">
+<h3 id="orgef99d59"><span class="section-number-3">13.2.</span> MD 不一致性：标题</h3>
 <div class="outline-text-3" id="text-13-2">
 <p>
-如果你刚接触 Markdown，我敢打赌你在阅读「Markdown 的起源」这一节时，一定会对我提到的标题有不止一种写法感到困惑。<br />
+如果你刚接触 Markdown，我敢打赌你在阅读「Markdown 的起源」这一节时，一定会对我提到的标题有不止一种写法感到困惑。<br>
 </p>
 
 
 <p>
-我猜最初的想法是存在不同的惯例，而原作者不想完全推翻至少部分旧有惯例，因此（仅）在标题方面保留了一些灵活性。<br />
+我猜最初的想法是存在不同的惯例，而原作者不想完全推翻至少部分旧有惯例，因此（仅）在标题方面保留了一些灵活性。<br>
 </p>
 
 
 <p>
-因此，所有这些例子在原始形式下都是有效的 Markdown。<br />
+因此，所有这些例子在原始形式下都是有效的 Markdown。<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code><span style="color: #8f2f30;">1st level heading</span>
-<span style="color: #6e678f;">=================</span>
+<pre class="src src-markdown"><code><span style="color: #557400;">1st level heading</span>
+<span style="color: #59786f;">=================</span>
 
 Some text.
 
-<span style="color: #00704f;">2nd level heading</span>
-<span style="color: #6e678f;">-----------------</span>
+<span style="color: #bf4400;">2nd level heading</span>
+<span style="color: #59786f;">-----------------</span>
 
 Some text.
 </code></pre>
 </div>
 <p>
-我需要使下划线字符数量与标题行长度匹配吗？是或否？<br />
+我需要使下划线字符数量与标题行长度匹配吗？是或否？<br>
 </p>
 
 
 <p>
-那么第三级标题呢？我想如果你选择了这些标题类型，就意味着只要不把所有标题转换成其他形式之一，这份文档就不能有第三级标题。<br />
+那么第三级标题呢？我想如果你选择了这些标题类型，就意味着只要不把所有标题转换成其他形式之一，这份文档就不能有第三级标题。<br>
 </p>
 
 <div class="org-src-container">
@@ -1166,24 +1173,24 @@ Some text.
 </div>
 
 <p>
-嗯，这样好多了。<br />
+嗯，这样好多了。<br>
 </p>
 
 
 <p>
-但如果结尾的井号数量不同呢？因此，Markdown 最初的作者们将闭合的 atx 风格字符定义为纯粹装饰性的。所以无论你使用多少个字符，它们都会被忽略：<br />
+但如果结尾的井号数量不同呢？因此，Markdown 最初的作者们将闭合的 atx 风格字符定义为纯粹装饰性的。所以无论你使用多少个字符，它们都会被忽略：<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-markdown"><code>
-<span style="color: #6e678f;"># </span><span style="color: #8f2f30;">first level heading</span><span style="color: #6e678f;"> ##################</span>
+<span style="color: #59786f;"># </span><span style="color: #557400;">first level heading</span><span style="color: #59786f;"> ##################</span>
 
 Some text.
 
-<span style="color: #6e678f;">## </span><span style="color: #00704f;">2nd level heading</span><span style="color: #6e678f;"> #</span>
+<span style="color: #59786f;">## </span><span style="color: #bf4400;">2nd level heading</span><span style="color: #59786f;"> #</span>
 
 Some text.
 
-<span style="color: #6e678f;">### </span><span style="color: #906200;">4rd level heading</span>
+<span style="color: #59786f;">### </span><span style="color: #3f6faf;">4rd level heading</span>
 
 Some text.
 
@@ -1192,19 +1199,19 @@ Some text.
 </div>
 
 <p>
-哦对，它们毫无用处。所以你也可以直接省略：<br />
+哦对，它们毫无用处。所以你也可以直接省略：<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-markdown"><code>
-<span style="color: #6e678f;"># </span><span style="color: #8f2f30;">first level heading</span>
+<span style="color: #59786f;"># </span><span style="color: #557400;">first level heading</span>
 
 Some text.
 
-<span style="color: #6e678f;">## </span><span style="color: #00704f;">2nd level heading</span>
+<span style="color: #59786f;">## </span><span style="color: #bf4400;">2nd level heading</span>
 
 Some text.
 
-<span style="color: #6e678f;">### </span><span style="color: #906200;">4rd level heading</span>
+<span style="color: #59786f;">### </span><span style="color: #3f6faf;">4rd level heading</span>
 
 Some text.
 
@@ -1213,56 +1220,56 @@ Some text.
 </div>
 
 <p>
-哦，太棒了。那为什么还要提那些可有可无的无用字符呢？要我说，这设计真糟糕。人们可能会误以为需要手动计算开头的字符数量，并相应调整结尾短语。这完全是错误的。或者说毫无意义。简直就是糟糕的 LML 设计。<br />
+哦，太棒了。那为什么还要提那些可有可无的无用字符呢？要我说，这设计真糟糕。人们可能会误以为需要手动计算开头的字符数量，并相应调整结尾短语。这完全是错误的。或者说毫无意义。简直就是糟糕的 LML 设计。<br>
 </p>
 
 
 <p>
-无论如何，在学习 Markdown 时，它都有可能带来令人沮丧的体验。<br />
+无论如何，在学习 Markdown 时，它都有可能带来令人沮丧的体验。<br>
 </p>
 
 
 <p>
-你可能满足于使用一种标题类型继续学习。但当你开始使用实际工具处理「Markdown」（具体是哪种变体？）时，会发现手头的工具仅支持 Markdown 的某一种特定标题类型。没错，这甚至是一些工具的常见问题——它们连原始 Markdown 定义的所有语法元素都不支持。<br />
+你可能满足于使用一种标题类型继续学习。但当你开始使用实际工具处理「Markdown」（具体是哪种变体？）时，会发现手头的工具仅支持 Markdown 的某一种特定标题类型。没错，这甚至是一些工具的常见问题——它们连原始 Markdown 定义的所有语法元素都不支持。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org9c7ce3f" class="outline-3">
-<h3 id="org9c7ce3f"><span class="section-number-3">13.3.</span> MD 不一致性：强调</h3>
+<div id="outline-container-org9f0cd23" class="outline-3">
+<h3 id="org9f0cd23"><span class="section-number-3">13.3.</span> MD 不一致性：强调</h3>
 <div class="outline-text-3" id="text-13-3">
 <p>
-与 Markdown 为标题定义的自由度类似，它也定义了多种强调文本的方式：<br />
+与 Markdown 为标题定义的自由度类似，它也定义了多种强调文本的方式：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code> <span style="color: #6e678f;">*</span><span style="font-style: italic;">foo</span><span style="color: #6e678f;">*</span> or <span style="color: #6e678f;">_</span><span style="font-style: italic;">foo</span><span style="color: #6e678f;">_</span> &#8594; HTML tag em
- <span style="color: #6e678f;">**</span><span style="font-weight: bold;">foo</span><span style="color: #6e678f;">**</span> or <span style="color: #6e678f;">__</span><span style="font-weight: bold;">foo</span><span style="color: #6e678f;">__</span> &#8594; HTML tag strong
+<pre class="src src-markdown"><code> <span style="color: #59786f;">*</span><span style="font-style: italic;">foo</span><span style="color: #59786f;">*</span> or <span style="color: #59786f;">_</span><span style="font-style: italic;">foo</span><span style="color: #59786f;">_</span> &#8594; HTML tag em
+ <span style="color: #59786f;">**</span><span style="font-weight: bold;">foo</span><span style="color: #59786f;">**</span> or <span style="color: #59786f;">__</span><span style="font-weight: bold;">foo</span><span style="color: #59786f;">__</span> &#8594; HTML tag strong
 </code></pre>
 </div>
 
 <p>
-那么所有工具都需要同时支持两者吗？<br />
+那么所有工具都需要同时支持两者吗？<br>
 </p>
 
 <p>
-为何不采用一种变体表示第一种强调，另一种变体表示第二种强调类型？这恰恰体现了过度自由带来的弊端。一个简洁统一的轻量级标记语言设计本应优化必要字符数量并降低歧义程度。<br />
+为何不采用一种变体表示第一种强调，另一种变体表示第二种强调类型？这恰恰体现了过度自由带来的弊端。一个简洁统一的轻量级标记语言设计本应优化必要字符数量并降低歧义程度。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org3b7c55d" class="outline-3">
-<h3 id="org3b7c55d"><span class="section-number-3">13.4.</span> MD 不一致性：表格</h3>
+<div id="outline-container-orgb3dc761" class="outline-3">
+<h3 id="orgb3dc761"><span class="section-number-3">13.4.</span> MD 不一致性：表格</h3>
 <div class="outline-text-3" id="text-13-4">
 <p>
-表格在这里是个棘手的话题，因为它们原本并不属于 Markdown 的初始定义范畴（除非通过内联 HTML 实现）。然而 LML 表格实在太过普遍，我不得不在此提及。这些表格在我日常使用 Markdown 时制造了大量麻烦。<br />
+表格在这里是个棘手的话题，因为它们原本并不属于 Markdown 的初始定义范畴（除非通过内联 HTML 实现）。然而 LML 表格实在太过普遍，我不得不在此提及。这些表格在我日常使用 Markdown 时制造了大量麻烦。<br>
 </p>
 
 
 <p>
-这是一个<a href="https://htmlmarkdown.com/syntax/markdown-tables/">简单的 Markdown 表格</a>：<br />
+这是一个<a href="https://htmlmarkdown.com/syntax/markdown-tables/">简单的 Markdown 表格</a>：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code><span style="color: #8a5f4a;">| Column 1      | Column 2      |
+<pre class="src src-markdown"><code><span style="color: #7f475a;">| Column 1      | Column 2      |
 | ------------- | ------------- |
 | Cell 1, Row 1 | Cell 2, Row 1 |
 | Cell 1, Row 2 | Cell 1, Row 2 |</span>
@@ -1270,427 +1277,427 @@ Some text.
 </div>
 
 <p>
-对于许多使用场景来说，这似乎已经足够。它还具有许多对齐等选项。遗憾的是，某些表格功能也无法通过这种表格语法实现。因此我还需要通过 <a href="https://pandoc.org/MANUAL.html#tables">pandoc 使用网格表格</a>：<br />
+对于许多使用场景来说，这似乎已经足够。它还具有许多对齐等选项。遗憾的是，某些表格功能也无法通过这种表格语法实现。因此我还需要通过 <a href="https://pandoc.org/MANUAL.html#tables">pandoc 使用网格表格</a>：<br>
 </p>
 
 <div class="org-src-container">
 <pre class="src src-markdown"><code>+-----------------------+-----------------------+
-<span style="color: #8a5f4a;">| Column 1              | Column 2              |
+<span style="color: #7f475a;">| Column 1              | Column 2              |
 </span>+=======================+=======================+
-<span style="color: #8a5f4a;">| Cell 1, Row 1, line 1 | Cell 2, Row 1, line 1 |
+<span style="color: #7f475a;">| Cell 1, Row 1, line 1 | Cell 2, Row 1, line 1 |
 | Cell 1, Row 1, line 2 | Cell 2, Row 1, line 2 |
 </span>+-----------------------+-----------------------+
-<span style="color: #8a5f4a;">| Cell 1, Row 2, line 1 | Cell 2, Row 2, line 1 |
+<span style="color: #7f475a;">| Cell 1, Row 2, line 1 | Cell 2, Row 2, line 1 |
 | Cell 1, Row 2, line 2 | Cell 2, Row 2, line 2 |
 </span>+-----------------------+-----------------------+
 </code></pre>
 </div>
 
 <p>
-根据表格功能需求，我确实会在不同文档中混合使用这两种表格类型。<br />
+根据表格功能需求，我确实会在不同文档中混合使用这两种表格类型。<br>
 </p>
 
 
 <p>
-在我看来，这也是 Markdown 设计不一致的例证——原始定义中并未加入表格功能（HTML 表格除外），因此衍生出了多种表格语法版本。<br />
+在我看来，这也是 Markdown 设计不一致的例证——原始定义中并未加入表格功能（HTML 表格除外），因此衍生出了多种表格语法版本。<br>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc3c05c3" class="outline-2">
-<h2 id="orgc3c05c3"><span class="section-number-2">14.</span> Markdown 对人类输入不友好</h2>
+<div id="outline-container-org9cee6a5" class="outline-2">
+<h2 id="org9cee6a5"><span class="section-number-2">14.</span> Markdown 对人类输入不友好</h2>
 <div class="outline-text-2" id="text-14">
 <p>
-Markdown 难以输入的原因与其难以学习的原因如出一辙。例如，我总是被 URL 语法（顺序、括号类型）搞得晕头转向。<br />
+Markdown 难以输入的原因与其难以学习的原因如出一辙。例如，我总是被 URL 语法（顺序、括号类型）搞得晕头转向。<br>
 </p>
 
 
 <p>
-在日常工作中，人们更倾向于使用加粗强调而非斜体。因此，所有需要加粗的内容都必须以两个星号开头，并以两个星号结尾。你可能觉得这太夸张了，但我认为如果能设计出更好的轻量级标记语言，这种重复操作本可避免。<br />
+在日常工作中，人们更倾向于使用加粗强调而非斜体。因此，所有需要加粗的内容都必须以两个星号开头，并以两个星号结尾。你可能觉得这太夸张了，但我认为如果能设计出更好的轻量级标记语言，这种重复操作本可避免。<br>
 </p>
 
 
 <p>
-在处理源代码示例时，Markdown 能识别 HTML 标签。此外，你可以在代码段的首尾使用三个反引号。这种方式我也能接受。但有时你需要使用第三种 Markdown 选项：每行开头≥4 个前导空格。具体是否需要采用这种方式取决于你使用的工具或 Markdown 变体。这种情况下，在每行前添加额外字符会非常繁琐。通常 Markdown 编辑器并非优秀的文本编辑器，它们<a href="https://en.wikipedia.org/wiki/Text_editor#Advanced_features">不支持宏命令、列编辑或多光标功能——这些功能本可以简化此类操作</a>。<br />
+在处理源代码示例时，Markdown 能识别 HTML 标签。此外，你可以在代码段的首尾使用三个反引号。这种方式我也能接受。但有时你需要使用第三种 Markdown 选项：每行开头≥4 个前导空格。具体是否需要采用这种方式取决于你使用的工具或 Markdown 变体。这种情况下，在每行前添加额外字符会非常繁琐。通常 Markdown 编辑器并非优秀的文本编辑器，它们<a href="https://en.wikipedia.org/wiki/Text_editor#Advanced_features">不支持宏命令、列编辑或多光标功能——这些功能本可以简化此类操作</a>。<br>
 </p>
 
 
 <p>
-（注：尽管我试图严格区分 LML 语法与工具支持，但必须指出，我从未见过任何 Markdown 编辑器能提供接近 GNU Emacs 为 orgdown 所提供的工具支持水平。这并非针对 Markdown 语法本身的优劣评判，但确实加剧了我使用 Markdown 工具时的挫败感。）<br />
+（注：尽管我试图严格区分 LML 语法与工具支持，但必须指出，我从未见过任何 Markdown 编辑器能提供接近 GNU Emacs 为 orgdown 所提供的工具支持水平。这并非针对 Markdown 语法本身的优劣评判，但确实加剧了我使用 Markdown 工具时的挫败感。）<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org000a83c" class="outline-2">
-<h2 id="org000a83c"><span class="section-number-2">15.</span> Markdown 难以被工具处理</h2>
+<div id="outline-container-org0bf295f" class="outline-2">
+<h2 id="org0bf295f"><span class="section-number-2">15.</span> Markdown 难以被工具处理</h2>
 <div class="outline-text-2" id="text-15">
 <p>
-在许多讨论中，Markdown 广受支持的工具生态常被视为拥抱它的最强理由。而我认为，Markdown 文本无法在其他工具中被正确复用，正是反对它的最有力论据。读到这里，您或许已明白其中缘由。<br />
+在许多讨论中，Markdown 广受支持的工具生态常被视为拥抱它的最强理由。而我认为，Markdown 文本无法在其他工具中被正确复用，正是反对它的最有力论据。读到这里，您或许已明白其中缘由。<br>
 </p>
 
 
 <p>
-Markdown 缺乏统一定义。它存在着各种方言版本，不同工具采用不同变体。正如我简单提及过的，部分工具甚至通过可选插件进一步扩展语法，可能引入额外的语法元素。否则就不会出现《<a href="https://amerpie.lol/2024/06/12/useful-obsidian-plugins.html">10 款不影响纯文本数据的实用#Obsidian 插件</a>》这类文章了。<br />
+Markdown 缺乏统一定义。它存在着各种方言版本，不同工具采用不同变体。正如我简单提及过的，部分工具甚至通过可选插件进一步扩展语法，可能引入额外的语法元素。否则就不会出现《<a href="https://amerpie.lol/2024/06/12/useful-obsidian-plugins.html">10 款不影响纯文本数据的实用#Obsidian 插件</a>》这类文章了。<br>
 </p>
 
 <p>
-这些语法元素存在严重问题，因为几乎可以确定的是，当转换为功能更强大的输出格式时，它们所包含的内容都无法得到正确处理。<br />
+这些语法元素存在严重问题，因为几乎可以确定的是，当转换为功能更强大的输出格式时，它们所包含的内容都无法得到正确处理。<br>
 </p>
 
 <p>
-总而言之，无论你在 Markdown 语法中使用了什么，在确定其能在特定情境下复用之前，你都必须仔细甄别所用的是哪个变体的哪些语法元素。对于所有非简单的文档，我都不愿做这种繁琐的工作。<br />
-</p>
-
-
-<p>
-像 <a href="https://git.sr.ht/~xigoi/markdown-monster/blob/master/monster.md?__goaway_challenge=meta-refresh&amp;__goaway_id=aeac9f01dc1a4cb2dd759d25b1a975db">Markdown Monster</a> 这样的工具或许能辅助处理最基本的语法元素。但对于那些你可能知晓或根本不知晓的插件所扩展的语法，它就无能为力了。因此多数情况下，当你试图将某种不完全了解/未明确定义的 Markdown 变体转换为其他格式时，即便使用最优秀的工具支持，仍难以避免数据丢失。<br />
+总而言之，无论你在 Markdown 语法中使用了什么，在确定其能在特定情境下复用之前，你都必须仔细甄别所用的是哪个变体的哪些语法元素。对于所有非简单的文档，我都不愿做这种繁琐的工作。<br>
 </p>
 
 
 <p>
-根据手头的工具、信息以及用于格式化文本的语法元素， <b>Markdown 文本可重复使用的普遍承诺只是一种幻想。</b> <br />
+像 <a href="https://git.sr.ht/~xigoi/markdown-monster/blob/master/monster.md?__goaway_challenge=meta-refresh&amp;__goaway_id=aeac9f01dc1a4cb2dd759d25b1a975db">Markdown Monster</a> 这样的工具或许能辅助处理最基本的语法元素。但对于那些你可能知晓或根本不知晓的插件所扩展的语法，它就无能为力了。因此多数情况下，当你试图将某种不完全了解/未明确定义的 Markdown 变体转换为其他格式时，即便使用最优秀的工具支持，仍难以避免数据丢失。<br>
 </p>
 
 
 <p>
-我认为这是一种 <b>锁定效应</b> ，尽管文本是人类可读的并以文本文件存储——对许多人来说这似乎自相矛盾。但如果你不坚持「仅供人类阅读」的理念，这其实并不矛盾。<br />
+根据手头的工具、信息以及用于格式化文本的语法元素， <b>Markdown 文本可重复使用的普遍承诺只是一种幻想。</b> <br>
+</p>
+
+
+<p>
+我认为这是一种 <b>锁定效应</b> ，尽管文本是人类可读的并以文本文件存储——对许多人来说这似乎自相矛盾。但如果你不坚持「仅供人类阅读」的理念，这其实并不矛盾。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org7ab9ff4" class="outline-2">
-<h2 id="org7ab9ff4"><span class="section-number-2">16.</span> Markdown 已无药可救</h2>
+<div id="outline-container-orgac0cfa7" class="outline-2">
+<h2 id="orgac0cfa7"><span class="section-number-2">16.</span> Markdown 已无药可救</h2>
 <div class="outline-text-2" id="text-16">
 <p>
-对此我进行了一番思考。我无法提出一个既能为整个故事增添另一种 Markdown 变体，又能制定另一种 Markdown 标准的方案。事实上，这正是某些 Markdown 变体存在的根源——总有人试图定义（唯一的）Markdown 语法规范。如果这种做法曾取得成功，我就不会撰写这篇文章了。恰恰相反，在我的个人使用场景中，那些被视为标准的 Markdown 变体，与我日常使用的工具关联甚微。<br />
+对此我进行了一番思考。我无法提出一个既能为整个故事增添另一种 Markdown 变体，又能制定另一种 Markdown 标准的方案。事实上，这正是某些 Markdown 变体存在的根源——总有人试图定义（唯一的）Markdown 语法规范。如果这种做法曾取得成功，我就不会撰写这篇文章了。恰恰相反，在我的个人使用场景中，那些被视为标准的 Markdown 变体，与我日常使用的工具关联甚微。<br>
 </p>
 
 <p>
-xkcd 漫画《标准》（知识共享署名-非商业性使用 2.5 许可协议；<a href="https://xkcd.com/927">https://xkcd.com/927</a>）<br />
+xkcd 漫画《标准》（知识共享署名-非商业性使用 2.5 许可协议；<a href="https://xkcd.com/927">https://xkcd.com/927</a>）<br>
 </p>
 
 <p>
-这就是为什么我认为 Markdown 已经输掉了这场战役。它就是这样了。对于那些坚持使用单一 Markdown 应用，或者至少使用一组语法基本相同的 Markdown 应用的人来说，它可能还行得通。<br />
-</p>
-
-
-<p>
-我并非说这不可能实现。但要说（任何）Markdown 适合作为通用轻量级标记语言的候选方案，这个论点实在站不住脚。<br />
+这就是为什么我认为 Markdown 已经输掉了这场战役。它就是这样了。对于那些坚持使用单一 Markdown 应用，或者至少使用一组语法基本相同的 Markdown 应用的人来说，它可能还行得通。<br>
 </p>
 
 
 <p>
-因此我们应该改用通用轻量级标记语言（LML），当文本在支持同种 LML 的不同工具间复用时，无需额外处理。<br />
+我并非说这不可能实现。但要说（任何）Markdown 适合作为通用轻量级标记语言的候选方案，这个论点实在站不住脚。<br>
+</p>
+
+
+<p>
+因此我们应该改用通用轻量级标记语言（LML），当文本在支持同种 LML 的不同工具间复用时，无需额外处理。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org82bf3e0" class="outline-2">
-<h2 id="org82bf3e0"><span class="section-number-2">17.</span> 有哪些替代方案？</h2>
+<div id="outline-container-orgfd7e51b" class="outline-2">
+<h2 id="orgfd7e51b"><span class="section-number-2">17.</span> 有哪些替代方案？</h2>
 <div class="outline-text-2" id="text-17">
 <p>
-那么为了避免 Markdown 的缺点，有哪些优秀的轻量级标记语言（LML）候选方案值得使用呢？<br />
+那么为了避免 Markdown 的缺点，有哪些优秀的轻量级标记语言（LML）候选方案值得使用呢？<br>
 </p>
 
 
 <p>
-好消息是，目前已有多种轻量级标记语言可供选择。其中许多都是绝佳的替代方案。让我们就此展开讨论。<br />
+好消息是，目前已有多种轻量级标记语言可供选择。其中许多都是绝佳的替代方案。让我们就此展开讨论。<br>
 </p>
 
 
 <p>
-在我看来，你需要一种初始形态就足够先进的轻量级标记语言，无需外部语法扩展或语法变体就能满足大多数应用场景。<br />
+在我看来，你需要一种初始形态就足够先进的轻量级标记语言，无需外部语法扩展或语法变体就能满足大多数应用场景。<br>
 </p>
 
 
 <p>
-那么，你需要一种 LML，即：<br />
+那么，你需要一种 LML，即：<br>
 </p>
 
 
 <ul class="org-ul">
-<li>人类可轻松阅读<br /></li>
-<li>人类易于学习<br /></li>
-<li>人类易于输入<br /></li>
-<li>工具易于处理<br /></li>
+<li>人类可轻松阅读<br></li>
+<li>人类易于学习<br></li>
+<li>人类易于输入<br></li>
+<li>工具易于处理<br></li>
 </ul>
 
 <p>
-听起来很熟悉吧？;-）<br />
+听起来很熟悉吧？;-）<br>
 </p>
 
 
 <p>
-如果你知道有任何标记语言比 Markdown 更能满足这些要求，那就去用吧！你不需要我的建议。实际上你可以就此打住不必往下读了，反正这篇文章也太长了。<br />
+如果你知道有任何标记语言比 Markdown 更能满足这些要求，那就去用吧！你不需要我的建议。实际上你可以就此打住不必往下读了，反正这篇文章也太长了。<br>
 </p>
 
 
 <p>
-以下链接或许能帮助你自行判断：<br />
+以下链接或许能帮助你自行判断：<br>
 </p>
 
 <ul class="org-ul">
-<li><a href="https://hyperpolyglot.org/lightweight-markup">轻量级标记语言：Markdown、reStructuredText、MediaWiki、AsciiDoc、Org-mode - Hyperpolyglot</a><br />
+<li><a href="https://hyperpolyglot.org/lightweight-markup">轻量级标记语言：Markdown、reStructuredText、MediaWiki、AsciiDoc、Org-mode - Hyperpolyglot</a><br>
 <ul class="org-ul">
-<li>不知为何，作者遗漏了许多确实存在的 Orgdown 选项。我猜她/他对 Orgdown 不太熟悉，只找到了非常简单的语法概述。不过在我看来，这个表格还是挺有用的。<br /></li>
+<li>不知为何，作者遗漏了许多确实存在的 Orgdown 选项。我猜她/他对 Orgdown 不太熟悉，只找到了非常简单的语法概述。不过在我看来，这个表格还是挺有用的。<br></li>
 </ul></li>
-<li><a href="https://docs.asciidoctor.org/asciidoc/latest/asciidoc-vs-markdown/">AsciiDoc 与 Markdown 对比 | Asciidoctor 文档</a><br /></li>
-<li>通过您喜欢的搜索方式查找更多类似此<a href="https://www.perplexity.ai/search/i-m-looking-for-web-pages-with-x3bYZrvITeCjKCT6.I85HQ">网页查询</a>的内容<br />
+<li><a href="https://docs.asciidoctor.org/asciidoc/latest/asciidoc-vs-markdown/">AsciiDoc 与 Markdown 对比 | Asciidoctor 文档</a><br></li>
+<li>通过您喜欢的搜索方式查找更多类似此<a href="https://www.perplexity.ai/search/i-m-looking-for-web-pages-with-x3bYZrvITeCjKCT6.I85HQ">网页查询</a>的内容<br>
 <ul class="org-ul">
-<li>请注意：仍有部分作者未能区分语法（orgdown）与使用特定工具（如 Emacs）的必要性。<br /></li>
+<li>请注意：仍有部分作者未能区分语法（orgdown）与使用特定工具（如 Emacs）的必要性。<br></li>
 </ul></li>
 </ul>
 
 <p>
-你可以回顾我在前文「什么是轻量级标记语言（LML）？」章节中提到的流行 LML 列表。<br />
+你可以回顾我在前文「什么是轻量级标记语言（LML）？」章节中提到的流行 LML 列表。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgdf4d73e" class="outline-2">
-<h2 id="orgdf4d73e"><span class="section-number-2">18.</span> Orgdown 作为替代方案之一</h2>
+<div id="outline-container-orgda70247" class="outline-2">
+<h2 id="orgda70247"><span class="section-number-2">18.</span> Orgdown 作为替代方案之一</h2>
 <div class="outline-text-2" id="text-18">
 <p>
-在本文剩余部分，我将阐述为何推荐尝试我个人偏爱的轻量级标记语言选择：<a href="https://karl-voit.at/tags/emacs">Emacs Org-mode</a> 语法——<a href="https://karl-voit.at/2021/11/27/orgdown">在我看来，它应该改名</a>为 <a href="https://karl-voit.at/2017/09/23/orgmode-as-markup-only">Orgdown</a>。<br />
+在本文剩余部分，我将阐述为何推荐尝试我个人偏爱的轻量级标记语言选择：<a href="https://karl-voit.at/tags/emacs">Emacs Org-mode</a> 语法——<a href="https://karl-voit.at/2021/11/27/orgdown">在我看来，它应该改名</a>为 <a href="https://karl-voit.at/2017/09/23/orgmode-as-markup-only">Orgdown</a>。<br>
 </p>
 
 <p>
-当你想了解我为何为 Org-mode 语法创造新术语时，请阅读<a href="https://karl-voit.at/2021/11/27/orgdown">这篇文章</a>。<br />
+当你想了解我为何为 Org-mode 语法创造新术语时，请阅读<a href="https://karl-voit.at/2021/11/27/orgdown">这篇文章</a>。<br>
 </p>
 
 <p>
-是的，Orgdown 并非官方正式标准。然而，作为 Org-mode 的 Elisp 实现定义了语法元素的呈现方式和解释规则，它已然成为一种事实上的伪标准。这已远超 Markdown 所能企及的规范程度。<br />
+是的，Orgdown 并非官方正式标准。然而，作为 Org-mode 的 Elisp 实现定义了语法元素的呈现方式和解释规则，它已然成为一种事实上的伪标准。这已远超 Markdown 所能企及的规范程度。<br>
 </p>
 
 
 <p>
-我已写过《<a href="https://karl-voit.at/2017/09/23/orgmode-as-markup-only">Org Mode 语法是最合理的文本标记语言之一</a>》。不过按照同样的标准来论证 Orgdown 的合理性也很公平。<br />
+我已写过《<a href="https://karl-voit.at/2017/09/23/orgmode-as-markup-only">Org Mode 语法是最合理的文本标记语言之一</a>》。不过按照同样的标准来论证 Orgdown 的合理性也很公平。<br>
 </p>
 </div>
-<div id="outline-container-orgf7cc141" class="outline-3">
-<h3 id="orgf7cc141"><span class="section-number-3">18.1.</span> （可选）Orgdown 的工具支持</h3>
+<div id="outline-container-orgc9eaab6" class="outline-3">
+<h3 id="orgc9eaab6"><span class="section-number-3">18.1.</span> （可选）Orgdown 的工具支持</h3>
 <div class="outline-text-3" id="text-18-1">
 <ul class="org-ul">
-<li>A：「我更喜欢用 Org-mode 管理文件。」<br /></li>
-<li>B：「噢，我才不用呢，我讨厌 Emacs。」<br /></li>
+<li>A：「我更喜欢用 Org-mode 管理文件。」<br></li>
+<li>B：「噢，我才不用呢，我讨厌 Emacs。」<br></li>
 </ul>
 
 <p>
-（他们很可能在谈论两件不同的事。）<br />
+（他们很可能在谈论两件不同的事。）<br>
 </p>
 
 
 <p>
-由于这似乎是个永无止境的误解，我——再次——想强调我们需要区分工具支持和轻量级标记语言语法。在这种情况下，你可以使用 Emacs Org-mode 来处理 orgdown 文本。你也可以从<a href="https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Tool-Support.org">众多其他 orgdown 工具</a>中选择合适的来完成这项工作。<br />
+由于这似乎是个永无止境的误解，我——再次——想强调我们需要区分工具支持和轻量级标记语言语法。在这种情况下，你可以使用 Emacs Org-mode 来处理 orgdown 文本。你也可以从<a href="https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Tool-Support.org">众多其他 orgdown 工具</a>中选择合适的来完成这项工作。<br>
 </p>
 
 
 <p>
-手动输入 orgdown 格式甚至具有足够优势，无需任何特定语法支持。至少我所知的大多数 Markdown 工具根本不提供实质性的 Markdown 支持。因此大多数人甚至不知道优秀工具支持应该具备哪些功能。这就是 <a href="https://en.wikipedia.org/wiki/KISS_principle">KISS 原则（保持简单原则）</a>。<br />
+手动输入 orgdown 格式甚至具有足够优势，无需任何特定语法支持。至少我所知的大多数 Markdown 工具根本不提供实质性的 Markdown 支持。因此大多数人甚至不知道优秀工具支持应该具备哪些功能。这就是 <a href="https://en.wikipedia.org/wiki/KISS_principle">KISS 原则（保持简单原则）</a>。<br>
 </p>
 
 
 <p>
-若您确实追求卓越的工具支持，没有什么能比 Emacs Org-mode 配合 orgdown 轻量级标记语言更完美的了。以下是使用 Emacs 处理 orgdown 时所能期待的极简功能清单：<br />
+若您确实追求卓越的工具支持，没有什么能比 Emacs Org-mode 配合 orgdown 轻量级标记语言更完美的了。以下是使用 Emacs 处理 orgdown 时所能期待的极简功能清单：<br>
 </p>
 
 
 <ul class="org-ul">
-<li>语法高亮：最基础也最直观的功能，可惜在某些实现中这甚至是唯一的工具支持<br /></li>
-<li>快速创建新元素的快捷键：标题、列表项、表格单元格等等<br /></li>
-<li>移动项目：标题、列表项、表格单元格……<br /></li>
-<li>导航至特定位置：书签、标题、关键词、脚注等<br /></li>
-<li>从 orgdown 数据生成特殊视图，如日程/日历、汇总表格等<br /></li>
-<li>高级导出功能，支持所有相关目标文件格式<br /></li>
-<li>从所有相关源文件格式导入<br /></li>
-<li>输入时自动对齐表格<br /></li>
+<li>语法高亮：最基础也最直观的功能，可惜在某些实现中这甚至是唯一的工具支持<br></li>
+<li>快速创建新元素的快捷键：标题、列表项、表格单元格等等<br></li>
+<li>移动项目：标题、列表项、表格单元格……<br></li>
+<li>导航至特定位置：书签、标题、关键词、脚注等<br></li>
+<li>从 orgdown 数据生成特殊视图，如日程/日历、汇总表格等<br></li>
+<li>高级导出功能，支持所有相关目标文件格式<br></li>
+<li>从所有相关源文件格式导入<br></li>
+<li>输入时自动对齐表格<br></li>
 </ul>
 
 
 <p>
-我无法更加强调在使用 Emacs 和/或 Org-mode 时处理文本有多么棒。我个人从未见过任何可比拟的东西。只有亲自尝试较长时间后，你才能真正理解。当你在 YouTube 和其他视频平台上观看一些与 Org-mode 相关的视频时，你可以获得一个简短的预览：<br />
+我无法更加强调在使用 Emacs 和/或 Org-mode 时处理文本有多么棒。我个人从未见过任何可比拟的东西。只有亲自尝试较长时间后，你才能真正理解。当你在 YouTube 和其他视频平台上观看一些与 Org-mode 相关的视频时，你可以获得一个简短的预览：<br>
 </p>
 
 <ul class="org-ul">
-<li>Prot：<a href="https://youtu.be/e9Ucb1JHUfQ">Emacs Org 模式基础教程</a>（48 分钟）<br /></li>
-<li><a href="https://www.youtube.com/watch?v=QlYQijQCNHU">关于 Emacs Org-mode 基础功能的精彩视频</a>（1 小时 32 分钟）<br /></li>
-<li><a href="https://karl-voit.at/clippings">我的一些在线视频</a>也涉及 Org 模式相关的工作流程。<br /></li>
+<li>Prot：<a href="https://youtu.be/e9Ucb1JHUfQ">Emacs Org 模式基础教程</a>（48 分钟）<br></li>
+<li><a href="https://www.youtube.com/watch?v=QlYQijQCNHU">关于 Emacs Org-mode 基础功能的精彩视频</a>（1 小时 32 分钟）<br></li>
+<li><a href="https://karl-voit.at/clippings">我的一些在线视频</a>也涉及 Org 模式相关的工作流程。<br></li>
 </ul>
 
 
 <p>
-借助 pandoc 等工具，你还能实现更多涉及 orgdown 文件的工作流程。我开发了许多非 Emacs 工具，这些工具要么将 Orgdown 文件作为输入，要么生成 Orgdown 作为输出格式。举个例子，这个博客的所有文章都是用 Orgdown 撰写的。我自用的静态网站生成器（市面上有很多可选方案！）能一次性生成你现在看到的 HTML 页面。笔记、任务、项目或博客文章之间无需区分——<a href="https://karl-voit.at/2017/02/10/evolution-of-systems">这是种完全不同的电脑使用方式</a>。<br />
+借助 pandoc 等工具，你还能实现更多涉及 orgdown 文件的工作流程。我开发了许多非 Emacs 工具，这些工具要么将 Orgdown 文件作为输入，要么生成 Orgdown 作为输出格式。举个例子，这个博客的所有文章都是用 Orgdown 撰写的。我自用的静态网站生成器（市面上有很多可选方案！）能一次性生成你现在看到的 HTML 页面。笔记、任务、项目或博客文章之间无需区分——<a href="https://karl-voit.at/2017/02/10/evolution-of-systems">这是种完全不同的电脑使用方式</a>。<br>
 </p>
 
 <p>
-此刻我再次离开工具支持层面，回到轻量级标记语言层面，解释为何 Orgdown 与 Markdown 相比截然不同且更胜一筹——即便你完全忽略任何工具支持因素。<br />
+此刻我再次离开工具支持层面，回到轻量级标记语言层面，解释为何 Orgdown 与 Markdown 相比截然不同且更胜一筹——即便你完全忽略任何工具支持因素。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org44c1a9f" class="outline-3">
-<h3 id="org44c1a9f"><span class="section-number-3">18.2.</span> Orgdown 对人类而言易于阅读</h3>
+<div id="outline-container-org36ffdae" class="outline-3">
+<h3 id="org36ffdae"><span class="section-number-3">18.2.</span> Orgdown 对人类而言易于阅读</h3>
 <div class="outline-text-3" id="text-18-2">
 <p>
-以下示例可供您对照原文与解读内容，自行判断即使没有高亮显示、重新格式化等处理，Orgdown 的易读性如何。<br />
+以下示例可供您对照原文与解读内容，自行判断即使没有高亮显示、重新格式化等处理，Orgdown 的易读性如何。<br>
 </p>
 
 <ul class="org-ul">
-<li>Orgdown1 示例<br />
+<li>Orgdown1 示例<br>
 <ul class="org-ul">
-<li><a href="https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Orgdown1-Syntax-Examples.org?plain=1">源文件</a><br /></li>
-<li><a href="https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Orgdown1-Syntax-Examples.org?plain=0">Gitlab 预览</a><br /></li>
+<li><a href="https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Orgdown1-Syntax-Examples.org?plain=1">源文件</a><br></li>
+<li><a href="https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Orgdown1-Syntax-Examples.org?plain=0">Gitlab 预览</a><br></li>
 </ul></li>
-<li>本博客<br />
+<li>本博客<br>
 <ul class="org-ul">
-<li>文件说明：每页右上角都有一个¶符号，点击可查看我编写的 Orgdown 源文件。<br /></li>
+<li>文件说明：每页右上角都有一个¶符号，点击可查看我编写的 Orgdown 源文件。<br></li>
 </ul></li>
-<li><a href="https://orgmode.org/">Org-mode 主页</a>上也提供了一些颇具参考价值的示例。<br /></li>
-<li><a href="https://orgmode.org/manuals.html">Org-mode 手册</a>当然包含了关于 Orgdown 语法元素最相关的信息。不过它更像是一本参考手册而非教程。<br /></li>
-<li><a href="https://orgmode.org/worg/">Worg 社区页面</a>提供了一些额外的资源，如教程、深度解析等内容。<br /></li>
+<li><a href="https://orgmode.org/">Org-mode 主页</a>上也提供了一些颇具参考价值的示例。<br></li>
+<li><a href="https://orgmode.org/manuals.html">Org-mode 手册</a>当然包含了关于 Orgdown 语法元素最相关的信息。不过它更像是一本参考手册而非教程。<br></li>
+<li><a href="https://orgmode.org/worg/">Worg 社区页面</a>提供了一些额外的资源，如教程、深度解析等内容。<br></li>
 </ul>
 
 <p>
-所以请自行判断。在大多数情况下，它与标准 Markdown 元素差别不大。如果你已经掌握了 Markdown，你很可能会为 Orgdown 更出色的设计感到欣喜。<br />
+所以请自行判断。在大多数情况下，它与标准 Markdown 元素差别不大。如果你已经掌握了 Markdown，你很可能会为 Orgdown 更出色的设计感到欣喜。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgcc78f2d" class="outline-3">
-<h3 id="orgcc78f2d"><span class="section-number-3">18.3.</span> Orgdown 对人类来说很容易学习</h3>
+<div id="outline-container-org97225dd" class="outline-3">
+<h3 id="org97225dd"><span class="section-number-3">18.3.</span> Orgdown 对人类来说很容易学习</h3>
 <div class="outline-text-3" id="text-18-3">
 <p>
-改变习惯可能是最难做到的事。如果你已经克服了 Markdown 最初的障碍，熟记工具的语法细节，并且大量使用单一 Markdown 变体进行写作：学习另一种轻量级标记语言确实看起来是项艰巨任务。<br />
+改变习惯可能是最难做到的事。如果你已经克服了 Markdown 最初的障碍，熟记工具的语法细节，并且大量使用单一 Markdown 变体进行写作：学习另一种轻量级标记语言确实看起来是项艰巨任务。<br>
 </p>
 
 
 <p>
-将 Orgdown 作为你的第一种轻量级标记语言(LML)来学习应该不是难事，因为它设计精良，没有 Markdown 那些不一致的问题，而且在我看来输入起来更轻松。我认为 Orgdown 作为入门的第一种轻量级标记语言是非常不错的选择。<br />
+将 Orgdown 作为你的第一种轻量级标记语言(LML)来学习应该不是难事，因为它设计精良，没有 Markdown 那些不一致的问题，而且在我看来输入起来更轻松。我认为 Orgdown 作为入门的第一种轻量级标记语言是非常不错的选择。<br>
 </p>
 
 
 <p>
-我个人建议是在电脑显示器下方放一份速查表。或许打印一份 <a href="https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Orgdown1-Syntax-Examples.org">od1 示例页面</a>就能满足你的需求。也可以考虑从以下列表中选择：<br />
+我个人建议是在电脑显示器下方放一份速查表。或许打印一份 <a href="https://gitlab.com/publicvoit/orgdown/-/blob/master/doc/Orgdown1-Syntax-Examples.org">od1 示例页面</a>就能满足你的需求。也可以考虑从以下列表中选择：<br>
 </p>
 
 <ul class="org-ul">
-<li>(W)Org 教程<br /></li>
-<li><a href="https://github.com/fniessen/refcard-org-mode">https://github.com/fniessen/refcard-org-mode</a><br /></li>
+<li>(W)Org 教程<br></li>
+<li><a href="https://github.com/fniessen/refcard-org-mode">https://github.com/fniessen/refcard-org-mode</a><br></li>
 </ul>
 
 
 <p>
-在最初几天或几周内，你会频繁查阅某些元素，比如 URL 和描述的排列顺序、如何强调文本等。我建议将你经常查阅的单个元素高亮标注。<br />
+在最初几天或几周内，你会频繁查阅某些元素，比如 URL 和描述的排列顺序、如何强调文本等。我建议将你经常查阅的单个元素高亮标注。<br>
 </p>
 
 
 <p>
-随着时间的推移，你会发现越来越不需要这张速查表，最终可以把它收进抽屉。这时候你其实已经跨越了语法学习曲线中最陡峭的部分。<br />
+随着时间的推移，你会发现越来越不需要这张速查表，最终可以把它收进抽屉。这时候你其实已经跨越了语法学习曲线中最陡峭的部分。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgf18ef07" class="outline-3">
-<h3 id="orgf18ef07"><span class="section-number-3">18.4.</span> Orgdown 便于人工输入</h3>
+<div id="outline-container-org8c27f78" class="outline-3">
+<h3 id="org8c27f78"><span class="section-number-3">18.4.</span> Orgdown 便于人工输入</h3>
 <div class="outline-text-3" id="text-18-4">
 <p>
-出于与上述相同的原因，相比 Markdown，Orgdown 对人类而言更易键入，它具备更少的不一致性和更巧妙的设计。我认为你无需过多担忧，因为你不必像使用 Markdown 时那样，为各种不兼容的语法变体而烦恼。<br />
+出于与上述相同的原因，相比 Markdown，Orgdown 对人类而言更易键入，它具备更少的不一致性和更巧妙的设计。我认为你无需过多担忧，因为你不必像使用 Markdown 时那样，为各种不兼容的语法变体而烦恼。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orge33854c" class="outline-3">
-<h3 id="orge33854c"><span class="section-number-3">18.5.</span> Orgdown 便于工具处理</h3>
+<div id="outline-container-orgd5e4b17" class="outline-3">
+<h3 id="orgd5e4b17"><span class="section-number-3">18.5.</span> Orgdown 便于工具处理</h3>
 <div class="outline-text-3" id="text-18-5">
 <p>
-这正是 Orgdown 的闪光点。<br />
+这正是 Orgdown 的闪光点。<br>
 </p>
 
 <p>
-我之前已经提到过在 Emacs Org 模式下写作时出色的创作工具支持。这是目前最优秀的轻量级标记语言环境——远超其他选择。由于 Orgdown 针对各类使用场景提供了极其丰富的语法元素，你几乎不会遇到"要是能再多支持某某功能就好了"的情况。毕竟已有大量（学术）书籍、论文和研究报告都是用 Orgdown 完成的。<br />
+我之前已经提到过在 Emacs Org 模式下写作时出色的创作工具支持。这是目前最优秀的轻量级标记语言环境——远超其他选择。由于 Orgdown 针对各类使用场景提供了极其丰富的语法元素，你几乎不会遇到"要是能再多支持某某功能就好了"的情况。毕竟已有大量（学术）书籍、论文和研究报告都是用 Orgdown 完成的。<br>
 </p>
 
 
 <p>
-说到重用 Orgdown 文本，你完全不必担心格式兼容性问题。只需启动 Org-mode 导出过滤器、执行 pandoc 转换命令，或使用其他工具中任何与 org 相关的导入功能，你的文本就能完美呈现。<br />
+说到重用 Orgdown 文本，你完全不必担心格式兼容性问题。只需启动 Org-mode 导出过滤器、执行 pandoc 转换命令，或使用其他工具中任何与 org 相关的导入功能，你的文本就能完美呈现。<br>
 </p>
 
 <p>
-仅以一小部分用例为例，看看 <a href="https://orgmode.org/worg/org-blog-wiki.html">Worg 上专为 Orgdown 设计的静态网页生成器</a>就知道了。<br />
+仅以一小部分用例为例，看看 <a href="https://orgmode.org/worg/org-blog-wiki.html">Worg 上专为 Orgdown 设计的静态网页生成器</a>就知道了。<br>
 </p>
 
 <p>
-在摆脱了 Markdown 的大部分缺点后，当您不再受各种 Markdown 方言带来的困扰时，您会意识到 LML 理念的整体优越性。这完全是一种全新的体验。<br />
+在摆脱了 Markdown 的大部分缺点后，当您不再受各种 Markdown 方言带来的困扰时，您会意识到 LML 理念的整体优越性。这完全是一种全新的体验。<br>
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org3955e24" class="outline-2">
-<h2 id="org3955e24"><span class="section-number-2">19.</span> 总结</h2>
+<div id="outline-container-org3c82831" class="outline-2">
+<h2 id="org3c82831"><span class="section-number-2">19.</span> 总结</h2>
 <div class="outline-text-2" id="text-19">
 <p>
-哇，你竟然坚持读到了这里。这篇文章之所以这么长，是因为我试图澄清关于这个主题的所有误解、混淆和争议——毕竟我在网上经历过（太多）相关讨论了。<br />
+哇，你竟然坚持读到了这里。这篇文章之所以这么长，是因为我试图澄清关于这个主题的所有误解、混淆和争议——毕竟我在网上经历过（太多）相关讨论了。<br>
 </p>
 
 
 <p>
-我已简要介绍了 LML 理念，它完全独立于任何特定的 LML 语法。<br />
+我已简要介绍了 LML 理念，它完全独立于任何特定的 LML 语法。<br>
 </p>
 
 
 <p>
-根据我的理解，我总结了 LML 应具备的通用特性。通过这种方式，您可以客观地讨论不同的实现方案。<br />
+根据我的理解，我总结了 LML 应具备的通用特性。通过这种方式，您可以客观地讨论不同的实现方案。<br>
 </p>
 
 
 <p>
-接着我总结了 Markdown 设计上让我不满意的方面，以及需要在大脑中区分如此多不同变体的事实。<br />
+接着我总结了 Markdown 设计上让我不满意的方面，以及需要在大脑中区分如此多不同变体的事实。<br>
 </p>
 
 
 <p>
-我阐述了自己对 Markdown 现状为何如此失控的看法。<br />
+我阐述了自己对 Markdown 现状为何如此失控的看法。<br>
 </p>
 
 
 <p>
-最后，我建议改用另一种轻量级标记语言——一种不会带来 Markdown 所有缺陷的标记语言。<br />
+最后，我建议改用另一种轻量级标记语言——一种不会带来 Markdown 所有缺陷的标记语言。<br>
 </p>
 
 
 <p>
-作为我个人最爱的选择，我特别强调<a href="https://karl-voit.at/2017/09/23/orgmode-as-markup-only">Orgdown 即便你永远不会使用 Emacs 软件，它也是一个出色的轻量级标记语言候选方案</a>。<br />
+作为我个人最爱的选择，我特别强调<a href="https://karl-voit.at/2017/09/23/orgmode-as-markup-only">Orgdown 即便你永远不会使用 Emacs 软件，它也是一个出色的轻量级标记语言候选方案</a>。<br>
 </p>
 
 
 <p>
-根据我的个人经验，Markdown 唯一聪明之处就是它那个俏皮的名字。除此之外，几乎所有功能都能被其他轻量级标记语言实现得更好。<br />
+根据我的个人经验，Markdown 唯一聪明之处就是它那个俏皮的名字。除此之外，几乎所有功能都能被其他轻量级标记语言实现得更好。<br>
 </p>
 
 
 <p>
-以我的经验来看，这个话题对许多人来说非常敏感。这导致争论往往超出我在此试图总结的客观理性范畴，演变成带有个人偏好的信仰之争。<br />
+以我的经验来看，这个话题对许多人来说非常敏感。这导致争论往往超出我在此试图总结的客观理性范畴，演变成带有个人偏好的信仰之争。<br>
 </p>
 
 
 <p>
-然而，通过以上论述，你应该能够 <b>自行判断</b> 我的观点是否具有一定道理——我对于 Markdown 的个人困扰是否也映射在你的实际使用场景中，或者所列的所有 Markdown 缺陷对你以及所有与你共享文本文档的同事而言根本不成问题。<br />
+然而，通过以上论述，你应该能够 <b>自行判断</b> 我的观点是否具有一定道理——我对于 Markdown 的个人困扰是否也映射在你的实际使用场景中，或者所列的所有 Markdown 缺陷对你以及所有与你共享文本文档的同事而言根本不成问题。<br>
 </p>
 
 
 <p>
-如果此刻我仍未能说服你，至少我们还有双方都能选择的其他方案。<br />
+如果此刻我仍未能说服你，至少我们还有双方都能选择的其他方案。<br>
 </p>
 
 
 <p>
-若我遗漏了有力论据，请不吝在下方留言评论。<br />
+若我遗漏了有力论据，请不吝在下方留言评论。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org7f5260e" class="outline-2">
-<h2 id="org7f5260e"><span class="section-number-2">20.</span> 相关观点</h2>
+<div id="outline-container-org166f6f5" class="outline-2">
+<h2 id="org166f6f5"><span class="section-number-2">20.</span> 相关观点</h2>
 <div class="outline-text-2" id="text-20">
 <ul class="org-ul">
-<li>支持 Markdown<br />
+<li>支持 Markdown<br>
 <ul class="org-ul">
-<li><a href="https://ia.net/topics/markdown-and-the-slow-fade-of-the-formatting-fetish">Markdown 与格式迷恋的缓慢消逝</a> + <a href="https://graz.social/@publicvoit/114279777250431265">我对此的评论</a><br /></li>
+<li><a href="https://ia.net/topics/markdown-and-the-slow-fade-of-the-formatting-fetish">Markdown 与格式迷恋的缓慢消逝</a> + <a href="https://graz.social/@publicvoit/114279777250431265">我对此的评论</a><br></li>
 </ul></li>
-<li>反对 Markdown<br />
+<li>反对 Markdown<br>
 <ul class="org-ul">
-<li><a href="https://ericholscher.com/blog/2016/mar/15/dont-use-markdown-for-technical-docs/">为什么你不该用 Markdown 编写文档 —— Eric Holscher</a><br /></li>
+<li><a href="https://ericholscher.com/blog/2016/mar/15/dont-use-markdown-for-technical-docs/">为什么你不该用 Markdown 编写文档 —— Eric Holscher</a><br></li>
 </ul></li>
 </ul>
 </div>

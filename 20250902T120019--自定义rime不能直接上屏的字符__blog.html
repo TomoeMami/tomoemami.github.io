@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-10-19 周日 16:08 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-11-14 周五 13:53 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>自定义rime不能直接上屏的字符</title>
 <meta name="generator" content="Org Mode" />
@@ -193,6 +191,14 @@ h4 {
     font-weight: bold;
 }
 
+details {
+  padding: .7em 1em .5em;
+  border-radius: 15px;
+  font-size: 0.95em;
+  border: 2px solid #ccc;
+  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
+  margin-block: 1em;
+}
 
 a {
     cursor: pointer;
@@ -381,32 +387,33 @@ b {
 <p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-09-02 周二 12:05]</span></span></p>
 </div>
 <div id="content" class="content">
+<header>
 <h1 class="title">自定义rime不能直接上屏的字符</h1>
-<p>
-省流：检查方案里的 <code>speller/initials</code> ，这个配置项会定义无法直接上屏的字符。<br />
+</header><p>
+省流：检查方案里的 <code>speller/initials</code> ，这个配置项会定义无法直接上屏的字符。<br>
 </p>
 
 <p>
-比如你有：<br />
+比如你有：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml"><code><span style="color: #aa184f;">speller</span>:
-  <span style="color: #aa184f;">initials</span>: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA
+<pre class="src src-yaml"><code><span style="color: #007a9f;">speller</span>:
+  <span style="color: #007a9f;">initials</span>: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA
 </code></pre>
 </div>
 
 <p>
-改为<br />
+改为<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml"><code><span style="color: #aa184f;">speller</span>:
-  <span style="color: #aa184f;">initials</span>: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA;/
+<pre class="src src-yaml"><code><span style="color: #007a9f;">speller</span>:
+  <span style="color: #007a9f;">initials</span>: zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA;/
 </code></pre>
 </div>
 
 <p>
-之后，不管你怎么设置 <code>symbol_table/half_shape</code> 里的对应关系，直接按下 <code>;</code> 或者 <code>/</code> 时，都会出现候选框，等待进一步输入。<br />
+之后，不管你怎么设置 <code>symbol_table/half_shape</code> 里的对应关系，直接按下 <code>;</code> 或者 <code>/</code> 时，都会出现候选框，等待进一步输入。<br>
 </p>
 </div>
 <div id="postamble" class="status">

@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-10-19 周日 16:07 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-11-14 周五 13:53 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用rime的万象拼音方案</title>
 <meta name="generator" content="Org Mode" />
@@ -193,6 +191,14 @@ h4 {
     font-weight: bold;
 }
 
+details {
+  padding: .7em 1em .5em;
+  border-radius: 15px;
+  font-size: 0.95em;
+  border: 2px solid #ccc;
+  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
+  margin-block: 1em;
+}
 
 a {
     cursor: pointer;
@@ -381,150 +387,151 @@ b {
 <p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-04-12 周六 10:57]</span></span></p>
 </div>
 <div id="content" class="content">
+<header>
 <h1 class="title">使用rime的万象拼音方案</h1>
-<p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-04-10 周四 19:44]</span></span><br />
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-04-10T19:44:00">[2025-04-10 周四 19:44]</time></span><br>
 </p>
 
 <p>
-今天将rime的拼音方案从之前的<a href="https://github.com/gaboolic/rime-frost">白霜拼音</a>换到了<a href="https://github.com/amzxyz/rime_wanxiang_pro">万象拼音</a>。两者的主要差别在于，白霜（以及<a href="https://github.com/iDvel/rime-ice">雾凇拼音</a>等）的原理都是基于词库，需要开发者手动维护更新词库；而万象拼音主要维护的重点在于一个组词模型。也正因如此，前者体积小许多，后者需要加载一个100—200M不等的模型，且资源占用也会大一点。<br />
+今天将rime的拼音方案从之前的<a href="https://github.com/gaboolic/rime-frost">白霜拼音</a>换到了<a href="https://github.com/amzxyz/rime_wanxiang_pro">万象拼音</a>。两者的主要差别在于，白霜（以及<a href="https://github.com/iDvel/rime-ice">雾凇拼音</a>等）的原理都是基于词库，需要开发者手动维护更新词库；而万象拼音主要维护的重点在于一个组词模型。也正因如此，前者体积小许多，后者需要加载一个100—200M不等的模型，且资源占用也会大一点。<br>
 </p>
 
 <p>
-不过我更看重的是后者强大的造句能力，所以切换了过来。简单记录关键操作如下。<br />
+不过我更看重的是后者强大的造句能力，所以切换了过来。简单记录关键操作如下。<br>
 </p>
-<div id="outline-container-orgad99127" class="outline-2">
-<h2 id="orgad99127"><span class="section-number-2">1.</span> 下载万象拼音</h2>
+<div id="outline-container-org3237641" class="outline-2">
+<h2 id="org3237641"><span class="section-number-2">1.</span> 下载万象拼音</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-进入<a href="https://github.com/amzxyz/rime_wanxiang_pro/releases">万象拼音pro的release界面</a>，下载想采用的辅助码对应压缩包及语法模型，将语法模型放在rime文件夹首层。我用的小鹤方案，以下均以此为例。<br />
+进入<a href="https://github.com/amzxyz/rime_wanxiang_pro/releases">万象拼音pro的release界面</a>，下载想采用的辅助码对应压缩包及语法模型，将语法模型放在rime文件夹首层。我用的小鹤方案，以下均以此为例。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org67b37f4" class="outline-2">
-<h2 id="org67b37f4"><span class="section-number-2">2.</span> 配置万象拼音</h2>
+<div id="outline-container-org663ad1c" class="outline-2">
+<h2 id="org663ad1c"><span class="section-number-2">2.</span> 配置万象拼音</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-rime的各种方案配置其实很简单。只需要记住两个规则：<br />
+rime的各种方案配置其实很简单。只需要记住两个规则：<br>
 </p>
 
 <ol class="org-ol">
-<li>对于 <code>default.yaml</code> 文件，需要在 <code>default.custom.yaml</code> 文件中使用 <code>patch:</code> 相关指令才可覆盖；<br /></li>
-<li>对于 <code>*.schema.yaml</code> 文件，需要在对应的 <code>*.custom.yaml</code> 文件中使用 <code>patch:</code> 相关指令才可覆盖。<br /></li>
+<li>对于 <code>default.yaml</code> 文件，需要在 <code>default.custom.yaml</code> 文件中使用 <code>patch:</code> 相关指令才可覆盖；<br></li>
+<li>对于 <code>*.schema.yaml</code> 文件，需要在对应的 <code>*.custom.yaml</code> 文件中使用 <code>patch:</code> 相关指令才可覆盖。<br></li>
 </ol>
 
 <p>
-所以我们要做的就是打开方案内置的各个yaml文件，然后按照注释复制一份之后在新的custom.yaml文件里通过 <code>patch:</code> 方式进行覆盖式修改。<br />
+所以我们要做的就是打开方案内置的各个yaml文件，然后按照注释复制一份之后在新的custom.yaml文件里通过 <code>patch:</code> 方式进行覆盖式修改。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org5ace2fb" class="outline-2">
-<h2 id="org5ace2fb"><span class="section-number-2">3.</span> 取消万象拼音的辅助声母</h2>
+<div id="outline-container-org7eebaac" class="outline-2">
+<h2 id="org7eebaac"><span class="section-number-2">3.</span> 取消万象拼音的辅助声母</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-<span class="timestamp-wrapper"><span class="timestamp">[2025-04-12 周六 10:53]</span></span>： 之前写这篇文章的时候，万象拼音普通版的readme还未更新，误以为其不支持拼音+`的反查。现在直接使用万象拼音普通版就好， <b>以下内容不再需要</b> 。<br />
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-04-12T10:53:00">[2025-04-12 周六 10:53]</time></span>： 之前写这篇文章的时候，万象拼音普通版的readme还未更新，误以为其不支持拼音+`的反查。现在直接使用万象拼音普通版就好， <b>以下内容不再需要</b> 。<br>
 </p>
 
 <p>
-万象拼音有一个自带的辅助码功能，其中第一个选项会默认启用：<br />
+万象拼音有一个自带的辅助码功能，其中第一个选项会默认启用：<br>
 </p>
 
 <blockquote>
 <p>
-辅助码它可以在输入一个确定得拼音后面继续输入一个部首的读音，使得这个字出现在靠前甚至第一位。这种方式易于理解，无须记忆字根，一切基于拼音得基础上。例如：<br />
+辅助码它可以在输入一个确定得拼音后面继续输入一个部首的读音，使得这个字出现在靠前甚至第一位。这种方式易于理解，无须记忆字根，一切基于拼音得基础上。例如：<br>
 </p>
 
 <p>
-功能1 如果想要 镇 字显示在前面 那么在本方案下提供两种方式，第一种就是辅助码声母，vf继续输入j 也就是金字旁得声母即可出现结果，如果还是出现不了你要的结果，可以输入另外主体字的声母来继续缩小范围。<br />
+功能1 如果想要 镇 字显示在前面 那么在本方案下提供两种方式，第一种就是辅助码声母，vf继续输入j 也就是金字旁得声母即可出现结果，如果还是出现不了你要的结果，可以输入另外主体字的声母来继续缩小范围。<br>
 </p>
 </blockquote>
 
 <p>
-这个的意思是，想找 <code>镇</code> 的时候可以输入 <code>vfj</code> ，这样就会在候选栏里出现拼音为 <code>zhen</code> 而且又带 金 字旁的候选字了。<br />
+这个的意思是，想找 <code>镇</code> 的时候可以输入 <code>vfj</code> ，这样就会在候选栏里出现拼音为 <code>zhen</code> 而且又带 金 字旁的候选字了。<br>
 </p>
 
 <p>
-但是这个输入方式会出现一个问题，那就是如果相关的拼音没有这个声母的候选词，那么整个输入框就会完全消失。所以如果你默认启用这个选项，就会发现打字的时候候选词框是一闪一闪的，非常不习惯。<br />
+但是这个输入方式会出现一个问题，那就是如果相关的拼音没有这个声母的候选词，那么整个输入框就会完全消失。所以如果你默认启用这个选项，就会发现打字的时候候选词框是一闪一闪的，非常不习惯。<br>
 </p>
 
 <p>
-我们可以在 <code>wanxiang.custom.yaml</code> 中如下设置：<br />
+我们可以在 <code>wanxiang.custom.yaml</code> 中如下设置：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml"><code><span style="color: #aa184f;">patch</span>:
-  <span style="color: #db74ade6a207;"> </span> <span style="color: #aa184f;">speller/algebra</span>:
-  <span style="color: #db74ade6a207;"> </span> - xlit/&#257;&#225;&#462;&#224;&#333;&#243;&#466;&#242;&#275;&#233;&#283;&#232;&#299;&#237;&#464;&#236;&#363;&#250;&#468;&#249;&#470;&#472;&#474;&#476;&#252;/aaaaooooeeeeiiiiuuuuvvvvv/
-  <span style="color: #db74ade6a207;"> </span> - xform/^ng(;.*)/eng$1/
-  <span style="color: #db74ade6a207;"> </span> - xform/&#324;g|&#328;g|&#505;g/eng/
-  <span style="color: #db74ade6a207;"> </span> - xform/&#324;|&#328;|&#505;/en/ 
-  <span style="color: #db74ade6a207;"> </span> - derive/^([jqxy])u(;.*)$/$1v$2/
-  <span style="color: #db74ade6a207;"> </span> - derive/^([aoe])([ioun])(;.*)$/$1$1$2$3/
-  <span style="color: #db74ade6a207;"> </span> - xform/^([aoe])(ng)?(;.*)$/$1$1$2$3/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)iu(;.*)/$1&#9414;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)ei(;.*)/$1&#9420;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)uan(;.*)/$1&#9415;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)[uv]e(;.*)/$1&#9417;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)un(;.*)/$1&#9422;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)uo(;.*)/$1&#9412;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)ie(;.*)/$1&#9413;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)i?ong(;.*)/$1&#9416;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)ing(;.*)/$1&#9408;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)uai(;.*)/$1&#9408;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)ai(;.*)/$1&#9401;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)eng(;.*)/$1&#9404;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)en(;.*)/$1&#9403;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)[iu]ang(;.*)/$1&#9409;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)ang(;.*)/$1&#9405;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)ian(;.*)/$1&#9410;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)an(;.*)/$1&#9407;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)ou(;.*)/$1&#9423;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)iao(;.*)/$1&#9411;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)[iu]a(;.*)/$1&#9421;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)ao(;.*)/$1&#9400;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)ui(;.*)/$1&#9419;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^(\w+?)in(;.*)/$1&#9399;$2/
-  <span style="color: #db74ade6a207;"> </span> - xform/^sh/&#9418;/
-  <span style="color: #db74ade6a207;"> </span> - xform/^ch/&#9406;/
-  <span style="color: #db74ade6a207;"> </span> - xform/^zh/&#9419;/
-  <span style="color: #db74ade6a207;"> </span> - xlit/&#9414;&#9420;&#9415;&#9417;&#9422;&#9418;&#9406;&#9412;&#9413;&#9416;&#9401;&#9403;&#9404;&#9405;&#9407;&#9408;&#9409;&#9423;&#9421;&#9400;&#9419;&#9399;&#9411;&#9410;/qwrtyuiopsdfghjklzxcvbnm/
-  <span style="color: #db74ade6a207;"> </span> - derive|^(.+);.*$|$1| <span style="color: #6e678f; font-style: italic;"># </span><span style="color: #6e678f; font-style: italic;">&#32431;&#21452;&#25340;&#30340;&#24773;&#20917;
-</span>  <span style="color: #db74ade6a207;"> </span> - erase/^(.+);(.+)$/    <span style="color: #6e678f; font-style: italic;"># </span><span style="color: #6e678f; font-style: italic;">&#21024;&#38500;&#21407;&#22987;&#32534;&#30721;&#21152;&#36895;&#26816;&#32034;</span>
+<pre class="src src-yaml"><code><span style="color: #007a9f;">patch</span>:
+  <span style="color: #c67fcd39a1f4;"> </span> <span style="color: #007a9f;">speller/algebra</span>:
+  <span style="color: #c67fcd39a1f4;"> </span> - xlit/&#257;&#225;&#462;&#224;&#333;&#243;&#466;&#242;&#275;&#233;&#283;&#232;&#299;&#237;&#464;&#236;&#363;&#250;&#468;&#249;&#470;&#472;&#474;&#476;&#252;/aaaaooooeeeeiiiiuuuuvvvvv/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^ng(;.*)/eng$1/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/&#324;g|&#328;g|&#505;g/eng/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/&#324;|&#328;|&#505;/en/ 
+  <span style="color: #c67fcd39a1f4;"> </span> - derive/^([jqxy])u(;.*)$/$1v$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - derive/^([aoe])([ioun])(;.*)$/$1$1$2$3/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^([aoe])(ng)?(;.*)$/$1$1$2$3/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)iu(;.*)/$1&#9414;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)ei(;.*)/$1&#9420;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)uan(;.*)/$1&#9415;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)[uv]e(;.*)/$1&#9417;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)un(;.*)/$1&#9422;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)uo(;.*)/$1&#9412;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)ie(;.*)/$1&#9413;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)i?ong(;.*)/$1&#9416;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)ing(;.*)/$1&#9408;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)uai(;.*)/$1&#9408;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)ai(;.*)/$1&#9401;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)eng(;.*)/$1&#9404;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)en(;.*)/$1&#9403;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)[iu]ang(;.*)/$1&#9409;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)ang(;.*)/$1&#9405;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)ian(;.*)/$1&#9410;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)an(;.*)/$1&#9407;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)ou(;.*)/$1&#9423;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)iao(;.*)/$1&#9411;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)[iu]a(;.*)/$1&#9421;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)ao(;.*)/$1&#9400;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)ui(;.*)/$1&#9419;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^(\w+?)in(;.*)/$1&#9399;$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^sh/&#9418;/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^ch/&#9406;/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/^zh/&#9419;/
+  <span style="color: #c67fcd39a1f4;"> </span> - xlit/&#9414;&#9420;&#9415;&#9417;&#9422;&#9418;&#9406;&#9412;&#9413;&#9416;&#9401;&#9403;&#9404;&#9405;&#9407;&#9408;&#9409;&#9423;&#9421;&#9400;&#9419;&#9399;&#9411;&#9410;/qwrtyuiopsdfghjklzxcvbnm/
+  <span style="color: #c67fcd39a1f4;"> </span> - derive|^(.+);.*$|$1| <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#32431;&#21452;&#25340;&#30340;&#24773;&#20917;
+</span>  <span style="color: #c67fcd39a1f4;"> </span> - erase/^(.+);(.+)$/    <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#21024;&#38500;&#21407;&#22987;&#32534;&#30721;&#21152;&#36895;&#26816;&#32034;</span>
 </code></pre>
 </div>
 
 <p>
-上面这段代码实际上是对原方案的一个覆盖。在原始的 <code>wanxiang.schema.yaml</code> 中， <code>speller/algebra</code> 的内容如下：<br />
+上面这段代码实际上是对原方案的一个覆盖。在原始的 <code>wanxiang.schema.yaml</code> 中， <code>speller/algebra</code> 的内容如下：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml"><code>- set_shuru_schema     <span style="color: #6e678f; font-style: italic;">#</span><span style="color: #6e678f; font-style: italic;">&#25340;&#38899;&#36716;&#21452;&#25340;&#30721;
-</span>- fuzhu_flypy           <span style="color: #6e678f; font-style: italic;">#</span><span style="color: #6e678f; font-style: italic;">&#36741;&#21161;&#30721;&#37096;&#20998;</span>
+<pre class="src src-yaml"><code>- set_shuru_schema     <span style="color: #8f6f4a;">#</span><span style="color: #8f6f4a;">&#25340;&#38899;&#36716;&#21452;&#25340;&#30721;
+</span>- fuzhu_flypy           <span style="color: #8f6f4a;">#</span><span style="color: #8f6f4a;">&#36741;&#21161;&#30721;&#37096;&#20998;</span>
 </code></pre>
 </div>
 <p>
-辅助声母的代码就在下面的 <code>fuzhu_flypy</code> 内容里：<br />
+辅助声母的代码就在下面的 <code>fuzhu_flypy</code> 内容里：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml"><code><span style="color: #aa184f;">fuzhu_flypy</span>:     <span style="color: #6e678f; font-style: italic;">########################################</span><span style="color: #6e678f; font-style: italic;">&#20301;&#20110;&#35789;&#24211;&#31532;&#19971;&#20010;&#20998;&#21495;&#21518;
-</span>  <span style="color: #aa184f;">__append</span>:
-  <span style="color: #db74ade6a207;"> </span> - derive|^(.+);.*$|$1| <span style="color: #6e678f; font-style: italic;"># </span><span style="color: #6e678f; font-style: italic;">&#32431;&#21452;&#25340;&#30340;&#24773;&#20917;
-</span>  <span style="color: #db74ade6a207;"> </span> - abbrev|^(.+);(\w).*$|$1$2| <span style="color: #6e678f; font-style: italic;"># </span><span style="color: #6e678f; font-style: italic;">&#21452;&#25340;+&#19968;&#20301;&#36741;&#21161;&#30721;&#30340;&#24773;&#20917;
-</span>  <span style="color: #db74ade6a207;"> </span> - derive|^(.+);(\w).*$|$1$2/| <span style="color: #6e678f; font-style: italic;"># </span><span style="color: #6e678f; font-style: italic;">&#21452;&#25340;1&#20301;&#36741;&#21161;&#30721;+/
-</span>  <span style="color: #db74ade6a207;"> </span> - abbrev|^(.+);(\w)(\w).*$|$1$2$3| <span style="color: #6e678f; font-style: italic;"># </span><span style="color: #6e678f; font-style: italic;">&#21452;&#25340;+2&#20301;&#36741;&#21161;&#30721;&#30340;&#24773;&#20917;
-</span>  <span style="color: #db74ade6a207;"> </span> - derive|^(.+);(\w)(\w).*$|$1$2$3/| <span style="color: #6e678f; font-style: italic;"># </span><span style="color: #6e678f; font-style: italic;">&#21452;&#25340;+2&#20301;&#36741;&#21161;&#30721;+/
-</span>  <span style="color: #db74ade6a207;"> </span> - derive|^(.+);(\w)(\w).*$|$1$2$3o| <span style="color: #6e678f; font-style: italic;"># </span><span style="color: #6e678f; font-style: italic;">&#21452;&#25340;\+2&#20301;&#36741;&#21161;&#30721;\+o&#65292;&#20027;&#35201;&#29992;&#26469;&#24212;&#23545;&#23567;&#20225;&#40517;&#36825;&#31867;&#36755;&#20837;&#27861;&#27809;&#27861;&#20351;&#29992;&#31526;&#21495;&#30340;&#22330;&#26223;&#65292;&#20294;&#21516;&#26102;&#26377;&#20123;&#36741;&#21161;&#30721;&#20250;&#20986;&#29616;&#24322;&#24120;&#65292;&#22914;&#65306;ui uio&gt;uiuio&#65292;&#25163;&#26426;&#23567;&#20225;&#40517;&#20351;&#29992;&#26102;&#24320;&#21551;
-</span>  <span style="color: #db74ade6a207;"> </span> <span style="color: #db74ade6a207;"> </span> <span style="color: #6e678f; font-style: italic;">#</span><span style="color: #6e678f; font-style: italic;">&#20998;&#21495;&#21518;&#38754;&#31532;&#20108;&#32452;&#36741;&#21161;&#30721;
-</span>  <span style="color: #db74ade6a207;"> </span> - abbrev/^(.+);.*?,(\w).*$/$1$2/
-  <span style="color: #db74ade6a207;"> </span> - derive|^(.+);.*?,(\w).*$|$1$2/|
-  <span style="color: #db74ade6a207;"> </span> - abbrev/^(.+);.*?,(\w)(\w).*$/$1$2$3/
-  <span style="color: #db74ade6a207;"> </span> - derive|^(.+);.*?,(\w)(\w).*$|$1$2$3/|
-  <span style="color: #db74ade6a207;"> </span> - derive/^(.+);.*?,(\w)(\w).*$/$1$2$3o/
-  <span style="color: #db74ade6a207;"> </span> - xform/&#9711;/;/  <span style="color: #6e678f; font-style: italic;">#</span><span style="color: #6e678f; font-style: italic;">&#23545;&#20110;&#24494;&#36719;&#21452;&#25340;&#12289;&#25628;&#29399;&#21452;&#25340;&#65292;&#21069;&#38754;&#23558;&#20998;&#21495;&#20445;&#25252;&#20102;&#36215;&#26469;&#65292;&#29616;&#22312;&#25918;&#20986;&#26469;&#35753;&#20854;&#21457;&#25381;&#20316;&#29992;
-</span>  <span style="color: #db74ade6a207;"> </span> - erase/^(.+);(.+)$/    <span style="color: #6e678f; font-style: italic;"># </span><span style="color: #6e678f; font-style: italic;">&#21024;&#38500;&#21407;&#22987;&#32534;&#30721;&#21152;&#36895;&#26816;&#32034;</span>
+<pre class="src src-yaml"><code><span style="color: #007a9f;">fuzhu_flypy</span>:     <span style="color: #8f6f4a;">########################################</span><span style="color: #8f6f4a;">&#20301;&#20110;&#35789;&#24211;&#31532;&#19971;&#20010;&#20998;&#21495;&#21518;
+</span>  <span style="color: #007a9f;">__append</span>:
+  <span style="color: #c67fcd39a1f4;"> </span> - derive|^(.+);.*$|$1| <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#32431;&#21452;&#25340;&#30340;&#24773;&#20917;
+</span>  <span style="color: #c67fcd39a1f4;"> </span> - abbrev|^(.+);(\w).*$|$1$2| <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#21452;&#25340;+&#19968;&#20301;&#36741;&#21161;&#30721;&#30340;&#24773;&#20917;
+</span>  <span style="color: #c67fcd39a1f4;"> </span> - derive|^(.+);(\w).*$|$1$2/| <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#21452;&#25340;1&#20301;&#36741;&#21161;&#30721;+/
+</span>  <span style="color: #c67fcd39a1f4;"> </span> - abbrev|^(.+);(\w)(\w).*$|$1$2$3| <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#21452;&#25340;+2&#20301;&#36741;&#21161;&#30721;&#30340;&#24773;&#20917;
+</span>  <span style="color: #c67fcd39a1f4;"> </span> - derive|^(.+);(\w)(\w).*$|$1$2$3/| <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#21452;&#25340;+2&#20301;&#36741;&#21161;&#30721;+/
+</span>  <span style="color: #c67fcd39a1f4;"> </span> - derive|^(.+);(\w)(\w).*$|$1$2$3o| <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#21452;&#25340;\+2&#20301;&#36741;&#21161;&#30721;\+o&#65292;&#20027;&#35201;&#29992;&#26469;&#24212;&#23545;&#23567;&#20225;&#40517;&#36825;&#31867;&#36755;&#20837;&#27861;&#27809;&#27861;&#20351;&#29992;&#31526;&#21495;&#30340;&#22330;&#26223;&#65292;&#20294;&#21516;&#26102;&#26377;&#20123;&#36741;&#21161;&#30721;&#20250;&#20986;&#29616;&#24322;&#24120;&#65292;&#22914;&#65306;ui uio&gt;uiuio&#65292;&#25163;&#26426;&#23567;&#20225;&#40517;&#20351;&#29992;&#26102;&#24320;&#21551;
+</span>  <span style="color: #c67fcd39a1f4;"> </span> <span style="color: #c67fcd39a1f4;"> </span> <span style="color: #8f6f4a;">#</span><span style="color: #8f6f4a;">&#20998;&#21495;&#21518;&#38754;&#31532;&#20108;&#32452;&#36741;&#21161;&#30721;
+</span>  <span style="color: #c67fcd39a1f4;"> </span> - abbrev/^(.+);.*?,(\w).*$/$1$2/
+  <span style="color: #c67fcd39a1f4;"> </span> - derive|^(.+);.*?,(\w).*$|$1$2/|
+  <span style="color: #c67fcd39a1f4;"> </span> - abbrev/^(.+);.*?,(\w)(\w).*$/$1$2$3/
+  <span style="color: #c67fcd39a1f4;"> </span> - derive|^(.+);.*?,(\w)(\w).*$|$1$2$3/|
+  <span style="color: #c67fcd39a1f4;"> </span> - derive/^(.+);.*?,(\w)(\w).*$/$1$2$3o/
+  <span style="color: #c67fcd39a1f4;"> </span> - xform/&#9711;/;/  <span style="color: #8f6f4a;">#</span><span style="color: #8f6f4a;">&#23545;&#20110;&#24494;&#36719;&#21452;&#25340;&#12289;&#25628;&#29399;&#21452;&#25340;&#65292;&#21069;&#38754;&#23558;&#20998;&#21495;&#20445;&#25252;&#20102;&#36215;&#26469;&#65292;&#29616;&#22312;&#25918;&#20986;&#26469;&#35753;&#20854;&#21457;&#25381;&#20316;&#29992;
+</span>  <span style="color: #c67fcd39a1f4;"> </span> - erase/^(.+);(.+)$/    <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#21024;&#38500;&#21407;&#22987;&#32534;&#30721;&#21152;&#36895;&#26816;&#32034;</span>
 </code></pre>
 </div>
 <p>
-可以看见，从第二行到倒数第二行，都在处理双拼+辅助码的情况。所以我们可以在 <code>wanxiang.custom.yaml</code> 中把这几行移除掉，只剩下第一行和最后一行。<br />
+可以看见，从第二行到倒数第二行，都在处理双拼+辅助码的情况。所以我们可以在 <code>wanxiang.custom.yaml</code> 中把这几行移除掉，只剩下第一行和最后一行。<br>
 </p>
 </div>
 </div>

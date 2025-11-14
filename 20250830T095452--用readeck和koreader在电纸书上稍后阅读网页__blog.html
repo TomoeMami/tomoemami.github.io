@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-10-19 周日 16:08 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-11-14 周五 13:53 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>用Readeck和KOReader在电纸书上稍后阅读网页</title>
 <meta name="generator" content="Org Mode" />
@@ -193,6 +191,14 @@ h4 {
     font-weight: bold;
 }
 
+details {
+  padding: .7em 1em .5em;
+  border-radius: 15px;
+  font-size: 0.95em;
+  border: 2px solid #ccc;
+  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
+  margin-block: 1em;
+}
 
 a {
     cursor: pointer;
@@ -381,42 +387,43 @@ b {
 <p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-09-02 周二 09:13]</span></span></p>
 </div>
 <div id="content" class="content">
+<header>
 <h1 class="title">用Readeck和KOReader在电纸书上稍后阅读网页</h1>
-<p>
-可能出于对自己阅读兴趣的自信，又或者真的需要大量读小说/专业书籍/盗版or正版电子书，总之你购买了一个电纸书（E-Ink阅读器）。<br />
+</header><p>
+可能出于对自己阅读兴趣的自信，又或者真的需要大量读小说/专业书籍/盗版or正版电子书，总之你购买了一个电纸书（E-Ink阅读器）。<br>
 </p>
 
 <p>
-问题在于，日常生活、网上冲浪时，大量信息并不是一份独立、完善的「书籍」，而是一篇篇网页文章，散落在互联网上。电纸书针对「书籍阅读」开发，难以应对这种松散场景。因此，我们需要一些开源软件的帮助：稍后阅读软件「Readeck」和一个阅读软件「KOReader」。<br />
+问题在于，日常生活、网上冲浪时，大量信息并不是一份独立、完善的「书籍」，而是一篇篇网页文章，散落在互联网上。电纸书针对「书籍阅读」开发，难以应对这种松散场景。因此，我们需要一些开源软件的帮助：稍后阅读软件「Readeck」和一个阅读软件「KOReader」。<br>
 </p>
-<div id="outline-container-org392edec" class="outline-2">
-<h2 id="org392edec"><span class="section-number-2">1.</span> 搭建Readeck</h2>
+<div id="outline-container-org696739f" class="outline-2">
+<h2 id="org696739f"><span class="section-number-2">1.</span> 搭建Readeck</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-首先，我们需要把散落的文章收集汇总到一处。<br />
+首先，我们需要把散落的文章收集汇总到一处。<br>
 </p>
 
 <p>
-为了方便手机收集文章，最好是在一个有公网IP/域名的设备上运行Readeck。<br />
+为了方便手机收集文章，最好是在一个有公网IP/域名的设备上运行Readeck。<br>
 </p>
 
 <p>
-假设现在已经有了一个IP地址为 <code>114.514.191.180</code> 的Linux服务器，只需要按<a href="https://readeck.org/en/docs/">官方手册指南</a>下载二进制安装即可：<br />
+假设现在已经有了一个IP地址为 <code>114.514.191.180</code> 的Linux服务器，只需要按<a href="https://readeck.org/en/docs/">官方手册指南</a>下载二进制安装即可：<br>
 </p>
 
 <p>
-首先创建文件夹：<br />
+首先创建文件夹：<br>
 </p>
 
 <div class="org-src-container">
 <pre class="src src-bash"><code>mkdir -p readeck-install
 
-<span style="color: #00704f; font-weight: bold;">cd</span> readeck-install
+<span style="color: #557400;">cd</span> readeck-install
 </code></pre>
 </div>
 
 <p>
-<a href="https://readeck.org/en/download">从这里</a>下载最新的分发文件，记得把链接替换一下：<br />
+<a href="https://readeck.org/en/download">从这里</a>下载最新的分发文件，记得把链接替换一下：<br>
 </p>
 
 <div class="org-src-container">
@@ -427,7 +434,7 @@ chmod a+x readeck
 </div>
 
 <p>
-由于readeck默认不是后台模式，用 <code>screen</code> 新建一个进程页面：<br />
+由于readeck默认不是后台模式，用 <code>screen</code> 新建一个进程页面：<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-bash"><code>screen -S readeck
@@ -437,62 +444,62 @@ chmod a+x readeck
 </div>
 
 <p>
-然后可以按 <code>Ctrl+c</code> 数次退出，并编辑 <code>config.toml</code> （可以用nano直接 <code>nano config.toml</code> ），修改下面部分：<br />
+然后可以按 <code>Ctrl+c</code> 数次退出，并编辑 <code>config.toml</code> （可以用nano直接 <code>nano config.toml</code> ），修改下面部分：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml"><code>[<span style="color: #b0000f; font-weight: bold;">server</span>]
-<span style="color: #aa184f;">host</span> = 127.0.0.1
-<span style="color: #aa184f;">port</span> = 8000
+<pre class="src src-toml"><code>[<span style="color: #444fcf;">server</span>]
+<span style="color: #007a9f;">host</span> = 127.0.0.1
+<span style="color: #007a9f;">port</span> = 8000
 </code></pre>
 </div>
 
 <p>
-为<br />
+为<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-toml"><code>[<span style="color: #b0000f; font-weight: bold;">server</span>]
-<span style="color: #aa184f;">host</span> = 0.0.0.0
-<span style="color: #aa184f;">port</span> = 8000
+<pre class="src src-toml"><code>[<span style="color: #444fcf;">server</span>]
+<span style="color: #007a9f;">host</span> = 0.0.0.0
+<span style="color: #007a9f;">port</span> = 8000
 </code></pre>
 </div>
 
 <p>
-并把服务器防火墙的 <code>8000</code> 端口放行。<br />
+并把服务器防火墙的 <code>8000</code> 端口放行。<br>
 </p>
 
 <p>
-再运行 <code>./readeck serve</code> 之后按 <code>Ctrl+a Ctrl+d</code> ，将screen放回后台。这样一来，你就可以通过网页访问搭建的Readeck了。<br />
+再运行 <code>./readeck serve</code> 之后按 <code>Ctrl+a Ctrl+d</code> ，将screen放回后台。这样一来，你就可以通过网页访问搭建的Readeck了。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org4476056" class="outline-2">
-<h2 id="org4476056"><span class="section-number-2">2.</span> 配置readeck</h2>
+<div id="outline-container-org46d9fb5" class="outline-2">
+<h2 id="org46d9fb5"><span class="section-number-2">2.</span> 配置readeck</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-访问服务器对应端口（示例为 <code>http://114.514.191.180:8000</code> ），会要求你进行初次用户注册。<br />
+访问服务器对应端口（示例为 <code>http://114.514.191.180:8000</code> ），会要求你进行初次用户注册。<br>
 </p>
 
 <p>
-注册之后，我们可以参考少数派的<a href="https://sspai.com/post/89289">这篇文章</a>设置浏览器扩展、iOS快捷方式。<br />
+注册之后，我们可以参考少数派的<a href="https://sspai.com/post/89289">这篇文章</a>设置浏览器扩展、iOS快捷方式。<br>
 </p>
 
 <p>
-根据我的测试，浏览器扩展可以根据当前页面内容较好提取文章，即使你用的网页翻译软件，也可以把翻译结果保存下来。<br />
+根据我的测试，浏览器扩展可以根据当前页面内容较好提取文章，即使你用的网页翻译软件，也可以把翻译结果保存下来。<br>
 </p>
 
 <p>
-配置readeck浏览器插件？实际上根本不需要怎么介绍吧。<br />
+配置readeck浏览器插件？实际上根本不需要怎么介绍吧。<br>
 </p>
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table>
 
 
 <colgroup>
-<col  class="org-left" />
+<col  class="org-left">
 
-<col  class="org-left" />
+<col  class="org-left">
 </colgroup>
 <thead>
 <tr>
@@ -519,40 +526,40 @@ chmod a+x readeck
 </table>
 
 <p>
-然后浏览器扩展会自动注册一个名为 <code>browser-extension</code> 的API令牌，并自动使用。<br />
+然后浏览器扩展会自动注册一个名为 <code>browser-extension</code> 的API令牌，并自动使用。<br>
 </p>
 
 <p>
-Readeck默认有OPDS功能，可以通过网址访问自动转换出来的EPUB格式电子书。对应的OPDS域名应为 <code>http://114.514.191.180:8000/opds</code> <br />
+Readeck默认有OPDS功能，可以通过网址访问自动转换出来的EPUB格式电子书。对应的OPDS域名应为 <code>http://114.514.191.180:8000/opds</code> <br>
 </p>
 </div>
 </div>
-<div id="outline-container-org0ea5448" class="outline-2">
-<h2 id="org0ea5448"><span class="section-number-2">3.</span> 配置KOReader</h2>
+<div id="outline-container-orgdb4461c" class="outline-2">
+<h2 id="orgdb4461c"><span class="section-number-2">3.</span> 配置KOReader</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-由于我用的安卓电纸书，直接<a href="https://github.com/koreader/koreader/releases">从GitHub</a>下载apk安装就行。下面以最新版（2025-08）为例。<br />
+由于我用的安卓电纸书，直接<a href="https://github.com/koreader/koreader/releases">从GitHub</a>下载apk安装就行。下面以最新版（2025-08）为例。<br>
 </p>
 
 <p>
-为了通过OPDS浏览Readeck，请参考<a href="https://github.com/koreader/koreader/wiki/OPDS-support">KOReader Wiki的这个章节</a>，简述如下。<br />
+为了通过OPDS浏览Readeck，请参考<a href="https://github.com/koreader/koreader/wiki/OPDS-support">KOReader Wiki的这个章节</a>，简述如下。<br>
 </p>
 
 <p>
-点击KOReader默认界面（文件浏览）的上侧中间位置（KOREADER Logo），点击放大镜按钮，点击最下方的「OPDS书目」，进入OPDS页面。<br />
+点击KOReader默认界面（文件浏览）的上侧中间位置（KOREADER Logo），点击放大镜按钮，点击最下方的「OPDS书目」，进入OPDS页面。<br>
 </p>
 
 <p>
-点击左上角三横，选择「添加目录」，输入下列信息<br />
+点击左上角三横，选择「添加目录」，输入下列信息<br>
 </p>
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table>
 
 
 <colgroup>
-<col  class="org-left" />
+<col  class="org-left">
 
-<col  class="org-left" />
+<col  class="org-left">
 </colgroup>
 <thead>
 <tr>
@@ -584,70 +591,70 @@ Readeck默认有OPDS功能，可以通过网址访问自动转换出来的EPUB�
 </table>
 
 <p>
-注意，根据<a href="https://codeberg.org/readeck/readeck/pulls/603">这个commit</a>，Readeck已经移除了「应用密码」功能。所以这里的用户名我们随便填，但密码需要填入Readeck生成的API令牌。<br />
+注意，根据<a href="https://codeberg.org/readeck/readeck/pulls/603">这个commit</a>，Readeck已经移除了「应用密码」功能。所以这里的用户名我们随便填，但密码需要填入Readeck生成的API令牌。<br>
 </p>
 
 <blockquote>
 <p>
-作为密码<br />
-或者，您可以将此令牌用作 HTTP 基本身份验证的密码。<br />
+作为密码<br>
+或者，您可以将此令牌用作 HTTP 基本身份验证的密码。<br>
 </p>
 
 <p>
-例如，如果应用程序仅接受用户名和密码，您可以将此令牌作为密码提供。 用户名被忽略，可以是任何值，包括空值。<br />
+例如，如果应用程序仅接受用户名和密码，您可以将此令牌作为密码提供。 用户名被忽略，可以是任何值，包括空值。<br>
 </p>
 </blockquote>
 
 <p>
-保存之后，我们就可以点击查看了。从上到下为五个类别：未读书签、已归档书签、已收藏书签、全部书签、书签收藏集。<br />
+保存之后，我们就可以点击查看了。从上到下为五个类别：未读书签、已归档书签、已收藏书签、全部书签、书签收藏集。<br>
 </p>
 
 <p>
-前面四个只能单独一份份查看网页，也就是说每一个收藏的网页都需要单独下载一个文件。虽然KOReader在阅读完一个文件后会智能弹窗提示是否删除文件，但删除完了后又会自动返回默认目录，然后要再多点几次进入OPDS页面。<br />
+前面四个只能单独一份份查看网页，也就是说每一个收藏的网页都需要单独下载一个文件。虽然KOReader在阅读完一个文件后会智能弹窗提示是否删除文件，但删除完了后又会自动返回默认目录，然后要再多点几次进入OPDS页面。<br>
 </p>
 
 <p>
-如果想一次性把所有收藏的网页下载为一份电子书，需要创建收藏集。在Readeck的书签页面侧栏最下方，具体路径为 <code>http://114.514.191.180:8000/bookmarks/collections</code> 。<br />
+如果想一次性把所有收藏的网页下载为一份电子书，需要创建收藏集。在Readeck的书签页面侧栏最下方，具体路径为 <code>http://114.514.191.180:8000/bookmarks/collections</code> 。<br>
 </p>
 
 <p>
-点击「创建新收藏集」，然后右侧可以起名、填入搜索条件。如果你只想看前一天到今天的书签，则可调整起始日期为「前 -1 天」，结束日期为「前 0 天」，然后保存。需要点一下加减，否则什么也不操作的话不会输入「前 0 天」。<br />
+点击「创建新收藏集」，然后右侧可以起名、填入搜索条件。如果你只想看前一天到今天的书签，则可调整起始日期为「前 -1 天」，结束日期为「前 0 天」，然后保存。需要点一下加减，否则什么也不操作的话不会输入「前 0 天」。<br>
 </p>
 
 <p>
-这样一来，在刚才提到的OPDS页面，选择最下方「书签收藏集」，就能看见我们刚才创建的收藏集了。点进去，选择第一个「收藏集电子书」，则可以将收藏集匹配的所有网页合并为一个EPUB文件下载浏览。<br />
+这样一来，在刚才提到的OPDS页面，选择最下方「书签收藏集」，就能看见我们刚才创建的收藏集了。点进去，选择第一个「收藏集电子书」，则可以将收藏集匹配的所有网页合并为一个EPUB文件下载浏览。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org5e6c7d5" class="outline-2">
-<h2 id="org5e6c7d5"><span class="section-number-2">4.</span> （废弃）一键清空书签的elisp代码</h2>
+<div id="outline-container-orgfe55069" class="outline-2">
+<h2 id="orgfe55069"><span class="section-number-2">4.</span> （废弃）一键清空书签的elisp代码</h2>
 <div class="outline-text-2" id="text-4">
 <p>
-Readeck并未提供批量选择功能，因此写了一段小elisp代码，通过API一键清空所有书签，需要安装 <code>plz</code> 包：<br />
+Readeck并未提供批量选择功能，因此写了一段小elisp代码，通过API一键清空所有书签，需要安装 <code>plz</code> 包：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my/delete-all-readeck</span> <span style="color: #8f2f30;">()</span>
-  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">interactive</span><span style="color: #8f2f30;">)</span>
-  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">let*</span> <span style="color: #00704f;">(</span><span style="color: #906200;">(</span>api-token <span style="color: #557000;">"&#29992;&#29983;&#25104;&#30340;API&#26367;&#25442;&#36825;&#37324;"</span><span style="color: #906200;">)</span>
-         <span style="color: #906200;">(</span>server-url <span style="color: #557000;">"&#29992;readeck&#26381;&#21153;&#22120;&#38142;&#25509;&#26367;&#25442;&#36825;&#37324;&#65292;&#24102;http&#12289;&#31471;&#21475;&#65292;&#19981;&#24102;&#26012;&#26464;&#65292;&#22914;http://114.514.191.98:8000"</span><span style="color: #906200;">)</span>
-         <span style="color: #906200;">(</span>bookmarks <span style="color: #557000;">(</span>plz 'get <span style="color: #0f7688;">(</span>concat server-url <span style="color: #557000;">"/api/bookmarks"</span><span style="color: #0f7688;">)</span>
-                     <span style="color: #00704f; font-weight: bold;">:headers</span> `<span style="color: #0f7688;">(</span><span style="color: #8a6340;">(</span><span style="color: #557000;">"User-Agent"</span> . <span style="color: #557000;">"tomoemami/emacs"</span><span style="color: #8a6340;">)</span>
-                                <span style="color: #8a6340;">(</span><span style="color: #557000;">"Authorization"</span> . <span style="color: #aa184f;">(</span>concat <span style="color: #557000;">"Bearer "</span> api-token<span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span>
-                                <span style="color: #8a6340;">(</span><span style="color: #557000;">"Accept"</span> . <span style="color: #557000;">"application/json"</span><span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span>
-                     <span style="color: #00704f; font-weight: bold;">:as</span> #'json-read<span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
-    <span style="color: #00704f;">(</span><span style="color: #8f2f30; font-weight: bold;">dolist</span> <span style="color: #906200;">(</span>bookmark <span style="color: #557000;">(</span>seq-into bookmarks 'list<span style="color: #557000;">)</span><span style="color: #906200;">)</span>
-      <span style="color: #906200;">(</span><span style="color: #8f2f30; font-weight: bold;">when-let*</span> <span style="color: #557000;">(</span><span style="color: #0f7688;">(</span>id <span style="color: #8a6340;">(</span>alist-get 'id bookmark<span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span><span style="color: #557000;">)</span>
-        <span style="color: #557000;">(</span>call-process-shell-command <span style="color: #0f7688;">(</span>concat <span style="color: #557000;">"curl -X DELETE '"</span> server-url <span style="color: #557000;">"/api/bookmarks/"</span> id <span style="color: #557000;">"' -H 'accept: application/json' -H 'Authorization: Bearer "</span> api-token <span style="color: #557000;">"' -H 'User-Agent: tomoemami/emacs'"</span><span style="color: #0f7688;">)</span> nil 0<span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
-    <span style="color: #00704f;">(</span>message <span style="color: #557000;">"Readeck bookmarks DELETED"</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/delete-all-readeck</span> <span style="color: #557400;">()</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">let*</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>api-token <span style="color: #ca3400;">"&#29992;&#29983;&#25104;&#30340;API&#26367;&#25442;&#36825;&#37324;"</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>server-url <span style="color: #ca3400;">"&#29992;readeck&#26381;&#21153;&#22120;&#38142;&#25509;&#26367;&#25442;&#36825;&#37324;&#65292;&#24102;http&#12289;&#31471;&#21475;&#65292;&#19981;&#24102;&#26012;&#26464;&#65292;&#22914;http://114.514.191.98:8000"</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>bookmarks <span style="color: #00824f;">(</span>plz 'get <span style="color: #9a456f;">(</span>concat server-url <span style="color: #ca3400;">"/api/bookmarks"</span><span style="color: #9a456f;">)</span>
+                     <span style="color: #557400;">:headers</span> `<span style="color: #9a456f;">(</span><span style="color: #a2604f;">(</span><span style="color: #ca3400;">"User-Agent"</span> . <span style="color: #ca3400;">"tomoemami/emacs"</span><span style="color: #a2604f;">)</span>
+                                <span style="color: #a2604f;">(</span><span style="color: #ca3400;">"Authorization"</span> . <span style="color: #007a9f;">(</span>concat <span style="color: #ca3400;">"Bearer "</span> api-token<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
+                                <span style="color: #a2604f;">(</span><span style="color: #ca3400;">"Accept"</span> . <span style="color: #ca3400;">"application/json"</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
+                     <span style="color: #557400;">:as</span> #'json-read<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00;">dolist</span> <span style="color: #3f6faf;">(</span>bookmark <span style="color: #00824f;">(</span>seq-into bookmarks 'list<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+      <span style="color: #3f6faf;">(</span><span style="color: #006f00;">when-let*</span> <span style="color: #00824f;">(</span><span style="color: #9a456f;">(</span>id <span style="color: #a2604f;">(</span>alist-get 'id bookmark<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+        <span style="color: #00824f;">(</span>call-process-shell-command <span style="color: #9a456f;">(</span>concat <span style="color: #ca3400;">"curl -X DELETE '"</span> server-url <span style="color: #ca3400;">"/api/bookmarks/"</span> id <span style="color: #ca3400;">"' -H 'accept: application/json' -H 'Authorization: Bearer "</span> api-token <span style="color: #ca3400;">"' -H 'User-Agent: tomoemami/emacs'"</span><span style="color: #9a456f;">)</span> nil 0<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>message <span style="color: #ca3400;">"Readeck bookmarks DELETED"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org30c3d8b" class="outline-2">
-<h2 id="org30c3d8b"><span class="section-number-2">5.</span> 一键点击页面所有删除按键的js脚本</h2>
+<div id="outline-container-orgbdd029f" class="outline-2">
+<h2 id="orgbdd029f"><span class="section-number-2">5.</span> 一键点击页面所有删除按键的js脚本</h2>
 <div class="outline-text-2" id="text-5">
 <p>
-用脚本管理器安装，记得把 <code>//@match</code> 后的链接替换为自建的Readeck链接<br />
+用脚本管理器安装，记得把 <code>//@match</code> 后的链接替换为自建的Readeck链接<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-nil"><code>// ==UserScript==

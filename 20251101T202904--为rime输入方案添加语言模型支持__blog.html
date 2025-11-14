@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-11-11 周二 15:12 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-11-14 周五 13:53 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>为rime输入方案添加语言模型支持</title>
 <meta name="generator" content="Org Mode" />
@@ -193,6 +191,14 @@ h4 {
     font-weight: bold;
 }
 
+details {
+  padding: .7em 1em .5em;
+  border-radius: 15px;
+  font-size: 0.95em;
+  border: 2px solid #ccc;
+  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
+  margin-block: 1em;
+}
 
 a {
     cursor: pointer;
@@ -381,38 +387,39 @@ b {
 <p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-01 周六 20:29]</span></span></p>
 </div>
 <div id="content" class="content">
+<header>
 <h1 class="title">为rime输入方案添加语言模型支持</h1>
-<p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-12-16 周一 11:53]</span></span><br />
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-12-16T11:53:00">[2024-12-16 周一 11:53]</time></span><br>
 </p>
 
 <p>
-语言模型可以让造句更加符合习惯，参考<a href="https://www.v2ex.com/t/1097614?p=1#reply15">V2EX的这个帖子</a>，没有语言模型的情况下基本就是胡乱组词。<br />
+语言模型可以让造句更加符合习惯，参考<a href="https://www.v2ex.com/t/1097614?p=1#reply15">V2EX的这个帖子</a>，没有语言模型的情况下基本就是胡乱组词。<br>
 </p>
 
 <p>
-语言模型和输入方案是解耦的，可以使用自己习惯的rime-ice/rime-frost等方案，然后：<br />
+语言模型和输入方案是解耦的，可以使用自己习惯的rime-ice/rime-frost等方案，然后：<br>
 </p>
 <div id="outline-container-org8a23ba4" class="outline-2">
 <h2 id="org8a23ba4"><span class="section-number-2">1.</span> 下载模型</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-在<a href="https://github.com/amzxyz/RIME-LMDG/releases">LMDG的发布页</a>下载模型。<br />
+在<a href="https://github.com/amzxyz/RIME-LMDG/releases">LMDG的发布页</a>下载模型。<br>
 </p>
 
 <blockquote>
 <p>
-模型文件版本说明：v是版本号，n是模型级别，m是百兆尺寸<br />
+模型文件版本说明：v是版本号，n是模型级别，m是百兆尺寸<br>
 </p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table>
 
 
 <colgroup>
-<col  class="org-left" />
+<col  class="org-left">
 
-<col  class="org-left" />
+<col  class="org-left">
 
-<col  class="org-left" />
+<col  class="org-left">
 </colgroup>
 <thead>
 <tr>
@@ -444,17 +451,17 @@ b {
 </blockquote>
 
 <p>
-这里的模型级别指训练时着重训练的几个字：<br />
+这里的模型级别指训练时着重训练的几个字：<br>
 </p>
 
 <blockquote>
 <p>
-多级 n-gram 语言模型 在大规模数据的支持下，我们采用了 n-gram 模型进行多级语言建模。具体包括了 unigram（单字模型）、bigram（双字模型）、trigram（三字模型）以及更高级的四字模型。<br />
+多级 n-gram 语言模型 在大规模数据的支持下，我们采用了 n-gram 模型进行多级语言建模。具体包括了 unigram（单字模型）、bigram（双字模型）、trigram（三字模型）以及更高级的四字模型。<br>
 </p>
 </blockquote>
 
 <p>
-个人使用可以用n3，如果电脑性能不佳感觉卡顿，可以切换到n2（在作者的<a href="https://github.com/amzxyz/rime_wanxiang_pro/blob/main/amz-v3n2m1-zh-hans.gram">另一个方案</a>中，上传有v3n2的模型）。<br />
+个人使用可以用n3，如果电脑性能不佳感觉卡顿，可以切换到n2（在作者的<a href="https://github.com/amzxyz/rime_wanxiang_pro/blob/main/amz-v3n2m1-zh-hans.gram">另一个方案</a>中，上传有v3n2的模型）。<br>
 </p>
 </div>
 </div>
@@ -466,49 +473,49 @@ b {
 <h3 id="orga64524d"><span class="section-number-3">2.1.</span> 找到使用的方案</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
-打开你的Rime配置文件路径/用户文件夹，将下载好的模型文件 <code>amz-v*n*m*-**.gram</code> 放到其中。这里我下载的模型是 <code>amz-v2n3m1-zh-hans</code> <br />
+打开你的Rime配置文件路径/用户文件夹，将下载好的模型文件 <code>amz-v*n*m*-**.gram</code> 放到其中。这里我下载的模型是 <code>amz-v2n3m1-zh-hans</code> <br>
 </p>
 
 <p>
-Windows上可通过右键托盘小狼毫图标-用户文件夹打开（一般为 <code>%AppData%\Roaming\Rime</code> ）；MacOS上一般为 <code>~/Library/Rime</code> 。<br />
+Windows上可通过右键托盘小狼毫图标-用户文件夹打开（一般为 <code>%AppData%\Roaming\Rime</code> ）；MacOS上一般为 <code>~/Library/Rime</code> 。<br>
 </p>
 
 <p>
-然后打开你使用的配置文件 <code>default.custom.yaml</code> （或 <code>default.yaml</code> ，当两个文件都存在时以 <code>custom.yaml</code> 为优先），寻找其中 <code>schema_list:</code> 下面的内容。<br />
+然后打开你使用的配置文件 <code>default.custom.yaml</code> （或 <code>default.yaml</code> ，当两个文件都存在时以 <code>custom.yaml</code> 为优先），寻找其中 <code>schema_list:</code> 下面的内容。<br>
 </p>
 
 <p>
-比如我的 <code>default.custom.yaml</code> 就是这部分：<br />
+比如我的 <code>default.custom.yaml</code> 就是这部分：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml"><code><span style="color: #1f77bb;">patch</span>:
-  <span style="color: #1f77bb;">schema_list</span>:
-  <span style="color: #c692c834e443;"> </span> - {<span style="color: #1f77bb;">schema</span>: rime_frost_double_pinyin_flypy}
+<pre class="src src-yaml"><code><span style="color: #007a9f;">patch</span>:
+  <span style="color: #007a9f;">schema_list</span>:
+  <span style="color: #c67fcd39a1f4;"> </span> - {<span style="color: #007a9f;">schema</span>: rime_frost_double_pinyin_flypy}
 </code></pre>
 </div>
 
 <p>
-说明我只用了 <code>rime_frost_double_pinyin_flypy</code> 这一个方案。<br />
+说明我只用了 <code>rime_frost_double_pinyin_flypy</code> 这一个方案。<br>
 </p>
 
 <p>
-以默认的 <code>default.yaml</code> 为例，它是这样的：<br />
+以默认的 <code>default.yaml</code> 为例，它是这样的：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml"><code><span style="color: #1f77bb;">schema_list</span>:
-  <span style="color: #a65f6a;"># </span><span style="color: #a65f6a;">&#21487;&#20197;&#30452;&#25509;&#21024;&#38500;&#25110;&#27880;&#37322;&#19981;&#38656;&#35201;&#30340;&#26041;&#26696;&#65292;&#23545;&#24212;&#30340; *.schema.yaml &#26041;&#26696;&#25991;&#20214;&#20063;&#21487;&#20197;&#30452;&#25509;&#21024;&#38500;
-</span>  - <span style="color: #1f77bb;">schema</span>: rime_frost             <span style="color: #a65f6a;"># </span><span style="color: #a65f6a;">&#30333;&#38684;&#25340;&#38899;&#65288;&#20840;&#25340;&#65289;
-</span>  - <span style="color: #1f77bb;">schema</span>: rime_frost_double_pinyin          <span style="color: #a65f6a;"># </span><span style="color: #a65f6a;">&#33258;&#28982;&#30721;&#21452;&#25340;
-</span>  - <span style="color: #1f77bb;">schema</span>: rime_frost_double_pinyin_mspy     <span style="color: #a65f6a;"># </span><span style="color: #a65f6a;">&#24494;&#36719;&#21452;&#25340;
-</span>  - <span style="color: #1f77bb;">schema</span>: rime_frost_double_pinyin_sogou    <span style="color: #a65f6a;"># </span><span style="color: #a65f6a;">&#25628;&#29399;&#21452;&#25340;
-</span>  - <span style="color: #1f77bb;">schema</span>: rime_frost_double_pinyin_flypy    <span style="color: #a65f6a;"># </span><span style="color: #a65f6a;">&#23567;&#40548;&#21452;&#25340;</span>
+<pre class="src src-yaml"><code><span style="color: #007a9f;">schema_list</span>:
+  <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#21487;&#20197;&#30452;&#25509;&#21024;&#38500;&#25110;&#27880;&#37322;&#19981;&#38656;&#35201;&#30340;&#26041;&#26696;&#65292;&#23545;&#24212;&#30340; *.schema.yaml &#26041;&#26696;&#25991;&#20214;&#20063;&#21487;&#20197;&#30452;&#25509;&#21024;&#38500;
+</span>  - <span style="color: #007a9f;">schema</span>: rime_frost             <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#30333;&#38684;&#25340;&#38899;&#65288;&#20840;&#25340;&#65289;
+</span>  - <span style="color: #007a9f;">schema</span>: rime_frost_double_pinyin          <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#33258;&#28982;&#30721;&#21452;&#25340;
+</span>  - <span style="color: #007a9f;">schema</span>: rime_frost_double_pinyin_mspy     <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#24494;&#36719;&#21452;&#25340;
+</span>  - <span style="color: #007a9f;">schema</span>: rime_frost_double_pinyin_sogou    <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#25628;&#29399;&#21452;&#25340;
+</span>  - <span style="color: #007a9f;">schema</span>: rime_frost_double_pinyin_flypy    <span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#23567;&#40548;&#21452;&#25340;</span>
 </code></pre>
 </div>
 
 <p>
-说明它启用了这五个方案（不列举了）。<br />
+说明它启用了这五个方案（不列举了）。<br>
 </p>
 </div>
 </div>
@@ -516,23 +523,23 @@ Windows上可通过右键托盘小狼毫图标-用户文件夹打开（一般为
 <h3 id="orge2c5a42"><span class="section-number-3">2.2.</span> 更新方案配置文件</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
-总之找到你要用的方案名称，然后对该配置文件打补丁。以 <code>rime_frost_double_pinyin_flypy</code> 方案为例，打开或新建 <code>rime_frost_double_pinyin_flypy.custom.yaml</code> 文件，然后加上这几行：<br />
+总之找到你要用的方案名称，然后对该配置文件打补丁。以 <code>rime_frost_double_pinyin_flypy</code> 方案为例，打开或新建 <code>rime_frost_double_pinyin_flypy.custom.yaml</code> 文件，然后加上这几行：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml"><code><span style="color: #1f77bb;">patch</span>:
-  <span style="color: #1f77bb;">grammar</span>:
-  <span style="color: #c692c834e443;"> </span> <span style="color: #1f77bb;">language</span>: amz-v2n3m1-zh-hans  
-  <span style="color: #c692c834e443;"> </span> <span style="color: #1f77bb;">collocation_max_length</span>: 5
-  <span style="color: #c692c834e443;"> </span> <span style="color: #1f77bb;">collocation_min_length</span>: 2
-  <span style="color: #1f77bb;">translator/contextual_suggestions</span>: <span style="color: #065fff;">true</span>
-  <span style="color: #1f77bb;">translator/max_homophones</span>: 7
-  <span style="color: #1f77bb;">translator/max_homographs</span>: 7
+<pre class="src src-yaml"><code><span style="color: #007a9f;">patch</span>:
+  <span style="color: #007a9f;">grammar</span>:
+  <span style="color: #c67fcd39a1f4;"> </span> <span style="color: #007a9f;">language</span>: amz-v2n3m1-zh-hans  
+  <span style="color: #c67fcd39a1f4;"> </span> <span style="color: #007a9f;">collocation_max_length</span>: 5
+  <span style="color: #c67fcd39a1f4;"> </span> <span style="color: #007a9f;">collocation_min_length</span>: 2
+  <span style="color: #007a9f;">translator/contextual_suggestions</span>: <span style="color: #00824f;">true</span>
+  <span style="color: #007a9f;">translator/max_homophones</span>: 7
+  <span style="color: #007a9f;">translator/max_homographs</span>: 7
 </code></pre>
 </div>
 
 <p>
-其中 <code>amz-v2n3m1-zh-hans</code> 为下载好的模型文件名（无后缀名）。然后保存，重新部署，便能享受语言模型了。<br />
+其中 <code>amz-v2n3m1-zh-hans</code> 为下载好的模型文件名（无后缀名）。然后保存，重新部署，便能享受语言模型了。<br>
 </p>
 </div>
 </div>
@@ -545,17 +552,17 @@ Windows上可通过右键托盘小狼毫图标-用户文件夹打开（一般为
 <h3 id="org61373d0"><span class="section-number-3">3.1.</span> 渐渐地就不在意了</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-使用前：<br />
+使用前：<br>
 </p>
 
 <img src="https://s2.loli.net/2024/12/14/MRPXo1cObLyfDwW.png"/>
 
 <p>
-（「不/在意/了」被理解成了「不再/一乐」）<br />
+（「不/在意/了」被理解成了「不再/一乐」）<br>
 </p>
 
 <p>
-使用后：<br />
+使用后：<br>
 </p>
 
 <img src="https://p.sda1.dev/20/bdbf9bbcdcdde62b0ca2f028e7cc971e/1.webp" />
@@ -565,17 +572,17 @@ Windows上可通过右键托盘小狼毫图标-用户文件夹打开（一般为
 <h3 id="org6a5a82f"><span class="section-number-3">3.2.</span> 以前就会这样</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-使用前：<br />
+使用前：<br>
 </p>
 
 <img src="https://s2.loli.net/2024/12/14/Y4N5CSKGTzm7oew.png"/>
 
 <p>
-（「以前/就会」被理解成了「一千九/会」）<br />
+（「以前/就会」被理解成了「一千九/会」）<br>
 </p>
 
 <p>
-使用后：<br />
+使用后：<br>
 </p>
 <img src="https://p.sda1.dev/20/7793862a47af23c9c149dfc37d3c45fe/2.webp" />
 </div>
@@ -584,17 +591,17 @@ Windows上可通过右键托盘小狼毫图标-用户文件夹打开（一般为
 <h3 id="org3f94c23"><span class="section-number-3">3.3.</span> 不管怎么使劲都不行</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
-使用前：<br />
+使用前：<br>
 </p>
 
 <img src="https://s2.loli.net/2024/12/14/h6S7y1X32WHCigs.png"/>
 
 <p>
-（「不管怎么/使劲/都/不行」 =&gt; 「不管怎么/是/筋斗/不行」）<br />
+（「不管怎么/使劲/都/不行」 =&gt; 「不管怎么/是/筋斗/不行」）<br>
 </p>
 
 <p>
-使用后：<br />
+使用后：<br>
 </p>
 
 <img src="https://p.sda1.dev/20/891faeb694c26acf4885c68dc650b1cc/3.webp" />
@@ -604,17 +611,17 @@ Windows上可通过右键托盘小狼毫图标-用户文件夹打开（一般为
 <h3 id="orgf66f6a5"><span class="section-number-3">3.4.</span> 无论如何你都不可能再离开这里了</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
-使用前：<br />
+使用前：<br>
 </p>
 
 <img src="https://s2.loli.net/2024/12/14/FRSr3BV6IZNY9J2.png"/>
 
 <p>
-（「离开/这里/了」 =&gt; 「离开/这/离了」）<br />
+（「离开/这里/了」 =&gt; 「离开/这/离了」）<br>
 </p>
 
 <p>
-使用后：<br />
+使用后：<br>
 </p>
 
 <img src="https://p.sda1.dev/20/fd570045406dedd406a42bfa5b4e506a/4.webp" />

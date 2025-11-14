@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2025-10-19 周日 16:07 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!-- 2025-11-14 周五 13:53 -->
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在windows上利用pandoc将markdown片段转换为org</title>
 <meta name="generator" content="Org Mode" />
@@ -193,6 +191,14 @@ h4 {
     font-weight: bold;
 }
 
+details {
+  padding: .7em 1em .5em;
+  border-radius: 15px;
+  font-size: 0.95em;
+  border: 2px solid #ccc;
+  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
+  margin-block: 1em;
+}
 
 a {
     cursor: pointer;
@@ -381,29 +387,30 @@ b {
 <p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-03-25 周二 09:50]</span></span></p>
 </div>
 <div id="content" class="content">
+<header>
 <h1 class="title">emacs-在windows上利用pandoc将markdown片段转换为org</h1>
-<p>
-<span class="timestamp-wrapper"><span class="timestamp">[2024-07-31 周三 11:11]</span></span><br />
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-07-31T11:11:00">[2024-07-31 周三 11:11]</time></span><br>
 </p>
 
 <p>
-根据Stack Overflow的一个问题：<a href="https://emacs.stackexchange.com/questions/60723/convert-region-subtree-from-markdown-to-org">Convert region/subtree from Markdown to org</a> ，可以通过以下代码将一段Markdown格式文本转换为Org格式：<br />
+根据Stack Overflow的一个问题：<a href="https://emacs.stackexchange.com/questions/60723/convert-region-subtree-from-markdown-to-org">Convert region/subtree from Markdown to org</a> ，可以通过以下代码将一段Markdown格式文本转换为Org格式：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my-md-to-org-region</span> <span style="color: #8f2f30;">(</span>start end<span style="color: #8f2f30;">)</span>
-  <span style="color: #8d6068; font-style: italic;">"Convert region from markdown to org"</span>
-  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">interactive</span> <span style="color: #557000;">"r"</span><span style="color: #8f2f30;">)</span>
-  <span style="color: #8f2f30;">(</span>shell-command-on-region start end <span style="color: #557000;">"pandoc -f markdown -t org"</span> t t<span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my-md-to-org-region</span> <span style="color: #557400;">(</span>start end<span style="color: #557400;">)</span>
+  <span style="color: #4f677f;">"Convert region from markdown to org"</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span> <span style="color: #ca3400;">"r"</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span>shell-command-on-region start end <span style="color: #ca3400;">"pandoc -f markdown -t org"</span> t t<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
 </code></pre>
 </div>
 
 <p>
-但在Windows上仍需一些微调，现记录流程如下。<br />
+但在Windows上仍需一些微调，现记录流程如下。<br>
 </p>
 
 <p>
-通过Winget直接安装pandoc<br />
+通过Winget直接安装pandoc<br>
 </p>
 
 <div class="org-src-container">
@@ -412,71 +419,71 @@ b {
 </div>
 
 <p>
-安装完毕后重启，以便Emacs重新读取路径。<br />
+安装完毕后重启，以便Emacs重新读取路径。<br>
 </p>
 
 <p>
-定义函数<br />
+定义函数<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30; font-weight: bold;">defun</span> <span style="color: #007000;">my/md-to-org-region</span> <span style="color: #8f2f30;">(</span>start end<span style="color: #8f2f30;">)</span>
-  <span style="color: #8d6068; font-style: italic;">"Convert region from markdown to org"</span>
-  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">interactive</span> <span style="color: #557000;">"r"</span><span style="color: #8f2f30;">)</span>
-  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30; font-weight: bold;">let</span> <span style="color: #00704f;">(</span><span style="color: #906200;">(</span>default-directory <span style="color: #557000;">"~/.emacs.d/"</span><span style="color: #906200;">)</span>
-        <span style="color: #906200;">(</span>coding-system-for-write 'utf-8<span style="color: #906200;">)</span>
-        <span style="color: #906200;">(</span>coding-system-for-read 'utf-8<span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
-    <span style="color: #00704f;">(</span>shell-command-on-region start end <span style="color: #557000;">"pandoc -f markdown -t org --lua-filter=remove-org.lua --wrap=preserve"</span> t t<span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/md-to-org-region</span> <span style="color: #557400;">(</span>start end<span style="color: #557400;">)</span>
+  <span style="color: #4f677f;">"Convert region from markdown to org"</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span> <span style="color: #ca3400;">"r"</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>default-directory <span style="color: #ca3400;">"~/.emacs.d/"</span><span style="color: #3f6faf;">)</span>
+        <span style="color: #3f6faf;">(</span>coding-system-for-write 'utf-8<span style="color: #3f6faf;">)</span>
+        <span style="color: #3f6faf;">(</span>coding-system-for-read 'utf-8<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>shell-command-on-region start end <span style="color: #ca3400;">"pandoc -f markdown -t org --lua-filter=remove-org.lua --wrap=preserve"</span> t t<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
 </code></pre>
 </div>
 <p>
-这里指定了输出和输入字符格式为 <code>utf-8</code> ，同时设置了shell执行路径在 <code>~/.eamcs.d/</code> 。我们在该路径下放置一个 <code>remove-org.lua</code> 文件，内容为：<br />
+这里指定了输出和输入字符格式为 <code>utf-8</code> ，同时设置了shell执行路径在 <code>~/.eamcs.d/</code> 。我们在该路径下放置一个 <code>remove-org.lua</code> 文件，内容为：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lua"><code><span style="color: #8f2f30; font-weight: bold;">function</span> <span style="color: #007000;">Header</span> <span style="color: #007000;">(</span><span style="color: #aa184f;">header</span><span style="color: #007000;">)</span>
-  <span style="color: #8f2f30; font-weight: bold;">return</span> pandoc.Header<span style="color: #007000;">(</span>header.level, header.content, pandoc.Attr<span style="color: #8f2f30;">()</span><span style="color: #007000;">)</span>
-<span style="color: #8f2f30; font-weight: bold;">end</span>
+<pre class="src src-lua"><code><span style="color: #006f00;">function</span> <span style="color: #a7601f;">Header</span> <span style="color: #a7601f;">(</span><span style="color: #007a9f;">header</span><span style="color: #a7601f;">)</span>
+  <span style="color: #006f00;">return</span> pandoc.Header<span style="color: #a7601f;">(</span>header.level, header.content, pandoc.Attr<span style="color: #557400;">()</span><span style="color: #a7601f;">)</span>
+<span style="color: #006f00;">end</span>
 </code></pre>
 </div>
 
 <p>
-然后对选中的markdown区域执行该函数，就能将其替换为org格式。<br />
+然后对选中的markdown区域执行该函数，就能将其替换为org格式。<br>
 </p>
 
 <p>
-示例：<br />
+示例：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code><span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">IT&#20043;&#23478;</span><span style="color: #6e678f;">](</span><span style="color: #8a5f4a;">https://www.ithome.com/</span><span style="color: #6e678f;">)</span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; <span style="color: #6e678f;">\</span>[<span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">PDF</span><span style="color: #6e678f;">](</span><span style="color: #8a5f4a;">https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf</span><span style="color: #6e678f;">)\</span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292;<span style="color: #6e678f;">**</span><span style="font-weight: bold;">&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;</span><span style="color: #6e678f;">**</span>
+<pre class="src src-markdown"><code><span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">IT&#20043;&#23478;</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">https://www.ithome.com/</span><span style="color: #59786f;">)</span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; <span style="color: #59786f;">\</span>[<span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">PDF</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf</span><span style="color: #59786f;">)\</span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292;<span style="color: #59786f;">**</span><span style="font-weight: bold;">&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;</span><span style="color: #59786f;">**</span>
 
-<span style="color: #6e678f;">### </span><span style="color: #906200;">&#27169;&#22411;&#31616;&#20171;</span>
+<span style="color: #59786f;">### </span><span style="color: #3f6faf;">&#27169;&#22411;&#31616;&#20171;</span>
 
 &#33529;&#26524;&#22312;&#35770;&#25991;&#20013;&#20171;&#32461;&#20102; Apple Foundation Model&#65288;&#19979;&#25991;&#31616;&#31216; AFM&#65289;&#27169;&#22411;&#65292;&#20849;&#26377;&#20197;&#19979;&#20004;&#27454;&#65306;
 
-<span style="color: #6e678f;">-</span>   <span style="color: #6e678f;">**</span><span style="font-weight: bold;">AFM-on-device&#65306;</span><span style="color: #6e678f;">**</span>&#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">iPhone</span><span style="color: #6e678f;">](</span><span style="color: #8a5f4a;">https://iphone.ithome.com/</span><span style="color: #6e678f;">)</span>&#12289;<span style="color: #6e678f;">[</span><span style="color: #00704f; text-decoration: underline;">iPad</span><span style="color: #6e678f;">](</span><span style="color: #8a5f4a;">https://ipad.ithome.com/</span><span style="color: #6e678f;">)</span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
+<span style="color: #59786f;">-</span>   <span style="color: #59786f;">**</span><span style="font-weight: bold;">AFM-on-device&#65306;</span><span style="color: #59786f;">**</span>&#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">iPhone</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">https://iphone.ithome.com/</span><span style="color: #59786f;">)</span>&#12289;<span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">iPad</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">https://ipad.ithome.com/</span><span style="color: #59786f;">)</span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
     
-<span style="color: #6e678f;">-</span>   <span style="color: #6e678f;">**</span><span style="font-weight: bold;">AFM-server&#65306;</span><span style="color: #6e678f;">**</span>&#33529;&#26524;&#23578;&#26410;&#20844;&#24067;&#21442;&#25968;&#31561;&#32454;&#33410;&#12290;
+<span style="color: #59786f;">-</span>   <span style="color: #59786f;">**</span><span style="font-weight: bold;">AFM-server&#65306;</span><span style="color: #59786f;">**</span>&#33529;&#26524;&#23578;&#26410;&#20844;&#24067;&#21442;&#25968;&#31561;&#32454;&#33410;&#12290;
     
 
-<span style="color: #6e678f;">### </span><span style="color: #906200;">&#35757;&#32451;&#25968;&#25454;&#26469;&#28304;</span>
+<span style="color: #59786f;">### </span><span style="color: #3f6faf;">&#35757;&#32451;&#25968;&#25454;&#26469;&#28304;</span>
 
 &#33529;&#26524;&#34920;&#31034;&#35757;&#32451;&#25968;&#25454;&#38598;&#21253;&#25324;&#20174;&#20986;&#29256;&#21830;&#22788;&#33719;&#24471;&#25480;&#26435;&#30340;&#25968;&#25454;&#12289;&#32463;&#36807;&#31574;&#21010;&#30340;&#20844;&#24320;&#25110;&#24320;&#28304;&#25968;&#25454;&#38598;&#20197;&#21450;&#25105;&#20204;&#30340;&#32593;&#32476;&#29228;&#34411; Applebot &#25235;&#21462;&#30340;&#20844;&#24320;&#20449;&#24687;&#32452;&#25104;&#12290;
 </code></pre>
 </div>
 
 <p>
-变化为<br />
+变化为<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #00704f; text-decoration: underline;"><a href="https://www.ithome.com/">IT&#20043;&#23478;</a></span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; [<span style="color: #00704f; text-decoration: underline;"><a href="https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf">PDF</a></span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292; <span style="font-weight: bold;">*&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;*</span>
+<pre class="src src-org"><code><span style="color: #a7601f; text-decoration: underline;"><a href="https://www.ithome.com/">IT&#20043;&#23478;</a></span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; [<span style="color: #a7601f; text-decoration: underline;"><a href="https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf">PDF</a></span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292; <span style="font-weight: bold;">*&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;*</span>
 
 \*** &#27169;&#22411;&#31616;&#20171;
 &#33529;&#26524;&#22312;&#35770;&#25991;&#20013;&#20171;&#32461;&#20102; Apple Foundation Model&#65288;&#19979;&#25991;&#31616;&#31216; AFM&#65289;&#27169;&#22411;&#65292;&#20849;&#26377;&#20197;&#19979;&#20004;&#27454;&#65306;
 
-- <span style="font-weight: bold;">*AFM-on-device&#65306;*</span> &#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #00704f; text-decoration: underline;"><a href="https://iphone.ithome.com/">iPhone</a></span>&#12289;<span style="color: #00704f; text-decoration: underline;"><a href="https://ipad.ithome.com/">iPad</a></span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
+- <span style="font-weight: bold;">*AFM-on-device&#65306;*</span> &#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #a7601f; text-decoration: underline;"><a href="https://iphone.ithome.com/">iPhone</a></span>&#12289;<span style="color: #a7601f; text-decoration: underline;"><a href="https://ipad.ithome.com/">iPad</a></span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
 
 - <span style="font-weight: bold;">*AFM-server&#65306;*</span> &#33529;&#26524;&#23578;&#26410;&#20844;&#24067;&#21442;&#25968;&#31561;&#32454;&#33410;&#12290;
 
