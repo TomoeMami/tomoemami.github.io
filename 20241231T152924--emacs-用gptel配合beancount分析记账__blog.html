@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-14 周五 13:53 -->
+<!-- 2025-11-21 周五 23:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用gptel配合beancount分析记账</title>
@@ -392,15 +392,15 @@ b {
 </header><p>
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2024-06-05T22:47:00">[2024-06-05 周三 22:47]</time></span><br>
 </p>
-<div id="outline-container-org8626300" class="outline-2">
-<h2 id="org8626300"><span class="section-number-2">1.</span> gptel的配置</h2>
+<div id="outline-container-orgf3ec02a" class="outline-2">
+<h2 id="orgf3ec02a"><span class="section-number-2">1.</span> gptel的配置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 因为LLM返回的格式默认为markdown，所以需要安装markdown-mode<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> markdown-mode<span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> markdown-mode<span style="color: #008858;">)</span>
 </code></pre>
 </div>
 
@@ -409,22 +409,22 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> gptel
-  <span style="color: #557400;">:custom</span>
-  <span style="color: #557400;">(</span>gptel-use-curl nil<span style="color: #557400;">)</span>
-  <span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#22240;&#20026;&#25105;&#29992;Windows&#65292;&#27809;&#26377;&#20869;&#32622;curl
-</span>  <span style="color: #557400;">(</span>gptel-directives
-   '<span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>default . <span style="color: #ca3400;">"You are a large language model living in Emacs and a helpful assistant. Respond concisely in Chinese."</span><span style="color: #3f6faf;">)</span>
-     <span style="color: #3f6faf;">(</span>programming . <span style="color: #ca3400;">"You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note."</span><span style="color: #3f6faf;">)</span>
-     <span style="color: #3f6faf;">(</span>writing . <span style="color: #ca3400;">"You are a large language model and a writing assistant. Respond concisely in Chinese."</span><span style="color: #3f6faf;">)</span>
-     <span style="color: #3f6faf;">(</span>chat . <span style="color: #ca3400;">"You are a large language model and a conversation partner. Respond concisely in Chinese."</span><span style="color: #3f6faf;">)</span>
-     <span style="color: #3f6faf;">(</span>bill . <span style="color: #ca3400;">"You are a large language model and a financial advisor. &#35831;&#24110;&#25105;&#20998;&#26512;&#21518;&#32493;&#30340;&#35760;&#36134;&#32454;&#21017;&#65292;&#36755;&#20986;&#24635;&#25910;&#20837;&#12289;&#24635;&#25903;&#20986;&#12289;&#21333;&#27425;&#25903;&#20986;&#36807;&#39640;&#30340;&#23376;&#31867;&#21450;&#20854;&#37329;&#39069;&#65292;&#36824;&#26377;&#32047;&#35745;&#25903;&#20986;&#36807;&#39640;&#30340;&#22823;&#31867;&#21450;&#20854;&#32047;&#35745;&#37329;&#39069;"</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-   <span style="color: #557400;">)</span>
-  <span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#22312;&#27492;&#22788;&#33258;&#23450;&#20041;&#20320;&#30340;prompt
-</span>  <span style="color: #557400;">:config</span>
-  <span style="color: #557400;">(</span>add-hook 'gptel-post-response-functions 'gptel-end-of-response<span style="color: #557400;">)</span>
-  <span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#20351;gpt&#22238;&#22797;&#20043;&#21518;&#20809;&#26631;&#31227;&#33267;&#26368;&#21518;&#26041;
-</span>  <span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> gptel
+  <span style="color: #ba35af;">:custom</span>
+  <span style="color: #4f54aa;">(</span>gptel-use-curl nil<span style="color: #4f54aa;">)</span>
+  <span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">&#22240;&#20026;&#25105;&#29992;Windows&#65292;&#27809;&#26377;&#20869;&#32622;curl
+</span>  <span style="color: #4f54aa;">(</span>gptel-directives
+   '<span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>default . <span style="color: #4250ef;">"You are a large language model living in Emacs and a helpful assistant. Respond concisely in Chinese."</span><span style="color: #1f77bb;">)</span>
+     <span style="color: #1f77bb;">(</span>programming . <span style="color: #4250ef;">"You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note."</span><span style="color: #1f77bb;">)</span>
+     <span style="color: #1f77bb;">(</span>writing . <span style="color: #4250ef;">"You are a large language model and a writing assistant. Respond concisely in Chinese."</span><span style="color: #1f77bb;">)</span>
+     <span style="color: #1f77bb;">(</span>chat . <span style="color: #4250ef;">"You are a large language model and a conversation partner. Respond concisely in Chinese."</span><span style="color: #1f77bb;">)</span>
+     <span style="color: #1f77bb;">(</span>bill . <span style="color: #4250ef;">"You are a large language model and a financial advisor. &#35831;&#24110;&#25105;&#20998;&#26512;&#21518;&#32493;&#30340;&#35760;&#36134;&#32454;&#21017;&#65292;&#36755;&#20986;&#24635;&#25910;&#20837;&#12289;&#24635;&#25903;&#20986;&#12289;&#21333;&#27425;&#25903;&#20986;&#36807;&#39640;&#30340;&#23376;&#31867;&#21450;&#20854;&#37329;&#39069;&#65292;&#36824;&#26377;&#32047;&#35745;&#25903;&#20986;&#36807;&#39640;&#30340;&#22823;&#31867;&#21450;&#20854;&#32047;&#35745;&#37329;&#39069;"</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+   <span style="color: #4f54aa;">)</span>
+  <span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">&#22312;&#27492;&#22788;&#33258;&#23450;&#20041;&#20320;&#30340;prompt
+</span>  <span style="color: #ba35af;">:config</span>
+  <span style="color: #4f54aa;">(</span>add-hook 'gptel-post-response-functions 'gptel-end-of-response<span style="color: #4f54aa;">)</span>
+  <span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">&#20351;gpt&#22238;&#22797;&#20043;&#21518;&#20809;&#26631;&#31227;&#33267;&#26368;&#21518;&#26041;
+</span>  <span style="color: #008858;">)</span>
 </code></pre>
 </div>
 
@@ -433,20 +433,20 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> gptel-model   <span style="color: #ca3400;">"deepseek-chat"</span>
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> gptel-model   <span style="color: #4250ef;">"deepseek-chat"</span>
       gptel-backend
-      <span style="color: #557400;">(</span>gptel-make-openai <span style="color: #ca3400;">"DeepSeek"</span>
-        <span style="color: #557400;">:host</span> <span style="color: #ca3400;">"api.deepseek.com"</span>
-        <span style="color: #557400;">:endpoint</span> <span style="color: #ca3400;">"/chat/completions"</span>
-        <span style="color: #557400;">:key</span> <span style="color: #ca3400;">"YOUR-KEY"</span>
-        <span style="color: #557400;">:stream</span> t
-        <span style="color: #557400;">:models</span> '<span style="color: #bf4400;">(</span><span style="color: #ca3400;">"deepseek-chat"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+      <span style="color: #4f54aa;">(</span>gptel-make-openai <span style="color: #4250ef;">"DeepSeek"</span>
+        <span style="color: #ba35af;">:host</span> <span style="color: #4250ef;">"api.deepseek.com"</span>
+        <span style="color: #ba35af;">:endpoint</span> <span style="color: #4250ef;">"/chat/completions"</span>
+        <span style="color: #ba35af;">:key</span> <span style="color: #4250ef;">"YOUR-KEY"</span>
+        <span style="color: #ba35af;">:stream</span> t
+        <span style="color: #ba35af;">:models</span> '<span style="color: #ba35af;">(</span><span style="color: #4250ef;">"deepseek-chat"</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgee29347" class="outline-2">
-<h2 id="orgee29347"><span class="section-number-2">2.</span> 使用说明</h2>
+<div id="outline-container-orgf3a5c1d" class="outline-2">
+<h2 id="orgf3a5c1d"><span class="section-number-2">2.</span> 使用说明</h2>
 <div class="outline-text-2" id="text-2">
 <ol class="org-ol">
 <li>打开你的beancount账本 <code>*.bean</code><br></li>
@@ -460,7 +460,7 @@ b {
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
 </div>
 </body>
 </html>

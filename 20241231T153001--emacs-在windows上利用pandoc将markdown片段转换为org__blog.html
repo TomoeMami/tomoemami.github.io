@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-14 周五 13:53 -->
+<!-- 2025-11-21 周五 23:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在windows上利用pandoc将markdown片段转换为org</title>
@@ -398,10 +398,10 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my-md-to-org-region</span> <span style="color: #557400;">(</span>start end<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"Convert region from markdown to org"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span> <span style="color: #ca3400;">"r"</span><span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span>shell-command-on-region start end <span style="color: #ca3400;">"pandoc -f markdown -t org"</span> t t<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my-md-to-org-region</span> <span style="color: #4f54aa;">(</span>start end<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Convert region from markdown to org"</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">interactive</span> <span style="color: #4250ef;">"r"</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>shell-command-on-region start end <span style="color: #4250ef;">"pandoc -f markdown -t org"</span> t t<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 </code></pre>
 </div>
 
@@ -427,13 +427,13 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/md-to-org-region</span> <span style="color: #557400;">(</span>start end<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"Convert region from markdown to org"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span> <span style="color: #ca3400;">"r"</span><span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>default-directory <span style="color: #ca3400;">"~/.emacs.d/"</span><span style="color: #3f6faf;">)</span>
-        <span style="color: #3f6faf;">(</span>coding-system-for-write 'utf-8<span style="color: #3f6faf;">)</span>
-        <span style="color: #3f6faf;">(</span>coding-system-for-read 'utf-8<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span>shell-command-on-region start end <span style="color: #ca3400;">"pandoc -f markdown -t org --lua-filter=remove-org.lua --wrap=preserve"</span> t t<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/md-to-org-region</span> <span style="color: #4f54aa;">(</span>start end<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Convert region from markdown to org"</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">interactive</span> <span style="color: #4250ef;">"r"</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">let</span> <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>default-directory <span style="color: #4250ef;">"~/.emacs.d/"</span><span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>coding-system-for-write 'utf-8<span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>coding-system-for-read 'utf-8<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>shell-command-on-region start end <span style="color: #4250ef;">"pandoc -f markdown -t org --lua-filter=remove-org.lua --wrap=preserve"</span> t t<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 </code></pre>
 </div>
 <p>
@@ -441,9 +441,9 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lua"><code><span style="color: #006f00;">function</span> <span style="color: #a7601f;">Header</span> <span style="color: #a7601f;">(</span><span style="color: #007a9f;">header</span><span style="color: #a7601f;">)</span>
-  <span style="color: #006f00;">return</span> pandoc.Header<span style="color: #a7601f;">(</span>header.level, header.content, pandoc.Attr<span style="color: #557400;">()</span><span style="color: #a7601f;">)</span>
-<span style="color: #006f00;">end</span>
+<pre class="src src-lua"><code><span style="color: #6052cf;">function</span> <span style="color: #cf25aa;">Header</span> <span style="color: #008858;">(</span><span style="color: #1f77bb;">header</span><span style="color: #008858;">)</span>
+  <span style="color: #6052cf;">return</span> pandoc.Header<span style="color: #008858;">(</span>header.level, header.content, pandoc.Attr<span style="color: #4f54aa;">()</span><span style="color: #008858;">)</span>
+<span style="color: #6052cf;">end</span>
 </code></pre>
 </div>
 
@@ -456,18 +456,18 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown"><code><span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">IT&#20043;&#23478;</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">https://www.ithome.com/</span><span style="color: #59786f;">)</span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; <span style="color: #59786f;">\</span>[<span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">PDF</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf</span><span style="color: #59786f;">)\</span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292;<span style="color: #59786f;">**</span><span style="font-weight: bold;">&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;</span><span style="color: #59786f;">**</span>
+<pre class="src src-markdown"><code><span style="color: #68759f;">[</span><span style="color: #4250ef; text-decoration: underline;">IT&#20043;&#23478;</span><span style="color: #68759f;">](</span><span style="color: #397a70;">https://www.ithome.com/</span><span style="color: #68759f;">)</span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; <span style="color: #68759f;">\</span>[<span style="color: #68759f;">[</span><span style="color: #4250ef; text-decoration: underline;">PDF</span><span style="color: #68759f;">](</span><span style="color: #397a70;">https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf</span><span style="color: #68759f;">)\</span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292;<span style="color: #68759f;">**</span><span style="font-weight: bold;">&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;</span><span style="color: #68759f;">**</span>
 
-<span style="color: #59786f;">### </span><span style="color: #3f6faf;">&#27169;&#22411;&#31616;&#20171;</span>
+<span style="color: #68759f;">### </span><span style="color: #1f77bb;">&#27169;&#22411;&#31616;&#20171;</span>
 
 &#33529;&#26524;&#22312;&#35770;&#25991;&#20013;&#20171;&#32461;&#20102; Apple Foundation Model&#65288;&#19979;&#25991;&#31616;&#31216; AFM&#65289;&#27169;&#22411;&#65292;&#20849;&#26377;&#20197;&#19979;&#20004;&#27454;&#65306;
 
-<span style="color: #59786f;">-</span>   <span style="color: #59786f;">**</span><span style="font-weight: bold;">AFM-on-device&#65306;</span><span style="color: #59786f;">**</span>&#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">iPhone</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">https://iphone.ithome.com/</span><span style="color: #59786f;">)</span>&#12289;<span style="color: #59786f;">[</span><span style="color: #a7601f; text-decoration: underline;">iPad</span><span style="color: #59786f;">](</span><span style="color: #7f475a;">https://ipad.ithome.com/</span><span style="color: #59786f;">)</span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
+<span style="color: #68759f;">-</span>   <span style="color: #68759f;">**</span><span style="font-weight: bold;">AFM-on-device&#65306;</span><span style="color: #68759f;">**</span>&#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #68759f;">[</span><span style="color: #4250ef; text-decoration: underline;">iPhone</span><span style="color: #68759f;">](</span><span style="color: #397a70;">https://iphone.ithome.com/</span><span style="color: #68759f;">)</span>&#12289;<span style="color: #68759f;">[</span><span style="color: #4250ef; text-decoration: underline;">iPad</span><span style="color: #68759f;">](</span><span style="color: #397a70;">https://ipad.ithome.com/</span><span style="color: #68759f;">)</span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
     
-<span style="color: #59786f;">-</span>   <span style="color: #59786f;">**</span><span style="font-weight: bold;">AFM-server&#65306;</span><span style="color: #59786f;">**</span>&#33529;&#26524;&#23578;&#26410;&#20844;&#24067;&#21442;&#25968;&#31561;&#32454;&#33410;&#12290;
+<span style="color: #68759f;">-</span>   <span style="color: #68759f;">**</span><span style="font-weight: bold;">AFM-server&#65306;</span><span style="color: #68759f;">**</span>&#33529;&#26524;&#23578;&#26410;&#20844;&#24067;&#21442;&#25968;&#31561;&#32454;&#33410;&#12290;
     
 
-<span style="color: #59786f;">### </span><span style="color: #3f6faf;">&#35757;&#32451;&#25968;&#25454;&#26469;&#28304;</span>
+<span style="color: #68759f;">### </span><span style="color: #1f77bb;">&#35757;&#32451;&#25968;&#25454;&#26469;&#28304;</span>
 
 &#33529;&#26524;&#34920;&#31034;&#35757;&#32451;&#25968;&#25454;&#38598;&#21253;&#25324;&#20174;&#20986;&#29256;&#21830;&#22788;&#33719;&#24471;&#25480;&#26435;&#30340;&#25968;&#25454;&#12289;&#32463;&#36807;&#31574;&#21010;&#30340;&#20844;&#24320;&#25110;&#24320;&#28304;&#25968;&#25454;&#38598;&#20197;&#21450;&#25105;&#20204;&#30340;&#32593;&#32476;&#29228;&#34411; Applebot &#25235;&#21462;&#30340;&#20844;&#24320;&#20449;&#24687;&#32452;&#25104;&#12290;
 </code></pre>
@@ -478,12 +478,12 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code><span style="color: #a7601f; text-decoration: underline;"><a href="https://www.ithome.com/">IT&#20043;&#23478;</a></span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; [<span style="color: #a7601f; text-decoration: underline;"><a href="https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf">PDF</a></span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292; <span style="font-weight: bold;">*&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;*</span>
+<pre class="src src-org"><code><span style="color: #4250ef; text-decoration: underline;"><a href="https://www.ithome.com/">IT&#20043;&#23478;</a></span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; [<span style="color: #4250ef; text-decoration: underline;"><a href="https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf">PDF</a></span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292; <span style="font-weight: bold;">*&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;*</span>
 
 \*** &#27169;&#22411;&#31616;&#20171;
 &#33529;&#26524;&#22312;&#35770;&#25991;&#20013;&#20171;&#32461;&#20102; Apple Foundation Model&#65288;&#19979;&#25991;&#31616;&#31216; AFM&#65289;&#27169;&#22411;&#65292;&#20849;&#26377;&#20197;&#19979;&#20004;&#27454;&#65306;
 
-- <span style="font-weight: bold;">*AFM-on-device&#65306;*</span> &#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #a7601f; text-decoration: underline;"><a href="https://iphone.ithome.com/">iPhone</a></span>&#12289;<span style="color: #a7601f; text-decoration: underline;"><a href="https://ipad.ithome.com/">iPad</a></span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
+- <span style="font-weight: bold;">*AFM-on-device&#65306;*</span> &#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #4250ef; text-decoration: underline;"><a href="https://iphone.ithome.com/">iPhone</a></span>&#12289;<span style="color: #4250ef; text-decoration: underline;"><a href="https://ipad.ithome.com/">iPad</a></span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
 
 - <span style="font-weight: bold;">*AFM-server&#65306;*</span> &#33529;&#26524;&#23578;&#26410;&#20844;&#24067;&#21442;&#25968;&#31561;&#32454;&#33410;&#12290;
 
@@ -494,7 +494,7 @@ b {
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
 </div>
 </body>
 </html>

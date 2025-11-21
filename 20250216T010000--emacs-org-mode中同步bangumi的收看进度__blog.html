@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-14 周五 13:53 -->
+<!-- 2025-11-21 周五 23:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-org-mode中同步bangumi的收看进度</title>
@@ -404,8 +404,8 @@ b {
 <p>
 部分同步内容：某一条目章节的观看情况，只能增不能减。<br>
 </p>
-<div id="outline-container-orge154197" class="outline-2">
-<h2 id="orge154197"><span class="section-number-2">1.</span> 基础配置</h2>
+<div id="outline-container-orgd6bbe45" class="outline-2">
+<h2 id="orgd6bbe45"><span class="section-number-2">1.</span> 基础配置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 需要安装 <code>plz</code> 包以处理HTTP请求。<br>
@@ -413,20 +413,20 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#22312;&#36825;&#37324; https://next.bgm.tv/demo/access-token &#30003;&#35831;token&#65292;&#28982;&#21518;&#21462;&#28040;&#19979;&#19968;&#34892;&#30340;&#27880;&#37322;&#24182;&#22635;&#20837;&#20320;&#30340;TOKEN
-</span><span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">(setq my/bgm-token "YOUR-BANGUMI-ACCESS-TOKEN")
-</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">require</span> '<span style="color: #00824f;">bangumi</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#22312;&#36825;&#37324; https://next.bgm.tv/demo/access-token &#30003;&#35831;token&#65292;&#28982;&#21518;&#21462;&#28040;&#19979;&#19968;&#34892;&#30340;&#27880;&#37322;&#24182;&#22635;&#20837;&#20320;&#30340;TOKEN
+</span><span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">(setq my/bgm-token "YOUR-BANGUMI-ACCESS-TOKEN")
+</span><span style="color: #008858;">(</span><span style="color: #6052cf;">require</span> '<span style="color: #065fff;">bangumi</span><span style="color: #008858;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/bgm-update-subject-conditions</span> <span style="color: #557400;">(</span>subject todo<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"&#23558;&#26465;&#20214;&#21028;&#26029;&#21333;&#29420;&#25552;&#21462;&#20986;&#26469;&#65292;&#20415;&#20110;&#29992;&#25143;&#33258;&#23450;&#20041;"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">and</span> subject
-       <span style="color: #bf4400;">(</span>not <span style="color: #3f6faf;">(</span><span style="color: #006f00;">and</span> <span style="color: #00824f;">(</span>org-entry-get nil <span style="color: #ca3400;">"RESCHEDULE_CRON"</span><span style="color: #00824f;">)</span> <span style="color: #00824f;">(</span><span style="color: #006f00;">or</span> <span style="color: #9a456f;">(</span>string-equal todo <span style="color: #ca3400;">"DONE"</span><span style="color: #9a456f;">)</span> <span style="color: #9a456f;">(</span>string-equal todo <span style="color: #ca3400;">"TODO"</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/bgm-update-subject-conditions</span> <span style="color: #4f54aa;">(</span>subject todo<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"&#23558;&#26465;&#20214;&#21028;&#26029;&#21333;&#29420;&#25552;&#21462;&#20986;&#26469;&#65292;&#20415;&#20110;&#29992;&#25143;&#33258;&#23450;&#20041;"</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">and</span> subject
+       <span style="color: #ba35af;">(</span>not <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">and</span> <span style="color: #b65050;">(</span>org-entry-get nil <span style="color: #4250ef;">"RESCHEDULE_CRON"</span><span style="color: #b65050;">)</span> <span style="color: #b65050;">(</span><span style="color: #6052cf;">or</span> <span style="color: #6052cf;">(</span>string-equal todo <span style="color: #4250ef;">"DONE"</span><span style="color: #6052cf;">)</span> <span style="color: #6052cf;">(</span>string-equal todo <span style="color: #4250ef;">"TODO"</span><span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> my/bgm-plz-proxy '<span style="color: #557400;">(</span><span style="color: #ca3400;">"--proxy"</span> <span style="color: #ca3400;">"http://127.0.0.1:7890"</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
-<span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#22312;TODO&#20851;&#38190;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;subject
-</span><span style="color: #a7601f;">(</span>add-hook 'org-after-todo-state-change-hook #'my/bgm-update-subject<span style="color: #a7601f;">)</span>
-<span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#22312;checkbox&#32479;&#35745;&#25968;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;episode
-</span><span style="color: #a7601f;">(</span>add-hook 'org-checkbox-statistics-hook #'my/bgm-async-update-episodes<span style="color: #a7601f;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> my/bgm-plz-proxy '<span style="color: #4f54aa;">(</span><span style="color: #4250ef;">"--proxy"</span> <span style="color: #4250ef;">"http://127.0.0.1:7890"</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#22312;TODO&#20851;&#38190;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;subject
+</span><span style="color: #008858;">(</span>add-hook 'org-after-todo-state-change-hook #'my/bgm-update-subject<span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#22312;checkbox&#32479;&#35745;&#25968;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;episode
+</span><span style="color: #008858;">(</span>add-hook 'org-checkbox-statistics-hook #'my/bgm-async-update-episodes<span style="color: #008858;">)</span>
 
 </code></pre>
 </div>
@@ -436,8 +436,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org4b6cca1" class="outline-2">
-<h2 id="org4b6cca1"><span class="section-number-2">2.</span> 使用方法</h2>
+<div id="outline-container-org982487b" class="outline-2">
+<h2 id="org982487b"><span class="section-number-2">2.</span> 使用方法</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 首先是创建一个不含TODO关键字的heading，然后按 <code>C-c C-x p</code> 为其输入 <code>BGM</code> 的属性，具体值为Bangumi网站上的对应值（如该条目的页面网址为 <a href="https://bgm.tv/subject/454684">https://bgm.tv/subject/454684</a> ，则应输入 454684。<br>
@@ -445,9 +445,9 @@ b {
 
 <div class="org-src-container">
 <pre class="src src-org"><code>\*** AveMujica
-<span style="color: #59786f;">:PROPERTIES:</span>
-<span style="color: #59786f;">:BGM:</span>      <span style="color: #7f475a;">454684</span>
-<span style="color: #59786f;">:END:</span>
+<span style="color: #68759f;">:PROPERTIES:</span>
+<span style="color: #68759f;">:BGM:</span>      <span style="color: #397a70;">454684</span>
+<span style="color: #68759f;">:END:</span>
 </code></pre>
 </div>
 
@@ -457,9 +457,9 @@ b {
 
 <div class="org-src-container">
 <pre class="src src-org"><code>\*** TODO AveMujica
-<span style="color: #59786f;">:PROPERTIES:</span>
-<span style="color: #59786f;">:BGM:</span>      <span style="color: #7f475a;">454684</span>
-<span style="color: #59786f;">:END:</span>
+<span style="color: #68759f;">:PROPERTIES:</span>
+<span style="color: #68759f;">:BGM:</span>      <span style="color: #397a70;">454684</span>
+<span style="color: #68759f;">:END:</span>
 </code></pre>
 </div>
 
@@ -468,22 +468,22 @@ b {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code>\*** AveMujica<span style="color: #dd0020;">[0/12]</span>
-<span style="color: #59786f;">:PROPERTIES:</span>
-<span style="color: #59786f;">:BGM:</span>      <span style="color: #7f475a;">454684</span>
-<span style="color: #59786f;">:END:</span>
-1. <span style="color: #a7601f;">[ ]</span>
-2. <span style="color: #a7601f;">[ ]</span> 
-3. <span style="color: #a7601f;">[ ]</span> 
-4. <span style="color: #a7601f;">[ ]</span> 
-5. <span style="color: #a7601f;">[ ]</span> 
-6. <span style="color: #a7601f;">[ ]</span> 
-7. <span style="color: #a7601f;">[ ]</span> 
-8. <span style="color: #a7601f;">[ ]</span> 
-9. <span style="color: #a7601f;">[ ]</span> 
-10. <span style="color: #a7601f;">[ ]</span> 
-11. <span style="color: #a7601f;">[ ]</span> 
-12. <span style="color: #a7601f;">[ ]</span> 
+<pre class="src src-org"><code>\*** AveMujica<span style="color: #e00033;">[0/12]</span>
+<span style="color: #68759f;">:PROPERTIES:</span>
+<span style="color: #68759f;">:BGM:</span>      <span style="color: #397a70;">454684</span>
+<span style="color: #68759f;">:END:</span>
+1. <span style="color: #b6532f;">[ ]</span>
+2. <span style="color: #b6532f;">[ ]</span> 
+3. <span style="color: #b6532f;">[ ]</span> 
+4. <span style="color: #b6532f;">[ ]</span> 
+5. <span style="color: #b6532f;">[ ]</span> 
+6. <span style="color: #b6532f;">[ ]</span> 
+7. <span style="color: #b6532f;">[ ]</span> 
+8. <span style="color: #b6532f;">[ ]</span> 
+9. <span style="color: #b6532f;">[ ]</span> 
+10. <span style="color: #b6532f;">[ ]</span> 
+11. <span style="color: #b6532f;">[ ]</span> 
+12. <span style="color: #b6532f;">[ ]</span> 
 </code></pre>
 </div>
 
@@ -492,8 +492,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org716b37c" class="outline-2">
-<h2 id="org716b37c"><span class="section-number-2">3.</span> 注意事项</h2>
+<div id="outline-container-org32f14af" class="outline-2">
+<h2 id="org32f14af"><span class="section-number-2">3.</span> 注意事项</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 注意，这里我偷了一个懒，观看进度是根据 <code>[0/12]</code> 的前面数字判断的。如果你跳跃式观看，比如只看了第2、3、4集，checkbox统计数据会变成 <code>[3/12]</code> ，则以上代码依然会自动标记前3集为已读。<br>
@@ -506,7 +506,7 @@ b {
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
 </div>
 </body>
 </html>

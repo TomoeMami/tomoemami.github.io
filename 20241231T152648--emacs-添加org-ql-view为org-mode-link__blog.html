@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-14 周五 13:53 -->
+<!-- 2025-11-21 周五 23:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-添加org-ql-view为org-mode-link</title>
@@ -397,8 +397,8 @@ b {
 在使用org-ql的时候，我发现<a href="https://github.com/alphapapa/org-ql?tab=readme-ov-file#links">官方说明里推荐的</a>形如<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">[</span><span style="color: #557400;">[</span>org-ql-search:todo:NEXT priority:A<span style="color: #557400;">]</span><span style="color: #a7601f;">]</span>
-<span style="color: #a7601f;">[</span><span style="color: #557400;">[</span>org-ql-search:<span style="color: #bf4400;">(</span><span style="color: #006f00;">and</span> <span style="color: #3f6faf;">(</span>todo <span style="color: #ca3400;">"NEXT"</span><span style="color: #3f6faf;">)</span> <span style="color: #3f6faf;">(</span>priority <span style="color: #ca3400;">"A"</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">]</span><span style="color: #a7601f;">]</span>
+<pre class="src src-elisp"><code><span style="color: #008858;">[</span><span style="color: #4f54aa;">[</span>org-ql-search:todo:NEXT priority:A<span style="color: #4f54aa;">]</span><span style="color: #008858;">]</span>
+<span style="color: #008858;">[</span><span style="color: #4f54aa;">[</span>org-ql-search:<span style="color: #ba35af;">(</span><span style="color: #6052cf;">and</span> <span style="color: #1f77bb;">(</span>todo <span style="color: #4250ef;">"NEXT"</span><span style="color: #1f77bb;">)</span> <span style="color: #1f77bb;">(</span>priority <span style="color: #4250ef;">"A"</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">]</span><span style="color: #008858;">]</span>
 </code></pre>
 </div>
 <p>
@@ -412,29 +412,29 @@ b {
 所以可以保存常用的org-ql-view搜索，然后添加以下代码，通过形如 <code>[[qlview: 个人事项]</code> 的org-link快速启动org-ql-view指定结果<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>org-add-link-type
- <span style="color: #ca3400;">"qlview"</span> 'my/org-ql-view<span style="color: #a7601f;">)</span>
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/org-ql-view</span> <span style="color: #557400;">(</span>name<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"View saved org-ql-view"</span>
-  <span style="color: #557400;">(</span>org-ql-view name<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span>org-add-link-type
+ <span style="color: #4250ef;">"qlview"</span> 'my/org-ql-view<span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ql-view</span> <span style="color: #4f54aa;">(</span>name<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"View saved org-ql-view"</span>
+  <span style="color: #4f54aa;">(</span>org-ql-view name<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 </code></pre>
 </div>
-<div id="outline-container-org55223f7" class="outline-2">
-<h2 id="org55223f7"><span class="section-number-2">1.</span> 补充 org-ql-search 的相关语句</h2>
+<div id="outline-container-orgdbb86d0" class="outline-2">
+<h2 id="orgdbb86d0"><span class="section-number-2">1.</span> 补充 org-ql-search 的相关语句</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>org-add-link-type
- <span style="color: #ca3400;">"qlsearch"</span> 'my/org-ql-search<span style="color: #a7601f;">)</span>
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/org-ql-search</span> <span style="color: #557400;">(</span>query<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"Search query in default mode"</span>
-  <span style="color: #557400;">(</span>org-ql-search <span style="color: #bf4400;">(</span>org-agenda-files<span style="color: #bf4400;">)</span> query <span style="color: #557400;">:narrow</span> nil <span style="color: #557400;">:super-groups</span> '<span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span><span style="color: #557400;">:auto-tags</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span> <span style="color: #557400;">:sort</span> nil<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #008858;">(</span>org-add-link-type
+ <span style="color: #4250ef;">"qlsearch"</span> 'my/org-ql-search<span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ql-search</span> <span style="color: #4f54aa;">(</span>query<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Search query in default mode"</span>
+  <span style="color: #4f54aa;">(</span>org-ql-search <span style="color: #ba35af;">(</span>org-agenda-files<span style="color: #ba35af;">)</span> query <span style="color: #ba35af;">:narrow</span> nil <span style="color: #ba35af;">:super-groups</span> '<span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span><span style="color: #ba35af;">:auto-tags</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span> <span style="color: #ba35af;">:sort</span> nil<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
 </div>
 </body>
 </html>

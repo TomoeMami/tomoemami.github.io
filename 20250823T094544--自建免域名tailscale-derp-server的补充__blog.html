@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-18 周二 11:12 -->
+<!-- 2025-11-21 周五 23:07 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>自建免域名Tailscale DERP Server的补充</title>
@@ -384,7 +384,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-18 周二 11:11]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-18 周二 11:13]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -404,8 +404,8 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 <p>
 以上两篇文章已经说得很全面了，我这里补充几个萌新可能遇见问题的地方（以第二篇文章为例）。<br>
 </p>
-<div id="outline-container-org5489088" class="outline-2">
-<h2 id="org5489088"><span class="section-number-2">1.</span> 端口设置</h2>
+<div id="outline-container-org18cd363" class="outline-2">
+<h2 id="org18cd363"><span class="section-number-2">1.</span> 端口设置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在 <code>docker-compose.yml</code> 中，需要设置连接的端口：<br>
@@ -431,8 +431,8 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 </p>
 </div>
 </div>
-<div id="outline-container-orga9588e4" class="outline-2">
-<h2 id="orga9588e4"><span class="section-number-2">2.</span> ACL规则</h2>
+<div id="outline-container-orgf20e91a" class="outline-2">
+<h2 id="orgf20e91a"><span class="section-number-2">2.</span> ACL规则</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 <code>derpMap</code> 开头的那段规则存放的位置是在最底部，不可直接覆盖，具体位置如下：<br>
@@ -470,8 +470,8 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 </div>
 </div>
 </div>
-<div id="outline-container-org608698f" class="outline-2">
-<h2 id="org608698f"><span class="section-number-2">3.</span> <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-18">[2025-11-18 周二]</time></span> 使用peer-relay</h2>
+<div id="outline-container-org507252b" class="outline-2">
+<h2 id="org507252b"><span class="section-number-2">3.</span> <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-18">[2025-11-18 周二]</time></span> 使用peer-relay</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 参考<a href="https://blog.sleepstars.net/archives/ti-dai-derp-zui-gao-xiao-de-guan-fang-tailscale-relay-lu-you">这篇博客</a> 还有<a href="https://blog.ysicing.net/tailscale-peer-relays">另一篇博客</a>，但是其中ACL的部分需要根据实际修改。<br>
@@ -495,7 +495,7 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 </code></pre>
 </div>
 <p>
-根据我们的实际，可以把第一行换成星号，以便所有设备都尝试来访问peer-relay。<br>
+根据我们的实际，可以把 <code>src</code> 换成星号，以便所有设备都尝试来访问peer-relay。 注意 <code>dst</code> 需要是tailscale内网的IP<br>
 </p>
 
 <p>
@@ -523,7 +523,7 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 
 		{
 			"src": ["*"],
-			"dst": ["139.155.135.215"],
+			"dst": ["100.109.5.42"],
 			"app": {"tailscale.com/cap/relay": []},
 		},
 		{
@@ -538,7 +538,7 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
 </div>
 </body>
 </html>
