@@ -4,7 +4,7 @@
 <!-- 2025-11-26 周三 17:38 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>English Post Index</title>
+<title>Emacs: Adding Chinese Lunar Calendar Anniversaries</title>
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -388,35 +388,67 @@ b {
 </div>
 <div id="content" class="content">
 <header>
-<h1 class="title">English Post Index</h1>
+<h1 class="title">Emacs: Adding Chinese Lunar Calendar Anniversaries</h1>
 </header><p>
-(All posts are translated by LLMs, and revised by myself)<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-04-26T09:00:00">[2024-04-26 周五 09:00]</time></span><br>
 </p>
-<div id="outline-container-orge5eba6c" class="outline-2">
-<h2 id="orge5eba6c">2025</h2>
-<div class="outline-text-2" id="text-orge5eba6c">
+
+<p>
+Anniversaries can be displayed in the <code>org-agenda</code>. To add a Gregorian anniversary, you can insert the following code into a new line in one of your <code>org-agenda-files</code> (note that ISO date format is enabled here):<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Enable ISO date style: Year Month Day
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> calendar-date-style 'iso<span style="color: #a7601f;">)</span>
+
+%%<span style="color: #a7601f;">(</span>diary-anniversary 1949 10 1<span style="color: #a7601f;">)</span> The %dth Gregorian birthday of New China
+</code></pre>
 </div>
-<div id="outline-container-org19da5c4" class="outline-3">
-<h3 id="org19da5c4">2025-09-26</h3>
-<div class="outline-text-3" id="text-org19da5c4">
+
+<p>
+On October 1st, it will appear at the bottom of the daily schedule in the <code>org-agenda</code> as follows:<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nil"><code>The 75th Gregorian birthday of New China
+</code></pre>
 </div>
-<div id="outline-container-org8fe4223" class="outline-4">
-<h4 id="org8fe4223"><a href="20251121T152353--emacs-using-interactive-regex-features-in-elisp-pseudo-call__wiki.html">Emacs: Using Interactive Regex Features in Elisp (Pseudo-call)</a></h4>
+
+<p>
+Adding anniversaries based on the Lunar (Chinese) calendar requires a different function, <code>diary-chinese-anniversary</code>. However, the third optional argument <code>year</code> accepted by this function is a combination of the cycle number and the year index within the Chinese sexagenary cycle, meaning you cannot simply input the Gregorian year.<br>
+</p>
+
+<p>
+Taking the Lunar date of the 10th day of the 8th month, 1949 (which corresponds to October 1, 1949, in the Gregorian calendar) as an example, here is the setup (using ISO date style):<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Enable ISO date style: Year Month Day
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> calendar-date-style 'iso<span style="color: #a7601f;">)</span>
+
+<span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Enable the built-in cal-china package
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">require</span> '<span style="color: #00824f;">cal-china</span><span style="color: #a7601f;">)</span>
+
+<span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">The diary-chinese-anniversary function in cal-china only supports 
+</span><span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">the American date format, so we need to use '</span><span style="color: #00824f;">let</span><span style="color: #8f6f4a;">' to locally define the variable.
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/diary-chinese-anniversary</span> <span style="color: #557400;">(</span>year month day<span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>calendar-date-style 'american<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>diary-chinese-anniversary month day year nil<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+
+<span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Calculate the Chinese lunar year structure for a given Gregorian date
+</span><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/chinese-year</span> <span style="color: #557400;">(</span>year month day<span style="color: #557400;">)</span>
+    <span style="color: #557400;">(</span>+ <span style="color: #bf4400;">(</span>* 100 <span style="color: #3f6faf;">(</span>car <span style="color: #00824f;">(</span>calendar-chinese-from-absolute <span style="color: #9a456f;">(</span>calendar-absolute-from-gregorian <span style="color: #a2604f;">(</span>diary-make-date year month day<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+       <span style="color: #bf4400;">(</span>cadr <span style="color: #3f6faf;">(</span>calendar-chinese-from-absolute <span style="color: #00824f;">(</span>calendar-absolute-from-gregorian <span style="color: #9a456f;">(</span>diary-make-date year month day<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
 </div>
-</div>
-</div>
-<div id="outline-container-org0d7e7a6" class="outline-2">
-<h2 id="org0d7e7a6">2024</h2>
-<div class="outline-text-2" id="text-org0d7e7a6">
-</div>
-<div id="outline-container-org1cb8a83" class="outline-3">
-<h3 id="org1cb8a83">2024-04-26</h3>
-<div class="outline-text-3" id="text-org1cb8a83">
-</div>
-<div id="outline-container-orga898ce0" class="outline-4">
-<h4 id="orga898ce0"><a href="20251126T173543--emacs-adding-chinese-lunar-calendar-anniversaries__wiki.html">Emacs: Adding Chinese Lunar Calendar Anniversaries</a></h4>
-</div>
-</div>
+
+<p>
+With this setup, you can use the following code to display the lunar birthday reminder for the 10th day of the 8th lunar month, 1949 (Gregorian: October 1, 1949).<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code>%%<span style="color: #a7601f;">(</span>my/diary-chinese-anniversary <span style="color: #557400;">(</span>my/chinese-year 1949 10 1<span style="color: #557400;">)</span> 8 10<span style="color: #a7601f;">)</span> The %dth Lunar birthday of New China
+</code></pre>
 </div>
 </div>
 <div id="postamble" class="status">
