@@ -4,7 +4,7 @@
 <!-- 2025-11-28 五 20:01 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>自建免域名Tailscale DERP Server的补充</title>
+<title>emacs-windows上使用emacs</title>
 <meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -385,154 +385,136 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-18 二 11:13]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-28 五 19:56]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
-<h1 class="title">自建免域名Tailscale DERP Server的补充</h1>
+<h1 class="title">emacs-windows上使用emacs</h1>
 </header><p>
-Tailscale官方中介服务器不在大陆，所以我们可以租用云服务器然后自建一个，提供低延迟服务。<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-04-24T16:14:00">[2024-04-24 三 16:14]</time></span><br>
 </p>
 
 <p>
-<a href="https://blog.sleepstars.net/archives/ji-yu-docker-compose">自建免备案防偷 Tailscale 国内中继（DERP）教程</a><br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-28">[2025-11-28 五]</time></span>： <a href="https://emacs-china.org/t/windows-emacs/30515/11">emacs-china论坛上</a>有人摸索了更具备普遍性的字符编码处理，但对我来说下面的设置刚好能生效。如果感兴趣，可以先看看他的结论。<br>
 </p>
-
-<p>
-<a href="https://ameow.xyz/archives/tailscale-derp-server-deployment">Tailscale DERP Server 简明部署教程（纯 IP 方式）</a><br>
-</p>
-
-<p>
-以上两篇文章已经说得很全面了，我这里补充几个萌新可能遇见问题的地方（以第二篇文章为例）。<br>
-</p>
-<div id="outline-container-org8555ada" class="outline-2">
-<h2 id="org8555ada"><span class="section-number-2">1.</span> 端口设置</h2>
+<div id="outline-container-org8a66662" class="outline-2">
+<h2 id="org8a66662"><span class="section-number-2">1.</span> 字体编码处理</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-在 <code>docker-compose.yml</code> 中，需要设置连接的端口：<br>
+<a href="https://emacs-china.org/t/org-roam/26545/24?u=tomoemami">org-roam和ripgrep：</a><br>
+</p>
+
+<p>
+设置org-mode的字符编码，同时开启自动revert功能<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-docker"><code>services:
-  derper:
-    environment:
-      - DERP_ADDR=:13477
-    ports:
-      - "13477:13477"
-      - "13478:3478/udp"
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">use-package</span> lazy-revert
+  <span style="color: #1f6fbf;">:ensure</span> nil
+  <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">:quelpa (lazy-revert :fetcher github
+</span>  <span style="color: #7a5f2f;">;;                      </span><span style="color: #7a5f2f;">:repo "yilin-zhang/lazy-revert")
+</span>  <span style="color: #1f6fbf;">:hook</span> <span style="color: #004fc0;">(</span>after-init . lazy-revert-mode<span style="color: #004fc0;">)</span>
+  <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">Optional
+</span>  <span style="color: #1f6fbf;">:config</span>
+  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">setq</span> auto-revert-verbose t <span style="color: #7a5f2f;">; </span><span style="color: #7a5f2f;">let us know when it happens
+</span>        auto-revert-use-notify nil
+        auto-revert-stop-on-user-input nil
+        <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">Only prompts for confirmation when buffer is unsaved.
+</span>        revert-without-query <span style="color: #00845f;">(</span>list <span style="color: #4244ef;">"."</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
+<span style="color: #007a85;">(</span>add-to-list 'file-coding-system-alist '<span style="color: #004fc0;">(</span><span style="color: #4244ef;">"\\.org\\'"</span> . utf-8<span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
 </code></pre>
 </div>
 
 <p>
-这里的三个 <code>13477</code> 是可以自己填的，随便怎么设置，只要保持一致，且在服务器防火墙上开通对应端口的 <code>tcp</code> 就好。 <code>13478</code> 也可以自定义，不过需要开通对应端口的 <code>udp</code> 权限。 <code>3478/udp</code> 别动，是绑定死的docker内端口。<br>
+设置ripgrep的字符编码<br>
 </p>
 
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span>add-to-list 'process-coding-system-alist
+                        '<span style="color: #004fc0;">(</span><span style="color: #4244ef;">"[rR][gG]"</span> . <span style="color: #00845f;">(</span>utf-8 . gbk-dos<span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
+</code></pre>
+</div>
+
 <p>
-如果发现自定义了端口也无法连接，考虑更换更高位的端口，有的国内云厂商会一刀切封禁低位端口。<br>
+其他编码设置<br>
 </p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span>prefer-coding-system 'utf-8<span style="color: #007a85;">)</span>
+<span style="color: #007a85;">(</span><span style="color: #004fc0;">setq</span> default-buffer-file-coding-system 'utf-8<span style="color: #007a85;">)</span>
+<span style="color: #007a85;">(</span>set-default 'process-coding-system-alist
+             '<span style="color: #004fc0;">(</span><span style="color: #00845f;">(</span><span style="color: #4244ef;">"[pP][lL][iI][nN][kK]"</span> gbk-dos . gbk-dos<span style="color: #00845f;">)</span>
+               <span style="color: #00845f;">(</span><span style="color: #4244ef;">"[cC][mM][dD][pP][rR][oO][xX][yY]"</span> gbk-dos . gbk-dos<span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
+</code></pre>
 </div>
 </div>
-<div id="outline-container-org018da4c" class="outline-2">
-<h2 id="org018da4c"><span class="section-number-2">2.</span> ACL规则</h2>
+</div>
+<div id="outline-container-orgba2f159" class="outline-2">
+<h2 id="orgba2f159"><span class="section-number-2">2.</span> consult</h2>
 <div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orga6a9c7c" class="outline-3">
+<h3 id="orga6a9c7c"><span class="section-number-3">2.1.</span> 调用Everything进行搜索</h3>
+<div class="outline-text-3" id="text-2-1">
 <p>
-<code>derpMap</code> 开头的那段规则存放的位置是在最底部，不可直接覆盖，具体位置如下：<br>
+下载命令行接口 <code>es.exe</code><br>
 </p>
 
+<p>
+<a href="https://www.voidtools.com/zh-cn/downloads/#cli">https://www.voidtools.com/zh-cn/downloads/#cli</a><br>
+</p>
+
+<p>
+<a href="https://emacs-china.org/t/consult/18596/3?u=tomoemami">consult调用everything</a><br>
+</p>
+
+<p>
+consult配置<br>
+</p>
 <div class="org-src-container">
-<pre class="src src-json"><code>{
-//……上略
-//Test asccess rules every time they're saved.
-//"tests": [
-//{
-// ……
-//},
-//],
-//直接复制，粘贴在上面这段话的下面
-"derpMap": {
-		"OmitDefaultRegions": false,
-		"Regions": {"900": {
-			"RegionID":   900,
-			"RegionCode": "gz", // 按需要填
-			"RegionName": "Guangzhou", // 按需要填
-			"Nodes": [{
-				"Name":      "myderper", // 按需要填
-				"RegionID":  900,
-				"HostName":  "IP/HOST", // 改成自己的 IP/域名
-				"DERPPort":  13477,
-				"STUNPort":  13478,
-				"CanPort80": false,
-				"InsecureForTests": true // 去掉域名证书检测
-			}],
-		}},
-	}
-}
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">use-package</span> consult
+  <span style="color: #1f6fbf;">:defer</span> t
+  <span style="color: #1f6fbf;">:init</span>
+  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">progn</span>
+    <span style="color: #00845f;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #7f5ae0;">(</span><span style="color: #4244ef;">"es"</span> gbk . gbk<span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span>
+    <span style="color: #00845f;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #7f5ae0;">(</span><span style="color: #4244ef;">"explorer"</span> gbk . gbk<span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span>
+    <span style="color: #00845f;">(</span><span style="color: #004fc0;">setq</span> consult-locate-args <span style="color: #7f5ae0;">(</span>encode-coding-string <span style="color: #4244ef;">"es.exe -i -p -r"</span> 'gbk<span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span>
+  <span style="color: #1f6fbf;">:custom</span>
+  <span style="color: #004fc0;">(</span>consult-async-min-input 2<span style="color: #004fc0;">)</span> <span style="color: #7a5f2f;">;;</span><span style="color: #7a5f2f;">&#20013;&#25991;2&#23383;&#31526;&#24320;&#25628;
+</span>  <span style="color: #007a85;">)</span>
 </code></pre>
 </div>
+
+<p>
+模糊搜索技巧<br>
+</p>
+
+<blockquote>
+<p>
+貌似目前只能通过单个单词搜索之后，在搜索结果后面加上 <code>#</code> 再用orderless的规则去弄。<br>
+</p>
+
+<p>
+比如 搜索 <code>#emacs#keyword1 keyword2</code> 来过滤，此时可以添加空格<br>
+</p>
+</blockquote>
 </div>
 </div>
-<div id="outline-container-orgccde85a" class="outline-2">
-<h2 id="orgccde85a"><span class="section-number-2">3.</span> <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-18">[2025-11-18 二]</time></span> 使用peer-relay</h2>
+</div>
+<div id="outline-container-org7ee76de" class="outline-2">
+<h2 id="org7ee76de"><span class="section-number-2">3.</span> listary唤起emacs client</h2>
 <div class="outline-text-2" id="text-3">
-<p>
-参考<a href="https://blog.sleepstars.net/archives/ti-dai-derp-zui-gao-xiao-de-guan-fang-tailscale-relay-lu-you">这篇博客</a> 还有<a href="https://blog.ysicing.net/tailscale-peer-relays">另一篇博客</a>，但是其中ACL的部分需要根据实际修改。<br>
-</p>
-
-<p>
-首先是这部分，按照<a href="https://tailscale.com/kb/1591/peer-relays">官方文档的说法</a>，需要允许其他设备把中转设备当成relay：<br>
-</p>
 <div class="org-src-container">
-<pre class="src src-json"><code>{
-  "grants": [
-    {
-      "src": ["tag:us-east-vpc"], // Devices that can be accessed through the peer relay
-      "dst": ["tag:us-east-relays"], // Devices functioning as peer relays for the src devices
-      "app": {
-        "tailscale.com/cap/relay": [] // The relay capability doesn't require any parameters
-      }
-    }
-  ]
-}
-</code></pre>
-</div>
-<p>
-根据我们的实际，可以把 <code>src</code> 换成星号，以便所有设备都尝试来访问peer-relay。 注意 <code>dst</code> 需要是tailscale内网的IP<br>
-</p>
-
-<p>
-然后我们需要允许设备间相互访问，按照<a href="https://tailscale.com/kb/1458/grant-examples#allow-all">allow-all的文档</a>，是这样：<br>
-</p>
-<div class="org-src-container">
-<pre class="src src-json"><code>{
-  "grants": [
-    {
-      "src": ["*"],
-      "dst": ["*"],
-      "ip": ["*"]
-    }
-  ]
-}
-</code></pre>
-</div>
-
-<p>
-最终合并的结果：<br>
-</p>
-<div class="org-src-container">
-<pre class="src src-json"><code>	"grants": [
-		/* ① srv 允许用 celay 作为中继 */
-
-		{
-			"src": ["*"],
-			"dst": ["100.109.5.42"],
-			"app": {"tailscale.com/cap/relay": []},
-		},
-		{
-			"src": ["*"],
-			"dst": ["*"],
-			"ip":  ["*"],
-		},
-	],
+<pre class="src src-nil"><code>关键字
+emacs
+标题
+Open Emacs
+路径
+D:\Emacs\bin\emacsclientw.exe
+参数
+-c -n -f %APPDATA%\emacs-local\server -a "D:\Emacs\bin\runemacs.exe" -e "(select-frame-set-input-focus (selected-frame))"
+目录
+D:\Emacs\bin
 </code></pre>
 </div>
 </div>

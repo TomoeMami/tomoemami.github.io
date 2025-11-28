@@ -4,7 +4,7 @@
 <!-- 2025-11-28 五 20:01 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>自建免域名Tailscale DERP Server的补充</title>
+<title>emacs-设置中英文等宽</title>
 <meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
@@ -385,158 +385,48 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-18 二 11:13]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-28 五 19:52]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
-<h1 class="title">自建免域名Tailscale DERP Server的补充</h1>
+<h1 class="title">emacs-设置中英文等宽</h1>
 </header><p>
-Tailscale官方中介服务器不在大陆，所以我们可以租用云服务器然后自建一个，提供低延迟服务。<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-04-29T19:26:00">[2024-04-29 一 19:26]</time></span><br>
 </p>
 
 <p>
-<a href="https://blog.sleepstars.net/archives/ji-yu-docker-compose">自建免备案防偷 Tailscale 国内中继（DERP）教程</a><br>
+<a href="https://emacs-china.org/t/topic/27133">https://emacs-china.org/t/topic/27133</a><br>
 </p>
 
 <p>
-<a href="https://ameow.xyz/archives/tailscale-derp-server-deployment">Tailscale DERP Server 简明部署教程（纯 IP 方式）</a><br>
-</p>
-
-<p>
-以上两篇文章已经说得很全面了，我这里补充几个萌新可能遇见问题的地方（以第二篇文章为例）。<br>
-</p>
-<div id="outline-container-org8555ada" class="outline-2">
-<h2 id="org8555ada"><span class="section-number-2">1.</span> 端口设置</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-在 <code>docker-compose.yml</code> 中，需要设置连接的端口：<br>
+从楼主提供的第三个方案中学到了，可以通过设置默认行高属性避免中英文字体等宽混搭时的行高抖动。<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-docker"><code>services:
-  derper:
-    environment:
-      - DERP_ADDR=:13477
-    ports:
-      - "13477:13477"
-      - "13478:3478/udp"
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span>set-font <span style="color: #4244ef;">"Cascadia Code"</span> <span style="color: #4244ef;">"HarmonyOS Sans SC"</span> 28 32<span style="color: #007a85;">)</span>
+<span style="color: #007a85;">(</span><span style="color: #004fc0;">setq</span> default-text-properties '<span style="color: #004fc0;">(</span>line-spacing 0.06 line-height 1.15<span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
+<span style="color: #7a5f2f;">;;</span><span style="color: #7a5f2f;">&#36890;&#36807;&#35774;&#32622;&#34892;&#39640;&#23646;&#24615;&#30340;&#26041;&#24335;&#36991;&#20813;&#33521;&#25991;&#34892;&#36755;&#20837;&#20013;&#25991;&#21518;&#30340;&#34892;&#39640;&#25238;&#21160;</span>
 </code></pre>
 </div>
 
 <p>
-这里的三个 <code>13477</code> 是可以自己填的，随便怎么设置，只要保持一致，且在服务器防火墙上开通对应端口的 <code>tcp</code> 就好。 <code>13478</code> 也可以自定义，不过需要开通对应端口的 <code>udp</code> 权限。 <code>3478/udp</code> 别动，是绑定死的docker内端口。<br>
-</p>
-
-<p>
-如果发现自定义了端口也无法连接，考虑更换更高位的端口，有的国内云厂商会一刀切封禁低位端口。<br>
-</p>
-</div>
-</div>
-<div id="outline-container-org018da4c" class="outline-2">
-<h2 id="org018da4c"><span class="section-number-2">2.</span> ACL规则</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-<code>derpMap</code> 开头的那段规则存放的位置是在最底部，不可直接覆盖，具体位置如下：<br>
+不过我还是坚持使用同等字号的中英文混搭，因为主要用Org-mode，平常需要等宽的地方很少，只需设置 <code>org-table</code> 的 <code>faces</code> 为中英文等宽字体就好了：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json"><code>{
-//……上略
-//Test asccess rules every time they're saved.
-//"tests": [
-//{
-// ……
-//},
-//],
-//直接复制，粘贴在上面这段话的下面
-"derpMap": {
-		"OmitDefaultRegions": false,
-		"Regions": {"900": {
-			"RegionID":   900,
-			"RegionCode": "gz", // 按需要填
-			"RegionName": "Guangzhou", // 按需要填
-			"Nodes": [{
-				"Name":      "myderper", // 按需要填
-				"RegionID":  900,
-				"HostName":  "IP/HOST", // 改成自己的 IP/域名
-				"DERPPort":  13477,
-				"STUNPort":  13478,
-				"CanPort80": false,
-				"InsecureForTests": true // 去掉域名证书检测
-			}],
-		}},
-	}
-}
-</code></pre>
-</div>
-</div>
-</div>
-<div id="outline-container-orgccde85a" class="outline-2">
-<h2 id="orgccde85a"><span class="section-number-2">3.</span> <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-18">[2025-11-18 二]</time></span> 使用peer-relay</h2>
-<div class="outline-text-2" id="text-3">
-<p>
-参考<a href="https://blog.sleepstars.net/archives/ti-dai-derp-zui-gao-xiao-de-guan-fang-tailscale-relay-lu-you">这篇博客</a> 还有<a href="https://blog.ysicing.net/tailscale-peer-relays">另一篇博客</a>，但是其中ACL的部分需要根据实际修改。<br>
-</p>
-
-<p>
-首先是这部分，按照<a href="https://tailscale.com/kb/1591/peer-relays">官方文档的说法</a>，需要允许其他设备把中转设备当成relay：<br>
-</p>
-<div class="org-src-container">
-<pre class="src src-json"><code>{
-  "grants": [
-    {
-      "src": ["tag:us-east-vpc"], // Devices that can be accessed through the peer relay
-      "dst": ["tag:us-east-relays"], // Devices functioning as peer relays for the src devices
-      "app": {
-        "tailscale.com/cap/relay": [] // The relay capability doesn't require any parameters
-      }
-    }
-  ]
-}
-</code></pre>
-</div>
-<p>
-根据我们的实际，可以把 <code>src</code> 换成星号，以便所有设备都尝试来访问peer-relay。 注意 <code>dst</code> 需要是tailscale内网的IP<br>
-</p>
-
-<p>
-然后我们需要允许设备间相互访问，按照<a href="https://tailscale.com/kb/1458/grant-examples#allow-all">allow-all的文档</a>，是这样：<br>
-</p>
-<div class="org-src-container">
-<pre class="src src-json"><code>{
-  "grants": [
-    {
-      "src": ["*"],
-      "dst": ["*"],
-      "ip": ["*"]
-    }
-  ]
-}
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span>custom-set-faces
+ <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">custom-set-faces was added by Custom.
+</span> <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">If you edit it by hand, you could mess it up, so be careful.
+</span> <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">Your init file should contain only one such instance.
+</span> <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">If there is more than one, they won't work right.
+</span> '<span style="color: #004fc0;">(</span>org-archived <span style="color: #00845f;">(</span><span style="color: #7f5ae0;">(</span>t <span style="color: #1f6fbf;">(</span><span style="color: #1f6fbf;">:foreground</span> <span style="color: #4244ef;">"#928374"</span> <span style="color: #1f6fbf;">:weight</span> regular<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span>
+ '<span style="color: #004fc0;">(</span>org-table <span style="color: #00845f;">(</span><span style="color: #7f5ae0;">(</span>t <span style="color: #1f6fbf;">(</span><span style="color: #1f6fbf;">:background</span> <span style="color: #4244ef;">"#ebdbb2"</span> <span style="color: #1f6fbf;">:family</span> <span style="color: #4244ef;">"Sarasa Term SC"</span><span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
 </code></pre>
 </div>
 
 <p>
-最终合并的结果：<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-28">[2025-11-28 五]</time></span>： 已经改用全局中英文等宽字体了，参见 <a href="20241113T162500--emacs-字体选择__blog.html">emacs-字体选择</a><br>
 </p>
-<div class="org-src-container">
-<pre class="src src-json"><code>	"grants": [
-		/* ① srv 允许用 celay 作为中继 */
-
-		{
-			"src": ["*"],
-			"dst": ["100.109.5.42"],
-			"app": {"tailscale.com/cap/relay": []},
-		},
-		{
-			"src": ["*"],
-			"dst": ["*"],
-			"ip":  ["*"],
-		},
-	],
-</code></pre>
-</div>
-</div>
-</div>
 </div>
 <div id="postamble" class="status">
 <p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-21 周五 23:07 -->
+<!-- 2025-11-28 五 20:01 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-更改配色方案</title>
+<meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -384,106 +385,93 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-15 周五 11:47]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-28 五 19:47]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">emacs-更改配色方案</h1>
 </header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-28">[2025-11-28 五]</time></span>： 由于 <code>ef-themes</code> 现在基于 <code>modus-themes</code> ，因此有许多改变。<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-06-20">[2025-06-20 五]</time></span>： 改用 <code>seq-random-elt</code> 函数来从列表中随机取值。<br>
+</p>
+
+<p>
 这两天将emacs的配色方案由用了接近10年的<a href="https://github.com/greduan/emacs-theme-gruvbox">gruvbox-light-soft</a>换到了随机切换的<a href="https://github.com/protesilaos/ef-themes">ef-themes</a>。<br>
 </p>
-<div id="outline-container-org80e8961" class="outline-2">
-<h2 id="org80e8961"><span class="section-number-2">1.</span> 随机切换主题</h2>
+<div id="outline-container-orge769bdd" class="outline-2">
+<h2 id="orge769bdd"><span class="section-number-2">1.</span> 随机切换主题</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-我挑选了几个自己看得比较顺眼的 <code>ef-themes</code> 主题，参考官方配置设置启动Emacs时随机切换。<br>
+我挑选了几个自己看得比较顺眼的 <code>ef-themes</code> 主题，参考官方配置设置启动Emacs时随机切换，放到 <code>init.el</code> 中。<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">require</span> '<span style="color: #065fff;">modus-themes</span><span style="color: #008858;">)</span>
-<span style="color: #008858;">(</span><span style="color: #6052cf;">require</span> '<span style="color: #065fff;">ef-themes</span><span style="color: #008858;">)</span>
-<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">(setq ef-melissa-palette-overrides
-</span><span style="color: #a65f6a;">;;       </span><span style="color: #a65f6a;">'((cursor "#928374")))
-</span><span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Disable all other themes to avoid awkward blending:
-</span><span style="color: #008858;">(</span>mapc #'disable-theme custom-enabled-themes<span style="color: #008858;">)</span>
-<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Random load the theme of choice:  
-</span><span style="color: #008858;">(</span><span style="color: #6052cf;">let*</span> <span style="color: #4f54aa;">(</span><span style="color: #ba35af;">(</span>themes '<span style="color: #1f77bb;">(</span>modus-operandi-tinted ef-arbutus ef-cyprus ef-day ef-eagle ef-elea-light ef-kassio ef-melissa-light ef-reverie ef-spring ef-trio-light<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-       <span style="color: #ba35af;">(</span>loaded <span style="color: #1f77bb;">(</span>seq-random-elt themes<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">when</span> <span style="color: #ba35af;">(</span>string= <span style="color: #4250ef;">"modus-operandi-tinted"</span> loaded<span style="color: #ba35af;">)</span>
-    <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">modus-theme&#30340;&#21462;&#33394;&#23439;&#19982;ef-themes&#19981;&#19968;&#26679;&#65292;&#36825;&#37324;&#23450;&#20041;&#19968;&#20010;&#21035;&#21517;&#23601;&#21487;&#20197;&#19981;&#25913;&#21518;&#32493;&#20195;&#30721;
-</span>    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">defalias</span> '<span style="color: #cf25aa;">ef-themes-with-colors</span> 'modus-themes-with-colors<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span>load-theme loaded <span style="color: #ba35af;">:no-confirm</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">use-package</span> modus-themes<span style="color: #007a85;">)</span>
+<span style="color: #007a85;">(</span><span style="color: #004fc0;">use-package</span> ef-themes
+  <span style="color: #1f6fbf;">:init</span>
+  <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">&#20165;&#20351;&#29992;ef-themes
+</span>  <span style="color: #004fc0;">(</span>ef-themes-take-over-modus-themes-mode 1<span style="color: #004fc0;">)</span>
+  <span style="color: #1f6fbf;">:config</span>
+  <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">&#21462;&#28040;org&#26631;&#39064;&#30340;&#31895;&#20307;
+</span>  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">setq</span> modus-themes-headings <span style="color: #7a5f2f;">; </span><span style="color: #7a5f2f;">read the manual's entry or the doc string
+</span>      '<span style="color: #00845f;">(</span><span style="color: #7f5ae0;">(</span>0 . <span style="color: #1f6fbf;">(</span>regular 1<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>1 . <span style="color: #1f6fbf;">(</span>regular 1<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>2 . <span style="color: #1f6fbf;">(</span>regular 1<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>3 . <span style="color: #1f6fbf;">(</span>regular 1<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>4 . <span style="color: #1f6fbf;">(</span>regular 1<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>5 . <span style="color: #1f6fbf;">(</span>regular 1<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span> <span style="color: #7a5f2f;">; </span><span style="color: #7a5f2f;">absence of weight means `</span><span style="color: #065fff;">bold</span><span style="color: #7a5f2f;">'
+</span>        <span style="color: #7f5ae0;">(</span>6 . <span style="color: #1f6fbf;">(</span>regular 1<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>7 . <span style="color: #1f6fbf;">(</span>regular 1<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>t . <span style="color: #1f6fbf;">(</span>regular 1<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span>
+  <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">&#31105;&#29992;&#31895;&#20307;&#12289;&#26012;&#20307;
+</span>  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">setq</span> modus-themes-mixed-fonts t
+        modus-themes-variable-pitch-ui nil
+        modus-themes-bold-constructs nil
+        modus-themes-italic-constructs nil<span style="color: #004fc0;">)</span>
+  <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">;; Disable all other themes to avoid awkward blending:
+</span>  <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">(mapc #'disable-theme custom-enabled-themes)
+</span>  <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">Random load the theme of choice:
+</span>  <span style="color: #004fc0;">(</span>modus-themes-load-theme <span style="color: #00845f;">(</span>seq-random-elt '<span style="color: #7f5ae0;">(</span>ef-arbutus ef-cyprus ef-day ef-eagle ef-elea-light ef-frost ef-kassio ef-light ef-maris-light ef-melissa-light ef-reverie ef-spring ef-summer <span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
 </code></pre>
 </div>
-
-<p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-06-20T16:08:00">[2025-06-20 周五 16:08]</time></span>： 改用 <code>seq-random-elt</code> 函数来从列表中随机取值。<br>
-</p>
 </div>
 </div>
-<div id="outline-container-org79266c0" class="outline-2">
-<h2 id="org79266c0"><span class="section-number-2">2.</span> 配置全局字形设置</h2>
+<div id="outline-container-orge0f8907" class="outline-2">
+<h2 id="orge0f8907"><span class="section-number-2">2.</span> 配置自动取色</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-首先是把 <code>org-mode</code> 下所有的heading设置为正常字形，无行高调整；然后全局启用默认字体。我默认的字体是中英文1:2等宽的字体混合搭配（<a href="20241113T162500--emacs-字体选择__blog.html">emacs-字体选择</a>）。<br>
+利用 <code>modus-themes-get-color-value</code> 宏，获取色彩原始字符串。色彩名称可通过 <code>ef-themes-list-colors</code> 或 <code>ef-themes-list-colors-current</code> 查看。<br>
 </p>
+</div>
+<div id="outline-container-orgf869bea" class="outline-3">
+<h3 id="orgf869bea"><span class="section-number-3">2.1.</span> nano-modeline配色</h3>
+<div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> modus-themes-italic-constructs t
-      modus-themes-bold-constructs nil<span style="color: #008858;">)</span>
-<span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> modus-themes-headings <span style="color: #a65f6a;">; </span><span style="color: #a65f6a;">read the manual's entry or the doc string
-</span>      '<span style="color: #4f54aa;">(</span><span style="color: #ba35af;">(</span>0 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>1 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>2 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>3 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>4 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>5 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span> <span style="color: #a65f6a;">; </span><span style="color: #a65f6a;">absence of weight means `</span><span style="color: #065fff;">bold</span><span style="color: #a65f6a;">'
-</span>        <span style="color: #ba35af;">(</span>6 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>7 . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>t . <span style="color: #1f77bb;">(</span>regular 1<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
-<span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> ef-themes-headings <span style="color: #a65f6a;">; </span><span style="color: #a65f6a;">read the manual's entry or the doc string
-</span>      '<span style="color: #4f54aa;">(</span><span style="color: #ba35af;">(</span>0 regular 1<span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>1 regular 1<span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>2 regular 1<span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>3 regular 1<span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>4 regular 1<span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>5 regular 1<span style="color: #ba35af;">)</span> <span style="color: #a65f6a;">; </span><span style="color: #a65f6a;">absence of weight means `</span><span style="color: #065fff;">bold</span><span style="color: #a65f6a;">'
-</span>        <span style="color: #ba35af;">(</span>6 regular 1<span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>7 regular 1<span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span>t regular 1<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
-<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">They are nil by default...
-</span><span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> ef-themes-mixed-fonts t
-      ef-themes-variable-pitch-ui nil<span style="color: #008858;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">use-package</span> nano-modeline
+  <span style="color: #1f6fbf;">:demand</span> t
+  <span style="color: #1f6fbf;">:custom-face</span>
+  <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">&#33258;&#23450;&#20041;nano-modeline&#30340;&#37197;&#33394;
+</span>  <span style="color: #004fc0;">(</span>nano-modeline-status <span style="color: #00845f;">(</span><span style="color: #7f5ae0;">(</span>t <span style="color: #1f6fbf;">(</span><span style="color: #1f6fbf;">:background</span> ,<span style="color: #4244ef;">(</span>modus-themes-get-color-value 'fg-alt<span style="color: #4244ef;">)</span> <span style="color: #1f6fbf;">:foreground</span> ,<span style="color: #4244ef;">(</span>modus-themes-get-color-value 'bg-main<span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span>
+  <span style="color: #004fc0;">(</span>nano-modeline-inactive <span style="color: #00845f;">(</span><span style="color: #7f5ae0;">(</span>t <span style="color: #1f6fbf;">(</span><span style="color: #1f6fbf;">:background</span> ,<span style="color: #4244ef;">(</span>modus-themes-get-color-value 'bg-inactive<span style="color: #4244ef;">)</span> <span style="color: #1f6fbf;">:foreground</span> ,<span style="color: #4244ef;">(</span>modus-themes-get-color-value 'fg-dim<span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span>
+  <span style="color: #004fc0;">(</span>nano-modeline-active <span style="color: #00845f;">(</span><span style="color: #7f5ae0;">(</span>t <span style="color: #1f6fbf;">(</span><span style="color: #1f6fbf;">:background</span> ,<span style="color: #4244ef;">(</span>modus-themes-get-color-value 'bg-alt<span style="color: #4244ef;">)</span> <span style="color: #1f6fbf;">:foreground</span> ,<span style="color: #4244ef;">(</span>modus-themes-get-color-value 'fg-main<span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgfa4b637" class="outline-2">
-<h2 id="orgfa4b637"><span class="section-number-2">3.</span> 配置自动取色</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-org9856e42" class="outline-3">
+<h3 id="org9856e42"><span class="section-number-3">2.2.</span> sis的光标颜色</h3>
+<div class="outline-text-3" id="text-2-2">
 <p>
-利用 <code>ef-themes-with-colors</code> 宏，自动化取色并设置。色彩名称可通过 <code>ef-themes-list-colors</code> 或 <code>ef-themes-list-colors-current</code> 查看。<br>
+初始英文状态下为深灰色，中文状态下为特殊颜色，与nano-modeline的配色一致。<br>
 </p>
-
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">nano-modeline&#30340;&#37197;&#33394;
-</span><span style="color: #008858;">(</span>set-face-attribute 'nano-modeline-status nil <span style="color: #ba35af;">:background</span> <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">ef-themes-with-colors</span> fg-alt<span style="color: #4f54aa;">)</span> <span style="color: #ba35af;">:foreground</span> <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">ef-themes-with-colors</span> bg-main<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
-<span style="color: #008858;">(</span>set-face-attribute 'nano-modeline-inactive nil <span style="color: #ba35af;">:background</span> <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">ef-themes-with-colors</span> bg-inactive<span style="color: #4f54aa;">)</span> <span style="color: #ba35af;">:foreground</span> <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">ef-themes-with-colors</span> fg-dim<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
-<span style="color: #008858;">(</span>set-face-attribute 'nano-modeline-active nil <span style="color: #ba35af;">:background</span> <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">ef-themes-with-colors</span> bg-dim<span style="color: #4f54aa;">)</span> <span style="color: #ba35af;">:foreground</span> <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">ef-themes-with-colors</span> fg-main<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
-<span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">&#35774;&#32622;sis&#30340;&#29366;&#24577;&#20809;&#26631;&#39068;&#33394;
-</span><span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> sis-other-cursor-color <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">ef-themes-with-colors</span> cyan-faint<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
-<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#35774;&#32622;org-TODO-keywords&#39068;&#33394;&#65292;&#36825;&#37324;&#27880;&#37322;&#25481;&#20165;&#20379;&#21442;&#32771;&#65292;&#20026;&#20102;&#27491;&#30830;&#26174;&#31034;&#31895;&#20307;&#65292;&#25163;&#21160;&#25351;&#23450;&#20102;&#26356;&#31895;&#30340;&#23383;&#20307;&#21517;&#31216;&#12290;
-</span><span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">(if my-use-pc
-</span><span style="color: #a65f6a;">;;       </span><span style="color: #a65f6a;">(setq org-todo-keyword-faces `(("TODO" . (:foreground ,(ef-themes-with-colors red-warmer) :family "LXGW Bright Code GB regular"))
-</span><span style="color: #a65f6a;">;;                                      </span><span style="color: #a65f6a;">("HOLD" . (:foreground ,(ef-themes-with-colors yellow-warmer) :family "LXGW Bright Code GB regular"))
-</span><span style="color: #a65f6a;">;;                                      </span><span style="color: #a65f6a;">("XXXX" . (:foreground ,(ef-themes-with-colors magenta-warmer) :family "LXGW Bright Code GB regular"))
-</span><span style="color: #a65f6a;">;;                                      </span><span style="color: #a65f6a;">("DONE" . (:foreground ,(ef-themes-with-colors green-warmer) :family "LXGW Bright Code GB regular"))
-</span><span style="color: #a65f6a;">;;                                      </span><span style="color: #a65f6a;">))
-</span><span style="color: #a65f6a;">;;     </span><span style="color: #a65f6a;">(setq org-todo-keyword-faces `(("TODO" . (:foreground ,(ef-themes-with-colors red-warmer) :weight bold))
-</span><span style="color: #a65f6a;">;;                                      </span><span style="color: #a65f6a;">("HOLD" . (:foreground ,(ef-themes-with-colors yellow-warmer) :weight bold ))
-</span><span style="color: #a65f6a;">;;                                      </span><span style="color: #a65f6a;">("XXXX" . (:foreground ,(ef-themes-with-colors magenta-warmer) :weight bold ))
-</span><span style="color: #a65f6a;">;;                                      </span><span style="color: #a65f6a;">("DONE" . (:foreground ,(ef-themes-with-colors green-warmer) :weight bold ))
-</span><span style="color: #a65f6a;">;;                                      </span><span style="color: #a65f6a;">)))</span>
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">use-package</span> sis
+  <span style="color: #1f6fbf;">:demand</span> t
+  <span style="color: #1f6fbf;">:config</span>
+  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">setq</span> sis-other-cursor-color <span style="color: #00845f;">(</span>modus-themes-get-color-value 'fg-alt<span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span>
+  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">setq</span> sis-default-cursor-color <span style="color: #00845f;">(</span>modus-themes-get-color-value 'border<span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
 </code></pre>
+</div>
 </div>
 </div>
 </div>

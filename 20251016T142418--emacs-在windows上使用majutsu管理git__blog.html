@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-21 周五 23:07 -->
+<!-- 2025-11-28 五 20:01 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在Windows上使用majutsu管理git</title>
+<meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -384,7 +385,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-10-31 周五 19:56]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-10-31 五 19:56]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -400,8 +401,8 @@ b {
 <p>
 时间来到了2025年，在Rewrite It In Rust的风潮中，许多经典的Linux工具被Rust重写，而Git也有一个以Rust编写的相似软件：<a href="https://github.com/jj-vcs/jj">Jujutsu</a>。简单来说，jj能够管理Git的repo，采用了简化一点的设计思路，当然也有缺少的功能。不过最重要的是，在Windows上用Majutsu+Jujutsu比Magit+Git响应速度更快。<br>
 </p>
-<div id="outline-container-orgc37e2bf" class="outline-2">
-<h2 id="orgc37e2bf"><span class="section-number-2">1.</span> 配置Git、Jujutsu</h2>
+<div id="outline-container-org0057d6c" class="outline-2">
+<h2 id="org0057d6c"><span class="section-number-2">1.</span> 配置Git、Jujutsu</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Jujutsu需要和Git一起安装，在管理repo之后也会调用Git进行push/fetch等操作。<br>
@@ -412,7 +413,7 @@ Jujutsu需要和Git一起安装，在管理repo之后也会调用Git进行push/f
 </p>
 
 <p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-10-19T16:06:00">[2025-10-19 周日 16:06]</time></span>：<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-10-19T16:06:00">[2025-10-19 日 16:06]</time></span>：<br>
 使用外部SSH时，若要设置Git的代理，应手动指定 <code>connect.exe</code> 的路径，如：<br>
 </p>
 
@@ -425,19 +426,19 @@ Jujutsu可以通过scoop安装，直接 <code>scoop install jj</code> 就行了�
 </p>
 </div>
 </div>
-<div id="outline-container-org71ab484" class="outline-2">
-<h2 id="org71ab484"><span class="section-number-2">2.</span> 配置majutsu</h2>
+<div id="outline-container-org481c6b3" class="outline-2">
+<h2 id="org481c6b3"><span class="section-number-2">2.</span> 配置majutsu</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 如果你用的emacs 30+ 的版本，可以用 <code>use-package</code> 的 <code>:vc</code> 关键字直接从Github Repo安装Majutsu。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> majutsu
-  <span style="color: #ba35af;">:vc</span> <span style="color: #4f54aa;">(</span><span style="color: #ba35af;">:url</span> <span style="color: #4250ef;">"https://github.com/0WD0/majutsu"</span>
-            <span style="color: #ba35af;">:rev</span> <span style="color: #ba35af;">:newest</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #ba35af;">:bind</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #ba35af;">(</span><span style="color: #4250ef;">"C-x j"</span> . majutsu-log<span style="color: #ba35af;">)</span>
-   <span style="color: #ba35af;">(</span><span style="color: #4250ef;">"C-x C-j"</span> . majutsu-log<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">use-package</span> majutsu
+  <span style="color: #1f6fbf;">:vc</span> <span style="color: #004fc0;">(</span><span style="color: #1f6fbf;">:url</span> <span style="color: #4244ef;">"https://github.com/0WD0/majutsu"</span>
+            <span style="color: #1f6fbf;">:rev</span> <span style="color: #1f6fbf;">:newest</span><span style="color: #004fc0;">)</span>
+  <span style="color: #1f6fbf;">:bind</span>
+  <span style="color: #004fc0;">(</span><span style="color: #00845f;">(</span><span style="color: #4244ef;">"C-x j"</span> . majutsu-log<span style="color: #00845f;">)</span>
+   <span style="color: #00845f;">(</span><span style="color: #4244ef;">"C-x C-j"</span> . majutsu-log<span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
 </code></pre>
 </div>
 
@@ -446,8 +447,8 @@ Jujutsu可以通过scoop安装，直接 <code>scoop install jj</code> 就行了�
 </p>
 </div>
 </div>
-<div id="outline-container-org381d39f" class="outline-2">
-<h2 id="org381d39f"><span class="section-number-2">3.</span> 使用majutsu</h2>
+<div id="outline-container-orgff572fe" class="outline-2">
+<h2 id="orgff572fe"><span class="section-number-2">3.</span> 使用majutsu</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 <code>C-x j</code> 进入majutsu界面。jujutsu的思路和git不一样，取消了暂存区等功能，当前文件的状态是一个未命名的新HEAD，commit之后就会固定。<br>
@@ -478,11 +479,11 @@ Jujutsu可以通过scoop安装，直接 <code>scoop install jj</code> 就行了�
 </p>
 
 <p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-10-31">[2025-10-31 周五]</time></span> 下面我用几个实际案例说明一下操作。<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-10-31">[2025-10-31 五]</time></span> 下面我用几个实际案例说明一下操作。<br>
 </p>
 </div>
-<div id="outline-container-orgfb71a8b" class="outline-3">
-<h3 id="orgfb71a8b"><span class="section-number-3">3.1.</span> 初始化</h3>
+<div id="outline-container-orge6ea8f9" class="outline-3">
+<h3 id="orge6ea8f9"><span class="section-number-3">3.1.</span> 初始化</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 这一步需要在cmd/pwsh中进行。以下均假设默认branch为 <code>main</code> 。<br>
@@ -506,24 +507,24 @@ jj bookmark track main@origin
 </div>
 </div>
 </div>
-<div id="outline-container-org4c7d65e" class="outline-3">
-<h3 id="org4c7d65e"><span class="section-number-3">3.2.</span> 保存变更为commit</h3>
+<div id="outline-container-orge6d653b" class="outline-3">
+<h3 id="orge6d653b"><span class="section-number-3">3.2.</span> 保存变更为commit</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 在当前repo里进行一些变更，等觉得应该保存当前状态了，就 <code>C-x j</code> 然后 <code>c</code> ，输入commit内容， <code>C-c C-c</code> 保存并生成一个commit。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org1e9a5ec" class="outline-3">
-<h3 id="org1e9a5ec"><span class="section-number-3">3.3.</span> 将本地commit上传</h3>
+<div id="outline-container-org098e3ba" class="outline-3">
+<h3 id="org098e3ba"><span class="section-number-3">3.3.</span> 将本地commit上传</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 <code>C-x j</code> 进入Majutsu界面，然后将光标移动至想更新到的commit上，再 <code>b</code> <code>s</code> ，将 <code>main</code> 移动过来，最后 <code>G</code> <code>p</code> <code>p</code> 推送。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org753e8b7" class="outline-3">
-<h3 id="org753e8b7"><span class="section-number-3">3.4.</span> 拉取并merge远端</h3>
+<div id="outline-container-orgea107ae" class="outline-3">
+<h3 id="orgea107ae"><span class="section-number-3">3.4.</span> 拉取并merge远端</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 由于没有新branch，默认是采取的rebase方法。<br>
@@ -531,8 +532,8 @@ jj bookmark track main@origin
 </p>
 </div>
 </div>
-<div id="outline-container-org8023ec4" class="outline-3">
-<h3 id="org8023ec4"><span class="section-number-3">3.5.</span> 放弃本地变更</h3>
+<div id="outline-container-org92586da" class="outline-3">
+<h3 id="org92586da"><span class="section-number-3">3.5.</span> 放弃本地变更</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 有的时候需要放弃本地变更。只能放弃可变的变更（非菱形图标），将光标移动到该commit上，按 <code>a</code> 再按 <code>y</code> 就能放弃。<br>

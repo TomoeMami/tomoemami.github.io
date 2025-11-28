@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-21 周五 23:06 -->
+<!-- 2025-11-28 五 20:01 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-字体选择</title>
+<meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -384,13 +385,13 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-08-22 周五 10:32]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-28 五 19:51]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">emacs-字体选择</h1>
 </header><p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-11-13T16:25:00">[2024-11-13 周三 16:25]</time></span><br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-11-13T16:25:00">[2024-11-13 三 16:25]</time></span><br>
 </p>
 
 <p>
@@ -401,45 +402,65 @@ b {
 </p>
 
 <p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-11-13T16:20:00">[2024-11-13 周三 16:20]</time></span>：汉仪书仿的字高并不固定，随着字号的变化会有行高的变化；宋刻本秀楷的字型大小会有跃动，不适合长篇文字，最后换回了方正聚珍新仿。<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-11-13T16:20:00">[2024-11-13 三 16:20]</time></span>：汉仪书仿的字高并不固定，随着字号的变化会有行高的变化；宋刻本秀楷的字型大小会有跃动，不适合长篇文字，最后换回了方正聚珍新仿。<br>
 </p>
 
 <p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-12-11T10:35:00">[2024-12-11 周三 10:35]</time></span>：目前字体配置如下：<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-12-11T10:35:00">[2024-12-11 三 10:35]</time></span>：目前字体配置如下：<br>
+</p>
+
+<p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-03-12T14:07:00">[2025-03-12 三 14:07]</time></span>： 改用聚珍新仿与Monaspace Argon作为中英文字体，Cascadia Mono NF SemiLight作为symbol字体。<br>
+</p>
+
+<p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-05-18T00:19:00">[2025-05-18 日 00:19]</time></span>：英文字体改为<a href="https://github.com/lxgw/LxgwBright-Code">LXGW Bright Code light</a>（改等宽）。本来用的Monaspace Argon据说在1.3会<a href="https://github.com/githubnext/monaspace/issues/22">放出窄版</a>，到时候试试看。<br>
+</p>
+
+<p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-08-22T10:28:00">[2025-08-22 五 10:28]</time></span> 今天发现Monaspace Argon的窄版移动到「SomeDay」了，但是1:2/2:3/3:5的<a href="https://github.com/githubnext/monaspace/issues/59">issue</a>又移动到了「1.4」，很神秘。<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">set-font</span> <span style="color: #4f54aa;">(</span>english chinese english-size chinese-size<span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span>set-face-attribute 'default nil <span style="color: #ba35af;">:font</span>
-                      <span style="color: #ba35af;">(</span>format   <span style="color: #4250ef;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #ba35af;">)</span>
-                      <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">(font-spec :family english :size english-size :weight 'semi-light)
-</span>                      <span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span>set-face-attribute 'fixed-pitch nil <span style="color: #ba35af;">:font</span>
-                      <span style="color: #ba35af;">(</span>format   <span style="color: #4250ef;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #ba35af;">)</span>
-                      <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">(font-spec :family english :size english-size :weight 'semi-light)
-</span>                      <span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span>set-face-attribute 'variable-pitch nil <span style="color: #ba35af;">:font</span>
-                      <span style="color: #ba35af;">(</span>format   <span style="color: #4250ef;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">dolist</span> <span style="color: #ba35af;">(</span>charset '<span style="color: #1f77bb;">(</span>kana han cjk-misc bopomofo<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-    <span style="color: #ba35af;">(</span>set-fontset-font <span style="color: #1f77bb;">(</span>frame-parameter nil 'font<span style="color: #1f77bb;">)</span> charset
-                      <span style="color: #1f77bb;">(</span>font-spec <span style="color: #ba35af;">:family</span> chinese <span style="color: #ba35af;">:size</span> chinese-size<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
-<span style="color: #008858;">(</span>set-font <span style="color: #4250ef;">"IBM Plex Mono"</span> <span style="color: #4250ef;">"FangSongCode"</span> 40 40<span style="color: #008858;">)</span>
-<span style="color: #008858;">(</span>set-fontset-font t 'emoji <span style="color: #4f54aa;">(</span>font-spec <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"Segoe UI Emoji"</span><span style="color: #4f54aa;">)</span> nil 'prepend<span style="color: #008858;">)</span>
-<span style="color: #008858;">(</span>set-fontset-font t 'symbol <span style="color: #4f54aa;">(</span>font-spec <span style="color: #ba35af;">:family</span> <span style="color: #4250ef;">"Cascadia Mono NF SemiLight"</span><span style="color: #4f54aa;">)</span> nil 'prepend<span style="color: #008858;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">defun</span> <span style="color: #00845f;">my/set-gui</span> <span style="color: #004fc0;">()</span>
+  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">interactive</span><span style="color: #004fc0;">)</span>
+  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">if</span> <span style="color: #00845f;">(</span>eq system-type 'darwin<span style="color: #00845f;">)</span>
+      <span style="color: #00845f;">(</span><span style="color: #004fc0;">progn</span>
+        <span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">&#19982;Win&#19981;&#21516;&#65292;Mac&#38656;&#35201;&#22312;&#20989;&#25968;&#20013;&#25351;&#23450;light&#23383;&#20307;
+</span>        <span style="color: #7f5ae0;">(</span><span style="color: #004fc0;">defun</span> <span style="color: #00845f;">set-font</span> <span style="color: #1f6fbf;">(</span>english chinese english-size chinese-size<span style="color: #1f6fbf;">)</span>
+          <span style="color: #1f6fbf;">(</span>set-face-attribute 'default nil <span style="color: #1f6fbf;">:font</span>
+                              <span style="color: #4244ef;">(</span>font-spec <span style="color: #1f6fbf;">:family</span> english <span style="color: #1f6fbf;">:size</span> english-size <span style="color: #1f6fbf;">:weight</span> 'light<span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">)</span>
+          <span style="color: #1f6fbf;">(</span>set-face-attribute 'fixed-pitch nil <span style="color: #1f6fbf;">:font</span>
+                              <span style="color: #4244ef;">(</span>font-spec <span style="color: #1f6fbf;">:family</span> english <span style="color: #1f6fbf;">:size</span> english-size <span style="color: #1f6fbf;">:weight</span> 'light<span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">)</span>
+          <span style="color: #1f6fbf;">(</span>set-face-attribute 'variable-pitch nil <span style="color: #1f6fbf;">:font</span>
+                              <span style="color: #4244ef;">(</span>format   <span style="color: #4244ef;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">)</span>
+          <span style="color: #1f6fbf;">(</span><span style="color: #004fc0;">dolist</span> <span style="color: #4244ef;">(</span>charset '<span style="color: #468400;">(</span>kana han cjk-misc bopomofo<span style="color: #468400;">)</span><span style="color: #4244ef;">)</span>
+            <span style="color: #4244ef;">(</span>set-fontset-font <span style="color: #468400;">(</span>frame-parameter nil 'font<span style="color: #468400;">)</span> charset
+                              <span style="color: #468400;">(</span>font-spec <span style="color: #1f6fbf;">:family</span> chinese <span style="color: #1f6fbf;">:size</span> chinese-size<span style="color: #468400;">)</span><span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>set-font <span style="color: #4244ef;">"LXGW Bright Code GB"</span> <span style="color: #4244ef;">"FangSongCode"</span> 22 22<span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>set-fontset-font t 'emoji <span style="color: #1f6fbf;">(</span>font-spec <span style="color: #1f6fbf;">:family</span> <span style="color: #4244ef;">"Twitter Color Emoji"</span><span style="color: #1f6fbf;">)</span> nil 'prepend<span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>set-fontset-font t 'symbol <span style="color: #1f6fbf;">(</span>font-spec <span style="color: #1f6fbf;">:family</span> <span style="color: #4244ef;">"Cascadia Mono NF SemiLight"</span><span style="color: #1f6fbf;">)</span> nil 'prepend<span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>set-frame-parameter <span style="color: #1f6fbf;">(</span>selected-frame<span style="color: #1f6fbf;">)</span> 'fullscreen 'maximized<span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span>
+    <span style="color: #00845f;">(</span><span style="color: #004fc0;">progn</span>
+      <span style="color: #7f5ae0;">(</span>set-font <span style="color: #4244ef;">"LXGW Bright Code GB light"</span> <span style="color: #4244ef;">"FangSongCode"</span> 42 42<span style="color: #7f5ae0;">)</span>
+      <span style="color: #7f5ae0;">(</span>set-fontset-font t 'emoji <span style="color: #1f6fbf;">(</span>font-spec <span style="color: #1f6fbf;">:family</span> <span style="color: #4244ef;">"Segoe UI Emoji"</span><span style="color: #1f6fbf;">)</span> nil 'prepend<span style="color: #7f5ae0;">)</span>
+      <span style="color: #7f5ae0;">(</span>set-fontset-font t 'symbol <span style="color: #1f6fbf;">(</span>font-spec <span style="color: #1f6fbf;">:family</span> <span style="color: #4244ef;">"Symbols Nerd Font Mono"</span><span style="color: #1f6fbf;">)</span> nil 'prepend<span style="color: #7f5ae0;">)</span>
+      <span style="color: #7f5ae0;">(</span><span style="color: #004fc0;">let*</span> <span style="color: #1f6fbf;">(</span><span style="color: #4244ef;">(</span>display-width <span style="color: #468400;">(</span>display-pixel-width<span style="color: #468400;">)</span><span style="color: #4244ef;">)</span>
+             <span style="color: #4244ef;">(</span>display-height <span style="color: #468400;">(</span>display-pixel-height<span style="color: #468400;">)</span><span style="color: #4244ef;">)</span>
+             <span style="color: #4244ef;">(</span>frame-width <span style="color: #468400;">(</span>floor <span style="color: #aa44c5;">(</span>* 0.8 display-width<span style="color: #aa44c5;">)</span><span style="color: #468400;">)</span><span style="color: #4244ef;">)</span>
+             <span style="color: #4244ef;">(</span>frame-height <span style="color: #468400;">(</span>floor <span style="color: #aa44c5;">(</span>* 0.73 display-height<span style="color: #aa44c5;">)</span><span style="color: #468400;">)</span><span style="color: #4244ef;">)</span>
+             <span style="color: #4244ef;">(</span>left-offset <span style="color: #468400;">(</span>floor <span style="color: #aa44c5;">(</span>* 0.1 display-width<span style="color: #aa44c5;">)</span><span style="color: #468400;">)</span><span style="color: #4244ef;">)</span>
+             <span style="color: #4244ef;">(</span>top-offset <span style="color: #468400;">(</span>floor <span style="color: #aa44c5;">(</span>* 0.1 display-height<span style="color: #aa44c5;">)</span><span style="color: #468400;">)</span><span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">)</span>
+        <span style="color: #1f6fbf;">(</span>set-frame-position <span style="color: #4244ef;">(</span>selected-frame<span style="color: #4244ef;">)</span> left-offset top-offset<span style="color: #1f6fbf;">)</span>
+        <span style="color: #1f6fbf;">(</span>set-frame-size <span style="color: #4244ef;">(</span>selected-frame<span style="color: #4244ef;">)</span> frame-width frame-height t<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span>
+  <span style="color: #004fc0;">(</span>sis-set-english<span style="color: #004fc0;">)</span>
+  <span style="color: #004fc0;">(</span>select-frame-set-input-focus <span style="color: #00845f;">(</span>selected-frame<span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
+
+<span style="color: #007a85;">(</span>my/set-gui<span style="color: #007a85;">)</span>
+<span style="color: #7a5f2f;">;; </span><span style="color: #7a5f2f;">server&#27169;&#24335;&#19979;&#38656;&#35201;&#21551;&#29992;&#20197;&#19979;hook
+</span><span style="color: #007a85;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #007a85;">)</span>
 </code></pre>
 </div>
-
-<p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-03-12T14:07:00">[2025-03-12 周三 14:07]</time></span>： 改用聚珍新仿与Monaspace Argon作为中英文字体，Cascadia Mono NF SemiLight作为symbol字体。<br>
-</p>
-
-<p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-05-18T00:19:00">[2025-05-18 周日 00:19]</time></span>：英文字体改为<a href="https://github.com/lxgw/LxgwBright-Code">LXGW Bright Code light</a>（改等宽）。本来用的Monaspace Argon据说在1.3会<a href="https://github.com/githubnext/monaspace/issues/22">放出窄版</a>，到时候试试看。<br>
-</p>
-
-<p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-08-22T10:28:00">[2025-08-22 周五 10:28]</time></span> 今天发现Monaspace Argon的窄版移动到「SomeDay」了，但是1:2/2:3/3:5的<a href="https://github.com/githubnext/monaspace/issues/59">issue</a>又移动到了「1.4」，很神秘。<br>
-</p>
 </div>
 <div id="postamble" class="status">
 <p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>

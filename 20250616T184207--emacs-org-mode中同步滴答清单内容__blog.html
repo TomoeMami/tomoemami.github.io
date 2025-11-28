@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-21 周五 23:07 -->
+<!-- 2025-11-28 五 20:01 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-org-mode中同步滴答清单内容</title>
+<meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -384,7 +385,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-14 周五 13:53]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-28 五 20:00]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -392,34 +393,34 @@ b {
 </header><p>
 <a href="https://github.com/TomoeMami/dida">GitHub下载链接</a><br>
 </p>
-<div id="outline-container-org8fa78b3" class="outline-2">
-<h2 id="org8fa78b3"><span class="section-number-2">1.</span> 基础配置</h2>
+<div id="outline-container-org02490ed" class="outline-2">
+<h2 id="org02490ed"><span class="section-number-2">1.</span> 基础配置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 请参考github的README<br>
 </p>
 </div>
-<div id="outline-container-org4b7d95d" class="outline-3">
-<h3 id="org4b7d95d"><span class="section-number-3">1.1.</span> 进阶配置</h3>
+<div id="outline-container-org52f1a39" class="outline-3">
+<h3 id="org52f1a39"><span class="section-number-3">1.1.</span> 进阶配置</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 将 <code>dida.org</code> 中的事项refile到其他文件并把滴答清单该事项删除的函数<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">akirak/org-refile-to-cpb-today</span> <span style="color: #4f54aa;">(</span>arg<span style="color: #4f54aa;">)</span>
-  <span style="color: #506fa0;">"&#26681;&#25454;&#19981;&#21516;&#24773;&#20917;&#35843;&#25972;refile&#30340;&#30446;&#26631;"</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">interactive</span> <span style="color: #4250ef;">"P"</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">when</span> <span style="color: #ba35af;">(</span>org-entry-is-todo-p<span style="color: #ba35af;">)</span>
-      <span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">dida&#30340;&#35201;&#20808;&#21457;&#36865;delete
-</span>      <span style="color: #ba35af;">(</span><span style="color: #6052cf;">when</span> <span style="color: #1f77bb;">(</span>string-match <span style="color: #4250ef;">"dida.org"</span> <span style="color: #b65050;">(</span>buffer-file-name<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
-        <span style="color: #1f77bb;">(</span>dida-delete-task <span style="color: #b65050;">(</span>org-entry-get nil <span style="color: #4250ef;">"DIDA_PID"</span> t<span style="color: #b65050;">)</span> <span style="color: #b65050;">(</span>org-entry-get nil <span style="color: #4250ef;">"DIDA_TID"</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">defun</span> <span style="color: #00845f;">akirak/org-refile-to-cpb-today</span> <span style="color: #004fc0;">(</span>arg<span style="color: #004fc0;">)</span>
+  <span style="color: #605f9f;">"&#26681;&#25454;&#19981;&#21516;&#24773;&#20917;&#35843;&#25972;refile&#30340;&#30446;&#26631;"</span>
+  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">interactive</span> <span style="color: #4244ef;">"P"</span><span style="color: #004fc0;">)</span>
+  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">when</span> <span style="color: #00845f;">(</span>org-entry-is-todo-p<span style="color: #00845f;">)</span>
+      <span style="color: #7a5f2f;">;;</span><span style="color: #7a5f2f;">dida&#30340;&#35201;&#20808;&#21457;&#36865;delete
+</span>      <span style="color: #00845f;">(</span><span style="color: #004fc0;">when</span> <span style="color: #7f5ae0;">(</span>string-match <span style="color: #4244ef;">"dida.org"</span> <span style="color: #1f6fbf;">(</span>buffer-file-name<span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span>
+        <span style="color: #7f5ae0;">(</span>dida-delete-task <span style="color: #1f6fbf;">(</span>org-entry-get nil <span style="color: #4244ef;">"DIDA_PID"</span> t<span style="color: #1f6fbf;">)</span> <span style="color: #1f6fbf;">(</span>org-entry-get nil <span style="color: #4244ef;">"DIDA_TID"</span><span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org1399cfc" class="outline-2">
-<h2 id="org1399cfc"><span class="section-number-2">2.</span> 使用流程</h2>
+<div id="outline-container-org1057d1c" class="outline-2">
+<h2 id="org1057d1c"><span class="section-number-2">2.</span> 使用流程</h2>
 <div class="outline-text-2" id="text-2">
 <ol class="org-ol">
 <li>不在电脑旁边时，用滴答清单快速录入待办事项到指定清单中<br></li>
@@ -428,8 +429,8 @@ b {
 </ol>
 </div>
 </div>
-<div id="outline-container-org88d7e9f" class="outline-2">
-<h2 id="org88d7e9f"><span class="section-number-2">3.</span> 一些建议</h2>
+<div id="outline-container-org4196a69" class="outline-2">
+<h2 id="org4196a69"><span class="section-number-2">3.</span> 一些建议</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 因为这个库不会保存org标题的meta内容，所以不建议主力使用，仅作为事项收集的inbox用即可。<br>
