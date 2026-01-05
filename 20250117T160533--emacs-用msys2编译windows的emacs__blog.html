@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-21 周五 23:07 -->
+<!-- 2026-01-05 周一 15:41 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用msys2编译windows的emacs</title>
@@ -422,8 +422,8 @@ everything again.<br>
 Specially thanks to @include-yy on emacs-china.org for providing<br>
 guides on UCRT64 and use GCCJIT.<br>
 </p>
-<div id="outline-container-orge775362" class="outline-2">
-<h2 id="orge775362"><span class="section-number-2">1.</span> How to get MSYS2 (without installer)</h2>
+<div id="outline-container-org3c5c84b" class="outline-2">
+<h2 id="org3c5c84b"><span class="section-number-2">1.</span> How to get MSYS2 (without installer)</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Get from <a href="https://github.com/msys2/msys2-installer/releases/">https://github.com/msys2/msys2-installer/releases/</a><br>
@@ -434,15 +434,15 @@ You may use the 7zip SFX one.<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org8567f27" class="outline-2">
-<h2 id="org8567f27"><span class="section-number-2">2.</span> Update MSYS2 base environment</h2>
+<div id="outline-container-org7c54251" class="outline-2">
+<h2 id="org7c54251"><span class="section-number-2">2.</span> Update MSYS2 base environment</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 We are using the UCRT64.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code>sed -i <span style="color: #4250ef;">"s#https\?://mirror.msys2.org/#https://mirrors.tuna.tsinghua.edu.cn/msys2/#g"</span> /etc/pacman.d/mirrorlist*
+<pre class="src src-bash"><code>sed -i <span style="color: #b6540f;">"s#https\?://mirror.msys2.org/#https://mirrors.tuna.tsinghua.edu.cn/msys2/#g"</span> /etc/pacman.d/mirrorlist*
 
 pacman -Syu
 </code></pre>
@@ -463,87 +463,87 @@ To install the required packages for building Emacs.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code>pacman -Su <span style="color: #4250ef;">\</span>
-  autoconf <span style="color: #4250ef;">\</span>
-  autogen <span style="color: #4250ef;">\</span>
-  automake <span style="color: #4250ef;">\</span>
-  automake-wrapper <span style="color: #4250ef;">\</span>
-  git <span style="color: #4250ef;">\</span>
-  libidn-devel <span style="color: #4250ef;">\</span>
-  libltdl <span style="color: #4250ef;">\</span>
-  libnettle-devel <span style="color: #4250ef;">\</span>
-  libopenssl <span style="color: #4250ef;">\</span>
-  libp11-kit-devel <span style="color: #4250ef;">\</span>
-  libtasn1-devel <span style="color: #4250ef;">\</span>
-  libunistring <span style="color: #4250ef;">\</span>
-  make <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-toolchain <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-bzip2 <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-cairo <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-crt-git <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-expat <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-fontconfig <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-freetype <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-gcc <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-gcc-libs <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-gdk-pixbuf2 <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-gettext <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-giflib <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-glib2 <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-gmp <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-gnutls <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-harfbuzz <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-headers-git <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-imagemagick <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-jansson <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-libgccjit <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-libiconv <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-libidn2 <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-libjpeg-turbo <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-libpng <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-librsvg <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-sqlite3 <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-libtree-sitter <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-libtiff <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-libunistring <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-libxml2 <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-nettle <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-p11-kit <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-winpthreads <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-xpm-nox <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-xz <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-zlib <span style="color: #4250ef;">\</span>
-  mingw-w64-ucrt-x86_64-jbigkit <span style="color: #4250ef;">\</span>
-  pkgconf <span style="color: #4250ef;">\</span>
+<pre class="src src-bash"><code>pacman -Su <span style="color: #b6540f;">\</span>
+  autoconf <span style="color: #b6540f;">\</span>
+  autogen <span style="color: #b6540f;">\</span>
+  automake <span style="color: #b6540f;">\</span>
+  automake-wrapper <span style="color: #b6540f;">\</span>
+  git <span style="color: #b6540f;">\</span>
+  libidn-devel <span style="color: #b6540f;">\</span>
+  libltdl <span style="color: #b6540f;">\</span>
+  libnettle-devel <span style="color: #b6540f;">\</span>
+  libopenssl <span style="color: #b6540f;">\</span>
+  libp11-kit-devel <span style="color: #b6540f;">\</span>
+  libtasn1-devel <span style="color: #b6540f;">\</span>
+  libunistring <span style="color: #b6540f;">\</span>
+  make <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-toolchain <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-bzip2 <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-cairo <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-crt-git <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-expat <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-fontconfig <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-freetype <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-gcc <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-gcc-libs <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-gdk-pixbuf2 <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-gettext <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-giflib <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-glib2 <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-gmp <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-gnutls <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-harfbuzz <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-headers-git <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-imagemagick <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-jansson <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-libgccjit <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-libiconv <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-libidn2 <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-libjpeg-turbo <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-libpng <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-librsvg <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-sqlite3 <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-libtree-sitter <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-libtiff <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-libunistring <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-libxml2 <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-nettle <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-p11-kit <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-winpthreads <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-xpm-nox <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-xz <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-zlib <span style="color: #b6540f;">\</span>
+  mingw-w64-ucrt-x86_64-jbigkit <span style="color: #b6540f;">\</span>
+  pkgconf <span style="color: #b6540f;">\</span>
   texinfo 
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb1210c0" class="outline-2">
-<h2 id="orgb1210c0"><span class="section-number-2">3.</span> Fetch Emacs source</h2>
+<div id="outline-container-orgc4b5fb6" class="outline-2">
+<h2 id="orgc4b5fb6"><span class="section-number-2">3.</span> Fetch Emacs source</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-bash"><code>git config --global core.autocrlf false
 git config --global http.postBuffer 524288000
 
-git config --global http.proxy <span style="color: #4250ef;">"socks5://127.0.0.1:7890"</span>
+git config --global http.proxy <span style="color: #b6540f;">"socks5://127.0.0.1:7890"</span>
 
 git clone https://github.moeyy.xyz/https://github.com/emacs-mirror/emacs.git --depth 1
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org69b4fcc" class="outline-2">
-<h2 id="org69b4fcc"><span class="section-number-2">4.</span> Build Emacs</h2>
+<div id="outline-container-orga52a797" class="outline-2">
+<h2 id="orga52a797"><span class="section-number-2">4.</span> Build Emacs</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 It is recommended to disable Windows Defender scan for MSYS2 or use<br>
 Window 11 Dev Drive feature to speed up compilation.<br>
 </p>
 </div>
-<div id="outline-container-org3e4ee9c" class="outline-3">
-<h3 id="org3e4ee9c"><span class="section-number-3">4.1.</span> Configuration</h3>
+<div id="outline-container-orge811e2c" class="outline-3">
+<h3 id="orge811e2c"><span class="section-number-3">4.1.</span> Configuration</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 It is important to <code>--with-gnutls</code>, because otherwise Emacs won't even<br>
@@ -556,20 +556,20 @@ Set <code>prefix</code> to somewhere appropriate.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code><span style="color: #ba35af;">cd</span> emacs &amp;&amp;<span style="color: #4250ef;">\</span>
+<pre class="src src-bash"><code><span style="color: #1a870f;">cd</span> emacs &amp;&amp;<span style="color: #b6540f;">\</span>
 ./autogen.sh
-mkdir build &amp;&amp;<span style="color: #4250ef;">\</span>
-<span style="color: #ba35af;">cd</span> build &amp;&amp;<span style="color: #4250ef;">\</span>
-<span style="color: #1f77bb;">target</span>=/d/cemacs
-../configure <span style="color: #1f77bb;">prefix</span>=$<span style="color: #1f77bb;">target</span> <span style="color: #4250ef;">\</span>
-    --with-gnutls <span style="color: #4250ef;">\</span>
-    --without-dbus <span style="color: #4250ef;">\</span>
-    --with-native-compilation=aot <span style="color: #4250ef;">\</span>
-    --without-pop <span style="color: #4250ef;">\</span>
-    --with-xpm <span style="color: #4250ef;">\</span>
-    --with-imagemagick <span style="color: #4250ef;">\</span>
+mkdir build &amp;&amp;<span style="color: #b6540f;">\</span>
+<span style="color: #1a870f;">cd</span> build &amp;&amp;<span style="color: #b6540f;">\</span>
+<span style="color: #1f6fbf;">target</span>=/d/cemacs
+../configure <span style="color: #1f6fbf;">prefix</span>=$<span style="color: #1f6fbf;">target</span> <span style="color: #b6540f;">\</span>
+    --with-gnutls <span style="color: #b6540f;">\</span>
+    --without-dbus <span style="color: #b6540f;">\</span>
+    --with-native-compilation=aot <span style="color: #b6540f;">\</span>
+    --without-pop <span style="color: #b6540f;">\</span>
+    --with-xpm <span style="color: #b6540f;">\</span>
+    --with-imagemagick <span style="color: #b6540f;">\</span>
     --with-modules
-<span style="color: #a65f6a;"># </span><span style="color: #a65f6a;">&#22914;&#26524;&#35201;&#23581;&#35797;igc&#29256;&#26412;
+<span style="color: #876450;"># </span><span style="color: #876450;">&#22914;&#26524;&#35201;&#23581;&#35797;igc&#29256;&#26412;
 </span>  --with-mps 
 </code></pre>
 </div>
@@ -579,8 +579,8 @@ Check if the configure log is appropriate.<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org3fb4bd1" class="outline-3">
-<h3 id="org3fb4bd1"><span class="section-number-3">4.2.</span> Building Emacs</h3>
+<div id="outline-container-org1103052" class="outline-3">
+<h3 id="org1103052"><span class="section-number-3">4.2.</span> Building Emacs</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 备注：记得编译时关闭杀毒软件的实时防护功能，否则CPU占用率会很低。<br>
@@ -593,12 +593,12 @@ Then <code>make -j$(nproc)</code> it ( <code>make -j$(nproc) bootstrap</code> fo
 </div>
 </div>
 </div>
-<div id="outline-container-org967506c" class="outline-2">
-<h2 id="org967506c"><span class="section-number-2">5.</span> Post building</h2>
+<div id="outline-container-orgdeb52af" class="outline-2">
+<h2 id="orgdeb52af"><span class="section-number-2">5.</span> Post building</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org64c97e6" class="outline-3">
-<h3 id="org64c97e6"><span class="section-number-3">5.1.</span> DLL Hell</h3>
+<div id="outline-container-org56ff1c6" class="outline-3">
+<h3 id="org56ff1c6"><span class="section-number-3">5.1.</span> DLL Hell</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 The easiest way is to copy all the dlls from <code>/ucrt64/bin</code>, and<br>
@@ -610,7 +610,7 @@ DLL used by Emacs.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code>cp /ucrt64/bin/*.dll $<span style="color: #1f77bb;">target</span>/bin
+<pre class="src src-bash"><code>cp /ucrt64/bin/*.dll $<span style="color: #1f6fbf;">target</span>/bin
 </code></pre>
 </div>
 
@@ -620,8 +620,8 @@ afterwards, you can still download the individual package without reinstall<br>
 MSYS2.<br>
 </p>
 </div>
-<div id="outline-container-org84c1a7d" class="outline-4">
-<h4 id="org84c1a7d"><span class="section-number-4">5.1.1.</span> XPM image</h4>
+<div id="outline-container-org223dfaa" class="outline-4">
+<h4 id="org223dfaa"><span class="section-number-4">5.1.1.</span> XPM image</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <p>
 This requires <code>libXpm-noX4.dll</code>. Emacs can start without this DLL<br>
@@ -629,8 +629,8 @@ but then it won't be able to display XPM image.<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org52a5eb4" class="outline-4">
-<h4 id="org52a5eb4"><span class="section-number-4">5.1.2.</span> Treesitter</h4>
+<div id="outline-container-org4bc49f3" class="outline-4">
+<h4 id="org4bc49f3"><span class="section-number-4">5.1.2.</span> Treesitter</h4>
 <div class="outline-text-4" id="text-5-1-2">
 <p>
 <code>libtree-sitter.dll</code> depends on <code>wasmtime.dll</code>.<br>
@@ -638,8 +638,8 @@ but then it won't be able to display XPM image.<br>
 </div>
 </div>
 </div>
-<div id="outline-container-org16ce237" class="outline-3">
-<h3 id="org16ce237"><span class="section-number-3">5.2.</span> GCCJIT</h3>
+<div id="outline-container-org35d2450" class="outline-3">
+<h3 id="org35d2450"><span class="section-number-3">5.2.</span> GCCJIT</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 Additional works are required to make native compile work without complete<br>
@@ -647,9 +647,9 @@ MSYS2 environment.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code>mkdir $<span style="color: #1f77bb;">target</span>/lib/gcc &amp;&amp;<span style="color: #4250ef;">\</span>
-cp /ucrt64/lib/<span style="color: #008858;">{</span>crtbegin,crtend,dllcrt2<span style="color: #008858;">}</span>.o $<span style="color: #1f77bb;">target</span>/lib/gcc &amp;&amp;<span style="color: #4250ef;">\</span>
-cp /ucrt64/lib/lib<span style="color: #008858;">{</span>advapi32,gcc_s,mingw32,msvcrt,shell32,kernel32,mingwex,pthread,user32<span style="color: #008858;">}</span>.a $<span style="color: #1f77bb;">target</span>/lib/gcc
+<pre class="src src-bash"><code>mkdir $<span style="color: #1f6fbf;">target</span>/lib/gcc &amp;&amp;<span style="color: #b6540f;">\</span>
+cp /ucrt64/lib/<span style="color: #cf2f4f;">{</span>crtbegin,crtend,dllcrt2<span style="color: #cf2f4f;">}</span>.o $<span style="color: #1f6fbf;">target</span>/lib/gcc &amp;&amp;<span style="color: #b6540f;">\</span>
+cp /ucrt64/lib/lib<span style="color: #cf2f4f;">{</span>advapi32,gcc_s,mingw32,msvcrt,shell32,kernel32,mingwex,pthread,user32<span style="color: #cf2f4f;">}</span>.a $<span style="color: #1f6fbf;">target</span>/lib/gcc
 </code></pre>
 </div>
 
@@ -657,19 +657,19 @@ cp /ucrt64/lib/lib<span style="color: #008858;">{</span>advapi32,gcc_s,mingw32,m
 adjust path according to gcc version<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash"><code>cp /ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/libgcc.a $<span style="color: #1f77bb;">target</span>/lib/gcc &amp;&amp;<span style="color: #4250ef;">\</span>
-cp /ucrt64/bin/<span style="color: #008858;">{</span>ld,as<span style="color: #008858;">}</span>.exe $<span style="color: #1f77bb;">target</span>/lib/gcc
+<pre class="src src-bash"><code>cp /ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/libgcc.a $<span style="color: #1f6fbf;">target</span>/lib/gcc &amp;&amp;<span style="color: #b6540f;">\</span>
+cp /ucrt64/bin/<span style="color: #cf2f4f;">{</span>ld,as<span style="color: #cf2f4f;">}</span>.exe $<span style="color: #1f6fbf;">target</span>/lib/gcc
 </code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcef47cb" class="outline-2">
-<h2 id="orgcef47cb"><span class="section-number-2">6.</span> 其他相关软件</h2>
+<div id="outline-container-orgdf20183" class="outline-2">
+<h2 id="orgdf20183"><span class="section-number-2">6.</span> 其他相关软件</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-orga84dc42" class="outline-3">
-<h3 id="orga84dc42"><span class="section-number-3">6.1.</span> 使用ediff</h3>
+<div id="outline-container-org19c1d53" class="outline-3">
+<h3 id="org19c1d53"><span class="section-number-3">6.1.</span> 使用ediff</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 下载<a href="https://github.com/wiltondb/diffutils_win">Github上预编译好</a>的diff.exe，然后放到path中就行。<br>

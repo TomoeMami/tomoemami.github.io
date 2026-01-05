@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-28 五 20:01 -->
+<!-- 2026-01-05 周一 15:41 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用advice自动更新ox-publish的待发布org-roam文件目录</title>
-<meta name="author" content="ahs" />
 <meta name="generator" content="Org Mode" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -385,13 +384,13 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-05-19 一 09:32]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-05-19 周一 09:32]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">使用advice自动更新ox-publish的待发布org-roam文件目录</h1>
 </header><p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-04-04T20:12:00">[2024-04-04 四 20:12]</time></span><br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-04-04T20:12:00">[2024-04-04 周四 20:12]</time></span><br>
 </p>
 
 <p>
@@ -407,25 +406,25 @@ b {
 <p>
 由于org-roam的所有文件均在一个文件夹内，又不需要将所有的文件作为博客内容发表，因此接下来会利用org-roam的功能，动态发布打上了 <code>blog</code> 标签的文件。<br>
 </p>
-<div id="outline-container-orgf4c4a98" class="outline-2">
-<h2 id="orgf4c4a98"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
+<div id="outline-container-org0cddeb6" class="outline-2">
+<h2 id="org0cddeb6"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 参考<a href="https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html">Vulpea的org-roam动态agenda</a>文件，创建函数如下：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">defun</span> <span style="color: #00845f;">my/ox-files</span> <span style="color: #004fc0;">()</span>
-  <span style="color: #605f9f;">"Return a list of note files containing '</span><span style="color: #065fff;">blog</span><span style="color: #605f9f;">' tag."</span> <span style="color: #7a5f2f;">;</span><span style="color: #7a5f2f;">
-</span>  <span style="color: #004fc0;">(</span>seq-uniq
-   <span style="color: #00845f;">(</span>seq-map
+<pre class="src src-emacs-lisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">my/ox-files</span> <span style="color: #007f68;">()</span>
+  <span style="color: #a04360;">"Return a list of note files containing '</span><span style="color: #d03003;">blog</span><span style="color: #a04360;">' tag."</span> <span style="color: #876450;">;</span><span style="color: #876450;">
+</span>  <span style="color: #007f68;">(</span>seq-uniq
+   <span style="color: #cb26a0;">(</span>seq-map
     #'car
-    <span style="color: #7f5ae0;">(</span>org-roam-db-query
-     <span style="color: #1f6fbf;">[</span><span style="color: #1f6fbf;">:select</span> <span style="color: #4244ef;">[</span>nodes:file<span style="color: #4244ef;">]</span>
-              <span style="color: #1f6fbf;">:from</span> tags
-              <span style="color: #1f6fbf;">:left-join</span> nodes
-              <span style="color: #1f6fbf;">:on</span> <span style="color: #4244ef;">(</span>= tags:node-id nodes:id<span style="color: #4244ef;">)</span>
-              <span style="color: #1f6fbf;">:where</span> <span style="color: #4244ef;">(</span>like tag <span style="color: #468400;">(</span><span style="color: #004fc0;">quote</span> <span style="color: #4244ef;">"%\"blog\"%"</span><span style="color: #468400;">)</span><span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">]</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
+    <span style="color: #5f5fdf;">(</span>org-roam-db-query
+     <span style="color: #b6540f;">[</span><span style="color: #1a870f;">:select</span> <span style="color: #1f6fbf;">[</span>nodes:file<span style="color: #1f6fbf;">]</span>
+              <span style="color: #1a870f;">:from</span> tags
+              <span style="color: #1a870f;">:left-join</span> nodes
+              <span style="color: #1a870f;">:on</span> <span style="color: #1f6fbf;">(</span>= tags:node-id nodes:id<span style="color: #1f6fbf;">)</span>
+              <span style="color: #1a870f;">:where</span> <span style="color: #1f6fbf;">(</span>like tag <span style="color: #d5206f;">(</span><span style="color: #007f68;">quote</span> <span style="color: #b6540f;">"%\"blog\"%"</span><span style="color: #d5206f;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">]</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div>
 
@@ -434,31 +433,31 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org8dd37af" class="outline-2">
-<h2 id="org8dd37af"><span class="section-number-2">2.</span> 配置ox-publish</h2>
+<div id="outline-container-org9e99c53" class="outline-2">
+<h2 id="org9e99c53"><span class="section-number-2">2.</span> 配置ox-publish</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 根据参考文献，需要指定 <code>org-publish-project-alist</code> 如下：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">setq</span> org-publish-project-alist
-        `<span style="color: #004fc0;">(</span><span style="color: #00845f;">(</span><span style="color: #4244ef;">"posts"</span>
-           <span style="color: #1f6fbf;">:base-directory</span> ,website-directory
-           <span style="color: #1f6fbf;">:base-extension</span> <span style="color: #4244ef;">"org"</span>
-           <span style="color: #1f6fbf;">:publishing-directory</span> ,my/publish-directory
-           <span style="color: #1f6fbf;">:publishing-function</span> org-html-publish-to-html
-           <span style="color: #1f6fbf;">:with-author</span> t
-           <span style="color: #1f6fbf;">:auto-sitemap</span> t
-           <span style="color: #1f6fbf;">:recursive</span> nil
-           <span style="color: #1f6fbf;">:exclude</span> <span style="color: #4244ef;">".*"</span>
-           <span style="color: #1f6fbf;">:include</span> ,<span style="color: #7f5ae0;">(</span>my/ox-files<span style="color: #7f5ae0;">)</span>
-           <span style="color: #1f6fbf;">:html-link-home</span> <span style="color: #4244ef;">"index.html"</span>
-           <span style="color: #1f6fbf;">:sitemap-filename</span> <span style="color: #4244ef;">"index.org"</span>
-           <span style="color: #1f6fbf;">:sitemap-title</span> <span style="color: #4244ef;">"&#30446;&#24405;"</span>
-           <span style="color: #1f6fbf;">:sitemap-sort-files</span> anti-chronologically
-           <span style="color: #1f6fbf;">:html-head:css</span> <span style="color: #4244ef;">"&lt;link rel='</span><span style="color: #065fff;">stylesheet</span><span style="color: #4244ef;">' type='</span><span style="color: #065fff;">text/css</span><span style="color: #4244ef;">' href='</span><span style="color: #065fff;">/org.css</span><span style="color: #4244ef;">'/&gt;"</span><span style="color: #00845f;">)</span>
-          <span style="color: #00845f;">(</span><span style="color: #4244ef;">"personal-website"</span> <span style="color: #1f6fbf;">:components</span> <span style="color: #7f5ae0;">(</span><span style="color: #4244ef;">"posts"</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">setq</span> org-publish-project-alist
+        `<span style="color: #007f68;">(</span><span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"posts"</span>
+           <span style="color: #1a870f;">:base-directory</span> ,website-directory
+           <span style="color: #1a870f;">:base-extension</span> <span style="color: #b6540f;">"org"</span>
+           <span style="color: #1a870f;">:publishing-directory</span> ,my/publish-directory
+           <span style="color: #1a870f;">:publishing-function</span> org-html-publish-to-html
+           <span style="color: #1a870f;">:with-author</span> t
+           <span style="color: #1a870f;">:auto-sitemap</span> t
+           <span style="color: #1a870f;">:recursive</span> nil
+           <span style="color: #1a870f;">:exclude</span> <span style="color: #b6540f;">".*"</span>
+           <span style="color: #1a870f;">:include</span> ,<span style="color: #5f5fdf;">(</span>my/ox-files<span style="color: #5f5fdf;">)</span>
+           <span style="color: #1a870f;">:html-link-home</span> <span style="color: #b6540f;">"index.html"</span>
+           <span style="color: #1a870f;">:sitemap-filename</span> <span style="color: #b6540f;">"index.org"</span>
+           <span style="color: #1a870f;">:sitemap-title</span> <span style="color: #b6540f;">"&#30446;&#24405;"</span>
+           <span style="color: #1a870f;">:sitemap-sort-files</span> anti-chronologically
+           <span style="color: #1a870f;">:html-head:css</span> <span style="color: #b6540f;">"&lt;link rel='</span><span style="color: #d03003;">stylesheet</span><span style="color: #b6540f;">' type='</span><span style="color: #d03003;">text/css</span><span style="color: #b6540f;">' href='</span><span style="color: #d03003;">/org.css</span><span style="color: #b6540f;">'/&gt;"</span><span style="color: #cb26a0;">)</span>
+          <span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"personal-website"</span> <span style="color: #1a870f;">:components</span> <span style="color: #5f5fdf;">(</span><span style="color: #b6540f;">"posts"</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div>
 
@@ -467,33 +466,33 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org072640a" class="outline-2">
-<h2 id="org072640a"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
+<div id="outline-container-orge963b17" class="outline-2">
+<h2 id="orge963b17"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于上述 <code>org-publish-project-alist</code> 仅会执行单次，因此需要通过 <code>advice-add</code> 的方式让其在每次发布时均执行一次，达成动态更新的效果。<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">defun</span> <span style="color: #00845f;">my/org-project-update</span> <span style="color: #004fc0;">(</span><span style="color: #7f5ae0;">&amp;optional</span> ARG PRED<span style="color: #004fc0;">)</span> <span style="color: #7a5f2f;">;;</span><span style="color: #7a5f2f;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional
-</span>  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">setq</span> org-publish-project-alist
-        `<span style="color: #00845f;">(</span><span style="color: #7f5ae0;">(</span><span style="color: #4244ef;">"posts"</span>
-           <span style="color: #1f6fbf;">:base-directory</span> ,website-directory
-           <span style="color: #1f6fbf;">:base-extension</span> <span style="color: #4244ef;">"org"</span>
-           <span style="color: #1f6fbf;">:publishing-directory</span> ,my/publish-directory
-           <span style="color: #1f6fbf;">:publishing-function</span> org-html-publish-to-html
-           <span style="color: #1f6fbf;">:with-author</span> t
-           <span style="color: #1f6fbf;">:auto-sitemap</span> t
-           <span style="color: #1f6fbf;">:recursive</span> nil
-           <span style="color: #1f6fbf;">:exclude</span> <span style="color: #4244ef;">".*"</span>
-           <span style="color: #1f6fbf;">:include</span> ,<span style="color: #1f6fbf;">(</span>my/ox-files<span style="color: #1f6fbf;">)</span>
-           <span style="color: #1f6fbf;">:html-link-home</span> <span style="color: #4244ef;">"index.html"</span>
-           <span style="color: #1f6fbf;">:sitemap-filename</span> <span style="color: #4244ef;">"index.org"</span>
-           <span style="color: #1f6fbf;">:sitemap-title</span> <span style="color: #4244ef;">"&#30446;&#24405;"</span>
-           <span style="color: #1f6fbf;">:sitemap-sort-files</span> anti-chronologically
-           <span style="color: #1f6fbf;">:html-head:css</span> <span style="color: #4244ef;">"&lt;link rel='</span><span style="color: #065fff;">stylesheet</span><span style="color: #4244ef;">' type='</span><span style="color: #065fff;">text/css</span><span style="color: #4244ef;">' href='</span><span style="color: #065fff;">/org.css</span><span style="color: #4244ef;">'/&gt;"</span><span style="color: #7f5ae0;">)</span>
-          <span style="color: #7f5ae0;">(</span><span style="color: #4244ef;">"personal-website"</span> <span style="color: #1f6fbf;">:components</span> <span style="color: #1f6fbf;">(</span><span style="color: #4244ef;">"posts"</span><span style="color: #1f6fbf;">)</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
-<span style="color: #007a85;">(</span>advice-add 'org-export-dispatch <span style="color: #1f6fbf;">:before</span> 'my/org-project-update<span style="color: #007a85;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">my/org-project-update</span> <span style="color: #007f68;">(</span><span style="color: #9435b4;">&amp;optional</span> ARG PRED<span style="color: #007f68;">)</span> <span style="color: #876450;">;;</span><span style="color: #876450;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional
+</span>  <span style="color: #007f68;">(</span><span style="color: #007f68;">setq</span> org-publish-project-alist
+        `<span style="color: #cb26a0;">(</span><span style="color: #5f5fdf;">(</span><span style="color: #b6540f;">"posts"</span>
+           <span style="color: #1a870f;">:base-directory</span> ,website-directory
+           <span style="color: #1a870f;">:base-extension</span> <span style="color: #b6540f;">"org"</span>
+           <span style="color: #1a870f;">:publishing-directory</span> ,my/publish-directory
+           <span style="color: #1a870f;">:publishing-function</span> org-html-publish-to-html
+           <span style="color: #1a870f;">:with-author</span> t
+           <span style="color: #1a870f;">:auto-sitemap</span> t
+           <span style="color: #1a870f;">:recursive</span> nil
+           <span style="color: #1a870f;">:exclude</span> <span style="color: #b6540f;">".*"</span>
+           <span style="color: #1a870f;">:include</span> ,<span style="color: #b6540f;">(</span>my/ox-files<span style="color: #b6540f;">)</span>
+           <span style="color: #1a870f;">:html-link-home</span> <span style="color: #b6540f;">"index.html"</span>
+           <span style="color: #1a870f;">:sitemap-filename</span> <span style="color: #b6540f;">"index.org"</span>
+           <span style="color: #1a870f;">:sitemap-title</span> <span style="color: #b6540f;">"&#30446;&#24405;"</span>
+           <span style="color: #1a870f;">:sitemap-sort-files</span> anti-chronologically
+           <span style="color: #1a870f;">:html-head:css</span> <span style="color: #b6540f;">"&lt;link rel='</span><span style="color: #d03003;">stylesheet</span><span style="color: #b6540f;">' type='</span><span style="color: #d03003;">text/css</span><span style="color: #b6540f;">' href='</span><span style="color: #d03003;">/org.css</span><span style="color: #b6540f;">'/&gt;"</span><span style="color: #5f5fdf;">)</span>
+          <span style="color: #5f5fdf;">(</span><span style="color: #b6540f;">"personal-website"</span> <span style="color: #1a870f;">:components</span> <span style="color: #b6540f;">(</span><span style="color: #b6540f;">"posts"</span><span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
+<span style="color: #cf2f4f;">(</span>advice-add 'org-export-dispatch <span style="color: #1a870f;">:before</span> 'my/org-project-update<span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div>
 
@@ -502,412 +501,412 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-orgb126dc7" class="outline-2">
-<h2 id="orgb126dc7"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
+<div id="outline-container-org3d01b7e" class="outline-2">
+<h2 id="org3d01b7e"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 利用 <code>org-export</code> 的hook自动设置，读取 <code>~/.emacs.d/org.css</code> 文件内容并插入发布的html文件中<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">defun</span> <span style="color: #00845f;">my/org-inline-css-hook</span> <span style="color: #004fc0;">(</span>exporter<span style="color: #004fc0;">)</span>
-  <span style="color: #605f9f;">"Insert custom inline css"</span>
-  <span style="color: #004fc0;">(</span><span style="color: #004fc0;">when</span> <span style="color: #00845f;">(</span>eq exporter 'html<span style="color: #00845f;">)</span>
-    <span style="color: #00845f;">(</span><span style="color: #004fc0;">setq</span> org-html-head-include-default-style nil<span style="color: #00845f;">)</span>
-    <span style="color: #00845f;">(</span><span style="color: #004fc0;">setq</span> org-html-head <span style="color: #7f5ae0;">(</span>concat <span style="color: #4244ef;">"&lt;style type=\"text/css\"&gt;\n &lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/\n"</span> <span style="color: #1f6fbf;">(</span><span style="color: #004fc0;">with-temp-buffer</span> <span style="color: #4244ef;">(</span>insert-file-contents <span style="color: #4244ef;">"~/.emacs.d/org.css"</span><span style="color: #4244ef;">)</span> <span style="color: #4244ef;">(</span>buffer-string<span style="color: #4244ef;">)</span><span style="color: #1f6fbf;">)</span> <span style="color: #4244ef;">"/*] ]&gt;*/--&gt;\n &lt;/style&gt;\n"</span><span style="color: #7f5ae0;">)</span><span style="color: #00845f;">)</span><span style="color: #004fc0;">)</span><span style="color: #007a85;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">my/org-inline-css-hook</span> <span style="color: #007f68;">(</span>exporter<span style="color: #007f68;">)</span>
+  <span style="color: #a04360;">"Insert custom inline css"</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">when</span> <span style="color: #cb26a0;">(</span>eq exporter 'html<span style="color: #cb26a0;">)</span>
+    <span style="color: #cb26a0;">(</span><span style="color: #007f68;">setq</span> org-html-head-include-default-style nil<span style="color: #cb26a0;">)</span>
+    <span style="color: #cb26a0;">(</span><span style="color: #007f68;">setq</span> org-html-head <span style="color: #5f5fdf;">(</span>concat <span style="color: #b6540f;">"&lt;style type=\"text/css\"&gt;\n &lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/\n"</span> <span style="color: #b6540f;">(</span><span style="color: #007f68;">with-temp-buffer</span> <span style="color: #1f6fbf;">(</span>insert-file-contents <span style="color: #b6540f;">"~/.emacs.d/org.css"</span><span style="color: #1f6fbf;">)</span> <span style="color: #1f6fbf;">(</span>buffer-string<span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span> <span style="color: #b6540f;">"/*] ]&gt;*/--&gt;\n &lt;/style&gt;\n"</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
 
-<span style="color: #007a85;">(</span>add-hook 'org-export-before-processing-hook 'my/org-inline-css-hook<span style="color: #007a85;">)</span>
+<span style="color: #cf2f4f;">(</span>add-hook 'org-export-before-processing-hook 'my/org-inline-css-hook<span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org2dd60fc" class="outline-2">
-<h2 id="org2dd60fc"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
+<div id="outline-container-org5adf8f2" class="outline-2">
+<h2 id="org5adf8f2"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org1980e38" class="outline-3">
-<h3 id="org1980e38"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
+<div id="outline-container-orgaa799f1" class="outline-3">
+<h3 id="orgaa799f1"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007a85;">(</span><span style="color: #004fc0;">setq</span> org-export-preserve-breaks t<span style="color: #007a85;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">setq</span> org-export-preserve-breaks t<span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb37a27f" class="outline-3">
-<h3 id="orgb37a27f"><span class="section-number-3">5.2.</span> <a href="20241231T152821--emacs-使用ox-rss导出rss的xml文件__blog.html">emacs-使用ox-rss导出rss的xml文件</a></h3>
+<div id="outline-container-orga14fc9e" class="outline-3">
+<h3 id="orga14fc9e"><span class="section-number-3">5.2.</span> <a href="20241231T152821--emacs-使用ox-rss导出rss的xml文件__blog.html">emacs-使用ox-rss导出rss的xml文件</a></h3>
 </div>
-<div id="outline-container-orga1c137a" class="outline-3">
-<h3 id="orga1c137a"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
+<div id="outline-container-orgbb3e897" class="outline-3">
+<h3 id="orgbb3e897"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
-<pre class="src src-css"><code><span style="color: #7a5f2f;">/*</span><span style="color: #7a5f2f;">@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&amp;display=fallback");
+<pre class="src src-css"><code><span style="color: #876450;">/*</span><span style="color: #876450;">@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&amp;display=fallback");
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&amp;display=fallback");
-</span><span style="color: #7a5f2f;">*/</span>
+</span><span style="color: #876450;">*/</span>
 
-<span style="color: #00845f;">body</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">margin</span>: 2% auto;
-    <span style="color: #004fc0;">width</span>: 100%;
-    <span style="color: #004fc0;">max-width</span>: 100%;
-    <span style="color: #004fc0;">background-color</span>: <span style="color: #000000; background-color: #f2e5bc;">rgba(242,229,188,0.5)</span>;
-    <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">background-color: rgba(255,255,255,0.5);</span><span style="color: #7a5f2f;"> */</span>
-    <span style="color: #004fc0;">font-size</span>: 18px;
-    <span style="color: #004fc0;">line-height</span>: 1.4em;
-<span style="color: #007a85;">}</span>
-<span style="color: #1f6fbf;">@media</span> screen and <span style="color: #007a85;">(</span>min-width: 600px<span style="color: #007a85;">)</span> <span style="color: #007a85;">{</span>
-    <span style="color: #00845f;">body</span> <span style="color: #004fc0;">{</span>
-        <span style="color: #004fc0;">font-size</span>: 18px;
-    <span style="color: #004fc0;">}</span>
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">body</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">margin</span>: 2% auto;
+    <span style="color: #007f68;">width</span>: 100%;
+    <span style="color: #007f68;">max-width</span>: 100%;
+    <span style="color: #007f68;">background-color</span>: <span style="color: #000000; background-color: #f2e5bc;">rgba(242,229,188,0.5)</span>;
+    <span style="color: #876450;">/* </span><span style="color: #876450;">background-color: rgba(255,255,255,0.5);</span><span style="color: #876450;"> */</span>
+    <span style="color: #007f68;">font-size</span>: 18px;
+    <span style="color: #007f68;">line-height</span>: 1.4em;
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #1a870f;">@media</span> screen and <span style="color: #cf2f4f;">(</span>min-width: 600px<span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #4a7d00;">body</span> <span style="color: #007f68;">{</span>
+        <span style="color: #007f68;">font-size</span>: 18px;
+    <span style="color: #007f68;">}</span>
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #1f6fbf;">@media</span> screen and <span style="color: #007a85;">(</span>min-width: 910px<span style="color: #007a85;">)</span> <span style="color: #007a85;">{</span>
-    <span style="color: #00845f;">body</span> <span style="color: #004fc0;">{</span>
-        <span style="color: #004fc0;">width</span>: 900px;
-    <span style="color: #004fc0;">}</span>
-<span style="color: #007a85;">}</span>
-<span style="color: #00845f;">#preamble</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">width</span>: 80%;
-    <span style="color: #004fc0;">max-width</span>: 980px;
-    <span style="color: #004fc0;">text-align</span>: left;
-    <span style="color: #004fc0;">margin</span>: auto;
-    <span style="color: #004fc0;">font-size</span>: 80%;
-<span style="color: #007a85;">}</span>
+<span style="color: #1a870f;">@media</span> screen and <span style="color: #cf2f4f;">(</span>min-width: 910px<span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #4a7d00;">body</span> <span style="color: #007f68;">{</span>
+        <span style="color: #007f68;">width</span>: 900px;
+    <span style="color: #007f68;">}</span>
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #4a7d00;">#preamble</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">width</span>: 80%;
+    <span style="color: #007f68;">max-width</span>: 980px;
+    <span style="color: #007f68;">text-align</span>: left;
+    <span style="color: #007f68;">margin</span>: auto;
+    <span style="color: #007f68;">font-size</span>: 80%;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">hr</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">border</span>: none;
-    <span style="color: #004fc0;">border-top</span>: 5px double <span style="color: #ffffff; background-color: #333;">#333</span>;
-    <span style="color: #004fc0;">margin</span>: 0px 0;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">hr</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">border</span>: none;
+    <span style="color: #007f68;">border-top</span>: 5px double <span style="color: #ffffff; background-color: #333;">#333</span>;
+    <span style="color: #007f68;">margin</span>: 0px 0;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.button</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">border</span>: none;
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #000000;">black</span>;
-    <span style="color: #004fc0;">padding</span>: 6px 14px;
-    <span style="color: #004fc0;">text-align</span>: center;
-    <span style="color: #004fc0;">text-decoration</span>: none;
-    <span style="color: #004fc0;">display</span>: inline-block;
-    <span style="color: #004fc0;">margin</span>: 4px 2px;
-    <span style="color: #004fc0;">transition-duration</span>: 0.4s;
-    <span style="color: #004fc0;">cursor</span>: pointer;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.button</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">border</span>: none;
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #000000;">black</span>;
+    <span style="color: #007f68;">padding</span>: 6px 14px;
+    <span style="color: #007f68;">text-align</span>: center;
+    <span style="color: #007f68;">text-decoration</span>: none;
+    <span style="color: #007f68;">display</span>: inline-block;
+    <span style="color: #007f68;">margin</span>: 4px 2px;
+    <span style="color: #007f68;">transition-duration</span>: 0.4s;
+    <span style="color: #007f68;">cursor</span>: pointer;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.button:hover</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">background-color</span>: <span style="color: #ffffff; background-color: #3a1616;">#3a1616</span>;
-    <span style="color: #004fc0;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.button:hover</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">background-color</span>: <span style="color: #ffffff; background-color: #3a1616;">#3a1616</span>;
+    <span style="color: #007f68;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.todo</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">background-color</span>: <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
-    <span style="color: #004fc0;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
-    <span style="color: #004fc0;">padding</span>: .1em 0.3em;
-    <span style="color: #004fc0;">border-radius</span>: 3px;
-    <span style="color: #004fc0;">background-clip</span>: padding-box;
-    <span style="color: #004fc0;">font-size</span>: $code-size;
-    <span style="color: #004fc0;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-    <span style="color: #004fc0;">line-height</span>: 1;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.todo</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">background-color</span>: <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
+    <span style="color: #007f68;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
+    <span style="color: #007f68;">padding</span>: .1em 0.3em;
+    <span style="color: #007f68;">border-radius</span>: 3px;
+    <span style="color: #007f68;">background-clip</span>: padding-box;
+    <span style="color: #007f68;">font-size</span>: $code-size;
+    <span style="color: #007f68;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    <span style="color: #007f68;">line-height</span>: 1;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.done</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">background-color</span>: <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
-    <span style="color: #004fc0;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
-    <span style="color: #004fc0;">padding</span>: .1em 0.3em;
-    <span style="color: #004fc0;">border-radius</span>: 3px;
-    <span style="color: #004fc0;">background-clip</span>: padding-box;
-    <span style="color: #004fc0;">font-size</span>: $code-size;
-    <span style="color: #004fc0;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-    <span style="color: #004fc0;">line-height</span>: 1;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.done</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">background-color</span>: <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
+    <span style="color: #007f68;">color</span>: <span style="color: #000000; background-color: #fbf1c7;">#fbf1c7</span>;
+    <span style="color: #007f68;">padding</span>: .1em 0.3em;
+    <span style="color: #007f68;">border-radius</span>: 3px;
+    <span style="color: #007f68;">background-clip</span>: padding-box;
+    <span style="color: #007f68;">font-size</span>: $code-size;
+    <span style="color: #007f68;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+    <span style="color: #007f68;">line-height</span>: 1;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">#postamble p</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">font-size</span>: 80%;
-    <span style="color: #004fc0;">margin</span>: .2em;
-    <span style="color: #004fc0;">text-align</span>: center;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">#postamble p</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">font-size</span>: 80%;
+    <span style="color: #007f68;">margin</span>: .2em;
+    <span style="color: #007f68;">text-align</span>: center;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">#content, .content</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">width</span>: 80%;
-    <span style="color: #004fc0;">max-width</span>: 980px;
-    <span style="color: #004fc0;">margin</span>: auto;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">#content, .content</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">width</span>: 80%;
+    <span style="color: #007f68;">max-width</span>: 980px;
+    <span style="color: #007f68;">margin</span>: auto;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">#org-div-home-and-up</span><span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">position</span>: fixed;
-    <span style="color: #004fc0;">right</span>: 0.5em;
-    <span style="color: #004fc0;">margin-top</span>: 70px;
-    <span style="color: #004fc0;">font-family</span>:sans-serif;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">#org-div-home-and-up</span><span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">position</span>: fixed;
+    <span style="color: #007f68;">right</span>: 0.5em;
+    <span style="color: #007f68;">margin-top</span>: 70px;
+    <span style="color: #007f68;">font-family</span>:sans-serif;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">#table-of-contents</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">margin-top</span>: 105px;
-    <span style="color: #004fc0;">font-size</span>: 12pt;
-    <span style="color: #004fc0;">position</span>: fixed;
-    <span style="color: #004fc0;">left</span>: 0em;
-    <span style="color: #004fc0;">top</span>: 0em;
-    <span style="color: #004fc0;">background</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
-    <span style="color: #004fc0;">max-height</span>: 80%;
-    <span style="color: #004fc0;">overflow</span>: auto;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">#table-of-contents</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">margin-top</span>: 105px;
+    <span style="color: #007f68;">font-size</span>: 12pt;
+    <span style="color: #007f68;">position</span>: fixed;
+    <span style="color: #007f68;">left</span>: 0em;
+    <span style="color: #007f68;">top</span>: 0em;
+    <span style="color: #007f68;">background</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
+    <span style="color: #007f68;">max-height</span>: 80%;
+    <span style="color: #007f68;">overflow</span>: auto;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">#table-of-contents h2</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">display</span>: none;
-<span style="color: #007a85;">}</span>
-<span style="color: #00845f;">#table-of-contents li</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">clear</span>: both;
-<span style="color: #007a85;">}</span>
-<span style="color: #00845f;">.timestamp</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #928374;">#928374</span>;
-    <span style="color: #004fc0;">font-size</span>: $smaller;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">#table-of-contents h2</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">display</span>: none;
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #4a7d00;">#table-of-contents li</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">clear</span>: both;
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #4a7d00;">.timestamp</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #928374;">#928374</span>;
+    <span style="color: #007f68;">font-size</span>: $smaller;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.timestamp-kwd</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #5f9ea0;">#5f9ea0</span>;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.timestamp-kwd</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #5f9ea0;">#5f9ea0</span>;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #1f6fbf;">@media</span> screen and <span style="color: #007a85;">(</span>max-width: 1200px<span style="color: #007a85;">)</span> <span style="color: #007a85;">{</span>
-    <span style="color: #00845f;">#table-of-contents</span> <span style="color: #004fc0;">{</span>
-        <span style="color: #004fc0;">position</span>: relative;
-        <span style="color: #004fc0;">margin-top</span>: 0px;
-    <span style="color: #004fc0;">}</span>
-<span style="color: #007a85;">}</span>
+<span style="color: #1a870f;">@media</span> screen and <span style="color: #cf2f4f;">(</span>max-width: 1200px<span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #4a7d00;">#table-of-contents</span> <span style="color: #007f68;">{</span>
+        <span style="color: #007f68;">position</span>: relative;
+        <span style="color: #007f68;">margin-top</span>: 0px;
+    <span style="color: #007f68;">}</span>
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">p:not(blockquote &gt; p) :not(ol &gt; p) {</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">text-indent: 2em;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">}</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #00845f;">p</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">margin</span>: 1em auto;
-<span style="color: #007a85;">}</span>
+<span style="color: #876450;">/* </span><span style="color: #876450;">p:not(blockquote &gt; p) :not(ol &gt; p) {</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">text-indent: 2em;</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/* </span><span style="color: #876450;">}</span><span style="color: #876450;"> */</span>
+<span style="color: #4a7d00;">p</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">margin</span>: 1em auto;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.title</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">font-size</span>: 30px;
-    <span style="color: #004fc0;">line-height</span>: 1.3;
-    <span style="color: #004fc0;">font-weight</span>: bold;
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #0c2340;">#0c2340</span>;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.title</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">font-size</span>: 30px;
+    <span style="color: #007f68;">line-height</span>: 1.3;
+    <span style="color: #007f68;">font-weight</span>: bold;
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #0c2340;">#0c2340</span>;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">h2:not</span><span style="color: #007a85;">(</span><span style="color: #00845f;">#table-of-contents &gt; h2</span><span style="color: #007a85;">)</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">font-size</span>: 30px;
-    <span style="color: #004fc0;">line-height</span>: 1.2;
-    <span style="color: #004fc0;">position</span>: relative;
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #204060;">#204060</span>;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">h2:not</span><span style="color: #cf2f4f;">(</span><span style="color: #4a7d00;">#table-of-contents &gt; h2</span><span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">font-size</span>: 30px;
+    <span style="color: #007f68;">line-height</span>: 1.2;
+    <span style="color: #007f68;">position</span>: relative;
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #204060;">#204060</span>;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">h2::after</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">content</span>: <span style="color: #4244ef;">""</span>;
-    <span style="color: #004fc0;">position</span>: absolute;
-    <span style="color: #004fc0;">left</span>: 0;
-    <span style="color: #004fc0;">bottom</span>: 0;
-    <span style="color: #004fc0;">width</span>: 100%;
-    <span style="color: #004fc0;">height</span>: 2px;
-    <span style="color: #004fc0;">background-color</span>: <span style="color: #ffffff; background-color: #000000;">black</span>;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">h2::after</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">content</span>: <span style="color: #b6540f;">""</span>;
+    <span style="color: #007f68;">position</span>: absolute;
+    <span style="color: #007f68;">left</span>: 0;
+    <span style="color: #007f68;">bottom</span>: 0;
+    <span style="color: #007f68;">width</span>: 100%;
+    <span style="color: #007f68;">height</span>: 2px;
+    <span style="color: #007f68;">background-color</span>: <span style="color: #ffffff; background-color: #000000;">black</span>;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">h3:not</span><span style="color: #007a85;">(</span><span style="color: #00845f;">#table-of-contents &gt; h3</span><span style="color: #007a85;">)</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">font-size</span>: 20px;
-    <span style="color: #004fc0;">line-height</span>: 1.1;
-    <span style="color: #004fc0;">position</span>: relative;
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #4b748d;">#4b748d</span>;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">h3:not</span><span style="color: #cf2f4f;">(</span><span style="color: #4a7d00;">#table-of-contents &gt; h3</span><span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">font-size</span>: 20px;
+    <span style="color: #007f68;">line-height</span>: 1.1;
+    <span style="color: #007f68;">position</span>: relative;
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #4b748d;">#4b748d</span>;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">h3::after</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">content</span>: <span style="color: #4244ef;">""</span>;
-    <span style="color: #004fc0;">position</span>: absolute;
-    <span style="color: #004fc0;">left</span>: 0;
-    <span style="color: #004fc0;">bottom</span>: 0;
-    <span style="color: #004fc0;">width</span>: 100%;
-    <span style="color: #004fc0;">height</span>: 2px;
-    <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">border-bottom: 1px dashed black;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">h3::after</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">content</span>: <span style="color: #b6540f;">""</span>;
+    <span style="color: #007f68;">position</span>: absolute;
+    <span style="color: #007f68;">left</span>: 0;
+    <span style="color: #007f68;">bottom</span>: 0;
+    <span style="color: #007f68;">width</span>: 100%;
+    <span style="color: #007f68;">height</span>: 2px;
+    <span style="color: #876450;">/* </span><span style="color: #876450;">border-bottom: 1px dashed black;</span><span style="color: #876450;"> */</span>
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">h4</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">font-size</span>: 14px;
-    <span style="color: #004fc0;">line-height</span>: 1.1;
-    <span style="color: #004fc0;">font-weight</span>: bold;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">h4</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">font-size</span>: 14px;
+    <span style="color: #007f68;">line-height</span>: 1.1;
+    <span style="color: #007f68;">font-weight</span>: bold;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">details</span> <span style="color: #007a85;">{</span>
-  <span style="color: #004fc0;">padding</span>: .7em 1em .5em;
-  <span style="color: #004fc0;">border-radius</span>: 15px;
-  <span style="color: #004fc0;">font-size</span>: 0.95em;
-  <span style="color: #004fc0;">border</span>: 2px solid <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-  <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">border-color: light-dark(var(--color-border), var(--dark-color-border));</span><span style="color: #7a5f2f;"> */</span>
-  <span style="color: #004fc0;">margin-block</span>: 1em;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">details</span> <span style="color: #cf2f4f;">{</span>
+  <span style="color: #007f68;">padding</span>: .7em 1em .5em;
+  <span style="color: #007f68;">border-radius</span>: 15px;
+  <span style="color: #007f68;">font-size</span>: 0.95em;
+  <span style="color: #007f68;">border</span>: 2px solid <span style="color: #000000; background-color: #ccc;">#ccc</span>;
+  <span style="color: #876450;">/* </span><span style="color: #876450;">border-color: light-dark(var(--color-border), var(--dark-color-border));</span><span style="color: #876450;"> */</span>
+  <span style="color: #007f68;">margin-block</span>: 1em;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">a</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">cursor</span>: pointer;
-    <span style="color: #004fc0;">text-decoration</span>: none;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">a</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">cursor</span>: pointer;
+    <span style="color: #007f68;">text-decoration</span>: none;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">a:link</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #458588;">#458588</span>;
-    <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">text-decoration: underline;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">a:link</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #458588;">#458588</span>;
+    <span style="color: #876450;">/* </span><span style="color: #876450;">text-decoration: underline;</span><span style="color: #876450;"> */</span>
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">a:hover</span> <span style="color: #007a85;">{</span>
-    <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">font-weight: bold;</span><span style="color: #7a5f2f;"> */</span>
-    <span style="color: #004fc0;">text-decoration</span>: underline;
-    <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">color: #076678;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">a:hover</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #876450;">/* </span><span style="color: #876450;">font-weight: bold;</span><span style="color: #876450;"> */</span>
+    <span style="color: #007f68;">text-decoration</span>: underline;
+    <span style="color: #876450;">/* </span><span style="color: #876450;">color: #076678;</span><span style="color: #876450;"> */</span>
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.figure</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">text-align</span>: center;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.figure</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">text-align</span>: center;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">a:visited</span><span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #8f3f71;">#8f3f71</span>;
-    <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">text-decoration: underline;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">a:visited</span><span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #8f3f71;">#8f3f71</span>;
+    <span style="color: #876450;">/* </span><span style="color: #876450;">text-decoration: underline;</span><span style="color: #876450;"> */</span>
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">img</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">max-width</span>: 100%;
-    <span style="color: #004fc0;">vertical-align</span>: middle;
-<span style="color: #007a85;">}</span>
-<span style="color: #00845f;">.MathJax_Display</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">margin</span>: 0<span style="color: #1f6fbf;">!important</span>;
-    <span style="color: #004fc0;">width</span>: $smaller<span style="color: #1f6fbf;">!important</span>;
-<span style="color: #007a85;">}</span>
-<span style="color: #1f6fbf;">@media</span> screen and <span style="color: #007a85;">(</span>max-width: 1200px<span style="color: #007a85;">)</span> <span style="color: #007a85;">{</span>
-    <span style="color: #00845f;">img</span> <span style="color: #004fc0;">{</span>
-        <span style="color: #004fc0;">width</span>: 400px;
-    <span style="color: #004fc0;">}</span>
-    <span style="color: #00845f;">.MathJax_Display</span> <span style="color: #004fc0;">{</span>
-        <span style="color: #004fc0;">margin</span>: 0<span style="color: #1f6fbf;">!important</span>;
-        <span style="color: #004fc0;">width</span>: $smaller<span style="color: #1f6fbf;">!important</span>;
-    <span style="color: #004fc0;">}</span>
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">img</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">max-width</span>: 100%;
+    <span style="color: #007f68;">vertical-align</span>: middle;
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #4a7d00;">.MathJax_Display</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">margin</span>: 0<span style="color: #1a870f;">!important</span>;
+    <span style="color: #007f68;">width</span>: $smaller<span style="color: #1a870f;">!important</span>;
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #1a870f;">@media</span> screen and <span style="color: #cf2f4f;">(</span>max-width: 1200px<span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #4a7d00;">img</span> <span style="color: #007f68;">{</span>
+        <span style="color: #007f68;">width</span>: 400px;
+    <span style="color: #007f68;">}</span>
+    <span style="color: #4a7d00;">.MathJax_Display</span> <span style="color: #007f68;">{</span>
+        <span style="color: #007f68;">margin</span>: 0<span style="color: #1a870f;">!important</span>;
+        <span style="color: #007f68;">width</span>: $smaller<span style="color: #1a870f;">!important</span>;
+    <span style="color: #007f68;">}</span>
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.org-src-container</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">font-size</span>: 14px;
-    <span style="color: #004fc0;">outline</span>: 2px dashed <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-    <span style="color: #004fc0;">outline-offset</span>: 10px;
-    <span style="color: #004fc0;">position</span>: relative;
+<span style="color: #4a7d00;">.org-src-container</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">font-size</span>: 14px;
+    <span style="color: #007f68;">outline</span>: 2px dashed <span style="color: #000000; background-color: #ccc;">#ccc</span>;
+    <span style="color: #007f68;">outline-offset</span>: 10px;
+    <span style="color: #007f68;">position</span>: relative;
 
-<span style="color: #007a85;">}</span>
-<span style="color: #00845f;">.org-src-container&gt;pre</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">overflow</span>: auto;
-    <span style="color: #004fc0;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
-<span style="color: #007a85;">}</span>
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #4a7d00;">.org-src-container&gt;pre</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">overflow</span>: auto;
+    <span style="color: #007f68;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.org-src-container&gt;pre:before</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">display</span>: block;
-    <span style="color: #004fc0;">position</span>: absolute;
-    <span style="color: #004fc0;">background-color</span>: <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
-    <span style="color: #004fc0;">top</span>: 0;
-    <span style="color: #004fc0;">right</span>: 0;
-    <span style="color: #004fc0;">padding</span>: 0 0.5em;
-    <span style="color: #004fc0;">border-bottom-left-radius</span>: 8px;
-    <span style="color: #004fc0;">border</span>: 0;
-    <span style="color: #004fc0;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
-    <span style="color: #004fc0;">font-size</span>: $code-size;
+<span style="color: #4a7d00;">.org-src-container&gt;pre:before</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">display</span>: block;
+    <span style="color: #007f68;">position</span>: absolute;
+    <span style="color: #007f68;">background-color</span>: <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
+    <span style="color: #007f68;">top</span>: 0;
+    <span style="color: #007f68;">right</span>: 0;
+    <span style="color: #007f68;">padding</span>: 0 0.5em;
+    <span style="color: #007f68;">border-bottom-left-radius</span>: 8px;
+    <span style="color: #007f68;">border</span>: 0;
+    <span style="color: #007f68;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
+    <span style="color: #007f68;">font-size</span>: $code-size;
 
-<span style="color: #007a85;">}</span>
-<span style="color: #00845f;">pre</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">overflow</span>: auto;
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #4a7d00;">pre</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">overflow</span>: auto;
 
-<span style="color: #007a85;">}</span>
-<span style="color: #00845f;">.example</span><span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">font-size</span>: 14px;
-    <span style="color: #004fc0;">outline</span>: 2px dashed <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-    <span style="color: #004fc0;">outline-offset</span>: 10px;
-    <span style="color: #004fc0;">position</span>: relative;
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #4a7d00;">.example</span><span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">font-size</span>: 14px;
+    <span style="color: #007f68;">outline</span>: 2px dashed <span style="color: #000000; background-color: #ccc;">#ccc</span>;
+    <span style="color: #007f68;">outline-offset</span>: 10px;
+    <span style="color: #007f68;">position</span>: relative;
     
-<span style="color: #007a85;">}</span>
-<span style="color: #00845f;">.example::before</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">content</span>: <span style="color: #4244ef;">"Results"</span>;
-<span style="color: #007a85;">}</span>
-<span style="color: #00845f;">pre:before</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">display</span>: block;
-    <span style="color: #004fc0;">position</span>: absolute;
-    <span style="color: #004fc0;">background-color</span>: <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
-    <span style="color: #004fc0;">top</span>: 0;
-    <span style="color: #004fc0;">right</span>: 0;
-    <span style="color: #004fc0;">padding</span>: 0 0.5em;
-    <span style="color: #004fc0;">border-bottom-left-radius</span>: 8px;
-    <span style="color: #004fc0;">border</span>: 0;
-    <span style="color: #004fc0;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
-    <span style="color: #004fc0;">font-size</span>: $code-size;
-<span style="color: #007a85;">}</span>
-<span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">.org-src-container::before {</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">content: "Copy";</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">position: absolute;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">top: 5px;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">right: 5px;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">padding: 5px;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">background-color: #ccc;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">color: #fff;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">border-radius: 3px;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/*     </span><span style="color: #7a5f2f;">cursor: pointer;</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">}</span><span style="color: #7a5f2f;"> */</span>
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #4a7d00;">.example::before</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">content</span>: <span style="color: #b6540f;">"Results"</span>;
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #4a7d00;">pre:before</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">display</span>: block;
+    <span style="color: #007f68;">position</span>: absolute;
+    <span style="color: #007f68;">background-color</span>: <span style="color: #000000; background-color: #b3b3b3;">#b3b3b3</span>;
+    <span style="color: #007f68;">top</span>: 0;
+    <span style="color: #007f68;">right</span>: 0;
+    <span style="color: #007f68;">padding</span>: 0 0.5em;
+    <span style="color: #007f68;">border-bottom-left-radius</span>: 8px;
+    <span style="color: #007f68;">border</span>: 0;
+    <span style="color: #007f68;">color</span>: <span style="color: #000000; background-color: #ffffff;">white</span>;
+    <span style="color: #007f68;">font-size</span>: $code-size;
+<span style="color: #cf2f4f;">}</span>
+<span style="color: #876450;">/* </span><span style="color: #876450;">.org-src-container::before {</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">content: "Copy";</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">position: absolute;</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">top: 5px;</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">right: 5px;</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">padding: 5px;</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">background-color: #ccc;</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">color: #fff;</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">border-radius: 3px;</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/*     </span><span style="color: #876450;">cursor: pointer;</span><span style="color: #876450;"> */</span>
+<span style="color: #876450;">/* </span><span style="color: #876450;">}</span><span style="color: #876450;"> */</span>
 
-<span style="color: #00845f;">code</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">font-size</span>: 16px;
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
-    <span style="color: #004fc0;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">code</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">font-size</span>: 16px;
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #427b58;">#427b58</span>;
+    <span style="color: #007f68;">font-family</span>: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.subtitle</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">text-align</span>: right;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.subtitle</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">text-align</span>: right;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">blockquote</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">border-left</span>: 3px solid <span style="color: #000000; background-color: #ccc;">#ccc</span>;
-    <span style="color: #004fc0;">padding-left</span>: 10px; <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">Optional: add some left padding for the content</span><span style="color: #7a5f2f;"> */</span>
-    <span style="color: #004fc0;">margin-inline-start</span>: 0px;
-    <span style="color: #004fc0;">margin-inline-end</span>: 0px;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">blockquote</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">border-left</span>: 3px solid <span style="color: #000000; background-color: #ccc;">#ccc</span>;
+    <span style="color: #007f68;">padding-left</span>: 10px; <span style="color: #876450;">/* </span><span style="color: #876450;">Optional: add some left padding for the content</span><span style="color: #876450;"> */</span>
+    <span style="color: #007f68;">margin-inline-start</span>: 0px;
+    <span style="color: #007f68;">margin-inline-end</span>: 0px;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.info</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">overflow</span>: hidden;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.info</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">overflow</span>: hidden;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.created</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">float</span>: right;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.created</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">float</span>: right;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.updated</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">float</span>: left;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.updated</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">float</span>: left;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">.org-ol</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">list-style-type</span>: decimal; <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">Set the list style type to decimal numbers</span><span style="color: #7a5f2f;"> */</span>
-    <span style="color: #7a5f2f;">/* </span><span style="color: #7a5f2f;">margin-left: 0.5em; /\* Add left margin to the list *\/</span><span style="color: #7a5f2f;"> */</span>
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">.org-ol</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">list-style-type</span>: decimal; <span style="color: #876450;">/* </span><span style="color: #876450;">Set the list style type to decimal numbers</span><span style="color: #876450;"> */</span>
+    <span style="color: #876450;">/* </span><span style="color: #876450;">margin-left: 0.5em; /\* Add left margin to the list *\/</span><span style="color: #876450;"> */</span>
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">b</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">color</span>: <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">b</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">color</span>: <span style="color: #ffffff; background-color: #9d0006;">#9d0006</span>;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">#footnotes</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">position</span>: fixed;
-    <span style="color: #004fc0;">left</span>: auto;
-    <span style="color: #004fc0;">right</span>: 0;
-    <span style="color: #004fc0;">top</span>: 105px;
-    <span style="color: #004fc0;">bottom</span>: 0;
-    <span style="color: #004fc0;">width</span>: 20%;
-    <span style="color: #004fc0;">padding</span>: 10px;
-    <span style="color: #004fc0;">overflow</span>: auto;
-    <span style="color: #004fc0;">font-size</span>: 14px;
-    <span style="color: #004fc0;">z-index</span>: 9999;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">#footnotes</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">position</span>: fixed;
+    <span style="color: #007f68;">left</span>: auto;
+    <span style="color: #007f68;">right</span>: 0;
+    <span style="color: #007f68;">top</span>: 105px;
+    <span style="color: #007f68;">bottom</span>: 0;
+    <span style="color: #007f68;">width</span>: 20%;
+    <span style="color: #007f68;">padding</span>: 10px;
+    <span style="color: #007f68;">overflow</span>: auto;
+    <span style="color: #007f68;">font-size</span>: 14px;
+    <span style="color: #007f68;">z-index</span>: 9999;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #00845f;">#footnotes h2</span> <span style="color: #007a85;">{</span>
-    <span style="color: #004fc0;">display</span>: none;
-<span style="color: #007a85;">}</span>
+<span style="color: #4a7d00;">#footnotes h2</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #007f68;">display</span>: none;
+<span style="color: #cf2f4f;">}</span>
 
-<span style="color: #1f6fbf;">@media</span> screen and <span style="color: #007a85;">(</span>max-width: 1200px<span style="color: #007a85;">)</span> <span style="color: #007a85;">{</span>
-    <span style="color: #00845f;">#footnotes</span> <span style="color: #004fc0;">{</span>
-        <span style="color: #004fc0;">position</span>: static;
-        <span style="color: #004fc0;">left</span>: 0;
-        <span style="color: #004fc0;">right</span>: 0;
-        <span style="color: #004fc0;">bottom</span>: 0;
-        <span style="color: #004fc0;">width</span>: 100%;
-        <span style="color: #004fc0;">max-height</span>: 30%;
-        <span style="color: #004fc0;">overflow</span>: auto;
-        <span style="color: #004fc0;">padding</span>: 10px;
-        <span style="color: #004fc0;">font-size</span>: 14px;
-        <span style="color: #004fc0;">z-index</span>: 9999;
-    <span style="color: #004fc0;">}</span>
-<span style="color: #007a85;">}</span>
+<span style="color: #1a870f;">@media</span> screen and <span style="color: #cf2f4f;">(</span>max-width: 1200px<span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">{</span>
+    <span style="color: #4a7d00;">#footnotes</span> <span style="color: #007f68;">{</span>
+        <span style="color: #007f68;">position</span>: static;
+        <span style="color: #007f68;">left</span>: 0;
+        <span style="color: #007f68;">right</span>: 0;
+        <span style="color: #007f68;">bottom</span>: 0;
+        <span style="color: #007f68;">width</span>: 100%;
+        <span style="color: #007f68;">max-height</span>: 30%;
+        <span style="color: #007f68;">overflow</span>: auto;
+        <span style="color: #007f68;">padding</span>: 10px;
+        <span style="color: #007f68;">font-size</span>: 14px;
+        <span style="color: #007f68;">z-index</span>: 9999;
+    <span style="color: #007f68;">}</span>
+<span style="color: #cf2f4f;">}</span>
 </code></pre>
 </div>
 </div>

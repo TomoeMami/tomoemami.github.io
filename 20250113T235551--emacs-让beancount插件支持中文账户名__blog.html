@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-21 周五 23:07 -->
+<!-- 2026-01-05 周一 15:41 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-让beancount插件支持中文账户名</title>
@@ -401,73 +401,73 @@ beancoun使用时，只需要确保首项固定大类和次项以英文/数字�
 使用​<code>package</code>​安装​<code>beancount.el</code>​，然后在​<code>use-package</code>​中如下配置（包含了指定本地账户文件）：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> beancount
-  <span style="color: #ba35af;">:demand</span> t
-  <span style="color: #ba35af;">:mode</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #4250ef;">"\\.bean</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(?:</span><span style="color: #4250ef;">count</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">?\\'"</span> . beancount-mode<span style="color: #4f54aa;">)</span>
-  <span style="color: #ba35af;">:bind</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #ba35af;">:map</span> beancount-mode-map
-        <span style="color: #ba35af;">(</span><span style="color: #4250ef;">"C-c C-d"</span> . beancount-insert-chosen-date<span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span><span style="color: #4250ef;">"C-c C-w"</span> . beancount-refile-to-eof<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">("\C-c TAB" . beancount-insert-account)
-</span>  <span style="color: #ba35af;">:config</span>
-  <span style="color: #a65f6a;">;;</span><span style="color: #a65f6a;">&#20026;&#36134;&#25143;&#21517;&#21305;&#37197;&#28155;&#21152;&#20013;&#25991;&#25903;&#25345;
-</span>  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> beancount-account-chars <span style="color: #4250ef;">"[:alnum:]-_\\cC:"</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#21516;&#19978;
-</span>  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> beancount-account-regexp
-        <span style="color: #ba35af;">(</span>concat <span style="color: #1f77bb;">(</span>regexp-opt beancount-account-categories<span style="color: #1f77bb;">)</span>
-                <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(?:</span><span style="color: #4250ef;">:[[:alnum:]-_\\cC]+</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">+"</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#29616;&#22312;&#21487;&#20197;&#21305;&#37197;&#21152;&#20943;&#20056;&#21644;&#25324;&#21495;&#65292;&#20294;&#26159;&#19981;&#25903;&#25345;&#21315;&#20998;&#20301;&#36887;&#21495;
-</span>  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> beancount-number-regexp <span style="color: #4250ef;">"[-]?(?</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(?:</span><span style="color: #4250ef;">[-+*]?[0-9]+\\.?[0-9]*</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">+)?"</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#20197;&#19979;&#26159;&#19968;&#27425;&#24615;&#23450;&#20041;&#22909;&#30340;&#21464;&#37327;&#65292;&#38656;&#35201;&#37325;&#26032;&#36733;&#20837;
-</span>  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> beancount-posting-regexp
-        <span style="color: #ba35af;">(</span>concat <span style="color: #4250ef;">"^\\s-+"</span>
-                <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(</span><span style="color: #4250ef;">"</span> beancount-account-regexp <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">"</span>
-                <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(?:</span><span style="color: #4250ef;">\\s-+</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(</span><span style="color: #4250ef;">"</span> beancount-number-regexp <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">"</span>
-                <span style="color: #4250ef;">"\\s-+</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(</span><span style="color: #4250ef;">"</span> beancount-currency-regexp <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">?"</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> beancount-balance-regexp
-        <span style="color: #ba35af;">(</span>concat <span style="color: #4250ef;">"^"</span> beancount-date-regexp <span style="color: #4250ef;">"\\s-+balance\\s-+"</span>
-                <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(</span><span style="color: #4250ef;">"</span> beancount-account-regexp <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">\\s-+"</span>
-                <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(</span><span style="color: #4250ef;">"</span> beancount-number-regexp <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">\\s-+</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(</span><span style="color: #4250ef;">"</span> beancount-currency-regexp <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">"</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> beancount-font-lock-keywords
-        `<span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>,beancount-transaction-regexp <span style="color: #b65050;">(</span>1 'beancount-date<span style="color: #b65050;">)</span>
-                                         <span style="color: #b65050;">(</span>2 <span style="color: #6052cf;">(</span>beancount-face-by-state <span style="color: #d51272;">(</span>match-string 2<span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span> t<span style="color: #b65050;">)</span>
-                                         <span style="color: #b65050;">(</span>3 <span style="color: #6052cf;">(</span>beancount-face-by-state <span style="color: #d51272;">(</span>match-string 2<span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span> t<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
-          <span style="color: #1f77bb;">(</span>,beancount-posting-regexp <span style="color: #b65050;">(</span>1 'beancount-account<span style="color: #b65050;">)</span>
-                                     <span style="color: #b65050;">(</span>2 'beancount-amount nil <span style="color: #ba35af;">:lax</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
-          <span style="color: #1f77bb;">(</span>,beancount-metadata-regexp <span style="color: #b65050;">(</span>1 'beancount-metadata<span style="color: #b65050;">)</span>
-                                      <span style="color: #b65050;">(</span>2 'beancount-metadata t<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
-          <span style="color: #1f77bb;">(</span>,beancount-directive-regexp <span style="color: #b65050;">(</span>1 'beancount-directive<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
-          <span style="color: #1f77bb;">(</span>,beancount-timestamped-directive-regexp <span style="color: #b65050;">(</span>1 'beancount-date<span style="color: #b65050;">)</span>
-                                                   <span style="color: #b65050;">(</span>2 'beancount-directive<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
-          <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Fontify section headers when composed with outline-minor-mode.
-</span>          <span style="color: #1f77bb;">(</span>,<span style="color: #b65050;">(</span>concat <span style="color: #4250ef;">"^</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">(</span><span style="color: #4250ef;">"</span> beancount-outline-regexp <span style="color: #4250ef;">"</span><span style="color: #ba35af;">\\</span><span style="color: #ba35af;">)</span><span style="color: #4250ef;">.*"</span><span style="color: #b65050;">)</span> <span style="color: #b65050;">(</span>0 <span style="color: #6052cf;">(</span>beancount-outline-face<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
-          <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Tags and links.
-</span>          <span style="color: #1f77bb;">(</span>,<span style="color: #b65050;">(</span>concat <span style="color: #4250ef;">"\\#["</span> beancount-tag-chars <span style="color: #4250ef;">"]*"</span><span style="color: #b65050;">)</span> . 'beancount-tag<span style="color: #1f77bb;">)</span>
-          <span style="color: #1f77bb;">(</span>,<span style="color: #b65050;">(</span>concat <span style="color: #4250ef;">"\\^["</span> beancount-tag-chars <span style="color: #4250ef;">"]*"</span><span style="color: #b65050;">)</span> . 'beancount-link<span style="color: #1f77bb;">)</span>
-          <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Accounts not covered by previous rules.
-</span>          <span style="color: #1f77bb;">(</span>,beancount-account-regexp . 'beancount-account<span style="color: #1f77bb;">)</span>
-          <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Number followed by currency not covered by previous rules.
-</span>          <span style="color: #1f77bb;">(</span>,<span style="color: #b65050;">(</span>concat beancount-number-regexp <span style="color: #4250ef;">"\\s-+"</span> beancount-currency-regexp<span style="color: #b65050;">)</span> . 'beancount-amount<span style="color: #1f77bb;">)</span>
-          <span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">defvar</span> <span style="color: #1f77bb;">beancount-account-files</span> nil
-    <span style="color: #506fa0;">"List of account files"</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">beancount-collect-pos-alist</span> <span style="color: #ba35af;">(</span>regexp n<span style="color: #ba35af;">)</span>
-    <span style="color: #506fa0;">"Return a list of conses mapping matches of REGEXP group N in the
+<pre class="src src-elisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">use-package</span> beancount
+  <span style="color: #1a870f;">:demand</span> t
+  <span style="color: #1a870f;">:mode</span>
+  <span style="color: #007f68;">(</span><span style="color: #b6540f;">"\\.bean</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(?:</span><span style="color: #b6540f;">count</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">?\\'"</span> . beancount-mode<span style="color: #007f68;">)</span>
+  <span style="color: #1a870f;">:bind</span>
+  <span style="color: #007f68;">(</span><span style="color: #1a870f;">:map</span> beancount-mode-map
+        <span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"C-c C-d"</span> . beancount-insert-chosen-date<span style="color: #cb26a0;">)</span>
+        <span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"C-c C-w"</span> . beancount-refile-to-eof<span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span>
+  <span style="color: #876450;">;; </span><span style="color: #876450;">("\C-c TAB" . beancount-insert-account)
+</span>  <span style="color: #1a870f;">:config</span>
+  <span style="color: #876450;">;;</span><span style="color: #876450;">&#20026;&#36134;&#25143;&#21517;&#21305;&#37197;&#28155;&#21152;&#20013;&#25991;&#25903;&#25345;
+</span>  <span style="color: #007f68;">(</span><span style="color: #007f68;">setq</span> beancount-account-chars <span style="color: #b6540f;">"[:alnum:]-_\\cC:"</span><span style="color: #007f68;">)</span>
+  <span style="color: #876450;">;; </span><span style="color: #876450;">&#21516;&#19978;
+</span>  <span style="color: #007f68;">(</span><span style="color: #007f68;">setq</span> beancount-account-regexp
+        <span style="color: #cb26a0;">(</span>concat <span style="color: #5f5fdf;">(</span>regexp-opt beancount-account-categories<span style="color: #5f5fdf;">)</span>
+                <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(?:</span><span style="color: #b6540f;">:[[:alnum:]-_\\cC]+</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">+"</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span>
+  <span style="color: #876450;">;; </span><span style="color: #876450;">&#29616;&#22312;&#21487;&#20197;&#21305;&#37197;&#21152;&#20943;&#20056;&#21644;&#25324;&#21495;&#65292;&#20294;&#26159;&#19981;&#25903;&#25345;&#21315;&#20998;&#20301;&#36887;&#21495;
+</span>  <span style="color: #007f68;">(</span><span style="color: #007f68;">setq</span> beancount-number-regexp <span style="color: #b6540f;">"[-]?(?</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(?:</span><span style="color: #b6540f;">[-+*]?[0-9]+\\.?[0-9]*</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">+)?"</span><span style="color: #007f68;">)</span>
+  <span style="color: #876450;">;; </span><span style="color: #876450;">&#20197;&#19979;&#26159;&#19968;&#27425;&#24615;&#23450;&#20041;&#22909;&#30340;&#21464;&#37327;&#65292;&#38656;&#35201;&#37325;&#26032;&#36733;&#20837;
+</span>  <span style="color: #007f68;">(</span><span style="color: #007f68;">setq</span> beancount-posting-regexp
+        <span style="color: #cb26a0;">(</span>concat <span style="color: #b6540f;">"^\\s-+"</span>
+                <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"</span> beancount-account-regexp <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">"</span>
+                <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(?:</span><span style="color: #b6540f;">\\s-+</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"</span> beancount-number-regexp <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">"</span>
+                <span style="color: #b6540f;">"\\s-+</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"</span> beancount-currency-regexp <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">?"</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">setq</span> beancount-balance-regexp
+        <span style="color: #cb26a0;">(</span>concat <span style="color: #b6540f;">"^"</span> beancount-date-regexp <span style="color: #b6540f;">"\\s-+balance\\s-+"</span>
+                <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"</span> beancount-account-regexp <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">\\s-+"</span>
+                <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"</span> beancount-number-regexp <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">\\s-+</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"</span> beancount-currency-regexp <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">"</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">setq</span> beancount-font-lock-keywords
+        `<span style="color: #cb26a0;">(</span><span style="color: #5f5fdf;">(</span>,beancount-transaction-regexp <span style="color: #b6540f;">(</span>1 'beancount-date<span style="color: #b6540f;">)</span>
+                                         <span style="color: #b6540f;">(</span>2 <span style="color: #1f6fbf;">(</span>beancount-face-by-state <span style="color: #d5206f;">(</span>match-string 2<span style="color: #d5206f;">)</span><span style="color: #1f6fbf;">)</span> t<span style="color: #b6540f;">)</span>
+                                         <span style="color: #b6540f;">(</span>3 <span style="color: #1f6fbf;">(</span>beancount-face-by-state <span style="color: #d5206f;">(</span>match-string 2<span style="color: #d5206f;">)</span><span style="color: #1f6fbf;">)</span> t<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span>
+          <span style="color: #5f5fdf;">(</span>,beancount-posting-regexp <span style="color: #b6540f;">(</span>1 'beancount-account<span style="color: #b6540f;">)</span>
+                                     <span style="color: #b6540f;">(</span>2 'beancount-amount nil <span style="color: #1a870f;">:lax</span><span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span>
+          <span style="color: #5f5fdf;">(</span>,beancount-metadata-regexp <span style="color: #b6540f;">(</span>1 'beancount-metadata<span style="color: #b6540f;">)</span>
+                                      <span style="color: #b6540f;">(</span>2 'beancount-metadata t<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span>
+          <span style="color: #5f5fdf;">(</span>,beancount-directive-regexp <span style="color: #b6540f;">(</span>1 'beancount-directive<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span>
+          <span style="color: #5f5fdf;">(</span>,beancount-timestamped-directive-regexp <span style="color: #b6540f;">(</span>1 'beancount-date<span style="color: #b6540f;">)</span>
+                                                   <span style="color: #b6540f;">(</span>2 'beancount-directive<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span>
+          <span style="color: #876450;">;; </span><span style="color: #876450;">Fontify section headers when composed with outline-minor-mode.
+</span>          <span style="color: #5f5fdf;">(</span>,<span style="color: #b6540f;">(</span>concat <span style="color: #b6540f;">"^</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"</span> beancount-outline-regexp <span style="color: #b6540f;">"</span><span style="color: #1f6fbf;">\\</span><span style="color: #cb26a0;">)</span><span style="color: #b6540f;">.*"</span><span style="color: #b6540f;">)</span> <span style="color: #b6540f;">(</span>0 <span style="color: #1f6fbf;">(</span>beancount-outline-face<span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span>
+          <span style="color: #876450;">;; </span><span style="color: #876450;">Tags and links.
+</span>          <span style="color: #5f5fdf;">(</span>,<span style="color: #b6540f;">(</span>concat <span style="color: #b6540f;">"\\#["</span> beancount-tag-chars <span style="color: #b6540f;">"]*"</span><span style="color: #b6540f;">)</span> . 'beancount-tag<span style="color: #5f5fdf;">)</span>
+          <span style="color: #5f5fdf;">(</span>,<span style="color: #b6540f;">(</span>concat <span style="color: #b6540f;">"\\^["</span> beancount-tag-chars <span style="color: #b6540f;">"]*"</span><span style="color: #b6540f;">)</span> . 'beancount-link<span style="color: #5f5fdf;">)</span>
+          <span style="color: #876450;">;; </span><span style="color: #876450;">Accounts not covered by previous rules.
+</span>          <span style="color: #5f5fdf;">(</span>,beancount-account-regexp . 'beancount-account<span style="color: #5f5fdf;">)</span>
+          <span style="color: #876450;">;; </span><span style="color: #876450;">Number followed by currency not covered by previous rules.
+</span>          <span style="color: #5f5fdf;">(</span>,<span style="color: #b6540f;">(</span>concat beancount-number-regexp <span style="color: #b6540f;">"\\s-+"</span> beancount-currency-regexp<span style="color: #b6540f;">)</span> . 'beancount-amount<span style="color: #5f5fdf;">)</span>
+          <span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">defvar</span> <span style="color: #1f6fbf;">beancount-account-files</span> nil
+    <span style="color: #a04360;">"List of account files"</span><span style="color: #007f68;">)</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">beancount-collect-pos-alist</span> <span style="color: #cb26a0;">(</span>regexp n<span style="color: #cb26a0;">)</span>
+    <span style="color: #a04360;">"Return a list of conses mapping matches of REGEXP group N in the
   current buffer to a position of the match beginning."</span>
-    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">let</span> <span style="color: #1f77bb;">(</span><span style="color: #b65050;">(</span>result<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
-      <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">collect accounts from files
-</span>      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">save-excursion</span>
-        <span style="color: #b65050;">(</span><span style="color: #6052cf;">dolist</span> <span style="color: #6052cf;">(</span>f beancount-account-files<span style="color: #6052cf;">)</span>
-          <span style="color: #6052cf;">(</span><span style="color: #6052cf;">with-current-buffer</span> <span style="color: #d51272;">(</span>find-file-noselect f<span style="color: #d51272;">)</span>
-            <span style="color: #d51272;">(</span>goto-char <span style="color: #008858;">(</span>point-min<span style="color: #008858;">)</span><span style="color: #d51272;">)</span>
-            <span style="color: #d51272;">(</span><span style="color: #6052cf;">while</span> <span style="color: #008858;">(</span>re-search-forward regexp nil t<span style="color: #008858;">)</span>
-              <span style="color: #008858;">(</span><span style="color: #6052cf;">push</span> <span style="color: #a45f22;">(</span>cons <span style="color: #008858;">(</span>match-string-no-properties n<span style="color: #008858;">)</span> <span style="color: #008858;">(</span>match-beginning 0<span style="color: #008858;">)</span><span style="color: #a45f22;">)</span>
-                    result<span style="color: #008858;">)</span><span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
-        <span style="color: #b65050;">(</span>nreverse result<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">&#25351;&#23450;&#36134;&#25143;&#34917;&#20840;&#25991;&#20214;&#36335;&#24452;
-</span>  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq</span> beancount-account-files '<span style="color: #ba35af;">(</span><span style="color: #4250ef;">"~/.emacs.d/org/bill/accounts.bean"</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #008858;">)</span>
+    <span style="color: #cb26a0;">(</span><span style="color: #007f68;">let</span> <span style="color: #5f5fdf;">(</span><span style="color: #b6540f;">(</span>result<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span>
+      <span style="color: #876450;">;; </span><span style="color: #876450;">collect accounts from files
+</span>      <span style="color: #5f5fdf;">(</span><span style="color: #007f68;">save-excursion</span>
+        <span style="color: #b6540f;">(</span><span style="color: #007f68;">dolist</span> <span style="color: #1f6fbf;">(</span>f beancount-account-files<span style="color: #1f6fbf;">)</span>
+          <span style="color: #1f6fbf;">(</span><span style="color: #007f68;">with-current-buffer</span> <span style="color: #d5206f;">(</span>find-file-noselect f<span style="color: #d5206f;">)</span>
+            <span style="color: #d5206f;">(</span>goto-char <span style="color: #9435b4;">(</span>point-min<span style="color: #9435b4;">)</span><span style="color: #d5206f;">)</span>
+            <span style="color: #d5206f;">(</span><span style="color: #007f68;">while</span> <span style="color: #9435b4;">(</span>re-search-forward regexp nil t<span style="color: #9435b4;">)</span>
+              <span style="color: #9435b4;">(</span><span style="color: #007f68;">push</span> <span style="color: #ae5a30;">(</span>cons <span style="color: #cf2f4f;">(</span>match-string-no-properties n<span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">(</span>match-beginning 0<span style="color: #cf2f4f;">)</span><span style="color: #ae5a30;">)</span>
+                    result<span style="color: #9435b4;">)</span><span style="color: #d5206f;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span>
+        <span style="color: #b6540f;">(</span>nreverse result<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span>
+  <span style="color: #876450;">;; </span><span style="color: #876450;">&#25351;&#23450;&#36134;&#25143;&#34917;&#20840;&#25991;&#20214;&#36335;&#24452;
+</span>  <span style="color: #007f68;">(</span><span style="color: #007f68;">setq</span> beancount-account-files '<span style="color: #cb26a0;">(</span><span style="color: #b6540f;">"~/.emacs.d/org/bill/accounts.bean"</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span>
+  <span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div>
 

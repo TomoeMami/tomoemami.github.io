@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2025-11-21 周五 23:07 -->
+<!-- 2026-01-05 周一 15:41 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-启用org-roam中的unlinked-section</title>
@@ -392,85 +392,85 @@ b {
 </header><p>
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2024-09-04T16:02:00">[2024-09-04 周三 16:02]</time></span><br>
 </p>
-<div id="outline-container-org97a114f" class="outline-2">
-<h2 id="org97a114f"><span class="section-number-2">1.</span> 启用unlinked-section</h2>
+<div id="outline-container-org3c27641" class="outline-2">
+<h2 id="org3c27641"><span class="section-number-2">1.</span> 启用unlinked-section</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在 <code>org-roam</code> 中进行如下设置：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">use-package</span> org-roam
-    <span style="color: #ba35af;">:custom</span>
-  <span style="color: #4f54aa;">(</span>org-roam-mode-sections
-   <span style="color: #ba35af;">(</span>list #'org-roam-backlinks-section
-         <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">#'org-roam-reflinks-section
+<pre class="src src-emacs-lisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">use-package</span> org-roam
+    <span style="color: #1a870f;">:custom</span>
+  <span style="color: #007f68;">(</span>org-roam-mode-sections
+   <span style="color: #cb26a0;">(</span>list #'org-roam-backlinks-section
+         <span style="color: #876450;">;; </span><span style="color: #876450;">#'org-roam-reflinks-section
 </span>         #'org-roam-unlinked-references-section
-         <span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-  <span style="color: #008858;">)</span>
+         <span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span>
+  <span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgdb08f9e" class="outline-2">
-<h2 id="orgdb08f9e"><span class="section-number-2">2.</span> 覆盖内置相关函数</h2>
+<div id="outline-container-org4e9e85c" class="outline-2">
+<h2 id="org4e9e85c"><span class="section-number-2">2.</span> 覆盖内置相关函数</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">org-roam-unlinked-references--rg-command</span> <span style="color: #4f54aa;">(</span>titles<span style="color: #4f54aa;">)</span>
-  <span style="color: #506fa0;">"Return the ripgrep command searching for TITLES."</span>
-  <span style="color: #4f54aa;">(</span>concat <span style="color: #4250ef;">"rg --follow --only-matching --vimgrep --pcre2 --ignore-case "</span>
-          <span style="color: #ba35af;">(</span>mapconcat <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">lambda</span> <span style="color: #b65050;">(</span>glob<span style="color: #b65050;">)</span> <span style="color: #b65050;">(</span>concat <span style="color: #4250ef;">"--glob "</span> glob<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
-                     <span style="color: #1f77bb;">(</span>org-roam--list-files-search-globs org-roam-file-extensions<span style="color: #1f77bb;">)</span>
-                     <span style="color: #4250ef;">" "</span><span style="color: #ba35af;">)</span>
-          <span style="color: #ba35af;">(</span>format <span style="color: #4250ef;">" \"%s\" "</span>
-                  <span style="color: #1f77bb;">(</span>mapconcat <span style="color: #b65050;">(</span><span style="color: #6052cf;">lambda</span> <span style="color: #6052cf;">(</span>title<span style="color: #6052cf;">)</span>
-                               <span style="color: #6052cf;">(</span>format <span style="color: #4250ef;">"(%s)"</span> title<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
-                             titles <span style="color: #4250ef;">"|"</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-          <span style="color: #ba35af;">(</span>shell-quote-argument org-roam-directory<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">org-roam-unlinked-references--rg-command</span> <span style="color: #007f68;">(</span>titles<span style="color: #007f68;">)</span>
+  <span style="color: #a04360;">"Return the ripgrep command searching for TITLES."</span>
+  <span style="color: #007f68;">(</span>concat <span style="color: #b6540f;">"rg --follow --only-matching --vimgrep --pcre2 --ignore-case "</span>
+          <span style="color: #cb26a0;">(</span>mapconcat <span style="color: #5f5fdf;">(</span><span style="color: #007f68;">lambda</span> <span style="color: #b6540f;">(</span>glob<span style="color: #b6540f;">)</span> <span style="color: #b6540f;">(</span>concat <span style="color: #b6540f;">"--glob "</span> glob<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span>
+                     <span style="color: #5f5fdf;">(</span>org-roam--list-files-search-globs org-roam-file-extensions<span style="color: #5f5fdf;">)</span>
+                     <span style="color: #b6540f;">" "</span><span style="color: #cb26a0;">)</span>
+          <span style="color: #cb26a0;">(</span>format <span style="color: #b6540f;">" \"%s\" "</span>
+                  <span style="color: #5f5fdf;">(</span>mapconcat <span style="color: #b6540f;">(</span><span style="color: #007f68;">lambda</span> <span style="color: #1f6fbf;">(</span>title<span style="color: #1f6fbf;">)</span>
+                               <span style="color: #1f6fbf;">(</span>format <span style="color: #b6540f;">"(%s)"</span> title<span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span>
+                             titles <span style="color: #b6540f;">"|"</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span>
+          <span style="color: #cb26a0;">(</span>shell-quote-argument org-roam-directory<span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
 
-<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">org-roam-unlinked-references-section</span> <span style="color: #4f54aa;">(</span>node<span style="color: #4f54aa;">)</span>
-  <span style="color: #506fa0;">"The unlinked references section for NODE.
+<span style="color: #cf2f4f;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">org-roam-unlinked-references-section</span> <span style="color: #007f68;">(</span>node<span style="color: #007f68;">)</span>
+  <span style="color: #a04360;">"The unlinked references section for NODE.
 References from FILE are excluded."</span>
-  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">when</span> <span style="color: #ba35af;">(</span><span style="color: #6052cf;">and</span> <span style="color: #1f77bb;">(</span>executable-find <span style="color: #4250ef;">"rg"</span><span style="color: #1f77bb;">)</span>
-             <span style="color: #1f77bb;">(</span>org-roam-node-title node<span style="color: #1f77bb;">)</span>
-             <span style="color: #1f77bb;">(</span>not <span style="color: #b65050;">(</span>string-match <span style="color: #4250ef;">"PCRE2 is not available"</span>
-                                <span style="color: #6052cf;">(</span>shell-command-to-string <span style="color: #4250ef;">"rg --pcre2-version"</span><span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
-    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">let*</span> <span style="color: #1f77bb;">(</span><span style="color: #b65050;">(</span>titles <span style="color: #6052cf;">(</span>cons <span style="color: #d51272;">(</span>org-roam-node-title node<span style="color: #d51272;">)</span>
-                         <span style="color: #d51272;">(</span>org-roam-node-aliases node<span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
-           <span style="color: #b65050;">(</span>rg-command <span style="color: #6052cf;">(</span>org-roam-unlinked-references--rg-command titles<span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
-           <span style="color: #b65050;">(</span>coding-system-for-read 'utf-8<span style="color: #b65050;">)</span>
-           <span style="color: #b65050;">(</span>results <span style="color: #6052cf;">(</span>split-string <span style="color: #d51272;">(</span>shell-command-to-string rg-command<span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
-           f row col match<span style="color: #1f77bb;">)</span>
-      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">magit-insert-section</span> <span style="color: #b65050;">(</span>unlinked-references<span style="color: #b65050;">)</span>
-        <span style="color: #b65050;">(</span><span style="color: #6052cf;">magit-insert-heading</span> <span style="color: #4250ef;">"Unlinked References:"</span><span style="color: #b65050;">)</span>
-        <span style="color: #b65050;">(</span><span style="color: #6052cf;">dolist</span> <span style="color: #6052cf;">(</span>line results<span style="color: #6052cf;">)</span>
-          <span style="color: #6052cf;">(</span><span style="color: #6052cf;">save-match-data</span>
-            <span style="color: #d51272;">(</span><span style="color: #6052cf;">when</span> <span style="color: #008858;">(</span>string-match org-roam-unlinked-references-result-re line<span style="color: #008858;">)</span>
-              <span style="color: #008858;">(</span><span style="color: #6052cf;">setq</span> f <span style="color: #a45f22;">(</span>match-string 1 line<span style="color: #a45f22;">)</span>
-                    row <span style="color: #a45f22;">(</span>string-to-number <span style="color: #008858;">(</span>match-string 2 line<span style="color: #008858;">)</span><span style="color: #a45f22;">)</span>
-                    col <span style="color: #a45f22;">(</span>string-to-number <span style="color: #008858;">(</span>match-string 3 line<span style="color: #008858;">)</span><span style="color: #a45f22;">)</span>
-                    match <span style="color: #a45f22;">(</span>match-string 4 line<span style="color: #a45f22;">)</span><span style="color: #008858;">)</span>
-              <span style="color: #008858;">(</span><span style="color: #6052cf;">when</span> <span style="color: #a45f22;">(</span><span style="color: #6052cf;">and</span> match
-                         <span style="color: #008858;">(</span>not <span style="color: #4f54aa;">(</span>file-equal-p <span style="color: #ba35af;">(</span>org-roam-node-file node<span style="color: #ba35af;">)</span> f<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
-                         <span style="color: #008858;">(</span>member <span style="color: #4f54aa;">(</span>downcase match<span style="color: #4f54aa;">)</span> <span style="color: #4f54aa;">(</span>mapcar #'downcase titles<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span><span style="color: #a45f22;">)</span>
-                <span style="color: #a45f22;">(</span><span style="color: #6052cf;">magit-insert-section</span> section <span style="color: #008858;">(</span>org-roam-grep-section<span style="color: #008858;">)</span>
-                  <span style="color: #008858;">(</span><span style="color: #6052cf;">oset</span> section file f<span style="color: #008858;">)</span>
-                  <span style="color: #008858;">(</span><span style="color: #6052cf;">oset</span> section row row<span style="color: #008858;">)</span>
-                  <span style="color: #008858;">(</span><span style="color: #6052cf;">oset</span> section col col<span style="color: #008858;">)</span>
-                  <span style="color: #008858;">(</span>insert <span style="color: #4f54aa;">(</span>propertize <span style="color: #ba35af;">(</span>format <span style="color: #4250ef;">"%s:%s:%s"</span>
-                                              <span style="color: #1f77bb;">(</span>truncate-string-to-width <span style="color: #b65050;">(</span>file-name-base f<span style="color: #b65050;">)</span> 15 nil nil t<span style="color: #1f77bb;">)</span>
-                                              row col<span style="color: #ba35af;">)</span> <span style="color: #b6532f;">'font-lock-face 'org-roam-dim</span><span style="color: #4f54aa;">)</span>
-                          <span style="color: #4250ef;">" "</span>
-                          <span style="color: #4f54aa;">(</span>org-roam-fontify-like-in-org-mode
-                           <span style="color: #ba35af;">(</span>org-roam-unlinked-references-preview-line f row<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
-                          <span style="color: #4250ef;">"\n"</span><span style="color: #008858;">)</span><span style="color: #a45f22;">)</span><span style="color: #008858;">)</span><span style="color: #d51272;">)</span><span style="color: #6052cf;">)</span><span style="color: #b65050;">)</span>
-        <span style="color: #b65050;">(</span>insert ?\n<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">when</span> <span style="color: #cb26a0;">(</span><span style="color: #007f68;">and</span> <span style="color: #5f5fdf;">(</span>executable-find <span style="color: #b6540f;">"rg"</span><span style="color: #5f5fdf;">)</span>
+             <span style="color: #5f5fdf;">(</span>org-roam-node-title node<span style="color: #5f5fdf;">)</span>
+             <span style="color: #5f5fdf;">(</span>not <span style="color: #b6540f;">(</span>string-match <span style="color: #b6540f;">"PCRE2 is not available"</span>
+                                <span style="color: #1f6fbf;">(</span>shell-command-to-string <span style="color: #b6540f;">"rg --pcre2-version"</span><span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span>
+    <span style="color: #cb26a0;">(</span><span style="color: #007f68;">let*</span> <span style="color: #5f5fdf;">(</span><span style="color: #b6540f;">(</span>titles <span style="color: #1f6fbf;">(</span>cons <span style="color: #d5206f;">(</span>org-roam-node-title node<span style="color: #d5206f;">)</span>
+                         <span style="color: #d5206f;">(</span>org-roam-node-aliases node<span style="color: #d5206f;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span>
+           <span style="color: #b6540f;">(</span>rg-command <span style="color: #1f6fbf;">(</span>org-roam-unlinked-references--rg-command titles<span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span>
+           <span style="color: #b6540f;">(</span>coding-system-for-read 'utf-8<span style="color: #b6540f;">)</span>
+           <span style="color: #b6540f;">(</span>results <span style="color: #1f6fbf;">(</span>split-string <span style="color: #d5206f;">(</span>shell-command-to-string rg-command<span style="color: #d5206f;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span>
+           f row col match<span style="color: #5f5fdf;">)</span>
+      <span style="color: #5f5fdf;">(</span><span style="color: #007f68;">magit-insert-section</span> <span style="color: #b6540f;">(</span>unlinked-references<span style="color: #b6540f;">)</span>
+        <span style="color: #b6540f;">(</span><span style="color: #007f68;">magit-insert-heading</span> <span style="color: #b6540f;">"Unlinked References:"</span><span style="color: #b6540f;">)</span>
+        <span style="color: #b6540f;">(</span><span style="color: #007f68;">dolist</span> <span style="color: #1f6fbf;">(</span>line results<span style="color: #1f6fbf;">)</span>
+          <span style="color: #1f6fbf;">(</span><span style="color: #007f68;">save-match-data</span>
+            <span style="color: #d5206f;">(</span><span style="color: #007f68;">when</span> <span style="color: #9435b4;">(</span>string-match org-roam-unlinked-references-result-re line<span style="color: #9435b4;">)</span>
+              <span style="color: #9435b4;">(</span><span style="color: #007f68;">setq</span> f <span style="color: #ae5a30;">(</span>match-string 1 line<span style="color: #ae5a30;">)</span>
+                    row <span style="color: #ae5a30;">(</span>string-to-number <span style="color: #cf2f4f;">(</span>match-string 2 line<span style="color: #cf2f4f;">)</span><span style="color: #ae5a30;">)</span>
+                    col <span style="color: #ae5a30;">(</span>string-to-number <span style="color: #cf2f4f;">(</span>match-string 3 line<span style="color: #cf2f4f;">)</span><span style="color: #ae5a30;">)</span>
+                    match <span style="color: #ae5a30;">(</span>match-string 4 line<span style="color: #ae5a30;">)</span><span style="color: #9435b4;">)</span>
+              <span style="color: #9435b4;">(</span><span style="color: #007f68;">when</span> <span style="color: #ae5a30;">(</span><span style="color: #007f68;">and</span> match
+                         <span style="color: #cf2f4f;">(</span>not <span style="color: #007f68;">(</span>file-equal-p <span style="color: #cb26a0;">(</span>org-roam-node-file node<span style="color: #cb26a0;">)</span> f<span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
+                         <span style="color: #cf2f4f;">(</span>member <span style="color: #007f68;">(</span>downcase match<span style="color: #007f68;">)</span> <span style="color: #007f68;">(</span>mapcar #'downcase titles<span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #ae5a30;">)</span>
+                <span style="color: #ae5a30;">(</span><span style="color: #007f68;">magit-insert-section</span> section <span style="color: #cf2f4f;">(</span>org-roam-grep-section<span style="color: #cf2f4f;">)</span>
+                  <span style="color: #cf2f4f;">(</span><span style="color: #007f68;">oset</span> section file f<span style="color: #cf2f4f;">)</span>
+                  <span style="color: #cf2f4f;">(</span><span style="color: #007f68;">oset</span> section row row<span style="color: #cf2f4f;">)</span>
+                  <span style="color: #cf2f4f;">(</span><span style="color: #007f68;">oset</span> section col col<span style="color: #cf2f4f;">)</span>
+                  <span style="color: #cf2f4f;">(</span>insert <span style="color: #007f68;">(</span>propertize <span style="color: #cb26a0;">(</span>format <span style="color: #b6540f;">"%s:%s:%s"</span>
+                                              <span style="color: #5f5fdf;">(</span>truncate-string-to-width <span style="color: #b6540f;">(</span>file-name-base f<span style="color: #b6540f;">)</span> 15 nil nil t<span style="color: #5f5fdf;">)</span>
+                                              row col<span style="color: #cb26a0;">)</span> <span style="color: #a45f22;">'font-lock-face 'org-roam-dim</span><span style="color: #007f68;">)</span>
+                          <span style="color: #b6540f;">" "</span>
+                          <span style="color: #007f68;">(</span>org-roam-fontify-like-in-org-mode
+                           <span style="color: #cb26a0;">(</span>org-roam-unlinked-references-preview-line f row<span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span>
+                          <span style="color: #b6540f;">"\n"</span><span style="color: #cf2f4f;">)</span><span style="color: #ae5a30;">)</span><span style="color: #9435b4;">)</span><span style="color: #d5206f;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span>
+        <span style="color: #b6540f;">(</span>insert ?\n<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgda7c8db" class="outline-2">
-<h2 id="orgda7c8db"><span class="section-number-2">3.</span> 提示</h2>
+<div id="outline-container-org77ceb8f" class="outline-2">
+<h2 id="org77ceb8f"><span class="section-number-2">3.</span> 提示</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 因为取消了 <code>shell-quote-argument</code> ，可能会导致形如 <code>org-roam</code> 这种连词失效，但是换来了中文及alias单词的可用性。<br>
