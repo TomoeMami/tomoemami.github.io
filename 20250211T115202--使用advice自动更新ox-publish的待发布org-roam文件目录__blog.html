@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-05 周一 15:41 -->
+<!-- 2026-01-05 周一 17:15 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用advice自动更新ox-publish的待发布org-roam文件目录</title>
@@ -384,7 +384,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-05-19 周一 09:32]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-05 周一 17:15]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -406,8 +406,8 @@ b {
 <p>
 由于org-roam的所有文件均在一个文件夹内，又不需要将所有的文件作为博客内容发表，因此接下来会利用org-roam的功能，动态发布打上了 <code>blog</code> 标签的文件。<br>
 </p>
-<div id="outline-container-org0cddeb6" class="outline-2">
-<h2 id="org0cddeb6"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
+<div id="outline-container-org9181520" class="outline-2">
+<h2 id="org9181520"><span class="section-number-2">1.</span> 获取带blog标签的文件</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 参考<a href="https://d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5.html">Vulpea的org-roam动态agenda</a>文件，创建函数如下：<br>
@@ -433,8 +433,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org9e99c53" class="outline-2">
-<h2 id="org9e99c53"><span class="section-number-2">2.</span> 配置ox-publish</h2>
+<div id="outline-container-org9c347c8" class="outline-2">
+<h2 id="org9c347c8"><span class="section-number-2">2.</span> 配置ox-publish</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 根据参考文献，需要指定 <code>org-publish-project-alist</code> 如下：<br>
@@ -466,8 +466,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-orge963b17" class="outline-2">
-<h2 id="orge963b17"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
+<div id="outline-container-orgf6272ed" class="outline-2">
+<h2 id="orgf6272ed"><span class="section-number-2">3.</span> 动态更新待发布文件列表</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于上述 <code>org-publish-project-alist</code> 仅会执行单次，因此需要通过 <code>advice-add</code> 的方式让其在每次发布时均执行一次，达成动态更新的效果。<br>
@@ -501,8 +501,8 @@ b {
 </p>
 </div>
 </div>
-<div id="outline-container-org3d01b7e" class="outline-2">
-<h2 id="org3d01b7e"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
+<div id="outline-container-org420d6c0" class="outline-2">
+<h2 id="org420d6c0"><span class="section-number-2">4.</span> 为每个html文件插入CSS</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 利用 <code>org-export</code> 的hook自动设置，读取 <code>~/.emacs.d/org.css</code> 文件内容并插入发布的html文件中<br>
@@ -518,14 +518,40 @@ b {
 <span style="color: #cf2f4f;">(</span>add-hook 'org-export-before-processing-hook 'my/org-inline-css-hook<span style="color: #cf2f4f;">)</span>
 </code></pre>
 </div>
+
+
+<p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-01-05T17:11:00">[2026-01-05 周一 17:11]</time></span> ：现在改为引用独立的 =org.css=，缩减HTML文件大小。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">my/org-inline-css-hook</span> <span style="color: #007f68;">(</span>exporter<span style="color: #007f68;">)</span>
+  <span style="color: #a04360;">"&#22312;&#23548;&#20986;&#30340;'</span><span style="color: #d03003;">html</span><span style="color: #a04360;">'&#25991;&#20214;&#39318;&#39029;&#25554;&#20837;&#33258;&#23450;&#20041;&#30340;CSS&#25991;&#20214;"</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">when</span> <span style="color: #cb26a0;">(</span>eq exporter 'html<span style="color: #cb26a0;">)</span>
+    <span style="color: #876450;">;; </span><span style="color: #876450;">&#21462;&#28040;&#40664;&#35748;CSS
+</span>    <span style="color: #cb26a0;">(</span><span style="color: #007f68;">setq</span> org-html-head-include-default-style nil<span style="color: #cb26a0;">)</span>
+    <span style="color: #876450;">;; </span><span style="color: #876450;">&#20851;&#38381;html validation&#38142;&#25509;
+</span>    <span style="color: #cb26a0;">(</span><span style="color: #007f68;">setq</span> org-html-validation-link nil<span style="color: #cb26a0;">)</span>
+    <span style="color: #876450;">;; </span><span style="color: #876450;">&#35774;&#32622;CSS
+</span>    <span style="color: #cb26a0;">(</span><span style="color: #007f68;">setq</span> org-html-head <span style="color: #b6540f;">"&lt;link rel='</span><span style="color: #d03003;">stylesheet</span><span style="color: #b6540f;">' type='</span><span style="color: #d03003;">text/css</span><span style="color: #b6540f;">' href='</span><span style="color: #d03003;">/org.css</span><span style="color: #b6540f;">'/&gt;"</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
+
+<span style="color: #cf2f4f;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">adv/org-publish-project-done-message</span> <span style="color: #007f68;">(</span><span style="color: #9435b4;">&amp;optional</span> one two three <span style="color: #007f68;">)</span>
+  <span style="color: #a04360;">"&#26356;&#26032;'</span><span style="color: #d03003;">org.css</span><span style="color: #a04360;">'"</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">with-current-buffer</span> <span style="color: #cb26a0;">(</span>find-file-noselect <span style="color: #5f5fdf;">(</span>concat my/desktop-path <span style="color: #b6540f;">"org.css"</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span>
+    <span style="color: #cb26a0;">(</span>erase-buffer<span style="color: #cb26a0;">)</span>
+    <span style="color: #cb26a0;">(</span>insert-file-contents <span style="color: #b6540f;">"~/.emacs.d/org.css"</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
+
+<span style="color: #cf2f4f;">(</span>advice-add #'org-publish-current-project <span style="color: #1a870f;">:after</span> #'adv/org-publish-project-done-message<span style="color: #cf2f4f;">)</span>
+</code></pre>
 </div>
 </div>
-<div id="outline-container-org5adf8f2" class="outline-2">
-<h2 id="org5adf8f2"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
+</div>
+<div id="outline-container-org4fca4bd" class="outline-2">
+<h2 id="org4fca4bd"><span class="section-number-2">5.</span> 一些其他的小设置</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orgaa799f1" class="outline-3">
-<h3 id="orgaa799f1"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
+<div id="outline-container-org209a33b" class="outline-3">
+<h3 id="org209a33b"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">setq</span> org-export-preserve-breaks t<span style="color: #cf2f4f;">)</span>
@@ -533,11 +559,11 @@ b {
 </div>
 </div>
 </div>
-<div id="outline-container-orga14fc9e" class="outline-3">
-<h3 id="orga14fc9e"><span class="section-number-3">5.2.</span> <a href="20241231T152821--emacs-使用ox-rss导出rss的xml文件__blog.html">emacs-使用ox-rss导出rss的xml文件</a></h3>
+<div id="outline-container-orgd145ee6" class="outline-3">
+<h3 id="orgd145ee6"><span class="section-number-3">5.2.</span> <a href="20241231T152821--emacs-使用ox-rss导出rss的xml文件__blog.html">emacs-使用ox-rss导出rss的xml文件</a></h3>
 </div>
-<div id="outline-container-orgbb3e897" class="outline-3">
-<h3 id="orgbb3e897"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
+<div id="outline-container-org4aa2490" class="outline-3">
+<h3 id="org4aa2490"><span class="section-number-3">5.3.</span> org.css文件内容</h3>
 <div class="outline-text-3" id="text-5-3">
 <div class="org-src-container">
 <pre class="src src-css"><code><span style="color: #876450;">/*</span><span style="color: #876450;">@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&amp;display=fallback");
