@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-01-06 周二 17:28 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-使用pandoc导出当前org-buffer为docx</title>
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:19]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-使用pandoc导出当前org-buffer为docx</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-10-14T11:15:00">[2024-10-14 周一 11:15]</time></span><br>
+</p>
+<div id="outline-container-org77cacbb" class="outline-2">
+<h2 id="org77cacbb"><span class="section-number-2">1.</span> 合法化化buffer名</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Windows下，如果直接使用buffer名作为文件名，有时会有非法字符，需要清理。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/sanitize-windows-filename</span> <span style="color: #557400;">(</span>filename<span style="color: #557400;">)</span>
+  <span style="color: #4f677f;">"Sanitize FILENAME to be a valid Windows filename."</span>
+  <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Replace invalid characters with an underscore
+</span>  <span style="color: #557400;">(</span>replace-regexp-in-string <span style="color: #ca3400;">"[&lt;&gt;:\\\"</span><span style="color: #a7601f;">\</span><span style="color: #ca3400;">/</span><span style="color: #a7601f;">\</span><span style="color: #ca3400;">|</span><span style="color: #a7601f;">\</span><span style="color: #ca3400;">?</span><span style="color: #a7601f;">\</span><span style="color: #ca3400;">*]+"</span> <span style="color: #ca3400;">"_"</span> filename<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc986558" class="outline-2">
+<h2 id="orgc986558"><span class="section-number-2">2.</span> 将当前buffer内容放至TEMP文件夹内某文件并返回路径</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">seq-replacer</span> <span style="color: #557400;">(</span>input<span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">dolist</span> <span style="color: #bf4400;">(</span>pair input<span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>goto-char <span style="color: #3f6faf;">(</span>point-min<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00;">while</span> <span style="color: #3f6faf;">(</span>re-search-forward <span style="color: #00824f;">(</span>car pair<span style="color: #00824f;">)</span> nil t<span style="color: #3f6faf;">)</span>
+      <span style="color: #3f6faf;">(</span>replace-match <span style="color: #00824f;">(</span>cadr pair<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/pandoc-line-breaker</span> <span style="color: #557400;">()</span>
+  <span style="color: #4f677f;">"pandoc&#26684;&#24335;&#21270;"</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span>seq-replacer '<span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span><span style="color: #ca3400;">"\n\n*"</span> <span style="color: #ca3400;">"\n"</span><span style="color: #3f6faf;">)</span>
+                  <span style="color: #3f6faf;">(</span><span style="color: #ca3400;">"\n"</span> <span style="color: #ca3400;">"\n\n"</span><span style="color: #3f6faf;">)</span>
+                 <span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+
+<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/save-buffer-to-temp-org</span> <span style="color: #557400;">()</span>
+  <span style="color: #4f677f;">"Save the current buffer content to a file in the system's temporary directory.
+The file name will be the same as the buffer name, but with a '</span><span style="color: #00824f;">.org</span><span style="color: #4f677f;">' extension.
+Return the path of the saved file."</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">let*</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>buffer-name <span style="color: #00824f;">(</span>buffer-name<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>file-name <span style="color: #00824f;">(</span>concat <span style="color: #9a456f;">(</span>my/sanitize-windows-filename buffer-name<span style="color: #9a456f;">)</span> <span style="color: #ca3400;">".org"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>temp-dir <span style="color: #00824f;">(</span><span style="color: #006f00;">if</span> <span style="color: #9a456f;">(</span>eq system-type 'windows-nt<span style="color: #9a456f;">)</span>
+                       <span style="color: #9a456f;">(</span>expand-file-name <span style="color: #a2604f;">(</span>getenv <span style="color: #ca3400;">"TEMP"</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
+                     <span style="color: #9a456f;">(</span>expand-file-name <span style="color: #a2604f;">(</span>getenv <span style="color: #ca3400;">"TMPDIR"</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>full-path <span style="color: #00824f;">(</span>expand-file-name file-name temp-dir<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Write buffer content to the file
+</span>    <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">(write-region (point-min) (point-max) full-path)
+</span>    <span style="color: #bf4400;">(</span><span style="color: #006f00;">with-temp-file</span> full-path
+      <span style="color: #3f6faf;">(</span>insert-buffer-substring buffer-name<span style="color: #3f6faf;">)</span>
+      <span style="color: #3f6faf;">(</span>my/pandoc-line-breaker<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Return the full path of the file
+</span>    full-path<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+
+<p>
+这里用 <code>getenv</code> 做了一个不同系统兼容。Windows的临时文件为 <code>TEMP</code> ，而MacOS的临时文件为 <code>TMPDIR</code> 。<br>
+</p>
+
+<p>
+由于pandoc需要两个换行符才会转换为一个分段，故通过 <code>my/pandoc-line-breaker</code> 函数调节生成的临时文件，以确保换行正确。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgbabc582" class="outline-2">
+<h2 id="orgbabc582"><span class="section-number-2">3.</span> 利用pandoc转换临时文件并保存到桌面</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/org-buffer-export-docx</span> <span style="color: #557400;">()</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>docx-file <span style="color: #00824f;">(</span>concat <span style="color: #9a456f;">(</span>getenv <span style="color: #ca3400;">"UserProfile"</span><span style="color: #9a456f;">)</span> <span style="color: #ca3400;">"\\desktop\\"</span> <span style="color: #9a456f;">(</span>my/sanitize-windows-filename <span style="color: #a2604f;">(</span>buffer-name<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span> <span style="color: #ca3400;">".docx"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+           <span style="color: #3f6faf;">(</span>template-file <span style="color: #00824f;">(</span>concat <span style="color: #9a456f;">(</span>file-truename <span style="color: #ca3400;">"~/.emacs.d/org"</span><span style="color: #9a456f;">)</span> <span style="color: #ca3400;">"/template.docx"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>shell-command <span style="color: #3f6faf;">(</span>format <span style="color: #ca3400;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #00824f;">(</span>my/save-buffer-to-temp-org<span style="color: #00824f;">)</span> docx-file template-file<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>message <span style="color: #ca3400;">"Convert finish: %s"</span> docx-file<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+
+<p>
+<code>docx-file</code> 指定保存路径为桌面；<br>
+</p>
+
+<p>
+<code>template-file</code> 是pandoc转换docx文件参考的模板，具体设置请查看<a href="https://pandoc.org/MANUAL.html#option--reference-doc">pandoc官方文档</a>；<br>
+</p>
+
+<p>
+这里的 <code>--from org+east_asian_line_breaks</code> 意味启用<a href="https://pandoc.org/MANUAL.html#extension-east_asian_line_breaks">东亚换行设置</a>，东亚文字间的换行不会被转换为空格，参考<a href="https://blog.retompi.com/post/useful-pandoc-tips/#%e5%bf%bd%e7%95%a5%e4%b8%9c%e4%ba%9a%e6%96%87%e5%ad%97%e6%8d%a2%e8%a1%8c%e7%ac%a6">这篇博客的解说</a>。<br>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>

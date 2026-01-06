@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-01-06 周二 17:27 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-添加org-ql-view为org-mode-link</title>
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 15:04]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-添加org-ql-view为org-mode-link</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-04-07T10:13:00">[2024-04-07 周日 10:13]</time></span><br>
+</p>
+
+<p>
+在使用org-ql的时候，我发现<a href="https://github.com/alphapapa/org-ql?tab=readme-ov-file#links">官方说明里推荐的</a>形如<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">[</span><span style="color: #557400;">[</span>org-ql-search:todo:NEXT priority:A<span style="color: #557400;">]</span><span style="color: #a7601f;">]</span>
+<span style="color: #a7601f;">[</span><span style="color: #557400;">[</span>org-ql-search:<span style="color: #bf4400;">(</span><span style="color: #006f00;">and</span> <span style="color: #3f6faf;">(</span>todo <span style="color: #ca3400;">"NEXT"</span><span style="color: #3f6faf;">)</span> <span style="color: #3f6faf;">(</span>priority <span style="color: #ca3400;">"A"</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">]</span><span style="color: #a7601f;">]</span>
+</code></pre>
+</div>
+<p>
+的链接，实际体验存在一定的问题：<br>
+</p>
+<ol class="org-ol">
+<li>如果通过官方推荐的 <code>org-store-link</code> 方法，在Windows上会因为汉字的编码造成无法匹配汉字标签；<br></li>
+<li>重启emacs之后也无法直接点击链接启动，会提示“No Match”（仅在未启动过org-ql时出现此问题）<br></li>
+</ol>
+<p>
+所以可以保存常用的org-ql-view搜索，然后添加以下代码，通过形如 <code>[[qlview: 个人事项]</code> 的org-link快速启动org-ql-view指定结果<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>org-add-link-type
+ <span style="color: #ca3400;">"qlview"</span> 'my/org-ql-view<span style="color: #a7601f;">)</span>
+<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/org-ql-view</span> <span style="color: #557400;">(</span>name<span style="color: #557400;">)</span>
+  <span style="color: #4f677f;">"View saved org-ql-view"</span>
+  <span style="color: #557400;">(</span>org-ql-view name<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+<div id="outline-container-orge0bef34" class="outline-2">
+<h2 id="orge0bef34"><span class="section-number-2">1.</span> 补充 org-ql-search 的相关语句</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>org-add-link-type
+ <span style="color: #ca3400;">"qlsearch"</span> 'my/org-ql-search<span style="color: #a7601f;">)</span>
+<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/org-ql-search</span> <span style="color: #557400;">(</span>query<span style="color: #557400;">)</span>
+  <span style="color: #4f677f;">"Search query in default mode"</span>
+  <span style="color: #557400;">(</span>org-ql-search <span style="color: #bf4400;">(</span>org-agenda-files<span style="color: #bf4400;">)</span> query <span style="color: #557400;">:narrow</span> nil <span style="color: #557400;">:super-groups</span> '<span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span><span style="color: #557400;">:auto-tags</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span> <span style="color: #557400;">:sort</span> nil<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>

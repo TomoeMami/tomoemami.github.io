@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-01-06 周二 17:28 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>一加手机解锁刷入kernelsu</title>
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 15:06]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">一加手机解锁刷入kernelsu</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-08-17T20:00:00">[2024-08-17 周六 20:00]</time></span><br>
+</p>
+<div id="outline-container-org0344e4a" class="outline-2">
+<h2 id="org0344e4a"><span class="section-number-2">1.</span> 准备工作</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+下载以下资源：<br>
+</p>
+
+<p>
+<a href="https://yun.daxiaamu.com/OnePlus_Roms/">对应手机系统当前版本的官方ROM</a>，用于提取 <code>init_boot.img</code><br>
+</p>
+
+<p>
+<a href="https://developer.android.com/tools/releases/platform-tools">Platform tools</a> ，用来操作fastboot<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgd8463b5" class="outline-2">
+<h2 id="orgd8463b5"><span class="section-number-2">2.</span> 开始解锁BL</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<b>解锁和上锁BL都会格式化手机，提前做好数据备份</b><br>
+</p>
+
+<ol class="org-ol">
+<li>开启「开发者模式」，打开「OEM解锁」<br></li>
+<li>用 <b>原装数据线</b> 连接电脑，使用adb工具 <code>adb devices</code> ，确认有输出<br></li>
+<li>执行 <code>adb reboot bootloader</code> ，进入bl界面<br></li>
+<li>执行 <code>fastboot flashing unlock</code> ，用音量键移动，电源键确认解锁<br></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgee7555e" class="outline-2">
+<h2 id="orgee7555e"><span class="section-number-2">3.</span> 刷入img文件</h2>
+<div class="outline-text-2" id="text-3">
+<ol class="org-ol">
+<li>下载对应ROM，用<a href="https://github.com/vm03/payload_dumper">Payload-Dumper</a> 执行 <code>python payload_dumper.py --images "init_boot" payload.bin</code> 解压出ROM文件<br></li>
+<li>找到 <code>init_boot.img</code> 并将其传输到手机上<br></li>
+<li>手机<a href="https://github.com/tiann/KernelSU/releases">下载安装</a>并打开 KernelSU管理器，选中输入的 <code>init_boot.img</code> ，按流程修补文件<br></li>
+<li>将输出的 <code>KernelSU***.img</code> 拷贝到 <code>adb.exe</code> 所在路径并重命名为 <code>init_boot.img</code><br></li>
+<li>执行 <code>adb reboot bootloader</code> ，进入bl界面<br></li>
+<li>执行 <code>fastboot flash init_boot init_boot.img</code> ，将修补后的文件刷入手机<br></li>
+<li>执行 <code>fastboot reboot</code> ，重启设备<br></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>
