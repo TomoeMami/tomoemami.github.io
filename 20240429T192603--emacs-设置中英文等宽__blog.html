@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-01-06 周二 17:36 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-设置中英文等宽</title>
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:33]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-设置中英文等宽</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-04-29T19:26:00">[2024-04-29 周一 19:26]</time></span><br>
+</p>
+
+<p>
+<a href="https://emacs-china.org/t/topic/27133">https://emacs-china.org/t/topic/27133</a><br>
+</p>
+
+<p>
+从楼主提供的第三个方案中学到了，可以通过设置默认行高属性避免中英文字体等宽混搭时的行高抖动。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>set-font <span style="color: #ca3400;">"Cascadia Code"</span> <span style="color: #ca3400;">"HarmonyOS Sans SC"</span> 28 32<span style="color: #a7601f;">)</span>
+<span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> default-text-properties '<span style="color: #557400;">(</span>line-spacing 0.06 line-height 1.15<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#36890;&#36807;&#35774;&#32622;&#34892;&#39640;&#23646;&#24615;&#30340;&#26041;&#24335;&#36991;&#20813;&#33521;&#25991;&#34892;&#36755;&#20837;&#20013;&#25991;&#21518;&#30340;&#34892;&#39640;&#25238;&#21160;</span>
+</code></pre>
+</div>
+
+<p>
+不过我还是坚持使用同等字号的中英文混搭，因为主要用Org-mode，平常需要等宽的地方很少，只需设置 <code>org-table</code> 的 <code>faces</code> 为中英文等宽字体就好了：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>custom-set-faces
+ <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">custom-set-faces was added by Custom.
+</span> <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">If you edit it by hand, you could mess it up, so be careful.
+</span> <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Your init file should contain only one such instance.
+</span> <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">If there is more than one, they won't work right.
+</span> '<span style="color: #557400;">(</span>org-archived <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>t <span style="color: #00824f;">(</span><span style="color: #557400;">:foreground</span> <span style="color: #ca3400;">"#928374"</span> <span style="color: #557400;">:weight</span> regular<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
+ '<span style="color: #557400;">(</span>org-table <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>t <span style="color: #00824f;">(</span><span style="color: #557400;">:background</span> <span style="color: #ca3400;">"#ebdbb2"</span> <span style="color: #557400;">:family</span> <span style="color: #ca3400;">"Sarasa Term SC"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+
+<p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-28">[2025-11-28 周五]</time></span>： 已经改用全局中英文等宽字体了，参见 <a href="20241113T162500--emacs-字体选择__blog.html">emacs-字体选择</a><br>
+</p>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>

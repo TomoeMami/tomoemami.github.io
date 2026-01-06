@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-01-06 周二 17:36 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-使用windows-toasts的python库为emacs创建windows11通知提醒</title>
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:32]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-使用windows-toasts的python库为emacs创建windows11通知提醒</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-04-07T10:14:00">[2024-04-07 周日 10:14]</time></span><br>
+</p>
+<div id="outline-container-orgc5976ae" class="outline-2">
+<h2 id="orgc5976ae"><span class="section-number-2">1.</span> 依赖外部Python的旧版</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+安装pip包<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-cmd"><code>pip install windows-toasts
+</code></pre>
+</div>
+
+<p>
+在 <code>~/.emacs.d/</code> 中新建 <code>notify.py</code> ，内容如下：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><code><span style="color: #006f00;">import</span> sys,os
+<span style="color: #006f00;">from</span> urllib.parse <span style="color: #006f00;">import</span> unquote
+<span style="color: #006f00;">from</span> windows_toasts <span style="color: #006f00;">import</span> Toast, WindowsToaster, ToastDisplayImage
+<span style="color: #007a9f;">toaster</span> <span style="color: #242521;">=</span> WindowsToaster<span style="color: #a7601f;">(</span><span style="color: #ca3400;">'Emacs Agenda'</span><span style="color: #a7601f;">)</span>
+<span style="color: #007a9f;">newToast</span> <span style="color: #242521;">=</span> Toast<span style="color: #a7601f;">()</span>
+newToast.<span style="color: #007a9f;">text_fields</span> <span style="color: #242521;">=</span> <span style="color: #a7601f;">[</span>unquote<span style="color: #557400;">(</span>sys.argv<span style="color: #bf4400;">[</span>1<span style="color: #bf4400;">]</span><span style="color: #557400;">)</span><span style="color: #a7601f;">]</span>
+newToast.AddImage<span style="color: #a7601f;">(</span>ToastDisplayImage.fromPath<span style="color: #557400;">(</span>unquote<span style="color: #bf4400;">(</span>sys.argv<span style="color: #3f6faf;">[</span>2<span style="color: #3f6faf;">]</span><span style="color: #bf4400;">)</span><span style="color: #242521;">+</span><span style="color: #ca3400;">"/org/phone/emacs.png"</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+toaster.show_toast<span style="color: #a7601f;">(</span>newToast<span style="color: #a7601f;">)</span>
+
+</code></pre>
+</div>
+
+<p>
+将先前的elisp函数 <code>fw/appt-disp-windows</code> 改为<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">fw/appt-disp-windows</span> <span style="color: #557400;">(</span>min-to-app new-time msg<span style="color: #557400;">)</span>
+    <span style="color: #4f677f;">"A custom `</span><span style="color: #00824f;">appt-disp-window-function</span><span style="color: #4f677f;">' which uses the PowerShell module '</span><span style="color: #00824f;">BurntToast</span><span style="color: #4f677f;">'"</span>
+    <span style="color: #557400;">(</span>shell-command <span style="color: #bf4400;">(</span>concat <span style="color: #ca3400;">"python -X utf8 "</span><span style="color: #3f6faf;">(</span>file-truename user-emacs-directory<span style="color: #3f6faf;">)</span> <span style="color: #ca3400;">"notify.py "</span> <span style="color: #3f6faf;">(</span>url-encode-url msg <span style="color: #3f6faf;">)</span><span style="color: #ca3400;">" "</span> <span style="color: #3f6faf;">(</span>url-encode-url <span style="color: #00824f;">(</span>file-truename user-emacs-directory<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
+</code></pre>
+</div>
+
+<p>
+经测试能正常提醒。使用python库的好处在于规避powershell的安装、策略设置过程，可以利用国内的pip镜像库，方便下载。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgb76b82d" class="outline-2">
+<h2 id="orgb76b82d"><span class="section-number-2">2.</span> 使用内建函数的新版</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2024-10-28T16:15:00">[2024-10-28 周一 16:15]</time></span>：使用内建函数，减少外部依赖。<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-01-06T14:54:00">[2026-01-06 周二 14:54]</time></span>：经过测试，只要先前的通知存在，就不会有新的通知出现；但是如果手动关掉先前通知，后续通知依然能展示。所以这里将时间设置为60秒，以便留有充足的查看时间。<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">fw/appt-disp-windows</span> <span style="color: #557400;">(</span>min-to-app new-time msg<span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>id <span style="color: #00824f;">(</span>w32-notification-notify
+             <span style="color: #557400;">:level</span> <span style="color: #ca3400;">"info"</span>
+             <span style="color: #557400;">:title</span> msg
+             <span style="color: #557400;">:body</span> <span style="color: #ca3400;">"&#9888;&#65039;&#26377;&#26032;&#25552;&#37266;&#65292;&#35831;&#26597;&#30475;Emacs&#65281;&#9888;&#65039;"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span>run-at-time 60 nil #'w32-notification-close id<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>

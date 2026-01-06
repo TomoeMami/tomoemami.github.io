@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-01-06 周二 17:36 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-在emacs内使用everything</title>
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:32]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-在emacs内使用everything</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2025-03-11T17:31:00">[2025-03-11 周二 17:31]</time></span><br>
+</p>
+<div id="outline-container-orga4210d6" class="outline-2">
+<h2 id="orga4210d6"><span class="section-number-2">1.</span> 安装软件</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+安装 <code>everything</code> ，注意不能用便携版，因为需要用到终端里的 <code>es</code> 命令。<br>
+</p>
+
+<p>
+从<a href="https://github.com/jthaman/consult-everything">Github</a>安装 <code>consult-everything</code> ，然后如下配置：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> consult-everything
+ <span style="color: #557400;">:load-path</span> <span style="color: #ca3400;">"~/elpa/"</span>
+ <span style="color: #557400;">:config</span>
+ <span style="color: #557400;">(</span>global-set-key <span style="color: #bf4400;">(</span>kbd <span style="color: #ca3400;">"C-r"</span><span style="color: #bf4400;">)</span> 'consult-everything<span style="color: #557400;">)</span>
+ <span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+
+<p>
+安装 <code>embark</code> ，然后如下配置：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> embark
+  <span style="color: #557400;">:config</span>
+  <span style="color: #557400;">(</span>define-key global-map <span style="color: #bf4400;">(</span>kbd <span style="color: #ca3400;">"&lt;C-.&gt;"</span><span style="color: #bf4400;">)</span> 'embark-act<span style="color: #557400;">)</span>
+  <span style="color: #557400;">:bind</span>
+  <span style="color: #557400;">(</span><span style="color: #557400;">:map</span> vertico-map
+  <span style="color: #bf4400;">(</span><span style="color: #ca3400;">"C-c C-e"</span> . embark-export<span style="color: #bf4400;">)</span>
+  <span style="color: #bf4400;">(</span><span style="color: #ca3400;">"C-c C-o"</span> . embark-open-externally<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
+  <span style="color: #a7601f;">)</span>
+<span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> embark-consult<span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga8a94e5" class="outline-2">
+<h2 id="orga8a94e5"><span class="section-number-2">2.</span> 使用流程</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li>按 <code>C-r</code> 进入 <code>consult-everything</code> 界面<br></li>
+<li>输入需要搜索的文件标题<br></li>
+<li>按 <code>C-c C-e</code> 将搜索内容暂存到 <code>embark</code> 创建的临时buffer中<br></li>
+<li>在里面对文件进行操作，比如再次搜索、或者用 <code>embark-act</code> 外部打开等<br></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>
