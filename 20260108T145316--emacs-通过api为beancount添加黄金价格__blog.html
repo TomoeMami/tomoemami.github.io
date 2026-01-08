@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-08 周四 15:03 -->
+<!-- 2026-01-08 周四 21:32 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-通过API为beancount添加黄金价格</title>
@@ -14,7 +14,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-08 周四 15:03]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-08 周四 21:31]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -41,26 +41,31 @@ beancount中，我的黄金货币为 <code>AU</code> ，默认货币为 <code>CN
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">let</span> <span style="color: #a26310;">(</span><span style="color: #5a7400;">(</span>prev <span style="color: #c02945;">(</span>org-read-date nil nil <span style="color: #c74400;">"-1d"</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
-      <span style="color: #5a7400;">(</span>result <span style="color: #c74400;">""</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">let</span> <span style="color: #5a7400;">(</span><span style="color: #c02945;">(</span>res <span style="color: #4060a0;">(</span>plz 'get <span style="color: #aa3e74;">(</span>concat <span style="color: #c74400;">"http://web.juhe.cn/finance/gold/shgold?key=KEY&amp;v=1"</span><span style="color: #aa3e74;">)</span>
-               <span style="color: #946830;">:as</span> #'json-read<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
-    <span style="color: #5a7400;">(</span>concat prev <span style="color: #c74400;">" price AU "</span>
-            <span style="color: #c02945;">(</span>map-nested-elt res '<span style="color: #4060a0;">(</span>result 0 Au100g yespri<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
-            <span style="color: #c74400;">" CN"</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">let</span> <span style="color: #444fcf;">(</span><span style="color: #3a6f00;">(</span>prev <span style="color: #1f66af;">(</span>org-read-date nil nil <span style="color: #006f70;">"-1d"</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+      <span style="color: #3a6f00;">(</span>result <span style="color: #006f70;">""</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span>
+  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">let</span> <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>res <span style="color: #5f2fba;">(</span>plz 'get <span style="color: #003faf;">(</span>concat <span style="color: #006f70;">"http://web.juhe.cn/finance/gold/shgold?key=KEY&amp;v=1"</span><span style="color: #003faf;">)</span>
+               <span style="color: #6a4a9f;">:as</span> #'json-read<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+    <span style="color: #3a6f00;">(</span>concat prev <span style="color: #006f70;">" price AU "</span>
+            <span style="color: #1f66af;">(</span>map-nested-elt res '<span style="color: #5f2fba;">(</span>result 0 Au100g yespri<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
+            <span style="color: #006f70;">" CN"</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
+
 <p>
-2026-01-07 price AU 1000.24 CN<br>
+运行之后的结果：<br>
 </p>
+<div class="org-src-container">
+<pre class="src src-beancount"><code><span style="color: #003faf;">2026-01-07</span> <span style="color: #444fcf;">price</span> AU <span style="color: #151a27; background-color: #edf4f8;">1000.24 CN</span>
+</code></pre>
+</div>
 
 <p>
 注：本文中代码需要安装<a href="https://github.com/alphapapa/plz.el">PLZ</a>包，还有启用map.el<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">use-package</span> plz <span style="color: #946830;">:ensure</span> t <span style="color: #946830;">:demand</span> t<span style="color: #ba5205;">)</span>
-<span style="color: #ba5205;">(</span><span style="color: #a26310;">require</span> '<span style="color: #3f60af;">map</span><span style="color: #ba5205;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> plz <span style="color: #6a4a9f;">:ensure</span> t <span style="color: #6a4a9f;">:demand</span> t<span style="color: #007047;">)</span>
+<span style="color: #007047;">(</span><span style="color: #444fcf;">require</span> '<span style="color: #003faf;">map</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
 </div>
