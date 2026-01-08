@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-01-08 周四 15:03 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-通过API为beancount添加黄金价格</title>
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-08 周四 15:03]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-通过API为beancount添加黄金价格</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-01-08T14:53:00">[2026-01-08 周四 14:53]</time></span><br>
+</p>
+
+
+<p>
+最近开始把一部分钱配置到黄金里了，这样一来，就需要想个办法通过代码获取黄金价格。<br>
+</p>
+
+<p>
+一方面，及时的黄金价格API一般都是给量化等公司商用的，价格很贵；另一方面，beancount的最小粒度为「天」，也没有必要把黄金价格精确到分钟/小时。在网上寻找了一番，找到了<a href="https://www.juhe.cn/">聚合数据</a>的api，注册登录实名认证后就能获取到 <code>KEY</code> ，每天50次通过API获取<a href="https://www.juhe.cn/docs/api/id/29">黄金相关数据</a>。<br>
+</p>
+
+<p>
+beancount中，我的黄金货币为 <code>AU</code> ，默认货币为 <code>CN</code> ，所以可以通过 <code>2026-01-01 price AU 114514 CN</code> 来设置某天的 <code>AU</code> 与 <code>CN</code> 之间兑换比例。<br>
+</p>
+
+<p>
+然后执行下列代码，就能获取昨天的黄金价格并且输出一条beancount的定价文本，记得将 <code>KEY</code> 替换为你获得的key：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">let</span> <span style="color: #a26310;">(</span><span style="color: #5a7400;">(</span>prev <span style="color: #c02945;">(</span>org-read-date nil nil <span style="color: #c74400;">"-1d"</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+      <span style="color: #5a7400;">(</span>result <span style="color: #c74400;">""</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">let</span> <span style="color: #5a7400;">(</span><span style="color: #c02945;">(</span>res <span style="color: #4060a0;">(</span>plz 'get <span style="color: #aa3e74;">(</span>concat <span style="color: #c74400;">"http://web.juhe.cn/finance/gold/shgold?key=KEY&amp;v=1"</span><span style="color: #aa3e74;">)</span>
+               <span style="color: #946830;">:as</span> #'json-read<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    <span style="color: #5a7400;">(</span>concat prev <span style="color: #c74400;">" price AU "</span>
+            <span style="color: #c02945;">(</span>map-nested-elt res '<span style="color: #4060a0;">(</span>result 0 Au100g yespri<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+            <span style="color: #c74400;">" CN"</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+</code></pre>
+</div>
+<p>
+2026-01-07 price AU 1000.24 CN<br>
+</p>
+
+<p>
+注：本文中代码需要安装<a href="https://github.com/alphapapa/plz.el">PLZ</a>包，还有启用map.el<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">use-package</span> plz <span style="color: #946830;">:ensure</span> t <span style="color: #946830;">:demand</span> t<span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">require</span> '<span style="color: #3f60af;">map</span><span style="color: #ba5205;">)</span>
+</code></pre>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>
