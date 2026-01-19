@@ -1,382 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-05 周一 17:12 -->
+<!-- 2026-01-19 周一 22:37 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-org-mode中同步滴答清单内容</title>
 <meta name="generator" content="Org Mode" />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-/*@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500&display=fallback");
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=fallback");
-*/
-
-body {
-    margin: 2% auto;
-    width: 100%;
-    max-width: 100%;
-    background-color: rgba(242,229,188,0.5);
-    /* background-color: rgba(255,255,255,0.5); */
-    font-size: 18px;
-    line-height: 1.4em;
-}
-@media screen and (min-width: 600px) {
-    body {
-        font-size: 18px;
-    }
-}
-
-@media screen and (min-width: 910px) {
-    body {
-        width: 900px;
-    }
-}
-#preamble {
-    width: 80%;
-    max-width: 980px;
-    text-align: left;
-    margin: auto;
-    font-size: 80%;
-}
-
-hr {
-    border: none;
-    border-top: 5px double #333;
-    margin: 0px 0;
-}
-
-.button {
-    border: none;
-    color: black;
-    padding: 6px 14px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-}
-
-.button:hover {
-    background-color: #3a1616;
-    color: white;
-}
-
-.todo {
-    background-color: #9d0006;
-    color: #fbf1c7;
-    padding: .1em 0.3em;
-    border-radius: 3px;
-    background-clip: padding-box;
-    font-size: $code-size;
-    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-    line-height: 1;
-}
-
-.done {
-    background-color: #427b58;
-    color: #fbf1c7;
-    padding: .1em 0.3em;
-    border-radius: 3px;
-    background-clip: padding-box;
-    font-size: $code-size;
-    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-    line-height: 1;
-}
-
-#postamble p {
-    font-size: 80%;
-    margin: .2em;
-    text-align: center;
-}
-
-#content, .content {
-    width: 80%;
-    max-width: 980px;
-    margin: auto;
-}
-
-#org-div-home-and-up{
-    position: fixed;
-    right: 0.5em;
-    margin-top: 70px;
-    font-family:sans-serif;
-}
-
-#table-of-contents {
-    margin-top: 105px;
-    font-size: 12pt;
-    position: fixed;
-    left: 0em;
-    top: 0em;
-    background: white;
-    max-height: 80%;
-    overflow: auto;
-}
-
-#table-of-contents h2 {
-    display: none;
-}
-#table-of-contents li {
-    clear: both;
-}
-.timestamp {
-    color: #928374;
-    font-size: $smaller;
-}
-
-.timestamp-kwd {
-    color: #5f9ea0;
-}
-
-@media screen and (max-width: 1200px) {
-    #table-of-contents {
-        position: relative;
-        margin-top: 0px;
-    }
-}
-
-/* p:not(blockquote > p) :not(ol > p) { */
-/*     text-indent: 2em; */
-/* } */
-p {
-    margin: 1em auto;
-}
-
-.title {
-    font-size: 30px;
-    line-height: 1.3;
-    font-weight: bold;
-    color: #0c2340;
-}
-
-h2:not(#table-of-contents > h2) {
-    font-size: 30px;
-    line-height: 1.2;
-    position: relative;
-    color: #204060;
-}
-
-h2::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background-color: black;
-}
-
-h3:not(#table-of-contents > h3) {
-    font-size: 20px;
-    line-height: 1.1;
-    position: relative;
-    color: #4b748d;
-}
-
-h3::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    /* border-bottom: 1px dashed black; */
-}
-
-h4 {
-    font-size: 14px;
-    line-height: 1.1;
-    font-weight: bold;
-}
-
-details {
-  padding: .7em 1em .5em;
-  border-radius: 15px;
-  font-size: 0.95em;
-  border: 2px solid #ccc;
-  /* border-color: light-dark(var(--color-border), var(--dark-color-border)); */
-  margin-block: 1em;
-}
-
-a {
-    cursor: pointer;
-    text-decoration: none;
-}
-
-a:link {
-    color: #458588;
-    /* text-decoration: underline; */
-}
-
-a:hover {
-    /* font-weight: bold; */
-    text-decoration: underline;
-    /* color: #076678; */
-}
-
-.figure {
-    text-align: center;
-}
-
-a:visited{
-    color: #8f3f71;
-    /* text-decoration: underline; */
-}
-
-img {
-    max-width: 100%;
-    vertical-align: middle;
-}
-.MathJax_Display {
-    margin: 0!important;
-    width: $smaller!important;
-}
-@media screen and (max-width: 1200px) {
-    img {
-        width: 400px;
-    }
-    .MathJax_Display {
-        margin: 0!important;
-        width: $smaller!important;
-    }
-}
-
-.org-src-container {
-    font-size: 14px;
-    outline: 2px dashed #ccc;
-    outline-offset: 10px;
-    position: relative;
-
-}
-.org-src-container>pre {
-    overflow: auto;
-    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
-}
-
-.org-src-container>pre:before {
-    display: block;
-    position: absolute;
-    background-color: #b3b3b3;
-    top: 0;
-    right: 0;
-    padding: 0 0.5em;
-    border-bottom-left-radius: 8px;
-    border: 0;
-    color: white;
-    font-size: $code-size;
-
-}
-pre {
-    overflow: auto;
-
-}
-.example{
-    font-size: 14px;
-    outline: 2px dashed #ccc;
-    outline-offset: 10px;
-    position: relative;
-    
-}
-.example::before {
-    content: "Results";
-}
-pre:before {
-    display: block;
-    position: absolute;
-    background-color: #b3b3b3;
-    top: 0;
-    right: 0;
-    padding: 0 0.5em;
-    border-bottom-left-radius: 8px;
-    border: 0;
-    color: white;
-    font-size: $code-size;
-}
-/* .org-src-container::before { */
-/*     content: "Copy"; */
-/*     position: absolute; */
-/*     top: 5px; */
-/*     right: 5px; */
-/*     padding: 5px; */
-/*     background-color: #ccc; */
-/*     color: #fff; */
-/*     border-radius: 3px; */
-/*     cursor: pointer; */
-/* } */
-
-code {
-    font-size: 16px;
-    color: #427b58;
-    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Cascadia Code,Consolas, Liberation Mono, monospace;
-}
-
-.subtitle {
-    text-align: right;
-}
-
-blockquote {
-    border-left: 3px solid #ccc;
-    padding-left: 10px; /* Optional: add some left padding for the content */
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-
-.info {
-    overflow: hidden;
-}
-
-.created {
-    float: right;
-}
-
-.updated {
-    float: left;
-}
-
-.org-ol {
-    list-style-type: decimal; /* Set the list style type to decimal numbers */
-    /* margin-left: 0.5em; /\* Add left margin to the list *\/ */
-}
-
-b {
-    color: #9d0006;
-}
-
-#footnotes {
-    position: fixed;
-    left: auto;
-    right: 0;
-    top: 105px;
-    bottom: 0;
-    width: 20%;
-    padding: 10px;
-    overflow: auto;
-    font-size: 14px;
-    z-index: 9999;
-}
-
-#footnotes h2 {
-    display: none;
-}
-
-@media screen and (max-width: 1200px) {
-    #footnotes {
-        position: static;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        max-height: 30%;
-        overflow: auto;
-        padding: 10px;
-        font-size: 14px;
-        z-index: 9999;
-    }
-}
-/*]]>*/-->
- </style>
+<link rel='stylesheet' type='text/css' href='/org.css'/>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -384,7 +14,7 @@ b {
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-28 周五 20:00]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-19 周一 22:35]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -392,35 +22,136 @@ b {
 </header><p>
 <a href="https://github.com/TomoeMami/dida">GitHub下载链接</a><br>
 </p>
-<div id="outline-container-org3546067" class="outline-2">
-<h2 id="org3546067"><span class="section-number-2">1.</span> 基础配置</h2>
+<div id="outline-container-orgf602b27" class="outline-2">
+<h2 id="orgf602b27"><span class="section-number-2">1.</span> 基础配置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 请参考github的README<br>
 </p>
 </div>
-<div id="outline-container-orgff6c0bb" class="outline-3">
-<h3 id="orgff6c0bb"><span class="section-number-3">1.1.</span> 进阶配置</h3>
-<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-orgefca943" class="outline-2">
+<h2 id="orgefca943"><span class="section-number-2">2.</span> 进阶配置</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org17cf2b1" class="outline-3">
+<h3 id="org17cf2b1"><span class="section-number-3">2.1.</span> 直接capture，不放入指定文件</h3>
+<div class="outline-text-3" id="text-2-1">
 <p>
-将 <code>dida.org</code> 中的事项refile到其他文件并把滴答清单该事项删除的函数<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-01-19T22:28:00">[2026-01-19 周一 22:28]</time></span>：直接调用 <code>org-capture</code> 并将任务输入到指定位置的函数。<br>
 </p>
+</div>
+<div id="outline-container-org256d0dd" class="outline-4">
+<h4 id="org256d0dd"><span class="section-number-4">2.1.1.</span> 自定义dida相关函数</h4>
+<div class="outline-text-4" id="text-2-1-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">akirak/org-refile-to-cpb-today</span> <span style="color: #007f68;">(</span>arg<span style="color: #007f68;">)</span>
-  <span style="color: #a04360;">"&#26681;&#25454;&#19981;&#21516;&#24773;&#20917;&#35843;&#25972;refile&#30340;&#30446;&#26631;"</span>
-  <span style="color: #007f68;">(</span><span style="color: #007f68;">interactive</span> <span style="color: #b6540f;">"P"</span><span style="color: #007f68;">)</span>
-  <span style="color: #007f68;">(</span><span style="color: #007f68;">when</span> <span style="color: #cb26a0;">(</span>org-entry-is-todo-p<span style="color: #cb26a0;">)</span>
-      <span style="color: #876450;">;;</span><span style="color: #876450;">dida&#30340;&#35201;&#20808;&#21457;&#36865;delete
-</span>      <span style="color: #cb26a0;">(</span><span style="color: #007f68;">when</span> <span style="color: #5f5fdf;">(</span>string-match <span style="color: #b6540f;">"dida.org"</span> <span style="color: #b6540f;">(</span>buffer-file-name<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span>
-        <span style="color: #5f5fdf;">(</span>dida-delete-task <span style="color: #b6540f;">(</span>org-entry-get nil <span style="color: #b6540f;">"DIDA_PID"</span> t<span style="color: #b6540f;">)</span> <span style="color: #b6540f;">(</span>org-entry-get nil <span style="color: #b6540f;">"DIDA_TID"</span><span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> dida <span style="color: #557400;">:demand</span> t
+  <span style="color: #557400;">:vc</span> <span style="color: #557400;">(</span><span style="color: #557400;">:url</span> <span style="color: #ca3400;">"git@github.com:TomoeMami/dida"</span>
+            <span style="color: #557400;">:rev</span> <span style="color: #557400;">:last-release</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">:config</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">setq</span> dida-client-id <span style="color: #ca3400;">"YOUR-CLIENT-ID"</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">setq</span> dida-client-secret <span style="color: #ca3400;">"YOUR-CLIENT-SECRET"</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">dida-simple-task</span> <span style="color: #bf4400;">(</span>task<span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00;">let*</span> <span style="color: #3f6faf;">(</span><span style="color: #00824f;">(</span>id <span style="color: #9a456f;">(</span>alist-get 'id task<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>pid <span style="color: #9a456f;">(</span>alist-get 'projectId task<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>isallday <span style="color: #9a456f;">(</span>alist-get 'isAllDay task<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>title <span style="color: #9a456f;">(</span>alist-get 'title task <span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>content <span style="color: #9a456f;">(</span>alist-get 'content task <span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>status <span style="color: #9a456f;">(</span>alist-get 'status task<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>due-date <span style="color: #9a456f;">(</span>alist-get 'dueDate task<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>priority <span style="color: #9a456f;">(</span>alist-get 'priority task<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>repeatflag <span style="color: #9a456f;">(</span>alist-get 'repeatFlag task<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>deadline-or-scheduled <span style="color: #ca3400;">"SCHEDULED: "</span><span style="color: #00824f;">)</span>
+           <span style="color: #00824f;">(</span>h-m <span style="color: #9a456f;">(</span><span style="color: #006f00;">if</span> <span style="color: #a2604f;">(</span>eq isallday '<span style="color: #557400;">:json-false</span><span style="color: #a2604f;">)</span> <span style="color: #ca3400;">" %H:%M"</span> <span style="color: #ca3400;">""</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+      <span style="color: #3f6faf;">(</span>concat <span style="color: #00824f;">(</span><span style="color: #006f00;">if</span> <span style="color: #9a456f;">(</span>= status 2<span style="color: #9a456f;">)</span> <span style="color: #ca3400;">"DONE"</span> <span style="color: #ca3400;">"TODO"</span><span style="color: #00824f;">)</span> <span style="color: #ca3400;">" "</span> title
+              <span style="color: #00824f;">(</span><span style="color: #006f00;">when</span> due-date
+               <span style="color: #9a456f;">(</span>concat <span style="color: #ca3400;">"\n"</span> deadline-or-scheduled
+                       <span style="color: #a2604f;">(</span>format-time-string
+                        <span style="color: #007a9f;">(</span>concat <span style="color: #ca3400;">"&lt;%Y-%m-%d %a"</span>
+                                h-m 
+                                <span style="color: #ca3400;">"&gt;"</span><span style="color: #007a9f;">)</span>
+                        <span style="color: #007a9f;">(</span>date-to-time due-date<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+              <span style="color: #00824f;">(</span><span style="color: #006f00;">when</span> content
+                <span style="color: #9a456f;">(</span>concat <span style="color: #ca3400;">"\n"</span> content<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">dida-cut</span> <span style="color: #bf4400;">()</span>
+    <span style="color: #4f677f;">"&#20174;dida&#33719;&#21462;&#25152;&#26377;&#20219;&#21153;&#24182;&#21024;&#38500;&#20113;&#31471;&#20219;&#21153;."</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00;">interactive</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00;">unless</span> <span style="color: #3f6faf;">(</span>dida--check-token<span style="color: #3f6faf;">)</span>
+      <span style="color: #3f6faf;">(</span>dida-authorize<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00;">let</span> <span style="color: #3f6faf;">(</span><span style="color: #00824f;">(</span>projects <span style="color: #9a456f;">(</span>dida-get-user-project<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+          <span style="color: #00824f;">(</span>result<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+      <span style="color: #3f6faf;">(</span><span style="color: #006f00;">dolist</span> <span style="color: #00824f;">(</span>project projects<span style="color: #00824f;">)</span>
+        <span style="color: #00824f;">(</span><span style="color: #006f00;">let*</span> <span style="color: #9a456f;">(</span><span style="color: #a2604f;">(</span>project-id <span style="color: #007a9f;">(</span>alist-get 'id project<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
+               <span style="color: #a2604f;">(</span>project-name <span style="color: #007a9f;">(</span>alist-get 'name project<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
+               <span style="color: #a2604f;">(</span>project-data <span style="color: #007a9f;">(</span>dida-get-project-by-id-with-data project-id<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
+               <span style="color: #a2604f;">(</span>tasks <span style="color: #007a9f;">(</span>append <span style="color: #9f0d0f;">(</span>alist-get 'tasks project-data<span style="color: #9f0d0f;">)</span> nil<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
+          <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Insert all tasks under this project
+</span>          <span style="color: #9a456f;">(</span><span style="color: #006f00;">dolist</span> <span style="color: #a2604f;">(</span>task tasks<span style="color: #a2604f;">)</span>
+            <span style="color: #a2604f;">(</span><span style="color: #006f00;">setf</span> result <span style="color: #007a9f;">(</span>concat result <span style="color: #9f0d0f;">(</span>dida-simple-task task<span style="color: #9f0d0f;">)</span><span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
+            <span style="color: #a2604f;">(</span>dida-delete-task project-id <span style="color: #007a9f;">(</span>alist-get 'id task<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+      result<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge880e5b" class="outline-4">
+<h4 id="orge880e5b"><span class="section-number-4">2.1.2.</span> 配置doct模板</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> org-capture-templates
+      <span style="color: #557400;">(</span>doct '<span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span><span style="color: #ca3400;">"Dida Sync"</span> <span style="color: #557400;">:keys</span> <span style="color: #ca3400;">"d"</span>
+               <span style="color: #8f6f4a;">;</span><span style="color: #8f6f4a;">&#36825;&#37324;&#25913;&#25104;&#20320;&#24179;&#24120;&#29992;&#30340;agenda files&#20043;&#19968;&#36335;&#24452;
+</span>               <span style="color: #557400;">:file</span> my-org-timeline
+               <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#20351;&#29992;&#20320;&#24120;&#29992;&#30340;&#23450;&#20301;&#20989;&#25968;&#65292;&#21487;&#24573;&#30053;
+</span>               <span style="color: #557400;">:function</span> org-reverse-datetree-goto-date-in-file
+               <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#21160;&#24577;&#35843;&#29992;&#36873;&#25321;&#20989;&#25968;&#33719;&#21462;&#20869;&#23481;
+</span>               <span style="color: #557400;">:template</span> <span style="color: #00824f;">(</span><span style="color: #006f00;">lambda</span> <span style="color: #9a456f;">()</span> <span style="color: #9a456f;">(</span><span style="color: #006f00;">let</span> <span style="color: #a2604f;">(</span><span style="color: #007a9f;">(</span>result <span style="color: #9f0d0f;">(</span>dida-cut<span style="color: #9f0d0f;">)</span><span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
+                             <span style="color: #a2604f;">(</span><span style="color: #006f00;">if</span> <span style="color: #007a9f;">(</span><span style="color: #006f00;">and</span> result <span style="color: #9f0d0f;">(</span>stringp result<span style="color: #9f0d0f;">)</span><span style="color: #007a9f;">)</span>
+                                 result
+                               <span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#27809;&#26377;&#20869;&#23481;&#23601;&#40664;&#40664;&#36864;&#20986;&#21543;&#23401;&#23376;
+</span>                               <span style="color: #007a9f;">(</span>keyboard-quit<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+               <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#25429;&#33719;&#21518;&#31435;&#21363;&#23436;&#25104;&#65292;&#19981;&#38656;&#35201;&#25163;&#21160;&#25353; C-c C-c (&#21487;&#36873;)
+</span>               <span style="color: #557400;">:immediate-finish</span> t<span style="color: #3f6faf;">)</span>
+              <span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc744078" class="outline-4">
+<h4 id="orgc744078"><span class="section-number-4">2.1.3.</span> 定期执行</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#27599;60&#31186;&#25191;&#34892;&#19968;&#27425;
+</span><span style="color: #a7601f;">(</span>run-with-idle-timer 60 t #'<span style="color: #557400;">(</span><span style="color: #006f00;">lambda</span> <span style="color: #bf4400;">()</span> <span style="color: #bf4400;">(</span>org-capture nil <span style="color: #ca3400;">"d"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#21551;&#21160;&#21518;&#25191;&#34892;&#19968;&#27425;
+</span><span style="color: #a7601f;">(</span>add-hook 'after-init-hook <span style="color: #557400;">(</span><span style="color: #006f00;">lambda</span> <span style="color: #bf4400;">()</span> <span style="color: #bf4400;">(</span>org-agenda nil <span style="color: #ca3400;">"d"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org8e8c602" class="outline-2">
-<h2 id="org8e8c602"><span class="section-number-2">2.</span> 使用流程</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-org3dba914" class="outline-3">
+<h3 id="org3dba914"><span class="section-number-3">2.2.</span> 快捷capture</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+将 <code>dida.org</code> 中的事项refile到其他文件并把滴答清单该事项删除的函数<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">akirak/org-refile-to-cpb-today</span> <span style="color: #557400;">(</span>arg<span style="color: #557400;">)</span>
+  <span style="color: #4f677f;">"&#26681;&#25454;&#19981;&#21516;&#24773;&#20917;&#35843;&#25972;refile&#30340;&#30446;&#26631;"</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span> <span style="color: #ca3400;">"P"</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">when</span> <span style="color: #bf4400;">(</span>org-entry-is-todo-p<span style="color: #bf4400;">)</span>
+      <span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">dida&#30340;&#35201;&#20808;&#21457;&#36865;delete
+</span>      <span style="color: #bf4400;">(</span><span style="color: #006f00;">when</span> <span style="color: #3f6faf;">(</span>string-match <span style="color: #ca3400;">"dida.org"</span> <span style="color: #00824f;">(</span>buffer-file-name<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+        <span style="color: #3f6faf;">(</span>dida-delete-task <span style="color: #00824f;">(</span>org-entry-get nil <span style="color: #ca3400;">"DIDA_PID"</span> t<span style="color: #00824f;">)</span> <span style="color: #00824f;">(</span>org-entry-get nil <span style="color: #ca3400;">"DIDA_TID"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7f759e6" class="outline-2">
+<h2 id="org7f759e6"><span class="section-number-2">3.</span> 使用流程</h2>
+<div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>不在电脑旁边时，用滴答清单快速录入待办事项到指定清单中<br></li>
 <li>启动Emacs，同步dida清单到本地<br></li>
@@ -428,9 +159,9 @@ b {
 </ol>
 </div>
 </div>
-<div id="outline-container-org73e93ce" class="outline-2">
-<h2 id="org73e93ce"><span class="section-number-2">3.</span> 一些建议</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orge10688c" class="outline-2">
+<h2 id="orge10688c"><span class="section-number-2">4.</span> 一些建议</h2>
+<div class="outline-text-2" id="text-4">
 <p>
 因为这个库不会保存org标题的meta内容，所以不建议主力使用，仅作为事项收集的inbox用即可。<br>
 </p>
@@ -438,7 +169,7 @@ b {
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://blog.prayhand13013.top/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
 </div>
 </body>
 </html>
