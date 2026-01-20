@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-01-20 周二 11:10 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-使用compile-angel按需原生编译el文件</title>
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-20 周二 11:09]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-使用compile-angel按需原生编译el文件</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-01-20T10:51:00">[2026-01-20 周二 10:51]</time></span><br>
+</p>
+
+<p>
+自从28.1开始，Emacs就有了原生编译（Native compilation）的功能。相较于编译为 <code>elc</code> 的字节编译（Byte compilation），原生编译性能更好：<br>
+</p>
+
+<blockquote>
+<p>
+与字节编译代码不同，原生编译的 Lisp 代码直接由机器的硬件执行，因此能够以主机 CPU 所能提供的全速运行。由此带来的速度提升通常取决于 Lisp 代码的功能，但通常比相应的字节编译代码快 2.5 到 5 倍。<br>
+</p>
+
+<p>
+由于原生代码通常在不同系统之间不兼容，因此原生编译的代码无法从一台机器传输到另一台机器使用，它只能在生成它的同一台机器或非常相似的机器（具有相同的 CPU 和运行时库）上使用。原生编译代码的可移植性与共享库（ .so 或 .dll 文件）相同。<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup><br>
+</p>
+</blockquote>
+
+<p>
+接下来要介绍的 <code>compile-angel</code> 包，可以「确保所有加载的 <code>.el</code> 文件都能透明地编译，无论它们是否属于某个包。<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>」<br>
+</p>
+<div id="outline-container-orgc7ea695" class="outline-2">
+<h2 id="orgc7ea695"><span class="section-number-2">1.</span> 官方推荐设置</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org7a156d8" class="outline-3">
+<h3 id="org7a156d8"><span class="section-number-3">1.1.</span> 在 early-init.el 中（没有则创建该文件）</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+在 <code>early-init.el</code> 文件的最开头设置以下变量：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#30830;&#20445; Emacs &#21152;&#36733;&#26368;&#26032;&#30340;&#23383;&#33410;&#32534;&#35793;&#25991;&#20214;&#12290;
+</span><span style="color: #ba5205;">(</span><span style="color: #a26310;">setq</span> load-prefer-newer t<span style="color: #ba5205;">)</span>
+
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#36890;&#36807;&#23558; `native-comp-jit-compilation` &#35774;&#32622;&#20026; t&#65292;&#20351; Emacs &#24322;&#27493;&#21407;&#29983;&#32534;&#35793; .elc &#25991;&#20214;&#12290;
+</span><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">`</span><span style="color: #3f60af;">native-comp-jit-compilation</span><span style="color: #7f6f1a;">' to t.
+</span><span style="color: #ba5205;">(</span><span style="color: #a26310;">setq</span> native-comp-jit-compilation t<span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">setq</span> native-comp-deferred-compilation native-comp-jit-compilation<span style="color: #ba5205;">)</span>  <span style="color: #7f6f1a;">; </span><span style="color: #7f6f1a;">Deprecated</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org6e4fb6b" class="outline-3">
+<h3 id="org6e4fb6b"><span class="section-number-3">1.2.</span> 在 init.el 文件中</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+我们通过melpa下载这个包，如何安装配置melpa不在这里赘述。<br>
+将以下代码添加至 <code>init.el</code> 文件的最开头，在所有其他包之前：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">use-package</span> compile-angel
+  <span style="color: #946830;">:ensure</span> t
+  <span style="color: #946830;">:demand</span> t
+  <span style="color: #946830;">:config</span>
+  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#23558; `</span><span style="color: #3f60af;">compile-angel-verbose</span><span style="color: #7f6f1a;">' &#35774;&#20026; nil &#20197;&#31105;&#29992; compile-angel &#28040;&#24687;&#12290;
+</span>  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">(&#35774;&#20026; nil &#26102;&#65292;compile-angel &#19981;&#20250;&#26174;&#31034;&#27491;&#22312;&#32534;&#35793;&#30340;&#25991;&#20214;&#12290;&#65289;
+</span>  <span style="color: #a26310;">(</span><span style="color: #a26310;">setq</span> compile-angel-verbose t<span style="color: #a26310;">)</span>
+
+  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#22914;&#26524;&#21462;&#28040;&#20102;&#19979;&#38754;&#36825;&#34892;&#30340;&#27880;&#37322;&#65292;&#23601;&#21487;&#20197;&#22312;&#20445;&#23384; Elisp &#25991;&#20214;&#26102;&#33258;&#21160;&#32534;&#35793;
+</span>  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">(add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode)
+</span>
+  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#20197;&#19979;&#25351;&#20196;&#21487;&#38450;&#27490; compile-angel &#32534;&#35793;&#24744;&#30340;&#21021;&#22987;&#21270;&#25991;&#20214;&#12290;
+</span>  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#33509;&#24744;&#36873;&#25321;&#20174; `compile-angel-excluded-files` &#20013;&#31227;&#38500;
+</span>  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#27492;&#39033;&#24182;&#32534;&#35793;&#24744;&#30340;&#39044;/&#21518;&#21021;&#22987;&#21270;&#25991;&#20214;&#65292;&#35831;&#30830;&#20445;&#29702;&#35299;&#20854;&#28508;&#22312;
+</span>  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#24433;&#21709;&#24182;&#24443;&#24213;&#27979;&#35797;&#24744;&#30340;&#20195;&#30721;&#12290;&#20363;&#22914;&#65292;&#22914;&#26524;&#24744;&#27491;&#22312;&#20351;&#29992;
+</span>  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">`use-package` &#23439;&#65292;&#21017;&#38656;&#35201;&#22312;&#21021;&#22987;&#21270;&#25991;&#20214;&#39030;&#37096;&#26174;&#24335;&#28155;&#21152;&#65306;
+</span>  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">(eval-when-compile (require 'use-package))
+</span>  <span style="color: #a26310;">(</span><span style="color: #a26310;">push</span> <span style="color: #c74400;">"/init.el"</span> compile-angel-excluded-files<span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">push</span> <span style="color: #c74400;">"/early-init.el"</span> compile-angel-excluded-files<span style="color: #a26310;">)</span>
+
+  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#19968;&#20010;&#20840;&#23616;&#27169;&#24335;&#65292;&#22312;&#36890;&#36807; `load` &#25110;
+</span>  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">`require` &#21152;&#36733; .el &#25991;&#20214;&#20043;&#21069;&#32534;&#35793;&#23427;&#20204;&#12290;
+</span>  <span style="color: #a26310;">(</span>compile-angel-on-load-mode 1<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge5ef716" class="outline-3">
+<h3 id="orge5ef716"><span class="section-number-3">1.3.</span> 补充说明</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+如果你还有其他的配置文件，比如我另外维护了一个自动生成的 <code>config.el</code> 文件，那么也需要把这个文件加入排除列表。注意，这些排除列表需要在 <code>compile--angel-on-load-mode</code> 之前执行。<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#22312;&#21551;&#29992; `compile-angel-on-load-mode` &#20043;&#21069;&#36816;&#34892;&#20197;&#19979;&#20195;&#30721;
+</span><span style="color: #ba5205;">(</span><span style="color: #a26310;">push</span> <span style="color: #c74400;">"/config.el"</span> compile-angel-excluded-files<span style="color: #ba5205;">)</span>
+
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#19968;&#20123;&#27979;&#35797;&#25991;&#20214;&#21644;&#26412;&#22320;&#36335;&#24452;&#25991;&#20214;&#19981;&#38656;&#35201;&#34987;&#32534;&#35793;
+</span><span style="color: #ba5205;">(</span><span style="color: #a26310;">push</span> <span style="color: #c74400;">".dir-locals.el"</span> compile-angel-excluded-files<span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">push</span> <span style="color: #c74400;">"test.el"</span> compile-angel-excluded-files<span style="color: #ba5205;">)</span>
+
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#22312;&#27492;&#22788;&#36816;&#34892;&#65306;(compile-angel-on-load-mode 1)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga8b31d7" class="outline-3">
+<h3 id="orga8b31d7"><span class="section-number-3">1.4.</span> 可选项</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+原作者推荐的其他可选项。我个人是关闭了字节编译，因为会生成难以处理的elc文件，不如直接在每个设备用原生编译的eln了。<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#30830;&#20445;&#20165;&#22312; Emacs &#23436;&#25104;&#21407;&#29983;&#32534;&#35793;&#21518;&#25165;&#36864;&#20986;&#65292;
+</span><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#38450;&#27490;&#22312; `/tmp` &#30446;&#24405;&#20013;&#30041;&#19979;&#19981;&#23436;&#25972;&#25110;&#27531;&#30041;&#30340;&#32534;&#35793;&#25991;&#20214;&#12290;
+</span><span style="color: #ba5205;">(</span><span style="color: #a26310;">setq</span> native-comp-async-query-on-exit t<span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">setq</span> confirm-kill-processes t<span style="color: #ba5205;">)</span>
+
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#38750;&#31354;&#20540;&#34920;&#31034;&#22312;&#23433;&#35013;&#21253;&#26102;&#36827;&#34892;&#21407;&#29983;&#32534;&#35793;&#12290;
+</span><span style="color: #ba5205;">(</span><span style="color: #a26310;">setq</span> package-native-compile t<span style="color: #ba5205;">)</span>
+
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#25490;&#38500; custom-file&#12289;recentf &#21644; savehist &#25991;&#20214;
+</span><span style="color: #7f6f1a;">;;</span><span style="color: #7f6f1a;">
+</span><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#30830;&#20445;&#20351;&#29992; `require`&#12289;`use-package` &#25110;&#20854;&#20182;&#21253;&#31649;&#29702;&#22120;&#21152;&#36733; compile-angel&#65292;
+</span><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#22240;&#20026; compile-angel-excluded-files &#26159;&#22312;&#21253;&#21152;&#36733;&#21518;&#22768;&#26126;&#30340;&#12290;
+</span><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#30830;&#20445;&#22312;&#22788;&#29702;&#20043;&#21069;&#26356;&#26032; `savehist-file` `recentf-save-file` `custom-file`&#30340;&#20540;
+</span><span style="color: #ba5205;">(</span><span style="color: #a26310;">with-eval-after-load</span> <span style="color: #c74400;">"savehist"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">push</span> <span style="color: #5a7400;">(</span>concat <span style="color: #c74400;">"/"</span> <span style="color: #c02945;">(</span>file-name-nondirectory savehist-file<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+        compile-angel-excluded-files<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">with-eval-after-load</span> <span style="color: #c74400;">"recentf"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">push</span> <span style="color: #5a7400;">(</span>concat <span style="color: #c74400;">"/"</span> <span style="color: #c02945;">(</span>file-name-nondirectory recentf-save-file<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+        compile-angel-excluded-files<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">with-eval-after-load</span> <span style="color: #c74400;">"cus-edit"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">when</span> <span style="color: #5a7400;">(</span>stringp custom-file<span style="color: #5a7400;">)</span>
+    <span style="color: #5a7400;">(</span><span style="color: #a26310;">push</span> <span style="color: #c02945;">(</span>concat <span style="color: #c74400;">"/"</span> <span style="color: #4060a0;">(</span>file-name-nondirectory custom-file<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+          compile-angel-excluded-files<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#21551;&#29992;&#23383;&#33410;&#32534;&#35793;&#21644;&#21407;&#29983;&#32534;&#35793;&#65288;&#40664;&#35748;&#20026;t&#65289;
+</span><span style="color: #ba5205;">(</span><span style="color: #a26310;">setq</span> compile-angel-enable-byte-compile nil<span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">setq</span> compile-angel-enable-native-compile t<span style="color: #ba5205;">)</span>
+
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#22312;&#20197;&#19978;&#35774;&#32622;&#21518;&#21551;&#29992; (compile-angel-on-load-mode) </span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+Native Compilation (GNU Emacs Lisp Reference Manual)<br>
+<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html">https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html</a> <br>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
+<a href="https://github.com/jamescherti/compile-angel.el?tab=readme-ov-file#why-use-compile-angel">https://github.com/jamescherti/compile-angel.el?tab=readme-ov-file#why-use-compile-angel</a> <br>
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://blog.prayhand13013.top/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>
