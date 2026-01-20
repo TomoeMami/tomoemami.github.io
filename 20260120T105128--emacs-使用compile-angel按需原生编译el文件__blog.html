@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-20 周二 11:10 -->
+<!-- 2026-01-20 周二 11:29 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用compile-angel按需原生编译el文件</title>
@@ -14,7 +14,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-20 周二 11:09]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-20 周二 11:29]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -33,19 +33,23 @@
 </p>
 
 <p>
-由于原生代码通常在不同系统之间不兼容，因此原生编译的代码无法从一台机器传输到另一台机器使用，它只能在生成它的同一台机器或非常相似的机器（具有相同的 CPU 和运行时库）上使用。原生编译代码的可移植性与共享库（ .so 或 .dll 文件）相同。<sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup><br>
+由于原生代码通常在不同系统之间不兼容，因此原生编译的代码无法从一台机器传输到另一台机器使用，它只能在生成它的同一台机器或非常相似的机器（具有相同的 CPU 和运行时库）上使用。原生编译代码的可移植性与共享库（ .so 或 .dll 文件）相同。<br>
+</p>
+
+<p>
+——<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html%20">Native Compilation (GNU Emacs Lisp Reference Manual)</a><br>
 </p>
 </blockquote>
 
 <p>
-接下来要介绍的 <code>compile-angel</code> 包，可以「确保所有加载的 <code>.el</code> 文件都能透明地编译，无论它们是否属于某个包。<sup><a id="fnr.2" class="footref" href="#fn.2" role="doc-backlink">2</a></sup>」<br>
+接下来要介绍的 <a href="https://github.com/jamescherti/compile-angel.el?tab=readme-ov-file#why-use-compile-angel%20">compile-angel</a> 包，可以「确保所有加载的 <code>.el</code> 文件都能透明地编译，无论它们是否属于某个包。」<br>
 </p>
-<div id="outline-container-orgc7ea695" class="outline-2">
-<h2 id="orgc7ea695"><span class="section-number-2">1.</span> 官方推荐设置</h2>
+<div id="outline-container-org2293a7b" class="outline-2">
+<h2 id="org2293a7b"><span class="section-number-2">1.</span> 官方推荐设置</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org7a156d8" class="outline-3">
-<h3 id="org7a156d8"><span class="section-number-3">1.1.</span> 在 early-init.el 中（没有则创建该文件）</h3>
+<div id="outline-container-org0575b39" class="outline-3">
+<h3 id="org0575b39"><span class="section-number-3">1.1.</span> 在 early-init.el 中（没有则创建该文件）</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 在 <code>early-init.el</code> 文件的最开头设置以下变量：<br>
@@ -62,8 +66,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org6e4fb6b" class="outline-3">
-<h3 id="org6e4fb6b"><span class="section-number-3">1.2.</span> 在 init.el 文件中</h3>
+<div id="outline-container-orgc006580" class="outline-3">
+<h3 id="orgc006580"><span class="section-number-3">1.2.</span> 在 init.el 文件中</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 我们通过melpa下载这个包，如何安装配置melpa不在这里赘述。<br>
@@ -97,8 +101,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orge5ef716" class="outline-3">
-<h3 id="orge5ef716"><span class="section-number-3">1.3.</span> 补充说明</h3>
+<div id="outline-container-org287fe25" class="outline-3">
+<h3 id="org287fe25"><span class="section-number-3">1.3.</span> 补充说明</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
 如果你还有其他的配置文件，比如我另外维护了一个自动生成的 <code>config.el</code> 文件，那么也需要把这个文件加入排除列表。注意，这些排除列表需要在 <code>compile--angel-on-load-mode</code> 之前执行。<br>
@@ -116,8 +120,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orga8b31d7" class="outline-3">
-<h3 id="orga8b31d7"><span class="section-number-3">1.4.</span> 可选项</h3>
+<div id="outline-container-org05ecefa" class="outline-3">
+<h3 id="org05ecefa"><span class="section-number-3">1.4.</span> 可选项</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
 原作者推荐的其他可选项。我个人是关闭了字节编译，因为会生成难以处理的elc文件，不如直接在每个设备用原生编译的eln了。<br>
@@ -157,22 +161,7 @@
 </div>
 </div>
 </div>
-<div id="footnotes">
-<h2 class="footnotes">Footnotes: </h2>
-<div id="text-footnotes">
-
-<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-Native Compilation (GNU Emacs Lisp Reference Manual)<br>
-<a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html">https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html</a> <br>
-</p></div></div>
-
-<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2" role="doc-backlink">2</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">
-<a href="https://github.com/jamescherti/compile-angel.el?tab=readme-ov-file#why-use-compile-angel">https://github.com/jamescherti/compile-angel.el?tab=readme-ov-file#why-use-compile-angel</a> <br>
-</p></div></div>
-
-
 </div>
-</div></div>
 <div id="postamble" class="status">
 <p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://blog.prayhand13013.top/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
 </div>
