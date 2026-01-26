@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-22 周四 10:06 -->
+<!-- 2026-01-26 周一 10:16 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-让beancount插件可以补全收款人</title>
@@ -14,7 +14,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-22 周四 10:03]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-25 周日 22:24]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -31,93 +31,93 @@
 注：beancount的一个交易一般如下：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-beancount"><code><span style="color: #5032aa;">2026-01-21</span> <span style="color: #007047;">*</span> <span style="color: #007047;">"&#25910;&#27454;&#20154;" "&#22791;&#27880;"</span>
-  &#36134;&#25143;1   <span style="color: #221321; background-color: #edf5e2;">1 CNY</span>
-  &#36134;&#25143;2   <span style="color: #221321; background-color: #edf5e2;">-1 CNY</span>
-<span style="color: #5032aa;">2026-01-21</span> <span style="color: #007047;">*</span> <span style="color: #007047;">"&#22791;&#27880;"</span>
-  &#36134;&#25143;1   <span style="color: #221321; background-color: #edf5e2;">1 CNY</span>
-  &#36134;&#25143;2   <span style="color: #221321; background-color: #edf5e2;">-1 CNY</span>
+<pre class="src src-beancount"><code><span style="color: #3f60af;">2026-01-21</span> <span style="color: #c74400;">*</span> <span style="color: #c74400;">"&#25910;&#27454;&#20154;" "&#22791;&#27880;"</span>
+  &#36134;&#25143;1   <span style="color: #484431; background-color: #fff6d8;">1 CNY</span>
+  &#36134;&#25143;2   <span style="color: #484431; background-color: #fff6d8;">-1 CNY</span>
+<span style="color: #3f60af;">2026-01-21</span> <span style="color: #c74400;">*</span> <span style="color: #c74400;">"&#22791;&#27880;"</span>
+  &#36134;&#25143;1   <span style="color: #484431; background-color: #fff6d8;">1 CNY</span>
+  &#36134;&#25143;2   <span style="color: #484431; background-color: #fff6d8;">-1 CNY</span>
 </code></pre>
 </div>
 
 <p>
 但是默认情况下，beancount官方的emacs插件 <code>beancount.el</code> 并未提供收款人的补全。（当然，他们也没有提供账户的指定补全文件功能，默认情况下只补全当前buffer的账户，可以通过<a href="https://blog.prayhand13013.top/20250113T235551--emacs-%E8%AE%A9beancount%E6%8F%92%E4%BB%B6%E6%94%AF%E6%8C%81%E4%B8%AD%E6%96%87%E8%B4%A6%E6%88%B7%E5%90%8D__blog.html">这篇文章</a>解决。）<br>
 </p>
-<div id="outline-container-org5c06fab" class="outline-2">
-<h2 id="org5c06fab"><span class="section-number-2">1.</span> 收款人补全代码</h2>
+<div id="outline-container-orgb08198a" class="outline-2">
+<h2 id="orgb08198a"><span class="section-number-2">1.</span> 收款人补全代码</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-如果想要一个可以选择日期、补全收款人的函数，且你已经在电脑上安装了beancount，可调用 <code>bean-query</code> ，则可参考以下代码（LLM生成，已测试过可用）：<br>
+如果想要一个可以选择日期、补全收款人的函数，且你已经在电脑上安装了beancount，可调用 <code>bean-query</code> （没有这个命令的话可以通过包管理器安装 <code>beanquery</code> ），则可参考以下代码（LLM生成，已测试过可用）：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #355500;">(</span><span style="color: #894852;">defvar</span> <span style="color: #80308f;">my/beancount-payee-cache</span> nil
-  <span style="color: #4f677f;">"&#32531;&#23384; Payee &#21015;&#34920;&#20197;&#25552;&#39640;&#34917;&#20840;&#36895;&#24230;&#12290;"</span><span style="color: #355500;">)</span>
-<span style="color: #355500;">(</span><span style="color: #894852;">defvar</span> <span style="color: #80308f;">my/beancount-main-file</span> <span style="color: #007047;">"PATH/TO/YOUR/MAIN/BEANCOUNT/FILE"</span>
-  <span style="color: #4f677f;">"&#25351;&#21521;beancount&#20027;&#25991;&#20214;'</span><span style="color: #5032aa;">*.bean</span><span style="color: #4f677f;">'"</span><span style="color: #355500;">)</span>
-<span style="color: #355500;">(</span><span style="color: #894852;">defun</span> <span style="color: #355500;">my/beancount-refresh-payee-cache</span> <span style="color: #894852;">()</span>
-  <span style="color: #4f677f;">"&#24378;&#21046;&#21047;&#26032; Payee &#32531;&#23384;&#12290;&#20174; bean-query &#33719;&#21462;&#26368;&#26032;&#25968;&#25454;&#24182;&#28165;&#29702;&#26684;&#24335;&#12290;"</span>
-  <span style="color: #894852;">(</span><span style="color: #894852;">interactive</span><span style="color: #894852;">)</span>
-  <span style="color: #894852;">(</span>message <span style="color: #007047;">"&#27491;&#22312;&#33719;&#21462; Beancount &#25910;&#27454;&#20154;&#21015;&#34920;..."</span><span style="color: #894852;">)</span>
-  <span style="color: #894852;">(</span><span style="color: #894852;">let*</span> <span style="color: #306630;">(</span><span style="color: #00677f;">(</span>file <span style="color: #5032aa;">(</span>file-truename my/beancount-main-file<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-         <span style="color: #00677f;">(</span>query <span style="color: #007047;">"SELECT distinct payee WHERE payee != ''"</span><span style="color: #00677f;">)</span>
-         <span style="color: #00677f;">(</span>cmd <span style="color: #5032aa;">(</span>format <span style="color: #007047;">"bean-query -f csv %s %S"</span> 
-                      <span style="color: #9f356a;">(</span>shell-quote-argument file<span style="color: #9f356a;">)</span> 
-                      query<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-         <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">1. &#25191;&#34892;&#21629;&#20196;&#24182;&#22788;&#29702; Windows &#25442;&#34892;&#31526; (^M)
-</span>         <span style="color: #00677f;">(</span>raw-output <span style="color: #5032aa;">(</span>shell-command-to-string cmd<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-         <span style="color: #00677f;">(</span>clean-output <span style="color: #5032aa;">(</span>replace-regexp-in-string <span style="color: #007047;">"\r"</span> <span style="color: #007047;">""</span> raw-output<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-         <span style="color: #00677f;">(</span>lines <span style="color: #5032aa;">(</span>split-string clean-output <span style="color: #007047;">"\n"</span> t<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-         <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">2. &#25552;&#21462;&#25968;&#25454;
-</span>         <span style="color: #00677f;">(</span>payees <span style="color: #5032aa;">(</span><span style="color: #894852;">if</span> <span style="color: #9f356a;">(</span><span style="color: #894852;">and</span> lines <span style="color: #00601f;">(</span>string= <span style="color: #9a501f;">(</span>car lines<span style="color: #9a501f;">)</span> <span style="color: #007047;">"payee"</span><span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span>
-                      <span style="color: #9f356a;">(</span>cdr lines<span style="color: #9f356a;">)</span> <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">&#31227;&#38500; CSV &#34920;&#22836;
-</span>                    lines<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
-    <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">3. &#28165;&#29702;&#27599;&#19968;&#34892;&#30340;&#21452;&#24341;&#21495;&#24182;&#23384;&#20837;&#32531;&#23384;
-</span>    <span style="color: #306630;">(</span><span style="color: #894852;">setq</span> my/beancount-payee-cache 
-          <span style="color: #00677f;">(</span>mapcar <span style="color: #5032aa;">(</span><span style="color: #894852;">lambda</span> <span style="color: #9f356a;">(</span>s<span style="color: #9f356a;">)</span> 
-                    <span style="color: #9f356a;">(</span>replace-regexp-in-string <span style="color: #007047;">"^\"</span><span style="color: #5032aa;">\\</span><span style="color: #c3303a;">|</span><span style="color: #007047;">\"$"</span> <span style="color: #007047;">""</span> s<span style="color: #9f356a;">)</span><span style="color: #5032aa;">)</span> 
-                  payees<span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
-    <span style="color: #306630;">(</span>message <span style="color: #007047;">"&#25910;&#27454;&#20154;&#32531;&#23384;&#21047;&#26032;&#23436;&#27605;&#65292;&#20849; %d &#20010;&#12290;"</span> <span style="color: #00677f;">(</span>length my/beancount-payee-cache<span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
-    my/beancount-payee-cache<span style="color: #894852;">)</span><span style="color: #355500;">)</span>
-<span style="color: #355500;">(</span><span style="color: #894852;">defun</span> <span style="color: #355500;">my/beancount-get-payees-with-cache</span> <span style="color: #894852;">()</span>
-  <span style="color: #4f677f;">"&#33719;&#21462;&#25910;&#27454;&#20154;&#21015;&#34920;&#12290;&#22914;&#26524;&#32531;&#23384;&#20026;&#31354;&#65292;&#21017;&#36827;&#34892;&#31532;&#19968;&#27425;&#21152;&#36733;&#12290;"</span>
-  <span style="color: #894852;">(</span><span style="color: #894852;">if</span> my/beancount-payee-cache
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">defvar</span> <span style="color: #0f708a;">my/beancount-payee-cache</span> nil
+  <span style="color: #b05350;">"&#32531;&#23384; Payee &#21015;&#34920;&#20197;&#25552;&#39640;&#34917;&#20840;&#36895;&#24230;&#12290;"</span><span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defvar</span> <span style="color: #0f708a;">my/beancount-main-file</span> <span style="color: #c74400;">"PATH/TO/YOUR/MAIN/BEANCOUNT/FILE"</span>
+  <span style="color: #b05350;">"&#25351;&#21521;beancount&#20027;&#25991;&#20214;'</span><span style="color: #3f60af;">*.bean</span><span style="color: #b05350;">'"</span><span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">my/beancount-refresh-payee-cache</span> <span style="color: #a26310;">()</span>
+  <span style="color: #b05350;">"&#24378;&#21046;&#21047;&#26032; Payee &#32531;&#23384;&#12290;&#20174; bean-query &#33719;&#21462;&#26368;&#26032;&#25968;&#25454;&#24182;&#28165;&#29702;&#26684;&#24335;&#12290;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">interactive</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>message <span style="color: #c74400;">"&#27491;&#22312;&#33719;&#21462; Beancount &#25910;&#27454;&#20154;&#21015;&#34920;..."</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">let*</span> <span style="color: #5a7400;">(</span><span style="color: #c02945;">(</span>file <span style="color: #4060a0;">(</span>file-truename my/beancount-main-file<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+         <span style="color: #c02945;">(</span>query <span style="color: #c74400;">"SELECT distinct payee WHERE payee != ''"</span><span style="color: #c02945;">)</span>
+         <span style="color: #c02945;">(</span>cmd <span style="color: #4060a0;">(</span>format <span style="color: #c74400;">"bean-query -f csv %s %S"</span> 
+                      <span style="color: #aa3e74;">(</span>shell-quote-argument file<span style="color: #aa3e74;">)</span> 
+                      query<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+         <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">1. &#25191;&#34892;&#21629;&#20196;&#24182;&#22788;&#29702; Windows &#25442;&#34892;&#31526; (^M)
+</span>         <span style="color: #c02945;">(</span>raw-output <span style="color: #4060a0;">(</span>shell-command-to-string cmd<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+         <span style="color: #c02945;">(</span>clean-output <span style="color: #4060a0;">(</span>replace-regexp-in-string <span style="color: #c74400;">"\r"</span> <span style="color: #c74400;">""</span> raw-output<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+         <span style="color: #c02945;">(</span>lines <span style="color: #4060a0;">(</span>split-string clean-output <span style="color: #c74400;">"\n"</span> t<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+         <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">2. &#25552;&#21462;&#25968;&#25454;
+</span>         <span style="color: #c02945;">(</span>payees <span style="color: #4060a0;">(</span><span style="color: #a26310;">if</span> <span style="color: #aa3e74;">(</span><span style="color: #a26310;">and</span> lines <span style="color: #008250;">(</span>string= <span style="color: #b02f80;">(</span>car lines<span style="color: #b02f80;">)</span> <span style="color: #c74400;">"payee"</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+                      <span style="color: #aa3e74;">(</span>cdr lines<span style="color: #aa3e74;">)</span> <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#31227;&#38500; CSV &#34920;&#22836;
+</span>                    lines<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">3. &#28165;&#29702;&#27599;&#19968;&#34892;&#30340;&#21452;&#24341;&#21495;&#24182;&#23384;&#20837;&#32531;&#23384;
+</span>    <span style="color: #5a7400;">(</span><span style="color: #a26310;">setq</span> my/beancount-payee-cache 
+          <span style="color: #c02945;">(</span>mapcar <span style="color: #4060a0;">(</span><span style="color: #a26310;">lambda</span> <span style="color: #aa3e74;">(</span>s<span style="color: #aa3e74;">)</span> 
+                    <span style="color: #aa3e74;">(</span>replace-regexp-in-string <span style="color: #c74400;">"^\"</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">|</span><span style="color: #c74400;">\"$"</span> <span style="color: #c74400;">""</span> s<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span> 
+                  payees<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    <span style="color: #5a7400;">(</span>message <span style="color: #c74400;">"&#25910;&#27454;&#20154;&#32531;&#23384;&#21047;&#26032;&#23436;&#27605;&#65292;&#20849; %d &#20010;&#12290;"</span> <span style="color: #c02945;">(</span>length my/beancount-payee-cache<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    my/beancount-payee-cache<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">my/beancount-get-payees-with-cache</span> <span style="color: #a26310;">()</span>
+  <span style="color: #b05350;">"&#33719;&#21462;&#25910;&#27454;&#20154;&#21015;&#34920;&#12290;&#22914;&#26524;&#32531;&#23384;&#20026;&#31354;&#65292;&#21017;&#36827;&#34892;&#31532;&#19968;&#27425;&#21152;&#36733;&#12290;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">if</span> my/beancount-payee-cache
       my/beancount-payee-cache
-    <span style="color: #306630;">(</span>my/beancount-refresh-payee-cache<span style="color: #306630;">)</span><span style="color: #894852;">)</span><span style="color: #355500;">)</span>
-<span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">&#21033;&#29992;calendar&#30028;&#38754;&#36873;&#25321;&#26085;&#26399;&#65292;&#24555;&#36895;&#25554;&#20837;beancount&#30340;entry
-</span><span style="color: #355500;">(</span><span style="color: #894852;">defun</span> <span style="color: #355500;">my/beancount-insert-chosen-date</span> <span style="color: #894852;">()</span>
-   <span style="color: #4f677f;">"&#25554;&#20837; Beancount &#26684;&#24335;&#30340;&#26085;&#26399;&#12289;Payee &#21644;&#22791;&#27880;&#12290;
+    <span style="color: #5a7400;">(</span>my/beancount-refresh-payee-cache<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#21033;&#29992;calendar&#30028;&#38754;&#36873;&#25321;&#26085;&#26399;&#65292;&#24555;&#36895;&#25554;&#20837;beancount&#30340;entry
+</span><span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">my/beancount-insert-chosen-date</span> <span style="color: #a26310;">()</span>
+   <span style="color: #b05350;">"&#25554;&#20837; Beancount &#26684;&#24335;&#30340;&#26085;&#26399;&#12289;Payee &#21644;&#22791;&#27880;&#12290;
 Payee &#25903;&#25345;&#20174;&#21382;&#21490;&#35760;&#24405;&#20013;&#34917;&#20840;&#12290;"</span>
-  <span style="color: #894852;">(</span><span style="color: #894852;">interactive</span><span style="color: #894852;">)</span>
-  <span style="color: #894852;">(</span><span style="color: #894852;">let*</span> <span style="color: #306630;">(</span><span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">1. &#33719;&#21462;&#26085;&#26399; (&#20445;&#30041;&#20320;&#21407;&#26469;&#30340; org-time-stamp &#36923;&#36753;)
-</span>         <span style="color: #00677f;">(</span>date <span style="color: #5032aa;">(</span>substring
-                <span style="color: #9f356a;">(</span><span style="color: #894852;">with-temp-buffer</span>
-                  <span style="color: #00601f;">(</span>org-time-stamp nil nil<span style="color: #00601f;">)</span>
-                  <span style="color: #00601f;">(</span>buffer-string<span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span>
-                1 11<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-         <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">2. &#33719;&#21462; Payee &#21015;&#34920;&#29992;&#20110;&#34917;&#20840;
-</span>         <span style="color: #00677f;">(</span>payee-list <span style="color: #5032aa;">(</span>my/beancount-get-payees-with-cache<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-         <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">1. &#36755;&#20837; Payee
-</span>         <span style="color: #00677f;">(</span>payee <span style="color: #5032aa;">(</span>completing-read <span style="color: #007047;">"&#25910;&#27454;&#20154;: "</span> payee-list<span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">interactive</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">let*</span> <span style="color: #5a7400;">(</span><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">1. &#33719;&#21462;&#26085;&#26399; (&#20445;&#30041;&#20320;&#21407;&#26469;&#30340; org-time-stamp &#36923;&#36753;)
+</span>         <span style="color: #c02945;">(</span>date <span style="color: #4060a0;">(</span>substring
+                <span style="color: #aa3e74;">(</span><span style="color: #a26310;">with-temp-buffer</span>
+                  <span style="color: #008250;">(</span>org-time-stamp nil nil<span style="color: #008250;">)</span>
+                  <span style="color: #008250;">(</span>buffer-string<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+                1 11<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+         <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">2. &#33719;&#21462; Payee &#21015;&#34920;&#29992;&#20110;&#34917;&#20840;
+</span>         <span style="color: #c02945;">(</span>payee-list <span style="color: #4060a0;">(</span>my/beancount-get-payees-with-cache<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+         <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">1. &#36755;&#20837; Payee
+</span>         <span style="color: #c02945;">(</span>payee <span style="color: #4060a0;">(</span>completing-read <span style="color: #c74400;">"&#25910;&#27454;&#20154;: "</span> payee-list<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
          
-         <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">2. &#36755;&#20837; Narration
-</span>         <span style="color: #00677f;">(</span>narration <span style="color: #5032aa;">(</span>read-string <span style="color: #007047;">"&#22791;&#12288;&#27880;: "</span><span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span>
+         <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">2. &#36755;&#20837; Narration
+</span>         <span style="color: #c02945;">(</span>narration <span style="color: #4060a0;">(</span>read-string <span style="color: #c74400;">"&#22791;&#12288;&#27880;: "</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
     
-    <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">&#25554;&#20837;&#26085;&#26399;&#21644;&#26071;&#26631;
-</span>    <span style="color: #306630;">(</span>insert date <span style="color: #007047;">" * "</span><span style="color: #306630;">)</span>
+    <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#25554;&#20837;&#26085;&#26399;&#21644;&#26071;&#26631;
+</span>    <span style="color: #5a7400;">(</span>insert date <span style="color: #c74400;">" * "</span><span style="color: #5a7400;">)</span>
     
-    <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">&#25554;&#20837; Payee &#21644; Narration
-</span>    <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">&#26681;&#25454; Beancount &#35821;&#27861;&#65306;&#22914;&#26524;&#20004;&#20010;&#37117;&#26377;&#65292;&#26684;&#24335;&#20026; "Payee" "Narration"
-</span>    <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">&#22914;&#26524;&#21482;&#26377;&#19968;&#20010;&#65292;&#40664;&#35748;&#20026; Narration
-</span>    <span style="color: #306630;">(</span><span style="color: #894852;">cond</span>
-     <span style="color: #00677f;">(</span><span style="color: #5032aa;">(</span><span style="color: #894852;">and</span> <span style="color: #9f356a;">(</span>not <span style="color: #00601f;">(</span>string-empty-p payee<span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span> <span style="color: #9f356a;">(</span>not <span style="color: #00601f;">(</span>string-empty-p narration<span style="color: #00601f;">)</span><span style="color: #9f356a;">)</span><span style="color: #5032aa;">)</span>
-      <span style="color: #5032aa;">(</span>insert <span style="color: #9f356a;">(</span>format <span style="color: #007047;">"\"%s\" \"%s\""</span> payee narration<span style="color: #9f356a;">)</span><span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-     <span style="color: #00677f;">(</span><span style="color: #5032aa;">(</span>not <span style="color: #9f356a;">(</span>string-empty-p payee<span style="color: #9f356a;">)</span><span style="color: #5032aa;">)</span>
-      <span style="color: #5032aa;">(</span>insert <span style="color: #9f356a;">(</span>format <span style="color: #007047;">"\"%s\""</span> payee<span style="color: #9f356a;">)</span><span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span>
-     <span style="color: #00677f;">(</span>t 
-      <span style="color: #5032aa;">(</span>insert <span style="color: #007047;">"\"\""</span><span style="color: #5032aa;">)</span><span style="color: #00677f;">)</span><span style="color: #306630;">)</span> <span style="color: #7f4f4a;">; </span><span style="color: #7f4f4a;">&#22343;&#20026;&#31354;&#21017;&#25554;&#20837;&#31354;&#24341;&#21495;
+    <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#25554;&#20837; Payee &#21644; Narration
+</span>    <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#26681;&#25454; Beancount &#35821;&#27861;&#65306;&#22914;&#26524;&#20004;&#20010;&#37117;&#26377;&#65292;&#26684;&#24335;&#20026; "Payee" "Narration"
+</span>    <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#22914;&#26524;&#21482;&#26377;&#19968;&#20010;&#65292;&#40664;&#35748;&#20026; Narration
+</span>    <span style="color: #5a7400;">(</span><span style="color: #a26310;">cond</span>
+     <span style="color: #c02945;">(</span><span style="color: #4060a0;">(</span><span style="color: #a26310;">and</span> <span style="color: #aa3e74;">(</span>not <span style="color: #008250;">(</span>string-empty-p payee<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span> <span style="color: #aa3e74;">(</span>not <span style="color: #008250;">(</span>string-empty-p narration<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span>
+      <span style="color: #4060a0;">(</span>insert <span style="color: #aa3e74;">(</span>format <span style="color: #c74400;">"\"%s\" \"%s\""</span> payee narration<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+     <span style="color: #c02945;">(</span><span style="color: #4060a0;">(</span>not <span style="color: #aa3e74;">(</span>string-empty-p payee<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span>
+      <span style="color: #4060a0;">(</span>insert <span style="color: #aa3e74;">(</span>format <span style="color: #c74400;">"\"%s\""</span> payee<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+     <span style="color: #c02945;">(</span>t 
+      <span style="color: #4060a0;">(</span>insert <span style="color: #c74400;">"\"\""</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span> <span style="color: #7f6f1a;">; </span><span style="color: #7f6f1a;">&#22343;&#20026;&#31354;&#21017;&#25554;&#20837;&#31354;&#24341;&#21495;
 </span>    
-    <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">&#25442;&#34892;&#24182;&#32553;&#36827;
-</span>    <span style="color: #306630;">(</span>insert <span style="color: #007047;">"\n  "</span><span style="color: #306630;">)</span><span style="color: #894852;">)</span><span style="color: #355500;">)</span>
+    <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#25442;&#34892;&#24182;&#32553;&#36827;
+</span>    <span style="color: #5a7400;">(</span>insert <span style="color: #c74400;">"\n  "</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 
@@ -125,19 +125,19 @@ Payee &#25903;&#25345;&#20174;&#21382;&#21490;&#35760;&#24405;&#20013;&#34917;&#
 然后再设置beancount，用这个函数替代默认的 <code>beancount-insert-date</code> 快捷键 <code>M-RET</code><br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #355500;">(</span><span style="color: #894852;">use-package</span> beancount
-  <span style="color: #6a4a9f;">:mode</span>
-  <span style="color: #894852;">(</span><span style="color: #007047;">"\\.bean</span><span style="color: #5032aa;">\\</span><span style="color: #c3303a;">(?:</span><span style="color: #007047;">count</span><span style="color: #5032aa;">\\</span><span style="color: #c3303a;">)</span><span style="color: #007047;">?\\'"</span> . beancount-mode<span style="color: #894852;">)</span>
-  <span style="color: #6a4a9f;">:bind</span>
-  <span style="color: #894852;">(</span><span style="color: #6a4a9f;">:map</span> beancount-mode-map
-        <span style="color: #7f4f4a;">;; </span><span style="color: #7f4f4a;">&#32465;&#23450;&#19968;&#20010;&#24555;&#25463;&#36755;&#20837;&#26085;&#26399;&#30340;&#33258;&#23450;&#20041;&#20989;&#25968;
-</span>        <span style="color: #306630;">(</span><span style="color: #007047;">"M-RET"</span> . my/beancount-insert-chosen-date<span style="color: #306630;">)</span><span style="color: #894852;">)</span>
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">use-package</span> beancount
+  <span style="color: #946830;">:mode</span>
+  <span style="color: #a26310;">(</span><span style="color: #c74400;">"\\.bean</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">(?:</span><span style="color: #c74400;">count</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">)</span><span style="color: #c74400;">?\\'"</span> . beancount-mode<span style="color: #a26310;">)</span>
+  <span style="color: #946830;">:bind</span>
+  <span style="color: #a26310;">(</span><span style="color: #946830;">:map</span> beancount-mode-map
+        <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#32465;&#23450;&#19968;&#20010;&#24555;&#25463;&#36755;&#20837;&#26085;&#26399;&#30340;&#33258;&#23450;&#20041;&#20989;&#25968;
+</span>        <span style="color: #5a7400;">(</span><span style="color: #c74400;">"M-RET"</span> . my/beancount-insert-chosen-date<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9175d40" class="outline-2">
-<h2 id="org9175d40"><span class="section-number-2">2.</span> 使用说明</h2>
+<div id="outline-container-org3d4afa1" class="outline-2">
+<h2 id="org3d4afa1"><span class="section-number-2">2.</span> 使用说明</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 在beancount的文件中，如 <code>2026.bean</code> ，按下 <code>M-RET</code> ，会弹出org-mode的日期选择窗口。选择好日期后，会提示你输入收款人（带补全），再提示输入备注。如果收款人不为空且备注为空，则会用收款人接收到的字符串作为备注使用（beancount默认行为）。<br>
