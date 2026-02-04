@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-02-04 三 19:38 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>自建audiobookshelf收听播客与音频</title>
+<meta name="author" content="ahs" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-02-04 三 19:38]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">自建audiobookshelf收听播客与音频</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-02-04T19:27:00">[2026-02-04 三 19:27]</time></span><br>
+</p>
+
+<p>
+有的时候，你会突然不喜欢第三方播客软件的广告与推送；有的时候，你会发现某些视频网站的听视频功能羸弱。总之，你想自己掌握听的内容。<br>
+</p>
+
+<p>
+我们可以自建audiobookshelf，通过将音频下载到本地来收听。<br>
+</p>
+<div id="outline-container-org03db5b7" class="outline-2">
+<h2 id="org03db5b7"><span class="section-number-2">1.</span> 搭建audiobookshelf</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+我是通过docker-compose安装的，配置文件如下：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml"><code><span style="color: #125a7f;">services</span>:
+  <span style="color: #125a7f;">audiobookshelf</span>:
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #6a5937;"># </span><span style="color: #6a5937;">&#36825;&#37324;&#29992;&#20102;&#22269;&#20869;&#30340;&#38236;&#20687;&#28304;
+</span>  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #125a7f;">image</span>: ghcr.nju.edu.cn/advplyr/audiobookshelf:latest
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #125a7f;">ports</span>:
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #c7daaf419710;"> </span> - 13378:80
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #125a7f;">volumes</span>:
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #c7daaf419710;"> </span> - ./audiobooks:/audiobooks
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #c7daaf419710;"> </span> - ./podcasts:/podcasts
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #c7daaf419710;"> </span> - ./config:/config
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #c7daaf419710;"> </span> - ./metadata:/metadata
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #125a7f;">environment</span>:
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #c7daaf419710;"> </span> - TZ=Asia/Shanghai
+  <span style="color: #b2f8b9b2ac45;"> </span> <span style="color: #125a7f;">restart</span>: unless-stopped
+</code></pre>
+</div>
+
+<p>
+启动后，即可通过当前设备的IP:13378访问网页版。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org429ec6b" class="outline-2">
+<h2 id="org429ec6b"><span class="section-number-2">2.</span> 订阅播客</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+第一次访问 <code>IP:13378</code> 时，需要设置用户名和密码。然后我们需要添加媒体库。<br>
+根据你的需求，建议创建两个媒体库：一个是「图书」类型的，用来存本地音频文件，我直接起名叫「音频」；一个是「播客」类型的，用来存通过RSS订阅的播客，我直接起名叫「播客」。<br>
+在网页版左上角切换到「播客」后，点击左侧面板的「添加」，然后可以通过输入url或者直接导入opml的方式添加订阅的播客。<br>
+这里推荐两个网站，一个是<a href="https://xyzrank.com/#/">中文播客排行榜</a>，可以在上面查看小宇宙内播客的排名；另一个是<a href="https://www.listennotes.com/">Listen Notes</a>，可以通过博客名搜索到对应的订阅链接。<br>
+添加播客的时候如果勾选「自动下载」，则会在有新剧集的时候自动下载到服务器上。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org78077dd" class="outline-2">
+<h2 id="org78077dd"><span class="section-number-2">3.</span> 导入本地音频</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+我首先从B站下载视频的音频，具体流程参见<a href="20250223T154030--将b站视频下载为音频播客__blog.html">将b站视频下载为音频播客</a>。<br>
+下载到本地之后，打开audiobookshelf的网页版，切换到「音频」，然后在右上角可以通过上传图标进入上传页面，手动批量上传音频文件。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgacd6246" class="outline-2">
+<h2 id="orgacd6246"><span class="section-number-2">4.</span> 移动端收听</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+在电脑上，可以直接打开网页版界面收听，移动端其实只需要一个对应的客户端就行了。<br>
+iOS上，我推荐「希声」，可以支持音频和播客两个界面。<br>
+安卓端我不怎么用，没法给出建议。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org36a21fb" class="outline-2">
+<h2 id="org36a21fb"><span class="section-number-2">5.</span> 外网访问</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+如果你没有公网IP的服务器，可以采用tailscale的方式，将手机与电脑虚拟组网。这样一来，也就可以在外随时收听了。<br>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://blog.prayhand13013.top/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>

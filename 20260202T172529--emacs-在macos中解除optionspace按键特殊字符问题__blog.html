@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-02-04 三 19:38 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-在macos中解除option+space按键特殊字符问题</title>
+<meta name="author" content="ahs" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-02-04 三 19:27]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-在macos中解除option+space按键特殊字符问题</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-02-04T19:27:00">[2026-02-04 三 19:27]</time></span><br>
+</p>
+
+<p>
+如果你幸运或不幸地和我一样，在Emacs中绑定了 <code>M-SPC</code> ：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #6a5937;">;; </span><span style="color: #6a5937;">&#24555;&#36895;&#25554;&#20837;&#38646;&#23485;&#31354;&#26684;
+</span><span style="color: #882000;">(</span>define-key global-map <span style="color: #304f60;">(</span>kbd <span style="color: #3a7800;">"M-SPC"</span><span style="color: #304f60;">)</span>
+  <span style="color: #304f60;">(</span><span style="color: #702f1f;">lambda</span> <span style="color: #702f1f;">()</span> <span style="color: #702f1f;">(</span><span style="color: #702f1f;">interactive</span><span style="color: #702f1f;">)</span> <span style="color: #702f1f;">(</span>insert <span style="color: #3a7800;">"&#12288;"</span><span style="color: #702f1f;">)</span><span style="color: #304f60;">)</span><span style="color: #882000;">)</span>
+</code></pre>
+</div>
+<p>
+同时你还启用了 <code>sis</code> 用来自动切换输入法中英文状态：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #882000;">(</span><span style="color: #702f1f;">use-package</span> sis
+  <span style="color: #775228;">:demand</span> t
+  <span style="color: #775228;">:config</span>
+  <span style="color: #304f60;">(</span><span style="color: #702f1f;">cond</span> <span style="color: #702f1f;">(</span><span style="color: #006e50;">(</span>eq system-type 'darwin<span style="color: #006e50;">)</span>
+         <span style="color: #006e50;">(</span>sis-ism-lazyman-config <span style="color: #3a7800;">"com.apple.keylayout.US"</span> <span style="color: #3a7800;">"im.rime.inputmethod.Squirrel.Hans"</span> 'emp<span style="color: #006e50;">)</span><span style="color: #702f1f;">)</span><span style="color: #304f60;">)</span>
+  <span style="color: #6a5937;">;; </span><span style="color: #6a5937;">&#38544;&#21435;&#20854;&#20182;&#37197;&#32622;&#39033;
+</span>  <span style="color: #882000;">)</span>
+</code></pre>
+</div>
+
+<blockquote>
+<p>
+注意，这里的选项为 <code>'emp</code> ，因为我使用了macport的输入法相关patch，推荐<a href="https://github.com/LuciusChen/.emacs.d">LuciusChen/.emacs.d</a>的安装脚本。<br>
+</p>
+</blockquote>
+
+<p>
+而且你还改了按键，将 <code>Option</code> 等同于 <code>Meta</code> 键：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #882000;">(</span><span style="color: #702f1f;">setq</span> mac-option-modifier 'meta<span style="color: #882000;">)</span>
+</code></pre>
+</div>
+
+<p>
+那么你会发现，按下 <code>M-SPC</code> 这个组合键之后，输入法会自动切换到英文模式。<br>
+</p>
+
+<p>
+根据<a href="https://zhuanlan.zhihu.com/p/641528773">知乎的相关讨论</a>，是因为MacOS的英文键盘会在 <code>Option+任意按键</code> 的时候插入对应的特殊字符。所以要解决这个问题也很简单，将默认的英文按键更换为一个其他按键就行。这里我们选用Unicode键盘。<br>
+</p>
+
+<blockquote>
+<p>
+在MacBook用unicode输入64卦卦象符号 - 知乎<br>
+<a href="https://zhuanlan.zhihu.com/p/648611930">https://zhuanlan.zhihu.com/p/648611930</a><br>
+</p>
+
+<p>
+进入系统设置-&gt;键盘-&gt;文字输入-&gt;编辑，单击左下角“ +”，滚动到最后“其他”，选择“ Unicode十六进制输入”，然后单击“添加”和“完成”。从菜单栏中的输入法选择中，选择“ Unicode十六进制输入”。<br>
+</p>
+</blockquote>
+<p>
+然后对应修改 <code>sis</code> 的配置：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #882000;">(</span><span style="color: #702f1f;">use-package</span> sis
+  <span style="color: #775228;">:demand</span> t
+  <span style="color: #775228;">:config</span>
+  <span style="color: #304f60;">(</span><span style="color: #702f1f;">cond</span> <span style="color: #702f1f;">(</span>eq system-type 'darwin<span style="color: #702f1f;">)</span>
+        <span style="color: #702f1f;">(</span>sis-ism-lazyman-config <span style="color: #3a7800;">"com.apple.keylayout.UnicodeHexInput"</span> <span style="color: #3a7800;">"im.rime.inputmethod.Squirrel.Hans"</span> 'emp<span style="color: #702f1f;">)</span><span style="color: #304f60;">)</span>
+  <span style="color: #882000;">)</span>
+</code></pre>
+</div>
+
+<p>
+这样一来，就不会再因为MacOS中英语键盘默认的特殊符号输入方式干扰到我们插入全角空格了！<br>
+</p>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://blog.prayhand13013.top/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>
