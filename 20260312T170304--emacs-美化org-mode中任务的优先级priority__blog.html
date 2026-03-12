@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-03-12 周四 17:18 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-美化org-mode中任务的优先级priority</title>
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-12 周四 17:17]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-美化org-mode中任务的优先级priority</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-03-12T17:03:00">[2026-03-12 周四 17:03]</time></span><br>
+</p>
+
+<p>
+当我还年轻的那些日子，我从来不为任务设定优先级。因为我确信，且实践中也证明了这件事：人类的大脑会自动帮你判断任务优先级，仅需看一眼任务列表即可。<br>
+</p>
+
+<p>
+现在，也许是我老了，感受到每一次审视任务列表都在消耗我所剩不多的判断精力；也许是我想通了，把设置任务优先级当成扫描任务列表后的优先级文本缓存。总之我开始配置并使用org-mode自带的任务优先级了。<br>
+</p>
+
+<p>
+由于是内置的功能，因此初始情况并不需要配置。直接在没有优先级的任务上按 <code>S+↑/↓</code> ，就能创建一个默认的等级 <code>[#B]</code> 。然后再按 <code>S+↑/↓</code> ，就可以对应提升或者降低优先级。<br>
+</p>
+
+<p>
+但是我们总是想美化一下。目前我采取了第三方包 <a href="https://github.com/harrybournis/org-fancy-priorities">org-fancy-priorities</a> ，它可以为设定的序列符号自定义overlay替换字符串。<br>
+</p>
+<div id="outline-container-org078fc3d" class="outline-2">
+<h2 id="org078fc3d"><span class="section-number-2">1.</span> 具体配置</h2>
+<div class="outline-text-2" id="text-1">
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> org-fancy-priorities
+  <span style="color: #6a4a9f;">:after</span> org <span style="color: #6a4a9f;">:ensure</span> t <span style="color: #6a4a9f;">:demand</span> t
+  <span style="color: #6a4a9f;">:hook</span>
+  <span style="color: #444fcf;">(</span>org-mode-hook . org-fancy-priorities-mode<span style="color: #444fcf;">)</span>
+  <span style="color: #6a4a9f;">:custom</span>
+  <span style="color: #444fcf;">(</span>org-priority-highest 1<span style="color: #444fcf;">)</span>
+  <span style="color: #444fcf;">(</span>org-priority-lowest 4<span style="color: #444fcf;">)</span>
+  <span style="color: #444fcf;">(</span>org-priority-default 3<span style="color: #444fcf;">)</span>
+  <span style="color: #444fcf;">(</span>org-fancy-priorities-list
+   `<span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>?1 . ,<span style="color: #5f2fba;">(</span>propertize <span style="color: #006f70;">"&#127362;"</span> 'face '<span style="color: #003faf;">(</span><span style="color: #6a4a9f;">:foreground</span> <span style="color: #006f70;">"#fe8019"</span> <span style="color: #6a4a9f;">:weight</span> bold <span style="color: #6a4a9f;">:slant</span> normal<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
+     <span style="color: #1f66af;">(</span>?2 . ,<span style="color: #5f2fba;">(</span>propertize <span style="color: #006f70;">"&#127344;"</span> 'face '<span style="color: #003faf;">(</span><span style="color: #6a4a9f;">:foreground</span> <span style="color: #006f70;">"#8f3f71"</span> <span style="color: #6a4a9f;">:weight</span> bold <span style="color: #6a4a9f;">:slant</span> normal<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
+     <span style="color: #1f66af;">(</span>?3 . ,<span style="color: #5f2fba;">(</span>propertize <span style="color: #006f70;">"&#127345;"</span> 'face '<span style="color: #003faf;">(</span><span style="color: #6a4a9f;">:foreground</span> <span style="color: #006f70;">"#458588"</span> <span style="color: #6a4a9f;">:weight</span> bold <span style="color: #6a4a9f;">:slant</span> normal<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
+     <span style="color: #1f66af;">(</span>?4 . ,<span style="color: #5f2fba;">(</span>propertize <span style="color: #006f70;">"&#127346;"</span> 'face '<span style="color: #003faf;">(</span><span style="color: #6a4a9f;">:foreground</span> <span style="color: #006f70;">"#7c6f64"</span><span style="color: #6a4a9f;">:weight</span> bold <span style="color: #6a4a9f;">:slant</span> normal<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+</code></pre>
+</div>
+
+<p>
+在上述配置中，我设置了优先级为 1&gt;2&gt;3&gt;4 ，且默认值为3。然后我配置了美化图案，使其对应展示为 🆂&gt;🅰&gt;🅱&gt;🅲 ，并根据<a href="https://github.com/harrybournis/org-fancy-priorities/issues/8">这个issue</a>的提示，手动设置了前景颜色。<br>
+</p>
+
+<p>
+这样一来，当我们按下 <code>S+↑/↓</code> 时，会创建一个展示为 <code>🅱</code> 的等级，并跟随我们的 <code>S+↑/↓</code> 变动为其他符号。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org0f8f1da" class="outline-2">
+<h2 id="org0f8f1da"><span class="section-number-2">2.</span> 效果图</h2>
+<div class="outline-text-2" id="text-2">
+
+<figure id="orgcc1fe2c">
+<img src="./fancy-priority.webp" alt="fancy-priority.webp"><br>
+
+</figure>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://blog.prayhand13013.top/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+</div>
+</body>
+</html>
