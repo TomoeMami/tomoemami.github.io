@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-06 周二 17:28 -->
+<!-- 2026-03-12 周四 17:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用msys2编译windows的emacs</title>
+<meta name="author" content="TomoeMami" />
 <meta name="generator" content="Org Mode" />
 <link rel='stylesheet' type='text/css' href='/org.css'/>
 </head>
@@ -72,7 +73,7 @@ We are using the UCRT64.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code>sed -i <span style="color: #ca3400;">"s#https\?://mirror.msys2.org/#https://mirrors.tuna.tsinghua.edu.cn/msys2/#g"</span> /etc/pacman.d/mirrorlist*
+<pre class="src src-bash"><code>sed -i <span style="color: #006f70;">"s#https\?://mirror.msys2.org/#https://mirrors.tuna.tsinghua.edu.cn/msys2/#g"</span> /etc/pacman.d/mirrorlist*
 
 pacman -Syu
 </code></pre>
@@ -93,58 +94,58 @@ To install the required packages for building Emacs.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code>pacman -Su <span style="color: #ca3400;">\</span>
-  autoconf <span style="color: #ca3400;">\</span>
-  autogen <span style="color: #ca3400;">\</span>
-  automake <span style="color: #ca3400;">\</span>
-  automake-wrapper <span style="color: #ca3400;">\</span>
-  git <span style="color: #ca3400;">\</span>
-  libidn-devel <span style="color: #ca3400;">\</span>
-  libltdl <span style="color: #ca3400;">\</span>
-  libnettle-devel <span style="color: #ca3400;">\</span>
-  libopenssl <span style="color: #ca3400;">\</span>
-  libp11-kit-devel <span style="color: #ca3400;">\</span>
-  libtasn1-devel <span style="color: #ca3400;">\</span>
-  libunistring <span style="color: #ca3400;">\</span>
-  make <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-toolchain <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-bzip2 <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-cairo <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-crt-git <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-expat <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-fontconfig <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-freetype <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-gcc <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-gcc-libs <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-gdk-pixbuf2 <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-gettext <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-giflib <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-glib2 <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-gmp <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-gnutls <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-harfbuzz <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-headers-git <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-imagemagick <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-jansson <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-libgccjit <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-libiconv <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-libidn2 <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-libjpeg-turbo <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-libpng <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-librsvg <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-sqlite3 <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-libtree-sitter <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-libtiff <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-libunistring <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-libxml2 <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-nettle <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-p11-kit <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-winpthreads <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-xpm-nox <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-xz <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-zlib <span style="color: #ca3400;">\</span>
-  mingw-w64-ucrt-x86_64-jbigkit <span style="color: #ca3400;">\</span>
-  pkgconf <span style="color: #ca3400;">\</span>
+<pre class="src src-bash"><code>pacman -Su <span style="color: #006f70;">\</span>
+  autoconf <span style="color: #006f70;">\</span>
+  autogen <span style="color: #006f70;">\</span>
+  automake <span style="color: #006f70;">\</span>
+  automake-wrapper <span style="color: #006f70;">\</span>
+  git <span style="color: #006f70;">\</span>
+  libidn-devel <span style="color: #006f70;">\</span>
+  libltdl <span style="color: #006f70;">\</span>
+  libnettle-devel <span style="color: #006f70;">\</span>
+  libopenssl <span style="color: #006f70;">\</span>
+  libp11-kit-devel <span style="color: #006f70;">\</span>
+  libtasn1-devel <span style="color: #006f70;">\</span>
+  libunistring <span style="color: #006f70;">\</span>
+  make <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-toolchain <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-bzip2 <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-cairo <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-crt-git <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-expat <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-fontconfig <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-freetype <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-gcc <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-gcc-libs <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-gdk-pixbuf2 <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-gettext <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-giflib <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-glib2 <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-gmp <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-gnutls <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-harfbuzz <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-headers-git <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-imagemagick <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-jansson <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-libgccjit <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-libiconv <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-libidn2 <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-libjpeg-turbo <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-libpng <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-librsvg <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-sqlite3 <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-libtree-sitter <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-libtiff <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-libunistring <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-libxml2 <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-nettle <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-p11-kit <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-winpthreads <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-xpm-nox <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-xz <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-zlib <span style="color: #006f70;">\</span>
+  mingw-w64-ucrt-x86_64-jbigkit <span style="color: #006f70;">\</span>
+  pkgconf <span style="color: #006f70;">\</span>
   texinfo 
 </code></pre>
 </div>
@@ -157,7 +158,7 @@ To install the required packages for building Emacs.<br>
 <pre class="src src-bash"><code>git config --global core.autocrlf false
 git config --global http.postBuffer 524288000
 
-git config --global http.proxy <span style="color: #ca3400;">"socks5://127.0.0.1:7890"</span>
+git config --global http.proxy <span style="color: #006f70;">"socks5://127.0.0.1:7890"</span>
 
 git clone https://github.moeyy.xyz/https://github.com/emacs-mirror/emacs.git --depth 1
 </code></pre>
@@ -186,20 +187,20 @@ Set <code>prefix</code> to somewhere appropriate.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code><span style="color: #557400;">cd</span> emacs &amp;&amp;<span style="color: #ca3400;">\</span>
+<pre class="src src-bash"><code><span style="color: #6a4a9f;">cd</span> emacs &amp;&amp;<span style="color: #006f70;">\</span>
 ./autogen.sh
-mkdir build &amp;&amp;<span style="color: #ca3400;">\</span>
-<span style="color: #557400;">cd</span> build &amp;&amp;<span style="color: #ca3400;">\</span>
-<span style="color: #007a9f;">target</span>=/d/cemacs
-../configure <span style="color: #007a9f;">prefix</span>=$<span style="color: #007a9f;">target</span> <span style="color: #ca3400;">\</span>
-    --with-gnutls <span style="color: #ca3400;">\</span>
-    --without-dbus <span style="color: #ca3400;">\</span>
-    --with-native-compilation=aot <span style="color: #ca3400;">\</span>
-    --without-pop <span style="color: #ca3400;">\</span>
-    --with-xpm <span style="color: #ca3400;">\</span>
-    --with-imagemagick <span style="color: #ca3400;">\</span>
+mkdir build &amp;&amp;<span style="color: #006f70;">\</span>
+<span style="color: #6a4a9f;">cd</span> build &amp;&amp;<span style="color: #006f70;">\</span>
+<span style="color: #1f66af;">target</span>=/d/cemacs
+../configure <span style="color: #1f66af;">prefix</span>=$<span style="color: #1f66af;">target</span> <span style="color: #006f70;">\</span>
+    --with-gnutls <span style="color: #006f70;">\</span>
+    --without-dbus <span style="color: #006f70;">\</span>
+    --with-native-compilation=aot <span style="color: #006f70;">\</span>
+    --without-pop <span style="color: #006f70;">\</span>
+    --with-xpm <span style="color: #006f70;">\</span>
+    --with-imagemagick <span style="color: #006f70;">\</span>
     --with-modules
-<span style="color: #8f6f4a;"># </span><span style="color: #8f6f4a;">&#22914;&#26524;&#35201;&#23581;&#35797;igc&#29256;&#26412;
+<span style="color: #8b4052;"># </span><span style="color: #8b4052;">&#22914;&#26524;&#35201;&#23581;&#35797;igc&#29256;&#26412;
 </span>  --with-mps 
 </code></pre>
 </div>
@@ -240,7 +241,7 @@ DLL used by Emacs.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code>cp /ucrt64/bin/*.dll $<span style="color: #007a9f;">target</span>/bin
+<pre class="src src-bash"><code>cp /ucrt64/bin/*.dll $<span style="color: #1f66af;">target</span>/bin
 </code></pre>
 </div>
 
@@ -277,9 +278,9 @@ MSYS2 environment.<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><code>mkdir $<span style="color: #007a9f;">target</span>/lib/gcc &amp;&amp;<span style="color: #ca3400;">\</span>
-cp /ucrt64/lib/<span style="color: #a7601f;">{</span>crtbegin,crtend,dllcrt2<span style="color: #a7601f;">}</span>.o $<span style="color: #007a9f;">target</span>/lib/gcc &amp;&amp;<span style="color: #ca3400;">\</span>
-cp /ucrt64/lib/lib<span style="color: #a7601f;">{</span>advapi32,gcc_s,mingw32,msvcrt,shell32,kernel32,mingwex,pthread,user32<span style="color: #a7601f;">}</span>.a $<span style="color: #007a9f;">target</span>/lib/gcc
+<pre class="src src-bash"><code>mkdir $<span style="color: #1f66af;">target</span>/lib/gcc &amp;&amp;<span style="color: #006f70;">\</span>
+cp /ucrt64/lib/<span style="color: #007047;">{</span>crtbegin,crtend,dllcrt2<span style="color: #007047;">}</span>.o $<span style="color: #1f66af;">target</span>/lib/gcc &amp;&amp;<span style="color: #006f70;">\</span>
+cp /ucrt64/lib/lib<span style="color: #007047;">{</span>advapi32,gcc_s,mingw32,msvcrt,shell32,kernel32,mingwex,pthread,user32<span style="color: #007047;">}</span>.a $<span style="color: #1f66af;">target</span>/lib/gcc
 </code></pre>
 </div>
 
@@ -287,8 +288,8 @@ cp /ucrt64/lib/lib<span style="color: #a7601f;">{</span>advapi32,gcc_s,mingw32,m
 adjust path according to gcc version<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash"><code>cp /ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/libgcc.a $<span style="color: #007a9f;">target</span>/lib/gcc &amp;&amp;<span style="color: #ca3400;">\</span>
-cp /ucrt64/bin/<span style="color: #a7601f;">{</span>ld,as<span style="color: #a7601f;">}</span>.exe $<span style="color: #007a9f;">target</span>/lib/gcc
+<pre class="src src-bash"><code>cp /ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/libgcc.a $<span style="color: #1f66af;">target</span>/lib/gcc &amp;&amp;<span style="color: #006f70;">\</span>
+cp /ucrt64/bin/<span style="color: #007047;">{</span>ld,as<span style="color: #007047;">}</span>.exe $<span style="color: #1f66af;">target</span>/lib/gcc
 </code></pre>
 </div>
 </div>
@@ -309,7 +310,7 @@ cp /ucrt64/bin/<span style="color: #a7601f;">{</span>ld,as<span style="color: #a
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
 </div>
 </body>
 </html>

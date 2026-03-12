@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-06 周二 17:36 -->
+<!-- 2026-03-12 周四 17:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-windows上使用emacs</title>
+<meta name="author" content="TomoeMami" />
 <meta name="generator" content="Org Mode" />
 <link rel='stylesheet' type='text/css' href='/org.css'/>
 </head>
@@ -38,19 +39,19 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> lazy-revert
-  <span style="color: #557400;">:ensure</span> nil
-  <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">:quelpa (lazy-revert :fetcher github
-</span>  <span style="color: #8f6f4a;">;;                      </span><span style="color: #8f6f4a;">:repo "yilin-zhang/lazy-revert")
-</span>  <span style="color: #557400;">:hook</span> <span style="color: #557400;">(</span>after-init . lazy-revert-mode<span style="color: #557400;">)</span>
-  <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Optional
-</span>  <span style="color: #557400;">:config</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">setq</span> auto-revert-verbose t <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">let us know when it happens
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> lazy-revert
+  <span style="color: #6a4a9f;">:ensure</span> nil
+  <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">:quelpa (lazy-revert :fetcher github
+</span>  <span style="color: #8b4052;">;;                      </span><span style="color: #8b4052;">:repo "yilin-zhang/lazy-revert")
+</span>  <span style="color: #6a4a9f;">:hook</span> <span style="color: #444fcf;">(</span>after-init . lazy-revert-mode<span style="color: #444fcf;">)</span>
+  <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">Optional
+</span>  <span style="color: #6a4a9f;">:config</span>
+  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">setq</span> auto-revert-verbose t <span style="color: #8b4052;">; </span><span style="color: #8b4052;">let us know when it happens
 </span>        auto-revert-use-notify nil
         auto-revert-stop-on-user-input nil
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Only prompts for confirmation when buffer is unsaved.
-</span>        revert-without-query <span style="color: #bf4400;">(</span>list <span style="color: #ca3400;">"."</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
-<span style="color: #a7601f;">(</span>add-to-list 'file-coding-system-alist '<span style="color: #557400;">(</span><span style="color: #ca3400;">"\\.org\\'"</span> . utf-8<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">Only prompts for confirmation when buffer is unsaved.
+</span>        revert-without-query <span style="color: #3a6f00;">(</span>list <span style="color: #006f70;">"."</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<span style="color: #007047;">(</span>add-to-list 'file-coding-system-alist '<span style="color: #444fcf;">(</span><span style="color: #006f70;">"\\.org\\'"</span> . utf-8<span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
 
@@ -59,8 +60,8 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>add-to-list 'process-coding-system-alist
-                        '<span style="color: #557400;">(</span><span style="color: #ca3400;">"[rR][gG]"</span> . <span style="color: #bf4400;">(</span>utf-8 . gbk-dos<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span>add-to-list 'process-coding-system-alist
+                        '<span style="color: #444fcf;">(</span><span style="color: #006f70;">"[rR][gG]"</span> . <span style="color: #3a6f00;">(</span>utf-8 . gbk-dos<span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
 
@@ -69,11 +70,11 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>prefer-coding-system 'utf-8<span style="color: #a7601f;">)</span>
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> default-buffer-file-coding-system 'utf-8<span style="color: #a7601f;">)</span>
-<span style="color: #a7601f;">(</span>set-default 'process-coding-system-alist
-             '<span style="color: #557400;">(</span><span style="color: #bf4400;">(</span><span style="color: #ca3400;">"[pP][lL][iI][nN][kK]"</span> gbk-dos . gbk-dos<span style="color: #bf4400;">)</span>
-               <span style="color: #bf4400;">(</span><span style="color: #ca3400;">"[cC][mM][dD][pP][rR][oO][xX][yY]"</span> gbk-dos . gbk-dos<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span>prefer-coding-system 'utf-8<span style="color: #007047;">)</span>
+<span style="color: #007047;">(</span><span style="color: #444fcf;">setq</span> default-buffer-file-coding-system 'utf-8<span style="color: #007047;">)</span>
+<span style="color: #007047;">(</span>set-default 'process-coding-system-alist
+             '<span style="color: #444fcf;">(</span><span style="color: #3a6f00;">(</span><span style="color: #006f70;">"[pP][lL][iI][nN][kK]"</span> gbk-dos . gbk-dos<span style="color: #3a6f00;">)</span>
+               <span style="color: #3a6f00;">(</span><span style="color: #006f70;">"[cC][mM][dD][pP][rR][oO][xX][yY]"</span> gbk-dos . gbk-dos<span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
 </div>
@@ -101,16 +102,16 @@
 consult配置<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> consult
-  <span style="color: #557400;">:defer</span> t
-  <span style="color: #557400;">:init</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">progn</span>
-    <span style="color: #bf4400;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #3f6faf;">(</span><span style="color: #ca3400;">"es"</span> gbk . gbk<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #3f6faf;">(</span><span style="color: #ca3400;">"explorer"</span> gbk . gbk<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">setq</span> consult-locate-args <span style="color: #3f6faf;">(</span>encode-coding-string <span style="color: #ca3400;">"es.exe -i -p -r"</span> 'gbk<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
-  <span style="color: #557400;">:custom</span>
-  <span style="color: #557400;">(</span>consult-async-min-input 2<span style="color: #557400;">)</span> <span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#20013;&#25991;2&#23383;&#31526;&#24320;&#25628;
-</span>  <span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> consult
+  <span style="color: #6a4a9f;">:defer</span> t
+  <span style="color: #6a4a9f;">:init</span>
+  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">progn</span>
+    <span style="color: #3a6f00;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #1f66af;">(</span><span style="color: #006f70;">"es"</span> gbk . gbk<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+    <span style="color: #3a6f00;">(</span>add-to-list 'process-coding-system-alist '<span style="color: #1f66af;">(</span><span style="color: #006f70;">"explorer"</span> gbk . gbk<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">setq</span> consult-locate-args <span style="color: #1f66af;">(</span>encode-coding-string <span style="color: #006f70;">"es.exe -i -p -r"</span> 'gbk<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span>
+  <span style="color: #6a4a9f;">:custom</span>
+  <span style="color: #444fcf;">(</span>consult-async-min-input 2<span style="color: #444fcf;">)</span> <span style="color: #8b4052;">;;</span><span style="color: #8b4052;">&#20013;&#25991;2&#23383;&#31526;&#24320;&#25628;
+</span>  <span style="color: #007047;">)</span>
 </code></pre>
 </div>
 
@@ -150,7 +151,7 @@ D:\Emacs\bin
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
 </div>
 </body>
 </html>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-06 周二 17:27 -->
+<!-- 2026-03-12 周四 17:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-org-roam-node操作排除daily文件夹下node</title>
+<meta name="author" content="TomoeMami" />
 <meta name="generator" content="Org Mode" />
 <link rel='stylesheet' type='text/css' href='/org.css'/>
 </head>
@@ -28,24 +29,24 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> org-roam<span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> org-roam<span style="color: #007047;">)</span>
 
-<span style="color: #a7601f;">(</span>org-roam-db-autosync-mode<span style="color: #a7601f;">)</span>
+<span style="color: #007047;">(</span>org-roam-db-autosync-mode<span style="color: #007047;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">cl-defmethod</span> <span style="color: #a7601f;">org-roam-node-directories</span> <span style="color: #557400;">(</span><span style="color: #bf4400;">(</span>node org-roam-node<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
-    <span style="color: #557400;">(</span><span style="color: #006f00;">if-let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>dirs <span style="color: #00824f;">(</span>file-name-directory <span style="color: #9a456f;">(</span>file-relative-name <span style="color: #a2604f;">(</span>org-roam-node-file node<span style="color: #a2604f;">)</span> org-roam-directory<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-        <span style="color: #bf4400;">(</span>format <span style="color: #ca3400;">"(%s)"</span> <span style="color: #3f6faf;">(</span>car <span style="color: #00824f;">(</span>split-string dirs <span style="color: #ca3400;">"/"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-      <span style="color: #ca3400;">""</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #007047;">(</span><span style="color: #444fcf;">cl-defmethod</span> <span style="color: #3a6f00;">org-roam-node-directories</span> <span style="color: #444fcf;">(</span><span style="color: #3a6f00;">(</span>node org-roam-node<span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span>
+    <span style="color: #444fcf;">(</span><span style="color: #444fcf;">if-let</span> <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>dirs <span style="color: #5f2fba;">(</span>file-name-directory <span style="color: #003faf;">(</span>file-relative-name <span style="color: #80308f;">(</span>org-roam-node-file node<span style="color: #80308f;">)</span> org-roam-directory<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+        <span style="color: #3a6f00;">(</span>format <span style="color: #006f70;">"(%s)"</span> <span style="color: #1f66af;">(</span>car <span style="color: #5f2fba;">(</span>split-string dirs <span style="color: #006f70;">"/"</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+      <span style="color: #006f70;">""</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
 
-<span style="color: #a7601f;">(</span>global-set-key <span style="color: #ca3400;">"\C-cxf"</span> <span style="color: #557400;">(</span><span style="color: #006f00;">lambda</span> <span style="color: #bf4400;">()</span> <span style="color: #bf4400;">(</span><span style="color: #006f00;">interactive</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span>org-roam-node-find nil nil
-        <span style="color: #3f6faf;">(</span><span style="color: #006f00;">lambda</span> <span style="color: #00824f;">(</span>node<span style="color: #00824f;">)</span>
-            <span style="color: #00824f;">(</span>not <span style="color: #9a456f;">(</span>string-search <span style="color: #ca3400;">"daily"</span> <span style="color: #a2604f;">(</span>org-roam-node-directories node<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #007047;">(</span>global-set-key <span style="color: #006f70;">"\C-cxf"</span> <span style="color: #444fcf;">(</span><span style="color: #444fcf;">lambda</span> <span style="color: #3a6f00;">()</span> <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">interactive</span><span style="color: #3a6f00;">)</span>
+    <span style="color: #3a6f00;">(</span>org-roam-node-find nil nil
+        <span style="color: #1f66af;">(</span><span style="color: #444fcf;">lambda</span> <span style="color: #5f2fba;">(</span>node<span style="color: #5f2fba;">)</span>
+            <span style="color: #5f2fba;">(</span>not <span style="color: #003faf;">(</span>string-search <span style="color: #006f70;">"daily"</span> <span style="color: #80308f;">(</span>org-roam-node-directories node<span style="color: #80308f;">)</span><span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
 </div>
 </body>
 </html>

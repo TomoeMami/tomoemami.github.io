@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-01-06 周二 17:28 -->
+<!-- 2026-03-12 周四 17:48 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-开机启动wttrin天气界面</title>
+<meta name="author" content="TomoeMami" />
 <meta name="generator" content="Org Mode" />
 <link rel='stylesheet' type='text/css' href='/org.css'/>
 </head>
@@ -44,9 +45,9 @@
 </ol>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> wttrin
-  <span style="color: #557400;">:config</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">setq</span> wttrin-default-languages '<span style="color: #bf4400;">(</span><span style="color: #ca3400;">"Accept-Language"</span> . <span style="color: #ca3400;">"zh-CN,zh"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> wttrin
+  <span style="color: #6a4a9f;">:config</span>
+  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">setq</span> wttrin-default-languages '<span style="color: #3a6f00;">(</span><span style="color: #006f70;">"Accept-Language"</span> . <span style="color: #006f70;">"zh-CN,zh"</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
 
 </code></pre>
 </div>
@@ -64,12 +65,12 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>custom-set-faces
- <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">custom-set-faces was added by Custom.
-</span> <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">If you edit it by hand, you could mess it up, so be careful.
-</span> <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Your init file should contain only one such instance.
-</span> <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">If there is more than one, they won't work right.
-</span>  '<span style="color: #557400;">(</span>wttrin-buffer-face <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>t <span style="color: #00824f;">(</span><span style="color: #557400;">:family</span> <span style="color: #ca3400;">"Sarasa Term SC"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span>custom-set-faces
+ <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">custom-set-faces was added by Custom.
+</span> <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">If you edit it by hand, you could mess it up, so be careful.
+</span> <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">Your init file should contain only one such instance.
+</span> <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">If there is more than one, they won't work right.
+</span>  '<span style="color: #444fcf;">(</span>wttrin-buffer-face <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>t <span style="color: #5f2fba;">(</span><span style="color: #6a4a9f;">:family</span> <span style="color: #006f70;">"Sarasa Term SC"</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
 
@@ -78,22 +79,22 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">create-variable-pitch-fontset</span> <span style="color: #557400;">(</span>name ascii-font han-font<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"Create fontset named NAME with given ASCII-FONT and HAN-FONT."</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>registry <span style="color: #00824f;">(</span>concat <span style="color: #ca3400;">"fontset-variable pitch "</span> name<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span>create-fontset-from-fontset-spec
-     <span style="color: #3f6faf;">(</span>font-xlfd-name
-      <span style="color: #00824f;">(</span>font-spec <span style="color: #557400;">:family</span> ascii-font
-                 <span style="color: #557400;">:registry</span> registry<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span>set-fontset-font registry 'han
-                      <span style="color: #3f6faf;">(</span>font-spec <span style="color: #557400;">:family</span> han-font<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span>set-fontset-font registry 'cjk-misc
-                      <span style="color: #3f6faf;">(</span>font-spec <span style="color: #557400;">:family</span> han-font<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
-<span style="color: #a7601f;">(</span>create-variable-pitch-fontset <span style="color: #ca3400;">"regular"</span>
-                               <span style="color: #ca3400;">"Sarasa Term SC"</span>
-                               <span style="color: #ca3400;">"Sarasa Term SC"</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">create-variable-pitch-fontset</span> <span style="color: #444fcf;">(</span>name ascii-font han-font<span style="color: #444fcf;">)</span>
+  <span style="color: #3f627f;">"Create fontset named NAME with given ASCII-FONT and HAN-FONT."</span>
+  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">let</span> <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>registry <span style="color: #5f2fba;">(</span>concat <span style="color: #006f70;">"fontset-variable pitch "</span> name<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+    <span style="color: #3a6f00;">(</span>create-fontset-from-fontset-spec
+     <span style="color: #1f66af;">(</span>font-xlfd-name
+      <span style="color: #5f2fba;">(</span>font-spec <span style="color: #6a4a9f;">:family</span> ascii-font
+                 <span style="color: #6a4a9f;">:registry</span> registry<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+    <span style="color: #3a6f00;">(</span>set-fontset-font registry 'han
+                      <span style="color: #1f66af;">(</span>font-spec <span style="color: #6a4a9f;">:family</span> han-font<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+    <span style="color: #3a6f00;">(</span>set-fontset-font registry 'cjk-misc
+                      <span style="color: #1f66af;">(</span>font-spec <span style="color: #6a4a9f;">:family</span> han-font<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<span style="color: #007047;">(</span>create-variable-pitch-fontset <span style="color: #006f70;">"regular"</span>
+                               <span style="color: #006f70;">"Sarasa Term SC"</span>
+                               <span style="color: #006f70;">"Sarasa Term SC"</span><span style="color: #007047;">)</span>
 
-<span style="color: #a7601f;">(</span>set-face-attribute 'wttrin-buffer-face nil <span style="color: #557400;">:fontset</span> <span style="color: #ca3400;">"fontset-variable pitch regular"</span><span style="color: #a7601f;">)</span>
+<span style="color: #007047;">(</span>set-face-attribute 'wttrin-buffer-face nil <span style="color: #6a4a9f;">:fontset</span> <span style="color: #006f70;">"fontset-variable pitch regular"</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
 
@@ -103,57 +104,57 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">wttrin-query</span> <span style="color: #557400;">(</span>location-name<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"Query weather of LOCATION-NAME via wttrin, display the result in new buffer."</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>raw-string <span style="color: #00824f;">(</span>wttrin-fetch-raw-string location-name<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">if</span> <span style="color: #3f6faf;">(</span>string-match <span style="color: #ca3400;">"ERROR"</span> raw-string<span style="color: #3f6faf;">)</span>
-        <span style="color: #3f6faf;">(</span>message <span style="color: #ca3400;">"Cannot retrieve weather data. Perhaps the location was
-misspelled?"</span><span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span><span style="color: #006f00;">let</span> <span style="color: #00824f;">(</span><span style="color: #9a456f;">(</span>buffer <span style="color: #a2604f;">(</span>get-buffer-create <span style="color: #007a9f;">(</span>format <span style="color: #ca3400;">"*wttr.in*"</span><span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
-            date-time-stamp location-info<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>switch-to-buffer buffer<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span><span style="color: #006f00;">setq</span> buffer-read-only nil<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>erase-buffer<span style="color: #00824f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">wttrin-query</span> <span style="color: #444fcf;">(</span>location-name<span style="color: #444fcf;">)</span>
+  <span style="color: #3f627f;">"Query weather of LOCATION-NAME via wttrin, display the result in new buffer."</span>
+  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">let</span> <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>raw-string <span style="color: #5f2fba;">(</span>wttrin-fetch-raw-string location-name<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
+    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">if</span> <span style="color: #1f66af;">(</span>string-match <span style="color: #006f70;">"ERROR"</span> raw-string<span style="color: #1f66af;">)</span>
+        <span style="color: #1f66af;">(</span>message <span style="color: #006f70;">"Cannot retrieve weather data. Perhaps the location was
+misspelled?"</span><span style="color: #1f66af;">)</span>
+      <span style="color: #1f66af;">(</span><span style="color: #444fcf;">let</span> <span style="color: #5f2fba;">(</span><span style="color: #003faf;">(</span>buffer <span style="color: #80308f;">(</span>get-buffer-create <span style="color: #006f70;">(</span>format <span style="color: #006f70;">"*wttr.in*"</span><span style="color: #006f70;">)</span><span style="color: #80308f;">)</span><span style="color: #003faf;">)</span>
+            date-time-stamp location-info<span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>switch-to-buffer buffer<span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">setq</span> buffer-read-only nil<span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>erase-buffer<span style="color: #5f2fba;">)</span>
 
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">Enable `truncate-lines` to avoid garbling the output in small windows
-</span>        <span style="color: #00824f;">(</span><span style="color: #006f00;">setq</span> truncate-lines t<span style="color: #00824f;">)</span>
+        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">Enable `truncate-lines` to avoid garbling the output in small windows
+</span>        <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">setq</span> truncate-lines t<span style="color: #5f2fba;">)</span>
 
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">set the preferred font attributes for this buffer only
-</span>        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">(setq buffer-face-mode-face `(:family ,wttrin-font-name :height
-</span>        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">                                   ,wttrin-font-height))
-</span>        <span style="color: #00824f;">(</span><span style="color: #006f00;">setq</span> buffer-face-mode-face 'wttrin-buffer-face<span style="color: #00824f;">)</span>
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">display buffer text and insert wttr.in data
-</span>        <span style="color: #00824f;">(</span>buffer-face-mode t<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>insert <span style="color: #9a456f;">(</span>xterm-color-filter raw-string<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">set the preferred font attributes for this buffer only
+</span>        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">(setq buffer-face-mode-face `(:family ,wttrin-font-name :height
+</span>        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">                                   ,wttrin-font-height))
+</span>        <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">setq</span> buffer-face-mode-face 'wttrin-buffer-face<span style="color: #5f2fba;">)</span>
+        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">display buffer text and insert wttr.in data
+</span>        <span style="color: #5f2fba;">(</span>buffer-face-mode t<span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>insert <span style="color: #003faf;">(</span>xterm-color-filter raw-string<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
 
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">rearrange header information
-</span>        <span style="color: #00824f;">(</span>goto-char <span style="color: #9a456f;">(</span>point-min<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>forward-line 4<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span><span style="color: #006f00;">setq</span> date-time-stamp <span style="color: #9a456f;">(</span>buffer-substring-no-properties
-                               <span style="color: #a2604f;">(</span>line-beginning-position<span style="color: #a2604f;">)</span> <span style="color: #a2604f;">(</span>line-end-position<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>goto-char <span style="color: #9a456f;">(</span>point-min<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>forward-line 6<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span><span style="color: #006f00;">setq</span> location-info <span style="color: #9a456f;">(</span>buffer-substring-no-properties
-                             <span style="color: #a2604f;">(</span>line-beginning-position<span style="color: #a2604f;">)</span> <span style="color: #a2604f;">(</span>line-end-position<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>goto-char <span style="color: #9a456f;">(</span>point-min<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>forward-line 8<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>delete-region <span style="color: #9a456f;">(</span>point-min<span style="color: #9a456f;">)</span> <span style="color: #9a456f;">(</span>line-beginning-position<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">rearrange header information
+</span>        <span style="color: #5f2fba;">(</span>goto-char <span style="color: #003faf;">(</span>point-min<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>forward-line 4<span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">setq</span> date-time-stamp <span style="color: #003faf;">(</span>buffer-substring-no-properties
+                               <span style="color: #80308f;">(</span>line-beginning-position<span style="color: #80308f;">)</span> <span style="color: #80308f;">(</span>line-end-position<span style="color: #80308f;">)</span><span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>goto-char <span style="color: #003faf;">(</span>point-min<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>forward-line 6<span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">setq</span> location-info <span style="color: #003faf;">(</span>buffer-substring-no-properties
+                             <span style="color: #80308f;">(</span>line-beginning-position<span style="color: #80308f;">)</span> <span style="color: #80308f;">(</span>line-end-position<span style="color: #80308f;">)</span><span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>goto-char <span style="color: #003faf;">(</span>point-min<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>forward-line 8<span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>delete-region <span style="color: #003faf;">(</span>point-min<span style="color: #003faf;">)</span> <span style="color: #003faf;">(</span>line-beginning-position<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
 
-        <span style="color: #00824f;">(</span>insert <span style="color: #ca3400;">"\n"</span> location-info <span style="color: #ca3400;">"\n"</span> date-time-stamp <span style="color: #ca3400;">"\n\n\n"</span><span style="color: #00824f;">)</span>
+        <span style="color: #5f2fba;">(</span>insert <span style="color: #006f70;">"\n"</span> location-info <span style="color: #006f70;">"\n"</span> date-time-stamp <span style="color: #006f70;">"\n\n\n"</span><span style="color: #5f2fba;">)</span>
 
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">provide user instructions
-</span>        <span style="color: #00824f;">(</span>goto-char <span style="color: #9a456f;">(</span>point-max<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>insert <span style="color: #ca3400;">"\nPress: [g] to query another location\n"</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>insert <span style="color: #ca3400;">"       [q] to quit\n"</span><span style="color: #00824f;">)</span>
+        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">provide user instructions
+</span>        <span style="color: #5f2fba;">(</span>goto-char <span style="color: #003faf;">(</span>point-max<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>insert <span style="color: #006f70;">"\nPress: [g] to query another location\n"</span><span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>insert <span style="color: #006f70;">"       [q] to quit\n"</span><span style="color: #5f2fba;">)</span>
 
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">align buffer to top
-</span>        <span style="color: #00824f;">(</span>goto-char <span style="color: #9a456f;">(</span>point-min<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">align buffer to top
+</span>        <span style="color: #5f2fba;">(</span>goto-char <span style="color: #003faf;">(</span>point-min<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
 
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">create choice keymap and disallow modifying buffer
-</span>        <span style="color: #00824f;">(</span>use-local-map <span style="color: #9a456f;">(</span>make-sparse-keymap<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>local-set-key <span style="color: #ca3400;">"q"</span> 'wttrin-exit<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>local-set-key <span style="color: #ca3400;">"g"</span> 'wttrin-requery<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span><span style="color: #006f00;">setq</span> buffer-read-only t<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+        <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">create choice keymap and disallow modifying buffer
+</span>        <span style="color: #5f2fba;">(</span>use-local-map <span style="color: #003faf;">(</span>make-sparse-keymap<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>local-set-key <span style="color: #006f70;">"q"</span> 'wttrin-exit<span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span>local-set-key <span style="color: #006f70;">"g"</span> 'wttrin-requery<span style="color: #5f2fba;">)</span>
+        <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">setq</span> buffer-read-only t<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
 </div>
@@ -166,14 +167,14 @@ misspelled?"</span><span style="color: #3f6faf;">)</span>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a7601f;">(</span>wttrin-query <span style="color: #ca3400;">"AAA, China"</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #007047;">(</span>wttrin-query <span style="color: #006f70;">"AAA, China"</span><span style="color: #007047;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 9.8-pre)　|　<a href="https://tomoemami.github.io/rss.xml">RSS</a>　<a href="https://tomoemami.github.io/20251121T151653--english-post-index__wiki.html">English-Index</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
 </div>
 </body>
 </html>
