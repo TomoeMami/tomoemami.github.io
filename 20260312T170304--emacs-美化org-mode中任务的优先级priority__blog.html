@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:49 -->
+<!-- 2026-03-13 周五 11:58 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-美化org-mode中任务的优先级priority</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-12 周四 17:40]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-13 周五 11:58]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -29,33 +29,33 @@
 </p>
 
 <p>
-现在，也许是我老了，感受到每一次审视任务列表都在消耗我所剩不多的判断精力；也许是我想通了，为了减少判断优先级，利用文本优先级作为人脑判断的缓存。<br>
+现在，也许是我老了，感受到每一次审视任务列表都在消耗我所剩不多的判断精力；也许是我想通了，从代码简化的角度看，要尽量避免重复判断任务优先级，所以利用文本中的优先级作为人脑判断结果的缓存。总之我开始配置并使用org-mode自带的任务优先级了。<br>
 </p>
 
 <p>
-总之我开始配置并使用org-mode自带的任务优先级了。由于是内置的功能，因此初始情况并不需要配置。直接在没有优先级的任务上按 <code>S+↑/↓</code> ，就能创建一个默认的等级 <code>[#B]</code> 。然后再按 <code>S+↑/↓</code> ，就可以对应提升或者降低优先级。<br>
+由于是内置的功能，因此初始情况并不需要配置。直接在没有优先级的任务上按 <code>S+↑/↓</code> ，就能创建一个默认的等级 <code>[#B]</code> 。然后再按 <code>S+↑/↓</code> ，就可以对应提升或者降低优先级。<br>
 </p>
 
 <p>
 但是我们总是想美化一下。目前我采取了第三方包 <a href="https://github.com/harrybournis/org-fancy-priorities">org-fancy-priorities</a> ，它可以为设定的序列符号自定义overlay替换字符串。<br>
 </p>
-<div id="outline-container-orgfc0cb4a" class="outline-2">
-<h2 id="orgfc0cb4a"><span class="section-number-2">1.</span> 具体配置</h2>
+<div id="outline-container-org4576a04" class="outline-2">
+<h2 id="org4576a04"><span class="section-number-2">1.</span> 具体配置</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> org-fancy-priorities
-  <span style="color: #6a4a9f;">:after</span> org <span style="color: #6a4a9f;">:ensure</span> t <span style="color: #6a4a9f;">:demand</span> t
-  <span style="color: #6a4a9f;">:hook</span>
-  <span style="color: #444fcf;">(</span>org-mode-hook . org-fancy-priorities-mode<span style="color: #444fcf;">)</span>
-  <span style="color: #6a4a9f;">:custom</span>
-  <span style="color: #444fcf;">(</span>org-priority-highest 1<span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span>org-priority-lowest 4<span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span>org-priority-default 3<span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span>org-fancy-priorities-list
-   `<span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>?1 . ,<span style="color: #5f2fba;">(</span>propertize <span style="color: #006f70;">"&#127362;"</span> 'face '<span style="color: #003faf;">(</span><span style="color: #6a4a9f;">:foreground</span> <span style="color: #006f70;">"#fe8019"</span> <span style="color: #6a4a9f;">:weight</span> bold <span style="color: #6a4a9f;">:slant</span> normal<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
-     <span style="color: #1f66af;">(</span>?2 . ,<span style="color: #5f2fba;">(</span>propertize <span style="color: #006f70;">"&#127344;"</span> 'face '<span style="color: #003faf;">(</span><span style="color: #6a4a9f;">:foreground</span> <span style="color: #006f70;">"#8f3f71"</span> <span style="color: #6a4a9f;">:weight</span> bold <span style="color: #6a4a9f;">:slant</span> normal<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
-     <span style="color: #1f66af;">(</span>?3 . ,<span style="color: #5f2fba;">(</span>propertize <span style="color: #006f70;">"&#127345;"</span> 'face '<span style="color: #003faf;">(</span><span style="color: #6a4a9f;">:foreground</span> <span style="color: #006f70;">"#458588"</span> <span style="color: #6a4a9f;">:weight</span> bold <span style="color: #6a4a9f;">:slant</span> normal<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
-     <span style="color: #1f66af;">(</span>?4 . ,<span style="color: #5f2fba;">(</span>propertize <span style="color: #006f70;">"&#127346;"</span> 'face '<span style="color: #003faf;">(</span><span style="color: #6a4a9f;">:foreground</span> <span style="color: #006f70;">"#7c6f64"</span><span style="color: #6a4a9f;">:weight</span> bold <span style="color: #6a4a9f;">:slant</span> normal<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">use-package</span> org-fancy-priorities
+  <span style="color: #705ae3;">:after</span> org <span style="color: #705ae3;">:ensure</span> t <span style="color: #705ae3;">:demand</span> t
+  <span style="color: #705ae3;">:hook</span>
+  <span style="color: #5165e4;">(</span>org-mode-hook . org-fancy-priorities-mode<span style="color: #5165e4;">)</span>
+  <span style="color: #705ae3;">:custom</span>
+  <span style="color: #5165e4;">(</span>org-priority-highest 1<span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span>org-priority-lowest 4<span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span>org-priority-default 3<span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span>org-fancy-priorities-list
+   `<span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span>?1 . ,<span style="color: #1f6fbf;">(</span>propertize <span style="color: #007f6f;">"&#127362;"</span> 'face '<span style="color: #b65050;">(</span><span style="color: #705ae3;">:foreground</span> <span style="color: #007f6f;">"#fe8019"</span> <span style="color: #705ae3;">:weight</span> bold <span style="color: #705ae3;">:slant</span> normal<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
+     <span style="color: #ad45ba;">(</span>?2 . ,<span style="color: #1f6fbf;">(</span>propertize <span style="color: #007f6f;">"&#127344;"</span> 'face '<span style="color: #b65050;">(</span><span style="color: #705ae3;">:foreground</span> <span style="color: #007f6f;">"#8f3f71"</span> <span style="color: #705ae3;">:weight</span> bold <span style="color: #705ae3;">:slant</span> normal<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
+     <span style="color: #ad45ba;">(</span>?3 . ,<span style="color: #1f6fbf;">(</span>propertize <span style="color: #007f6f;">"&#127345;"</span> 'face '<span style="color: #b65050;">(</span><span style="color: #705ae3;">:foreground</span> <span style="color: #007f6f;">"#458588"</span> <span style="color: #705ae3;">:weight</span> bold <span style="color: #705ae3;">:slant</span> normal<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
+     <span style="color: #ad45ba;">(</span>?4 . ,<span style="color: #1f6fbf;">(</span>propertize <span style="color: #007f6f;">"&#127346;"</span> 'face '<span style="color: #b65050;">(</span><span style="color: #705ae3;">:foreground</span> <span style="color: #007f6f;">"#7c6f64"</span><span style="color: #705ae3;">:weight</span> bold <span style="color: #705ae3;">:slant</span> normal<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -68,11 +68,11 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orga735251" class="outline-2">
-<h2 id="orga735251"><span class="section-number-2">2.</span> 效果图</h2>
+<div id="outline-container-org2e3ef0a" class="outline-2">
+<h2 id="org2e3ef0a"><span class="section-number-2">2.</span> 效果图</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="orga3d93dd">
+<figure id="org63cf4a1">
 <img src="./fancy-priority.webp" alt="fancy-priority.webp"><br>
 
 </figure>
