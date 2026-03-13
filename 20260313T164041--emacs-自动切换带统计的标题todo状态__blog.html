@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-03-13 周五 17:13 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-自动切换带统计的标题TODO状态</title>
+<meta name="author" content="TomoeMami" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-13 周五 17:13]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-自动切换带统计的标题TODO状态</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-03-13T16:40:00">[2026-03-13 周五 16:40]</time></span><br>
+</p>
+
+<p>
+在org-mode中，checkbox是很常见的一种列表：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-org"><code>- <span style="color: #906200;">[-]</span> &#24453;&#21150;&#39033;
+  - <span style="color: #906200;">[ ]</span> &#23376;&#24453;&#21150;&#39033;1
+  - <span style="color: #906200;">[X]</span> &#23376;&#24453;&#21150;&#39033;2
+</code></pre>
+</div>
+
+<p>
+并且checkbox有一个特点，就是在子任务完成后才会将上级项自动标记完成；子任务取消完成后上级项也会自动取消完成。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><code>- <span style="color: #906200;">[X]</span> &#24453;&#21150;&#39033;
+  - <span style="color: #906200;">[X]</span> &#23376;&#24453;&#21150;&#39033;1
+  - <span style="color: #906200;">[X]</span> &#23376;&#24453;&#21150;&#39033;2
+</code></pre>
+</div>
+
+<p>
+那么，既然org-mode可以以大纲形式排列TODO任务，我们能不能让TODO任务也这样自动变换呢？<br>
+</p>
+
+<p>
+我们可以通过设置 <code>org-enforce-todo-dependencies</code> 变量为 <code>t</code> ，来「在任务还有子任务未完成时，阻止任务从未完成状态到完成状态的改变」（<a href="https://www.zmonster.me/2015/07/15/org-mode-planning.html#org99414a4">来源</a>）。但是这一个选项是全局的，会影响到其他所有任务。<br>
+</p>
+
+<p>
+或者我们也可以通过 <code>org-after-todo-statistics-hook</code> ，为带有统计（ <code>[/]</code> ）的TODO项提供自动切换的函数。<br>
+</p>
+<div id="outline-container-org2d08fee" class="outline-2">
+<h2 id="org2d08fee"><span class="section-number-2">1.</span> 具体设置</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+首先我们需要设置两组TODO关键字。由于这里的heading会自动切换状态，因此我们用新的一组关键字 <code>STEP</code> 和 <code>FINI</code> ，以当在有需要的时候，这些自动管理的事项不会出现在我们可能的agenda/org-ql等过滤结果中。<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30;">setq</span> org-todo-keywords '<span style="color: #8f2f30;">(</span><span style="color: #00704f;">(</span>sequence <span style="color: #557000;">"TODO(t)"</span> <span style="color: #557000;">"HOLD(h)"</span> <span style="color: #557000;">"|"</span> <span style="color: #557000;">"DONE(d)"</span> <span style="color: #557000;">"XXXX(x)"</span><span style="color: #00704f;">)</span>
+                          <span style="color: #00704f;">(</span>sequence <span style="color: #557000;">"STEP(s)"</span> <span style="color: #557000;">"|"</span> <span style="color: #557000;">"FINI(f)"</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
+<span style="color: #6e678f;">;; </span><span style="color: #6e678f;">&#35774;&#32622;org-TODO-keywords&#39068;&#33394;
+</span><span style="color: #007000;">(</span><span style="color: #8f2f30;">setq</span> org-todo-keyword-faces `<span style="color: #8f2f30;">(</span><span style="color: #00704f;">(</span><span style="color: #557000;">"TODO"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> ,<span style="color: #557000;">(</span>modus-themes-get-color-value 'red-warmer<span style="color: #557000;">)</span> <span style="color: #00704f;">:weight</span> bold<span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"STEP"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> ,<span style="color: #557000;">(</span>modus-themes-get-color-value 'red-cooler<span style="color: #557000;">)</span> <span style="color: #00704f;">:weight</span> bold<span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"HOLD"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> ,<span style="color: #557000;">(</span>modus-themes-get-color-value 'yellow-warmer<span style="color: #557000;">)</span> <span style="color: #00704f;">:weight</span> bold <span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"XXXX"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> ,<span style="color: #557000;">(</span>modus-themes-get-color-value 'magenta-warmer<span style="color: #557000;">)</span> <span style="color: #00704f;">:weight</span> bold <span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"DONE"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> ,<span style="color: #557000;">(</span>modus-themes-get-color-value 'green-warmer<span style="color: #557000;">)</span> <span style="color: #00704f;">:weight</span> bold <span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"FINI"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> ,<span style="color: #557000;">(</span>modus-themes-get-color-value 'green-cooler<span style="color: #557000;">)</span> <span style="color: #00704f;">:weight</span> bold <span style="color: #906200;">)</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
+</code></pre>
+</div>
+
+<p>
+如果你没有安装 <code>modus-themes</code> 或者 <code>ef-themes</code> ，可以自行指定颜色，这里以gruvbox配色为例：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #6e678f;">;; </span><span style="color: #6e678f;">&#35774;&#32622;org-TODO-keywords&#39068;&#33394;
+</span><span style="color: #007000;">(</span><span style="color: #8f2f30;">setq</span> org-todo-keyword-faces '<span style="color: #8f2f30;">(</span><span style="color: #00704f;">(</span><span style="color: #557000;">"TODO"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> <span style="color: #557000;">"#cc241d"</span> <span style="color: #00704f;">:weight</span> bold<span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"STEP"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> <span style="color: #557000;">"#9d0006"</span> <span style="color: #00704f;">:weight</span> bold<span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"HOLD"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> <span style="color: #557000;">"#d79921"</span> <span style="color: #00704f;">:weight</span> bold <span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"XXXX"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> <span style="color: #557000;">"#b16286"</span> <span style="color: #00704f;">:weight</span> bold <span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"DONE"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> <span style="color: #557000;">"#98971a"</span> <span style="color: #00704f;">:weight</span> bold <span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+                               <span style="color: #00704f;">(</span><span style="color: #557000;">"FINI"</span> . <span style="color: #906200;">(</span><span style="color: #00704f;">:foreground</span> <span style="color: #557000;">"#79740e"</span> <span style="color: #00704f;">:weight</span> bold <span style="color: #906200;">)</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
+</code></pre>
+</div>
+<p>
+然后我们为 <code>org-after-todo-statistics-hook</code> 变量添加一个函数：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #007000;">(</span><span style="color: #8f2f30;">defun</span> <span style="color: #007000;">my/org-heading-as-checkbox</span> <span style="color: #8f2f30;">(</span>n-done n-not-done<span style="color: #8f2f30;">)</span>
+  <span style="color: #8d6068;">"&#26681;&#25454;&#23376;&#20219;&#21153;&#36827;&#24230; Cookie &#30340;&#21464;&#21270;&#65292;&#33258;&#21160;&#26356;&#26032;&#29238;&#32423;&#26631;&#39064;&#30340; TODO &#29366;&#24577;&#12290;"</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">let*</span> <span style="color: #00704f;">(</span><span style="color: #906200;">(</span>org-log-done nil<span style="color: #906200;">)</span>     <span style="color: #6e678f;">;; </span><span style="color: #6e678f;">&#33258;&#21160;&#21464;&#26356;&#26102;&#19981;&#35302;&#21457; CLOSED &#26102;&#38388;&#25139;&#25110;&#24377;&#20986;&#22791;&#27880;&#31383;&#21475;&#65292;&#20445;&#25345;&#28165;&#29245;
+</span>         <span style="color: #906200;">(</span>org-todo-log-states nil<span style="color: #906200;">)</span>
+         <span style="color: #906200;">(</span>state <span style="color: #557000;">(</span>org-get-todo-state<span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span> <span style="color: #6e678f;">;; </span><span style="color: #6e678f;">&#33719;&#21462;&#35302;&#21457;&#32479;&#35745;&#30340;&#37027;&#20010;&#29238;&#26631;&#39064;&#30340;&#24403;&#21069;&#29366;&#24577;
+</span>    <span style="color: #00704f;">(</span><span style="color: #8f2f30;">if</span> <span style="color: #906200;">(</span><span style="color: #8f2f30;">and</span> state <span style="color: #557000;">(</span>= n-not-done 0<span style="color: #557000;">)</span><span style="color: #906200;">)</span>
+        <span style="color: #6e678f;">;; </span><span style="color: #6e678f;">1. &#22914;&#26524;&#23376;&#20219;&#21153;&#20840;&#37096;&#26631;&#35760;&#23436;&#25104; (&#26410;&#23436;&#25104;&#25968;&#37327;&#20026; 0) [[ [[https://www.nongnu.org/org-edna-el/][Org Edna]]]] 
+</span>        <span style="color: #906200;">(</span><span style="color: #8f2f30;">when</span> <span style="color: #557000;">(</span>string= state <span style="color: #557000;">"STEP"</span><span style="color: #557000;">)</span> <span style="color: #557000;">(</span>org-todo <span style="color: #557000;">"FINI"</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span>        <span style="color: #6e678f;">;; </span><span style="color: #6e678f;">&#23376;&#27493;&#39588;&#33258;&#21160;&#21464;&#25104; FINI
+</span>      
+      <span style="color: #6e678f;">;; </span><span style="color: #6e678f;">2. &#22914;&#26524;&#36824;&#26377;&#23376;&#20219;&#21153;&#26410;&#23436;&#25104; (&#27809;&#26377;&#20840;&#37096;&#26631;&#35760;&#23436;&#25104;)&#65292;&#23427;&#20250;&#33258;&#21160;&#36864;&#22238;&#12290;
+</span>      <span style="color: #906200;">(</span><span style="color: #8f2f30;">when</span> <span style="color: #557000;">(</span>string= state <span style="color: #557000;">"FINI"</span><span style="color: #557000;">)</span> <span style="color: #557000;">(</span>org-todo <span style="color: #557000;">"STEP"</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
+
+<span style="color: #6e678f;">;; </span><span style="color: #6e678f;">&#23558;&#35813;&#20989;&#25968;&#25346;&#36733;&#21040; TODO &#32479;&#35745;&#26356;&#26032;&#30340;&#35302;&#21457;&#22120;&#19978;
+</span><span style="color: #007000;">(</span>add-hook 'org-after-todo-statistics-hook 'my/org-heading-as-checkbox<span style="color: #007000;">)</span>
+</code></pre>
+</div>
+
+<p>
+这样一来，在有 <code>STEP</code> 或 <code>FINI</code> 关键字且结尾有进度统计cookie <code>[/]</code> 或 <code>[%]</code> 的事项及其子项中，会根据进度情况自动切换到完成 <code>FINI</code> 和未完成 <code>STEP</code> 。<br>
+</p>
+
+<p>
+如果因为手动编辑的原因导致没有自动触发，可以按 <code>C-c #</code> 全局刷新统计cookie。<br>
+</p>
+
+<p>
+注意：该函数硬编码了 <code>STEP</code> 和 <code>FINI</code> 关键字，如果你自定义了其他名字，记得同步修改函数中的字符串。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><code><span style="color: #8f2f30;">* </span><span style="color: #aa184f; font-weight: bold;">STEP</span><span style="color: #8f2f30;"> &#39033;&#30446; A </span><span style="color: #b44405;">[1/2]</span><span style="color: #8f2f30;">  &lt;-- &#24517;&#39035;&#26377;&#36825;&#20010;&#32479;&#35745;&#30340;cookie </span><span style="color: #b44405;">[1/2]</span><span style="color: #8f2f30;"> &#25165;&#20250;&#35302;&#21457;&#33258;&#21160;&#20999;&#25442;</span>
+<span style="color: #00704f;">** </span><span style="color: #557000; font-weight: bold;">DONE</span><span style="color: #00704f;"> </span><span style="color: #007000;">&#23376;&#20219;&#21153; 1</span>
+<span style="color: #00704f;">** </span><span style="color: #b20f00; font-weight: bold;">TODO</span><span style="color: #00704f;"> &#23376;&#20219;&#21153; 2</span>
+</code></pre>
+</div>
+</div>
+<div id="outline-container-orgab2802b" class="outline-3">
+<h3 id="orgab2802b"><span class="section-number-3">1.1.</span> 补充说明</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-orgf4fe410" class="outline-4">
+<h4 id="orgf4fe410"><span class="section-number-4">1.1.1.</span> 为何要设置一个单独的TODO关键词组</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+考虑如下情况：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><code><span style="color: #8f2f30;">* </span><span style="color: #b20f00; font-weight: bold;">TODO</span><span style="color: #8f2f30;"> &#24635;&#20219;&#21153;</span><span style="color: #b44405;">[1/3]</span>
+<span style="color: #00704f;">** </span><span style="color: #b20f00; font-weight: bold;">TODO</span><span style="color: #00704f;"> &#23376;&#20219;&#21153;1</span>
+<span style="color: #00704f;">** </span><span style="color: #b20f00; font-weight: bold;">TODO</span><span style="color: #00704f;"> &#23376;&#20219;&#21153;2</span><span style="color: #b44405;">[0/3]</span>
+<span style="color: #906200;">*** </span><span style="color: #b20f00; font-weight: bold;">TODO</span><span style="color: #906200;"> &#23376;&#23376;&#20219;&#21153;1</span>
+<span style="color: #906200;">*** </span><span style="color: #b20f00; font-weight: bold;">TODO</span><span style="color: #906200;"> &#23376;&#23376;&#20219;&#21153;2</span>
+<span style="color: #00704f;">** </span><span style="color: #557000; font-weight: bold;">DONE</span><span style="color: #00704f;"> </span><span style="color: #007000;">&#23376;&#20219;&#21153;3</span>
+</code></pre>
+</div>
+
+<p>
+在这种情况下，子任务需要设置TODO关键字，否则会被总任务的统计cookie忽略；子任务没有手动管理的必要，在子子任务均完成后就应当被标记为完成。如果沿用旧的TODO关键词，这种自动管理的任务就会被 <code>org-ql</code> 或者 <code>org-agenda</code> 、 <code>org-sparse-tree</code> 等函数捕获到，污染我们的结果页面。<br>
+</p>
+
+<p>
+因此最佳的选择是新建一组TODO关键字，仅用于自动化任务的状态设置：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><code><span style="color: #8f2f30;">* </span><span style="color: #b20f00; font-weight: bold;">TODO</span><span style="color: #8f2f30;"> &#24635;&#20219;&#21153;</span><span style="color: #b44405;">[0/3]</span>
+<span style="color: #00704f;">** </span><span style="color: #aa184f; font-weight: bold;">STEP</span><span style="color: #00704f;"> &#23376;&#20219;&#21153;1</span>
+<span style="color: #00704f;">** </span><span style="color: #aa184f; font-weight: bold;">STEP</span><span style="color: #00704f;"> &#23376;&#20219;&#21153;2</span><span style="color: #b44405;">[0/3]</span>
+<span style="color: #906200;">*** </span><span style="color: #b20f00; font-weight: bold;">TODO</span><span style="color: #906200;"> &#23376;&#23376;&#20219;&#21153;1</span>
+<span style="color: #906200;">*** </span><span style="color: #b20f00; font-weight: bold;">TODO</span><span style="color: #906200;"> &#23376;&#23376;&#20219;&#21153;2</span>
+<span style="color: #00704f;">** </span><span style="color: #00704f; font-weight: bold;">FINI</span><span style="color: #00704f;"> </span><span style="color: #007000;">&#23376;&#20219;&#21153;3</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcd3bb04" class="outline-4">
+<h4 id="orgcd3bb04"><span class="section-number-4">1.1.2.</span> 更加高级、详尽的自动化</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+我使用过 <a href="https://www.nongnu.org/org-edna-el/">Org Edna</a> ，不过目前个人任务管理中还用不上这么细致的插件，因此暂时移除了。如果有需要，可以查看相关文章：<br>
+</p>
+<ul class="org-ul">
+<li><a href="https://www.neverstop.eu.org/post/2024/04/set-tasks-dependency-with-org-edna/">如何设置org-mode中各个任务的信赖关系，使用org-edna插件 | Ian's Site</a><br></li>
+<li><a href="https://karl-voit.at/2020/10/01/org-depend-to-edna/">Migrating Org Mode Files from org-depend to org-edna</a><br></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+</div>
+</body>
+</html>
