@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:48 -->
+<!-- 2026-03-14 周六 15:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用gpg加密org文件</title>
@@ -48,18 +48,18 @@ Linux/MacOS不用多谈，Windows上最简单的就是用 <code>scoop install gp
 <div class="org-src-container">
 <pre class="src src-bash"><code>gpg --full-gen-key
 
-<span style="color: #8b4052;">#</span><span style="color: #8b4052;">&#29983;&#25104;&#26102;&#20250;&#35201;&#27714;&#36755;&#20837;name
+<span style="color: #a05b5f;">#</span><span style="color: #a05b5f;">&#29983;&#25104;&#26102;&#20250;&#35201;&#27714;&#36755;&#20837;name
 </span>
-<span style="color: #8b4052;">#</span><span style="color: #8b4052;">&#23548;&#20986;&#31169;&#38053;
+<span style="color: #a05b5f;">#</span><span style="color: #a05b5f;">&#23548;&#20986;&#31169;&#38053;
 </span>gpg --armor --output name.key --export-secret-keys
 
-<span style="color: #8b4052;">#</span><span style="color: #8b4052;">&#23548;&#20837;&#31169;&#38053;
+<span style="color: #a05b5f;">#</span><span style="color: #a05b5f;">&#23548;&#20837;&#31169;&#38053;
 </span>gpg --import name.key
 
-<span style="color: #8b4052;">#</span><span style="color: #8b4052;">&#20449;&#20219;&#31169;&#38053;
+<span style="color: #a05b5f;">#</span><span style="color: #a05b5f;">&#20449;&#20219;&#31169;&#38053;
 </span>gpg --edit-key name
-<span style="color: #8b4052;"># </span><span style="color: #8b4052;">&#30475;&#21040;&#25552;&#31034;&#31526;&#21518;&#36755;&#20837; trust
-</span><span style="color: #8b4052;"># </span><span style="color: #8b4052;">&#20877;&#36873;&#25321;&#20449;&#20219;&#31561;&#32423;&#65292;&#25105;&#33258;&#24049;&#30340; Key&#65292;&#25105;&#36873; 5</span>
+<span style="color: #a05b5f;"># </span><span style="color: #a05b5f;">&#30475;&#21040;&#25552;&#31034;&#31526;&#21518;&#36755;&#20837; trust
+</span><span style="color: #a05b5f;"># </span><span style="color: #a05b5f;">&#20877;&#36873;&#25321;&#20449;&#20219;&#31561;&#32423;&#65292;&#25105;&#33258;&#24049;&#30340; Key&#65292;&#25105;&#36873; 5</span>
 </code></pre>
 </div>
 
@@ -76,7 +76,7 @@ Linux/MacOS不用多谈，Windows上最简单的就是用 <code>scoop install gp
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">setq</span> make-backup-files nil<span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">setq</span> make-backup-files nil<span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -85,13 +85,13 @@ Linux/MacOS不用多谈，Windows上最简单的就是用 <code>scoop install gp
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/org-encrypt-entries</span> <span style="color: #444fcf;">()</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">interactive</span><span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span>org-encrypt-entries<span style="color: #444fcf;">)</span>
-  <span style="color: #006f70;">"&#31227;&#38500;&#34892;&#23614; ^M(CRLF) Replace DOS eolns CR LF with Unix eolns CR"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">save-excursion</span>
-    <span style="color: #3a6f00;">(</span>goto-char <span style="color: #1f66af;">(</span>point-min<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">while</span> <span style="color: #1f66af;">(</span>search-forward <span style="color: #006f70;">"\r"</span> nil t<span style="color: #1f66af;">)</span> <span style="color: #1f66af;">(</span>replace-match <span style="color: #006f70;">""</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/org-encrypt-entries</span> <span style="color: #5165e4;">()</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">interactive</span><span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span>org-encrypt-entries<span style="color: #5165e4;">)</span>
+  <span style="color: #007f6f;">"&#31227;&#38500;&#34892;&#23614; ^M(CRLF) Replace DOS eolns CR LF with Unix eolns CR"</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">save-excursion</span>
+    <span style="color: #007f6f;">(</span>goto-char <span style="color: #ad45ba;">(</span>point-min<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">while</span> <span style="color: #ad45ba;">(</span>search-forward <span style="color: #007f6f;">"\r"</span> nil t<span style="color: #ad45ba;">)</span> <span style="color: #ad45ba;">(</span>replace-match <span style="color: #007f6f;">""</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -100,13 +100,13 @@ Linux/MacOS不用多谈，Windows上最简单的就是用 <code>scoop install gp
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #8b4052;">;;; </span><span style="color: #8b4052;">custom predicates if you don't want auto save.
-</span><span style="color: #8b4052;">;;; </span><span style="color: #8b4052;">disable auto save mode when current filetype is an gpg file.
-</span><span style="color: #007047;">(</span><span style="color: #444fcf;">setq</span> auto-save-disable-predicates
-      '<span style="color: #444fcf;">(</span><span style="color: #3a6f00;">(</span><span style="color: #444fcf;">lambda</span> <span style="color: #1f66af;">()</span>
-      <span style="color: #1f66af;">(</span>string-suffix-p
-      <span style="color: #006f70;">"gpg"</span>
-      <span style="color: #5f2fba;">(</span>file-name-extension <span style="color: #003faf;">(</span>buffer-name<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span> t<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #a05b5f;">;;; </span><span style="color: #a05b5f;">custom predicates if you don't want auto save.
+</span><span style="color: #a05b5f;">;;; </span><span style="color: #a05b5f;">disable auto save mode when current filetype is an gpg file.
+</span><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">setq</span> auto-save-disable-predicates
+      '<span style="color: #5165e4;">(</span><span style="color: #007f6f;">(</span><span style="color: #ad45ba;">lambda</span> <span style="color: #ad45ba;">()</span>
+      <span style="color: #ad45ba;">(</span>string-suffix-p
+      <span style="color: #007f6f;">"gpg"</span>
+      <span style="color: #1f6fbf;">(</span>file-name-extension <span style="color: #b65050;">(</span>buffer-name<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span> t<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:48 -->
+<!-- 2026-03-14 周六 15:27 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用windows-toasts的python库为emacs创建windows11通知提醒</title>
@@ -40,14 +40,14 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><code><span style="color: #444fcf;">import</span> sys,os
-<span style="color: #444fcf;">from</span> urllib.parse <span style="color: #444fcf;">import</span> unquote
-<span style="color: #444fcf;">from</span> windows_toasts <span style="color: #444fcf;">import</span> Toast, WindowsToaster, ToastDisplayImage
-<span style="color: #1f66af;">toaster</span> <span style="color: #151a27;">=</span> WindowsToaster<span style="color: #007047;">(</span><span style="color: #006f70;">'Emacs Agenda'</span><span style="color: #007047;">)</span>
-<span style="color: #1f66af;">newToast</span> <span style="color: #151a27;">=</span> Toast<span style="color: #007047;">()</span>
-newToast.<span style="color: #1f66af;">text_fields</span> <span style="color: #151a27;">=</span> <span style="color: #007047;">[</span>unquote<span style="color: #444fcf;">(</span>sys.argv<span style="color: #3a6f00;">[</span>1<span style="color: #3a6f00;">]</span><span style="color: #444fcf;">)</span><span style="color: #007047;">]</span>
-newToast.AddImage<span style="color: #007047;">(</span>ToastDisplayImage.fromPath<span style="color: #444fcf;">(</span>unquote<span style="color: #3a6f00;">(</span>sys.argv<span style="color: #1f66af;">[</span>2<span style="color: #1f66af;">]</span><span style="color: #3a6f00;">)</span><span style="color: #151a27;">+</span><span style="color: #006f70;">"/org/phone/emacs.png"</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
-toaster.show_toast<span style="color: #007047;">(</span>newToast<span style="color: #007047;">)</span>
+<pre class="src src-python"><code><span style="color: #ad45ba;">import</span> sys,os
+<span style="color: #ad45ba;">from</span> urllib.parse <span style="color: #ad45ba;">import</span> unquote
+<span style="color: #ad45ba;">from</span> windows_toasts <span style="color: #ad45ba;">import</span> Toast, WindowsToaster, ToastDisplayImage
+<span style="color: #3f6faf;">toaster</span> <span style="color: #4f3363;">=</span> WindowsToaster<span style="color: #c035aa;">(</span><span style="color: #007f6f;">'Emacs Agenda'</span><span style="color: #c035aa;">)</span>
+<span style="color: #3f6faf;">newToast</span> <span style="color: #4f3363;">=</span> Toast<span style="color: #c035aa;">()</span>
+newToast.<span style="color: #3f6faf;">text_fields</span> <span style="color: #4f3363;">=</span> <span style="color: #c035aa;">[</span>unquote<span style="color: #5165e4;">(</span>sys.argv<span style="color: #007f6f;">[</span>1<span style="color: #007f6f;">]</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">]</span>
+newToast.AddImage<span style="color: #c035aa;">(</span>ToastDisplayImage.fromPath<span style="color: #5165e4;">(</span>unquote<span style="color: #007f6f;">(</span>sys.argv<span style="color: #ad45ba;">[</span>2<span style="color: #ad45ba;">]</span><span style="color: #007f6f;">)</span><span style="color: #4f3363;">+</span><span style="color: #007f6f;">"/org/phone/emacs.png"</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
+toaster.show_toast<span style="color: #c035aa;">(</span>newToast<span style="color: #c035aa;">)</span>
 
 </code></pre>
 </div>
@@ -57,9 +57,9 @@ toaster.show_toast<span style="color: #007047;">(</span>newToast<span style="col
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">fw/appt-disp-windows</span> <span style="color: #444fcf;">(</span>min-to-app new-time msg<span style="color: #444fcf;">)</span>
-    <span style="color: #3f627f;">"A custom `</span><span style="color: #003faf;">appt-disp-window-function</span><span style="color: #3f627f;">' which uses the PowerShell module '</span><span style="color: #003faf;">BurntToast</span><span style="color: #3f627f;">'"</span>
-    <span style="color: #444fcf;">(</span>shell-command <span style="color: #3a6f00;">(</span>concat <span style="color: #006f70;">"python -X utf8 "</span><span style="color: #1f66af;">(</span>file-truename user-emacs-directory<span style="color: #1f66af;">)</span> <span style="color: #006f70;">"notify.py "</span> <span style="color: #1f66af;">(</span>url-encode-url msg <span style="color: #1f66af;">)</span><span style="color: #006f70;">" "</span> <span style="color: #1f66af;">(</span>url-encode-url <span style="color: #5f2fba;">(</span>file-truename user-emacs-directory<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">fw/appt-disp-windows</span> <span style="color: #5165e4;">(</span>min-to-app new-time msg<span style="color: #5165e4;">)</span>
+    <span style="color: #804fb0;">"A custom `</span><span style="color: #c035aa;">appt-disp-window-function</span><span style="color: #804fb0;">' which uses the PowerShell module '</span><span style="color: #c035aa;">BurntToast</span><span style="color: #804fb0;">'"</span>
+    <span style="color: #5165e4;">(</span>shell-command <span style="color: #007f6f;">(</span>concat <span style="color: #007f6f;">"python -X utf8 "</span><span style="color: #ad45ba;">(</span>file-truename user-emacs-directory<span style="color: #ad45ba;">)</span> <span style="color: #007f6f;">"notify.py "</span> <span style="color: #ad45ba;">(</span>url-encode-url msg <span style="color: #ad45ba;">)</span><span style="color: #007f6f;">" "</span> <span style="color: #ad45ba;">(</span>url-encode-url <span style="color: #1f6fbf;">(</span>file-truename user-emacs-directory<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span>
 </code></pre>
 </div>
 
@@ -76,12 +76,12 @@ toaster.show_toast<span style="color: #007047;">(</span>newToast<span style="col
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2026-01-06T14:54:00">[2026-01-06 周二 14:54]</time></span>：经过测试，只要先前的通知存在，就不会有新的通知出现；但是如果手动关掉先前通知，后续通知依然能展示。所以这里将时间设置为60秒，以便留有充足的查看时间。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">fw/appt-disp-windows</span> <span style="color: #444fcf;">(</span>min-to-app new-time msg<span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">let</span> <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>id <span style="color: #5f2fba;">(</span>w32-notification-notify
-             <span style="color: #6a4a9f;">:level</span> <span style="color: #006f70;">"info"</span>
-             <span style="color: #6a4a9f;">:title</span> msg
-             <span style="color: #6a4a9f;">:body</span> <span style="color: #006f70;">"&#9888;&#65039;&#26377;&#26032;&#25552;&#37266;&#65292;&#35831;&#26597;&#30475;Emacs&#65281;&#9888;&#65039;"</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span>run-at-time 60 nil #'w32-notification-close id<span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">fw/appt-disp-windows</span> <span style="color: #5165e4;">(</span>min-to-app new-time msg<span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">let</span> <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span>id <span style="color: #1f6fbf;">(</span>w32-notification-notify
+             <span style="color: #705ae3;">:level</span> <span style="color: #007f6f;">"info"</span>
+             <span style="color: #705ae3;">:title</span> msg
+             <span style="color: #705ae3;">:body</span> <span style="color: #007f6f;">"&#9888;&#65039;&#26377;&#26032;&#25552;&#37266;&#65292;&#35831;&#26597;&#30475;Emacs&#65281;&#9888;&#65039;"</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span>run-at-time 60 nil #'w32-notification-close id<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 </div>

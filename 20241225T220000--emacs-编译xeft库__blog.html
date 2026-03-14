@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:48 -->
+<!-- 2026-03-14 周六 15:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-编译xeft库</title>
@@ -35,8 +35,8 @@
 <h2 id="org791a529"><span class="section-number-2">1.</span> Windows</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org9019c6c" class="outline-3">
-<h3 id="org9019c6c"><span class="section-number-3">1.1.</span> 安装依赖</h3>
+<div id="outline-container-org38ee6c4" class="outline-3">
+<h3 id="org38ee6c4"><span class="section-number-3">1.1.</span> 安装依赖</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 根据你Emacs编译用的环境不同，选择不同的软件包。我用的ucrt自编译版本，所以这里选安装 <code>mingw-w64-ucrt-x86_64-xapian-core</code> 包：<br>
@@ -69,13 +69,13 @@
 手动编辑 <code>PKGBUILD</code> 以下部分：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash"><code><span style="color: #8b4052;"># </span><span style="color: #8b4052;">&#26368;&#26032;&#29256;&#26412;&#21495;&#20026;1.4.29
-</span><span style="color: #1f66af;">pkgver</span>=1.4.29
+<pre class="src src-bash"><code><span style="color: #a05b5f;"># </span><span style="color: #a05b5f;">&#26368;&#26032;&#29256;&#26412;&#21495;&#20026;1.4.29
+</span><span style="color: #3f6faf;">pkgver</span>=1.4.29
 
-<span style="color: #8b4052;"># </span><span style="color: #8b4052;">&#30053;&#21435;sha256&#26816;&#26597;
-</span><span style="color: #1f66af;">sha256sums</span>=<span style="color: #007047;">(</span><span style="color: #006f70;">'SKIP'</span>
-            <span style="color: #006f70;">'SKIP'</span>
-            <span style="color: #006f70;">'SKIP'</span><span style="color: #007047;">)</span>
+<span style="color: #a05b5f;"># </span><span style="color: #a05b5f;">&#30053;&#21435;sha256&#26816;&#26597;
+</span><span style="color: #3f6faf;">sha256sums</span>=<span style="color: #c035aa;">(</span><span style="color: #007f6f;">'SKIP'</span>
+            <span style="color: #007f6f;">'SKIP'</span>
+            <span style="color: #007f6f;">'SKIP'</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 <p>
@@ -96,7 +96,7 @@
 <h3 id="org1aab445"><span class="section-number-3">1.2.</span> 编译dll</h3>
 <div class="outline-text-3" id="text-1-2">
 <div class="org-src-container">
-<pre class="src src-bash"><code>git clone https://github.moeyy.xyz/https://github.com/casouri/xeft.git --depth 1 &amp;&amp; <span style="color: #6a4a9f;">cd</span> xeft
+<pre class="src src-bash"><code>git clone https://github.moeyy.xyz/https://github.com/casouri/xeft.git --depth 1 &amp;&amp; <span style="color: #705ae3;">cd</span> xeft
 
 make
 </code></pre>
@@ -115,8 +115,8 @@ make
 作者提供的预编译文件没有ARM架构的MacBook，需要自己编译。这里我用Homebrew安装的Emacs-plus@31。<br>
 </p>
 </div>
-<div id="outline-container-org38ee6c4" class="outline-3">
-<h3 id="org38ee6c4"><span class="section-number-3">2.1.</span> 安装依赖</h3>
+<div id="outline-container-org1560081" class="outline-3">
+<h3 id="org1560081"><span class="section-number-3">2.1.</span> 安装依赖</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
 <pre class="src src-bash"><code>brew install xapian
@@ -149,13 +149,13 @@ make
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">fap/ignore-errors-advice</span> <span style="color: #444fcf;">(</span>orig-fun <span style="color: #007010;">&amp;rest</span> args<span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">ignore-errors</span> <span style="color: #3a6f00;">(</span>apply orig-fun args<span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">fap/ignore-errors-advice</span> <span style="color: #5165e4;">(</span>orig-fun <span style="color: #0f7a9d;">&amp;rest</span> args<span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">ignore-errors</span> <span style="color: #007f6f;">(</span>apply orig-fun args<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span>advice-add 'xeft-create-note <span style="color: #6a4a9f;">:around</span> #'fap/ignore-errors-advice<span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span>advice-add 'xeft-create-note <span style="color: #705ae3;">:around</span> #'fap/ignore-errors-advice<span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span><span style="color: #444fcf;">setq</span> xeft-filename-fn <span style="color: #444fcf;">(</span><span style="color: #444fcf;">lambda</span> <span style="color: #3a6f00;">(</span>search-phrase<span style="color: #3a6f00;">)</span>
-                           <span style="color: #3a6f00;">(</span>org-roam-capture- <span style="color: #6a4a9f;">:node</span> <span style="color: #1f66af;">(</span>org-roam-node-create <span style="color: #6a4a9f;">:title</span> search-phrase<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">setq</span> xeft-filename-fn <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">lambda</span> <span style="color: #007f6f;">(</span>search-phrase<span style="color: #007f6f;">)</span>
+                           <span style="color: #007f6f;">(</span>org-roam-capture- <span style="color: #705ae3;">:node</span> <span style="color: #ad45ba;">(</span>org-roam-node-create <span style="color: #705ae3;">:title</span> search-phrase<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -167,7 +167,7 @@ make
 新建一个存放编译好成品文件的路径，这里用的 <code>~/.emacs.d/bin</code> 。然后添加 <code>load-path</code> ：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span>add-to-list 'load-path <span style="color: #006f70;">"~/.emacs.d/bin"</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span>add-to-list 'load-path <span style="color: #007f6f;">"~/.emacs.d/bin"</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 

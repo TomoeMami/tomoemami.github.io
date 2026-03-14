@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:48 -->
+<!-- 2026-03-14 周六 15:27 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-自动删除org-roam空的daily文件</title>
@@ -28,42 +28,42 @@
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2024-10-14T16:53:00">[2024-10-14 周一 16:53]</time></span>：手动删除org-roam空的daily文件<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">require</span> '<span style="color: #003faf;">find-lisp</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">require</span> '<span style="color: #c035aa;">find-lisp</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">count-lines-in-file</span> <span style="color: #444fcf;">(</span>file<span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"&#36820;&#22238;&#25991;&#20214; FILE &#30340;&#34892;&#25968;&#12290;"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">with-temp-buffer</span>
-    <span style="color: #3a6f00;">(</span>insert-file-contents file<span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span>count-lines <span style="color: #1f66af;">(</span>point-min<span style="color: #1f66af;">)</span> <span style="color: #1f66af;">(</span>point-max<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">count-lines-in-file</span> <span style="color: #5165e4;">(</span>file<span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"&#36820;&#22238;&#25991;&#20214; FILE &#30340;&#34892;&#25968;&#12290;"</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">with-temp-buffer</span>
+    <span style="color: #007f6f;">(</span>insert-file-contents file<span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span>count-lines <span style="color: #ad45ba;">(</span>point-min<span style="color: #ad45ba;">)</span> <span style="color: #ad45ba;">(</span>point-max<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">count-non-empty-lines</span> <span style="color: #444fcf;">(</span>file<span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"&#35745;&#31639;&#25991;&#20214; FILE &#20013;&#30340;&#38750;&#31354;&#34892;&#25968;&#12290;"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">with-temp-buffer</span>
-    <span style="color: #3a6f00;">(</span>insert-file-contents file<span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span>goto-char <span style="color: #1f66af;">(</span>point-min<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">let</span> <span style="color: #1f66af;">(</span><span style="color: #5f2fba;">(</span>count 0<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
-      <span style="color: #1f66af;">(</span><span style="color: #444fcf;">while</span> <span style="color: #5f2fba;">(</span>not <span style="color: #003faf;">(</span>eobp<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
-        <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">when</span> <span style="color: #003faf;">(</span>not <span style="color: #80308f;">(</span>looking-at-p <span style="color: #006f70;">"^[[:space:]]*$"</span><span style="color: #80308f;">)</span><span style="color: #003faf;">)</span>
-          <span style="color: #003faf;">(</span><span style="color: #444fcf;">setq</span> count <span style="color: #80308f;">(</span>1+ count<span style="color: #80308f;">)</span><span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
-        <span style="color: #5f2fba;">(</span>forward-line 1<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
-      count<span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">count-non-empty-lines</span> <span style="color: #5165e4;">(</span>file<span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"&#35745;&#31639;&#25991;&#20214; FILE &#20013;&#30340;&#38750;&#31354;&#34892;&#25968;&#12290;"</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">with-temp-buffer</span>
+    <span style="color: #007f6f;">(</span>insert-file-contents file<span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span>goto-char <span style="color: #ad45ba;">(</span>point-min<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">let</span> <span style="color: #ad45ba;">(</span><span style="color: #1f6fbf;">(</span>count 0<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
+      <span style="color: #ad45ba;">(</span><span style="color: #ad45ba;">while</span> <span style="color: #1f6fbf;">(</span>not <span style="color: #b65050;">(</span>eobp<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span>
+        <span style="color: #1f6fbf;">(</span><span style="color: #ad45ba;">when</span> <span style="color: #b65050;">(</span>not <span style="color: #705ae3;">(</span>looking-at-p <span style="color: #007f6f;">"^[[:space:]]*$"</span><span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span><span style="color: #ad45ba;">setq</span> count <span style="color: #705ae3;">(</span>1+ count<span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span>
+        <span style="color: #1f6fbf;">(</span>forward-line 1<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
+      count<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">delete-file-if-lines-sm</span> <span style="color: #444fcf;">(</span>file threshold<span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"&#22914;&#26524;&#25991;&#20214; FILE &#30340;&#34892;&#25968;&#23567;&#20110;&#31561;&#20110; THRESHOLD&#65292;&#21017;&#21024;&#38500;&#35813;&#25991;&#20214;&#12290;"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">let</span> <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>line-count <span style="color: #5f2fba;">(</span>count-non-empty-lines file<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">when</span> <span style="color: #1f66af;">(</span>&lt;= line-count threshold<span style="color: #1f66af;">)</span>
-      <span style="color: #1f66af;">(</span>delete-file file<span style="color: #1f66af;">)</span>
-      <span style="color: #1f66af;">(</span>message <span style="color: #006f70;">"&#21024;&#38500;&#25991;&#20214;: %s (&#34892;&#25968;: %d)"</span> file line-count<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">delete-file-if-lines-sm</span> <span style="color: #5165e4;">(</span>file threshold<span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"&#22914;&#26524;&#25991;&#20214; FILE &#30340;&#34892;&#25968;&#23567;&#20110;&#31561;&#20110; THRESHOLD&#65292;&#21017;&#21024;&#38500;&#35813;&#25991;&#20214;&#12290;"</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">let</span> <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span>line-count <span style="color: #1f6fbf;">(</span>count-non-empty-lines file<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">when</span> <span style="color: #ad45ba;">(</span>&lt;= line-count threshold<span style="color: #ad45ba;">)</span>
+      <span style="color: #ad45ba;">(</span>delete-file file<span style="color: #ad45ba;">)</span>
+      <span style="color: #ad45ba;">(</span>message <span style="color: #007f6f;">"&#21024;&#38500;&#25991;&#20214;: %s (&#34892;&#25968;: %d)"</span> file line-count<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/delete-empty-node</span> <span style="color: #444fcf;">()</span>
-  <span style="color: #3f627f;">"&#33719;&#21462; DIRECTORY &#30446;&#24405;&#19979;&#25152;&#26377; .org &#25991;&#20214;&#30340;&#36335;&#24452;&#65292;&#24182;&#36880;&#19968;&#35745;&#31639;&#27599;&#20010;&#25991;&#20214;&#30340;&#34892;&#25968;&#12290;
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/delete-empty-node</span> <span style="color: #5165e4;">()</span>
+  <span style="color: #804fb0;">"&#33719;&#21462; DIRECTORY &#30446;&#24405;&#19979;&#25152;&#26377; .org &#25991;&#20214;&#30340;&#36335;&#24452;&#65292;&#24182;&#36880;&#19968;&#35745;&#31639;&#27599;&#20010;&#25991;&#20214;&#30340;&#34892;&#25968;&#12290;
    &#22914;&#26524;&#34892;&#25968;&#23567;&#20110;&#31561;&#20110; THRESHOLD&#65292;&#21017;&#21024;&#38500;&#35813;&#25991;&#20214;&#12290;"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">interactive</span><span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">let</span> <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>org-files <span style="color: #5f2fba;">(</span>find-lisp-find-files <span style="color: #006f70;">"~/.emacs.d/org/journals/daily"</span> <span style="color: #006f70;">"\\.org$"</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">dolist</span> <span style="color: #1f66af;">(</span>file org-files<span style="color: #1f66af;">)</span>
-      <span style="color: #1f66af;">(</span>delete-file-if-lines-sm file 4<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">interactive</span><span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">let</span> <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span>org-files <span style="color: #1f6fbf;">(</span>find-lisp-find-files <span style="color: #007f6f;">"~/.emacs.d/org/journals/daily"</span> <span style="color: #007f6f;">"\\.org$"</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">dolist</span> <span style="color: #ad45ba;">(</span>file org-files<span style="color: #ad45ba;">)</span>
+      <span style="color: #ad45ba;">(</span>delete-file-if-lines-sm file 4<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span>my/delete-empty-node<span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span>my/delete-empty-node<span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 </div>

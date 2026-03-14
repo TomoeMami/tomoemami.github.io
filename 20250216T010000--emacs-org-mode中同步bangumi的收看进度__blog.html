@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:48 -->
+<!-- 2026-03-14 周六 15:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-org-mode中同步bangumi的收看进度</title>
@@ -44,20 +44,20 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #8b4052;">;; </span><span style="color: #8b4052;">&#22312;&#36825;&#37324; https://next.bgm.tv/demo/access-token &#30003;&#35831;token&#65292;&#28982;&#21518;&#21462;&#28040;&#19979;&#19968;&#34892;&#30340;&#27880;&#37322;&#24182;&#22635;&#20837;&#20320;&#30340;TOKEN
-</span><span style="color: #8b4052;">;; </span><span style="color: #8b4052;">(setq my/bgm-token "YOUR-BANGUMI-ACCESS-TOKEN")
-</span><span style="color: #007047;">(</span><span style="color: #444fcf;">require</span> '<span style="color: #003faf;">bangumi</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#22312;&#36825;&#37324; https://next.bgm.tv/demo/access-token &#30003;&#35831;token&#65292;&#28982;&#21518;&#21462;&#28040;&#19979;&#19968;&#34892;&#30340;&#27880;&#37322;&#24182;&#22635;&#20837;&#20320;&#30340;TOKEN
+</span><span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">(setq my/bgm-token "YOUR-BANGUMI-ACCESS-TOKEN")
+</span><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">require</span> '<span style="color: #c035aa;">bangumi</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/bgm-update-subject-conditions</span> <span style="color: #444fcf;">(</span>subject todo<span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"&#23558;&#26465;&#20214;&#21028;&#26029;&#21333;&#29420;&#25552;&#21462;&#20986;&#26469;&#65292;&#20415;&#20110;&#29992;&#25143;&#33258;&#23450;&#20041;"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">and</span> subject
-       <span style="color: #3a6f00;">(</span>not <span style="color: #1f66af;">(</span><span style="color: #444fcf;">and</span> <span style="color: #5f2fba;">(</span>org-entry-get nil <span style="color: #006f70;">"RESCHEDULE_CRON"</span><span style="color: #5f2fba;">)</span> <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">or</span> <span style="color: #003faf;">(</span>string-equal todo <span style="color: #006f70;">"DONE"</span><span style="color: #003faf;">)</span> <span style="color: #003faf;">(</span>string-equal todo <span style="color: #006f70;">"TODO"</span><span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/bgm-update-subject-conditions</span> <span style="color: #5165e4;">(</span>subject todo<span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"&#23558;&#26465;&#20214;&#21028;&#26029;&#21333;&#29420;&#25552;&#21462;&#20986;&#26469;&#65292;&#20415;&#20110;&#29992;&#25143;&#33258;&#23450;&#20041;"</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">and</span> subject
+       <span style="color: #007f6f;">(</span>not <span style="color: #ad45ba;">(</span><span style="color: #ad45ba;">and</span> <span style="color: #1f6fbf;">(</span>org-entry-get nil <span style="color: #007f6f;">"RESCHEDULE_CRON"</span><span style="color: #1f6fbf;">)</span> <span style="color: #1f6fbf;">(</span><span style="color: #ad45ba;">or</span> <span style="color: #b65050;">(</span>string-equal todo <span style="color: #007f6f;">"DONE"</span><span style="color: #b65050;">)</span> <span style="color: #b65050;">(</span>string-equal todo <span style="color: #007f6f;">"TODO"</span><span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span><span style="color: #444fcf;">setq</span> my/bgm-plz-proxy '<span style="color: #444fcf;">(</span><span style="color: #006f70;">"--proxy"</span> <span style="color: #006f70;">"http://127.0.0.1:7890"</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
-<span style="color: #8b4052;">;; </span><span style="color: #8b4052;">&#22312;TODO&#20851;&#38190;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;subject
-</span><span style="color: #007047;">(</span>add-hook 'org-after-todo-state-change-hook #'my/bgm-update-subject<span style="color: #007047;">)</span>
-<span style="color: #8b4052;">;; </span><span style="color: #8b4052;">&#22312;checkbox&#32479;&#35745;&#25968;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;episode
-</span><span style="color: #007047;">(</span>add-hook 'org-checkbox-statistics-hook #'my/bgm-async-update-episodes<span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">setq</span> my/bgm-plz-proxy '<span style="color: #5165e4;">(</span><span style="color: #007f6f;">"--proxy"</span> <span style="color: #007f6f;">"http://127.0.0.1:7890"</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
+<span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#22312;TODO&#20851;&#38190;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;subject
+</span><span style="color: #c035aa;">(</span>add-hook 'org-after-todo-state-change-hook #'my/bgm-update-subject<span style="color: #c035aa;">)</span>
+<span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#22312;checkbox&#32479;&#35745;&#25968;&#23383;&#21464;&#21270;&#26102;&#35302;&#21457;&#26356;&#26032;episode
+</span><span style="color: #c035aa;">(</span>add-hook 'org-checkbox-statistics-hook #'my/bgm-async-update-episodes<span style="color: #c035aa;">)</span>
 
 </code></pre>
 </div>
@@ -76,9 +76,9 @@
 
 <div class="org-src-container">
 <pre class="src src-org"><code>\*** AveMujica
-<span style="color: #676470;">:PROPERTIES:</span>
-<span style="color: #676470;">:BGM:</span>      <span style="color: #3f4f99;">454684</span>
-<span style="color: #676470;">:END:</span>
+<span style="color: #786e74;">:PROPERTIES:</span>
+<span style="color: #786e74;">:BGM:</span>      <span style="color: #3f7668;">454684</span>
+<span style="color: #786e74;">:END:</span>
 </code></pre>
 </div>
 
@@ -88,9 +88,9 @@
 
 <div class="org-src-container">
 <pre class="src src-org"><code>\*** TODO AveMujica
-<span style="color: #676470;">:PROPERTIES:</span>
-<span style="color: #676470;">:BGM:</span>      <span style="color: #3f4f99;">454684</span>
-<span style="color: #676470;">:END:</span>
+<span style="color: #786e74;">:PROPERTIES:</span>
+<span style="color: #786e74;">:BGM:</span>      <span style="color: #3f7668;">454684</span>
+<span style="color: #786e74;">:END:</span>
 </code></pre>
 </div>
 
@@ -99,22 +99,22 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><code>\*** AveMujica<span style="color: #b02440;">[0/12]</span>
-<span style="color: #676470;">:PROPERTIES:</span>
-<span style="color: #676470;">:BGM:</span>      <span style="color: #3f4f99;">454684</span>
-<span style="color: #676470;">:END:</span>
-1. <span style="color: #8b4400;">[ ]</span>
-2. <span style="color: #8b4400;">[ ]</span> 
-3. <span style="color: #8b4400;">[ ]</span> 
-4. <span style="color: #8b4400;">[ ]</span> 
-5. <span style="color: #8b4400;">[ ]</span> 
-6. <span style="color: #8b4400;">[ ]</span> 
-7. <span style="color: #8b4400;">[ ]</span> 
-8. <span style="color: #8b4400;">[ ]</span> 
-9. <span style="color: #8b4400;">[ ]</span> 
-10. <span style="color: #8b4400;">[ ]</span> 
-11. <span style="color: #8b4400;">[ ]</span> 
-12. <span style="color: #8b4400;">[ ]</span> 
+<pre class="src src-org"><code>\*** AveMujica<span style="color: #d03033;">[0/12]</span>
+<span style="color: #786e74;">:PROPERTIES:</span>
+<span style="color: #786e74;">:BGM:</span>      <span style="color: #3f7668;">454684</span>
+<span style="color: #786e74;">:END:</span>
+1. <span style="color: #b8532f;">[ ]</span>
+2. <span style="color: #b8532f;">[ ]</span> 
+3. <span style="color: #b8532f;">[ ]</span> 
+4. <span style="color: #b8532f;">[ ]</span> 
+5. <span style="color: #b8532f;">[ ]</span> 
+6. <span style="color: #b8532f;">[ ]</span> 
+7. <span style="color: #b8532f;">[ ]</span> 
+8. <span style="color: #b8532f;">[ ]</span> 
+9. <span style="color: #b8532f;">[ ]</span> 
+10. <span style="color: #b8532f;">[ ]</span> 
+11. <span style="color: #b8532f;">[ ]</span> 
+12. <span style="color: #b8532f;">[ ]</span> 
 </code></pre>
 </div>
 

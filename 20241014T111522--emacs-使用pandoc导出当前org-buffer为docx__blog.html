@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:48 -->
+<!-- 2026-03-14 周六 15:27 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-使用pandoc导出当前org-buffer为docx</title>
@@ -31,10 +31,10 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/sanitize-windows-filename</span> <span style="color: #444fcf;">(</span>filename<span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"Sanitize FILENAME to be a valid Windows filename."</span>
-  <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">Replace invalid characters with an underscore
-</span>  <span style="color: #444fcf;">(</span>replace-regexp-in-string <span style="color: #006f70;">"[&lt;&gt;:\\\"</span><span style="color: #8b4400;">\</span><span style="color: #006f70;">/</span><span style="color: #8b4400;">\</span><span style="color: #006f70;">|</span><span style="color: #8b4400;">\</span><span style="color: #006f70;">?</span><span style="color: #8b4400;">\</span><span style="color: #006f70;">*]+"</span> <span style="color: #006f70;">"_"</span> filename<span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/sanitize-windows-filename</span> <span style="color: #5165e4;">(</span>filename<span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"Sanitize FILENAME to be a valid Windows filename."</span>
+  <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">Replace invalid characters with an underscore
+</span>  <span style="color: #5165e4;">(</span>replace-regexp-in-string <span style="color: #007f6f;">"[&lt;&gt;:\\\"</span><span style="color: #b8532f;">\</span><span style="color: #007f6f;">/</span><span style="color: #b8532f;">\</span><span style="color: #007f6f;">|</span><span style="color: #b8532f;">\</span><span style="color: #007f6f;">?</span><span style="color: #b8532f;">\</span><span style="color: #007f6f;">*]+"</span> <span style="color: #007f6f;">"_"</span> filename<span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 </div>
@@ -43,36 +43,36 @@ Windows下，如果直接使用buffer名作为文件名，有时会有非法字�
 <h2 id="orgc986558"><span class="section-number-2">2.</span> 将当前buffer内容放至TEMP文件夹内某文件并返回路径</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">seq-replacer</span> <span style="color: #444fcf;">(</span>input<span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">dolist</span> <span style="color: #3a6f00;">(</span>pair input<span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span>goto-char <span style="color: #1f66af;">(</span>point-min<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">while</span> <span style="color: #1f66af;">(</span>re-search-forward <span style="color: #5f2fba;">(</span>car pair<span style="color: #5f2fba;">)</span> nil t<span style="color: #1f66af;">)</span>
-      <span style="color: #1f66af;">(</span>replace-match <span style="color: #5f2fba;">(</span>cadr pair<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/pandoc-line-breaker</span> <span style="color: #444fcf;">()</span>
-  <span style="color: #3f627f;">"pandoc&#26684;&#24335;&#21270;"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">interactive</span><span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span>seq-replacer '<span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span><span style="color: #006f70;">"\n\n*"</span> <span style="color: #006f70;">"\n"</span><span style="color: #1f66af;">)</span>
-                  <span style="color: #1f66af;">(</span><span style="color: #006f70;">"\n"</span> <span style="color: #006f70;">"\n\n"</span><span style="color: #1f66af;">)</span>
-                 <span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">seq-replacer</span> <span style="color: #5165e4;">(</span>input<span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">dolist</span> <span style="color: #007f6f;">(</span>pair input<span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span>goto-char <span style="color: #ad45ba;">(</span>point-min<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">while</span> <span style="color: #ad45ba;">(</span>re-search-forward <span style="color: #1f6fbf;">(</span>car pair<span style="color: #1f6fbf;">)</span> nil t<span style="color: #ad45ba;">)</span>
+      <span style="color: #ad45ba;">(</span>replace-match <span style="color: #1f6fbf;">(</span>cadr pair<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/pandoc-line-breaker</span> <span style="color: #5165e4;">()</span>
+  <span style="color: #804fb0;">"pandoc&#26684;&#24335;&#21270;"</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">interactive</span><span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span>seq-replacer '<span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span><span style="color: #007f6f;">"\n\n*"</span> <span style="color: #007f6f;">"\n"</span><span style="color: #ad45ba;">)</span>
+                  <span style="color: #ad45ba;">(</span><span style="color: #007f6f;">"\n"</span> <span style="color: #007f6f;">"\n\n"</span><span style="color: #ad45ba;">)</span>
+                 <span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/save-buffer-to-temp-org</span> <span style="color: #444fcf;">()</span>
-  <span style="color: #3f627f;">"Save the current buffer content to a file in the system's temporary directory.
-The file name will be the same as the buffer name, but with a '</span><span style="color: #003faf;">.org</span><span style="color: #3f627f;">' extension.
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/save-buffer-to-temp-org</span> <span style="color: #5165e4;">()</span>
+  <span style="color: #804fb0;">"Save the current buffer content to a file in the system's temporary directory.
+The file name will be the same as the buffer name, but with a '</span><span style="color: #c035aa;">.org</span><span style="color: #804fb0;">' extension.
 Return the path of the saved file."</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">interactive</span><span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">let*</span> <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>buffer-name <span style="color: #5f2fba;">(</span>buffer-name<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
-         <span style="color: #1f66af;">(</span>file-name <span style="color: #5f2fba;">(</span>concat <span style="color: #003faf;">(</span>my/sanitize-windows-filename buffer-name<span style="color: #003faf;">)</span> <span style="color: #006f70;">".org"</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
-         <span style="color: #1f66af;">(</span>temp-dir <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">if</span> <span style="color: #003faf;">(</span>eq system-type 'windows-nt<span style="color: #003faf;">)</span>
-                       <span style="color: #003faf;">(</span>expand-file-name <span style="color: #80308f;">(</span>getenv <span style="color: #006f70;">"TEMP"</span><span style="color: #80308f;">)</span><span style="color: #003faf;">)</span>
-                     <span style="color: #003faf;">(</span>expand-file-name <span style="color: #80308f;">(</span>getenv <span style="color: #006f70;">"TMPDIR"</span><span style="color: #80308f;">)</span><span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
-         <span style="color: #1f66af;">(</span>full-path <span style="color: #5f2fba;">(</span>expand-file-name file-name temp-dir<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">Write buffer content to the file
-</span>    <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">(write-region (point-min) (point-max) full-path)
-</span>    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">with-temp-file</span> full-path
-      <span style="color: #1f66af;">(</span>insert-buffer-substring buffer-name<span style="color: #1f66af;">)</span>
-      <span style="color: #1f66af;">(</span>my/pandoc-line-breaker<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">Return the full path of the file
-</span>    full-path<span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">interactive</span><span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">let*</span> <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span>buffer-name <span style="color: #1f6fbf;">(</span>buffer-name<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
+         <span style="color: #ad45ba;">(</span>file-name <span style="color: #1f6fbf;">(</span>concat <span style="color: #b65050;">(</span>my/sanitize-windows-filename buffer-name<span style="color: #b65050;">)</span> <span style="color: #007f6f;">".org"</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
+         <span style="color: #ad45ba;">(</span>temp-dir <span style="color: #1f6fbf;">(</span><span style="color: #ad45ba;">if</span> <span style="color: #b65050;">(</span>eq system-type 'windows-nt<span style="color: #b65050;">)</span>
+                       <span style="color: #b65050;">(</span>expand-file-name <span style="color: #705ae3;">(</span>getenv <span style="color: #007f6f;">"TEMP"</span><span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span>
+                     <span style="color: #b65050;">(</span>expand-file-name <span style="color: #705ae3;">(</span>getenv <span style="color: #007f6f;">"TMPDIR"</span><span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
+         <span style="color: #ad45ba;">(</span>full-path <span style="color: #1f6fbf;">(</span>expand-file-name file-name temp-dir<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">Write buffer content to the file
+</span>    <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">(write-region (point-min) (point-max) full-path)
+</span>    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">with-temp-file</span> full-path
+      <span style="color: #ad45ba;">(</span>insert-buffer-substring buffer-name<span style="color: #ad45ba;">)</span>
+      <span style="color: #ad45ba;">(</span>my/pandoc-line-breaker<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">Return the full path of the file
+</span>    full-path<span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -89,12 +89,12 @@ Return the path of the saved file."</span>
 <h2 id="orgbabc582"><span class="section-number-2">3.</span> 利用pandoc转换临时文件并保存到桌面</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/org-buffer-export-docx</span> <span style="color: #444fcf;">()</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">interactive</span><span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">let</span> <span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>docx-file <span style="color: #5f2fba;">(</span>concat <span style="color: #003faf;">(</span>getenv <span style="color: #006f70;">"UserProfile"</span><span style="color: #003faf;">)</span> <span style="color: #006f70;">"\\desktop\\"</span> <span style="color: #003faf;">(</span>my/sanitize-windows-filename <span style="color: #80308f;">(</span>buffer-name<span style="color: #80308f;">)</span><span style="color: #003faf;">)</span> <span style="color: #006f70;">".docx"</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span>
-           <span style="color: #1f66af;">(</span>template-file <span style="color: #5f2fba;">(</span>concat <span style="color: #003faf;">(</span>file-truename <span style="color: #006f70;">"~/.emacs.d/org"</span><span style="color: #003faf;">)</span> <span style="color: #006f70;">"/template.docx"</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span>shell-command <span style="color: #1f66af;">(</span>format <span style="color: #006f70;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #5f2fba;">(</span>my/save-buffer-to-temp-org<span style="color: #5f2fba;">)</span> docx-file template-file<span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span>message <span style="color: #006f70;">"Convert finish: %s"</span> docx-file<span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/org-buffer-export-docx</span> <span style="color: #5165e4;">()</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">interactive</span><span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">let</span> <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span>docx-file <span style="color: #1f6fbf;">(</span>concat <span style="color: #b65050;">(</span>getenv <span style="color: #007f6f;">"UserProfile"</span><span style="color: #b65050;">)</span> <span style="color: #007f6f;">"\\desktop\\"</span> <span style="color: #b65050;">(</span>my/sanitize-windows-filename <span style="color: #705ae3;">(</span>buffer-name<span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span> <span style="color: #007f6f;">".docx"</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
+           <span style="color: #ad45ba;">(</span>template-file <span style="color: #1f6fbf;">(</span>concat <span style="color: #b65050;">(</span>file-truename <span style="color: #007f6f;">"~/.emacs.d/org"</span><span style="color: #b65050;">)</span> <span style="color: #007f6f;">"/template.docx"</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span>shell-command <span style="color: #ad45ba;">(</span>format <span style="color: #007f6f;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #1f6fbf;">(</span>my/save-buffer-to-temp-org<span style="color: #1f6fbf;">)</span> docx-file template-file<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span>message <span style="color: #007f6f;">"Convert finish: %s"</span> docx-file<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 

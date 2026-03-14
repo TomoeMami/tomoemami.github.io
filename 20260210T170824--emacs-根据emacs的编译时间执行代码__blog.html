@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:49 -->
+<!-- 2026-03-14 周六 15:28 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-根据emacs的编译时间执行代码</title>
@@ -56,21 +56,21 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> vertico
-  <span style="color: #6a4a9f;">:demand</span> t <span style="color: #6a4a9f;">:ensure</span> t
-  <span style="color: #6a4a9f;">:config</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">when</span> <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">and</span> emacs-build-time
-               <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">vertico&#21464;&#26356;&#26102;&#38388;&#28857;
-</span>               <span style="color: #1f66af;">(</span>not <span style="color: #5f2fba;">(</span>time-less-p <span style="color: #003faf;">(</span>encode-time 0 0 0 8 2 2026<span style="color: #003faf;">)</span> emacs-build-time<span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">Emacs &#32534;&#35793;&#20110; 2026-02-08 &#20043;&#21069; &#38656;&#35201;&#20351;&#29992;&#26087;&#29256;vertico&#20195;&#30721;
-</span>    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">define-minor-mode</span> <span style="color: #3a6f00;">vertico-mode</span>
-      <span style="color: #3f627f;">"VERTical Interactive COmpletion."</span>
-      <span style="color: #6a4a9f;">:global</span> t <span style="color: #6a4a9f;">:group</span> 'vertico
-      <span style="color: #1f66af;">(</span><span style="color: #444fcf;">dolist</span> <span style="color: #5f2fba;">(</span>fun '<span style="color: #003faf;">(</span>completing-read-default completing-read-multiple<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span>
-        <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">if</span> vertico-mode
-            <span style="color: #003faf;">(</span>advice-add fun <span style="color: #6a4a9f;">:around</span> #'vertico--advice<span style="color: #003faf;">)</span>
-          <span style="color: #003faf;">(</span>advice-remove fun #'vertico--advice<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span>
-  <span style="color: #444fcf;">(</span>vertico-mode 1<span style="color: #444fcf;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">use-package</span> vertico
+  <span style="color: #705ae3;">:demand</span> t <span style="color: #705ae3;">:ensure</span> t
+  <span style="color: #705ae3;">:config</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">when</span> <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">and</span> emacs-build-time
+               <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">vertico&#21464;&#26356;&#26102;&#38388;&#28857;
+</span>               <span style="color: #ad45ba;">(</span>not <span style="color: #1f6fbf;">(</span>time-less-p <span style="color: #b65050;">(</span>encode-time 0 0 0 8 2 2026<span style="color: #b65050;">)</span> emacs-build-time<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">Emacs &#32534;&#35793;&#20110; 2026-02-08 &#20043;&#21069; &#38656;&#35201;&#20351;&#29992;&#26087;&#29256;vertico&#20195;&#30721;
+</span>    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">define-minor-mode</span> <span style="color: #5165e4;">vertico-mode</span>
+      <span style="color: #804fb0;">"VERTical Interactive COmpletion."</span>
+      <span style="color: #705ae3;">:global</span> t <span style="color: #705ae3;">:group</span> 'vertico
+      <span style="color: #ad45ba;">(</span><span style="color: #ad45ba;">dolist</span> <span style="color: #1f6fbf;">(</span>fun '<span style="color: #b65050;">(</span>completing-read-default completing-read-multiple<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span>
+        <span style="color: #1f6fbf;">(</span><span style="color: #ad45ba;">if</span> vertico-mode
+            <span style="color: #b65050;">(</span>advice-add fun <span style="color: #705ae3;">:around</span> #'vertico--advice<span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span>advice-remove fun #'vertico--advice<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span>
+  <span style="color: #5165e4;">(</span>vertico-mode 1<span style="color: #5165e4;">)</span>
 </code></pre>
 </div>
 

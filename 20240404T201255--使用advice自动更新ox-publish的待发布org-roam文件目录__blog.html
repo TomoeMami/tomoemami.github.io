@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:48 -->
+<!-- 2026-03-14 周六 15:27 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>使用advice自动更新ox-publish的待发布org-roam文件目录</title>
@@ -45,17 +45,17 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/ox-files</span> <span style="color: #444fcf;">()</span>
-  <span style="color: #3f627f;">"Return a list of note files containing '</span><span style="color: #003faf;">blog</span><span style="color: #3f627f;">' tag."</span> <span style="color: #8b4052;">;</span><span style="color: #8b4052;">
-</span>  <span style="color: #444fcf;">(</span>seq-uniq
-   <span style="color: #3a6f00;">(</span>seq-map
+<pre class="src src-emacs-lisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/ox-files</span> <span style="color: #5165e4;">()</span>
+  <span style="color: #804fb0;">"Return a list of note files containing '</span><span style="color: #c035aa;">blog</span><span style="color: #804fb0;">' tag."</span> <span style="color: #a05b5f;">;</span><span style="color: #a05b5f;">
+</span>  <span style="color: #5165e4;">(</span>seq-uniq
+   <span style="color: #007f6f;">(</span>seq-map
     #'car
-    <span style="color: #1f66af;">(</span>org-roam-db-query
-     <span style="color: #5f2fba;">[</span><span style="color: #6a4a9f;">:select</span> <span style="color: #003faf;">[</span>nodes:file<span style="color: #003faf;">]</span>
-              <span style="color: #6a4a9f;">:from</span> tags
-              <span style="color: #6a4a9f;">:left-join</span> nodes
-              <span style="color: #6a4a9f;">:on</span> <span style="color: #003faf;">(</span>= tags:node-id nodes:id<span style="color: #003faf;">)</span>
-              <span style="color: #6a4a9f;">:where</span> <span style="color: #003faf;">(</span>like tag <span style="color: #80308f;">(</span><span style="color: #444fcf;">quote</span> <span style="color: #006f70;">"%\"blog\"%"</span><span style="color: #80308f;">)</span><span style="color: #003faf;">)</span><span style="color: #5f2fba;">]</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+    <span style="color: #ad45ba;">(</span>org-roam-db-query
+     <span style="color: #1f6fbf;">[</span><span style="color: #705ae3;">:select</span> <span style="color: #b65050;">[</span>nodes:file<span style="color: #b65050;">]</span>
+              <span style="color: #705ae3;">:from</span> tags
+              <span style="color: #705ae3;">:left-join</span> nodes
+              <span style="color: #705ae3;">:on</span> <span style="color: #b65050;">(</span>= tags:node-id nodes:id<span style="color: #b65050;">)</span>
+              <span style="color: #705ae3;">:where</span> <span style="color: #b65050;">(</span>like tag <span style="color: #705ae3;">(</span><span style="color: #ad45ba;">quote</span> <span style="color: #007f6f;">"%\"blog\"%"</span><span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span><span style="color: #1f6fbf;">]</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -72,23 +72,23 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">setq</span> org-publish-project-alist
-        `<span style="color: #444fcf;">(</span><span style="color: #3a6f00;">(</span><span style="color: #006f70;">"posts"</span>
-           <span style="color: #6a4a9f;">:base-directory</span> ,website-directory
-           <span style="color: #6a4a9f;">:base-extension</span> <span style="color: #006f70;">"org"</span>
-           <span style="color: #6a4a9f;">:publishing-directory</span> ,my/publish-directory
-           <span style="color: #6a4a9f;">:publishing-function</span> org-html-publish-to-html
-           <span style="color: #6a4a9f;">:with-author</span> t
-           <span style="color: #6a4a9f;">:auto-sitemap</span> t
-           <span style="color: #6a4a9f;">:recursive</span> nil
-           <span style="color: #6a4a9f;">:exclude</span> <span style="color: #006f70;">".*"</span>
-           <span style="color: #6a4a9f;">:include</span> ,<span style="color: #1f66af;">(</span>my/ox-files<span style="color: #1f66af;">)</span>
-           <span style="color: #6a4a9f;">:html-link-home</span> <span style="color: #006f70;">"index.html"</span>
-           <span style="color: #6a4a9f;">:sitemap-filename</span> <span style="color: #006f70;">"index.org"</span>
-           <span style="color: #6a4a9f;">:sitemap-title</span> <span style="color: #006f70;">"&#30446;&#24405;"</span>
-           <span style="color: #6a4a9f;">:sitemap-sort-files</span> anti-chronologically
-           <span style="color: #6a4a9f;">:html-head:css</span> <span style="color: #006f70;">"&lt;link rel='</span><span style="color: #003faf;">stylesheet</span><span style="color: #006f70;">' type='</span><span style="color: #003faf;">text/css</span><span style="color: #006f70;">' href='</span><span style="color: #003faf;">/org.css</span><span style="color: #006f70;">'/&gt;"</span><span style="color: #3a6f00;">)</span>
-          <span style="color: #3a6f00;">(</span><span style="color: #006f70;">"personal-website"</span> <span style="color: #6a4a9f;">:components</span> <span style="color: #1f66af;">(</span><span style="color: #006f70;">"posts"</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">setq</span> org-publish-project-alist
+        `<span style="color: #5165e4;">(</span><span style="color: #007f6f;">(</span><span style="color: #007f6f;">"posts"</span>
+           <span style="color: #705ae3;">:base-directory</span> ,website-directory
+           <span style="color: #705ae3;">:base-extension</span> <span style="color: #007f6f;">"org"</span>
+           <span style="color: #705ae3;">:publishing-directory</span> ,my/publish-directory
+           <span style="color: #705ae3;">:publishing-function</span> org-html-publish-to-html
+           <span style="color: #705ae3;">:with-author</span> t
+           <span style="color: #705ae3;">:auto-sitemap</span> t
+           <span style="color: #705ae3;">:recursive</span> nil
+           <span style="color: #705ae3;">:exclude</span> <span style="color: #007f6f;">".*"</span>
+           <span style="color: #705ae3;">:include</span> ,<span style="color: #ad45ba;">(</span>my/ox-files<span style="color: #ad45ba;">)</span>
+           <span style="color: #705ae3;">:html-link-home</span> <span style="color: #007f6f;">"index.html"</span>
+           <span style="color: #705ae3;">:sitemap-filename</span> <span style="color: #007f6f;">"index.org"</span>
+           <span style="color: #705ae3;">:sitemap-title</span> <span style="color: #007f6f;">"&#30446;&#24405;"</span>
+           <span style="color: #705ae3;">:sitemap-sort-files</span> anti-chronologically
+           <span style="color: #705ae3;">:html-head:css</span> <span style="color: #007f6f;">"&lt;link rel='</span><span style="color: #c035aa;">stylesheet</span><span style="color: #007f6f;">' type='</span><span style="color: #c035aa;">text/css</span><span style="color: #007f6f;">' href='</span><span style="color: #c035aa;">/org.css</span><span style="color: #007f6f;">'/&gt;"</span><span style="color: #007f6f;">)</span>
+          <span style="color: #007f6f;">(</span><span style="color: #007f6f;">"personal-website"</span> <span style="color: #705ae3;">:components</span> <span style="color: #ad45ba;">(</span><span style="color: #007f6f;">"posts"</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -105,25 +105,25 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/org-project-update</span> <span style="color: #444fcf;">(</span><span style="color: #007010;">&amp;optional</span> ARG PRED<span style="color: #444fcf;">)</span> <span style="color: #8b4052;">;;</span><span style="color: #8b4052;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional
-</span>  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">setq</span> org-publish-project-alist
-        `<span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span><span style="color: #006f70;">"posts"</span>
-           <span style="color: #6a4a9f;">:base-directory</span> ,website-directory
-           <span style="color: #6a4a9f;">:base-extension</span> <span style="color: #006f70;">"org"</span>
-           <span style="color: #6a4a9f;">:publishing-directory</span> ,my/publish-directory
-           <span style="color: #6a4a9f;">:publishing-function</span> org-html-publish-to-html
-           <span style="color: #6a4a9f;">:with-author</span> t
-           <span style="color: #6a4a9f;">:auto-sitemap</span> t
-           <span style="color: #6a4a9f;">:recursive</span> nil
-           <span style="color: #6a4a9f;">:exclude</span> <span style="color: #006f70;">".*"</span>
-           <span style="color: #6a4a9f;">:include</span> ,<span style="color: #5f2fba;">(</span>my/ox-files<span style="color: #5f2fba;">)</span>
-           <span style="color: #6a4a9f;">:html-link-home</span> <span style="color: #006f70;">"index.html"</span>
-           <span style="color: #6a4a9f;">:sitemap-filename</span> <span style="color: #006f70;">"index.org"</span>
-           <span style="color: #6a4a9f;">:sitemap-title</span> <span style="color: #006f70;">"&#30446;&#24405;"</span>
-           <span style="color: #6a4a9f;">:sitemap-sort-files</span> anti-chronologically
-           <span style="color: #6a4a9f;">:html-head:css</span> <span style="color: #006f70;">"&lt;link rel='</span><span style="color: #003faf;">stylesheet</span><span style="color: #006f70;">' type='</span><span style="color: #003faf;">text/css</span><span style="color: #006f70;">' href='</span><span style="color: #003faf;">/org.css</span><span style="color: #006f70;">'/&gt;"</span><span style="color: #1f66af;">)</span>
-          <span style="color: #1f66af;">(</span><span style="color: #006f70;">"personal-website"</span> <span style="color: #6a4a9f;">:components</span> <span style="color: #5f2fba;">(</span><span style="color: #006f70;">"posts"</span><span style="color: #5f2fba;">)</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
-<span style="color: #007047;">(</span>advice-add 'org-export-dispatch <span style="color: #6a4a9f;">:before</span> 'my/org-project-update<span style="color: #007047;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/org-project-update</span> <span style="color: #5165e4;">(</span><span style="color: #0f7a9d;">&amp;optional</span> ARG PRED<span style="color: #5165e4;">)</span> <span style="color: #a05b5f;">;;</span><span style="color: #a05b5f;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional
+</span>  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">setq</span> org-publish-project-alist
+        `<span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span><span style="color: #007f6f;">"posts"</span>
+           <span style="color: #705ae3;">:base-directory</span> ,website-directory
+           <span style="color: #705ae3;">:base-extension</span> <span style="color: #007f6f;">"org"</span>
+           <span style="color: #705ae3;">:publishing-directory</span> ,my/publish-directory
+           <span style="color: #705ae3;">:publishing-function</span> org-html-publish-to-html
+           <span style="color: #705ae3;">:with-author</span> t
+           <span style="color: #705ae3;">:auto-sitemap</span> t
+           <span style="color: #705ae3;">:recursive</span> nil
+           <span style="color: #705ae3;">:exclude</span> <span style="color: #007f6f;">".*"</span>
+           <span style="color: #705ae3;">:include</span> ,<span style="color: #1f6fbf;">(</span>my/ox-files<span style="color: #1f6fbf;">)</span>
+           <span style="color: #705ae3;">:html-link-home</span> <span style="color: #007f6f;">"index.html"</span>
+           <span style="color: #705ae3;">:sitemap-filename</span> <span style="color: #007f6f;">"index.org"</span>
+           <span style="color: #705ae3;">:sitemap-title</span> <span style="color: #007f6f;">"&#30446;&#24405;"</span>
+           <span style="color: #705ae3;">:sitemap-sort-files</span> anti-chronologically
+           <span style="color: #705ae3;">:html-head:css</span> <span style="color: #007f6f;">"&lt;link rel='</span><span style="color: #c035aa;">stylesheet</span><span style="color: #007f6f;">' type='</span><span style="color: #c035aa;">text/css</span><span style="color: #007f6f;">' href='</span><span style="color: #c035aa;">/org.css</span><span style="color: #007f6f;">'/&gt;"</span><span style="color: #ad45ba;">)</span>
+          <span style="color: #ad45ba;">(</span><span style="color: #007f6f;">"personal-website"</span> <span style="color: #705ae3;">:components</span> <span style="color: #1f6fbf;">(</span><span style="color: #007f6f;">"posts"</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
+<span style="color: #c035aa;">(</span>advice-add 'org-export-dispatch <span style="color: #705ae3;">:before</span> 'my/org-project-update<span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -140,13 +140,13 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/org-inline-css-hook</span> <span style="color: #444fcf;">(</span>exporter<span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"Insert custom inline css"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">when</span> <span style="color: #3a6f00;">(</span>eq exporter 'html<span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">setq</span> org-html-head-include-default-style nil<span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">setq</span> org-html-head <span style="color: #1f66af;">(</span>concat <span style="color: #006f70;">"&lt;style type=\"text/css\"&gt;\n &lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/\n"</span> <span style="color: #5f2fba;">(</span><span style="color: #444fcf;">with-temp-buffer</span> <span style="color: #003faf;">(</span>insert-file-contents <span style="color: #006f70;">"~/.emacs.d/org.css"</span><span style="color: #003faf;">)</span> <span style="color: #003faf;">(</span>buffer-string<span style="color: #003faf;">)</span><span style="color: #5f2fba;">)</span> <span style="color: #006f70;">"/*] ]&gt;*/--&gt;\n &lt;/style&gt;\n"</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/org-inline-css-hook</span> <span style="color: #5165e4;">(</span>exporter<span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"Insert custom inline css"</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">when</span> <span style="color: #007f6f;">(</span>eq exporter 'html<span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">setq</span> org-html-head-include-default-style nil<span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">setq</span> org-html-head <span style="color: #ad45ba;">(</span>concat <span style="color: #007f6f;">"&lt;style type=\"text/css\"&gt;\n &lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/\n"</span> <span style="color: #1f6fbf;">(</span><span style="color: #ad45ba;">with-temp-buffer</span> <span style="color: #b65050;">(</span>insert-file-contents <span style="color: #007f6f;">"~/.emacs.d/org.css"</span><span style="color: #b65050;">)</span> <span style="color: #b65050;">(</span>buffer-string<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span> <span style="color: #007f6f;">"/*] ]&gt;*/--&gt;\n &lt;/style&gt;\n"</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span>add-hook 'org-export-before-processing-hook 'my/org-inline-css-hook<span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span>add-hook 'org-export-before-processing-hook 'my/org-inline-css-hook<span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -156,24 +156,24 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/org-inline-css-hook</span> <span style="color: #444fcf;">(</span>exporter<span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"&#22312;&#23548;&#20986;&#30340;'</span><span style="color: #003faf;">html</span><span style="color: #3f627f;">'&#25991;&#20214;&#39318;&#39029;&#25554;&#20837;&#33258;&#23450;&#20041;&#30340;CSS&#25991;&#20214;"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">when</span> <span style="color: #3a6f00;">(</span>eq exporter 'html<span style="color: #3a6f00;">)</span>
-    <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">&#21462;&#28040;&#40664;&#35748;CSS
-</span>    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">setq</span> org-html-head-include-default-style nil<span style="color: #3a6f00;">)</span>
-    <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">&#20851;&#38381;html validation&#38142;&#25509;
-</span>    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">setq</span> org-html-validation-link nil<span style="color: #3a6f00;">)</span>
-    <span style="color: #8b4052;">;; </span><span style="color: #8b4052;">&#35774;&#32622;CSS
-</span>    <span style="color: #3a6f00;">(</span><span style="color: #444fcf;">setq</span> org-html-head <span style="color: #006f70;">"&lt;link rel='</span><span style="color: #003faf;">stylesheet</span><span style="color: #006f70;">' type='</span><span style="color: #003faf;">text/css</span><span style="color: #006f70;">' href='</span><span style="color: #003faf;">/org.css</span><span style="color: #006f70;">'/&gt;"</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/org-inline-css-hook</span> <span style="color: #5165e4;">(</span>exporter<span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"&#22312;&#23548;&#20986;&#30340;'</span><span style="color: #c035aa;">html</span><span style="color: #804fb0;">'&#25991;&#20214;&#39318;&#39029;&#25554;&#20837;&#33258;&#23450;&#20041;&#30340;CSS&#25991;&#20214;"</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">when</span> <span style="color: #007f6f;">(</span>eq exporter 'html<span style="color: #007f6f;">)</span>
+    <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#21462;&#28040;&#40664;&#35748;CSS
+</span>    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">setq</span> org-html-head-include-default-style nil<span style="color: #007f6f;">)</span>
+    <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#20851;&#38381;html validation&#38142;&#25509;
+</span>    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">setq</span> org-html-validation-link nil<span style="color: #007f6f;">)</span>
+    <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#35774;&#32622;CSS
+</span>    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">setq</span> org-html-head <span style="color: #007f6f;">"&lt;link rel='</span><span style="color: #c035aa;">stylesheet</span><span style="color: #007f6f;">' type='</span><span style="color: #c035aa;">text/css</span><span style="color: #007f6f;">' href='</span><span style="color: #c035aa;">/org.css</span><span style="color: #007f6f;">'/&gt;"</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">adv/org-publish-project-done-message</span> <span style="color: #444fcf;">(</span><span style="color: #007010;">&amp;optional</span> one two three <span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"&#26356;&#26032;'</span><span style="color: #003faf;">org.css</span><span style="color: #3f627f;">'"</span>
-  <span style="color: #444fcf;">(</span><span style="color: #444fcf;">with-current-buffer</span> <span style="color: #3a6f00;">(</span>find-file-noselect <span style="color: #1f66af;">(</span>concat my/desktop-path <span style="color: #006f70;">"org.css"</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span>erase-buffer<span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span>insert-file-contents <span style="color: #006f70;">"~/.emacs.d/org.css"</span><span style="color: #3a6f00;">)</span>
-    <span style="color: #3a6f00;">(</span>save-buffer<span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">adv/org-publish-project-done-message</span> <span style="color: #5165e4;">(</span><span style="color: #0f7a9d;">&amp;optional</span> one two three <span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"&#26356;&#26032;'</span><span style="color: #c035aa;">org.css</span><span style="color: #804fb0;">'"</span>
+  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">with-current-buffer</span> <span style="color: #007f6f;">(</span>find-file-noselect <span style="color: #ad45ba;">(</span>concat my/desktop-path <span style="color: #007f6f;">"org.css"</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span>erase-buffer<span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span>insert-file-contents <span style="color: #007f6f;">"~/.emacs.d/org.css"</span><span style="color: #007f6f;">)</span>
+    <span style="color: #007f6f;">(</span>save-buffer<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 
-<span style="color: #007047;">(</span>advice-add #'org-publish-current-project <span style="color: #6a4a9f;">:after</span> #'adv/org-publish-project-done-message<span style="color: #007047;">)</span>
+<span style="color: #c035aa;">(</span>advice-add #'org-publish-current-project <span style="color: #705ae3;">:after</span> #'adv/org-publish-project-done-message<span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 </div>
@@ -186,7 +186,7 @@
 <h3 id="org9581e39"><span class="section-number-3">5.1.</span> 导出时单换行也视为换行</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">setq</span> org-export-preserve-breaks t<span style="color: #007047;">)</span>
+<pre class="src src-emacs-lisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">setq</span> org-export-preserve-breaks t<span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 </div>

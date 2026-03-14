@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:48 -->
+<!-- 2026-03-14 周六 15:27 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用gptel配合beancount分析记账</title>
@@ -31,7 +31,7 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> markdown-mode<span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">use-package</span> markdown-mode<span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -40,22 +40,22 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">use-package</span> gptel
-  <span style="color: #6a4a9f;">:custom</span>
-  <span style="color: #444fcf;">(</span>gptel-use-curl nil<span style="color: #444fcf;">)</span>
-  <span style="color: #8b4052;">;;</span><span style="color: #8b4052;">&#22240;&#20026;&#25105;&#29992;Windows&#65292;&#27809;&#26377;&#20869;&#32622;curl
-</span>  <span style="color: #444fcf;">(</span>gptel-directives
-   '<span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span>default . <span style="color: #006f70;">"You are a large language model living in Emacs and a helpful assistant. Respond concisely in Chinese."</span><span style="color: #1f66af;">)</span>
-     <span style="color: #1f66af;">(</span>programming . <span style="color: #006f70;">"You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note."</span><span style="color: #1f66af;">)</span>
-     <span style="color: #1f66af;">(</span>writing . <span style="color: #006f70;">"You are a large language model and a writing assistant. Respond concisely in Chinese."</span><span style="color: #1f66af;">)</span>
-     <span style="color: #1f66af;">(</span>chat . <span style="color: #006f70;">"You are a large language model and a conversation partner. Respond concisely in Chinese."</span><span style="color: #1f66af;">)</span>
-     <span style="color: #1f66af;">(</span>bill . <span style="color: #006f70;">"You are a large language model and a financial advisor. &#35831;&#24110;&#25105;&#20998;&#26512;&#21518;&#32493;&#30340;&#35760;&#36134;&#32454;&#21017;&#65292;&#36755;&#20986;&#24635;&#25910;&#20837;&#12289;&#24635;&#25903;&#20986;&#12289;&#21333;&#27425;&#25903;&#20986;&#36807;&#39640;&#30340;&#23376;&#31867;&#21450;&#20854;&#37329;&#39069;&#65292;&#36824;&#26377;&#32047;&#35745;&#25903;&#20986;&#36807;&#39640;&#30340;&#22823;&#31867;&#21450;&#20854;&#32047;&#35745;&#37329;&#39069;"</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span>
-   <span style="color: #444fcf;">)</span>
-  <span style="color: #8b4052;">;;</span><span style="color: #8b4052;">&#22312;&#27492;&#22788;&#33258;&#23450;&#20041;&#20320;&#30340;prompt
-</span>  <span style="color: #6a4a9f;">:config</span>
-  <span style="color: #444fcf;">(</span>add-hook 'gptel-post-response-functions 'gptel-end-of-response<span style="color: #444fcf;">)</span>
-  <span style="color: #8b4052;">;;</span><span style="color: #8b4052;">&#20351;gpt&#22238;&#22797;&#20043;&#21518;&#20809;&#26631;&#31227;&#33267;&#26368;&#21518;&#26041;
-</span>  <span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">use-package</span> gptel
+  <span style="color: #705ae3;">:custom</span>
+  <span style="color: #5165e4;">(</span>gptel-use-curl nil<span style="color: #5165e4;">)</span>
+  <span style="color: #a05b5f;">;;</span><span style="color: #a05b5f;">&#22240;&#20026;&#25105;&#29992;Windows&#65292;&#27809;&#26377;&#20869;&#32622;curl
+</span>  <span style="color: #5165e4;">(</span>gptel-directives
+   '<span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span>default . <span style="color: #007f6f;">"You are a large language model living in Emacs and a helpful assistant. Respond concisely in Chinese."</span><span style="color: #ad45ba;">)</span>
+     <span style="color: #ad45ba;">(</span>programming . <span style="color: #007f6f;">"You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note."</span><span style="color: #ad45ba;">)</span>
+     <span style="color: #ad45ba;">(</span>writing . <span style="color: #007f6f;">"You are a large language model and a writing assistant. Respond concisely in Chinese."</span><span style="color: #ad45ba;">)</span>
+     <span style="color: #ad45ba;">(</span>chat . <span style="color: #007f6f;">"You are a large language model and a conversation partner. Respond concisely in Chinese."</span><span style="color: #ad45ba;">)</span>
+     <span style="color: #ad45ba;">(</span>bill . <span style="color: #007f6f;">"You are a large language model and a financial advisor. &#35831;&#24110;&#25105;&#20998;&#26512;&#21518;&#32493;&#30340;&#35760;&#36134;&#32454;&#21017;&#65292;&#36755;&#20986;&#24635;&#25910;&#20837;&#12289;&#24635;&#25903;&#20986;&#12289;&#21333;&#27425;&#25903;&#20986;&#36807;&#39640;&#30340;&#23376;&#31867;&#21450;&#20854;&#37329;&#39069;&#65292;&#36824;&#26377;&#32047;&#35745;&#25903;&#20986;&#36807;&#39640;&#30340;&#22823;&#31867;&#21450;&#20854;&#32047;&#35745;&#37329;&#39069;"</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
+   <span style="color: #5165e4;">)</span>
+  <span style="color: #a05b5f;">;;</span><span style="color: #a05b5f;">&#22312;&#27492;&#22788;&#33258;&#23450;&#20041;&#20320;&#30340;prompt
+</span>  <span style="color: #705ae3;">:config</span>
+  <span style="color: #5165e4;">(</span>add-hook 'gptel-post-response-functions 'gptel-end-of-response<span style="color: #5165e4;">)</span>
+  <span style="color: #a05b5f;">;;</span><span style="color: #a05b5f;">&#20351;gpt&#22238;&#22797;&#20043;&#21518;&#20809;&#26631;&#31227;&#33267;&#26368;&#21518;&#26041;
+</span>  <span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 
@@ -64,14 +64,14 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span><span style="color: #444fcf;">setq</span> gptel-model   <span style="color: #006f70;">"deepseek-chat"</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">setq</span> gptel-model   <span style="color: #007f6f;">"deepseek-chat"</span>
       gptel-backend
-      <span style="color: #444fcf;">(</span>gptel-make-openai <span style="color: #006f70;">"DeepSeek"</span>
-        <span style="color: #6a4a9f;">:host</span> <span style="color: #006f70;">"api.deepseek.com"</span>
-        <span style="color: #6a4a9f;">:endpoint</span> <span style="color: #006f70;">"/chat/completions"</span>
-        <span style="color: #6a4a9f;">:key</span> <span style="color: #006f70;">"YOUR-KEY"</span>
-        <span style="color: #6a4a9f;">:stream</span> t
-        <span style="color: #6a4a9f;">:models</span> '<span style="color: #3a6f00;">(</span><span style="color: #006f70;">"deepseek-chat"</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+      <span style="color: #5165e4;">(</span>gptel-make-openai <span style="color: #007f6f;">"DeepSeek"</span>
+        <span style="color: #705ae3;">:host</span> <span style="color: #007f6f;">"api.deepseek.com"</span>
+        <span style="color: #705ae3;">:endpoint</span> <span style="color: #007f6f;">"/chat/completions"</span>
+        <span style="color: #705ae3;">:key</span> <span style="color: #007f6f;">"YOUR-KEY"</span>
+        <span style="color: #705ae3;">:stream</span> t
+        <span style="color: #705ae3;">:models</span> '<span style="color: #007f6f;">(</span><span style="color: #007f6f;">"deepseek-chat"</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 </div>

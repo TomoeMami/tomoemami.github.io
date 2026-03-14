@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-03-12 周四 17:48 -->
+<!-- 2026-03-14 周六 15:27 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-添加org-ql-view为org-mode-link</title>
@@ -28,8 +28,8 @@
 在使用org-ql的时候，我发现<a href="https://github.com/alphapapa/org-ql?tab=readme-ov-file#links">官方说明里推荐的</a>形如<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">[</span><span style="color: #444fcf;">[</span>org-ql-search:todo:NEXT priority:A<span style="color: #444fcf;">]</span><span style="color: #007047;">]</span>
-<span style="color: #007047;">[</span><span style="color: #444fcf;">[</span>org-ql-search:<span style="color: #3a6f00;">(</span><span style="color: #444fcf;">and</span> <span style="color: #1f66af;">(</span>todo <span style="color: #006f70;">"NEXT"</span><span style="color: #1f66af;">)</span> <span style="color: #1f66af;">(</span>priority <span style="color: #006f70;">"A"</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span><span style="color: #444fcf;">]</span><span style="color: #007047;">]</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">[</span><span style="color: #5165e4;">[</span>org-ql-search:todo:NEXT priority:A<span style="color: #5165e4;">]</span><span style="color: #c035aa;">]</span>
+<span style="color: #c035aa;">[</span><span style="color: #5165e4;">[</span>org-ql-search:<span style="color: #007f6f;">(</span><span style="color: #ad45ba;">and</span> <span style="color: #ad45ba;">(</span>todo <span style="color: #007f6f;">"NEXT"</span><span style="color: #ad45ba;">)</span> <span style="color: #ad45ba;">(</span>priority <span style="color: #007f6f;">"A"</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">]</span><span style="color: #c035aa;">]</span>
 </code></pre>
 </div>
 <p>
@@ -43,22 +43,22 @@
 所以可以保存常用的org-ql-view搜索，然后添加以下代码，通过形如 <code>[[qlview: 个人事项]</code> 的org-link快速启动org-ql-view指定结果<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span>org-add-link-type
- <span style="color: #006f70;">"qlview"</span> 'my/org-ql-view<span style="color: #007047;">)</span>
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/org-ql-view</span> <span style="color: #444fcf;">(</span>name<span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"View saved org-ql-view"</span>
-  <span style="color: #444fcf;">(</span>org-ql-view name<span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span>org-add-link-type
+ <span style="color: #007f6f;">"qlview"</span> 'my/org-ql-view<span style="color: #c035aa;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/org-ql-view</span> <span style="color: #5165e4;">(</span>name<span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"View saved org-ql-view"</span>
+  <span style="color: #5165e4;">(</span>org-ql-view name<span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 <div id="outline-container-orge0bef34" class="outline-2">
 <h2 id="orge0bef34"><span class="section-number-2">1.</span> 补充 org-ql-search 的相关语句</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #007047;">(</span>org-add-link-type
- <span style="color: #006f70;">"qlsearch"</span> 'my/org-ql-search<span style="color: #007047;">)</span>
-<span style="color: #007047;">(</span><span style="color: #444fcf;">defun</span> <span style="color: #3a6f00;">my/org-ql-search</span> <span style="color: #444fcf;">(</span>query<span style="color: #444fcf;">)</span>
-  <span style="color: #3f627f;">"Search query in default mode"</span>
-  <span style="color: #444fcf;">(</span>org-ql-search <span style="color: #3a6f00;">(</span>org-agenda-files<span style="color: #3a6f00;">)</span> query <span style="color: #6a4a9f;">:narrow</span> nil <span style="color: #6a4a9f;">:super-groups</span> '<span style="color: #3a6f00;">(</span><span style="color: #1f66af;">(</span><span style="color: #6a4a9f;">:auto-tags</span><span style="color: #1f66af;">)</span><span style="color: #3a6f00;">)</span> <span style="color: #6a4a9f;">:sort</span> nil<span style="color: #444fcf;">)</span><span style="color: #007047;">)</span>
+<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span>org-add-link-type
+ <span style="color: #007f6f;">"qlsearch"</span> 'my/org-ql-search<span style="color: #c035aa;">)</span>
+<span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/org-ql-search</span> <span style="color: #5165e4;">(</span>query<span style="color: #5165e4;">)</span>
+  <span style="color: #804fb0;">"Search query in default mode"</span>
+  <span style="color: #5165e4;">(</span>org-ql-search <span style="color: #007f6f;">(</span>org-agenda-files<span style="color: #007f6f;">)</span> query <span style="color: #705ae3;">:narrow</span> nil <span style="color: #705ae3;">:super-groups</span> '<span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span><span style="color: #705ae3;">:auto-tags</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span> <span style="color: #705ae3;">:sort</span> nil<span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
 </code></pre>
 </div>
 </div>
