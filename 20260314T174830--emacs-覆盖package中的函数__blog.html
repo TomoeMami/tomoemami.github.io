@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-03-14 六 20:26 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-覆盖package中的函数</title>
+<meta name="author" content="TomoeMami" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-14 六 20:26]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-覆盖package中的函数</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-03-14T17:48:00">[2026-03-14 六 17:48]</time></span><br>
+</p>
+
+<p>
+Emacs的一大优点，就是能自由修改、重载elisp函数。我们经常会遇到这样的情况：有的package所提供的函数并不符合自己的需求，或者作者消失了许久，留有一堆issue和pr没有处理。这种时候，我们就可以手动覆盖一些函数、设置一些变量，达到我们想要的效果。<br>
+</p>
+
+<p>
+假设你从melpa、elpa或者github手动下载了package相关的 <code>.el</code> 文件，一般有两种方式覆盖函数。后续我们以 <code>org-ql</code> 为例，其有 <code>org-ql.el</code> 和 <code>org-ql-view.el</code> 等子文件。<br>
+</p>
+<div id="outline-container-org6c2ebe9" class="outline-2">
+<h2 id="org6c2ebe9"><span class="section-number-2">1.</span> 覆盖当前package主文件中的函数</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+如果我们要修改和package同名的文件中的函数，就可以直接在 <code>use-package</code> 里设置：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> org-ql
+  <span style="color: #a01f64;">:config</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">&#38656;&#35201;&#35206;&#30422;&#30340;&#20989;&#25968;</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+</code></pre>
+</div>
+<p>
+由于「 <code>:config</code> 中的代码会等到包在加载后才会被加载。」（来源： <a href="https://egh0bww1.com/posts/2023-09-02-43-use-use-package-manage-emacs-config/#orgnh-2.1">使用 use-package 管理 emacs 配置</a>），所以我们就在这里放置需要覆盖的函数。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgd7a9bdd" class="outline-2">
+<h2 id="orgd7a9bdd"><span class="section-number-2">2.</span> 覆盖其他package文件中的函数</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+有的时候，一个package会拆分成数个函数。假如我们要覆盖的函数不在package主文件中，那么很可能，如果该函数所在文件并未被加载，定义在前一章节的函数就可能因为引用变量不存在或者引用函数不存在而报错。<br>
+</p>
+
+<p>
+这里假设需要覆盖的函数在 <code>org-ql-view.el</code> 中（可通过 <code>C-h f</code> 搜索函数名查看所在文件），我们就可采取下列方式：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> org-ql
+  <span style="color: #a01f64;">:config</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">with-eval-after-load</span> 'org-ql-view
+    <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">&#38656;&#35201;&#35206;&#30422;&#30340;&#20989;&#25968;</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+</code></pre>
+</div>
+
+<p>
+这样一来，会在加载 <code>org-ql-view.el</code> 文件后再执行一次重新定义，而这时往往相关变量、函数均已设置完毕。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org874b9ca" class="outline-2">
+<h2 id="org874b9ca"><span class="section-number-2">3.</span> 补充说明</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org0cd8f74" class="outline-3">
+<h3 id="org0cd8f74"><span class="section-number-3">3.1.</span> 为什么不用advice</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+众所周知，emacs中有强大的 <code>advice</code> 功能，可以对函数进行各种各样的调整。如果仅仅是添加新功能，我也非常建议读者使用 <code>advice</code> 相关函数，可以方便地添加/移除。<br>
+这里采用直接覆盖的主要原因还是作者更新不及时，直接覆盖不用担心遇见代码更新导致功能异常，同时还能省一些也许仅存在于精神上的电脑资源吧。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org4d0c6a5" class="outline-3">
+<h3 id="org4d0c6a5"><span class="section-number-3">3.2.</span> 有没有更简洁的方式</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+目前的覆盖方法确实需要将整个函数完整重述一遍，有点繁琐。如果读者有兴趣，可以使用 <a href="https://github.com/radian-software/el-patch">el-patch</a> 更加精准修改elisp函数。<br>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+</div>
+</body>
+</html>
