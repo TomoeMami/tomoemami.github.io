@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<!-- 2026-03-14 周六 15:28 -->
+<!-- 2026-03-25 周三 14:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Emacs: Adding Chinese Lunar Calendar Anniversaries</title>
@@ -29,10 +29,10 @@ Anniversaries can be displayed in the <code>org-agenda</code>. To add a Gregoria
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">Enable ISO date style: Year Month Day
-</span><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">setq</span> calendar-date-style 'iso<span style="color: #c035aa;">)</span>
+<pre class="src src-elisp"><code><span style="color: #475d80;">;; </span><span style="color: #475d80;">Enable ISO date style: Year Month Day
+</span><span style="color: #906045;">(</span><span style="color: #906045;">setq</span> calendar-date-style 'iso<span style="color: #906045;">)</span>
 
-%%<span style="color: #c035aa;">(</span>diary-anniversary 1949 10 1<span style="color: #c035aa;">)</span> The %dth Gregorian birthday of New China
+%%<span style="color: #906045;">(</span>diary-anniversary 1949 10 1<span style="color: #906045;">)</span> The %dth Gregorian birthday of New China
 </code></pre>
 </div>
 
@@ -54,22 +54,22 @@ Taking the Lunar date of the 10th day of the 8th month, 1949 (which corresponds 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">Enable ISO date style: Year Month Day
-</span><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">setq</span> calendar-date-style 'iso<span style="color: #c035aa;">)</span>
+<pre class="src src-elisp"><code><span style="color: #475d80;">;; </span><span style="color: #475d80;">Enable ISO date style: Year Month Day
+</span><span style="color: #906045;">(</span><span style="color: #906045;">setq</span> calendar-date-style 'iso<span style="color: #906045;">)</span>
 
-<span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">Enable the built-in cal-china package
-</span><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">require</span> '<span style="color: #c035aa;">cal-china</span><span style="color: #c035aa;">)</span>
+<span style="color: #475d80;">;; </span><span style="color: #475d80;">Enable the built-in cal-china package
+</span><span style="color: #906045;">(</span><span style="color: #906045;">require</span> '<span style="color: #5059c0;">cal-china</span><span style="color: #906045;">)</span>
 
-<span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">The diary-chinese-anniversary function in cal-china only supports 
-</span><span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">the American date format, so we need to use '</span><span style="color: #c035aa;">let</span><span style="color: #a05b5f;">' to locally define the variable.
-</span><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/diary-chinese-anniversary</span> <span style="color: #5165e4;">(</span>year month day<span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">let</span> <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span>calendar-date-style 'american<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
-    <span style="color: #007f6f;">(</span>diary-chinese-anniversary month day year nil<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
+<span style="color: #475d80;">;; </span><span style="color: #475d80;">The diary-chinese-anniversary function in cal-china only supports 
+</span><span style="color: #475d80;">;; </span><span style="color: #475d80;">the American date format, so we need to use '</span><span style="color: #5059c0;">let</span><span style="color: #475d80;">' to locally define the variable.
+</span><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/diary-chinese-anniversary</span> <span style="color: #9f4e74;">(</span>year month day<span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span><span style="color: #906045;">let</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>calendar-date-style 'american<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
+    <span style="color: #5059c0;">(</span>diary-chinese-anniversary month day year nil<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
 
-<span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">Calculate the Chinese lunar year structure for a given Gregorian date
-</span><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/chinese-year</span> <span style="color: #5165e4;">(</span>year month day<span style="color: #5165e4;">)</span>
-    <span style="color: #5165e4;">(</span>+ <span style="color: #007f6f;">(</span>* 100 <span style="color: #ad45ba;">(</span>car <span style="color: #1f6fbf;">(</span>calendar-chinese-from-absolute <span style="color: #b65050;">(</span>calendar-absolute-from-gregorian <span style="color: #705ae3;">(</span>diary-make-date year month day<span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
-       <span style="color: #007f6f;">(</span>cadr <span style="color: #ad45ba;">(</span>calendar-chinese-from-absolute <span style="color: #1f6fbf;">(</span>calendar-absolute-from-gregorian <span style="color: #b65050;">(</span>diary-make-date year month day<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
+<span style="color: #475d80;">;; </span><span style="color: #475d80;">Calculate the Chinese lunar year structure for a given Gregorian date
+</span><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/chinese-year</span> <span style="color: #9f4e74;">(</span>year month day<span style="color: #9f4e74;">)</span>
+    <span style="color: #9f4e74;">(</span>+ <span style="color: #5059c0;">(</span>* 100 <span style="color: #a83058;">(</span>car <span style="color: #7755b4;">(</span>calendar-chinese-from-absolute <span style="color: #a05900;">(</span>calendar-absolute-from-gregorian <span style="color: #3060af;">(</span>diary-make-date year month day<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
+       <span style="color: #5059c0;">(</span>cadr <span style="color: #a83058;">(</span>calendar-chinese-from-absolute <span style="color: #7755b4;">(</span>calendar-absolute-from-gregorian <span style="color: #a05900;">(</span>diary-make-date year month day<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
 </code></pre>
 </div>
 
@@ -78,7 +78,7 @@ With this setup, you can use the following code to display the lunar birthday re
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code>%%<span style="color: #c035aa;">(</span>my/diary-chinese-anniversary <span style="color: #5165e4;">(</span>my/chinese-year 1949 10 1<span style="color: #5165e4;">)</span> 8 10<span style="color: #c035aa;">)</span> The %dth Lunar birthday of New China
+<pre class="src src-elisp"><code>%%<span style="color: #906045;">(</span>my/diary-chinese-anniversary <span style="color: #9f4e74;">(</span>my/chinese-year 1949 10 1<span style="color: #9f4e74;">)</span> 8 10<span style="color: #906045;">)</span> The %dth Lunar birthday of New China
 </code></pre>
 </div>
 </div>

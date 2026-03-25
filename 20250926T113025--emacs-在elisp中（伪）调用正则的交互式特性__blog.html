@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<!-- 2026-03-14 周六 15:28 -->
+<!-- 2026-03-25 周三 14:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在elisp中（伪）调用正则的交互式特性</title>
@@ -37,12 +37,12 @@ Emacs 用户常常会用到强大的交互式替换命令，如 <code>replace-re
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-09-26T22:35:00">[2025-09-26 周五 22:35]</time></span>：<a href="https://emacs-china.org/u/Kana">@Kana</a> 在<a href="https://emacs-china.org/t/elisp/30137/2?u=tomoemami">回帖</a>中指出，可以直接用以下函数达到相同效果，还可以沿用 <code>\,(...)</code> 的格式：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/replace-regexp</span> <span style="color: #5165e4;">(</span>regexp replacement<span style="color: #5165e4;">)</span>
-  <span style="color: #804fb0;">"`</span><span style="color: #c035aa;">replace-regexp</span><span style="color: #804fb0;">', non-interactively."</span>
-  <span style="color: #5165e4;">(</span>perform-replace
+<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/replace-regexp</span> <span style="color: #9f4e74;">(</span>regexp replacement<span style="color: #9f4e74;">)</span>
+  <span style="color: #7a5c50;">"`</span><span style="color: #5059c0;">replace-regexp</span><span style="color: #7a5c50;">', non-interactively."</span>
+  <span style="color: #9f4e74;">(</span>perform-replace
    regexp
-   <span style="color: #007f6f;">(</span>query-replace-compile-replacement replacement t<span style="color: #007f6f;">)</span>
-   nil t nil<span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
+   <span style="color: #5059c0;">(</span>query-replace-compile-replacement replacement t<span style="color: #5059c0;">)</span>
+   nil t nil<span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
 </code></pre>
 </div>
 
@@ -57,41 +57,41 @@ Emacs 用户常常会用到强大的交互式替换命令，如 <code>replace-re
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/eval-lisp-in-string</span> <span style="color: #5165e4;">(</span>str<span style="color: #5165e4;">)</span>
-  <span style="color: #804fb0;">"&#22312;&#23383;&#31526;&#20018; STR &#20013;&#26597;&#25214;&#25152;&#26377; `,(...)` &#24418;&#24335;&#12290;
+<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/eval-lisp-in-string</span> <span style="color: #9f4e74;">(</span>str<span style="color: #9f4e74;">)</span>
+  <span style="color: #7a5c50;">"&#22312;&#23383;&#31526;&#20018; STR &#20013;&#26597;&#25214;&#25152;&#26377; `,(...)` &#24418;&#24335;&#12290;
 &#23545;&#25324;&#21495;&#20869;&#30340; S-&#34920;&#36798;&#24335;&#27714;&#20540;&#65292;&#24182;&#29992;&#20854;&#32467;&#26524;&#26367;&#25442;&#21407;&#22987;&#24418;&#24335;&#12290;"</span>
-  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">with-temp-buffer</span>
-    <span style="color: #007f6f;">(</span>insert str<span style="color: #007f6f;">)</span>
-    <span style="color: #007f6f;">(</span>goto-char <span style="color: #ad45ba;">(</span>point-max<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span> <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">&#20174;&#32531;&#20914;&#21306;&#26411;&#23614;&#24320;&#22987;
-</span>    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">save-match-data</span>
-      <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#20174;&#21518;&#21521;&#21069;&#25628;&#32034;&#65292;&#36825;&#26679;&#26367;&#25442;&#25805;&#20316;&#19981;&#20250;&#24433;&#21709;&#21518;&#32493;&#25628;&#32034;&#30340;&#20301;&#32622;
-</span>      <span style="color: #ad45ba;">(</span><span style="color: #ad45ba;">while</span> <span style="color: #1f6fbf;">(</span>re-search-backward <span style="color: #007f6f;">",("</span> nil t<span style="color: #1f6fbf;">)</span>
-        <span style="color: #1f6fbf;">(</span><span style="color: #ad45ba;">let*</span> <span style="color: #b65050;">(</span><span style="color: #705ae3;">(</span>match-start <span style="color: #3f6faf;">(</span>match-beginning 0<span style="color: #3f6faf;">)</span><span style="color: #705ae3;">)</span> <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">"," &#30340;&#20301;&#32622;
-</span>               <span style="color: #705ae3;">(</span>sexp-start <span style="color: #3f6faf;">(</span>match-end 0<span style="color: #3f6faf;">)</span><span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span>     <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">"(" &#30340;&#20301;&#32622;
+  <span style="color: #9f4e74;">(</span><span style="color: #906045;">with-temp-buffer</span>
+    <span style="color: #5059c0;">(</span>insert str<span style="color: #5059c0;">)</span>
+    <span style="color: #5059c0;">(</span>goto-char <span style="color: #a83058;">(</span>point-max<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span> <span style="color: #475d80;">; </span><span style="color: #475d80;">&#20174;&#32531;&#20914;&#21306;&#26411;&#23614;&#24320;&#22987;
+</span>    <span style="color: #5059c0;">(</span><span style="color: #906045;">save-match-data</span>
+      <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#20174;&#21518;&#21521;&#21069;&#25628;&#32034;&#65292;&#36825;&#26679;&#26367;&#25442;&#25805;&#20316;&#19981;&#20250;&#24433;&#21709;&#21518;&#32493;&#25628;&#32034;&#30340;&#20301;&#32622;
+</span>      <span style="color: #a83058;">(</span><span style="color: #906045;">while</span> <span style="color: #7755b4;">(</span>re-search-backward <span style="color: #a04650;">",("</span> nil t<span style="color: #7755b4;">)</span>
+        <span style="color: #7755b4;">(</span><span style="color: #906045;">let*</span> <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span>match-start <span style="color: #87591f;">(</span>match-beginning 0<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span> <span style="color: #475d80;">; </span><span style="color: #475d80;">"," &#30340;&#20301;&#32622;
+</span>               <span style="color: #3060af;">(</span>sexp-start <span style="color: #87591f;">(</span>match-end 0<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>     <span style="color: #475d80;">; </span><span style="color: #475d80;">"(" &#30340;&#20301;&#32622;
 </span>          
-          <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#20351;&#29992; save-excursion &#26469;&#26597;&#25214; S-&#34920;&#36798;&#24335;&#30340;&#32467;&#26463;&#20301;&#32622;&#65292;&#32780;&#19981;&#20250;&#27704;&#20037;&#31227;&#21160;&#20809;&#26631;
-</span>          <span style="color: #b65050;">(</span><span style="color: #ad45ba;">save-excursion</span>
-            <span style="color: #705ae3;">(</span>goto-char sexp-start<span style="color: #705ae3;">)</span> <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">&#31227;&#21160;&#21040; "(" &#20043;&#21518;
-</span>            <span style="color: #705ae3;">(</span>backward-char<span style="color: #705ae3;">)</span>        <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">&#31227;&#21160;&#21040; "(" &#20043;&#19978;
+          <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#20351;&#29992; save-excursion &#26469;&#26597;&#25214; S-&#34920;&#36798;&#24335;&#30340;&#32467;&#26463;&#20301;&#32622;&#65292;&#32780;&#19981;&#20250;&#27704;&#20037;&#31227;&#21160;&#20809;&#26631;
+</span>          <span style="color: #a05900;">(</span><span style="color: #906045;">save-excursion</span>
+            <span style="color: #3060af;">(</span>goto-char sexp-start<span style="color: #3060af;">)</span> <span style="color: #475d80;">; </span><span style="color: #475d80;">&#31227;&#21160;&#21040; "(" &#20043;&#21518;
+</span>            <span style="color: #3060af;">(</span>backward-char<span style="color: #3060af;">)</span>        <span style="color: #475d80;">; </span><span style="color: #475d80;">&#31227;&#21160;&#21040; "(" &#20043;&#19978;
 </span>            
-            <span style="color: #705ae3;">(</span><span style="color: #ad45ba;">let*</span> <span style="color: #3f6faf;">(</span><span style="color: #4f7d0f;">(</span>sexp-string <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">&#25552;&#21462; S-&#34920;&#36798;&#24335;&#30340;&#23383;&#31526;&#20018;
-</span>                    <span style="color: #c035aa;">(</span>buffer-substring-no-properties
-                     <span style="color: #5165e4;">(</span>point<span style="color: #5165e4;">)</span> <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">S-&#34920;&#36798;&#24335;&#30340;&#36215;&#22987;&#28857;
-</span>                     <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">progn</span> <span style="color: #007f6f;">(</span>forward-sexp<span style="color: #007f6f;">)</span> <span style="color: #007f6f;">(</span>point<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span><span style="color: #4f7d0f;">)</span> <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">S-&#34920;&#36798;&#24335;&#30340;&#32467;&#26463;&#28857;
-</span>                   <span style="color: #4f7d0f;">(</span>match-end <span style="color: #c035aa;">(</span>point<span style="color: #c035aa;">)</span><span style="color: #4f7d0f;">)</span> <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">&#35760;&#24405;&#19979; S-&#34920;&#36798;&#24335;&#30340;&#32467;&#26463;&#20301;&#32622;
-</span>                   <span style="color: #4f7d0f;">(</span>replacement-text <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">&#35745;&#31639;&#26367;&#25442;&#29992;&#30340;&#25991;&#26412;
-</span>                    <span style="color: #c035aa;">(</span><span style="color: #ad45ba;">condition-case</span> err <span style="color: #a05b5f;">; </span><span style="color: #a05b5f;">&#25429;&#33719;&#21487;&#33021;&#21457;&#29983;&#30340;&#38169;&#35823;
-</span>                        <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#26680;&#24515;&#27714;&#20540;&#36923;&#36753;
-</span>                        <span style="color: #5165e4;">(</span>format <span style="color: #007f6f;">"%s"</span> <span style="color: #007f6f;">(</span>eval <span style="color: #ad45ba;">(</span>car <span style="color: #1f6fbf;">(</span>read-from-string <span style="color: #b65050;">(</span>format <span style="color: #007f6f;">"(progn %s)"</span> sexp-string<span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span>
-                      <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#22914;&#26524;&#27714;&#20540;&#20986;&#38169;&#65292;&#23558;&#38169;&#35823;&#20449;&#24687;&#20316;&#20026;&#26367;&#25442;&#25991;&#26412;
-</span>                      <span style="color: #5165e4;">(</span><span style="color: #b8532f;">error</span> <span style="color: #007f6f;">(</span>format <span style="color: #007f6f;">"&lt;&#27714;&#20540;&#38169;&#35823;: %s&gt;"</span> <span style="color: #ad45ba;">(</span>error-message-string err<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span><span style="color: #4f7d0f;">)</span><span style="color: #3f6faf;">)</span>
+            <span style="color: #3060af;">(</span><span style="color: #906045;">let*</span> <span style="color: #87591f;">(</span><span style="color: #a04650;">(</span>sexp-string <span style="color: #475d80;">; </span><span style="color: #475d80;">&#25552;&#21462; S-&#34920;&#36798;&#24335;&#30340;&#23383;&#31526;&#20018;
+</span>                    <span style="color: #906045;">(</span>buffer-substring-no-properties
+                     <span style="color: #9f4e74;">(</span>point<span style="color: #9f4e74;">)</span> <span style="color: #475d80;">; </span><span style="color: #475d80;">S-&#34920;&#36798;&#24335;&#30340;&#36215;&#22987;&#28857;
+</span>                     <span style="color: #9f4e74;">(</span><span style="color: #906045;">progn</span> <span style="color: #5059c0;">(</span>forward-sexp<span style="color: #5059c0;">)</span> <span style="color: #5059c0;">(</span>point<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span><span style="color: #a04650;">)</span> <span style="color: #475d80;">; </span><span style="color: #475d80;">S-&#34920;&#36798;&#24335;&#30340;&#32467;&#26463;&#28857;
+</span>                   <span style="color: #a04650;">(</span>match-end <span style="color: #906045;">(</span>point<span style="color: #906045;">)</span><span style="color: #a04650;">)</span> <span style="color: #475d80;">; </span><span style="color: #475d80;">&#35760;&#24405;&#19979; S-&#34920;&#36798;&#24335;&#30340;&#32467;&#26463;&#20301;&#32622;
+</span>                   <span style="color: #a04650;">(</span>replacement-text <span style="color: #475d80;">; </span><span style="color: #475d80;">&#35745;&#31639;&#26367;&#25442;&#29992;&#30340;&#25991;&#26412;
+</span>                    <span style="color: #906045;">(</span><span style="color: #906045;">condition-case</span> err <span style="color: #475d80;">; </span><span style="color: #475d80;">&#25429;&#33719;&#21487;&#33021;&#21457;&#29983;&#30340;&#38169;&#35823;
+</span>                        <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#26680;&#24515;&#27714;&#20540;&#36923;&#36753;
+</span>                        <span style="color: #9f4e74;">(</span>format <span style="color: #a04650;">"%s"</span> <span style="color: #5059c0;">(</span>eval <span style="color: #a83058;">(</span>car <span style="color: #7755b4;">(</span>read-from-string <span style="color: #a05900;">(</span>format <span style="color: #a04650;">"(progn %s)"</span> sexp-string<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
+                      <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#22914;&#26524;&#27714;&#20540;&#20986;&#38169;&#65292;&#23558;&#38169;&#35823;&#20449;&#24687;&#20316;&#20026;&#26367;&#25442;&#25991;&#26412;
+</span>                      <span style="color: #9f4e74;">(</span><span style="color: #a05900;">error</span> <span style="color: #5059c0;">(</span>format <span style="color: #a04650;">"&lt;&#27714;&#20540;&#38169;&#35823;: %s&gt;"</span> <span style="color: #a83058;">(</span>error-message-string err<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span><span style="color: #a04650;">)</span><span style="color: #87591f;">)</span>
               
-              <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#25191;&#34892;&#26367;&#25442;&#25805;&#20316;
-</span>              <span style="color: #3f6faf;">(</span>delete-region match-start match-end<span style="color: #3f6faf;">)</span>
-              <span style="color: #3f6faf;">(</span>goto-char match-start<span style="color: #3f6faf;">)</span>
-              <span style="color: #3f6faf;">(</span>insert replacement-text<span style="color: #3f6faf;">)</span><span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
-    <span style="color: #a05b5f;">;; </span><span style="color: #a05b5f;">&#36820;&#22238;&#25972;&#20010;&#32531;&#20914;&#21306;&#34987;&#20462;&#25913;&#21518;&#30340;&#26368;&#32456;&#32467;&#26524;
-</span>    <span style="color: #007f6f;">(</span>buffer-string<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
+              <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#25191;&#34892;&#26367;&#25442;&#25805;&#20316;
+</span>              <span style="color: #87591f;">(</span>delete-region match-start match-end<span style="color: #87591f;">)</span>
+              <span style="color: #87591f;">(</span>goto-char match-start<span style="color: #87591f;">)</span>
+              <span style="color: #87591f;">(</span>insert replacement-text<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
+    <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#36820;&#22238;&#25972;&#20010;&#32531;&#20914;&#21306;&#34987;&#20462;&#25913;&#21518;&#30340;&#26368;&#32456;&#32467;&#26524;
+</span>    <span style="color: #5059c0;">(</span>buffer-string<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
 </code></pre>
 </div>
 
@@ -117,8 +117,8 @@ Emacs 用户常常会用到强大的交互式替换命令，如 <code>replace-re
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">defun</span> <span style="color: #5165e4;">my/replace-regexp</span> <span style="color: #5165e4;">(</span>regexp rep<span style="color: #5165e4;">)</span>
-  <span style="color: #804fb0;">"&#26367;&#25442;&#23383;&#31526;&#20018; (REP) &#25903;&#25345;&#20197;&#19979;&#29305;&#27530;&#24207;&#21015;&#65306;
+<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/replace-regexp</span> <span style="color: #9f4e74;">(</span>regexp rep<span style="color: #9f4e74;">)</span>
+  <span style="color: #7a5c50;">"&#26367;&#25442;&#23383;&#31526;&#20018; (REP) &#25903;&#25345;&#20197;&#19979;&#29305;&#27530;&#24207;&#21015;&#65306;
   \\&amp;      - &#20195;&#34920;&#25972;&#20010;&#21305;&#37197;&#21040;&#30340;&#25991;&#26412;&#12290;
   \\1, \\2 ... - &#20195;&#34920;&#27491;&#21017;&#34920;&#36798;&#24335;&#20013;&#31532;N&#20010;&#25429;&#33719;&#32452;&#21305;&#37197;&#21040;&#30340;&#25991;&#26412;&#12290;
   ,(...)  - &#25324;&#21495;&#20013;&#30340;&#20869;&#23481;&#20250;&#34987;&#24403;&#20316; Lisp &#34920;&#36798;&#24335;&#26469;&#27714;&#20540;&#65292;&#20854;&#32467;&#26524;&#20250;&#20316;&#20026;&#26367;&#25442;&#20869;&#23481;&#12290;
@@ -128,16 +128,16 @@ Emacs 用户常常会用到强大的交互式替换命令，如 <code>replace-re
   - &#29992; `foo(\\d+)` &#26367;&#25442; `bar\\1` &#20250;&#23558; `foo123` &#21464;&#20026; `bar123`&#12290;
   - &#29992; `\\w+` &#26367;&#25442; `\\,(upcase \\&amp;)` &#20250;&#23558;&#25152;&#26377;&#21333;&#35789;&#36716;&#20026;&#22823;&#20889;&#12290;
   - &#29992; `^` &#26367;&#25442; `\\# ` &#20250;&#22312;&#27599;&#19968;&#34892;&#30340;&#34892;&#39318;&#25554;&#20837;&#34892;&#21495;&#12290;"</span>
-  <span style="color: #5165e4;">(</span><span style="color: #ad45ba;">let</span> <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">(</span>count 0<span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span>
-    <span style="color: #007f6f;">(</span><span style="color: #ad45ba;">while</span> <span style="color: #ad45ba;">(</span>re-search-forward regexp nil t<span style="color: #ad45ba;">)</span>
-      <span style="color: #ad45ba;">(</span><span style="color: #ad45ba;">let*</span> <span style="color: #1f6fbf;">(</span><span style="color: #b65050;">(</span>rep-with-count
-              <span style="color: #705ae3;">(</span>replace-regexp-in-string <span style="color: #007f6f;">"\\\\#"</span> <span style="color: #3f6faf;">(</span>number-to-string count<span style="color: #3f6faf;">)</span> rep t t<span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span>
-             <span style="color: #b65050;">(</span>rep-with-args
-              <span style="color: #705ae3;">(</span>substring-no-properties <span style="color: #3f6faf;">(</span>match-substitute-replacement rep-with-count<span style="color: #3f6faf;">)</span><span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span>
-             <span style="color: #b65050;">(</span>rep-with-func
-              <span style="color: #705ae3;">(</span>my/eval-lisp-in-string rep-with-args<span style="color: #705ae3;">)</span><span style="color: #b65050;">)</span><span style="color: #1f6fbf;">)</span>
-        <span style="color: #1f6fbf;">(</span>replace-match rep-with-func t<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span>
-      <span style="color: #ad45ba;">(</span><span style="color: #ad45ba;">setq</span> count <span style="color: #1f6fbf;">(</span>1+ count<span style="color: #1f6fbf;">)</span><span style="color: #ad45ba;">)</span><span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>
+  <span style="color: #9f4e74;">(</span><span style="color: #906045;">let</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>count 0<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
+    <span style="color: #5059c0;">(</span><span style="color: #906045;">while</span> <span style="color: #a83058;">(</span>re-search-forward regexp nil t<span style="color: #a83058;">)</span>
+      <span style="color: #a83058;">(</span><span style="color: #906045;">let*</span> <span style="color: #7755b4;">(</span><span style="color: #a05900;">(</span>rep-with-count
+              <span style="color: #3060af;">(</span>replace-regexp-in-string <span style="color: #a04650;">"\\\\#"</span> <span style="color: #87591f;">(</span>number-to-string count<span style="color: #87591f;">)</span> rep t t<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+             <span style="color: #a05900;">(</span>rep-with-args
+              <span style="color: #3060af;">(</span>substring-no-properties <span style="color: #87591f;">(</span>match-substitute-replacement rep-with-count<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+             <span style="color: #a05900;">(</span>rep-with-func
+              <span style="color: #3060af;">(</span>my/eval-lisp-in-string rep-with-args<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
+        <span style="color: #7755b4;">(</span>replace-match rep-with-func t<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+      <span style="color: #a83058;">(</span><span style="color: #906045;">setq</span> count <span style="color: #7755b4;">(</span>1+ count<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
 </code></pre>
 </div>
 <p>
@@ -180,13 +180,13 @@ bar456
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">with-temp-buffer</span>
-  <span style="color: #5165e4;">(</span>insert <span style="color: #007f6f;">"hello world
+<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">with-temp-buffer</span>
+  <span style="color: #9f4e74;">(</span>insert <span style="color: #a04650;">"hello world
 foo123
-bar456"</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>goto-char <span style="color: #007f6f;">(</span>point-min<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>my/replace-regexp <span style="color: #007f6f;">"[a-z]+"</span> <span style="color: #007f6f;">",(upcase (symbol-name '\\&amp;))"</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>buffer-string<span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>  
+bar456"</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>goto-char <span style="color: #5059c0;">(</span>point-min<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>my/replace-regexp <span style="color: #a04650;">"[a-z]+"</span> <span style="color: #a04650;">",(upcase (symbol-name '\\&amp;))"</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>buffer-string<span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>  
 </code></pre>
 </div>
 
@@ -209,13 +209,13 @@ BAR456
 <h3 id="orgcd8a02b"><span class="section-number-3">3.2.</span> 示例 2：为每一行添加行号</h3>
 <div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">with-temp-buffer</span>
-  <span style="color: #5165e4;">(</span>insert <span style="color: #007f6f;">"hello world
+<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">with-temp-buffer</span>
+  <span style="color: #9f4e74;">(</span>insert <span style="color: #a04650;">"hello world
 foo123
-bar456"</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>goto-char <span style="color: #007f6f;">(</span>point-min<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>my/replace-regexp <span style="color: #007f6f;">"^"</span> <span style="color: #007f6f;">"\\# "</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>buffer-string<span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>  
+bar456"</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>goto-char <span style="color: #5059c0;">(</span>point-min<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>my/replace-regexp <span style="color: #a04650;">"^"</span> <span style="color: #a04650;">"\\# "</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>buffer-string<span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>  
 </code></pre>
 </div>
 
@@ -246,13 +246,13 @@ bar456"</span><span style="color: #5165e4;">)</span>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">with-temp-buffer</span>
-  <span style="color: #5165e4;">(</span>insert <span style="color: #007f6f;">"hello world
+<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">with-temp-buffer</span>
+  <span style="color: #9f4e74;">(</span>insert <span style="color: #a04650;">"hello world
 foo123
-bar456"</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>goto-char <span style="color: #007f6f;">(</span>point-min<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>my/replace-regexp <span style="color: #007f6f;">"^"</span> <span style="color: #007f6f;">",(1+ \\#) "</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>buffer-string<span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>  
+bar456"</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>goto-char <span style="color: #5059c0;">(</span>point-min<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>my/replace-regexp <span style="color: #a04650;">"^"</span> <span style="color: #a04650;">",(1+ \\#) "</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>buffer-string<span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>  
 </code></pre>
 </div>
 
@@ -275,13 +275,13 @@ bar456"</span><span style="color: #5165e4;">)</span>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #c035aa;">(</span><span style="color: #ad45ba;">with-temp-buffer</span>
-  <span style="color: #5165e4;">(</span>insert <span style="color: #007f6f;">"hello world
+<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">with-temp-buffer</span>
+  <span style="color: #9f4e74;">(</span>insert <span style="color: #a04650;">"hello world
 foo123
-bar456"</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>goto-char <span style="color: #007f6f;">(</span>point-min<span style="color: #007f6f;">)</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>my/replace-regexp <span style="color: #007f6f;">"</span><span style="color: #5165e4;">\\</span><span style="color: #c3303a;">(</span><span style="color: #007f6f;">[0-9]+</span><span style="color: #5165e4;">\\</span><span style="color: #c3303a;">)</span><span style="color: #007f6f;">"</span> <span style="color: #007f6f;">",(+ (* 1000 \\#) (* 2 \\1)) "</span><span style="color: #5165e4;">)</span>
-  <span style="color: #5165e4;">(</span>buffer-string<span style="color: #5165e4;">)</span><span style="color: #c035aa;">)</span>  
+bar456"</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>goto-char <span style="color: #5059c0;">(</span>point-min<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>my/replace-regexp <span style="color: #a04650;">"</span><span style="color: #0b6e8a;">\\</span><span style="color: #b21f00;">(</span><span style="color: #a04650;">[0-9]+</span><span style="color: #0b6e8a;">\\</span><span style="color: #b21f00;">)</span><span style="color: #a04650;">"</span> <span style="color: #a04650;">",(+ (* 1000 \\#) (* 2 \\1)) "</span><span style="color: #9f4e74;">)</span>
+  <span style="color: #9f4e74;">(</span>buffer-string<span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>  
 </code></pre>
 </div>
 
