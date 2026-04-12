@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-03-25 周三 14:19 -->
+<!-- 2026-04-12 周日 23:35 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-修复org-habit的链接face继承问题</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-17 周二 16:15]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-12 周日 23:35]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -29,23 +29,24 @@
 </p>
 
 <p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-12T23:34:00">[2026-04-12 周日 23:34]</time></span>：已于<a href="https://cgit.git.savannah.nongnu.org/cgit/org-mode.git/commit/?id=faa3e05da176114b2a919ad251b7c22f9b9aec7c">org上游</a>修复<br>
 请用以下代码修复：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/org-habit-prevent-underline-leak</span> <span style="color: #9f4e74;">(</span>orig-fn <span style="color: #426340;">&amp;rest</span> args<span style="color: #9f4e74;">)</span>
-  <span style="color: #7a5c50;">"&#38450;&#27490; org-habit &#25554;&#20837;&#23545;&#40784;&#31354;&#26684;&#26102;&#32487;&#25215;&#38142;&#25509;&#30340;&#19979;&#21010;&#32447;&#65288;face&#31561;&#23646;&#24615;&#65289;&#12290;"</span>
-  <span style="color: #9f4e74;">(</span><span style="color: #906045;">let</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>text-property-default-nonsticky
-         <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#20020;&#26102;&#22768;&#26126;&#36825;&#22235;&#20010;&#23646;&#24615;&#22312;&#25554;&#20837;&#26032;&#25991;&#26412;&#26102;&#19981;&#21521;&#21518;&#32487;&#25215;
-</span>         <span style="color: #7755b4;">(</span>append '<span style="color: #a05900;">(</span><span style="color: #3060af;">(</span>face . t<span style="color: #3060af;">)</span>
-                   <span style="color: #3060af;">(</span>mouse-face . t<span style="color: #3060af;">)</span>
-                   <span style="color: #3060af;">(</span>keymap . t<span style="color: #3060af;">)</span>
-                   <span style="color: #3060af;">(</span>help-echo . t<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
-                 text-property-default-nonsticky<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
-    <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#25191;&#34892;&#21407;&#26412;&#30340; org-habit-insert-consistency-graphs &#20989;&#25968;
-</span>    <span style="color: #5059c0;">(</span>apply orig-fn args<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">my/org-habit-prevent-underline-leak</span> <span style="color: #a26310;">(</span>orig-fn <span style="color: #008250;">&amp;rest</span> args<span style="color: #a26310;">)</span>
+  <span style="color: #b05350;">"&#38450;&#27490; org-habit &#25554;&#20837;&#23545;&#40784;&#31354;&#26684;&#26102;&#32487;&#25215;&#38142;&#25509;&#30340;&#19979;&#21010;&#32447;&#65288;face&#31561;&#23646;&#24615;&#65289;&#12290;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">let</span> <span style="color: #5a7400;">(</span><span style="color: #c02945;">(</span>text-property-default-nonsticky
+         <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#20020;&#26102;&#22768;&#26126;&#36825;&#22235;&#20010;&#23646;&#24615;&#22312;&#25554;&#20837;&#26032;&#25991;&#26412;&#26102;&#19981;&#21521;&#21518;&#32487;&#25215;</span>
+         <span style="color: #4060a0;">(</span>append '<span style="color: #aa3e74;">(</span><span style="color: #008250;">(</span>face . t<span style="color: #008250;">)</span>
+                   <span style="color: #008250;">(</span>mouse-face . t<span style="color: #008250;">)</span>
+                   <span style="color: #008250;">(</span>keymap . t<span style="color: #008250;">)</span>
+                   <span style="color: #008250;">(</span>help-echo . t<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+                 text-property-default-nonsticky<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#25191;&#34892;&#21407;&#26412;&#30340; org-habit-insert-consistency-graphs &#20989;&#25968;</span>
+    <span style="color: #5a7400;">(</span>apply orig-fn args<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #475d80;">;; </span><span style="color: #475d80;">&#20351;&#29992; Advice &#21253;&#35013;&#35813;&#20989;&#25968;
-</span><span style="color: #906045;">(</span>advice-add 'org-habit-insert-consistency-graphs <span style="color: #97508f;">:around</span> #'my/org-habit-prevent-underline-leak<span style="color: #906045;">)</span>
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#20351;&#29992; Advice &#21253;&#35013;&#35813;&#20989;&#25968;</span>
+<span style="color: #ba5205;">(</span>advice-add 'org-habit-insert-consistency-graphs <span style="color: #946830;">:around</span> #'my/org-habit-prevent-underline-leak<span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 </div>
