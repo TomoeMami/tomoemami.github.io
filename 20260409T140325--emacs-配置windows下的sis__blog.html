@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-13 周一 15:44 -->
+<!-- 2026-04-13 周一 16:47 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-配置windows下的sis</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-13 周一 15:44]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-13 周一 16:46]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -28,8 +28,8 @@
 <p>
 根据我最近的体验，在windows下的sis已经基本能正常使用了， <code>w32-get-ime-open-status</code> 也能正常工作，根据输入法开关状态正确返回 <code>t</code> 或者 <code>nil</code> 。<br>
 </p>
-<div id="outline-container-orgf49ab53" class="outline-2">
-<h2 id="orgf49ab53"><span class="section-number-2">1.</span> 相关软件版本</h2>
+<div id="outline-container-org0339c70" class="outline-2">
+<h2 id="org0339c70"><span class="section-number-2">1.</span> 相关软件版本</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 我的emacs版本：通过scoop安装的kiennq的emacs-k （<a href="https://github.com/kiennq/scoop">scoop地址</a>，<a href="https://github.com/kiennq/emacs-build/releases/tag/v31.411.20260401.e2ec4ff9">对应emacs编译文件地址</a>）<br>
@@ -37,8 +37,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orged54154" class="outline-2">
-<h2 id="orged54154"><span class="section-number-2">2.</span> sis配置</h2>
+<div id="outline-container-org140c7cb" class="outline-2">
+<h2 id="org140c7cb"><span class="section-number-2">2.</span> sis配置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 我的sis配置：<br>
@@ -48,7 +48,7 @@
   <span style="color: #ba35af;">:demand</span> t
   <span style="color: #ba35af;">:config</span>
   <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#35774;&#32622;Windows</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">cond</span> <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">when</span> <span style="color: #1f6fbf;">(</span>eq system-type 'windows-nt<span style="color: #1f6fbf;">)</span>
+  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">cond</span> <span style="color: #a45f22;">(</span><span style="color: #1f6fbf;">(</span>eq system-type 'windows-nt<span style="color: #1f6fbf;">)</span>
          <span style="color: #1f6fbf;">(</span><span style="color: #8e44f3;">defun</span> <span style="color: #cb1aaa;">sis-switch</span> <span style="color: #ba35af;">()</span>
            <span style="color: #5f60bf;">"Switch input source between </span><span style="color: #ba35af;">\\=</span><span style="color: #5f60bf;">'english and </span><span style="color: #ba35af;">\\=</span><span style="color: #5f60bf;">'other."</span>
            <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">interactive</span><span style="color: #ba35af;">)</span>
@@ -77,10 +77,10 @@
   <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#22312;&#20999;&#25442;&#31383;&#21475;&#21518;&#33719;&#21462;&#24182;&#26356;&#26032;&#19968;&#27425;&#36755;&#20837;&#27861;&#29366;&#24577;</span>
   <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">add-function</span> <span style="color: #ba35af;">:after</span> after-focus-change-function <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">lambda</span> <span style="color: #1f6fbf;">()</span> <span style="color: #1f6fbf;">(</span>sis--get<span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
   <span style="color: #ba35af;">:hook</span>
-  <span style="color: #8e44f3;">(</span>org-capture-mode-hook . sis-set-other<span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span>atomic-chrome-edit-mode-hook . sis-set-other<span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span>beancount-mode-hook . sis-set-other<span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span>xeft-mode-hook . sis-set-other<span style="color: #8e44f3;">)</span>
+  <span style="color: #8e44f3;">(</span>org-capture-mode . sis-set-other<span style="color: #8e44f3;">)</span>
+  <span style="color: #8e44f3;">(</span>atomic-chrome-edit-mode . sis-set-other<span style="color: #8e44f3;">)</span>
+  <span style="color: #8e44f3;">(</span>beancount-mode . sis-set-other<span style="color: #8e44f3;">)</span>
+  <span style="color: #8e44f3;">(</span>xeft-mode . sis-set-other<span style="color: #8e44f3;">)</span>
   <span style="color: #ba35af;">:bind</span>
   <span style="color: #8e44f3;">(</span><span style="color: #b6532f;">"C-\\"</span> . sis-switch<span style="color: #8e44f3;">)</span><span style="color: #cb1aaa;">)</span>
 </code></pre>
@@ -92,18 +92,18 @@
 <div class="org-src-container">
 <pre class="src src-yaml"><code><span style="color: #5250ef;">patch</span>:
   <span style="color: #5250ef;">ascii_composer</span>:
-  <span style="color: #5250ef;">good_old_caps_lock</span>: <span style="color: #d50f7f;">true</span>  <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">true | false</span>
-  <span style="color: #5250ef;">switch_key</span>:
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #5250ef;">Caps_Lock</span>: clear      <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | clear</span>
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #5250ef;">Shift_L</span>: noop  <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #5250ef;">Shift_R</span>: noop  <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #5250ef;">Control_L</span>: noop       <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #5250ef;">Control_R</span>: noop       <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #5250ef;">good_old_caps_lock</span>: <span style="color: #d50f7f;">true</span>  <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">true | false</span>
+  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #5250ef;">switch_key</span>:
+  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Caps_Lock</span>: clear      <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | clear</span>
+  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Shift_L</span>: noop  <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Shift_R</span>: noop  <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Control_L</span>: noop       <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Control_R</span>: noop       <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
 </code></pre>
 </div>
 </div>
-<div id="outline-container-orga509832" class="outline-3">
-<h3 id="orga509832"><span class="section-number-3">2.1.</span> 关于重新定义 <code>sis-switch</code> 的说明</h3>
+<div id="outline-container-orgfc67eff" class="outline-3">
+<h3 id="orgfc67eff"><span class="section-number-3">2.1.</span> 关于重新定义 <code>sis-switch</code> 的说明</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 使用 sis 时，其实存在两个状态。一个是 <code>sis--current</code> 变量存储的当前输入状态，在原始的 <code>sis-switch</code> 函数中，是通过 <code>(eq sis--current 'english)</code> 来检测的；另一个是我们全局输入法的状态，可以通过 <code>(w32-get-ime-open-status)</code> 来获取。<br>
@@ -113,8 +113,18 @@
 小狼毫中按键的 <code>commit_code</code> 功能，并非我们 <code>ctrl+space</code> 按键的开关功能，无法触发 <code>sis</code> 的自动检测（参见<a href="https://github.com/rime/weasel/issues/1687">相关issue</a>），有可能造成输入法的状态改变之后，内部存储的状态依旧没变的错位情况。<br>
 </p>
 
+<blockquote>
+<p>
+简单总结：sis 在 Windows 下依赖 <code>w32-get-ime-open-status</code> 实时轮询输入法开关状态。小狼毫的 <code>inline_ascii</code> 或 <code>commit_code</code> 仅仅是在 Rime 引擎内部切换了码表输出，并未改变 Windows IME API 层面的开启/关闭状态，因此 Emacs 无法感知到这种切换。<br>
+</p>
+</blockquote>
+
 <p>
 所以这里将 <code>shift</code> 设定为 <code>noop</code> ，同时修改了 <code>sis-switch</code> 的定义，以尽可能避免错位。<br>
+</p>
+
+<p>
+注意，禁用 <code>Shift</code> 切换后，我在 Emacs 中的日常中英文切换完全依赖于 <code>C-\</code> （绑定到 <code>sis-switch</code> ），而在 Emacs 外部，我依赖系统的 <code>Ctrl+Space</code> 来开关输入法。<br>
 </p>
 
 <p>
