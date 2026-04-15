@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- 2026-04-15 周三 11:42 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-合并dired中pdf文件</title>
+<meta name="author" content="TomoeMami" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-15 周三 11:42]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-合并dired中pdf文件</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-15T11:35:00">[2026-04-15 周三 11:35]</time></span><br>
+</p>
+
+<p>
+windows 上有一个开源软件 <a href="https://github.com/wmjordan/PDFPatcher">pdfpatcher</a> ，有很方便的拆分、合并 pdf 功能。正巧， emacs 上也有一个类似的 package <a href="https://github.com/wjbg/emacs-pdftk">pdftk-dired</a>，可以通过开源的 pdftk 简单操作 pdf 文件。<br>
+不过在 emacs 中，用命令行搞拆分之类复杂功能有点折磨自己了，所以我把其中的合并文件功能提取了出来，利用ai优化了下逻辑，单独使用：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">pdftk-merge</span> <span style="color: #dd22dd;">(</span>filenames output-file<span style="color: #dd22dd;">)</span>
+  <span style="color: #2a5045;">"Merge PDF files listed in FILENAMES and save them to OUTPUT-FILE.</span>
+
+<span style="color: #2a5045;">FILENAMES is a list of filenames to be merged, while OUTPUT-FILE</span>
+<span style="color: #2a5045;">is the path where the new PDF should be saved.</span>
+
+<span style="color: #2a5045;">This function requires '</span><span style="color: #0000b0;">pdftk</span><span style="color: #2a5045;">' command-line tool to be installed</span>
+<span style="color: #2a5045;">and available in the system's PATH.</span>
+
+<span style="color: #2a5045;">Example: (pdftk-merge</span>
+<span style="color: #2a5045;">             '(\"/path/to/input_1.pdf\" \"/path/to/input_2.pdf\")</span>
+<span style="color: #2a5045;">             \"/path/to/output.pdf\")"</span>
+  <span style="color: #595959;">;; </span><span style="color: #595959;">1. &#26816;&#26597;&#26159;&#21542;&#23433;&#35013;&#20102; pdftk</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">unless</span> <span style="color: #008899;">(</span>executable-find <span style="color: #3548cf;">"pdftk"</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span><span style="color: #884900;">error</span> <span style="color: #3548cf;">"Command '</span><span style="color: #0000b0;">pdftk</span><span style="color: #3548cf;">' not found. Please install it first"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  
+  <span style="color: #595959;">;; </span><span style="color: #595959;">2. &#23558;&#25152;&#26377;&#25991;&#20214;&#36335;&#24452;&#36716;&#25442;&#20026;&#32477;&#23545;&#36335;&#24452;&#65292;&#36991;&#20813;&#22240;&#20026; default-directory &#25913;&#21464;&#23548;&#33268;&#25214;&#19981;&#21040;&#25991;&#20214;</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>abs-filenames <span style="color: #808000;">(</span>mapcar #'expand-file-name filenames<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>abs-output <span style="color: #808000;">(</span>expand-file-name output-file<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #595959;">;; </span><span style="color: #595959;">3. &#26500;&#24314;&#21442;&#25968;&#21015;&#34920; (&#19981;&#38656;&#35201;&#25163;&#21160;&#22788;&#29702;&#24341;&#21495;&#20102;)</span>
+         <span style="color: #972500;">(</span>args <span style="color: #808000;">(</span>append abs-filenames <span style="color: #531ab6;">(</span>list <span style="color: #3548cf;">"cat"</span> <span style="color: #3548cf;">"output"</span> abs-output<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #595959;">;; </span><span style="color: #595959;">4. &#20351;&#29992; call-process &#30452;&#25509;&#35843;&#29992;&#31243;&#24207;&#65292;&#35268;&#36991; shell &#27880;&#20837;&#21644;&#36716;&#20041;&#38382;&#39064;</span>
+         <span style="color: #972500;">(</span>exit-code <span style="color: #808000;">(</span>apply #'call-process <span style="color: #3548cf;">"pdftk"</span> nil nil nil args<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    
+    <span style="color: #595959;">;; </span><span style="color: #595959;">5. &#26816;&#26597;&#36864;&#20986;&#29366;&#24577;&#30721;</span>
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">if</span> <span style="color: #972500;">(</span>zerop exit-code<span style="color: #972500;">)</span>
+        <span style="color: #972500;">(</span>message <span style="color: #3548cf;">"Successfully merged PDFs into %s"</span> output-file<span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span><span style="color: #884900;">error</span> <span style="color: #3548cf;">"pdftk failed to merge files (exit code %d)"</span> exit-code<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    abs-output<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+
+<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/dired-merge-pdfs</span> <span style="color: #dd22dd;">()</span>
+  <span style="color: #2a5045;">"Merge selected PDF files in Dired.</span>
+<span style="color: #2a5045;">Note: Files are merged in the order they appear in the Dired buffer.</span>
+
+<span style="color: #2a5045;">This function prompts the user for an output file name and then </span>
+<span style="color: #2a5045;">merges the marked PDF files into this new file."</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">interactive</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #595959;">;; </span><span style="color: #595959;">1. &#30830;&#20445;&#22312; Dired &#27169;&#24335;&#19979;&#36816;&#34892;</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">unless</span> <span style="color: #008899;">(</span>derived-mode-p 'dired-mode<span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span><span style="color: #884900;">error</span> <span style="color: #3548cf;">"This command must be run in a Dired buffer"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>all-marked <span style="color: #808000;">(</span>dired-get-marked-files<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #595959;">;; </span><span style="color: #595959;">2. &#36807;&#28388;&#25481;&#38750; PDF &#25991;&#20214;&#21644;&#30446;&#24405;&#65292;&#30830;&#20445;&#23433;&#20840;</span>
+         <span style="color: #972500;">(</span>pdf-files <span style="color: #808000;">(</span>seq-filter <span style="color: #531ab6;">(</span><span style="color: #531ab6;">lambda</span> <span style="color: #008900;">(</span>f<span style="color: #008900;">)</span>
+                                  <span style="color: #008900;">(</span><span style="color: #531ab6;">and</span> <span style="color: #3548cf;">(</span>not <span style="color: #8f0075;">(</span>file-directory-p f<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
+                                       <span style="color: #3548cf;">(</span>string-match-p <span style="color: #3548cf;">"\\.[pP][dD][fF]\\'"</span> f<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+                                all-marked<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    
+    <span style="color: #595959;">;; </span><span style="color: #595959;">3. &#26816;&#26597;&#26159;&#21542;&#26377;&#36275;&#22815;&#30340;&#25991;&#20214;&#36827;&#34892;&#21512;&#24182;</span>
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">when</span> <span style="color: #972500;">(</span>&lt; <span style="color: #808000;">(</span>length pdf-files<span style="color: #808000;">)</span> 2<span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span><span style="color: #884900;">error</span> <span style="color: #3548cf;">"Please mark at least 2 PDF files to merge"</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>default-output-file <span style="color: #3548cf;">"merged.pdf"</span><span style="color: #808000;">)</span>
+           <span style="color: #595959;">;; </span><span style="color: #595959;">4. &#20248;&#21270;&#20132;&#20114;&#25552;&#31034;&#65292;&#20351;&#29992;&#24403;&#21069;&#30446;&#24405;&#20316;&#20026;&#40664;&#35748;&#36335;&#24452;</span>
+           <span style="color: #808000;">(</span>output-file <span style="color: #531ab6;">(</span>read-file-name <span style="color: #3548cf;">"Output file: "</span>
+                                        default-directory
+                                        default-output-file
+                                        nil
+                                        default-output-file<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+      
+      <span style="color: #595959;">;; </span><span style="color: #595959;">5. &#25191;&#34892;&#21512;&#24182;</span>
+      <span style="color: #972500;">(</span>pdftk-merge pdf-files output-file<span style="color: #972500;">)</span>
+      <span style="color: #595959;">;; </span><span style="color: #595959;">6. &#21047;&#26032; Dired buffer&#65292;&#35753;&#26032;&#29983;&#25104;&#30340;&#25991;&#20214;&#26174;&#31034;&#20986;&#26469;</span>
+      <span style="color: #972500;">(</span>revert-buffer<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+
+<span style="color: #000000;">(</span><span style="color: #531ab6;">use-package</span> dired
+  <span style="color: #595959;">;;  </span><span style="color: #595959;">&#20869;&#32622;&#21253;</span>
+  <span style="color: #8f0075;">:ensure</span> nil
+  <span style="color: #8f0075;">:config</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/dired-narrow</span> <span style="color: #008899;">()</span>
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">interactive</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span>call-interactively #'dired-mark-files-regexp<span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span>command-execute <span style="color: #3548cf;">"tk"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #8f0075;">:bind</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #8f0075;">:map</span> dired-mode-map
+        <span style="color: #008899;">(</span><span style="color: #3548cf;">"M-m"</span> . my/dired-merge-pdfs<span style="color: #008899;">)</span>
+        <span style="color: #008899;">(</span><span style="color: #3548cf;">"/"</span> . my/dired-narrow<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+</code></pre>
+</div>
+
+<p>
+原版可以通过按键的顺序自定义合并顺序，而这一修改版的特点是文件合并顺序以 dired 中的显示排序为准。优点则是不需要占用其他按键或者自定义按键以执行标记功能，只需要按 <code>m</code> mark 之后按下 <code>M-m</code> 执行 <code>my/dired-merge-pdfs</code> 就可以合并了。<br>
+</p>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+</div>
+</body>
+</html>
