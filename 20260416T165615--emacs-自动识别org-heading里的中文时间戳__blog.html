@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- 2026-04-16 周四 21:00 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-自动识别org-heading里的中文时间戳</title>
+<meta name="author" content="TomoeMami" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='/org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-16 周四 20:53]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-自动识别org-heading里的中文时间戳</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-16T16:56:00">[2026-04-16 周四 16:56]</time></span><br>
+</p>
+
+<p>
+曾经用过滴答清单的用户一定知道，滴答清单有一项<a href="https://help.dida365.com/articles/7081931977951019008">智能识别</a>功能，可以自动根据任务中的时间戳添加提醒。正巧，最近我也厌烦了每次手动添加任务的 <code>SCHEDULED</code> 时间，希望能更加智能一点。<br>
+</p>
+
+<p>
+一说到智能识别，恐怕2026年的读者已经想到利用 LLM 了吧。但是滴答清单的识别功能远早于 LLM 出现，且速度也很快，目测是基于正则的匹配。因此我在 LLM 的帮助下，写了一段函数，用于提取输入字符串中的中文时间戳并自动设置。<br>
+</p>
+<div id="outline-container-org5c832f1" class="outline-2">
+<h2 id="org5c832f1"><span class="section-number-2">1.</span> 相关函数</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgae8576f" class="outline-3">
+<h3 id="orgae8576f"><span class="section-number-3">1.1.</span> 准备函数</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+下列函数将输入字符串中的中文数字转换为阿拉伯数字，以便后续操作：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">chn2num</span> <span style="color: #ba2d2f;">(</span>chn-str<span style="color: #ba2d2f;">)</span>
+  <span style="color: #9a625a;">"&#23558;&#20013;&#25991;&#25968;&#23383;'</span><span style="color: #ce3f00;">&#38646;</span><span style="color: #9a625a;">'&#21040;'</span><span style="color: #ce3f00;">&#20061;&#30334;&#20061;&#21313;&#20061;</span><span style="color: #9a625a;">'&#36716;&#25442;&#20026;&#25972;&#25968;&#65292;&#25903;&#25345;'</span><span style="color: #ce3f00;">&#20004;</span><span style="color: #9a625a;">'&#20316;&#20026;'</span><span style="color: #ce3f00;">&#20108;</span><span style="color: #9a625a;">'&#30340;&#21464;&#20307;&#12290;"</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">save-match-data</span>
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>num 0<span style="color: #3f60af;">)</span>
+           <span style="color: #3f60af;">(</span>digits `<span style="color: #aa4f30;">(</span><span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#38646;"</span> . 0<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#19968;"</span> . 1<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#20108;"</span> . 2<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#20004;"</span> . 2<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#19977;"</span> . 3<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#22235;"</span> . 4<span style="color: #8448aa;">)</span>
+                     <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#20116;"</span> . 5<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#20845;"</span> . 6<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#19971;"</span> . 7<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#20843;"</span> . 8<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #5f7200;">"&#20061;"</span> . 9<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+           <span style="color: #3f60af;">(</span>hundreds-pos <span style="color: #aa4f30;">(</span>string-match <span style="color: #5f7200;">"&#30334;"</span> chn-str<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+           <span style="color: #3f60af;">(</span>tens-pos <span style="color: #aa4f30;">(</span>string-match <span style="color: #5f7200;">"&#21313;"</span> chn-str<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+      <span style="color: #527545;">;; </span><span style="color: #527545;">&#22788;&#29702;&#30334;&#20301;</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">when</span> hundreds-pos
+        <span style="color: #3f60af;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #aa4f30;">(</span><span style="color: #8448aa;">(</span>char-before <span style="color: #cf2f4f;">(</span>substring chn-str 0 hundreds-pos<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+               <span style="color: #8448aa;">(</span>digit <span style="color: #cf2f4f;">(</span>cdr <span style="color: #0f7f5f;">(</span>assoc char-before digits<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+        <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> num <span style="color: #8448aa;">(</span>+ num <span style="color: #cf2f4f;">(</span>* digit 100<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+      
+      <span style="color: #527545;">;; </span><span style="color: #527545;">&#22788;&#29702;&#21313;&#20301;</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">when</span> tens-pos
+        <span style="color: #3f60af;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #aa4f30;">(</span><span style="color: #8448aa;">(</span>char-before <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">if</span> hundreds-pos
+                                <span style="color: #0f7f5f;">(</span>substring chn-str <span style="color: #a45a22;">(</span>1+ hundreds-pos<span style="color: #a45a22;">)</span> tens-pos<span style="color: #0f7f5f;">)</span>
+                              <span style="color: #0f7f5f;">(</span>substring chn-str 0 tens-pos<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+               <span style="color: #8448aa;">(</span>digit <span style="color: #cf2f4f;">(</span>cdr <span style="color: #0f7f5f;">(</span>assoc char-before digits<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+          <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">cond</span>
+           <span style="color: #527545;">;; </span><span style="color: #527545;">"&#21313;" &#25110; "&#19968;&#21313;" &#30340;&#24773;&#20917;</span>
+           <span style="color: #8448aa;">(</span><span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">or</span> <span style="color: #0f7f5f;">(</span>string= <span style="color: #5f7200;">""</span> char-before<span style="color: #0f7f5f;">)</span> <span style="color: #0f7f5f;">(</span>string= <span style="color: #5f7200;">"&#19968;"</span> char-before<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span>
+            <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">setq</span> num <span style="color: #0f7f5f;">(</span>+ num 10<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+           <span style="color: #527545;">;; </span><span style="color: #527545;">"&#38646;" &#22312;&#21313;&#20301;&#21069;&#65292;&#20363;&#22914; "&#19968;&#30334;&#38646;&#20116;" &#20013;&#30340; "&#38646;"</span>
+           <span style="color: #8448aa;">(</span><span style="color: #cf2f4f;">(</span>string= <span style="color: #5f7200;">"&#38646;"</span> char-before<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+            <span style="color: #527545;">;; </span><span style="color: #527545;">"&#38646;" &#26412;&#36523;&#19981;&#22686;&#21152;&#25968;&#20540;&#65292;&#20294;&#20250;&#24433;&#21709;&#20010;&#20301;&#30340;&#35299;&#26512;&#65292;&#27492;&#22788;&#26080;&#38656;&#39069;&#22806;&#25805;&#20316;</span>
+           <span style="color: #8448aa;">(</span>t
+            <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">setq</span> num <span style="color: #0f7f5f;">(</span>+ num <span style="color: #a45a22;">(</span>* <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">or</span> digit 1<span style="color: #ba2d2f;">)</span> 10<span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+      
+      <span style="color: #527545;">;; </span><span style="color: #527545;">&#22788;&#29702;&#20010;&#20301;</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>last-char <span style="color: #8448aa;">(</span>substring chn-str -1<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+             <span style="color: #aa4f30;">(</span>last-digit <span style="color: #8448aa;">(</span>cdr <span style="color: #cf2f4f;">(</span>assoc last-char digits<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+        <span style="color: #3f60af;">(</span><span style="color: #a45a22;">when</span> <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">and</span> last-digit <span style="color: #8448aa;">(</span>not <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">or</span> <span style="color: #0f7f5f;">(</span>string= last-char <span style="color: #5f7200;">"&#30334;"</span><span style="color: #0f7f5f;">)</span> <span style="color: #0f7f5f;">(</span>string= last-char <span style="color: #5f7200;">"&#21313;"</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+          <span style="color: #527545;">;; </span><span style="color: #527545;">&#22914;&#26524; "&#38646;" &#20986;&#29616;&#22312;&#26411;&#23614;&#65292;&#20363;&#22914; "&#19968;&#30334;&#19968;&#21313;"&#65292;last-char&#20250;&#26159;"&#21313;"&#65292;&#25152;&#20197;&#36825;&#37324;&#30340;&#21028;&#26029;&#26159;&#26377;&#25928;&#30340;</span>
+          <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">if</span> <span style="color: #8448aa;">(</span><span style="color: #a45a22;">and</span> tens-pos <span style="color: #cf2f4f;">(</span>= 0 <span style="color: #0f7f5f;">(</span>length <span style="color: #a45a22;">(</span>substring chn-str <span style="color: #ba2d2f;">(</span>1+ tens-pos<span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+              <span style="color: #527545;">;; </span><span style="color: #527545;">&#31867;&#20284;&#20110; "&#20108;&#21313;", "&#19977;&#21313;" &#36825;&#26679;&#30340;&#25972;&#21313;&#25968;&#65292;&#20010;&#20301;&#19981;&#20877;&#22788;&#29702;</span>
+              <span style="color: #8448aa;">()</span>
+            <span style="color: #8448aa;">(</span><span style="color: #a45a22;">setq</span> num <span style="color: #cf2f4f;">(</span>+ num last-digit<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+      
+      <span style="color: #527545;">;; </span><span style="color: #527545;">&#22788;&#29702;&#29305;&#27530;&#24773;&#20917; "&#21313;"</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">if</span> <span style="color: #3f60af;">(</span>string= <span style="color: #5f7200;">"&#21313;"</span> chn-str<span style="color: #3f60af;">)</span>
+          10
+        num<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
+
+<span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">my/digital-chn</span> <span style="color: #ba2d2f;">(</span>str<span style="color: #ba2d2f;">)</span>
+  <span style="color: #9a625a;">"&#35782;&#21035;&#23383;&#31526;&#20018;&#20013;&#30340;&#20013;&#25991;&#25968;&#23383;&#24182;&#26367;&#25442;&#20026;&#38463;&#25289;&#20271;&#25968;&#23383;&#12290;"</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">let</span> <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>re <span style="color: #5f7200;">"[&#38646;&#19968;&#20108;&#19977;&#22235;&#20116;&#20845;&#19971;&#20843;&#20061;&#21313;&#30334;]+"</span><span style="color: #cb2f80;">)</span>
+        <span style="color: #cb2f80;">(</span>res str<span style="color: #cb2f80;">)</span>
+        <span style="color: #cb2f80;">(</span>start 0<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">while</span> <span style="color: #cb2f80;">(</span>string-match re res start<span style="color: #cb2f80;">)</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>match-str <span style="color: #8448aa;">(</span>match-string 0 res<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+             <span style="color: #aa4f30;">(</span>num <span style="color: #8448aa;">(</span>chn2num match-str<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+        <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> res <span style="color: #aa4f30;">(</span>replace-match <span style="color: #8448aa;">(</span>number-to-string num<span style="color: #8448aa;">)</span> t t res<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+        <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> start <span style="color: #aa4f30;">(</span>+ <span style="color: #8448aa;">(</span>match-beginning 0<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span>length <span style="color: #cf2f4f;">(</span>number-to-string num<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+    res<span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7666982" class="outline-3">
+<h3 id="org7666982"><span class="section-number-3">1.2.</span> 提取时间戳</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+下列函数利用上述函数，提取输入字符串中的中文时间戳，返回一个可直接用于 <code>org-schedule</code> 的字符串<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">my/get-org-time-chn-string</span> <span style="color: #ba2d2f;">(</span>str<span style="color: #ba2d2f;">)</span>
+  <span style="color: #9a625a;">"&#23545;&#20110;&#32473;&#23450;&#30340;&#23383;&#31526;&#20018; STR&#65292;&#36820;&#22238;&#36716;&#25442;&#21518;&#30340;&#26102;&#38388;&#23383;&#31526;&#20018;&#65288;&#19981;&#24102;&#25324;&#21495;&#65289;&#12290;"</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>work-str <span style="color: #3f60af;">(</span>my/digital-chn str<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>now <span style="color: #3f60af;">(</span>decode-time <span style="color: #aa4f30;">(</span>current-time<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>now-h <span style="color: #3f60af;">(</span>decoded-time-hour now<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>now-dow <span style="color: #3f60af;">(</span>decoded-time-weekday now<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span> <span style="color: #527545;">;; </span><span style="color: #527545;">0&#26159;&#21608;&#26085;</span>
+         <span style="color: #cb2f80;">(</span>res-date nil<span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>res-time nil<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+
+    <span style="color: #527545;">;; </span><span style="color: #527545;">&#24773;&#20917; 1: &#22788;&#29702;&#12300;...&#21518;&#12301;&#30340;&#30456;&#23545;&#26102;&#38388;</span>
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">if</span> <span style="color: #cb2f80;">(</span>string-match <span style="color: #5f7200;">"</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">[0-9&#24180;&#21608;&#20010;&#26376;&#22825;&#23567;&#26102;&#20998;&#38047;]+?</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">&#21518;"</span> work-str<span style="color: #cb2f80;">)</span>
+        <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">let</span> <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>rel-content <span style="color: #8448aa;">(</span>match-string 1 work-str<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+              <span style="color: #aa4f30;">(</span>sec-offset 0<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+          <span style="color: #527545;">;; </span><span style="color: #527545;">&#26085;&#26399;&#37096;&#20998;&#36716;&#25442;&#20026; +Ny/m/w/d</span>
+          <span style="color: #3f60af;">(</span><span style="color: #a45a22;">dolist</span> <span style="color: #aa4f30;">(</span>unit '<span style="color: #8448aa;">(</span><span style="color: #cf2f4f;">(</span><span style="color: #5f7200;">"&#24180;"</span> . <span style="color: #5f7200;">"y"</span><span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">(</span><span style="color: #5f7200;">"&#20010;&#26376;"</span> . <span style="color: #5f7200;">"m"</span><span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">(</span><span style="color: #5f7200;">"&#26376;"</span> . <span style="color: #5f7200;">"m"</span><span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">(</span><span style="color: #5f7200;">"&#21608;"</span> . <span style="color: #5f7200;">"w"</span><span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">(</span><span style="color: #5f7200;">"&#22825;"</span> . <span style="color: #5f7200;">"d"</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+            <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">when</span> <span style="color: #8448aa;">(</span>string-match <span style="color: #cf2f4f;">(</span>concat <span style="color: #5f7200;">"</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">[0-9]+</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">"</span> <span style="color: #0f7f5f;">(</span>car unit<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span> rel-content<span style="color: #8448aa;">)</span>
+              <span style="color: #8448aa;">(</span><span style="color: #a45a22;">setq</span> res-date <span style="color: #cf2f4f;">(</span>concat <span style="color: #5f7200;">"+"</span> <span style="color: #0f7f5f;">(</span>match-string 1 rel-content<span style="color: #0f7f5f;">)</span> <span style="color: #0f7f5f;">(</span>cdr unit<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+          <span style="color: #527545;">;; </span><span style="color: #527545;">&#26102;&#38388;&#37096;&#20998;&#32047;&#35745;&#31186;&#25968;</span>
+          <span style="color: #3f60af;">(</span><span style="color: #a45a22;">let</span> <span style="color: #aa4f30;">(</span><span style="color: #8448aa;">(</span>h-off 0<span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span>m-off 0<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+            <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">when</span> <span style="color: #8448aa;">(</span>string-match <span style="color: #5f7200;">"</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">[0-9]+</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">&#23567;&#26102;"</span> rel-content<span style="color: #8448aa;">)</span>
+              <span style="color: #8448aa;">(</span><span style="color: #a45a22;">setq</span> h-off <span style="color: #cf2f4f;">(</span>string-to-number <span style="color: #0f7f5f;">(</span>match-string 1 rel-content<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+            <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">when</span> <span style="color: #8448aa;">(</span>string-match <span style="color: #5f7200;">"</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">[0-9]+</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">&#20998;&#38047;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">|</span><span style="color: #5f7200;">&#20998;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">"</span> rel-content<span style="color: #8448aa;">)</span>
+              <span style="color: #8448aa;">(</span><span style="color: #a45a22;">setq</span> m-off <span style="color: #cf2f4f;">(</span>string-to-number <span style="color: #0f7f5f;">(</span>match-string 1 rel-content<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+            <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> sec-offset <span style="color: #8448aa;">(</span>+ <span style="color: #cf2f4f;">(</span>* h-off 3600<span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">(</span>* m-off 60<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+          <span style="color: #527545;">;; </span><span style="color: #527545;">&#36716;&#25442;&#20026;&#32477;&#23545; HH:MM</span>
+          <span style="color: #3f60af;">(</span><span style="color: #a45a22;">when</span> <span style="color: #aa4f30;">(</span>&gt; sec-offset 0<span style="color: #aa4f30;">)</span>
+            <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> res-time <span style="color: #8448aa;">(</span>format-time-string <span style="color: #5f7200;">"%H:%M"</span> <span style="color: #cf2f4f;">(</span>time-add <span style="color: #0f7f5f;">(</span>current-time<span style="color: #0f7f5f;">)</span> sec-offset<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+
+      <span style="color: #527545;">;; </span><span style="color: #527545;">&#24773;&#20917; 2: &#22788;&#29702;&#24120;&#35268;&#26085;&#26399;&#21644;&#26102;&#38388;</span>
+      <span style="color: #527545;">;; </span><span style="color: #527545;">A. &#22788;&#29702;&#26085;&#26399;</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">cond</span>
+       <span style="color: #527545;">;; </span><span style="color: #527545;">&#35782;&#21035;&#20855;&#20307;&#30340; X&#26376;Y&#26085; &#25110; X&#26376;</span>
+       <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>string-match <span style="color: #5f7200;">"</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">[0-9]+</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">&#26376;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">[0-9]+</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">&#26085;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">?"</span> work-str<span style="color: #aa4f30;">)</span>
+        <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> res-date <span style="color: #8448aa;">(</span>concat <span style="color: #cf2f4f;">(</span>match-string 1 work-str<span style="color: #cf2f4f;">)</span> <span style="color: #5f7200;">"-"</span> <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">or</span> <span style="color: #0f7f5f;">(</span>match-string 3 work-str<span style="color: #0f7f5f;">)</span> <span style="color: #5f7200;">"1"</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+       <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>string-match <span style="color: #5f7200;">"&#20170;&#22825;"</span> work-str<span style="color: #aa4f30;">)</span> <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> res-date <span style="color: #5f7200;">"+0d"</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+       <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>string-match <span style="color: #5f7200;">"&#26126;&#22825;"</span> work-str<span style="color: #aa4f30;">)</span> <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> res-date <span style="color: #5f7200;">"+1d"</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+       <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>string-match <span style="color: #5f7200;">"&#21518;&#22825;"</span> work-str<span style="color: #aa4f30;">)</span> <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> res-date <span style="color: #5f7200;">"+2d"</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+       <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>string-match <span style="color: #5f7200;">"</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">&#19979;&#21608;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">|</span><span style="color: #5f7200;">&#21608;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">|</span><span style="color: #5f7200;">&#26143;&#26399;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">[1-7&#19968;&#20108;&#19977;&#22235;&#20116;&#20845;&#26085;&#22825;]</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">"</span> work-str<span style="color: #aa4f30;">)</span>
+        <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #8448aa;">(</span><span style="color: #cf2f4f;">(</span>is-next <span style="color: #0f7f5f;">(</span>string= <span style="color: #a45a22;">(</span>match-string 1 work-str<span style="color: #a45a22;">)</span> <span style="color: #5f7200;">"&#19979;&#21608;"</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span>
+               <span style="color: #cf2f4f;">(</span>day-raw <span style="color: #0f7f5f;">(</span>match-string 2 work-str<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span>
+               <span style="color: #cf2f4f;">(</span>target-dow <span style="color: #0f7f5f;">(</span><span style="color: #a45a22;">cond</span> <span style="color: #a45a22;">(</span><span style="color: #ba2d2f;">(</span>member day-raw '<span style="color: #5f7200;">(</span><span style="color: #5f7200;">"1"</span> <span style="color: #5f7200;">"&#19968;"</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span> 1<span style="color: #a45a22;">)</span>
+                                 <span style="color: #a45a22;">(</span><span style="color: #ba2d2f;">(</span>member day-raw '<span style="color: #5f7200;">(</span><span style="color: #5f7200;">"2"</span> <span style="color: #5f7200;">"&#20108;"</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span> 2<span style="color: #a45a22;">)</span>
+                                 <span style="color: #a45a22;">(</span><span style="color: #ba2d2f;">(</span>member day-raw '<span style="color: #5f7200;">(</span><span style="color: #5f7200;">"3"</span> <span style="color: #5f7200;">"&#19977;"</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span> 3<span style="color: #a45a22;">)</span>
+                                 <span style="color: #a45a22;">(</span><span style="color: #ba2d2f;">(</span>member day-raw '<span style="color: #5f7200;">(</span><span style="color: #5f7200;">"4"</span> <span style="color: #5f7200;">"&#22235;"</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span> 4<span style="color: #a45a22;">)</span>
+                                 <span style="color: #a45a22;">(</span><span style="color: #ba2d2f;">(</span>member day-raw '<span style="color: #5f7200;">(</span><span style="color: #5f7200;">"5"</span> <span style="color: #5f7200;">"&#20116;"</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span> 5<span style="color: #a45a22;">)</span>
+                                 <span style="color: #a45a22;">(</span><span style="color: #ba2d2f;">(</span>member day-raw '<span style="color: #5f7200;">(</span><span style="color: #5f7200;">"6"</span> <span style="color: #5f7200;">"&#20845;"</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span> 6<span style="color: #a45a22;">)</span>
+                                 <span style="color: #a45a22;">(</span><span style="color: #ba2d2f;">(</span>member day-raw '<span style="color: #5f7200;">(</span><span style="color: #5f7200;">"7"</span> <span style="color: #5f7200;">"&#26085;"</span> <span style="color: #5f7200;">"&#22825;"</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span> 0<span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span>
+               <span style="color: #cf2f4f;">(</span>day-name <span style="color: #0f7f5f;">(</span>elt '<span style="color: #a45a22;">(</span><span style="color: #5f7200;">"Sun"</span> <span style="color: #5f7200;">"Mon"</span> <span style="color: #5f7200;">"Tue"</span> <span style="color: #5f7200;">"Wed"</span> <span style="color: #5f7200;">"Thu"</span> <span style="color: #5f7200;">"Fri"</span> <span style="color: #5f7200;">"Sat"</span><span style="color: #a45a22;">)</span> target-dow<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+          <span style="color: #8448aa;">(</span><span style="color: #a45a22;">if</span> is-next
+              <span style="color: #527545;">;; </span><span style="color: #527545;">&#36923;&#36753;&#65306;&#19979;&#21608;&#19988;&#30446;&#26631;&#26085;&#36824;&#27809;&#36807;&#21017;&#36339;&#19968;&#21608;(+2Name)&#65292;&#21542;&#21017;&#21363;&#25351;&#19979;&#21608;(+Name)</span>
+              <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">if</span> <span style="color: #0f7f5f;">(</span>&gt; target-dow now-dow<span style="color: #0f7f5f;">)</span>
+                  <span style="color: #0f7f5f;">(</span><span style="color: #a45a22;">setq</span> res-date <span style="color: #a45a22;">(</span>concat <span style="color: #5f7200;">"+2"</span> day-name<span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span>
+                <span style="color: #0f7f5f;">(</span><span style="color: #a45a22;">setq</span> res-date <span style="color: #a45a22;">(</span>concat <span style="color: #5f7200;">"+"</span> day-name<span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span>
+            <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">setq</span> res-date <span style="color: #0f7f5f;">(</span>concat <span style="color: #5f7200;">"+"</span> day-name<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+
+      <span style="color: #527545;">;; </span><span style="color: #527545;">B. &#22788;&#29702;&#26102;&#38388; (12&#23567;&#26102;/24&#23567;&#26102;&#36923;&#36753;&#19982;&#28404;&#31572;&#28165;&#21333;&#30456;&#20284;)</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">let</span> <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>hour-shift 0<span style="color: #aa4f30;">)</span>
+            <span style="color: #aa4f30;">(</span>period-explicit nil<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span> <span style="color: #527545;">;; </span><span style="color: #527545;">&#26631;&#35760;&#29992;&#25143;&#26159;&#21542;&#26126;&#30830;&#35828;&#20102; &#19978;&#21320;/&#19979;&#21320;</span>
+        <span style="color: #3f60af;">(</span><span style="color: #a45a22;">cond</span>
+         <span style="color: #aa4f30;">(</span><span style="color: #8448aa;">(</span>string-match <span style="color: #5f7200;">"</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">&#20940;&#26216;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">|</span><span style="color: #5f7200;">&#26089;&#19978;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">|</span><span style="color: #5f7200;">&#19978;&#21320;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">|</span><span style="color: #5f7200;">&#20013;&#21320;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">"</span> work-str<span style="color: #8448aa;">)</span> 
+          <span style="color: #8448aa;">(</span><span style="color: #a45a22;">setq</span> hour-shift 0 period-explicit <span style="color: #cf2f4f;">(</span>match-string 1 work-str<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+         <span style="color: #aa4f30;">(</span><span style="color: #8448aa;">(</span>string-match <span style="color: #5f7200;">"</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">&#19979;&#21320;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">|</span><span style="color: #5f7200;">&#20621;&#26202;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">|</span><span style="color: #5f7200;">&#26202;&#19978;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">"</span> work-str<span style="color: #8448aa;">)</span> 
+          <span style="color: #8448aa;">(</span><span style="color: #a45a22;">setq</span> hour-shift 12 period-explicit <span style="color: #cf2f4f;">(</span>match-string 1 work-str<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+        <span style="color: #3f60af;">(</span><span style="color: #a45a22;">if</span> <span style="color: #aa4f30;">(</span>string-match <span style="color: #5f7200;">"</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">[0-9]+</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">&#28857;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">&#21322;</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">|</span><span style="color: #5f7200;">[0-9]+&#20998;?</span><span style="color: #375cc6;">\\</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">?"</span> work-str<span style="color: #aa4f30;">)</span>
+            <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #8448aa;">(</span><span style="color: #cf2f4f;">(</span>h <span style="color: #0f7f5f;">(</span>string-to-number <span style="color: #a45a22;">(</span>match-string 1 work-str<span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span>
+                   <span style="color: #cf2f4f;">(</span>m-raw <span style="color: #0f7f5f;">(</span>match-string 2 work-str<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span>
+                   <span style="color: #cf2f4f;">(</span>m <span style="color: #0f7f5f;">(</span><span style="color: #a45a22;">cond</span> <span style="color: #a45a22;">(</span><span style="color: #ba2d2f;">(</span>not m-raw<span style="color: #ba2d2f;">)</span> 0<span style="color: #a45a22;">)</span> <span style="color: #a45a22;">(</span><span style="color: #ba2d2f;">(</span>string= m-raw <span style="color: #5f7200;">"&#21322;"</span><span style="color: #ba2d2f;">)</span> 30<span style="color: #a45a22;">)</span> <span style="color: #a45a22;">(</span>t <span style="color: #ba2d2f;">(</span>string-to-number m-raw<span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span>
+                   <span style="color: #cf2f4f;">(</span>final-h <span style="color: #0f7f5f;">(</span>+ h hour-shift<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+              <span style="color: #527545;">;; </span><span style="color: #527545;">&#21482;&#26377;&#22312;&#29992;&#25143;&#27809;&#35828;&#8220;&#19978;&#21320;/&#19979;&#21320;&#8221;&#19988;&#26102;&#38388;&#23567;&#20110;12&#26102;&#65292;&#25165;&#26681;&#25454;&#24403;&#21069;&#26102;&#38388;&#33258;&#21160;&#22686;&#21152;12&#23567;&#26102;</span>
+              <span style="color: #8448aa;">(</span><span style="color: #a45a22;">when</span> <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">and</span> <span style="color: #0f7f5f;">(</span>not period-explicit<span style="color: #0f7f5f;">)</span> 
+                         <span style="color: #0f7f5f;">(</span>&lt; final-h 12<span style="color: #0f7f5f;">)</span> 
+                         <span style="color: #0f7f5f;">(</span>&lt; final-h now-h<span style="color: #0f7f5f;">)</span>
+                         <span style="color: #0f7f5f;">(</span><span style="color: #a45a22;">or</span> <span style="color: #a45a22;">(</span>not res-date<span style="color: #a45a22;">)</span> <span style="color: #a45a22;">(</span>string= res-date <span style="color: #5f7200;">"+0d"</span><span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span>
+                <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">setq</span> final-h <span style="color: #0f7f5f;">(</span>+ final-h 12<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+              <span style="color: #8448aa;">(</span><span style="color: #a45a22;">setq</span> res-time <span style="color: #cf2f4f;">(</span>format <span style="color: #5f7200;">"%02d:%02d"</span> final-h m<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+          <span style="color: #527545;">;; </span><span style="color: #527545;">&#21482;&#26377;&#20462;&#39280;&#35789;&#30340;&#24773;&#20917;</span>
+          <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">when</span> period-explicit
+            <span style="color: #8448aa;">(</span><span style="color: #a45a22;">setq</span> res-time <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">pcase</span> period-explicit
+                             <span style="color: #0f7f5f;">(</span><span style="color: #5f7200;">"&#20940;&#26216;"</span>  <span style="color: #5f7200;">"01:00"</span><span style="color: #0f7f5f;">)</span>
+                             <span style="color: #0f7f5f;">(</span><span style="color: #5f7200;">"&#26089;&#19978;"</span> <span style="color: #5f7200;">"07:00"</span><span style="color: #0f7f5f;">)</span>
+                             <span style="color: #0f7f5f;">(</span><span style="color: #5f7200;">"&#19978;&#21320;"</span> <span style="color: #5f7200;">"09:00"</span><span style="color: #0f7f5f;">)</span>
+                             <span style="color: #0f7f5f;">(</span><span style="color: #5f7200;">"&#20013;&#21320;"</span> <span style="color: #5f7200;">"12:00"</span><span style="color: #0f7f5f;">)</span>
+                             <span style="color: #0f7f5f;">(</span><span style="color: #5f7200;">"&#19979;&#21320;"</span> <span style="color: #5f7200;">"14:00"</span><span style="color: #0f7f5f;">)</span>
+                             <span style="color: #0f7f5f;">(</span><span style="color: #5f7200;">"&#20621;&#26202;"</span> <span style="color: #5f7200;">"18:00"</span><span style="color: #0f7f5f;">)</span>
+                             <span style="color: #0f7f5f;">(</span><span style="color: #5f7200;">"&#26202;&#19978;"</span> <span style="color: #5f7200;">"20:00"</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+
+    <span style="color: #527545;">;; </span><span style="color: #527545;">&#25340;&#25509;&#26368;&#32456;&#23383;&#31526;&#20018;</span>
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">let</span> <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>out <span style="color: #aa4f30;">(</span>concat <span style="color: #8448aa;">(</span><span style="color: #a45a22;">or</span> res-date <span style="color: #5f7200;">""</span><span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #a45a22;">if</span> <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">and</span> res-date res-time<span style="color: #cf2f4f;">)</span> <span style="color: #5f7200;">" "</span> <span style="color: #5f7200;">""</span><span style="color: #8448aa;">)</span> <span style="color: #8448aa;">(</span><span style="color: #a45a22;">or</span> res-time <span style="color: #5f7200;">""</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">if</span> <span style="color: #3f60af;">(</span>string-empty-p out<span style="color: #3f60af;">)</span>
+          nil <span style="color: #527545;">;; </span><span style="color: #527545;">&#25110;&#32773;&#36820;&#22238;&#21407;&#22987;&#23383;&#31526;&#20018;</span>
+        out<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbce1b02" class="outline-2">
+<h2 id="orgbce1b02"><span class="section-number-2">2.</span> 使用方法</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+这里假定我们要在 org-capture 中使用。首先我们定义一个函数，在关闭 capture-buffer 之前执行。这个函数会根据当前 org-heading ，提取其中包含的相对时间字符串，并直接用于 <code>org-schedule</code> 。 我这里设置的是如获取不到就设置 <code>SCHEDULED</code> 为当日。<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">my/capture-dida-auto-schedule</span> <span style="color: #ba2d2f;">()</span>
+  <span style="color: #ba2d2f;">(</span>org-schedule nil <span style="color: #5f7200;">(</span><span style="color: #a45a22;">or</span> <span style="color: #cb2f80;">(</span>my/get-org-time-chn-string <span style="color: #3f60af;">(</span>org-get-heading t t t t<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span> <span style="color: #5f7200;">""</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
+</code></pre>
+</div>
+
+<p>
+然后我们启用<a href="https://github.com/progfolio/doct">DOCT</a>，以便更规范管理 <code>org-capture-templates</code> 。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">use-package</span> doct <span style="color: #cf2f4f;">:demand</span> t
+  <span style="color: #cf2f4f;">:config</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">setq</span> org-capture-templates
+      <span style="color: #5f7200;">(</span>doct '<span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span><span style="color: #5f7200;">"Todo"</span> <span style="color: #cf2f4f;">:keys</span> <span style="color: #5f7200;">"c"</span>
+               <span style="color: #cf2f4f;">:file</span> my-org-timeline
+               <span style="color: #cf2f4f;">:template</span> <span style="color: #aa4f30;">(</span><span style="color: #5f7200;">"* TODO %?"</span><span style="color: #aa4f30;">)</span>
+               <span style="color: #cf2f4f;">:before-finalize</span> my/capture-dida-auto-schedule<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
+</code></pre>
+</div>
+
+<p>
+这样一来，我们通过 org-capture 的这个 templates ，就可以输入一个字符串，并在关闭的时候（其实是关闭之前）自动设置其 <code>SCHEDULED</code> 时间。<br>
+</p>
+
+<p>
+如果读者在使用过程中发现了未覆盖到的、识别错误的中文时间，也麻烦反馈给我，我个人的测试覆盖面有限。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org902ec89" class="outline-2">
+<h2 id="org902ec89"><span class="section-number-2">3.</span> 测试用例</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #ba2d2f;">(</span><span style="color: #5f7200;">(</span>test-cases '<span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#20170;&#22825;"</span> . <span style="color: #5f7200;">"+0d"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#26126;&#22825;"</span> . <span style="color: #5f7200;">"+1d"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#21518;&#22825;"</span> . <span style="color: #5f7200;">"+2d"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#21608;&#19968;"</span> . <span style="color: #5f7200;">"+Mon"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"3&#26376;"</span> . <span style="color: #5f7200;">"3-1"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"3&#26376;6&#26085;"</span> . <span style="color: #5f7200;">"3-6"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#19978;&#21320;9&#28857;"</span> . <span style="color: #5f7200;">"09:00"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#19978;&#21320;9&#28857;&#21322;"</span> . <span style="color: #5f7200;">"09:30"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#19971;&#22825;&#21518;"</span> . <span style="color: #5f7200;">"+7d"</span><span style="color: #3f60af;">)</span> 
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"3&#26376;6&#26085;9&#28857;"</span> . <span style="color: #5f7200;">"3-6 09:00"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"3&#26376;6&#26085;&#19979;&#21320;9&#28857;"</span> . <span style="color: #5f7200;">"3-6 21:00"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#26089;&#19978;"</span> . <span style="color: #5f7200;">"07:00"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#19978;&#21320;"</span> . <span style="color: #5f7200;">"09:00"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#20013;&#21320;"</span> . <span style="color: #5f7200;">"12:00"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#19979;&#21320;"</span> . <span style="color: #5f7200;">"14:00"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#20621;&#26202;"</span> . <span style="color: #5f7200;">"18:00"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#26202;&#19978;"</span> . <span style="color: #5f7200;">"20:00"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"5&#22825;&#21518;"</span> . <span style="color: #5f7200;">"+5d"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"5&#21608;&#21518;"</span> . <span style="color: #5f7200;">"+5w"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"5&#20010;&#26376;&#21518;"</span> . <span style="color: #5f7200;">"+5m"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"5&#24180;&#21518;"</span> . <span style="color: #5f7200;">"+5y"</span><span style="color: #3f60af;">)</span>
+                     <span style="color: #3f60af;">(</span><span style="color: #5f7200;">"emacs"</span> . <span style="color: #5f7200;">"emacs"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span> <span style="color: #527545;">; </span><span style="color: #527545;">&#36825;&#37324;&#27169;&#25311;&#19968;&#20010;&#20250;&#22833;&#36133;&#30340;&#24773;&#20917;</span>
+       <span style="color: #5f7200;">(</span>passed-count 0<span style="color: #5f7200;">)</span>
+       <span style="color: #5f7200;">(</span>failures '<span style="color: #cb2f80;">()</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span>
+
+  <span style="color: #527545;">;; </span><span style="color: #527545;">&#36941;&#21382;&#27979;&#35797;&#29992;&#20363;</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">dolist</span> <span style="color: #5f7200;">(</span>case test-cases<span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>input <span style="color: #aa4f30;">(</span>car case<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+           <span style="color: #3f60af;">(</span>expected <span style="color: #aa4f30;">(</span>cdr case<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+           <span style="color: #527545;">;; </span><span style="color: #527545;">&#35843;&#29992;&#20320;&#30340;&#20989;&#25968; XXX</span>
+           <span style="color: #3f60af;">(</span>actual <span style="color: #aa4f30;">(</span>my/get-org-time-chn-string input<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">if</span> <span style="color: #3f60af;">(</span>string-equal actual expected<span style="color: #3f60af;">)</span>
+          <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> passed-count <span style="color: #aa4f30;">(</span>1+ passed-count<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+        <span style="color: #527545;">;; </span><span style="color: #527545;">&#35760;&#24405;&#22833;&#36133;&#30340;&#35814;&#24773;&#65306;&#36755;&#20837;&#12289;&#39044;&#26399;&#12289;&#23454;&#38469;</span>
+        <span style="color: #3f60af;">(</span><span style="color: #a45a22;">push</span> <span style="color: #aa4f30;">(</span>list input expected actual<span style="color: #aa4f30;">)</span> failures<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span>
+
+  <span style="color: #527545;">;; </span><span style="color: #527545;">&#26500;&#36896;&#36820;&#22238;&#32467;&#26524;&#65306;&#20808;&#20889;&#32479;&#35745;&#20449;&#24687;&#65292;&#20877;&#20889;&#22833;&#36133;&#21015;&#34920;&#30340;&#34920;&#22836;&#21644;&#25968;&#25454;</span>
+  <span style="color: #ba2d2f;">(</span>append
+   `<span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span><span style="color: #5f7200;">"&#32479;&#35745;"</span> <span style="color: #5f7200;">"&#25968;&#25454;"</span><span style="color: #cb2f80;">)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #5f7200;">"&#24635;&#35745;"</span> ,<span style="color: #3f60af;">(</span>length test-cases<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #5f7200;">"&#25104;&#21151;"</span> ,passed-count<span style="color: #cb2f80;">)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #5f7200;">"&#22833;&#36133;"</span> ,<span style="color: #3f60af;">(</span>length failures<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #5f7200;">""</span> <span style="color: #5f7200;">""</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span> <span style="color: #527545;">; </span><span style="color: #527545;">&#31354;&#34892;&#20998;&#38548;</span>
+   <span style="color: #5f7200;">(</span><span style="color: #a45a22;">if</span> <span style="color: #cb2f80;">(</span>null failures<span style="color: #cb2f80;">)</span>
+       '<span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span><span style="color: #5f7200;">"&#32467;&#26524;"</span> <span style="color: #5f7200;">"&#25152;&#26377;&#27979;&#35797;&#22343;&#25104;&#21151;&#65281;"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+     <span style="color: #cb2f80;">(</span>append '<span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span><span style="color: #5f7200;">"&#22833;&#36133;&#36755;&#20837;"</span> <span style="color: #5f7200;">"&#24212;&#20026;"</span> <span style="color: #5f7200;">"&#23454;&#38469;"</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span> <span style="color: #527545;">; </span><span style="color: #527545;">&#22833;&#36133;&#35814;&#24773;&#30340;&#34920;&#22836;</span>
+             <span style="color: #3f60af;">(</span>reverse failures<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+</div>
+</body>
+</html>
