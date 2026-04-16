@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-13 周一 16:47 -->
+<!-- 2026-04-16 周四 21:00 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-配置windows下的sis</title>
@@ -28,8 +28,8 @@
 <p>
 根据我最近的体验，在windows下的sis已经基本能正常使用了， <code>w32-get-ime-open-status</code> 也能正常工作，根据输入法开关状态正确返回 <code>t</code> 或者 <code>nil</code> 。<br>
 </p>
-<div id="outline-container-org0339c70" class="outline-2">
-<h2 id="org0339c70"><span class="section-number-2">1.</span> 相关软件版本</h2>
+<div id="outline-container-orgdb4075c" class="outline-2">
+<h2 id="orgdb4075c"><span class="section-number-2">1.</span> 相关软件版本</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 我的emacs版本：通过scoop安装的kiennq的emacs-k （<a href="https://github.com/kiennq/scoop">scoop地址</a>，<a href="https://github.com/kiennq/emacs-build/releases/tag/v31.411.20260401.e2ec4ff9">对应emacs编译文件地址</a>）<br>
@@ -37,52 +37,52 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org140c7cb" class="outline-2">
-<h2 id="org140c7cb"><span class="section-number-2">2.</span> sis配置</h2>
+<div id="outline-container-org812e7f7" class="outline-2">
+<h2 id="org812e7f7"><span class="section-number-2">2.</span> sis配置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 我的sis配置：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #cb1aaa;">(</span><span style="color: #8e44f3;">use-package</span> sis
-  <span style="color: #ba35af;">:demand</span> t
-  <span style="color: #ba35af;">:config</span>
-  <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#35774;&#32622;Windows</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">cond</span> <span style="color: #a45f22;">(</span><span style="color: #1f6fbf;">(</span>eq system-type 'windows-nt<span style="color: #1f6fbf;">)</span>
-         <span style="color: #1f6fbf;">(</span><span style="color: #8e44f3;">defun</span> <span style="color: #cb1aaa;">sis-switch</span> <span style="color: #ba35af;">()</span>
-           <span style="color: #5f60bf;">"Switch input source between </span><span style="color: #ba35af;">\\=</span><span style="color: #5f60bf;">'english and </span><span style="color: #ba35af;">\\=</span><span style="color: #5f60bf;">'other."</span>
-           <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">interactive</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">setq</span> sis--for-buffer-locked nil<span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">if</span> <span style="color: #5250ef;">(</span>w32-get-ime-open-status<span style="color: #5250ef;">)</span>
-               <span style="color: #5250ef;">(</span>sis--set-english<span style="color: #5250ef;">)</span>
-             <span style="color: #5250ef;">(</span>sis--set-other<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span>
-        <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#35774;&#32622;Emacs-plus with input patch</span>
-        <span style="color: #a45f22;">(</span><span style="color: #1f6fbf;">(</span>eq system-type 'darwin<span style="color: #1f6fbf;">)</span> <span style="color: #1f6fbf;">(</span>sis-ism-lazyman-config <span style="color: #b6532f;">"com.apple.keylayout.UnicodeHexInput"</span> <span style="color: #b6532f;">"im.rime.inputmethod.Squirrel.Hans"</span> 'emp<span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#21551;&#29992;&#20840;&#23616;&#20809;&#26631;&#39068;&#33394;</span>
-  <span style="color: #8e44f3;">(</span>sis-global-cursor-color-mode t<span style="color: #8e44f3;">)</span>
-  <span style="color: #9a5f6a;">;;</span><span style="color: #9a5f6a;">&#35774;&#32622;sis&#30340;&#29366;&#24577;&#20809;&#26631;&#39068;&#33394;</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">setq</span> sis-other-cursor-color <span style="color: #a45f22;">(</span>modus-themes-get-color-value 'fg-alt<span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">setq</span> sis-default-cursor-color <span style="color: #a45f22;">(</span>modus-themes-get-color-value 'border<span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span>set-cursor-color <span style="color: #b6532f;">"#ffffff"</span><span style="color: #8e44f3;">)</span> 
-  <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">enable the /respect/ mode</span>
-  <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#21551;&#29992;&#20840;&#23616;respect&#27169;&#24335;</span>
-  <span style="color: #8e44f3;">(</span>sis-global-respect-mode t<span style="color: #8e44f3;">)</span>
-  <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">enable the /context/ mode for all buffers</span>
-  <span style="color: #8e44f3;">(</span>sis-global-context-mode t<span style="color: #8e44f3;">)</span>
-  <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">enable the /inline english/ mode for all buffers</span>
-  <span style="color: #8e44f3;">(</span>sis-global-inline-mode t<span style="color: #8e44f3;">)</span>
-  <span style="color: #9a5f6a;">;;</span><span style="color: #9a5f6a;">&#33258;&#21160;&#35774;&#32622;&#20026;&#33521;&#25991;&#30340;&#20989;&#25968;</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">setq</span> sis-respect-go-english-triggers
-    <span style="color: #a45f22;">(</span>list #'org-agenda<span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#22312;&#20999;&#25442;&#31383;&#21475;&#21518;&#33719;&#21462;&#24182;&#26356;&#26032;&#19968;&#27425;&#36755;&#20837;&#27861;&#29366;&#24577;</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">add-function</span> <span style="color: #ba35af;">:after</span> after-focus-change-function <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">lambda</span> <span style="color: #1f6fbf;">()</span> <span style="color: #1f6fbf;">(</span>sis--get<span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #ba35af;">:hook</span>
-  <span style="color: #8e44f3;">(</span>org-capture-mode . sis-set-other<span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span>atomic-chrome-edit-mode . sis-set-other<span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span>beancount-mode . sis-set-other<span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span>xeft-mode . sis-set-other<span style="color: #8e44f3;">)</span>
-  <span style="color: #ba35af;">:bind</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #b6532f;">"C-\\"</span> . sis-switch<span style="color: #8e44f3;">)</span><span style="color: #cb1aaa;">)</span>
+<pre class="src src-elisp"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">use-package</span> sis
+  <span style="color: #cf2f4f;">:demand</span> t
+  <span style="color: #cf2f4f;">:config</span>
+  <span style="color: #527545;">;; </span><span style="color: #527545;">&#35774;&#32622;Windows</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">cond</span> <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>eq system-type 'windows-nt<span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">sis-switch</span> <span style="color: #3f60af;">()</span>
+           <span style="color: #9a625a;">"Switch input source between </span><span style="color: #cf2f4f;">\\=</span><span style="color: #9a625a;">'english and </span><span style="color: #cf2f4f;">\\=</span><span style="color: #9a625a;">'other."</span>
+           <span style="color: #3f60af;">(</span><span style="color: #a45a22;">interactive</span><span style="color: #3f60af;">)</span>
+           <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> sis--for-buffer-locked nil<span style="color: #3f60af;">)</span>
+           <span style="color: #3f60af;">(</span><span style="color: #a45a22;">if</span> <span style="color: #aa4f30;">(</span>w32-get-ime-open-status<span style="color: #aa4f30;">)</span>
+               <span style="color: #aa4f30;">(</span>sis--set-english<span style="color: #aa4f30;">)</span>
+             <span style="color: #aa4f30;">(</span>sis--set-other<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+        <span style="color: #527545;">;; </span><span style="color: #527545;">&#35774;&#32622;Emacs-plus with input patch</span>
+        <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>eq system-type 'darwin<span style="color: #cb2f80;">)</span> <span style="color: #cb2f80;">(</span>sis-ism-lazyman-config <span style="color: #5f7200;">"com.apple.keylayout.UnicodeHexInput"</span> <span style="color: #5f7200;">"im.rime.inputmethod.Squirrel.Hans"</span> 'emp<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span>
+  <span style="color: #527545;">;; </span><span style="color: #527545;">&#21551;&#29992;&#20840;&#23616;&#20809;&#26631;&#39068;&#33394;</span>
+  <span style="color: #ba2d2f;">(</span>sis-global-cursor-color-mode t<span style="color: #ba2d2f;">)</span>
+  <span style="color: #527545;">;;</span><span style="color: #527545;">&#35774;&#32622;sis&#30340;&#29366;&#24577;&#20809;&#26631;&#39068;&#33394;</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">setq</span> sis-other-cursor-color <span style="color: #5f7200;">(</span>modus-themes-get-color-value 'fg-alt<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">setq</span> sis-default-cursor-color <span style="color: #5f7200;">(</span>modus-themes-get-color-value 'border<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span>
+  <span style="color: #ba2d2f;">(</span>set-cursor-color <span style="color: #5f7200;">"#ffffff"</span><span style="color: #ba2d2f;">)</span> 
+  <span style="color: #527545;">;; </span><span style="color: #527545;">enable the /respect/ mode</span>
+  <span style="color: #527545;">;; </span><span style="color: #527545;">&#21551;&#29992;&#20840;&#23616;respect&#27169;&#24335;</span>
+  <span style="color: #ba2d2f;">(</span>sis-global-respect-mode t<span style="color: #ba2d2f;">)</span>
+  <span style="color: #527545;">;; </span><span style="color: #527545;">enable the /context/ mode for all buffers</span>
+  <span style="color: #ba2d2f;">(</span>sis-global-context-mode t<span style="color: #ba2d2f;">)</span>
+  <span style="color: #527545;">;; </span><span style="color: #527545;">enable the /inline english/ mode for all buffers</span>
+  <span style="color: #ba2d2f;">(</span>sis-global-inline-mode t<span style="color: #ba2d2f;">)</span>
+  <span style="color: #527545;">;;</span><span style="color: #527545;">&#33258;&#21160;&#35774;&#32622;&#20026;&#33521;&#25991;&#30340;&#20989;&#25968;</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">setq</span> sis-respect-go-english-triggers
+    <span style="color: #5f7200;">(</span>list #'org-agenda<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span>
+  <span style="color: #527545;">;; </span><span style="color: #527545;">&#22312;&#20999;&#25442;&#31383;&#21475;&#21518;&#33719;&#21462;&#24182;&#26356;&#26032;&#19968;&#27425;&#36755;&#20837;&#27861;&#29366;&#24577;</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">add-function</span> <span style="color: #cf2f4f;">:after</span> after-focus-change-function <span style="color: #5f7200;">(</span><span style="color: #a45a22;">lambda</span> <span style="color: #cb2f80;">()</span> <span style="color: #cb2f80;">(</span>sis--get<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span>
+  <span style="color: #cf2f4f;">:hook</span>
+  <span style="color: #ba2d2f;">(</span>org-capture-mode . sis-set-other<span style="color: #ba2d2f;">)</span>
+  <span style="color: #ba2d2f;">(</span>atomic-chrome-edit-mode . sis-set-other<span style="color: #ba2d2f;">)</span>
+  <span style="color: #ba2d2f;">(</span>beancount-mode . sis-set-other<span style="color: #ba2d2f;">)</span>
+  <span style="color: #ba2d2f;">(</span>xeft-mode . sis-set-other<span style="color: #ba2d2f;">)</span>
+  <span style="color: #cf2f4f;">:bind</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #5f7200;">"C-\\"</span> . sis-switch<span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -90,20 +90,20 @@
 我的小狼毫 <code>default.custom.yaml</code> 配置：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml"><code><span style="color: #5250ef;">patch</span>:
-  <span style="color: #5250ef;">ascii_composer</span>:
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #5250ef;">good_old_caps_lock</span>: <span style="color: #d50f7f;">true</span>  <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">true | false</span>
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #5250ef;">switch_key</span>:
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Caps_Lock</span>: clear      <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | clear</span>
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Shift_L</span>: noop  <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Shift_R</span>: noop  <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Control_L</span>: noop       <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
-  <span style="color: #db20ba2cf3f3;"> </span> <span style="color: #e24ec2fbafc2;"> </span> <span style="color: #5250ef;">Control_R</span>: noop       <span style="color: #9a5f6a;"># </span><span style="color: #9a5f6a;">commit_code | commit_text | inline_ascii | clear | noop</span>
+<pre class="src src-yaml"><code><span style="color: #8448aa;">patch</span>:
+  <span style="color: #8448aa;">ascii_composer</span>:
+  <span style="color: #e97bb4b4ade6;"> </span> <span style="color: #8448aa;">good_old_caps_lock</span>: <span style="color: #ce3f00;">true</span>  <span style="color: #527545;"># </span><span style="color: #527545;">true | false</span>
+  <span style="color: #e97bb4b4ade6;"> </span> <span style="color: #8448aa;">switch_key</span>:
+  <span style="color: #e97bb4b4ade6;"> </span> <span style="color: #cbcbcb379e91;"> </span> <span style="color: #8448aa;">Caps_Lock</span>: clear      <span style="color: #527545;"># </span><span style="color: #527545;">commit_code | commit_text | clear</span>
+  <span style="color: #e97bb4b4ade6;"> </span> <span style="color: #cbcbcb379e91;"> </span> <span style="color: #8448aa;">Shift_L</span>: noop  <span style="color: #527545;"># </span><span style="color: #527545;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #e97bb4b4ade6;"> </span> <span style="color: #cbcbcb379e91;"> </span> <span style="color: #8448aa;">Shift_R</span>: noop  <span style="color: #527545;"># </span><span style="color: #527545;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #e97bb4b4ade6;"> </span> <span style="color: #cbcbcb379e91;"> </span> <span style="color: #8448aa;">Control_L</span>: noop       <span style="color: #527545;"># </span><span style="color: #527545;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #e97bb4b4ade6;"> </span> <span style="color: #cbcbcb379e91;"> </span> <span style="color: #8448aa;">Control_R</span>: noop       <span style="color: #527545;"># </span><span style="color: #527545;">commit_code | commit_text | inline_ascii | clear | noop</span>
 </code></pre>
 </div>
 </div>
-<div id="outline-container-orgfc67eff" class="outline-3">
-<h3 id="orgfc67eff"><span class="section-number-3">2.1.</span> 关于重新定义 <code>sis-switch</code> 的说明</h3>
+<div id="outline-container-orgce7884b" class="outline-3">
+<h3 id="orgce7884b"><span class="section-number-3">2.1.</span> 关于重新定义 <code>sis-switch</code> 的说明</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 使用 sis 时，其实存在两个状态。一个是 <code>sis--current</code> 变量存储的当前输入状态，在原始的 <code>sis-switch</code> 函数中，是通过 <code>(eq sis--current 'english)</code> 来检测的；另一个是我们全局输入法的状态，可以通过 <code>(w32-get-ime-open-status)</code> 来获取。<br>
