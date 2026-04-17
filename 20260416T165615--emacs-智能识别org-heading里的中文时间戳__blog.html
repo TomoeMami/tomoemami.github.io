@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-17 周五 10:52 -->
+<!-- 2026-04-17 周五 11:00 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-智能识别org-heading里的中文时间戳</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-17 周五 10:50]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-17 周五 11:00]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -31,12 +31,12 @@
 <p>
 一说到智能识别，恐怕2026年的读者已经想到利用 LLM 了吧。但是滴答清单的识别功能远早于 LLM 出现，且速度也很快，目测是基于正则的匹配。因此我在 LLM 的帮助下，写了一段函数，用于提取输入字符串中的中文时间戳并自动设置。<br>
 </p>
-<div id="outline-container-orgcd79033" class="outline-2">
-<h2 id="orgcd79033"><span class="section-number-2">1.</span> 相关函数</h2>
+<div id="outline-container-org69c1683" class="outline-2">
+<h2 id="org69c1683"><span class="section-number-2">1.</span> 相关函数</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org020e344" class="outline-3">
-<h3 id="org020e344"><span class="section-number-3">1.1.</span> 准备函数</h3>
+<div id="outline-container-org2372a29" class="outline-3">
+<h3 id="org2372a29"><span class="section-number-3">1.1.</span> 准备函数</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 下列函数将输入字符串中的中文数字转换为阿拉伯数字，以便后续操作：<br>
@@ -102,8 +102,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org4cd1684" class="outline-3">
-<h3 id="org4cd1684"><span class="section-number-3">1.2.</span> 提取时间戳</h3>
+<div id="outline-container-orga94723a" class="outline-3">
+<h3 id="orga94723a"><span class="section-number-3">1.2.</span> 提取时间戳</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 下列函数利用上述函数，提取输入字符串中的中文时间戳，返回一个可直接用于 <code>org-schedule</code> 的字符串<br>
@@ -205,8 +205,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgb3c0abe" class="outline-2">
-<h2 id="orgb3c0abe"><span class="section-number-2">2.</span> 使用方法</h2>
+<div id="outline-container-orgabb02bc" class="outline-2">
+<h2 id="orgabb02bc"><span class="section-number-2">2.</span> 使用方法</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 这里假定我们要在 org-capture 中使用。首先我们定义一个函数，在关闭 capture-buffer 之前执行。这个函数会根据当前 org-heading ，提取其中包含的相对时间字符串，并直接用于 <code>org-schedule</code> 。 我这里设置的是如获取不到就设置 <code>SCHEDULED</code> 为当日。<br>
@@ -241,8 +241,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orgc94b47a" class="outline-2">
-<h2 id="orgc94b47a"><span class="section-number-2">3.</span> 测试用例</h2>
+<div id="outline-container-org77b8a4d" class="outline-2">
+<h2 id="org77b8a4d"><span class="section-number-2">3.</span> 测试用例</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span>test-cases '<span style="color: #972500;">(</span><span style="color: #808000;">(</span><span style="color: #3548cf;">"&#20170;&#22825;"</span> . <span style="color: #3548cf;">"+0d"</span><span style="color: #808000;">)</span>
