@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-03-25 周三 14:19 -->
+<!-- 2026-04-17 周五 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>tiddly-wiki根据tiddler-tag自动生成时间线</title>
@@ -29,21 +29,21 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html"><code>\define timeline-r-title() &lt;$view <span style="color: #9f4e74;">field</span>=<span style="color: #a04650;">"title"</span>/&gt;
-\define timeline-r-link() &lt;$link to={{!!title}}&gt;&lt;&lt;<span style="color: #4f60a0;">timeline-r-title</span>&gt;&gt;&lt;/$link&gt;
-&lt;$vars ctags={{{ [&lt;<span style="color: #4f60a0;">currentTiddler</span>&gt;tags[]compare:string:ne[&#26102;&#38388;&#32447;]sort[]join[,]] }}} &gt;
-&lt;<span style="color: #4f60a0;">div</span> <span style="color: #9f4e74;">class</span>=<span style="color: #a04650;">"tc-timeline-r"</span>&gt;
-&lt;$list <span style="color: #9f4e74;">filter</span>=<span style="color: #a04650;">"[all[tiddlers]] :filter[tags[]compare:string:ne[&#26102;&#38388;&#32447;]sort[]join[,]regexp&lt;ctags&gt;] +[has[date]sort[date]limit[100]eachday[date]]"</span>&gt;
-&lt;<span style="color: #4f60a0;">div</span> <span style="color: #9f4e74;">class</span>=<span style="color: #a04650;">"tc-menu-list-item"</span>&gt;
-&lt;$view <span style="color: #9f4e74;">field</span>=<span style="color: #a04650;">"date"</span> <span style="color: #9f4e74;">format</span>=<span style="color: #a04650;">"date"</span> <span style="color: #9f4e74;">template</span>=<span style="color: #a04650;">"YYYY&#24180;0MM&#26376;0DD&#26085;"</span>/&gt;
-&lt;$list <span style="color: #9f4e74;">filter</span>=<span style="color: #a04650;">"[all[tiddlers]] :filter[tags[]compare:string:ne[&#26102;&#38388;&#32447;]sort[]join[,]regexp&lt;ctags&gt;] +[sameday:date{!!date}sort[date]]"</span>&gt;
-&lt;<span style="color: #4f60a0;">div</span> <span style="color: #9f4e74;">class</span>=<span style="color: #a04650;">"tc-menu-list-subitem"</span>&gt;
-&lt;$link to={{!!title}}&gt;&lt;$view <span style="color: #9f4e74;">field</span>=<span style="color: #a04650;">"title"</span>/&gt;&lt;/$link&gt;
-&lt;/<span style="color: #4f60a0;">div</span>&gt;
+<pre class="src src-html"><code>\define timeline-r-title() &lt;$view <span style="color: #005e8b;">field</span>=<span style="color: #3548cf;">"title"</span>/&gt;
+\define timeline-r-link() &lt;$link to={{!!title}}&gt;&lt;&lt;<span style="color: #721045;">timeline-r-title</span>&gt;&gt;&lt;/$link&gt;
+&lt;$vars ctags={{{ [&lt;<span style="color: #721045;">currentTiddler</span>&gt;tags[]compare:string:ne[&#26102;&#38388;&#32447;]sort[]join[,]] }}} &gt;
+&lt;<span style="color: #721045;">div</span> <span style="color: #005e8b;">class</span>=<span style="color: #3548cf;">"tc-timeline-r"</span>&gt;
+&lt;$list <span style="color: #005e8b;">filter</span>=<span style="color: #3548cf;">"[all[tiddlers]] :filter[tags[]compare:string:ne[&#26102;&#38388;&#32447;]sort[]join[,]regexp&lt;ctags&gt;] +[has[date]sort[date]limit[100]eachday[date]]"</span>&gt;
+&lt;<span style="color: #721045;">div</span> <span style="color: #005e8b;">class</span>=<span style="color: #3548cf;">"tc-menu-list-item"</span>&gt;
+&lt;$view <span style="color: #005e8b;">field</span>=<span style="color: #3548cf;">"date"</span> <span style="color: #005e8b;">format</span>=<span style="color: #3548cf;">"date"</span> <span style="color: #005e8b;">template</span>=<span style="color: #3548cf;">"YYYY&#24180;0MM&#26376;0DD&#26085;"</span>/&gt;
+&lt;$list <span style="color: #005e8b;">filter</span>=<span style="color: #3548cf;">"[all[tiddlers]] :filter[tags[]compare:string:ne[&#26102;&#38388;&#32447;]sort[]join[,]regexp&lt;ctags&gt;] +[sameday:date{!!date}sort[date]]"</span>&gt;
+&lt;<span style="color: #721045;">div</span> <span style="color: #005e8b;">class</span>=<span style="color: #3548cf;">"tc-menu-list-subitem"</span>&gt;
+&lt;$link to={{!!title}}&gt;&lt;$view <span style="color: #005e8b;">field</span>=<span style="color: #3548cf;">"title"</span>/&gt;&lt;/$link&gt;
+&lt;/<span style="color: #721045;">div</span>&gt;
 &lt;/$list&gt;
-&lt;/<span style="color: #4f60a0;">div</span>&gt;
+&lt;/<span style="color: #721045;">div</span>&gt;
 &lt;/$list&gt;
-&lt;/<span style="color: #4f60a0;">div</span>&gt;
+&lt;/<span style="color: #721045;">div</span>&gt;
 &lt;/$vars&gt;
 </code></pre>
 </div>
@@ -61,7 +61,7 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js"><code>&lt;$vars ctags=<span style="color: #906045;">{</span><span style="color: #9f4e74;">{</span><span style="color: #5059c0;">{</span> <span style="color: #a83058;">[</span>&lt;currentTiddler&gt;tags<span style="color: #7755b4;">[]</span>compare:string:ne<span style="color: #7755b4;">[</span>&#26102;&#38388;&#32447;<span style="color: #7755b4;">]</span>sort<span style="color: #7755b4;">[]</span>join<span style="color: #7755b4;">[</span>,<span style="color: #7755b4;">]</span><span style="color: #a83058;">]</span> <span style="color: #5059c0;">}</span><span style="color: #9f4e74;">}</span><span style="color: #906045;">}</span> &gt;
+<pre class="src src-js"><code>&lt;$vars ctags=<span style="color: #000000;">{</span><span style="color: #dd22dd;">{</span><span style="color: #008899;">{</span> <span style="color: #972500;">[</span>&lt;currentTiddler&gt;tags<span style="color: #808000;">[]</span>compare:string:ne<span style="color: #808000;">[</span>&#26102;&#38388;&#32447;<span style="color: #808000;">]</span>sort<span style="color: #808000;">[]</span>join<span style="color: #808000;">[</span>,<span style="color: #808000;">]</span><span style="color: #972500;">]</span> <span style="color: #008899;">}</span><span style="color: #dd22dd;">}</span><span style="color: #000000;">}</span> &gt;
 </code></pre>
 </div>
 
@@ -70,7 +70,7 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html"><code>&lt;$list <span style="color: #9f4e74;">filter</span>=<span style="color: #a04650;">"[all[tiddlers]] :filter[tags[]compare:string:ne[&#26102;&#38388;&#32447;]sort[]join[,]regexp&lt;ctags&gt;] +[has[date]sort[date]limit[100]eachday[date]]"</span>&gt;
+<pre class="src src-html"><code>&lt;$list <span style="color: #005e8b;">filter</span>=<span style="color: #3548cf;">"[all[tiddlers]] :filter[tags[]compare:string:ne[&#26102;&#38388;&#32447;]sort[]join[,]regexp&lt;ctags&gt;] +[has[date]sort[date]limit[100]eachday[date]]"</span>&gt;
 </code></pre>
 </div>
 

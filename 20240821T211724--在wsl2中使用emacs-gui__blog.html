@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-03-25 周三 14:19 -->
+<!-- 2026-04-17 周五 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>在wsl2中使用emacs-gui</title>
@@ -37,10 +37,10 @@
 <div class="org-src-container">
 <pre class="src src-bash"><code>sudo nano /etc/apt/sources.list
 
-<span style="color: #475d80;"># </span><span style="color: #475d80;">&#40664;&#35748;&#27880;&#37322;&#20102;&#28304;&#30721;&#38236;&#20687;&#20197;&#25552;&#39640; apt update &#36895;&#24230;&#65292;&#22914;&#26377;&#38656;&#35201;&#21487;&#33258;&#34892;&#21462;&#28040;&#27880;&#37322;
-</span>deb http://mirrors.tuna.tsinghua.edu.cn/debian/ sid main contrib non-free non-free-firmware
-<span style="color: #475d80;"># </span><span style="color: #475d80;">deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ sid main contrib non-free non-free-firmware
-</span>
+<span style="color: #595959;"># </span><span style="color: #595959;">&#40664;&#35748;&#27880;&#37322;&#20102;&#28304;&#30721;&#38236;&#20687;&#20197;&#25552;&#39640; apt update &#36895;&#24230;&#65292;&#22914;&#26377;&#38656;&#35201;&#21487;&#33258;&#34892;&#21462;&#28040;&#27880;&#37322;</span>
+deb http://mirrors.tuna.tsinghua.edu.cn/debian/ sid main contrib non-free non-free-firmware
+<span style="color: #595959;"># </span><span style="color: #595959;">deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ sid main contrib non-free non-free-firmware</span>
+
 sudo apt update &amp;&amp; sudo apt install apt-transport-https ca-certificates
 
 sudo nano /etc/apt/sources.list
@@ -68,8 +68,8 @@ zh_CN.UTF-8 UTF-8
 
 sudo locale-gen
 
-<span style="color: #97508f;">echo</span> <span style="color: #a04650;">'export LANG=zh_CN.UTF-8'</span> &gt;&gt; ~/.bashrc
-<span style="color: #97508f;">echo</span> <span style="color: #a04650;">'export LC_ALL=zh_CN.UTF-8'</span> &gt;&gt; ~/.bashrc
+<span style="color: #8f0075;">echo</span> <span style="color: #3548cf;">'export LANG=zh_CN.UTF-8'</span> &gt;&gt; ~/.bashrc
+<span style="color: #8f0075;">echo</span> <span style="color: #3548cf;">'export LC_ALL=zh_CN.UTF-8'</span> &gt;&gt; ~/.bashrc
 
 
 </code></pre>
@@ -91,16 +91,16 @@ cp -r ./rime-ice/* /usr/share/rime-data/
 </div>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">use-package</span> rime
-  <span style="color: #97508f;">:custom</span>
-  <span style="color: #9f4e74;">(</span>default-input-method <span style="color: #a04650;">"rime"</span><span style="color: #9f4e74;">)</span>
-  <span style="color: #9f4e74;">(</span>rime-show-candidate 'posframe<span style="color: #9f4e74;">)</span>
-  <span style="color: #97508f;">:config</span>
-  <span style="color: #9f4e74;">(</span><span style="color: #906045;">setq</span> rime-translate-keybindings
-  '<span style="color: #5059c0;">(</span><span style="color: #a04650;">"C-f"</span> <span style="color: #a04650;">"C-b"</span> <span style="color: #a04650;">"C-n"</span> <span style="color: #a04650;">"C-p"</span> <span style="color: #a04650;">"C-g"</span> <span style="color: #a04650;">"C-`"</span> <span style="color: #a04650;">"&lt;left&gt;"</span> <span style="color: #a04650;">"&lt;right&gt;"</span> <span style="color: #a04650;">"&lt;up&gt;"</span> <span style="color: #a04650;">"&lt;down&gt;"</span> <span style="color: #a04650;">"&lt;prior&gt;"</span> <span style="color: #a04650;">"&lt;next&gt;"</span> <span style="color: #a04650;">"&lt;delete&gt;"</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
-  <span style="color: #97508f;">:bind</span>
-  <span style="color: #9f4e74;">(</span><span style="color: #a04650;">"C-\\"</span> . toggle-input-method<span style="color: #9f4e74;">)</span>
-  <span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">use-package</span> rime
+  <span style="color: #8f0075;">:custom</span>
+  <span style="color: #dd22dd;">(</span>default-input-method <span style="color: #3548cf;">"rime"</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>rime-show-candidate 'posframe<span style="color: #dd22dd;">)</span>
+  <span style="color: #8f0075;">:config</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">setq</span> rime-translate-keybindings
+  '<span style="color: #008899;">(</span><span style="color: #3548cf;">"C-f"</span> <span style="color: #3548cf;">"C-b"</span> <span style="color: #3548cf;">"C-n"</span> <span style="color: #3548cf;">"C-p"</span> <span style="color: #3548cf;">"C-g"</span> <span style="color: #3548cf;">"C-`"</span> <span style="color: #3548cf;">"&lt;left&gt;"</span> <span style="color: #3548cf;">"&lt;right&gt;"</span> <span style="color: #3548cf;">"&lt;up&gt;"</span> <span style="color: #3548cf;">"&lt;down&gt;"</span> <span style="color: #3548cf;">"&lt;prior&gt;"</span> <span style="color: #3548cf;">"&lt;next&gt;"</span> <span style="color: #3548cf;">"&lt;delete&gt;"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #8f0075;">:bind</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #3548cf;">"C-\\"</span> . toggle-input-method<span style="color: #dd22dd;">)</span>
+  <span style="color: #000000;">)</span>
 </code></pre>
 </div>
 
@@ -109,52 +109,52 @@ cp -r ./rime-ice/* /usr/share/rime-data/
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml"><code><span style="color: #9f4e74;">patch</span>:
-  <span style="color: #9f4e74;">schema_list</span>:
-  <span style="color: #d88aba0cbcf5;"> </span> - {<span style="color: #9f4e74;">schema</span>: double_pinyin_flypy}
-  <span style="color: #9f4e74;">ascii_composer/good_old_caps_lock</span>: <span style="color: #5059c0;">true</span>  <span style="color: #475d80;"># </span><span style="color: #475d80;">true | false
-</span>  <span style="color: #9f4e74;">ascii_composer/switch_key</span>:
-  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #9f4e74;">Caps_Lock</span>: clear      <span style="color: #475d80;"># </span><span style="color: #475d80;">commit_code | commit_text | clear
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #9f4e74;">Shift_L</span>: commit_code  <span style="color: #475d80;"># </span><span style="color: #475d80;">commit_code | commit_text | inline_ascii | clear | noop
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #9f4e74;">Shift_R</span>: commit_code         <span style="color: #475d80;"># </span><span style="color: #475d80;">commit_code | commit_text | inline_ascii | clear | noop
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #9f4e74;">Control_L</span>: noop       <span style="color: #475d80;"># </span><span style="color: #475d80;">commit_code | commit_text | inline_ascii | clear | noop
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #9f4e74;">Control_R</span>: noop       <span style="color: #475d80;"># </span><span style="color: #475d80;">commit_code | commit_text | inline_ascii | clear | noop
-</span>  <span style="color: #9f4e74;">key_binder/bindings</span>:
-  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">Tab / Shift+Tab &#20999;&#25442;&#20809;&#26631;&#33267;&#19979;/&#19978;&#19968;&#20010;&#25340;&#38899;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: composing, <span style="color: #9f4e74;">accept</span>: Shift+Tab, <span style="color: #9f4e74;">send</span>: Shift+Left }
-  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: composing, <span style="color: #9f4e74;">accept</span>: Tab, <span style="color: #9f4e74;">send</span>: Shift+Right }
-  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">Tab / Shift+Tab &#32763;&#39029;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: has_menu, accept: Shift+Tab, send: Page_Up }
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: has_menu, accept: Tab, send: Page_Down }
+<pre class="src src-yaml"><code><span style="color: #005e8b;">patch</span>:
+  <span style="color: #005e8b;">schema_list</span>:
+  <span style="color: #acccacccaccc;"> </span> - {<span style="color: #005e8b;">schema</span>: double_pinyin_flypy}
+  <span style="color: #005e8b;">ascii_composer/good_old_caps_lock</span>: <span style="color: #0000b0;">true</span>  <span style="color: #595959;"># </span><span style="color: #595959;">true | false</span>
+  <span style="color: #005e8b;">ascii_composer/switch_key</span>:
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #005e8b;">Caps_Lock</span>: clear      <span style="color: #595959;"># </span><span style="color: #595959;">commit_code | commit_text | clear</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #005e8b;">Shift_L</span>: commit_code  <span style="color: #595959;"># </span><span style="color: #595959;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #005e8b;">Shift_R</span>: commit_code         <span style="color: #595959;"># </span><span style="color: #595959;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #005e8b;">Control_L</span>: noop       <span style="color: #595959;"># </span><span style="color: #595959;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #005e8b;">Control_R</span>: noop       <span style="color: #595959;"># </span><span style="color: #595959;">commit_code | commit_text | inline_ascii | clear | noop</span>
+  <span style="color: #005e8b;">key_binder/bindings</span>:
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">Tab / Shift+Tab &#20999;&#25442;&#20809;&#26631;&#33267;&#19979;/&#19978;&#19968;&#20010;&#25340;&#38899;</span>
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: composing, <span style="color: #005e8b;">accept</span>: Shift+Tab, <span style="color: #005e8b;">send</span>: Shift+Left }
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: composing, <span style="color: #005e8b;">accept</span>: Tab, <span style="color: #005e8b;">send</span>: Shift+Right }
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">Tab / Shift+Tab &#32763;&#39029;</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: has_menu, accept: Shift+Tab, send: Page_Up }</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: has_menu, accept: Tab, send: Page_Down }</span>
    
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">Option/Alt + &#8592;/&#8594; &#20999;&#25442;&#20809;&#26631;&#33267;&#19979;/&#19978;&#19968;&#20010;&#25340;&#38899;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: composing, <span style="color: #9f4e74;">accept</span>: Alt+Left, <span style="color: #9f4e74;">send</span>: Shift+Left }
-  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: composing, <span style="color: #9f4e74;">accept</span>: Alt+Right, <span style="color: #9f4e74;">send</span>: Shift+Right }
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">Option/Alt + &#8592;/&#8594; &#20999;&#25442;&#20809;&#26631;&#33267;&#19979;/&#19978;&#19968;&#20010;&#25340;&#38899;</span>
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: composing, <span style="color: #005e8b;">accept</span>: Alt+Left, <span style="color: #005e8b;">send</span>: Shift+Left }
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: composing, <span style="color: #005e8b;">accept</span>: Alt+Right, <span style="color: #005e8b;">send</span>: Shift+Right }
    
-  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">&#32763;&#39029; - =
-</span>  <span style="color: #d88aba0cbcf5;"> </span> - { when: has_menu, <span style="color: #9f4e74;">accept</span>: minus, <span style="color: #9f4e74;">send</span>: Page_Up }
-  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: has_menu, <span style="color: #9f4e74;">accept</span>: equal, <span style="color: #9f4e74;">send</span>: Page_Down }
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">&#32763;&#39029; - =</span>
+  <span style="color: #acccacccaccc;"> </span> - { when: has_menu, <span style="color: #005e8b;">accept</span>: minus, <span style="color: #005e8b;">send</span>: Page_Up }
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: has_menu, <span style="color: #005e8b;">accept</span>: equal, <span style="color: #005e8b;">send</span>: Page_Down }
    
-  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">&#32763;&#39029; , .
-</span>  <span style="color: #d88aba0cbcf5;"> </span> - { when: paging, <span style="color: #9f4e74;">accept</span>: comma, <span style="color: #9f4e74;">send</span>: Page_Up }
-  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: has_menu, <span style="color: #9f4e74;">accept</span>: period, <span style="color: #9f4e74;">send</span>: Page_Down }
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">&#32763;&#39029; , .</span>
+  <span style="color: #acccacccaccc;"> </span> - { when: paging, <span style="color: #005e8b;">accept</span>: comma, <span style="color: #005e8b;">send</span>: Page_Up }
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: has_menu, <span style="color: #005e8b;">accept</span>: period, <span style="color: #005e8b;">send</span>: Page_Down }
    
-  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">&#32763;&#39029; [ ]
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: paging, accept: bracketleft, send: Page_Up }
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: has_menu, accept: bracketright, send: Page_Down }
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">&#32763;&#39029; [ ]</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: paging, accept: bracketleft, send: Page_Up }</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: has_menu, accept: bracketright, send: Page_Down }</span>
    
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">&#20004;&#31181;&#25353;&#38190;&#37197;&#32622;&#65292;&#40736;&#39035;&#31649; Control+Shift+4 &#29983;&#25928;&#65292;&#23567;&#29436;&#27627; Control+Shift+dollar &#29983;&#25928;&#65292;&#37117;&#20889;&#19978;&#20102;&#12290;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">numbered_mode_switch:
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: always, select: .next, accept: Control+Shift+1 }                  # &#22312;&#26368;&#36817;&#30340;&#20004;&#20010;&#26041;&#26696;&#20043;&#38388;&#20999;&#25442;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: always, select: .next, accept: Control+Shift+exclam }             # &#22312;&#26368;&#36817;&#30340;&#20004;&#20010;&#26041;&#26696;&#20043;&#38388;&#20999;&#25442;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: always, toggle: ascii_mode, accept: Control+Shift+2 }             # &#20999;&#25442;&#20013;&#33521;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: always, toggle: ascii_mode, accept: Control+Shift+at }            # &#20999;&#25442;&#20013;&#33521;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: always, <span style="color: #9f4e74;">toggle</span>: ascii_punct, <span style="color: #9f4e74;">accept</span>: Control+Shift+3 }              <span style="color: #475d80;"># </span><span style="color: #475d80;">&#20999;&#25442;&#20013;&#33521;&#26631;&#28857;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: always, <span style="color: #9f4e74;">toggle</span>: ascii_punct, <span style="color: #9f4e74;">accept</span>: Control+Shift+numbersign }     <span style="color: #475d80;"># </span><span style="color: #475d80;">&#20999;&#25442;&#20013;&#33521;&#26631;&#28857;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: always, <span style="color: #9f4e74;">toggle</span>: traditionalization, <span style="color: #9f4e74;">accept</span>: Control+Shift+4 }       <span style="color: #475d80;"># </span><span style="color: #475d80;">&#20999;&#25442;&#31616;&#32321;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> - { <span style="color: #9f4e74;">when</span>: always, <span style="color: #9f4e74;">toggle</span>: traditionalization, <span style="color: #9f4e74;">accept</span>: Control+Shift+dollar }  <span style="color: #475d80;"># </span><span style="color: #475d80;">&#20999;&#25442;&#31616;&#32321;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: always, toggle: full_shape, accept: Control+Shift+5 }             # &#20999;&#25442;&#20840;&#21322;&#35282;
-</span>  <span style="color: #d88aba0cbcf5;"> </span> <span style="color: #475d80;"># </span><span style="color: #475d80;">- { when: always, toggle: full_shape, accept: Control+Shift+percent }       # &#20999;&#25442;&#20840;&#21322;&#35282;</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">&#20004;&#31181;&#25353;&#38190;&#37197;&#32622;&#65292;&#40736;&#39035;&#31649; Control+Shift+4 &#29983;&#25928;&#65292;&#23567;&#29436;&#27627; Control+Shift+dollar &#29983;&#25928;&#65292;&#37117;&#20889;&#19978;&#20102;&#12290;</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">numbered_mode_switch:</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: always, select: .next, accept: Control+Shift+1 }                  # &#22312;&#26368;&#36817;&#30340;&#20004;&#20010;&#26041;&#26696;&#20043;&#38388;&#20999;&#25442;</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: always, select: .next, accept: Control+Shift+exclam }             # &#22312;&#26368;&#36817;&#30340;&#20004;&#20010;&#26041;&#26696;&#20043;&#38388;&#20999;&#25442;</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: always, toggle: ascii_mode, accept: Control+Shift+2 }             # &#20999;&#25442;&#20013;&#33521;</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: always, toggle: ascii_mode, accept: Control+Shift+at }            # &#20999;&#25442;&#20013;&#33521;</span>
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: always, <span style="color: #005e8b;">toggle</span>: ascii_punct, <span style="color: #005e8b;">accept</span>: Control+Shift+3 }              <span style="color: #595959;"># </span><span style="color: #595959;">&#20999;&#25442;&#20013;&#33521;&#26631;&#28857;</span>
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: always, <span style="color: #005e8b;">toggle</span>: ascii_punct, <span style="color: #005e8b;">accept</span>: Control+Shift+numbersign }     <span style="color: #595959;"># </span><span style="color: #595959;">&#20999;&#25442;&#20013;&#33521;&#26631;&#28857;</span>
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: always, <span style="color: #005e8b;">toggle</span>: traditionalization, <span style="color: #005e8b;">accept</span>: Control+Shift+4 }       <span style="color: #595959;"># </span><span style="color: #595959;">&#20999;&#25442;&#31616;&#32321;</span>
+  <span style="color: #acccacccaccc;"> </span> - { <span style="color: #005e8b;">when</span>: always, <span style="color: #005e8b;">toggle</span>: traditionalization, <span style="color: #005e8b;">accept</span>: Control+Shift+dollar }  <span style="color: #595959;"># </span><span style="color: #595959;">&#20999;&#25442;&#31616;&#32321;</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: always, toggle: full_shape, accept: Control+Shift+5 }             # &#20999;&#25442;&#20840;&#21322;&#35282;</span>
+  <span style="color: #acccacccaccc;"> </span> <span style="color: #595959;"># </span><span style="color: #595959;">- { when: always, toggle: full_shape, accept: Control+Shift+percent }       # &#20999;&#25442;&#20840;&#21322;&#35282;</span>
 </code></pre>
 </div>
 </div>
@@ -167,7 +167,7 @@ cp -r ./rime-ice/* /usr/share/rime-data/
 <h3 id="orgf8fdf88"><span class="section-number-3">5.1.</span> 设置剪切板格式以便与Windows互通</h3>
 <div class="outline-text-3" id="text-5-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span>set-clipboard-coding-system 'gbk<span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span>set-clipboard-coding-system 'gbk<span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>

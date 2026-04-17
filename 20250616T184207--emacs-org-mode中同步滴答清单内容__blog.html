@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-01 周三 11:59 -->
+<!-- 2026-04-17 周五 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-org-mode中同步滴答清单内容</title>
@@ -46,51 +46,51 @@
 <h4 id="org79c49d7"><span class="section-number-4">2.1.1.</span> 自定义dida相关函数</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #cb1aaa;">(</span><span style="color: #8e44f3;">use-package</span> dida <span style="color: #ba35af;">:demand</span> t
-  <span style="color: #ba35af;">:vc</span> <span style="color: #8e44f3;">(</span><span style="color: #ba35af;">:url</span> <span style="color: #b6532f;">"git@github.com:TomoeMami/dida"</span>
-            <span style="color: #ba35af;">:rev</span> <span style="color: #ba35af;">:last-release</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #ba35af;">:config</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">setq</span> dida-client-id <span style="color: #b6532f;">"YOUR-CLIENT-ID"</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">setq</span> dida-client-secret <span style="color: #b6532f;">"YOUR-CLIENT-SECRET"</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">defun</span> <span style="color: #cb1aaa;">dida-simple-task</span> <span style="color: #a45f22;">(</span>task<span style="color: #a45f22;">)</span>
-    <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">let*</span> <span style="color: #1f6fbf;">(</span><span style="color: #ba35af;">(</span>id <span style="color: #5250ef;">(</span>alist-get 'id task<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>pid <span style="color: #5250ef;">(</span>alist-get 'projectId task<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>isallday <span style="color: #5250ef;">(</span>alist-get 'isAllDay task<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>title <span style="color: #5250ef;">(</span>alist-get 'title task <span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>content <span style="color: #5250ef;">(</span>alist-get 'content task <span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>status <span style="color: #5250ef;">(</span>alist-get 'status task<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>due-date <span style="color: #5250ef;">(</span>alist-get 'dueDate task<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>priority <span style="color: #5250ef;">(</span>alist-get 'priority task<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>repeatflag <span style="color: #5250ef;">(</span>alist-get 'repeatFlag task<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>deadline-or-scheduled <span style="color: #b6532f;">"SCHEDULED: "</span><span style="color: #ba35af;">)</span>
-           <span style="color: #ba35af;">(</span>h-m <span style="color: #5250ef;">(</span><span style="color: #8e44f3;">if</span> <span style="color: #d50f7f;">(</span>eq isallday '<span style="color: #ba35af;">:json-false</span><span style="color: #d50f7f;">)</span> <span style="color: #b6532f;">" %H:%M"</span> <span style="color: #b6532f;">""</span><span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span>
-      <span style="color: #1f6fbf;">(</span>concat <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">if</span> <span style="color: #5250ef;">(</span>= status 2<span style="color: #5250ef;">)</span> <span style="color: #b6532f;">"DONE "</span> <span style="color: #b6532f;">"TODO "</span><span style="color: #ba35af;">)</span> title
-              <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">when</span> due-date
-                <span style="color: #5250ef;">(</span>concat <span style="color: #b6532f;">"\n"</span> deadline-or-scheduled
-                        <span style="color: #d50f7f;">(</span>format-time-string
-                         <span style="color: #0f7b8f;">(</span>concat <span style="color: #b6532f;">"&lt;%Y-%m-%d %a"</span> h-m <span style="color: #b6532f;">"&gt;"</span><span style="color: #0f7b8f;">)</span>
-                         <span style="color: #0f7b8f;">(</span>date-to-time due-date<span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-              <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#20248;&#21270;&#65306;&#22914;&#26524; content &#23384;&#22312;&#19988;&#19981;&#20026;&#31354;&#65292;&#21069;&#38754;&#21152;&#19968;&#20010;&#25442;&#34892;&#65292;&#20445;&#35777; org &#26684;&#24335;&#32654;&#35266;
-</span>              <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">if</span> <span style="color: #5250ef;">(</span><span style="color: #8e44f3;">and</span> content <span style="color: #d50f7f;">(</span>not <span style="color: #0f7b8f;">(</span>string-empty-p content<span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span>
-                  <span style="color: #5250ef;">(</span>concat <span style="color: #b6532f;">"\n"</span> content<span style="color: #5250ef;">)</span>
-                <span style="color: #b6532f;">""</span><span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">defun</span> <span style="color: #cb1aaa;">dida-cut</span> <span style="color: #a45f22;">()</span>
-    <span style="color: #5f60bf;">"&#20174;dida&#33719;&#21462;&#25152;&#26377;&#20219;&#21153;&#24182;&#21024;&#38500;&#20113;&#31471;&#20219;&#21153;."</span>
-    <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">interactive</span><span style="color: #a45f22;">)</span>
-    <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">unless</span> <span style="color: #1f6fbf;">(</span>dida--check-token<span style="color: #1f6fbf;">)</span>
-      <span style="color: #1f6fbf;">(</span>dida-authorize<span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span>
-    <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">let</span> <span style="color: #1f6fbf;">(</span><span style="color: #ba35af;">(</span>projects <span style="color: #5250ef;">(</span>dida-get-user-project<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-          <span style="color: #ba35af;">(</span>result<span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span>
-      <span style="color: #1f6fbf;">(</span><span style="color: #8e44f3;">dolist</span> <span style="color: #ba35af;">(</span>project projects<span style="color: #ba35af;">)</span>
-        <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">let*</span> <span style="color: #5250ef;">(</span><span style="color: #d50f7f;">(</span>project-id <span style="color: #0f7b8f;">(</span>alist-get 'id project<span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span>
-               <span style="color: #d50f7f;">(</span>project-name <span style="color: #0f7b8f;">(</span>alist-get 'name project<span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span>
-               <span style="color: #d50f7f;">(</span>project-data <span style="color: #0f7b8f;">(</span>dida-get-project-by-id-with-data project-id<span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span>
-               <span style="color: #d50f7f;">(</span>tasks <span style="color: #0f7b8f;">(</span>append <span style="color: #b65050;">(</span>alist-get 'tasks project-data<span style="color: #b65050;">)</span> nil<span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span>
-          <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">Insert all tasks under this project
-</span>          <span style="color: #5250ef;">(</span><span style="color: #8e44f3;">dolist</span> <span style="color: #d50f7f;">(</span>task tasks<span style="color: #d50f7f;">)</span>
-            <span style="color: #d50f7f;">(</span><span style="color: #8e44f3;">setf</span> result <span style="color: #0f7b8f;">(</span>concat result <span style="color: #b6532f;">"* "</span> <span style="color: #b65050;">(</span>dida-simple-task task<span style="color: #b65050;">)</span><span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span>
-            <span style="color: #d50f7f;">(</span>dida-complete-task project-id <span style="color: #0f7b8f;">(</span>alist-get 'id task<span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span>
-      result<span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">use-package</span> dida <span style="color: #8f0075;">:demand</span> t
+  <span style="color: #8f0075;">:vc</span> <span style="color: #dd22dd;">(</span><span style="color: #8f0075;">:url</span> <span style="color: #3548cf;">"git@github.com:TomoeMami/dida"</span>
+            <span style="color: #8f0075;">:rev</span> <span style="color: #8f0075;">:last-release</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #8f0075;">:config</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">setq</span> dida-client-id <span style="color: #3548cf;">"YOUR-CLIENT-ID"</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">setq</span> dida-client-secret <span style="color: #3548cf;">"YOUR-CLIENT-SECRET"</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">dida-simple-task</span> <span style="color: #008899;">(</span>task<span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>id <span style="color: #531ab6;">(</span>alist-get 'id task<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>pid <span style="color: #531ab6;">(</span>alist-get 'projectId task<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>isallday <span style="color: #531ab6;">(</span>alist-get 'isAllDay task<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>title <span style="color: #531ab6;">(</span>alist-get 'title task <span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>content <span style="color: #531ab6;">(</span>alist-get 'content task <span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>status <span style="color: #531ab6;">(</span>alist-get 'status task<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>due-date <span style="color: #531ab6;">(</span>alist-get 'dueDate task<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>priority <span style="color: #531ab6;">(</span>alist-get 'priority task<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>repeatflag <span style="color: #531ab6;">(</span>alist-get 'repeatFlag task<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>deadline-or-scheduled <span style="color: #3548cf;">"SCHEDULED: "</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span>h-m <span style="color: #531ab6;">(</span><span style="color: #531ab6;">if</span> <span style="color: #008900;">(</span>eq isallday '<span style="color: #8f0075;">:json-false</span><span style="color: #008900;">)</span> <span style="color: #3548cf;">" %H:%M"</span> <span style="color: #3548cf;">""</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span>concat <span style="color: #808000;">(</span><span style="color: #531ab6;">if</span> <span style="color: #531ab6;">(</span>= status 2<span style="color: #531ab6;">)</span> <span style="color: #3548cf;">"DONE "</span> <span style="color: #3548cf;">"TODO "</span><span style="color: #808000;">)</span> title
+              <span style="color: #808000;">(</span><span style="color: #531ab6;">when</span> due-date
+                <span style="color: #531ab6;">(</span>concat <span style="color: #3548cf;">"\n"</span> deadline-or-scheduled
+                        <span style="color: #008900;">(</span>format-time-string
+                         <span style="color: #3548cf;">(</span>concat <span style="color: #3548cf;">"&lt;%Y-%m-%d %a"</span> h-m <span style="color: #3548cf;">"&gt;"</span><span style="color: #3548cf;">)</span>
+                         <span style="color: #3548cf;">(</span>date-to-time due-date<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+              <span style="color: #595959;">;; </span><span style="color: #595959;">&#20248;&#21270;&#65306;&#22914;&#26524; content &#23384;&#22312;&#19988;&#19981;&#20026;&#31354;&#65292;&#21069;&#38754;&#21152;&#19968;&#20010;&#25442;&#34892;&#65292;&#20445;&#35777; org &#26684;&#24335;&#32654;&#35266;</span>
+              <span style="color: #808000;">(</span><span style="color: #531ab6;">if</span> <span style="color: #531ab6;">(</span><span style="color: #531ab6;">and</span> content <span style="color: #008900;">(</span>not <span style="color: #3548cf;">(</span>string-empty-p content<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+                  <span style="color: #531ab6;">(</span>concat <span style="color: #3548cf;">"\n"</span> content<span style="color: #531ab6;">)</span>
+                <span style="color: #3548cf;">""</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">dida-cut</span> <span style="color: #008899;">()</span>
+    <span style="color: #2a5045;">"&#20174;dida&#33719;&#21462;&#25152;&#26377;&#20219;&#21153;&#24182;&#21024;&#38500;&#20113;&#31471;&#20219;&#21153;."</span>
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">interactive</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">unless</span> <span style="color: #972500;">(</span>dida--check-token<span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span>dida-authorize<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">let</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>projects <span style="color: #531ab6;">(</span>dida-get-user-project<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+          <span style="color: #808000;">(</span>result<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span><span style="color: #531ab6;">dolist</span> <span style="color: #808000;">(</span>project projects<span style="color: #808000;">)</span>
+        <span style="color: #808000;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>project-id <span style="color: #3548cf;">(</span>alist-get 'id project<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
+               <span style="color: #008900;">(</span>project-name <span style="color: #3548cf;">(</span>alist-get 'name project<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
+               <span style="color: #008900;">(</span>project-data <span style="color: #3548cf;">(</span>dida-get-project-by-id-with-data project-id<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
+               <span style="color: #008900;">(</span>tasks <span style="color: #3548cf;">(</span>append <span style="color: #8f0075;">(</span>alist-get 'tasks project-data<span style="color: #8f0075;">)</span> nil<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+          <span style="color: #595959;">;; </span><span style="color: #595959;">Insert all tasks under this project</span>
+          <span style="color: #531ab6;">(</span><span style="color: #531ab6;">dolist</span> <span style="color: #008900;">(</span>task tasks<span style="color: #008900;">)</span>
+            <span style="color: #008900;">(</span><span style="color: #531ab6;">setf</span> result <span style="color: #3548cf;">(</span>concat result <span style="color: #3548cf;">"* "</span> <span style="color: #8f0075;">(</span>dida-simple-task task<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
+            <span style="color: #008900;">(</span>dida-complete-task project-id <span style="color: #3548cf;">(</span>alist-get 'id task<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+      result<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
 </code></pre>
 </div>
 </div>
@@ -102,21 +102,21 @@
 注意，这里我们使用了 <code>(keyboard-quit)</code> 函数，这个函数会打断当前进行的系列函数，所以不要把这个 <code>(org-capture nil "d")</code> 放进任何hook里。幸运的是我们一般也不需要把他们放进hook中，只需要定时执行拉取就好了。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #cb1aaa;">(</span><span style="color: #8e44f3;">setq</span> org-capture-templates
-      <span style="color: #8e44f3;">(</span>doct '<span style="color: #a45f22;">(</span><span style="color: #1f6fbf;">(</span><span style="color: #b6532f;">"Dida Sync"</span> <span style="color: #ba35af;">:keys</span> <span style="color: #b6532f;">"d"</span>
-               <span style="color: #9a5f6a;">;</span><span style="color: #9a5f6a;">&#36825;&#37324;&#25913;&#25104;&#20320;&#24179;&#24120;&#29992;&#30340;agenda files&#20043;&#19968;&#36335;&#24452;
-</span>               <span style="color: #ba35af;">:file</span> my-org-timeline
-               <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#20351;&#29992;&#20320;&#24120;&#29992;&#30340;&#23450;&#20301;&#20989;&#25968;&#65292;&#21487;&#24573;&#30053;
-</span>               <span style="color: #ba35af;">:function</span> org-reverse-datetree-goto-date-in-file
-               <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#21160;&#24577;&#35843;&#29992;&#36873;&#25321;&#20989;&#25968;&#33719;&#21462;&#20869;&#23481;
-</span>               <span style="color: #ba35af;">:template</span> <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">lambda</span> <span style="color: #5250ef;">()</span> <span style="color: #5250ef;">(</span><span style="color: #8e44f3;">let</span> <span style="color: #d50f7f;">(</span><span style="color: #0f7b8f;">(</span>result <span style="color: #b65050;">(</span>dida-cut<span style="color: #b65050;">)</span><span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span>
-                             <span style="color: #d50f7f;">(</span><span style="color: #8e44f3;">if</span> <span style="color: #0f7b8f;">(</span><span style="color: #8e44f3;">and</span> result <span style="color: #b65050;">(</span>stringp result<span style="color: #b65050;">)</span><span style="color: #0f7b8f;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">setq</span> org-capture-templates
+      <span style="color: #dd22dd;">(</span>doct '<span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #3548cf;">"Dida Sync"</span> <span style="color: #8f0075;">:keys</span> <span style="color: #3548cf;">"d"</span>
+               <span style="color: #595959;">;</span><span style="color: #595959;">&#36825;&#37324;&#25913;&#25104;&#20320;&#24179;&#24120;&#29992;&#30340;agenda files&#20043;&#19968;&#36335;&#24452;</span>
+               <span style="color: #8f0075;">:file</span> my-org-timeline
+               <span style="color: #595959;">;; </span><span style="color: #595959;">&#20351;&#29992;&#20320;&#24120;&#29992;&#30340;&#23450;&#20301;&#20989;&#25968;&#65292;&#21487;&#24573;&#30053;</span>
+               <span style="color: #8f0075;">:function</span> org-reverse-datetree-goto-date-in-file
+               <span style="color: #595959;">;; </span><span style="color: #595959;">&#21160;&#24577;&#35843;&#29992;&#36873;&#25321;&#20989;&#25968;&#33719;&#21462;&#20869;&#23481;</span>
+               <span style="color: #8f0075;">:template</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">lambda</span> <span style="color: #531ab6;">()</span> <span style="color: #531ab6;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008900;">(</span><span style="color: #3548cf;">(</span>result <span style="color: #8f0075;">(</span>dida-cut<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
+                             <span style="color: #008900;">(</span><span style="color: #531ab6;">if</span> <span style="color: #3548cf;">(</span><span style="color: #531ab6;">and</span> result <span style="color: #8f0075;">(</span>stringp result<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
                                  result
-                               <span style="color: #9a5f6a;">;;</span><span style="color: #9a5f6a;">&#27809;&#26377;&#20869;&#23481;&#23601;&#40664;&#40664;&#36864;&#20986;&#21543;&#23401;&#23376;
-</span>                               <span style="color: #0f7b8f;">(</span>keyboard-quit<span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-               <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#25429;&#33719;&#21518;&#31435;&#21363;&#23436;&#25104;&#65292;&#19981;&#38656;&#35201;&#25163;&#21160;&#25353; C-c C-c (&#21487;&#36873;)
-</span>               <span style="color: #ba35af;">:immediate-finish</span> t<span style="color: #1f6fbf;">)</span>
-              <span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span><span style="color: #cb1aaa;">)</span>
+                               <span style="color: #595959;">;;</span><span style="color: #595959;">&#27809;&#26377;&#20869;&#23481;&#23601;&#40664;&#40664;&#36864;&#20986;&#21543;&#23401;&#23376;</span>
+                               <span style="color: #3548cf;">(</span>keyboard-quit<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+               <span style="color: #595959;">;; </span><span style="color: #595959;">&#25429;&#33719;&#21518;&#31435;&#21363;&#23436;&#25104;&#65292;&#19981;&#38656;&#35201;&#25163;&#21160;&#25353; C-c C-c (&#21487;&#36873;)</span>
+               <span style="color: #8f0075;">:immediate-finish</span> t<span style="color: #972500;">)</span>
+              <span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>
@@ -125,10 +125,10 @@
 <h4 id="org312d5f0"><span class="section-number-4">2.1.3.</span> 定期执行</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #9a5f6a;">;;</span><span style="color: #9a5f6a;">&#27599;60&#31186;&#25191;&#34892;&#19968;&#27425;
-</span><span style="color: #cb1aaa;">(</span>run-with-idle-timer 60 t #'<span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">lambda</span> <span style="color: #a45f22;">()</span> <span style="color: #a45f22;">(</span>org-capture nil <span style="color: #b6532f;">"d"</span><span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span><span style="color: #cb1aaa;">)</span>
-<span style="color: #9a5f6a;">;;</span><span style="color: #9a5f6a;">&#21551;&#21160;&#21518;&#31245;&#31561;10&#31186;&#25191;&#34892;&#19968;&#27425;
-</span><span style="color: #cb1aaa;">(</span>run-at-time 10 nil #'<span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">lambda</span> <span style="color: #a45f22;">()</span> <span style="color: #a45f22;">(</span>org-capture nil <span style="color: #b6532f;">"d"</span><span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span><span style="color: #cb1aaa;">)</span>
+<pre class="src src-elisp"><code><span style="color: #595959;">;;</span><span style="color: #595959;">&#27599;60&#31186;&#25191;&#34892;&#19968;&#27425;</span>
+<span style="color: #000000;">(</span>run-with-idle-timer 60 t #'<span style="color: #dd22dd;">(</span><span style="color: #531ab6;">lambda</span> <span style="color: #008899;">()</span> <span style="color: #008899;">(</span>org-capture nil <span style="color: #3548cf;">"d"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #595959;">;;</span><span style="color: #595959;">&#21551;&#21160;&#21518;&#31245;&#31561;10&#31186;&#25191;&#34892;&#19968;&#27425;</span>
+<span style="color: #000000;">(</span>run-at-time 10 nil #'<span style="color: #dd22dd;">(</span><span style="color: #531ab6;">lambda</span> <span style="color: #008899;">()</span> <span style="color: #008899;">(</span>org-capture nil <span style="color: #3548cf;">"d"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>
@@ -145,38 +145,38 @@
 修改部分如下：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #cb1aaa;">(</span><span style="color: #8e44f3;">defun</span> <span style="color: #cb1aaa;">dida-cut</span> <span style="color: #8e44f3;">()</span>
-    <span style="color: #5f60bf;">"&#20174;dida&#33719;&#21462;&#25152;&#26377;&#20219;&#21153;&#24182;&#21024;&#38500;&#20113;&#31471;&#20219;&#21153;."</span>
-    <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">interactive</span><span style="color: #8e44f3;">)</span>
-    <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">unless</span> <span style="color: #a45f22;">(</span>dida--check-token<span style="color: #a45f22;">)</span>
-      <span style="color: #a45f22;">(</span>dida-authorize<span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
-    <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">let</span> <span style="color: #a45f22;">(</span><span style="color: #1f6fbf;">(</span>projects <span style="color: #ba35af;">(</span>dida-get-user-project<span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span>
-          <span style="color: #1f6fbf;">(</span>result-list nil<span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span> <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#25913;&#29992;&#21015;&#34920;&#26469;&#25910;&#38598;&#25152;&#26377;&#30340; task &#25991;&#26412;
-</span>      <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">dolist</span> <span style="color: #1f6fbf;">(</span>project projects<span style="color: #1f6fbf;">)</span>
-        <span style="color: #1f6fbf;">(</span><span style="color: #8e44f3;">let*</span> <span style="color: #ba35af;">(</span><span style="color: #5250ef;">(</span>project-id <span style="color: #d50f7f;">(</span>alist-get 'id project<span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span>
-               <span style="color: #5250ef;">(</span>project-name <span style="color: #d50f7f;">(</span>alist-get 'name project<span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span>
-               <span style="color: #5250ef;">(</span>project-data <span style="color: #d50f7f;">(</span>dida-get-project-by-id-with-data project-id<span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span>
-               <span style="color: #5250ef;">(</span>tasks <span style="color: #d50f7f;">(</span>append <span style="color: #0f7b8f;">(</span>alist-get 'tasks project-data<span style="color: #0f7b8f;">)</span> nil<span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-          <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#36941;&#21382;&#27599;&#20010;&#20219;&#21153;
-</span>          <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">dolist</span> <span style="color: #5250ef;">(</span>task tasks<span style="color: #5250ef;">)</span>
-            <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#32473;&#29983;&#25104;&#30340;&#25991;&#26412;&#24320;&#22836;&#21152;&#19978; "**** " &#24182;&#25910;&#38598;&#21040; result-list &#20013;
-</span>            <span style="color: #5250ef;">(</span><span style="color: #8e44f3;">push</span> <span style="color: #d50f7f;">(</span>concat <span style="color: #b6532f;">"**** "</span> <span style="color: #0f7b8f;">(</span>dida-simple-task task<span style="color: #0f7b8f;">)</span><span style="color: #d50f7f;">)</span> result-list<span style="color: #5250ef;">)</span>
-            <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#23436;&#25104;&#20113;&#31471;&#20219;&#21153;
-</span>            <span style="color: #5250ef;">(</span>dida-complete-task project-id <span style="color: #d50f7f;">(</span>alist-get 'id task<span style="color: #d50f7f;">)</span><span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span>
-      <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#29992; "\n" &#36830;&#25509;&#27599;&#20010;&#20219;&#21153;&#22359;
-</span>      <span style="color: #a45f22;">(</span>mapconcat #'identity result-list <span style="color: #b6532f;">"\n"</span><span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span><span style="color: #cb1aaa;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">dida-cut</span> <span style="color: #dd22dd;">()</span>
+    <span style="color: #2a5045;">"&#20174;dida&#33719;&#21462;&#25152;&#26377;&#20219;&#21153;&#24182;&#21024;&#38500;&#20113;&#31471;&#20219;&#21153;."</span>
+    <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">interactive</span><span style="color: #dd22dd;">)</span>
+    <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">unless</span> <span style="color: #008899;">(</span>dida--check-token<span style="color: #008899;">)</span>
+      <span style="color: #008899;">(</span>dida-authorize<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+    <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>projects <span style="color: #808000;">(</span>dida-get-user-project<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+          <span style="color: #972500;">(</span>result-list nil<span style="color: #972500;">)</span><span style="color: #008899;">)</span> <span style="color: #595959;">;; </span><span style="color: #595959;">&#25913;&#29992;&#21015;&#34920;&#26469;&#25910;&#38598;&#25152;&#26377;&#30340; task &#25991;&#26412;</span>
+      <span style="color: #008899;">(</span><span style="color: #531ab6;">dolist</span> <span style="color: #972500;">(</span>project projects<span style="color: #972500;">)</span>
+        <span style="color: #972500;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>project-id <span style="color: #008900;">(</span>alist-get 'id project<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+               <span style="color: #531ab6;">(</span>project-name <span style="color: #008900;">(</span>alist-get 'name project<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+               <span style="color: #531ab6;">(</span>project-data <span style="color: #008900;">(</span>dida-get-project-by-id-with-data project-id<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+               <span style="color: #531ab6;">(</span>tasks <span style="color: #008900;">(</span>append <span style="color: #3548cf;">(</span>alist-get 'tasks project-data<span style="color: #3548cf;">)</span> nil<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+          <span style="color: #595959;">;; </span><span style="color: #595959;">&#36941;&#21382;&#27599;&#20010;&#20219;&#21153;</span>
+          <span style="color: #808000;">(</span><span style="color: #531ab6;">dolist</span> <span style="color: #531ab6;">(</span>task tasks<span style="color: #531ab6;">)</span>
+            <span style="color: #595959;">;; </span><span style="color: #595959;">&#32473;&#29983;&#25104;&#30340;&#25991;&#26412;&#24320;&#22836;&#21152;&#19978; "**** " &#24182;&#25910;&#38598;&#21040; result-list &#20013;</span>
+            <span style="color: #531ab6;">(</span><span style="color: #531ab6;">push</span> <span style="color: #008900;">(</span>concat <span style="color: #3548cf;">"**** "</span> <span style="color: #3548cf;">(</span>dida-simple-task task<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span> result-list<span style="color: #531ab6;">)</span>
+            <span style="color: #595959;">;; </span><span style="color: #595959;">&#23436;&#25104;&#20113;&#31471;&#20219;&#21153;</span>
+            <span style="color: #531ab6;">(</span>dida-complete-task project-id <span style="color: #008900;">(</span>alist-get 'id task<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+      <span style="color: #595959;">;; </span><span style="color: #595959;">&#29992; "\n" &#36830;&#25509;&#27599;&#20010;&#20219;&#21153;&#22359;</span>
+      <span style="color: #008899;">(</span>mapconcat #'identity result-list <span style="color: #3548cf;">"\n"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 
-<span style="color: #cb1aaa;">(</span><span style="color: #8e44f3;">setq</span> org-capture-templates
-      <span style="color: #8e44f3;">(</span>doct '<span style="color: #a45f22;">(</span><span style="color: #1f6fbf;">(</span><span style="color: #b6532f;">"Dida Fetch"</span> <span style="color: #ba35af;">:keys</span> <span style="color: #b6532f;">"d"</span>
-               <span style="color: #ba35af;">:file</span> my-org-timeline
-               <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#20351;&#29992;&#20320;&#25351;&#23450;&#30340;&#23450;&#20301;&#20989;&#25968;
-</span>               <span style="color: #ba35af;">:function</span> org-reverse-datetree-goto-date-in-file
-               <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#21160;&#24577;&#35843;&#29992;&#36873;&#25321;&#20989;&#25968;&#33719;&#21462;&#20869;&#23481;
-</span>               <span style="color: #ba35af;">:template</span> <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">lambda</span> <span style="color: #5250ef;">()</span> <span style="color: #5250ef;">(</span><span style="color: #8e44f3;">or</span> <span style="color: #d50f7f;">(</span>dida-cut<span style="color: #d50f7f;">)</span> <span style="color: #b6532f;">""</span><span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
-               <span style="color: #ba35af;">:type</span> plain
-               <span style="color: #9a5f6a;">;; </span><span style="color: #9a5f6a;">&#25429;&#33719;&#21518;&#31435;&#21363;&#23436;&#25104;&#65292;&#19981;&#38656;&#35201;&#25163;&#21160;&#25353; C-c C-c (&#21487;&#36873;)
-</span>               <span style="color: #ba35af;">:immediate-finish</span> t<span style="color: #1f6fbf;">)</span>
-              <span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span><span style="color: #cb1aaa;">)</span>
+<span style="color: #000000;">(</span><span style="color: #531ab6;">setq</span> org-capture-templates
+      <span style="color: #dd22dd;">(</span>doct '<span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #3548cf;">"Dida Fetch"</span> <span style="color: #8f0075;">:keys</span> <span style="color: #3548cf;">"d"</span>
+               <span style="color: #8f0075;">:file</span> my-org-timeline
+               <span style="color: #595959;">;; </span><span style="color: #595959;">&#20351;&#29992;&#20320;&#25351;&#23450;&#30340;&#23450;&#20301;&#20989;&#25968;</span>
+               <span style="color: #8f0075;">:function</span> org-reverse-datetree-goto-date-in-file
+               <span style="color: #595959;">;; </span><span style="color: #595959;">&#21160;&#24577;&#35843;&#29992;&#36873;&#25321;&#20989;&#25968;&#33719;&#21462;&#20869;&#23481;</span>
+               <span style="color: #8f0075;">:template</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">lambda</span> <span style="color: #531ab6;">()</span> <span style="color: #531ab6;">(</span><span style="color: #531ab6;">or</span> <span style="color: #008900;">(</span>dida-cut<span style="color: #008900;">)</span> <span style="color: #3548cf;">""</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+               <span style="color: #8f0075;">:type</span> plain
+               <span style="color: #595959;">;; </span><span style="color: #595959;">&#25429;&#33719;&#21518;&#31435;&#21363;&#23436;&#25104;&#65292;&#19981;&#38656;&#35201;&#25163;&#21160;&#25353; C-c C-c (&#21487;&#36873;)</span>
+               <span style="color: #8f0075;">:immediate-finish</span> t<span style="color: #972500;">)</span>
+              <span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>
@@ -188,13 +188,13 @@
 将 <code>dida.org</code> 中的事项refile到其他文件并把滴答清单该事项删除的函数<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #cb1aaa;">(</span><span style="color: #8e44f3;">defun</span> <span style="color: #cb1aaa;">akirak/org-refile-to-cpb-today</span> <span style="color: #8e44f3;">(</span>arg<span style="color: #8e44f3;">)</span>
-  <span style="color: #5f60bf;">"&#26681;&#25454;&#19981;&#21516;&#24773;&#20917;&#35843;&#25972;refile&#30340;&#30446;&#26631;"</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">interactive</span> <span style="color: #b6532f;">"P"</span><span style="color: #8e44f3;">)</span>
-  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">when</span> <span style="color: #a45f22;">(</span>org-entry-is-todo-p<span style="color: #a45f22;">)</span>
-      <span style="color: #9a5f6a;">;;</span><span style="color: #9a5f6a;">dida&#30340;&#35201;&#20808;&#21457;&#36865;delete
-</span>      <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">when</span> <span style="color: #1f6fbf;">(</span>string-match <span style="color: #b6532f;">"dida.org"</span> <span style="color: #ba35af;">(</span>buffer-file-name<span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span>
-        <span style="color: #1f6fbf;">(</span>dida-delete-task <span style="color: #ba35af;">(</span>org-entry-get nil <span style="color: #b6532f;">"DIDA_PID"</span> t<span style="color: #ba35af;">)</span> <span style="color: #ba35af;">(</span>org-entry-get nil <span style="color: #b6532f;">"DIDA_TID"</span><span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span><span style="color: #cb1aaa;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">akirak/org-refile-to-cpb-today</span> <span style="color: #dd22dd;">(</span>arg<span style="color: #dd22dd;">)</span>
+  <span style="color: #2a5045;">"&#26681;&#25454;&#19981;&#21516;&#24773;&#20917;&#35843;&#25972;refile&#30340;&#30446;&#26631;"</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">interactive</span> <span style="color: #3548cf;">"P"</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">when</span> <span style="color: #008899;">(</span>org-entry-is-todo-p<span style="color: #008899;">)</span>
+      <span style="color: #595959;">;;</span><span style="color: #595959;">dida&#30340;&#35201;&#20808;&#21457;&#36865;delete</span>
+      <span style="color: #008899;">(</span><span style="color: #531ab6;">when</span> <span style="color: #972500;">(</span>string-match <span style="color: #3548cf;">"dida.org"</span> <span style="color: #808000;">(</span>buffer-file-name<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+        <span style="color: #972500;">(</span>dida-delete-task <span style="color: #808000;">(</span>org-entry-get nil <span style="color: #3548cf;">"DIDA_PID"</span> t<span style="color: #808000;">)</span> <span style="color: #808000;">(</span>org-entry-get nil <span style="color: #3548cf;">"DIDA_TID"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>

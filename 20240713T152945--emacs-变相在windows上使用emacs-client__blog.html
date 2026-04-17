@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-03-25 周三 14:19 -->
+<!-- 2026-04-17 周五 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-变相在windows上使用emacs-client</title>
@@ -30,18 +30,18 @@
 
 <div class="org-src-container">
 <pre class="src src-elisp"><code>
-<span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/set-gui</span> <span style="color: #9f4e74;">()</span>
-  <span style="color: #9f4e74;">(</span>set-font <span style="color: #a04650;">"Cascadia Code"</span> <span style="color: #a04650;">"HarmonyOS Sans SC"</span> 32 32<span style="color: #9f4e74;">)</span>
-  <span style="color: #9f4e74;">(</span>set-frame-position <span style="color: #5059c0;">(</span>selected-frame<span style="color: #5059c0;">)</span> 100 100<span style="color: #9f4e74;">)</span>
-  <span style="color: #475d80;">;;</span><span style="color: #475d80;">&#35774;&#32622;&#23485;&#21644;&#39640;,&#25105;&#30340;&#21313;&#23544;&#23567;&#26412;&#26159;110,33,&#22823;&#23478;&#21487;&#20197;&#35843;&#25972;&#36825;&#20010;&#21442;&#25968;&#26469;&#36866;&#24212;&#33258;&#24049;&#23631;&#24149;&#22823;&#23567;
-</span>  <span style="color: #9f4e74;">(</span>set-frame-width <span style="color: #5059c0;">(</span>selected-frame<span style="color: #5059c0;">)</span> 170<span style="color: #9f4e74;">)</span>
-  <span style="color: #9f4e74;">(</span>set-frame-height <span style="color: #5059c0;">(</span>selected-frame<span style="color: #5059c0;">)</span> 30<span style="color: #9f4e74;">)</span>
-<span style="color: #906045;">)</span>
-<span style="color: #906045;">(</span><span style="color: #906045;">setq</span> server-auth-dir <span style="color: #a04650;">"~/emacs-local"</span><span style="color: #906045;">)</span>
-<span style="color: #906045;">(</span><span style="color: #906045;">if</span> <span style="color: #9f4e74;">(</span>not <span style="color: #5059c0;">(</span>server-running-p<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
-    <span style="color: #9f4e74;">(</span><span style="color: #906045;">progn</span> <span style="color: #5059c0;">(</span>server-start<span style="color: #5059c0;">)</span>
-           <span style="color: #5059c0;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #5059c0;">)</span>
-           <span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/set-gui</span> <span style="color: #dd22dd;">()</span>
+  <span style="color: #dd22dd;">(</span>set-font <span style="color: #3548cf;">"Cascadia Code"</span> <span style="color: #3548cf;">"HarmonyOS Sans SC"</span> 32 32<span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>set-frame-position <span style="color: #008899;">(</span>selected-frame<span style="color: #008899;">)</span> 100 100<span style="color: #dd22dd;">)</span>
+  <span style="color: #595959;">;;</span><span style="color: #595959;">&#35774;&#32622;&#23485;&#21644;&#39640;,&#25105;&#30340;&#21313;&#23544;&#23567;&#26412;&#26159;110,33,&#22823;&#23478;&#21487;&#20197;&#35843;&#25972;&#36825;&#20010;&#21442;&#25968;&#26469;&#36866;&#24212;&#33258;&#24049;&#23631;&#24149;&#22823;&#23567;</span>
+  <span style="color: #dd22dd;">(</span>set-frame-width <span style="color: #008899;">(</span>selected-frame<span style="color: #008899;">)</span> 170<span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>set-frame-height <span style="color: #008899;">(</span>selected-frame<span style="color: #008899;">)</span> 30<span style="color: #dd22dd;">)</span>
+<span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #531ab6;">setq</span> server-auth-dir <span style="color: #3548cf;">"~/emacs-local"</span><span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #531ab6;">if</span> <span style="color: #dd22dd;">(</span>not <span style="color: #008899;">(</span>server-running-p<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+    <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">progn</span> <span style="color: #008899;">(</span>server-start<span style="color: #008899;">)</span>
+           <span style="color: #008899;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #008899;">)</span>
+           <span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 
@@ -58,7 +58,7 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span>global-set-key <span style="color: #9f4e74;">(</span>kbd <span style="color: #a04650;">"C-x C-c"</span><span style="color: #9f4e74;">)</span> <span style="color: #9f4e74;">(</span><span style="color: #906045;">lambda</span> <span style="color: #5059c0;">()</span> <span style="color: #5059c0;">(</span><span style="color: #906045;">interactive</span><span style="color: #5059c0;">)</span> <span style="color: #5059c0;">(</span>make-frame-invisible nil t<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span>global-set-key <span style="color: #dd22dd;">(</span>kbd <span style="color: #3548cf;">"C-x C-c"</span><span style="color: #dd22dd;">)</span> <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">lambda</span> <span style="color: #008899;">()</span> <span style="color: #008899;">(</span><span style="color: #531ab6;">interactive</span><span style="color: #008899;">)</span> <span style="color: #008899;">(</span>make-frame-invisible nil t<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 
@@ -82,15 +82,15 @@
 创建emacs-org-protocol.bat文件，内容如下：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-bat"><code>@<span style="color: #97508f;">echo</span> off
-<span style="color: #97508f;">echo</span> REGEDIT4 &gt;t1.reg
-<span style="color: #97508f;">echo</span> <span style="color: #906045;">[</span>HKEY_CLASSES_ROOT\org-protocol<span style="color: #906045;">]</span> &gt;&gt;e1.reg
-<span style="color: #97508f;">echo</span> @=<span style="color: #a04650;">"URL:Org Protocol"</span> &gt;&gt;e1.reg
-<span style="color: #97508f;">echo</span> <span style="color: #a04650;">"URL Protocol"</span>=<span style="color: #a04650;">""</span> &gt;&gt;e1.reg
-<span style="color: #97508f;">echo</span> <span style="color: #906045;">[</span>HKEY_CLASSES_ROOT\org-protocol\shell<span style="color: #906045;">]</span> &gt;&gt;e1.reg
-<span style="color: #97508f;">echo</span> <span style="color: #906045;">[</span>HKEY_CLASSES_ROOT\org-protocol\shell\open<span style="color: #906045;">]</span> &gt;&gt;e1.reg
-<span style="color: #97508f;">echo</span> <span style="color: #906045;">[</span>HKEY_CLASSES_ROOT\org-protocol\shell\open\command<span style="color: #906045;">]</span> &gt;&gt;e1.reg
-<span style="color: #97508f;">echo</span> @=<span style="color: #a04650;">"\"</span>D:\\Emacs\\bin\\emacsclientw.exe\<span style="color: #a04650;">"  -</span><span style="color: #a04650;">f</span><span style="color: #a04650;"> %APPDATA%\emacs-local\server \"</span>%%<span style="color: #9f4e74;">1</span>\<span style="color: #a04650;">""</span> &gt;&gt;e1.reg
+<pre class="src src-bat"><code>@<span style="color: #8f0075;">echo</span> off
+<span style="color: #8f0075;">echo</span> REGEDIT4 &gt;t1.reg
+<span style="color: #8f0075;">echo</span> <span style="color: #000000;">[</span>HKEY_CLASSES_ROOT\org-protocol<span style="color: #000000;">]</span> &gt;&gt;e1.reg
+<span style="color: #8f0075;">echo</span> @=<span style="color: #3548cf;">"URL:Org Protocol"</span> &gt;&gt;e1.reg
+<span style="color: #8f0075;">echo</span> <span style="color: #3548cf;">"URL Protocol"</span>=<span style="color: #3548cf;">""</span> &gt;&gt;e1.reg
+<span style="color: #8f0075;">echo</span> <span style="color: #000000;">[</span>HKEY_CLASSES_ROOT\org-protocol\shell<span style="color: #000000;">]</span> &gt;&gt;e1.reg
+<span style="color: #8f0075;">echo</span> <span style="color: #000000;">[</span>HKEY_CLASSES_ROOT\org-protocol\shell\open<span style="color: #000000;">]</span> &gt;&gt;e1.reg
+<span style="color: #8f0075;">echo</span> <span style="color: #000000;">[</span>HKEY_CLASSES_ROOT\org-protocol\shell\open\command<span style="color: #000000;">]</span> &gt;&gt;e1.reg
+<span style="color: #8f0075;">echo</span> @=<span style="color: #3548cf;">"\"</span>D:\\Emacs\\bin\\emacsclientw.exe\<span style="color: #3548cf;">"  -</span><span style="color: #3548cf;">f</span><span style="color: #3548cf;"> %APPDATA%\emacs-local\server \"</span>%%<span style="color: #005e8b;">1</span>\<span style="color: #3548cf;">""</span> &gt;&gt;e1.reg
 </code></pre>
 </div>
 
@@ -105,37 +105,37 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #475d80;">;; </span><span style="color: #475d80;">&#36825;&#37324;&#38754;&#21482;&#35774;&#32622;&#23383;&#20307;
-</span><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/set-gui</span> <span style="color: #9f4e74;">()</span>
-  <span style="color: #9f4e74;">(</span><span style="color: #906045;">if</span> <span style="color: #5059c0;">(</span>eq system-type 'darwin<span style="color: #5059c0;">)</span>
-      <span style="color: #5059c0;">(</span><span style="color: #906045;">progn</span>
-        <span style="color: #475d80;">;; </span><span style="color: #475d80;">(set-font "Cascadia Code" "HarmonyOS Sans SC" 18 18)
-</span>        <span style="color: #a83058;">(</span>set-font <span style="color: #a04650;">"Cascadia Code NF"</span> <span style="color: #a04650;">"FangSongCode"</span> 20 20<span style="color: #a83058;">)</span>
-        <span style="color: #a83058;">(</span>toggle-frame-maximized<span style="color: #a83058;">)</span>
-        <span style="color: #475d80;">;; </span><span style="color: #475d80;">(add-to-list 'default-frame-alist '(undecorated . t))
-</span>        <span style="color: #a83058;">(</span>sis-set-english<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
-    <span style="color: #5059c0;">(</span><span style="color: #906045;">progn</span>
-      <span style="color: #a83058;">(</span><span style="color: #906045;">cond</span> <span style="color: #7755b4;">(</span><span style="color: #a05900;">(</span>string= <span style="color: #3060af;">(</span>system-name<span style="color: #3060af;">)</span> <span style="color: #a04650;">"DZB-114514"</span><span style="color: #a05900;">)</span><span style="color: #475d80;">;;</span><span style="color: #475d80;">OFFICE
-</span>             <span style="color: #a05900;">(</span>set-font <span style="color: #a04650;">"Cascadia Code NF SemiLight"</span> <span style="color: #a04650;">"FangSongCode"</span> 40 40<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
-            <span style="color: #7755b4;">(</span><span style="color: #a05900;">(</span>string= <span style="color: #3060af;">(</span>system-name<span style="color: #3060af;">)</span> <span style="color: #a04650;">"DESKTOP-FR36SPM"</span><span style="color: #a05900;">)</span><span style="color: #475d80;">;;</span><span style="color: #475d80;">H
-</span>             <span style="color: #a05900;">(</span>set-font <span style="color: #a04650;">"Cascadia Code NF SemiLight"</span> <span style="color: #a04650;">"FangSongCode"</span> 40 40<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-      <span style="color: #a83058;">(</span><span style="color: #906045;">let*</span> <span style="color: #7755b4;">(</span><span style="color: #a05900;">(</span>display-width <span style="color: #3060af;">(</span>display-pixel-width<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
-             <span style="color: #a05900;">(</span>display-height <span style="color: #3060af;">(</span>display-pixel-height<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
-             <span style="color: #a05900;">(</span>frame-width <span style="color: #3060af;">(</span>floor <span style="color: #87591f;">(</span>* 0.9 display-width<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
-             <span style="color: #a05900;">(</span>frame-height <span style="color: #3060af;">(</span>floor <span style="color: #87591f;">(</span>* 0.8 display-height<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
-             <span style="color: #a05900;">(</span>left-offset <span style="color: #3060af;">(</span>floor <span style="color: #87591f;">(</span>* 0.05 display-width<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
-             <span style="color: #a05900;">(</span>top-offset <span style="color: #3060af;">(</span>floor <span style="color: #87591f;">(</span>* 0.05 display-height<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
-        <span style="color: #7755b4;">(</span>set-frame-position <span style="color: #a05900;">(</span>selected-frame<span style="color: #a05900;">)</span> left-offset top-offset<span style="color: #7755b4;">)</span>
-        <span style="color: #7755b4;">(</span>set-frame-size <span style="color: #a05900;">(</span>selected-frame<span style="color: #a05900;">)</span> frame-width frame-height t<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-      <span style="color: #a83058;">(</span>sis-set-english<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
-    <span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
-<span style="color: #906045;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #906045;">)</span>
-<span style="color: #475d80;">;; </span><span style="color: #475d80;">&#24378;&#21046;&#21024;&#38500;&#26087;server&#25991;&#20214;&#36991;&#20813;&#21344;&#29992;
-</span><span style="color: #906045;">(</span>server-force-delete<span style="color: #906045;">)</span>
-<span style="color: #475d80;">;; </span><span style="color: #475d80;">&#30452;&#25509;&#21551;&#21160;&#26381;&#21153;&#22120;&#65292;&#26080;&#35270;&#35686;&#21578;
-</span><span style="color: #906045;">(</span><span style="color: #906045;">ignore-errors</span> <span style="color: #9f4e74;">(</span>server-start<span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
-<span style="color: #475d80;">;; </span><span style="color: #475d80;">&#24403;&#21069;&#31383;&#21475;&#38544;&#34255;
-</span><span style="color: #906045;">(</span>make-frame-invisible nil t<span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #595959;">;; </span><span style="color: #595959;">&#36825;&#37324;&#38754;&#21482;&#35774;&#32622;&#23383;&#20307;</span>
+<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/set-gui</span> <span style="color: #dd22dd;">()</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">if</span> <span style="color: #008899;">(</span>eq system-type 'darwin<span style="color: #008899;">)</span>
+      <span style="color: #008899;">(</span><span style="color: #531ab6;">progn</span>
+        <span style="color: #595959;">;; </span><span style="color: #595959;">(set-font "Cascadia Code" "HarmonyOS Sans SC" 18 18)</span>
+        <span style="color: #972500;">(</span>set-font <span style="color: #3548cf;">"Cascadia Code NF"</span> <span style="color: #3548cf;">"FangSongCode"</span> 20 20<span style="color: #972500;">)</span>
+        <span style="color: #972500;">(</span>toggle-frame-maximized<span style="color: #972500;">)</span>
+        <span style="color: #595959;">;; </span><span style="color: #595959;">(add-to-list 'default-frame-alist '(undecorated . t))</span>
+        <span style="color: #972500;">(</span>sis-set-english<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">progn</span>
+      <span style="color: #972500;">(</span><span style="color: #531ab6;">cond</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>string= <span style="color: #008900;">(</span>system-name<span style="color: #008900;">)</span> <span style="color: #3548cf;">"DZB-114514"</span><span style="color: #531ab6;">)</span><span style="color: #595959;">;;</span><span style="color: #595959;">OFFICE</span>
+             <span style="color: #531ab6;">(</span>set-font <span style="color: #3548cf;">"Cascadia Code NF SemiLight"</span> <span style="color: #3548cf;">"FangSongCode"</span> 40 40<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+            <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>string= <span style="color: #008900;">(</span>system-name<span style="color: #008900;">)</span> <span style="color: #3548cf;">"DESKTOP-FR36SPM"</span><span style="color: #531ab6;">)</span><span style="color: #595959;">;;</span><span style="color: #595959;">H</span>
+             <span style="color: #531ab6;">(</span>set-font <span style="color: #3548cf;">"Cascadia Code NF SemiLight"</span> <span style="color: #3548cf;">"FangSongCode"</span> 40 40<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>display-width <span style="color: #008900;">(</span>display-pixel-width<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+             <span style="color: #531ab6;">(</span>display-height <span style="color: #008900;">(</span>display-pixel-height<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+             <span style="color: #531ab6;">(</span>frame-width <span style="color: #008900;">(</span>floor <span style="color: #3548cf;">(</span>* 0.9 display-width<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+             <span style="color: #531ab6;">(</span>frame-height <span style="color: #008900;">(</span>floor <span style="color: #3548cf;">(</span>* 0.8 display-height<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+             <span style="color: #531ab6;">(</span>left-offset <span style="color: #008900;">(</span>floor <span style="color: #3548cf;">(</span>* 0.05 display-width<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+             <span style="color: #531ab6;">(</span>top-offset <span style="color: #008900;">(</span>floor <span style="color: #3548cf;">(</span>* 0.05 display-height<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+        <span style="color: #808000;">(</span>set-frame-position <span style="color: #531ab6;">(</span>selected-frame<span style="color: #531ab6;">)</span> left-offset top-offset<span style="color: #808000;">)</span>
+        <span style="color: #808000;">(</span>set-frame-size <span style="color: #531ab6;">(</span>selected-frame<span style="color: #531ab6;">)</span> frame-width frame-height t<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span>sis-set-english<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    <span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #000000;">)</span>
+<span style="color: #595959;">;; </span><span style="color: #595959;">&#24378;&#21046;&#21024;&#38500;&#26087;server&#25991;&#20214;&#36991;&#20813;&#21344;&#29992;</span>
+<span style="color: #000000;">(</span>server-force-delete<span style="color: #000000;">)</span>
+<span style="color: #595959;">;; </span><span style="color: #595959;">&#30452;&#25509;&#21551;&#21160;&#26381;&#21153;&#22120;&#65292;&#26080;&#35270;&#35686;&#21578;</span>
+<span style="color: #000000;">(</span><span style="color: #531ab6;">ignore-errors</span> <span style="color: #dd22dd;">(</span>server-start<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #595959;">;; </span><span style="color: #595959;">&#24403;&#21069;&#31383;&#21475;&#38544;&#34255;</span>
+<span style="color: #000000;">(</span>make-frame-invisible nil t<span style="color: #000000;">)</span>
 </code></pre>
 </div>
 

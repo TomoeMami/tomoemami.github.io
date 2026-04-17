@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-03-25 周三 14:19 -->
+<!-- 2026-04-17 周五 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-通过API为beancount添加黄金价格</title>
@@ -42,13 +42,13 @@ beancount中，我的黄金货币为 <code>AU</code> ，默认货币为 <code>CN
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">let</span> <span style="color: #9f4e74;">(</span><span style="color: #5059c0;">(</span>prev <span style="color: #a83058;">(</span>org-read-date nil nil <span style="color: #a04650;">"-1d"</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
-      <span style="color: #5059c0;">(</span>result <span style="color: #a04650;">""</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
-  <span style="color: #9f4e74;">(</span><span style="color: #906045;">let</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>res <span style="color: #7755b4;">(</span>plz 'get <span style="color: #a05900;">(</span>concat <span style="color: #a04650;">"http://web.juhe.cn/finance/gold/shgold?key=KEY&amp;v=1"</span><span style="color: #a05900;">)</span>
-               <span style="color: #97508f;">:as</span> #'json-read<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
-    <span style="color: #5059c0;">(</span>concat prev <span style="color: #a04650;">" price AU "</span>
-            <span style="color: #a83058;">(</span>map-nested-elt res '<span style="color: #7755b4;">(</span>result 0 Au100g yespri<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-            <span style="color: #a04650;">" CN"</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">let</span> <span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span>prev <span style="color: #972500;">(</span>org-read-date nil nil <span style="color: #3548cf;">"-1d"</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+      <span style="color: #008899;">(</span>result <span style="color: #3548cf;">""</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>res <span style="color: #808000;">(</span>plz 'get <span style="color: #531ab6;">(</span>concat <span style="color: #3548cf;">"http://web.juhe.cn/finance/gold/shgold?key=KEY&amp;v=1"</span><span style="color: #531ab6;">)</span>
+               <span style="color: #8f0075;">:as</span> #'json-read<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span>concat prev <span style="color: #3548cf;">" price AU "</span>
+            <span style="color: #972500;">(</span>map-nested-elt res '<span style="color: #808000;">(</span>result 0 Au100g yespri<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+            <span style="color: #3548cf;">" CN"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 
@@ -56,7 +56,7 @@ beancount中，我的黄金货币为 <code>AU</code> ，默认货币为 <code>CN
 运行之后的结果：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-beancount"><code><span style="color: #5059c0;">2026-01-07</span> <span style="color: #906045;">price</span> AU <span style="color: #4f204f; background-color: #f3eddf;">1000.24 CN</span>
+<pre class="src src-beancount"><code><span style="color: #0000b0;">2026-01-07</span> <span style="color: #531ab6;">price</span> AU <span style="color: #000000; background-color: #ffffff;">1000.24 CN</span>
 </code></pre>
 </div>
 
@@ -65,8 +65,8 @@ beancount中，我的黄金货币为 <code>AU</code> ，默认货币为 <code>CN
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">use-package</span> plz <span style="color: #97508f;">:ensure</span> t <span style="color: #97508f;">:demand</span> t<span style="color: #906045;">)</span>
-<span style="color: #906045;">(</span><span style="color: #906045;">require</span> '<span style="color: #5059c0;">map</span><span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">use-package</span> plz <span style="color: #8f0075;">:ensure</span> t <span style="color: #8f0075;">:demand</span> t<span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #531ab6;">require</span> '<span style="color: #0000b0;">map</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>

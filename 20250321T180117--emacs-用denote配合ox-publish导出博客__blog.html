@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-03-25 周三 14:19 -->
+<!-- 2026-04-17 周五 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用denote配合ox-publish导出博客</title>
@@ -43,9 +43,9 @@
 <h2 id="org4159484"><span class="section-number-2">1.</span> 确定导出文件范围</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/ox-files</span> <span style="color: #9f4e74;">()</span>
-  <span style="color: #7a5c50;">"Return a list of note files containing '</span><span style="color: #5059c0;">blog</span><span style="color: #7a5c50;">' tag."</span>
-  <span style="color: #9f4e74;">(</span>denote-directory-files <span style="color: #a04650;">"_blog"</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/ox-files</span> <span style="color: #dd22dd;">()</span>
+  <span style="color: #2a5045;">"Return a list of note files containing '</span><span style="color: #0000b0;">blog</span><span style="color: #2a5045;">' tag."</span>
+  <span style="color: #dd22dd;">(</span>denote-directory-files <span style="color: #3548cf;">"_blog"</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 
 </code></pre>
 </div>
@@ -55,66 +55,66 @@
 <h2 id="org7547825"><span class="section-number-2">2.</span> 自定义导出配置</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/org-project-update</span> <span style="color: #9f4e74;">(</span><span style="color: #426340;">&amp;optional</span> ARG PRED<span style="color: #9f4e74;">)</span> <span style="color: #475d80;">;;</span><span style="color: #475d80;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional
-</span>  <span style="color: #9f4e74;">(</span><span style="color: #906045;">setq</span> org-publish-project-alist
-        `<span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span><span style="color: #a04650;">"posts"</span>
-           <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#24086;&#23376;&#37197;&#32622;&#39033;&#65292;&#30053;&#21435;&#20102;&#20854;&#20182;&#26080;&#20851;&#36873;&#39033;
-</span>           <span style="color: #97508f;">:exclude</span> <span style="color: #a04650;">".*"</span>
-           <span style="color: #97508f;">:include</span> ,<span style="color: #7755b4;">(</span>my/ox-files<span style="color: #7755b4;">)</span>
-           <span style="color: #97508f;">:auto-sitemap</span> t
-           <span style="color: #97508f;">:html-link-home</span> <span style="color: #a04650;">"index.html"</span>
-           <span style="color: #97508f;">:sitemap-filename</span> <span style="color: #a04650;">"index.org"</span>
-           <span style="color: #97508f;">:sitemap-title</span> <span style="color: #a04650;">"&#30446;&#24405;"</span>
-           <span style="color: #97508f;">:sitemap-format-entry</span> my/org-publish-sitemap-format-entry
-           <span style="color: #a83058;">)</span>
-          <span style="color: #a83058;">(</span><span style="color: #a04650;">"static"</span>
-           <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#38745;&#24577;&#36164;&#28304;&#37197;&#32622;&#39033;&#65292;&#30053;&#21435;)
-</span>          <span style="color: #7755b4;">(</span><span style="color: #a04650;">"rss"</span>
-           <span style="color: #475d80;">;; </span><span style="color: #475d80;">rss&#37197;&#32622;&#39033;&#65292;&#30053;&#21435;&#20102;&#20854;&#20182;&#26080;&#20851;&#36873;&#39033;
-</span>           <span style="color: #97508f;">:exclude</span> <span style="color: #a04650;">".*"</span>
-           <span style="color: #97508f;">:include</span> ,<span style="color: #a05900;">(</span>my/ox-files<span style="color: #a05900;">)</span>
-           <span style="color: #97508f;">:publishing-function</span> publish-posts-rss-feed
-           <span style="color: #97508f;">:auto-sitemap</span> t
-           <span style="color: #97508f;">:sitemap-function</span> posts-rss-feed
-           <span style="color: #97508f;">:sitemap-format-entry</span> format-posts-rss-feed-entry<span style="color: #7755b4;">)</span>
-          <span style="color: #7755b4;">(</span><span style="color: #a04650;">"personal-website"</span> <span style="color: #97508f;">:components</span> <span style="color: #a05900;">(</span><span style="color: #a04650;">"posts"</span> <span style="color: #a04650;">"static"</span> <span style="color: #a04650;">"rss"</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-project-update</span> <span style="color: #dd22dd;">(</span><span style="color: #005f5f;">&amp;optional</span> ARG PRED<span style="color: #dd22dd;">)</span> <span style="color: #595959;">;;</span><span style="color: #595959;">&#20351;&#29992;before&#20250;&#25509;&#25910;&#21040;&#21407;&#20989;&#25968;&#21442;&#25968;&#65292;&#22240;&#27492;&#38656;&#35201;&#28155;&#21152;optional</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">setq</span> org-publish-project-alist
+        `<span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #3548cf;">"posts"</span>
+           <span style="color: #595959;">;; </span><span style="color: #595959;">&#24086;&#23376;&#37197;&#32622;&#39033;&#65292;&#30053;&#21435;&#20102;&#20854;&#20182;&#26080;&#20851;&#36873;&#39033;</span>
+           <span style="color: #8f0075;">:exclude</span> <span style="color: #3548cf;">".*"</span>
+           <span style="color: #8f0075;">:include</span> ,<span style="color: #808000;">(</span>my/ox-files<span style="color: #808000;">)</span>
+           <span style="color: #8f0075;">:auto-sitemap</span> t
+           <span style="color: #8f0075;">:html-link-home</span> <span style="color: #3548cf;">"index.html"</span>
+           <span style="color: #8f0075;">:sitemap-filename</span> <span style="color: #3548cf;">"index.org"</span>
+           <span style="color: #8f0075;">:sitemap-title</span> <span style="color: #3548cf;">"&#30446;&#24405;"</span>
+           <span style="color: #8f0075;">:sitemap-format-entry</span> my/org-publish-sitemap-format-entry
+           <span style="color: #972500;">)</span>
+          <span style="color: #972500;">(</span><span style="color: #3548cf;">"static"</span>
+           <span style="color: #595959;">;; </span><span style="color: #595959;">&#38745;&#24577;&#36164;&#28304;&#37197;&#32622;&#39033;&#65292;&#30053;&#21435;)</span>
+          <span style="color: #808000;">(</span><span style="color: #3548cf;">"rss"</span>
+           <span style="color: #595959;">;; </span><span style="color: #595959;">rss&#37197;&#32622;&#39033;&#65292;&#30053;&#21435;&#20102;&#20854;&#20182;&#26080;&#20851;&#36873;&#39033;</span>
+           <span style="color: #8f0075;">:exclude</span> <span style="color: #3548cf;">".*"</span>
+           <span style="color: #8f0075;">:include</span> ,<span style="color: #531ab6;">(</span>my/ox-files<span style="color: #531ab6;">)</span>
+           <span style="color: #8f0075;">:publishing-function</span> publish-posts-rss-feed
+           <span style="color: #8f0075;">:auto-sitemap</span> t
+           <span style="color: #8f0075;">:sitemap-function</span> posts-rss-feed
+           <span style="color: #8f0075;">:sitemap-format-entry</span> format-posts-rss-feed-entry<span style="color: #808000;">)</span>
+          <span style="color: #808000;">(</span><span style="color: #3548cf;">"personal-website"</span> <span style="color: #8f0075;">:components</span> <span style="color: #531ab6;">(</span><span style="color: #3548cf;">"posts"</span> <span style="color: #3548cf;">"static"</span> <span style="color: #3548cf;">"rss"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
 
-<span style="color: #475d80;">;; </span><span style="color: #475d80;">&#20026;&#20102;&#30830;&#20445;&#21450;&#26102;&#21160;&#24577;&#26356;&#26032;&#23548;&#20986;&#25991;&#20214;&#30446;&#24405;&#65292;&#38656;&#35201;&#22312;&#23548;&#20986;&#20989;&#25968;&#25191;&#34892;&#21069;&#37325;&#26032;&#36171;&#20540;&#19968;&#27425; org-publish-project-alist
-</span><span style="color: #9f4e74;">(</span>advice-add 'org-export-dispatch <span style="color: #97508f;">:before</span> 'my/org-project-update<span style="color: #9f4e74;">)</span>
+<span style="color: #595959;">;; </span><span style="color: #595959;">&#20026;&#20102;&#30830;&#20445;&#21450;&#26102;&#21160;&#24577;&#26356;&#26032;&#23548;&#20986;&#25991;&#20214;&#30446;&#24405;&#65292;&#38656;&#35201;&#22312;&#23548;&#20986;&#20989;&#25968;&#25191;&#34892;&#21069;&#37325;&#26032;&#36171;&#20540;&#19968;&#27425; org-publish-project-alist</span>
+<span style="color: #dd22dd;">(</span>advice-add 'org-export-dispatch <span style="color: #8f0075;">:before</span> 'my/org-project-update<span style="color: #dd22dd;">)</span>
   
-<span style="color: #475d80;">;; </span><span style="color: #475d80;">&#20197;&#19979;&#20989;&#25968;&#29992;&#20110;&#20462;&#25913;index.html/index.org&#30340;&#38142;&#25509;
-</span><span style="color: #9f4e74;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/org-publish-sitemap-format-entry</span> <span style="color: #5059c0;">(</span>entry style project<span style="color: #5059c0;">)</span>
-  <span style="color: #7a5c50;">"&#26684;&#24335;&#21270;&#31449;&#28857;&#22320;&#22270;&#20013;&#30340;&#27599;&#20010;&#26465;&#30446;&#65292;&#26174;&#31034;&#26631;&#39064;&#12289;&#26085;&#26399;&#21644;&#25688;&#35201;&#12290;"</span>
-  <span style="color: #5059c0;">(</span><span style="color: #906045;">let*</span> <span style="color: #a83058;">(</span><span style="color: #7755b4;">(</span>title <span style="color: #a05900;">(</span><span style="color: #906045;">or</span> <span style="color: #3060af;">(</span>org-publish-find-title entry project<span style="color: #3060af;">)</span>
-                        <span style="color: #3060af;">(</span>file-name-base entry<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
-         <span style="color: #7755b4;">(</span>id <span style="color: #a05900;">(</span>denote-retrieve-filename-identifier <span style="color: #3060af;">(</span>file-name-base entry<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-    <span style="color: #a83058;">(</span>format <span style="color: #a04650;">"[[denote:%s][%s]]\n"</span>
+<span style="color: #595959;">;; </span><span style="color: #595959;">&#20197;&#19979;&#20989;&#25968;&#29992;&#20110;&#20462;&#25913;index.html/index.org&#30340;&#38142;&#25509;</span>
+<span style="color: #dd22dd;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-publish-sitemap-format-entry</span> <span style="color: #008899;">(</span>entry style project<span style="color: #008899;">)</span>
+  <span style="color: #2a5045;">"&#26684;&#24335;&#21270;&#31449;&#28857;&#22320;&#22270;&#20013;&#30340;&#27599;&#20010;&#26465;&#30446;&#65292;&#26174;&#31034;&#26631;&#39064;&#12289;&#26085;&#26399;&#21644;&#25688;&#35201;&#12290;"</span>
+  <span style="color: #008899;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>title <span style="color: #531ab6;">(</span><span style="color: #531ab6;">or</span> <span style="color: #008900;">(</span>org-publish-find-title entry project<span style="color: #008900;">)</span>
+                        <span style="color: #008900;">(</span>file-name-base entry<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+         <span style="color: #808000;">(</span>id <span style="color: #531ab6;">(</span>denote-retrieve-filename-identifier <span style="color: #008900;">(</span>file-name-base entry<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+    <span style="color: #972500;">(</span>format <span style="color: #3548cf;">"[[denote:%s][%s]]\n"</span>
             id
-            title<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
+            title<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
 
-<span style="color: #475d80;">;; </span><span style="color: #475d80;">&#20197;&#19979;&#20989;&#25968;&#29992;&#20110;&#20462;&#25913;rss.xml/rss.org&#30340;&#38142;&#25509;
-</span><span style="color: #9f4e74;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">publish-posts-rss-feed</span> <span style="color: #5059c0;">(</span>plist filename dir<span style="color: #5059c0;">)</span>
-  <span style="color: #7a5c50;">"Publish PLIST to RSS when FILENAME is rss.org.
-DIR is the location of the output."</span>
-  <span style="color: #5059c0;">(</span><span style="color: #906045;">if</span> <span style="color: #a83058;">(</span>equal <span style="color: #a04650;">"rss.org"</span> <span style="color: #7755b4;">(</span>file-name-nondirectory filename<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-      <span style="color: #a83058;">(</span>org-rss-publish-to-rss plist filename dir<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
+<span style="color: #595959;">;; </span><span style="color: #595959;">&#20197;&#19979;&#20989;&#25968;&#29992;&#20110;&#20462;&#25913;rss.xml/rss.org&#30340;&#38142;&#25509;</span>
+<span style="color: #dd22dd;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">publish-posts-rss-feed</span> <span style="color: #008899;">(</span>plist filename dir<span style="color: #008899;">)</span>
+  <span style="color: #2a5045;">"Publish PLIST to RSS when FILENAME is rss.org.</span>
+<span style="color: #2a5045;">DIR is the location of the output."</span>
+  <span style="color: #008899;">(</span><span style="color: #531ab6;">if</span> <span style="color: #972500;">(</span>equal <span style="color: #3548cf;">"rss.org"</span> <span style="color: #808000;">(</span>file-name-nondirectory filename<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span>org-rss-publish-to-rss plist filename dir<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
 
-<span style="color: #9f4e74;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">format-posts-rss-feed-entry</span> <span style="color: #5059c0;">(</span>entry _style project<span style="color: #5059c0;">)</span>
-  <span style="color: #7a5c50;">"Format ENTRY for the posts RSS feed in PROJECT."</span>
-  <span style="color: #5059c0;">(</span><span style="color: #906045;">let*</span> <span style="color: #a83058;">(</span>
-         <span style="color: #7755b4;">(</span>title <span style="color: #a05900;">(</span>org-publish-find-title entry project<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
-         <span style="color: #7755b4;">(</span>link <span style="color: #a05900;">(</span>concat <span style="color: #3060af;">(</span>denote-retrieve-filename-identifier <span style="color: #87591f;">(</span>file-name-sans-extension entry<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span> <span style="color: #a04650;">".html"</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
-         <span style="color: #7755b4;">(</span>pubdate <span style="color: #a05900;">(</span>format-time-string <span style="color: #3060af;">(</span>car org-time-stamp-formats<span style="color: #3060af;">)</span>
-                                      <span style="color: #3060af;">(</span>org-publish-find-date entry project<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-    <span style="color: #a83058;">(</span>message pubdate<span style="color: #a83058;">)</span>
-    <span style="color: #a83058;">(</span>format <span style="color: #a04650;">"%s
-:properties:
-:rss_permalink: %s
-:pubdate: %s
-:end:\n"</span>
+<span style="color: #dd22dd;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">format-posts-rss-feed-entry</span> <span style="color: #008899;">(</span>entry _style project<span style="color: #008899;">)</span>
+  <span style="color: #2a5045;">"Format ENTRY for the posts RSS feed in PROJECT."</span>
+  <span style="color: #008899;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #972500;">(</span>
+         <span style="color: #808000;">(</span>title <span style="color: #531ab6;">(</span>org-publish-find-title entry project<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+         <span style="color: #808000;">(</span>link <span style="color: #531ab6;">(</span>concat <span style="color: #008900;">(</span>denote-retrieve-filename-identifier <span style="color: #3548cf;">(</span>file-name-sans-extension entry<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span> <span style="color: #3548cf;">".html"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+         <span style="color: #808000;">(</span>pubdate <span style="color: #531ab6;">(</span>format-time-string <span style="color: #008900;">(</span>car org-time-stamp-formats<span style="color: #008900;">)</span>
+                                      <span style="color: #008900;">(</span>org-publish-find-date entry project<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+    <span style="color: #972500;">(</span>message pubdate<span style="color: #972500;">)</span>
+    <span style="color: #972500;">(</span>format <span style="color: #3548cf;">"%s</span>
+<span style="color: #3548cf;">:properties:</span>
+<span style="color: #3548cf;">:rss_permalink: %s</span>
+<span style="color: #3548cf;">:pubdate: %s</span>
+<span style="color: #3548cf;">:end:\n"</span>
             title
             link
-            pubdate<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
+            pubdate<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
 </code></pre>
 </div>
 
@@ -130,33 +130,33 @@ DIR is the location of the output."</span>
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-03-25T09:39:00">[2025-03-25 周二 09:39]</time></span><br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">denote-link-ol-export</span> <span style="color: #9f4e74;">(</span>link description format<span style="color: #9f4e74;">)</span>
-  <span style="color: #7a5c50;">"Modified version of `</span><span style="color: #5059c0;">denote-link-ol-export</span><span style="color: #7a5c50;">'.
-Retrieve ID, replace anchor with it
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">denote-link-ol-export</span> <span style="color: #dd22dd;">(</span>link description format<span style="color: #dd22dd;">)</span>
+  <span style="color: #2a5045;">"Modified version of `</span><span style="color: #0000b0;">denote-link-ol-export</span><span style="color: #2a5045;">'.</span>
+<span style="color: #2a5045;">Retrieve ID, replace anchor with it</span>
 
-Original docstring below:
-Export a `</span><span style="color: #5059c0;">denote:</span><span style="color: #7a5c50;">' link from Org files.
-The LINK, DESCRIPTION, and FORMAT are handled by the export
-backend."</span>
-  <span style="color: #9f4e74;">(</span><span style="color: #906045;">let*</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>path-id <span style="color: #7755b4;">(</span>denote-link--ol-resolve-link-to-target link <span style="color: #97508f;">:full-data</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-         <span style="color: #a83058;">(</span>path <span style="color: #7755b4;">(</span>file-relative-name <span style="color: #a05900;">(</span>nth 0 path-id<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-         <span style="color: #a83058;">(</span>id <span style="color: #7755b4;">(</span>nth 1 path-id<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-         <span style="color: #a83058;">(</span>query <span style="color: #7755b4;">(</span>nth 2 path-id<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-         <span style="color: #a83058;">(</span>anchor <span style="color: #7755b4;">(</span>file-name-sans-extension path<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-         <span style="color: #a83058;">(</span>desc <span style="color: #7755b4;">(</span><span style="color: #906045;">cond</span>
-                <span style="color: #a05900;">(</span>description<span style="color: #a05900;">)</span>
-                <span style="color: #a05900;">(</span>query <span style="color: #3060af;">(</span>format <span style="color: #a04650;">"denote:%s::%s"</span> id query<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
-                <span style="color: #a05900;">(</span>t <span style="color: #3060af;">(</span>concat <span style="color: #a04650;">"denote:"</span> id<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
-    <span style="color: #5059c0;">(</span><span style="color: #906045;">cond</span>
-     <span style="color: #a83058;">(</span><span style="color: #7755b4;">(</span>eq format 'html<span style="color: #7755b4;">)</span>
-      <span style="color: #7755b4;">(</span><span style="color: #906045;">if</span> query
-          <span style="color: #a05900;">(</span>format <span style="color: #a04650;">"&lt;a href=\"%s.html%s\"&gt;%s&lt;/a&gt;"</span> <span style="color: #3060af;">(</span>denote-retrieve-filename-identifier anchor<span style="color: #3060af;">)</span> query desc<span style="color: #a05900;">)</span>
-        <span style="color: #a05900;">(</span>format <span style="color: #a04650;">"&lt;a href=\"%s.html\"&gt;%s&lt;/a&gt;"</span> <span style="color: #3060af;">(</span>denote-retrieve-filename-identifier anchor<span style="color: #3060af;">)</span> desc<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-     <span style="color: #a83058;">(</span><span style="color: #7755b4;">(</span>eq format 'latex<span style="color: #7755b4;">)</span> <span style="color: #7755b4;">(</span>format <span style="color: #a04650;">"\\href{%s}{%s}"</span> <span style="color: #a05900;">(</span>replace-regexp-in-string <span style="color: #a04650;">"[\\{}$%&amp;_#~^]"</span> <span style="color: #a04650;">"\\\\\\&amp;"</span> path<span style="color: #a05900;">)</span> desc<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-     <span style="color: #a83058;">(</span><span style="color: #7755b4;">(</span>eq format 'texinfo<span style="color: #7755b4;">)</span> <span style="color: #7755b4;">(</span>format <span style="color: #a04650;">"@uref{%s,%s}"</span> path desc<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-     <span style="color: #a83058;">(</span><span style="color: #7755b4;">(</span>eq format 'ascii<span style="color: #7755b4;">)</span> <span style="color: #7755b4;">(</span>format <span style="color: #a04650;">"[%s] &lt;denote:%s&gt;"</span> desc path<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-     <span style="color: #a83058;">(</span><span style="color: #7755b4;">(</span>eq format 'md<span style="color: #7755b4;">)</span> <span style="color: #7755b4;">(</span>format <span style="color: #a04650;">"[%s](%s)"</span> desc path<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
-     <span style="color: #a83058;">(</span>t path<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+<span style="color: #2a5045;">Original docstring below:</span>
+<span style="color: #2a5045;">Export a `</span><span style="color: #0000b0;">denote:</span><span style="color: #2a5045;">' link from Org files.</span>
+<span style="color: #2a5045;">The LINK, DESCRIPTION, and FORMAT are handled by the export</span>
+<span style="color: #2a5045;">backend."</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>path-id <span style="color: #808000;">(</span>denote-link--ol-resolve-link-to-target link <span style="color: #8f0075;">:full-data</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>path <span style="color: #808000;">(</span>file-relative-name <span style="color: #531ab6;">(</span>nth 0 path-id<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>id <span style="color: #808000;">(</span>nth 1 path-id<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>query <span style="color: #808000;">(</span>nth 2 path-id<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>anchor <span style="color: #808000;">(</span>file-name-sans-extension path<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>desc <span style="color: #808000;">(</span><span style="color: #531ab6;">cond</span>
+                <span style="color: #531ab6;">(</span>description<span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span>query <span style="color: #008900;">(</span>format <span style="color: #3548cf;">"denote:%s::%s"</span> id query<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span>t <span style="color: #008900;">(</span>concat <span style="color: #3548cf;">"denote:"</span> id<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span><span style="color: #531ab6;">cond</span>
+     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq format 'html<span style="color: #808000;">)</span>
+      <span style="color: #808000;">(</span><span style="color: #531ab6;">if</span> query
+          <span style="color: #531ab6;">(</span>format <span style="color: #3548cf;">"&lt;a href=\"%s.html%s\"&gt;%s&lt;/a&gt;"</span> <span style="color: #008900;">(</span>denote-retrieve-filename-identifier anchor<span style="color: #008900;">)</span> query desc<span style="color: #531ab6;">)</span>
+        <span style="color: #531ab6;">(</span>format <span style="color: #3548cf;">"&lt;a href=\"%s.html\"&gt;%s&lt;/a&gt;"</span> <span style="color: #008900;">(</span>denote-retrieve-filename-identifier anchor<span style="color: #008900;">)</span> desc<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq format 'latex<span style="color: #808000;">)</span> <span style="color: #808000;">(</span>format <span style="color: #3548cf;">"\\href{%s}{%s}"</span> <span style="color: #531ab6;">(</span>replace-regexp-in-string <span style="color: #3548cf;">"[\\{}$%&amp;_#~^]"</span> <span style="color: #3548cf;">"\\\\\\&amp;"</span> path<span style="color: #531ab6;">)</span> desc<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq format 'texinfo<span style="color: #808000;">)</span> <span style="color: #808000;">(</span>format <span style="color: #3548cf;">"@uref{%s,%s}"</span> path desc<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq format 'ascii<span style="color: #808000;">)</span> <span style="color: #808000;">(</span>format <span style="color: #3548cf;">"[%s] &lt;denote:%s&gt;"</span> desc path<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq format 'md<span style="color: #808000;">)</span> <span style="color: #808000;">(</span>format <span style="color: #3548cf;">"[%s](%s)"</span> desc path<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #972500;">(</span>t path<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>

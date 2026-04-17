@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-03-25 周三 14:19 -->
+<!-- 2026-04-17 周五 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-配置简易org-cite</title>
@@ -90,12 +90,12 @@ howpublished = {[EB/OL]. (2021-12-21)[2021-12-21]. https://news.china.com/zw/new
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">if</span> <span style="color: #9f4e74;">(</span>string-match <span style="color: #a04650;">"&#35770;&#25991;"</span> docx-file<span style="color: #9f4e74;">)</span>
-    <span style="color: #9f4e74;">(</span><span style="color: #906045;">let</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>bib-file <span style="color: #a04650;">"path/to/your/bib&#25991;&#20214;.bib"</span><span style="color: #a83058;">)</span>
-          <span style="color: #a83058;">(</span>csl-file <span style="color: #a04650;">"path/to/your/csl&#25991;&#20214;.csl"</span><span style="color: #a83058;">)</span>
-          <span style="color: #a83058;">(</span>ref-title <span style="color: #a04650;">"&#21442;&#32771;&#25991;&#29486;"</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
-      <span style="color: #5059c0;">(</span>shell-command <span style="color: #a83058;">(</span>format <span style="color: #a04650;">"pandoc --from org+east_asian_line_breaks+citations -M reference-section-title=%s -N -C --bibliography=%s --csl=%s %s -o %s --reference-doc=%s"</span> ref-title bib-file csl-file <span style="color: #7755b4;">(</span>my/save-buffer-to-temp-org<span style="color: #7755b4;">)</span> docx-file template-file<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span>
-  <span style="color: #9f4e74;">(</span>shell-command <span style="color: #5059c0;">(</span>format <span style="color: #a04650;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #a83058;">(</span>my/save-buffer-to-temp-org<span style="color: #a83058;">)</span> docx-file template-file<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">if</span> <span style="color: #dd22dd;">(</span>string-match <span style="color: #3548cf;">"&#35770;&#25991;"</span> docx-file<span style="color: #dd22dd;">)</span>
+    <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>bib-file <span style="color: #3548cf;">"path/to/your/bib&#25991;&#20214;.bib"</span><span style="color: #972500;">)</span>
+          <span style="color: #972500;">(</span>csl-file <span style="color: #3548cf;">"path/to/your/csl&#25991;&#20214;.csl"</span><span style="color: #972500;">)</span>
+          <span style="color: #972500;">(</span>ref-title <span style="color: #3548cf;">"&#21442;&#32771;&#25991;&#29486;"</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+      <span style="color: #008899;">(</span>shell-command <span style="color: #972500;">(</span>format <span style="color: #3548cf;">"pandoc --from org+east_asian_line_breaks+citations -M reference-section-title=%s -N -C --bibliography=%s --csl=%s %s -o %s --reference-doc=%s"</span> ref-title bib-file csl-file <span style="color: #808000;">(</span>my/save-buffer-to-temp-org<span style="color: #808000;">)</span> docx-file template-file<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>shell-command <span style="color: #008899;">(</span>format <span style="color: #3548cf;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #972500;">(</span>my/save-buffer-to-temp-org<span style="color: #972500;">)</span> docx-file template-file<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 

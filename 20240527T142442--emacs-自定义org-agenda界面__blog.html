@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-03-25 周三 14:19 -->
+<!-- 2026-04-17 周五 11:04 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-自定义org-agenda界面</title>
@@ -33,20 +33,20 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">setq</span> org-agenda-span 7
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">setq</span> org-agenda-span 7
       org-agenda-start-on-weekday nil
-      org-agenda-start-day <span style="color: #a04650;">"1d"</span>
-      org-agenda-current-time-string <span style="color: #a04650;">"&#127776;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now"</span>
-      org-agenda-todo-list-sublevels nil <span style="color: #475d80;">;;</span><span style="color: #475d80;">&#20165;&#26174;&#31034;&#26368;&#39640;&#23618;todo
-</span>      org-agenda-skip-scheduled-if-done t
+      org-agenda-start-day <span style="color: #3548cf;">"1d"</span>
+      org-agenda-current-time-string <span style="color: #3548cf;">"&#127776;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now"</span>
+      org-agenda-todo-list-sublevels nil <span style="color: #595959;">;;</span><span style="color: #595959;">&#20165;&#26174;&#31034;&#26368;&#39640;&#23618;todo</span>
+      org-agenda-skip-scheduled-if-done t
       org-agenda-skip-deadline-if-done t
-      org-agenda-remove-tags t <span style="color: #475d80;">;;</span><span style="color: #475d80;">&#38544;&#34255;tags
-</span>      org-agenda-scheduled-leaders '<span style="color: #9f4e74;">(</span><span style="color: #a04650;">"&#9655;S: "</span> <span style="color: #a04650;">"&#9655;x%2d"</span><span style="color: #9f4e74;">)</span>
-      org-agenda-deadline-leaders '<span style="color: #9f4e74;">(</span><span style="color: #a04650;">"&#9654;D: "</span> <span style="color: #a04650;">"&#9654;+%2d"</span> <span style="color: #a04650;">"&#9654;-%2d"</span><span style="color: #9f4e74;">)</span>
-      org-agenda-time-grid '<span style="color: #9f4e74;">(</span><span style="color: #5059c0;">(</span>today require-timed remove-match<span style="color: #5059c0;">)</span>
-                             <span style="color: #5059c0;">(</span>000 900 1200 1800 2400<span style="color: #5059c0;">)</span>
-                             <span style="color: #a04650;">"   "</span> <span style="color: #a04650;">"&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;"</span><span style="color: #9f4e74;">)</span>
-      <span style="color: #906045;">)</span>
+      org-agenda-remove-tags t <span style="color: #595959;">;;</span><span style="color: #595959;">&#38544;&#34255;tags</span>
+      org-agenda-scheduled-leaders '<span style="color: #dd22dd;">(</span><span style="color: #3548cf;">"&#9655;S: "</span> <span style="color: #3548cf;">"&#9655;x%2d"</span><span style="color: #dd22dd;">)</span>
+      org-agenda-deadline-leaders '<span style="color: #dd22dd;">(</span><span style="color: #3548cf;">"&#9654;D: "</span> <span style="color: #3548cf;">"&#9654;+%2d"</span> <span style="color: #3548cf;">"&#9654;-%2d"</span><span style="color: #dd22dd;">)</span>
+      org-agenda-time-grid '<span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span>today require-timed remove-match<span style="color: #008899;">)</span>
+                             <span style="color: #008899;">(</span>000 900 1200 1800 2400<span style="color: #008899;">)</span>
+                             <span style="color: #3548cf;">"   "</span> <span style="color: #3548cf;">"&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;"</span><span style="color: #dd22dd;">)</span>
+      <span style="color: #000000;">)</span>
 </code></pre>
 </div>
 <div id="outline-container-orgc250309" class="outline-2">
@@ -57,18 +57,18 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #906045;">(</span><span style="color: #906045;">setq</span> org-agenda-custom-commands
-      '<span style="color: #9f4e74;">(</span>
-        <span style="color: #5059c0;">(</span><span style="color: #a04650;">"d"</span> <span style="color: #a04650;">"Daily Agenda"</span>
-         <span style="color: #a83058;">(</span><span style="color: #7755b4;">(</span>agenda <span style="color: #a04650;">""</span> <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span>org-agenda-span 1<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span> 
-          <span style="color: #7755b4;">(</span>agenda <span style="color: #a04650;">""</span> <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span>org-agenda-overriding-header <span style="color: #a04650;">"&#20020;&#36817;&#26085;&#31243;"</span><span style="color: #3060af;">)</span>
-                      <span style="color: #3060af;">(</span>org-agenda-span 10<span style="color: #3060af;">)</span>
-                      <span style="color: #3060af;">(</span>org-agenda-entry-types '<span style="color: #87591f;">(</span><span style="color: #97508f;">:timestamp</span> <span style="color: #97508f;">:sexp</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
-          <span style="color: #7755b4;">(</span>org-ql-block '<span style="color: #a05900;">(</span>and <span style="color: #3060af;">(</span>todo <span style="color: #a04650;">"TODO"</span><span style="color: #3060af;">)</span>
-                              <span style="color: #3060af;">(</span>tags <span style="color: #a04650;">"&#20182;&#20154;"</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
-                        <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span>org-ql-block-header <span style="color: #a04650;">"&#20182;&#20154;&#20107;&#39033;"</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
-          <span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
-        <span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">setq</span> org-agenda-custom-commands
+      '<span style="color: #dd22dd;">(</span>
+        <span style="color: #008899;">(</span><span style="color: #3548cf;">"d"</span> <span style="color: #3548cf;">"Daily Agenda"</span>
+         <span style="color: #972500;">(</span><span style="color: #808000;">(</span>agenda <span style="color: #3548cf;">""</span> <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>org-agenda-span 1<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span> 
+          <span style="color: #808000;">(</span>agenda <span style="color: #3548cf;">""</span> <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>org-agenda-overriding-header <span style="color: #3548cf;">"&#20020;&#36817;&#26085;&#31243;"</span><span style="color: #008900;">)</span>
+                      <span style="color: #008900;">(</span>org-agenda-span 10<span style="color: #008900;">)</span>
+                      <span style="color: #008900;">(</span>org-agenda-entry-types '<span style="color: #3548cf;">(</span><span style="color: #8f0075;">:timestamp</span> <span style="color: #8f0075;">:sexp</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+          <span style="color: #808000;">(</span>org-ql-block '<span style="color: #531ab6;">(</span>and <span style="color: #008900;">(</span>todo <span style="color: #3548cf;">"TODO"</span><span style="color: #008900;">)</span>
+                              <span style="color: #008900;">(</span>tags <span style="color: #3548cf;">"&#20182;&#20154;"</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+                        <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>org-ql-block-header <span style="color: #3548cf;">"&#20182;&#20154;&#20107;&#39033;"</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+          <span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+        <span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 
@@ -83,12 +83,12 @@
    9:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
   12:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
   16:12       &#127776;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now
-  16:30       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;<span style="color: #a05900;">[0/2]</span>
+  16:30       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;<span style="color: #a60000;">[0/2]</span>
   18:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
   18:30       &#9655;S:  TODO &#65336;&#65336;&#65336;
   20:00      *   ! &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
   20:00       &#9655;S:  TODO &#65336;MAA
-  20:00       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;<span style="color: #a05900;">[0/3]</span>
+  20:00       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;<span style="color: #a60000;">[0/3]</span>
   22:31       &#9655;S:  TODO &#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;&#65336;
   23:00          ! &#65336;&#65336;
   24:00       &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
