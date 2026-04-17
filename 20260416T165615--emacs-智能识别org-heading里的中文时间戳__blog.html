@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-17 周五 11:14 -->
+<!-- 2026-04-17 周五 15:54 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-智能识别org-heading里的中文时间戳</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-17 周五 11:14]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-17 周五 15:54]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -29,14 +29,14 @@
 </p>
 
 <p>
-一说到智能识别，恐怕2026年的读者已经想到利用 LLM 了吧。但是滴答清单的识别功能远早于 LLM 出现，且速度也很快，目测是基于正则的匹配。因此我在 LLM 的帮助下，写了一段函数，用于提取输入字符串中的中文时间戳并自动设置。<br>
+一说到智能识别，恐怕2026年的读者已经想到利用 LLM 了吧。但是滴答清单的识别功能远早于 LLM 出现，且速度远快于发送网络请求，目测是基于正则的匹配。因此我在 LLM 的帮助下，写了一段函数，用于提取输入字符串中的中文时间戳并自动设置。<br>
 </p>
-<div id="outline-container-orgd3b1c66" class="outline-2">
-<h2 id="orgd3b1c66"><span class="section-number-2">1.</span> 相关函数</h2>
+<div id="outline-container-org2e1fa3c" class="outline-2">
+<h2 id="org2e1fa3c"><span class="section-number-2">1.</span> 相关函数</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org065f3a8" class="outline-3">
-<h3 id="org065f3a8"><span class="section-number-3">1.1.</span> 准备函数</h3>
+<div id="outline-container-orgc027b9e" class="outline-3">
+<h3 id="orgc027b9e"><span class="section-number-3">1.1.</span> 准备函数</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 下列函数将输入字符串中的中文数字转换为阿拉伯数字，以便后续操作：<br>
@@ -102,8 +102,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org8ca58b7" class="outline-3">
-<h3 id="org8ca58b7"><span class="section-number-3">1.2.</span> 提取时间戳</h3>
+<div id="outline-container-orgbe7754c" class="outline-3">
+<h3 id="orgbe7754c"><span class="section-number-3">1.2.</span> 提取时间戳</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 下列函数利用上述函数，提取输入字符串中的中文时间戳，返回一个可直接用于 <code>org-schedule</code> 的字符串<br>
@@ -146,8 +146,10 @@
        <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>string-match <span style="color: #3548cf;">"&#20170;&#22825;"</span> work-str<span style="color: #531ab6;">)</span> <span style="color: #531ab6;">(</span><span style="color: #531ab6;">setq</span> res-date <span style="color: #3548cf;">"+0d"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
        <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>string-match <span style="color: #3548cf;">"&#26126;&#22825;"</span> work-str<span style="color: #531ab6;">)</span> <span style="color: #531ab6;">(</span><span style="color: #531ab6;">setq</span> res-date <span style="color: #3548cf;">"+1d"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
        <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>string-match <span style="color: #3548cf;">"&#21518;&#22825;"</span> work-str<span style="color: #531ab6;">)</span> <span style="color: #531ab6;">(</span><span style="color: #531ab6;">setq</span> res-date <span style="color: #3548cf;">"+2d"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-       <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>string-match <span style="color: #3548cf;">"</span><span style="color: #721045;">\\</span><span style="color: #00663f;">(</span><span style="color: #3548cf;">&#19979;&#21608;</span><span style="color: #721045;">\\</span><span style="color: #00663f;">|</span><span style="color: #3548cf;">&#21608;</span><span style="color: #721045;">\\</span><span style="color: #00663f;">|</span><span style="color: #3548cf;">&#26143;&#26399;</span><span style="color: #721045;">\\</span><span style="color: #00663f;">)</span><span style="color: #721045;">\\</span><span style="color: #00663f;">(</span><span style="color: #3548cf;">[1-7&#19968;&#20108;&#19977;&#22235;&#20116;&#20845;&#26085;&#22825;]</span><span style="color: #721045;">\\</span><span style="color: #00663f;">)</span><span style="color: #3548cf;">"</span> work-str<span style="color: #531ab6;">)</span>
-        <span style="color: #531ab6;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #008900;">(</span><span style="color: #3548cf;">(</span>is-next <span style="color: #8f0075;">(</span>string= <span style="color: #000000;">(</span>match-string 1 work-str<span style="color: #000000;">)</span> <span style="color: #3548cf;">"&#19979;&#21608;"</span><span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
+       <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>string-match <span style="color: #3548cf;">"</span><span style="color: #721045;">\\</span><span style="color: #00663f;">(</span><span style="color: #3548cf;">&#19979;+&#21608;</span><span style="color: #721045;">\\</span><span style="color: #00663f;">|</span><span style="color: #3548cf;">&#21608;</span><span style="color: #721045;">\\</span><span style="color: #00663f;">|</span><span style="color: #3548cf;">&#26143;&#26399;</span><span style="color: #721045;">\\</span><span style="color: #00663f;">)</span><span style="color: #721045;">\\</span><span style="color: #00663f;">(</span><span style="color: #3548cf;">[1-7&#19968;&#20108;&#19977;&#22235;&#20116;&#20845;&#26085;&#22825;]</span><span style="color: #721045;">\\</span><span style="color: #00663f;">)</span><span style="color: #3548cf;">"</span> work-str<span style="color: #531ab6;">)</span>
+        <span style="color: #531ab6;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #008900;">(</span><span style="color: #3548cf;">(</span>is-next <span style="color: #8f0075;">(</span><span style="color: #531ab6;">cond</span> <span style="color: #000000;">(</span><span style="color: #dd22dd;">(</span>string= <span style="color: #008899;">(</span>match-string 1 work-str<span style="color: #008899;">)</span> <span style="color: #3548cf;">"&#19979;&#19979;&#21608;"</span><span style="color: #dd22dd;">)</span> 2<span style="color: #000000;">)</span>
+                              <span style="color: #000000;">(</span><span style="color: #dd22dd;">(</span>string= <span style="color: #008899;">(</span>match-string 1 work-str<span style="color: #008899;">)</span> <span style="color: #3548cf;">"&#19979;&#21608;"</span><span style="color: #dd22dd;">)</span> 1<span style="color: #000000;">)</span>
+                              <span style="color: #000000;">(</span>t nil<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
                <span style="color: #3548cf;">(</span>day-raw <span style="color: #8f0075;">(</span>match-string 2 work-str<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
                <span style="color: #3548cf;">(</span>target-dow <span style="color: #8f0075;">(</span><span style="color: #531ab6;">cond</span> <span style="color: #000000;">(</span><span style="color: #dd22dd;">(</span>member day-raw '<span style="color: #008899;">(</span><span style="color: #3548cf;">"1"</span> <span style="color: #3548cf;">"&#19968;"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span> 1<span style="color: #000000;">)</span>
                                  <span style="color: #000000;">(</span><span style="color: #dd22dd;">(</span>member day-raw '<span style="color: #008899;">(</span><span style="color: #3548cf;">"2"</span> <span style="color: #3548cf;">"&#20108;"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span> 2<span style="color: #000000;">)</span>
@@ -157,12 +159,12 @@
                                  <span style="color: #000000;">(</span><span style="color: #dd22dd;">(</span>member day-raw '<span style="color: #008899;">(</span><span style="color: #3548cf;">"6"</span> <span style="color: #3548cf;">"&#20845;"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span> 6<span style="color: #000000;">)</span>
                                  <span style="color: #000000;">(</span><span style="color: #dd22dd;">(</span>member day-raw '<span style="color: #008899;">(</span><span style="color: #3548cf;">"7"</span> <span style="color: #3548cf;">"&#26085;"</span> <span style="color: #3548cf;">"&#22825;"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span> 0<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
                <span style="color: #3548cf;">(</span>day-name <span style="color: #8f0075;">(</span>elt '<span style="color: #000000;">(</span><span style="color: #3548cf;">"Sun"</span> <span style="color: #3548cf;">"Mon"</span> <span style="color: #3548cf;">"Tue"</span> <span style="color: #3548cf;">"Wed"</span> <span style="color: #3548cf;">"Thu"</span> <span style="color: #3548cf;">"Fri"</span> <span style="color: #3548cf;">"Sat"</span><span style="color: #000000;">)</span> target-dow<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
-          <span style="color: #008900;">(</span><span style="color: #531ab6;">if</span> is-next
+          <span style="color: #008900;">(</span><span style="color: #531ab6;">if</span> <span style="color: #3548cf;">(</span>not is-next<span style="color: #3548cf;">)</span>
+              <span style="color: #3548cf;">(</span><span style="color: #531ab6;">setq</span> res-date <span style="color: #8f0075;">(</span>concat <span style="color: #3548cf;">"+"</span> day-name<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
               <span style="color: #595959;">;; </span><span style="color: #595959;">&#36923;&#36753;&#65306;&#19979;&#21608;&#19988;&#30446;&#26631;&#26085;&#36824;&#27809;&#36807;&#21017;&#36339;&#19968;&#21608;(+2Name)&#65292;&#21542;&#21017;&#21363;&#25351;&#19979;&#21608;(+Name)</span>
-              <span style="color: #3548cf;">(</span><span style="color: #531ab6;">if</span> <span style="color: #8f0075;">(</span>&gt; target-dow now-dow<span style="color: #8f0075;">)</span>
-                  <span style="color: #8f0075;">(</span><span style="color: #531ab6;">setq</span> res-date <span style="color: #000000;">(</span>concat <span style="color: #3548cf;">"+2"</span> day-name<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span>
-                <span style="color: #8f0075;">(</span><span style="color: #531ab6;">setq</span> res-date <span style="color: #000000;">(</span>concat <span style="color: #3548cf;">"+"</span> day-name<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
-            <span style="color: #3548cf;">(</span><span style="color: #531ab6;">setq</span> res-date <span style="color: #8f0075;">(</span>concat <span style="color: #3548cf;">"+"</span> day-name<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+              <span style="color: #3548cf;">(</span><span style="color: #531ab6;">when</span> <span style="color: #8f0075;">(</span>&gt; target-dow now-dow<span style="color: #8f0075;">)</span>
+                <span style="color: #8f0075;">(</span><span style="color: #531ab6;">setq</span> is-next <span style="color: #000000;">(</span>1+ is-next<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
+              <span style="color: #3548cf;">(</span><span style="color: #531ab6;">setq</span> res-date <span style="color: #8f0075;">(</span>concat <span style="color: #3548cf;">"+"</span> <span style="color: #000000;">(</span>number-to-string is-next<span style="color: #000000;">)</span> day-name<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
 
       <span style="color: #595959;">;; </span><span style="color: #595959;">B. &#22788;&#29702;&#26102;&#38388; (12&#23567;&#26102;/24&#23567;&#26102;&#36923;&#36753;&#19982;&#28404;&#31572;&#28165;&#21333;&#30456;&#20284;)</span>
       <span style="color: #972500;">(</span><span style="color: #531ab6;">let</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>hour-shift 0<span style="color: #531ab6;">)</span>
@@ -205,8 +207,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgbca0380" class="outline-2">
-<h2 id="orgbca0380"><span class="section-number-2">2.</span> 使用方法</h2>
+<div id="outline-container-org4f65320" class="outline-2">
+<h2 id="org4f65320"><span class="section-number-2">2.</span> 使用方法</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 这里假定我们要在 org-capture 中使用。首先我们定义一个函数，在关闭 capture-buffer 之前执行。这个函数会根据当前 org-heading ，提取其中包含的相对时间字符串，并直接用于 <code>org-schedule</code> 。 我这里设置的是如获取不到就设置 <code>SCHEDULED</code> 为当日。<br>
@@ -241,8 +243,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org19d469b" class="outline-2">
-<h2 id="org19d469b"><span class="section-number-2">3.</span> 测试用例</h2>
+<div id="outline-container-org79ad394" class="outline-2">
+<h2 id="org79ad394"><span class="section-number-2">3.</span> 测试用例</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span>test-cases '<span style="color: #972500;">(</span><span style="color: #808000;">(</span><span style="color: #3548cf;">"&#20170;&#22825;"</span> . <span style="color: #3548cf;">"+0d"</span><span style="color: #808000;">)</span>
