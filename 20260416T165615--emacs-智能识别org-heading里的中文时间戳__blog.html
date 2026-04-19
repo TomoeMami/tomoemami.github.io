@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-17 周五 17:18 -->
+<!-- 2026-04-19 周日 13:29 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-智能识别org-heading里的中文时间戳</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-17 周五 17:17]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-17 周五 17:21]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -33,14 +33,31 @@
 </p>
 
 <p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-17T17:16:00">[2026-04-17 周五 17:16]</time></span>：将其<a href="https://github.com/TomoeMami/org-smart-get-chn-time.el">发布到了Github上</a>作为独立repo以便大伙使用，可直接查看 <code>README</code> 。<br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-17T17:16:00">[2026-04-17 周五 17:16]</time></span>：将其<a href="https://github.com/TomoeMami/org-smart-get-chn-time.el">发布到了Github上</a>作为独立repo以便大伙使用，可直接查看 <code>README</code> ，省流使用例如下：<br>
 </p>
-<div id="outline-container-orge9e847d" class="outline-2">
-<h2 id="orge9e847d"><span class="section-number-2">1.</span> 相关函数</h2>
+<div class="org-src-container">
+<pre class="src src-elisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">use-package</span> org-smart-get-chn-time <span style="color: #1a870f;">:demand</span> t
+  <span style="color: #1a870f;">:vc</span> <span style="color: #007f68;">(</span><span style="color: #1a870f;">:url</span> <span style="color: #b6540f;">"git@github.com:TomoeMami/org-smart-get-chn-time.el.git"</span>
+            <span style="color: #1a870f;">:rev</span> <span style="color: #1a870f;">:newest</span><span style="color: #007f68;">)</span>
+  <span style="color: #1a870f;">:config</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">defun</span> <span style="color: #4a7d00;">my/capture-dida-auto-schedule</span> <span style="color: #cb26a0;">()</span>
+    <span style="color: #cb26a0;">(</span>org-schedule nil <span style="color: #5f5fdf;">(</span><span style="color: #007f68;">or</span> <span style="color: #b6540f;">(</span>org-sgct-get-time <span style="color: #1f6fbf;">(</span>org-get-heading t t t t<span style="color: #1f6fbf;">)</span><span style="color: #b6540f;">)</span> <span style="color: #b6540f;">""</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
+
+<span style="color: #cf2f4f;">(</span><span style="color: #007f68;">use-package</span> doct <span style="color: #1a870f;">:demand</span> t
+  <span style="color: #1a870f;">:config</span>
+  <span style="color: #007f68;">(</span><span style="color: #007f68;">setq</span> org-capture-templates
+      <span style="color: #cb26a0;">(</span>doct '<span style="color: #5f5fdf;">(</span><span style="color: #b6540f;">(</span><span style="color: #b6540f;">"Todo"</span> <span style="color: #1a870f;">:keys</span> <span style="color: #b6540f;">"c"</span>
+               <span style="color: #1a870f;">:file</span> my-org-timeline
+               <span style="color: #1a870f;">:template</span> <span style="color: #1f6fbf;">(</span><span style="color: #b6540f;">"* TODO %?"</span><span style="color: #1f6fbf;">)</span>
+               <span style="color: #1a870f;">:before-finalize</span> my/capture-dida-auto-schedule<span style="color: #b6540f;">)</span><span style="color: #5f5fdf;">)</span><span style="color: #cb26a0;">)</span><span style="color: #007f68;">)</span><span style="color: #cf2f4f;">)</span>
+</code></pre>
+</div>
+<div id="outline-container-org08df43e" class="outline-2">
+<h2 id="org08df43e"><span class="section-number-2">1.</span> 相关函数</h2>
 <div class="outline-text-2" id="text-1">
 </div>
-<div id="outline-container-org5291aab" class="outline-3">
-<h3 id="org5291aab"><span class="section-number-3">1.1.</span> 准备函数</h3>
+<div id="outline-container-org28788b8" class="outline-3">
+<h3 id="org28788b8"><span class="section-number-3">1.1.</span> 准备函数</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 下列函数将输入字符串中的中文数字转换为阿拉伯数字，以便后续操作：<br>
@@ -106,8 +123,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org8540b85" class="outline-3">
-<h3 id="org8540b85"><span class="section-number-3">1.2.</span> 提取时间戳</h3>
+<div id="outline-container-org7fd8152" class="outline-3">
+<h3 id="org7fd8152"><span class="section-number-3">1.2.</span> 提取时间戳</h3>
 <div class="outline-text-3" id="text-1-2">
 <p>
 下列函数利用上述函数，提取输入字符串中的中文时间戳，返回一个可直接用于 <code>org-schedule</code> 的字符串<br>
@@ -211,8 +228,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org1d1ef17" class="outline-2">
-<h2 id="org1d1ef17"><span class="section-number-2">2.</span> 使用方法</h2>
+<div id="outline-container-orga0f136b" class="outline-2">
+<h2 id="orga0f136b"><span class="section-number-2">2.</span> 使用方法</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 这里假定我们要在 org-capture 中使用。首先我们定义一个函数，在关闭 capture-buffer 之前执行。这个函数会根据当前 org-heading ，提取其中包含的相对时间字符串，并直接用于 <code>org-schedule</code> 。 我这里设置的是如获取不到就设置 <code>SCHEDULED</code> 为当日。<br>
@@ -247,8 +264,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org43a52c5" class="outline-2">
-<h2 id="org43a52c5"><span class="section-number-2">3.</span> 测试用例</h2>
+<div id="outline-container-orgb968e6c" class="outline-2">
+<h2 id="orgb968e6c"><span class="section-number-2">3.</span> 测试用例</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-elisp"><code><span style="color: #cf2f4f;">(</span><span style="color: #007f68;">let*</span> <span style="color: #007f68;">(</span><span style="color: #cb26a0;">(</span>test-cases '<span style="color: #5f5fdf;">(</span><span style="color: #b6540f;">(</span><span style="color: #b6540f;">"&#20170;&#22825;"</span> . <span style="color: #b6540f;">"+0d"</span><span style="color: #b6540f;">)</span>
