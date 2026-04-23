@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-23 周四 11:10 -->
+<!-- 2026-04-23 周四 11:17 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用tramp-rpc加速tramp</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-23 周四 11:10]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-23 周四 11:17]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -23,13 +23,13 @@
 </header><p>
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-23T10:52:00">[2026-04-23 周四 10:52]</time></span><br>
 </p>
-<div id="outline-container-org083553b" class="outline-2">
-<h2 id="org083553b"><span class="section-number-2">1.</span> Tramp是什么</h2>
+<div id="outline-container-org3175319" class="outline-2">
+<h2 id="org3175319"><span class="section-number-2">1.</span> Tramp是什么</h2>
 <div class="outline-text-2" id="text-1">
 <blockquote>
 <p>
+<a href="https://zhuanlan.zhihu.com/p/488366338">Tramp 使用指南</a> :<br>
 Tramp 是 Emacs 中用来编辑远端文件的模块，全称为『Transparent Remote (file) Access, Multiple Protocol』，类似与 VSCode 的 Remote Development，只不过比它年长 20 岁而已 。<br>
-<a href="https://zhuanlan.zhihu.com/p/488366338">https://zhuanlan.zhihu.com/p/488366338</a><br>
 </p>
 </blockquote>
 
@@ -38,12 +38,22 @@ Tramp 是 Emacs 中用来编辑远端文件的模块，全称为『Transparent R
 </p>
 
 <p>
-正好，<a href="https://github.com/ArthurHeymans/emacs-tramp-rpc">tramp-rpc包</a>通过采取与vscode相同的技术，通过在远程服务器上部署一个RUST编写的二进制文件，提升tramp的响应速度。<br>
+正好，<a href="https://github.com/ArthurHeymans/emacs-tramp-rpc">tramp-rpc包</a>通过采取与vscode相同的技术，通过在远程服务器上部署一个RUST编写的二进制文件，提升tramp的响应速度：<br>
 </p>
+<blockquote>
+<p>
+概述<br>
+</p>
+
+<p>
+传统的 TRAMP 通过 SSH 管道传输 shell 命令并解析其输出。这种方式虽然稳健但速度较慢，尤其对于需要多次往返的操作（如目录列表或版本控制操作）。<br>
+TRAMP-RPC 采用在远程主机上运行的轻量级 Rust 服务器来替代传统方式。Emacs 通过 SSH 使用 MessagePack-RPC 与其通信，从而显著提升文件操作速度。<br>
+</p>
+</blockquote>
 </div>
 </div>
-<div id="outline-container-org2383e44" class="outline-2">
-<h2 id="org2383e44"><span class="section-number-2">2.</span> tramp-rpc配置</h2>
+<div id="outline-container-org72c504a" class="outline-2">
+<h2 id="org72c504a"><span class="section-number-2">2.</span> tramp-rpc配置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 具体配置如下<br>
@@ -67,8 +77,8 @@ Tramp 是 Emacs 中用来编辑远端文件的模块，全称为『Transparent R
 </code></pre>
 </div>
 </div>
-<div id="outline-container-org543ed13" class="outline-3">
-<h3 id="org543ed13"><span class="section-number-3">2.1.</span> 配置详解</h3>
+<div id="outline-container-orgf2a99f5" class="outline-3">
+<h3 id="orgf2a99f5"><span class="section-number-3">2.1.</span> 配置详解</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 这里通过替换github链接，实现无代理加速下载二进制包<br>
@@ -96,8 +106,8 @@ Tramp 是 Emacs 中用来编辑远端文件的模块，全称为『Transparent R
 </div>
 </div>
 </div>
-<div id="outline-container-orgfba573c" class="outline-2">
-<h2 id="orgfba573c"><span class="section-number-2">3.</span> 操作说明</h2>
+<div id="outline-container-orga67c88c" class="outline-2">
+<h2 id="orga67c88c"><span class="section-number-2">3.</span> 操作说明</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 参考<a href="https://zhuanlan.zhihu.com/p/488366338">Tramp 使用指南</a><br>
