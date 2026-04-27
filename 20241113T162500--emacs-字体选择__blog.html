@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-17 周五 11:04 -->
+<!-- 2026-04-27 周一 16:46 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-字体选择</title>
 <meta name="author" content="TomoeMami" />
 <meta name="generator" content="Org Mode" />
-<link rel='stylesheet' type='text/css' href='/org.css'/>
+<link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -52,43 +52,43 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/set-gui</span> <span style="color: #dd22dd;">()</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">interactive</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">if</span> <span style="color: #008899;">(</span>eq system-type 'darwin<span style="color: #008899;">)</span>
-      <span style="color: #008899;">(</span><span style="color: #531ab6;">progn</span>
-        <span style="color: #595959;">;; </span><span style="color: #595959;">&#19982;Win&#19981;&#21516;&#65292;Mac&#38656;&#35201;&#22312;&#20989;&#25968;&#20013;&#25351;&#23450;light&#23383;&#20307;</span>
-        <span style="color: #972500;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">set-font</span> <span style="color: #808000;">(</span>english chinese english-size chinese-size<span style="color: #808000;">)</span>
-          <span style="color: #808000;">(</span>set-face-attribute 'default nil <span style="color: #8f0075;">:font</span>
-                              <span style="color: #531ab6;">(</span>font-spec <span style="color: #8f0075;">:family</span> english <span style="color: #8f0075;">:size</span> english-size <span style="color: #8f0075;">:weight</span> 'light<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-          <span style="color: #808000;">(</span>set-face-attribute 'fixed-pitch nil <span style="color: #8f0075;">:font</span>
-                              <span style="color: #531ab6;">(</span>font-spec <span style="color: #8f0075;">:family</span> english <span style="color: #8f0075;">:size</span> english-size <span style="color: #8f0075;">:weight</span> 'light<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-          <span style="color: #808000;">(</span>set-face-attribute 'variable-pitch nil <span style="color: #8f0075;">:font</span>
-                              <span style="color: #531ab6;">(</span>format   <span style="color: #3548cf;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-          <span style="color: #808000;">(</span><span style="color: #531ab6;">dolist</span> <span style="color: #531ab6;">(</span>charset '<span style="color: #008900;">(</span>kana han cjk-misc bopomofo<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-            <span style="color: #531ab6;">(</span>set-fontset-font <span style="color: #008900;">(</span>frame-parameter nil 'font<span style="color: #008900;">)</span> charset
-                              <span style="color: #008900;">(</span>font-spec <span style="color: #8f0075;">:family</span> chinese <span style="color: #8f0075;">:size</span> chinese-size<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-        <span style="color: #972500;">(</span>set-font <span style="color: #3548cf;">"LXGW Bright Code GB"</span> <span style="color: #3548cf;">"FangSongCode"</span> 22 22<span style="color: #972500;">)</span>
-        <span style="color: #972500;">(</span>set-fontset-font t 'emoji <span style="color: #808000;">(</span>font-spec <span style="color: #8f0075;">:family</span> <span style="color: #3548cf;">"Twitter Color Emoji"</span><span style="color: #808000;">)</span> nil 'prepend<span style="color: #972500;">)</span>
-        <span style="color: #972500;">(</span>set-fontset-font t 'symbol <span style="color: #808000;">(</span>font-spec <span style="color: #8f0075;">:family</span> <span style="color: #3548cf;">"Cascadia Mono NF SemiLight"</span><span style="color: #808000;">)</span> nil 'prepend<span style="color: #972500;">)</span>
-        <span style="color: #972500;">(</span>set-frame-parameter <span style="color: #808000;">(</span>selected-frame<span style="color: #808000;">)</span> 'fullscreen 'maximized<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">progn</span>
-      <span style="color: #972500;">(</span>set-font <span style="color: #3548cf;">"LXGW Bright Code GB light"</span> <span style="color: #3548cf;">"FangSongCode"</span> 42 42<span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span>set-fontset-font t 'emoji <span style="color: #808000;">(</span>font-spec <span style="color: #8f0075;">:family</span> <span style="color: #3548cf;">"Segoe UI Emoji"</span><span style="color: #808000;">)</span> nil 'prepend<span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span>set-fontset-font t 'symbol <span style="color: #808000;">(</span>font-spec <span style="color: #8f0075;">:family</span> <span style="color: #3548cf;">"Symbols Nerd Font Mono"</span><span style="color: #808000;">)</span> nil 'prepend<span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>display-width <span style="color: #008900;">(</span>display-pixel-width<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-             <span style="color: #531ab6;">(</span>display-height <span style="color: #008900;">(</span>display-pixel-height<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-             <span style="color: #531ab6;">(</span>frame-width <span style="color: #008900;">(</span>floor <span style="color: #3548cf;">(</span>* 0.8 display-width<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-             <span style="color: #531ab6;">(</span>frame-height <span style="color: #008900;">(</span>floor <span style="color: #3548cf;">(</span>* 0.73 display-height<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-             <span style="color: #531ab6;">(</span>left-offset <span style="color: #008900;">(</span>floor <span style="color: #3548cf;">(</span>* 0.1 display-width<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-             <span style="color: #531ab6;">(</span>top-offset <span style="color: #008900;">(</span>floor <span style="color: #3548cf;">(</span>* 0.1 display-height<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span>set-frame-position <span style="color: #531ab6;">(</span>selected-frame<span style="color: #531ab6;">)</span> left-offset top-offset<span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span>set-frame-size <span style="color: #531ab6;">(</span>selected-frame<span style="color: #531ab6;">)</span> frame-width frame-height t<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span>sis-set-english<span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span>select-frame-set-input-focus <span style="color: #008899;">(</span>selected-frame<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">my/set-gui</span> <span style="color: #a01f64;">()</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #a01f64;">)</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">if</span> <span style="color: #2f5f9f;">(</span>eq system-type 'darwin<span style="color: #2f5f9f;">)</span>
+      <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">progn</span>
+        <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#19982;Win&#19981;&#21516;&#65292;Mac&#38656;&#35201;&#22312;&#20989;&#25968;&#20013;&#25351;&#23450;light&#23383;&#20307;</span>
+        <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">set-font</span> <span style="color: #7022bf;">(</span>english chinese english-size chinese-size<span style="color: #7022bf;">)</span>
+          <span style="color: #7022bf;">(</span>set-face-attribute 'default nil <span style="color: #a01f64;">:font</span>
+                              <span style="color: #d5305f;">(</span>font-spec <span style="color: #a01f64;">:family</span> english <span style="color: #a01f64;">:size</span> english-size <span style="color: #a01f64;">:weight</span> 'light<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
+          <span style="color: #7022bf;">(</span>set-face-attribute 'fixed-pitch nil <span style="color: #a01f64;">:font</span>
+                              <span style="color: #d5305f;">(</span>font-spec <span style="color: #a01f64;">:family</span> english <span style="color: #a01f64;">:size</span> english-size <span style="color: #a01f64;">:weight</span> 'light<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
+          <span style="color: #7022bf;">(</span>set-face-attribute 'variable-pitch nil <span style="color: #a01f64;">:font</span>
+                              <span style="color: #d5305f;">(</span>format   <span style="color: #a04646;">"%s:pixelsize=%d"</span>  english english-size<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
+          <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">dolist</span> <span style="color: #d5305f;">(</span>charset '<span style="color: #9f248a;">(</span>kana han cjk-misc bopomofo<span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span>
+            <span style="color: #d5305f;">(</span>set-fontset-font <span style="color: #9f248a;">(</span>frame-parameter nil 'font<span style="color: #9f248a;">)</span> charset
+                              <span style="color: #9f248a;">(</span>font-spec <span style="color: #a01f64;">:family</span> chinese <span style="color: #a01f64;">:size</span> chinese-size<span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
+        <span style="color: #a04646;">(</span>set-font <span style="color: #a04646;">"LXGW Bright Code GB"</span> <span style="color: #a04646;">"FangSongCode"</span> 22 22<span style="color: #a04646;">)</span>
+        <span style="color: #a04646;">(</span>set-fontset-font t 'emoji <span style="color: #7022bf;">(</span>font-spec <span style="color: #a01f64;">:family</span> <span style="color: #a04646;">"Twitter Color Emoji"</span><span style="color: #7022bf;">)</span> nil 'prepend<span style="color: #a04646;">)</span>
+        <span style="color: #a04646;">(</span>set-fontset-font t 'symbol <span style="color: #7022bf;">(</span>font-spec <span style="color: #a01f64;">:family</span> <span style="color: #a04646;">"Cascadia Mono NF SemiLight"</span><span style="color: #7022bf;">)</span> nil 'prepend<span style="color: #a04646;">)</span>
+        <span style="color: #a04646;">(</span>set-frame-parameter <span style="color: #7022bf;">(</span>selected-frame<span style="color: #7022bf;">)</span> 'fullscreen 'maximized<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+    <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">progn</span>
+      <span style="color: #a04646;">(</span>set-font <span style="color: #a04646;">"LXGW Bright Code GB light"</span> <span style="color: #a04646;">"FangSongCode"</span> 42 42<span style="color: #a04646;">)</span>
+      <span style="color: #a04646;">(</span>set-fontset-font t 'emoji <span style="color: #7022bf;">(</span>font-spec <span style="color: #a01f64;">:family</span> <span style="color: #a04646;">"Segoe UI Emoji"</span><span style="color: #7022bf;">)</span> nil 'prepend<span style="color: #a04646;">)</span>
+      <span style="color: #a04646;">(</span>set-fontset-font t 'symbol <span style="color: #7022bf;">(</span>font-spec <span style="color: #a01f64;">:family</span> <span style="color: #a04646;">"Symbols Nerd Font Mono"</span><span style="color: #7022bf;">)</span> nil 'prepend<span style="color: #a04646;">)</span>
+      <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">let*</span> <span style="color: #7022bf;">(</span><span style="color: #d5305f;">(</span>display-width <span style="color: #9f248a;">(</span>display-pixel-width<span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span>
+             <span style="color: #d5305f;">(</span>display-height <span style="color: #9f248a;">(</span>display-pixel-height<span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span>
+             <span style="color: #d5305f;">(</span>frame-width <span style="color: #9f248a;">(</span>floor <span style="color: #1077ab;">(</span>* 0.8 display-width<span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span>
+             <span style="color: #d5305f;">(</span>frame-height <span style="color: #9f248a;">(</span>floor <span style="color: #1077ab;">(</span>* 0.73 display-height<span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span>
+             <span style="color: #d5305f;">(</span>left-offset <span style="color: #9f248a;">(</span>floor <span style="color: #1077ab;">(</span>* 0.1 display-width<span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span>
+             <span style="color: #d5305f;">(</span>top-offset <span style="color: #9f248a;">(</span>floor <span style="color: #1077ab;">(</span>* 0.1 display-height<span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
+        <span style="color: #7022bf;">(</span>set-frame-position <span style="color: #d5305f;">(</span>selected-frame<span style="color: #d5305f;">)</span> left-offset top-offset<span style="color: #7022bf;">)</span>
+        <span style="color: #7022bf;">(</span>set-frame-size <span style="color: #d5305f;">(</span>selected-frame<span style="color: #d5305f;">)</span> frame-width frame-height t<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
+  <span style="color: #a01f64;">(</span>sis-set-english<span style="color: #a01f64;">)</span>
+  <span style="color: #a01f64;">(</span>select-frame-set-input-focus <span style="color: #2f5f9f;">(</span>selected-frame<span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
 
-<span style="color: #000000;">(</span>my/set-gui<span style="color: #000000;">)</span>
-<span style="color: #595959;">;; </span><span style="color: #595959;">server&#27169;&#24335;&#19979;&#38656;&#35201;&#21551;&#29992;&#20197;&#19979;hook</span>
-<span style="color: #000000;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #000000;">)</span>
+<span style="color: #3c3bbe;">(</span>my/set-gui<span style="color: #3c3bbe;">)</span>
+<span style="color: #506fa0;">;; </span><span style="color: #506fa0;">server&#27169;&#24335;&#19979;&#38656;&#35201;&#21551;&#29992;&#20197;&#19979;hook</span>
+<span style="color: #3c3bbe;">(</span>add-hook 'server-after-make-frame-hook #'my/set-gui<span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 </div>

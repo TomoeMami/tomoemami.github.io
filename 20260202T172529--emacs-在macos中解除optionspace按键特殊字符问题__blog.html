@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-17 周五 11:04 -->
+<!-- 2026-04-27 周一 16:46 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在macos中解除option+space按键特殊字符问题</title>
 <meta name="author" content="TomoeMami" />
 <meta name="generator" content="Org Mode" />
-<link rel='stylesheet' type='text/css' href='/org.css'/>
+<link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -28,22 +28,22 @@
 如果你幸运或不幸地和我一样，在Emacs中绑定了 <code>M-SPC</code> ：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #595959;">;; </span><span style="color: #595959;">&#24555;&#36895;&#25554;&#20837;&#38646;&#23485;&#31354;&#26684;</span>
-<span style="color: #000000;">(</span>define-key global-map <span style="color: #dd22dd;">(</span>kbd <span style="color: #3548cf;">"M-SPC"</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">lambda</span> <span style="color: #008899;">()</span> <span style="color: #008899;">(</span><span style="color: #531ab6;">interactive</span><span style="color: #008899;">)</span> <span style="color: #008899;">(</span>insert <span style="color: #3548cf;">"&#12288;"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#24555;&#36895;&#25554;&#20837;&#38646;&#23485;&#31354;&#26684;</span>
+<span style="color: #3c3bbe;">(</span>define-key global-map <span style="color: #a01f64;">(</span>kbd <span style="color: #a04646;">"M-SPC"</span><span style="color: #a01f64;">)</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #2f5f9f;">()</span> <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #2f5f9f;">)</span> <span style="color: #2f5f9f;">(</span>insert <span style="color: #a04646;">"&#12288;"</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 <p>
 同时你还启用了 <code>sis</code> 用来自动切换输入法中英文状态：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">use-package</span> sis
-  <span style="color: #8f0075;">:demand</span> t
-  <span style="color: #8f0075;">:config</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">cond</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>eq system-type 'darwin<span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>sis-ism-lazyman-config <span style="color: #3548cf;">"com.apple.keylayout.US"</span> <span style="color: #3548cf;">"im.rime.inputmethod.Squirrel.Hans"</span> 'emp<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #595959;">;; </span><span style="color: #595959;">&#38544;&#21435;&#20854;&#20182;&#37197;&#32622;&#39033;</span>
-  <span style="color: #000000;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> sis
+  <span style="color: #a01f64;">:demand</span> t
+  <span style="color: #a01f64;">:config</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">cond</span> <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span>eq system-type 'darwin<span style="color: #a04646;">)</span>
+         <span style="color: #a04646;">(</span>sis-ism-lazyman-config <span style="color: #a04646;">"com.apple.keylayout.US"</span> <span style="color: #a04646;">"im.rime.inputmethod.Squirrel.Hans"</span> 'emp<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
+  <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#38544;&#21435;&#20854;&#20182;&#37197;&#32622;&#39033;</span>
+  <span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 
@@ -57,7 +57,7 @@
 而且你还改了按键，将 <code>Option</code> 等同于 <code>Meta</code> 键：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">setq</span> mac-option-modifier 'meta<span style="color: #000000;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">setq</span> mac-option-modifier 'meta<span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 
@@ -83,12 +83,12 @@
 然后对应修改 <code>sis</code> 的配置：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">use-package</span> sis
-  <span style="color: #8f0075;">:demand</span> t
-  <span style="color: #8f0075;">:config</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">cond</span> <span style="color: #008899;">(</span>eq system-type 'darwin<span style="color: #008899;">)</span>
-        <span style="color: #008899;">(</span>sis-ism-lazyman-config <span style="color: #3548cf;">"com.apple.keylayout.UnicodeHexInput"</span> <span style="color: #3548cf;">"im.rime.inputmethod.Squirrel.Hans"</span> 'emp<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #000000;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> sis
+  <span style="color: #a01f64;">:demand</span> t
+  <span style="color: #a01f64;">:config</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">cond</span> <span style="color: #2f5f9f;">(</span>eq system-type 'darwin<span style="color: #2f5f9f;">)</span>
+        <span style="color: #2f5f9f;">(</span>sis-ism-lazyman-config <span style="color: #a04646;">"com.apple.keylayout.UnicodeHexInput"</span> <span style="color: #a04646;">"im.rime.inputmethod.Squirrel.Hans"</span> 'emp<span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
+  <span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-17 周五 11:04 -->
+<!-- 2026-04-27 周一 16:46 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>自建免域名Tailscale DERP Server的补充</title>
 <meta name="author" content="TomoeMami" />
 <meta name="generator" content="Org Mode" />
-<link rel='stylesheet' type='text/css' href='/org.css'/>
+<link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -43,7 +43,7 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-docker"><code>services:
+<pre class="src src-docker" tabindex="0"><code>services:
   derper:
     environment:
       - DERP_ADDR=:13477
@@ -70,7 +70,7 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json"><code>{
+<pre class="src src-json" tabindex="0"><code>{
 //……上略
 //Test asccess rules every time they're saved.
 //"tests": [
@@ -112,7 +112,7 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 首先是这部分，按照<a href="https://tailscale.com/kb/1591/peer-relays">官方文档的说法</a>，需要允许其他设备把中转设备当成relay：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-json"><code>{
+<pre class="src src-json" tabindex="0"><code>{
   "grants": [
     {
       "src": ["tag:us-east-vpc"], // Devices that can be accessed through the peer relay
@@ -133,7 +133,7 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 然后我们需要允许设备间相互访问，按照<a href="https://tailscale.com/kb/1458/grant-examples#allow-all">allow-all的文档</a>，是这样：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-json"><code>{
+<pre class="src src-json" tabindex="0"><code>{
   "grants": [
     {
       "src": ["*"],
@@ -149,7 +149,7 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 最终合并的结果：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-json"><code>	"grants": [
+<pre class="src src-json" tabindex="0"><code>	"grants": [
 		/* ① srv 允许用 celay 作为中继 */
 
 		{

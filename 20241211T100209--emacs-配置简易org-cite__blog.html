@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-17 周五 11:04 -->
+<!-- 2026-04-27 周一 16:46 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-配置简易org-cite</title>
 <meta name="author" content="TomoeMami" />
 <meta name="generator" content="Org Mode" />
-<link rel='stylesheet' type='text/css' href='/org.css'/>
+<link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -35,7 +35,7 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil"><code>#+bibliography: path/to/your/bib文件.bib
+<pre class="src src-nil" tabindex="0"><code>#+bibliography: path/to/your/bib文件.bib
 </code></pre>
 </div>
 
@@ -60,7 +60,7 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil"><code>李平书. 2021,谢谢你的关心[EB/OL]. (2021-12-21)[2021-12-21]. https://news.china.com/zw/news/13000776/20211221/40601066.html.
+<pre class="src src-nil" tabindex="0"><code>李平书. 2021,谢谢你的关心[EB/OL]. (2021-12-21)[2021-12-21]. https://news.china.com/zw/news/13000776/20211221/40601066.html.
 </code></pre>
 </div>
 
@@ -69,7 +69,7 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-nil"><code>@misc{这里自己填，应该是英文数字组合,
+<pre class="src src-nil" tabindex="0"><code>@misc{这里自己填，应该是英文数字组合,
 author = {李平书},
 title = {2021,谢谢你的关心},
 howpublished = {[EB/OL]. (2021-12-21)[2021-12-21]. https://news.china.com/zw/news/13000776/20211221/40601066.html.},
@@ -90,12 +90,12 @@ howpublished = {[EB/OL]. (2021-12-21)[2021-12-21]. https://news.china.com/zw/new
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">if</span> <span style="color: #dd22dd;">(</span>string-match <span style="color: #3548cf;">"&#35770;&#25991;"</span> docx-file<span style="color: #dd22dd;">)</span>
-    <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>bib-file <span style="color: #3548cf;">"path/to/your/bib&#25991;&#20214;.bib"</span><span style="color: #972500;">)</span>
-          <span style="color: #972500;">(</span>csl-file <span style="color: #3548cf;">"path/to/your/csl&#25991;&#20214;.csl"</span><span style="color: #972500;">)</span>
-          <span style="color: #972500;">(</span>ref-title <span style="color: #3548cf;">"&#21442;&#32771;&#25991;&#29486;"</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-      <span style="color: #008899;">(</span>shell-command <span style="color: #972500;">(</span>format <span style="color: #3548cf;">"pandoc --from org+east_asian_line_breaks+citations -M reference-section-title=%s -N -C --bibliography=%s --csl=%s %s -o %s --reference-doc=%s"</span> ref-title bib-file csl-file <span style="color: #808000;">(</span>my/save-buffer-to-temp-org<span style="color: #808000;">)</span> docx-file template-file<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span>shell-command <span style="color: #008899;">(</span>format <span style="color: #3548cf;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #972500;">(</span>my/save-buffer-to-temp-org<span style="color: #972500;">)</span> docx-file template-file<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">if</span> <span style="color: #a01f64;">(</span>string-match <span style="color: #a04646;">"&#35770;&#25991;"</span> docx-file<span style="color: #a01f64;">)</span>
+    <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">let</span> <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span>bib-file <span style="color: #a04646;">"path/to/your/bib&#25991;&#20214;.bib"</span><span style="color: #a04646;">)</span>
+          <span style="color: #a04646;">(</span>csl-file <span style="color: #a04646;">"path/to/your/csl&#25991;&#20214;.csl"</span><span style="color: #a04646;">)</span>
+          <span style="color: #a04646;">(</span>ref-title <span style="color: #a04646;">"&#21442;&#32771;&#25991;&#29486;"</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+      <span style="color: #2f5f9f;">(</span>shell-command <span style="color: #a04646;">(</span>format <span style="color: #a04646;">"pandoc --from org+east_asian_line_breaks+citations -M reference-section-title=%s -N -C --bibliography=%s --csl=%s %s -o %s --reference-doc=%s"</span> ref-title bib-file csl-file <span style="color: #7022bf;">(</span>my/save-buffer-to-temp-org<span style="color: #7022bf;">)</span> docx-file template-file<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
+  <span style="color: #a01f64;">(</span>shell-command <span style="color: #2f5f9f;">(</span>format <span style="color: #a04646;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #a04646;">(</span>my/save-buffer-to-temp-org<span style="color: #a04646;">)</span> docx-file template-file<span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 

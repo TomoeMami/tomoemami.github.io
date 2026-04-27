@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-17 周五 11:04 -->
+<!-- 2026-04-27 周一 16:46 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-删除掉空的agenda-block</title>
 <meta name="author" content="TomoeMami" />
 <meta name="generator" content="Org Mode" />
-<link rel='stylesheet' type='text/css' href='/org.css'/>
+<link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -34,40 +34,40 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp"><code><span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">org-agenda-delete-empty-blocks</span> <span style="color: #dd22dd;">()</span>
-  <span style="color: #2a5045;">"Remove empty agenda blocks.</span>
-<span style="color: #2a5045;">  A block is identified as empty if there are fewer than 2</span>
-<span style="color: #2a5045;">  non-empty lines in the block (excluding the line with</span>
-<span style="color: #2a5045;">  `</span><span style="color: #0000b0;">org-agenda-block-separator</span><span style="color: #2a5045;">' characters)."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">when</span> org-agenda-compact-blocks
-    <span style="color: #008899;">(</span><span style="color: #884900;">user-error</span> <span style="color: #3548cf;">"Cannot delete empty compact blocks"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">setq</span> buffer-read-only nil<span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">save-excursion</span>
-    <span style="color: #008899;">(</span>goto-char <span style="color: #972500;">(</span>point-min<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>blank-line-re <span style="color: #3548cf;">"^\\s-*$"</span><span style="color: #808000;">)</span>
-           <span style="color: #808000;">(</span>content-line-count <span style="color: #531ab6;">(</span><span style="color: #531ab6;">if</span> <span style="color: #008900;">(</span>looking-at-p blank-line-re<span style="color: #008900;">)</span> 0 1<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-           <span style="color: #808000;">(</span>start-pos <span style="color: #531ab6;">(</span>point<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-           <span style="color: #808000;">(</span>block-re <span style="color: #531ab6;">(</span>format <span style="color: #3548cf;">"%c\\{10,\\}"</span> org-agenda-block-separator<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">while</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">and</span> <span style="color: #531ab6;">(</span>not <span style="color: #008900;">(</span>eobp<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span> <span style="color: #531ab6;">(</span>forward-line<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span><span style="color: #531ab6;">cond</span>
-         <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>looking-at-p block-re<span style="color: #008900;">)</span>
-          <span style="color: #008900;">(</span><span style="color: #531ab6;">when</span> <span style="color: #3548cf;">(</span>&lt; content-line-count 2<span style="color: #3548cf;">)</span>
-            <span style="color: #3548cf;">(</span>delete-region start-pos <span style="color: #8f0075;">(</span>1+ <span style="color: #000000;">(</span>pos-bol<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
-          <span style="color: #008900;">(</span><span style="color: #531ab6;">setq</span> start-pos <span style="color: #3548cf;">(</span>point<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
-          <span style="color: #008900;">(</span>forward-line<span style="color: #008900;">)</span>
-          <span style="color: #008900;">(</span><span style="color: #531ab6;">setq</span> content-line-count <span style="color: #3548cf;">(</span><span style="color: #531ab6;">if</span> <span style="color: #8f0075;">(</span>looking-at-p blank-line-re<span style="color: #8f0075;">)</span> 0 1<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-         <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>not <span style="color: #3548cf;">(</span>looking-at-p blank-line-re<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
-          <span style="color: #008900;">(</span><span style="color: #531ab6;">setq</span> content-line-count <span style="color: #3548cf;">(</span>1+ content-line-count<span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">when</span> <span style="color: #808000;">(</span>&lt; content-line-count 2<span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span>delete-region start-pos <span style="color: #531ab6;">(</span>point-max<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #595959;">;; </span><span style="color: #595959;">&#19978;&#38754;&#36825;&#20010;&#20989;&#25968;&#26159;&#38024;&#23545;agenda-block&#22312;&#26368;&#19979;&#26041;&#20889;&#30340;&#65292;&#20250;&#35753;agenda&#20013;&#26356;&#25913;todo&#29366;&#24577;&#21518;&#30340;&#25991;&#26412;&#28040;&#22833;&#12290;</span>
-      <span style="color: #972500;">(</span>goto-char <span style="color: #808000;">(</span>point-min<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #595959;">;; </span><span style="color: #595959;">The above strategy can leave a separator line at the beginning</span>
-      <span style="color: #595959;">;; </span><span style="color: #595959;">of the buffer.</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">when</span> <span style="color: #808000;">(</span>looking-at-p block-re<span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span>delete-region <span style="color: #531ab6;">(</span>point<span style="color: #531ab6;">)</span> <span style="color: #531ab6;">(</span>1+ <span style="color: #008900;">(</span>pos-eol<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">setq</span> buffer-read-only t<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
-<span style="color: #000000;">(</span>add-hook 'org-agenda-finalize-hook #'org-agenda-delete-empty-blocks<span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">org-agenda-delete-empty-blocks</span> <span style="color: #a01f64;">()</span>
+  <span style="color: #954f90;">"Remove empty agenda blocks.</span>
+<span style="color: #954f90;">  A block is identified as empty if there are fewer than 2</span>
+<span style="color: #954f90;">  non-empty lines in the block (excluding the line with</span>
+<span style="color: #954f90;">  `</span><span style="color: #7022bf;">org-agenda-block-separator</span><span style="color: #954f90;">' characters)."</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">when</span> org-agenda-compact-blocks
+    <span style="color: #2f5f9f;">(</span><span style="color: #b6530f;">user-error</span> <span style="color: #a04646;">"Cannot delete empty compact blocks"</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">setq</span> buffer-read-only nil<span style="color: #a01f64;">)</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">save-excursion</span>
+    <span style="color: #2f5f9f;">(</span>goto-char <span style="color: #a04646;">(</span>point-min<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
+    <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">let*</span> <span style="color: #a04646;">(</span><span style="color: #7022bf;">(</span>blank-line-re <span style="color: #a04646;">"^\\s-*$"</span><span style="color: #7022bf;">)</span>
+           <span style="color: #7022bf;">(</span>content-line-count <span style="color: #d5305f;">(</span><span style="color: #3c3bbe;">if</span> <span style="color: #9f248a;">(</span>looking-at-p blank-line-re<span style="color: #9f248a;">)</span> 0 1<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
+           <span style="color: #7022bf;">(</span>start-pos <span style="color: #d5305f;">(</span>point<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
+           <span style="color: #7022bf;">(</span>block-re <span style="color: #d5305f;">(</span>format <span style="color: #a04646;">"%c\\{10,\\}"</span> org-agenda-block-separator<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
+      <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">while</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">and</span> <span style="color: #d5305f;">(</span>not <span style="color: #9f248a;">(</span>eobp<span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span> <span style="color: #d5305f;">(</span>forward-line<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
+        <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">cond</span>
+         <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>looking-at-p block-re<span style="color: #9f248a;">)</span>
+          <span style="color: #9f248a;">(</span><span style="color: #3c3bbe;">when</span> <span style="color: #1077ab;">(</span>&lt; content-line-count 2<span style="color: #1077ab;">)</span>
+            <span style="color: #1077ab;">(</span>delete-region start-pos <span style="color: #008358;">(</span>1+ <span style="color: #3c3bbe;">(</span>pos-bol<span style="color: #3c3bbe;">)</span><span style="color: #008358;">)</span><span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span>
+          <span style="color: #9f248a;">(</span><span style="color: #3c3bbe;">setq</span> start-pos <span style="color: #1077ab;">(</span>point<span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span>
+          <span style="color: #9f248a;">(</span>forward-line<span style="color: #9f248a;">)</span>
+          <span style="color: #9f248a;">(</span><span style="color: #3c3bbe;">setq</span> content-line-count <span style="color: #1077ab;">(</span><span style="color: #3c3bbe;">if</span> <span style="color: #008358;">(</span>looking-at-p blank-line-re<span style="color: #008358;">)</span> 0 1<span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span>
+         <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>not <span style="color: #1077ab;">(</span>looking-at-p blank-line-re<span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span>
+          <span style="color: #9f248a;">(</span><span style="color: #3c3bbe;">setq</span> content-line-count <span style="color: #1077ab;">(</span>1+ content-line-count<span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
+      <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">when</span> <span style="color: #7022bf;">(</span>&lt; content-line-count 2<span style="color: #7022bf;">)</span>
+        <span style="color: #7022bf;">(</span>delete-region start-pos <span style="color: #d5305f;">(</span>point-max<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
+      <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#19978;&#38754;&#36825;&#20010;&#20989;&#25968;&#26159;&#38024;&#23545;agenda-block&#22312;&#26368;&#19979;&#26041;&#20889;&#30340;&#65292;&#20250;&#35753;agenda&#20013;&#26356;&#25913;todo&#29366;&#24577;&#21518;&#30340;&#25991;&#26412;&#28040;&#22833;&#12290;</span>
+      <span style="color: #a04646;">(</span>goto-char <span style="color: #7022bf;">(</span>point-min<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
+      <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">The above strategy can leave a separator line at the beginning</span>
+      <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">of the buffer.</span>
+      <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">when</span> <span style="color: #7022bf;">(</span>looking-at-p block-re<span style="color: #7022bf;">)</span>
+        <span style="color: #7022bf;">(</span>delete-region <span style="color: #d5305f;">(</span>point<span style="color: #d5305f;">)</span> <span style="color: #d5305f;">(</span>1+ <span style="color: #9f248a;">(</span>pos-eol<span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
+  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">setq</span> buffer-read-only t<span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<span style="color: #3c3bbe;">(</span>add-hook 'org-agenda-finalize-hook #'org-agenda-delete-empty-blocks<span style="color: #3c3bbe;">)</span>
 </code></pre>
 </div>
 
