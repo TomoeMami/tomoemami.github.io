@@ -1,0 +1,42 @@
+(use-package elfeed :demand t
+  :custom
+
+  (elfeed-db-directory "~/emacs-local/elfeed")
+
+  :config
+  (add-hook 'elfeed-search-mode-hook   #'elfeed-update)
+
+  (defun my/elfeed-search-toggle-star ()
+    "在 elfeed-search 模式下为选中的条目切换 'star' 标签。"
+    (interactive)
+    (let* ((entries (elfeed-search-selected))
+           (tag 'star))
+      (dolist (entry entries)
+        (if (member tag (elfeed-entry-tags entry))
+            (elfeed-untag entry tag)
+          (elfeed-tag entry tag)
+          (elfeed-untag entry 'unread))
+        (next-line)
+        (elfeed-search-update-entry entry))))
+  :bind
+  ;; 将切换收藏的函数绑定到m键
+  (:map elfeed-search-mode-map
+        ("m" . my/elfeed-search-toggle-star)))
+
+(use-package elfeed-protocol
+  :demand t
+  :after elfeed
+  :config
+
+  (setq elfeed-feeds nil)
+  (setq elfeed-use-curl t)
+  (setq elfeed-protocol-fever-update-unread-only t)
+  (setq elfeed-protocol-fever-fetch-category-as-tag t)
+  (elfeed-set-timeout 36000)
+
+  (setq elfeed-protocol-feeds
+        `(("fever+https://user@http://miniflux.com"
+           :api-url "http://miniflux.com/fever/"
+           :password "mima")))
+
+  (elfeed-protocol-enable))

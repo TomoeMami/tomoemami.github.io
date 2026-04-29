@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-27 周一 16:47 -->
+<!-- 2026-04-29 周三 14:54 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用elfeed查看miniflux内容</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-22 周三 21:00]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-29 周三 14:53]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -31,68 +31,105 @@
 <p>
 假设我们已经建好了miniflux，如何在Emacs中读取同步miniflux抓取的内容呢？<br>
 </p>
-<div id="outline-container-orgd6ed445" class="outline-2">
-<h2 id="orgd6ed445"><span class="section-number-2">1.</span> miniflux配置</h2>
+<div id="outline-container-org15b58f3" class="outline-2">
+<h2 id="org15b58f3"><span class="section-number-2">1.</span> miniflux配置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在miniflux的 <code>设置</code> -&gt; <code>集成</code> 中，点击 <code>Fever</code> ，勾选 「启用Fever API」，并在下面输入你自定义的用户名和密码并更新，这里假设用户名为 <code>user</code> ，密码为 <code>mima</code>  ，miniflux的访问地址为 <code>http://miniflux.com</code> 。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org825b227" class="outline-2">
-<h2 id="org825b227"><span class="section-number-2">2.</span> emacs配置</h2>
+<div id="outline-container-org5c736d8" class="outline-2">
+<h2 id="org5c736d8"><span class="section-number-2">2.</span> emacs配置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-安装 <code>elfeed</code> 和 <a href="https://github.com/fasheng/elfeed-protocol">elfeed-protocol</a> ，直接启动就行，代码说明见注释<br>
+安装 <code>elfeed</code> 和 <a href="https://github.com/fasheng/elfeed-protocol">elfeed-protocol</a> ，直接启动就行。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> elfeed <span style="color: #557400;">:demand</span> t
+  <span style="color: #557400;">:custom</span>
+</code></pre>
+</div>
+<p>
+elfeed的数据库默认放在 <code>"~/.elfeed"</code> 的，我挪到一个自定义的目录下了。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> elfeed <span style="color: #a01f64;">:demand</span> t
-  <span style="color: #a01f64;">:custom</span>
-  <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#22312;&#30005;&#33041;&#26412;&#22320;&#36335;&#24452;&#23384;&#20648;elfeed&#30340;&#25968;&#25454;&#24211;</span>
-  <span style="color: #a01f64;">(</span>elfeed-db-directory <span style="color: #a04646;">"~/emacs-local/elfeed"</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">:config</span>
-  <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#36827;&#20837;elfeed&#26102;&#26356;&#26032;</span>
-  <span style="color: #a01f64;">(</span>add-hook 'elfeed-search-mode-hook   #'elfeed-update<span style="color: #a01f64;">)</span>
-  <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#37197;&#32622;&#19968;&#20010;&#24555;&#25463;&#20999;&#25442;&#25910;&#34255;&#30340;&#25353;&#38190;</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">my/elfeed-search-toggle-star</span> <span style="color: #2f5f9f;">()</span>
-    <span style="color: #954f90;">"&#22312; elfeed-search &#27169;&#24335;&#19979;&#20026;&#36873;&#20013;&#30340;&#26465;&#30446;&#20999;&#25442; '</span><span style="color: #7022bf;">star</span><span style="color: #954f90;">' &#26631;&#31614;&#12290;"</span>
-    <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #2f5f9f;">)</span>
-    <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">let*</span> <span style="color: #a04646;">(</span><span style="color: #7022bf;">(</span>entries <span style="color: #d5305f;">(</span>elfeed-search-selected<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
-           <span style="color: #7022bf;">(</span>tag 'star<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
-      <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">dolist</span> <span style="color: #7022bf;">(</span>entry entries<span style="color: #7022bf;">)</span>
-        <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">if</span> <span style="color: #d5305f;">(</span>member tag <span style="color: #9f248a;">(</span>elfeed-entry-tags entry<span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span>
-            <span style="color: #d5305f;">(</span>elfeed-untag entry tag<span style="color: #d5305f;">)</span>
-          <span style="color: #d5305f;">(</span>elfeed-tag entry tag<span style="color: #d5305f;">)</span>
-          <span style="color: #d5305f;">(</span>elfeed-untag entry 'unread<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
-        <span style="color: #7022bf;">(</span>next-line<span style="color: #7022bf;">)</span>
-        <span style="color: #7022bf;">(</span>elfeed-search-update-entry entry<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">:bind</span>
-  <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#23558;&#20999;&#25442;&#25910;&#34255;&#30340;&#20989;&#25968;&#32465;&#23450;&#21040;m&#38190;</span>
-  <span style="color: #a01f64;">(</span><span style="color: #a01f64;">:map</span> elfeed-search-mode-map
-        <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">"m"</span> . my/elfeed-search-toggle-star<span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
-  
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> elfeed-protocol
-  <span style="color: #a01f64;">:demand</span> t
-  <span style="color: #a01f64;">:after</span> elfeed
-  <span style="color: #a01f64;">:config</span>
-  <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#19979;&#38754;&#36825;&#20123;&#26159;elfeed-protocol&#23448;&#26041;&#25512;&#33616;&#30340;</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">setq</span> elfeed-feeds nil<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">setq</span> elfeed-use-curl t<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">setq</span> elfeed-protocol-fever-update-unread-only t<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">setq</span> elfeed-protocol-fever-fetch-category-as-tag t<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span>elfeed-set-timeout 36000<span style="color: #a01f64;">)</span>
-  <span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#36825;&#37324;&#37197;&#32622;miniflux fever api&#30340;&#36335;&#24452;&#12289;&#29992;&#25143;&#21517;&#21644;&#23494;&#30721;</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">setq</span> elfeed-protocol-feeds
-        `<span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"fever+https://user@http://miniflux.com"</span>
-           <span style="color: #a01f64;">:api-url</span> <span style="color: #a04646;">"http://miniflux.com/fever/"</span>
-           <span style="color: #a01f64;">:password</span> <span style="color: #a04646;">"mima"</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span>elfeed-protocol-enable<span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a7601f;">(</span>elfeed-db-directory <span style="color: #ca3400;">"~/emacs-local/elfeed"</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+<p>
+进入elfeed时，一般进入的是 <code>elfeed-search</code> 界面，添加一个hook以便进入时自动更新一次<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #557400;">:config</span>
+  <span style="color: #a7601f;">(</span>add-hook 'elfeed-search-mode-hook   #'elfeed-update<span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+<p>
+自定义一个函数 <code>my/elfeed-search-toggle-star</code> 并将其绑定到 <code>elfeed-search-mode</code> 的 <code>m</code> 键上，实现按m键切换收藏tag的功能。<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/elfeed-search-toggle-star</span> <span style="color: #557400;">()</span>
+    <span style="color: #4f677f;">"&#22312; elfeed-search &#27169;&#24335;&#19979;&#20026;&#36873;&#20013;&#30340;&#26465;&#30446;&#20999;&#25442; '</span><span style="color: #00824f;">star</span><span style="color: #4f677f;">' &#26631;&#31614;&#12290;"</span>
+    <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span><span style="color: #557400;">)</span>
+    <span style="color: #557400;">(</span><span style="color: #006f00;">let*</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>entries <span style="color: #00824f;">(</span>elfeed-search-selected<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+           <span style="color: #3f6faf;">(</span>tag 'star<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
+      <span style="color: #bf4400;">(</span><span style="color: #006f00;">dolist</span> <span style="color: #3f6faf;">(</span>entry entries<span style="color: #3f6faf;">)</span>
+        <span style="color: #3f6faf;">(</span><span style="color: #006f00;">if</span> <span style="color: #00824f;">(</span>member tag <span style="color: #9a456f;">(</span>elfeed-entry-tags entry<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+            <span style="color: #00824f;">(</span>elfeed-untag entry tag<span style="color: #00824f;">)</span>
+          <span style="color: #00824f;">(</span>elfeed-tag entry tag<span style="color: #00824f;">)</span>
+          <span style="color: #00824f;">(</span>elfeed-untag entry 'unread<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+        <span style="color: #3f6faf;">(</span>next-line<span style="color: #3f6faf;">)</span>
+        <span style="color: #3f6faf;">(</span>elfeed-search-update-entry entry<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+  <span style="color: #557400;">:bind</span>
+  <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#23558;&#20999;&#25442;&#25910;&#34255;&#30340;&#20989;&#25968;&#32465;&#23450;&#21040;m&#38190;</span>
+  <span style="color: #a7601f;">(</span><span style="color: #557400;">:map</span> elfeed-search-mode-map
+        <span style="color: #557400;">(</span><span style="color: #ca3400;">"m"</span> . my/elfeed-search-toggle-star<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span><span style="color: #dd0020; background-color: #ffd4bf;">)</span>
+</code></pre>
+</div>
+<p>
+接下来将elfeed接入fever api。<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> elfeed-protocol
+  <span style="color: #557400;">:demand</span> t
+  <span style="color: #557400;">:after</span> elfeed
+  <span style="color: #557400;">:config</span>
+</code></pre>
+</div>
+<p>
+下面这些是elfeed-protocol官方推荐的设置<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> elfeed-feeds nil<span style="color: #a7601f;">)</span>
+  <span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> elfeed-use-curl t<span style="color: #a7601f;">)</span>
+  <span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> elfeed-protocol-fever-update-unread-only t<span style="color: #a7601f;">)</span>
+  <span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> elfeed-protocol-fever-fetch-category-as-tag t<span style="color: #a7601f;">)</span>
+  <span style="color: #a7601f;">(</span>elfeed-set-timeout 36000<span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+<p>
+这里配置miniflux fever api的路径、用户名和密码<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> elfeed-protocol-feeds
+        `<span style="color: #557400;">(</span><span style="color: #bf4400;">(</span><span style="color: #ca3400;">"fever+https://user@http://miniflux.com"</span>
+           <span style="color: #557400;">:api-url</span> <span style="color: #ca3400;">"http://miniflux.com/fever/"</span>
+           <span style="color: #557400;">:password</span> <span style="color: #ca3400;">"mima"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+<p>
+别忘了启用 <code>elfeed-protocol</code><br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a7601f;">(</span>elfeed-protocol-enable<span style="color: #a7601f;">)</span><span style="color: #dd0020; background-color: #ffd4bf;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc089174" class="outline-2">
-<h2 id="orgc089174"><span class="section-number-2">3.</span> 使用说明</h2>
+<div id="outline-container-org74f47f5" class="outline-2">
+<h2 id="org74f47f5"><span class="section-number-2">3.</span> 使用说明</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 由于我的miniflux中订阅源很多，每日消息约3000条，所以我习惯每次粗略扫一扫条目，将想看的标记为收藏，然后再在网页版中查看。<br>
@@ -100,6 +137,14 @@
 
 <p>
 所以我会执行 <code>M-x elfeed</code> ，按 <code>r</code> 将不感兴趣的标为已读，按 <code>m</code> 将有兴趣的标为收藏。清理完未读后再在网页版的miniflux中快捷查看。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org5cb3a29" class="outline-2">
+<h2 id="org5cb3a29"><span class="section-number-2">4.</span> 配置文件</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a href="https://blog.prayhand13013.top/elfeed-protocol-config.txt">一键查看上述配置代码汇总</a><br>
 </p>
 </div>
 </div>
