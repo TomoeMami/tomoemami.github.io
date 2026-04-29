@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-29 三 11:53 -->
+<!-- 2026-04-29 三 11:58 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在org文件中利用ob-gptel保存调用LLM聊天对话（deepseek为例）</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-29 三 11:52]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-29 三 11:58]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -23,8 +23,8 @@
 </header><p>
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-28T17:10:00">[2026-04-28 二 17:10]</time></span> 　 <a href="https://blog.prayhand13013.top/20260428T171017--emacs-%E5%9C%A8org%E6%96%87%E4%BB%B6%E4%B8%AD%E5%88%A9%E7%94%A8ob-gptel%E4%BF%9D%E5%AD%98%E8%B0%83%E7%94%A8llm%E8%81%8A%E5%A4%A9%E5%AF%B9%E8%AF%9D%EF%BC%88deepseek%E4%B8%BA%E4%BE%8B%EF%BC%89__blog.html">原文链接</a><br>
 </p>
-<div id="outline-container-orgb756dc2" class="outline-2">
-<h2 id="orgb756dc2"><span class="section-number-2">1.</span> 前言</h2>
+<div id="outline-container-orgcaf83a6" class="outline-2">
+<h2 id="orgcaf83a6"><span class="section-number-2">1.</span> 前言</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 我用AI用得比较少，也就网页白嫖一下<a href="https://aistudio.google.com/prompts/new_chat">Google AI Studio</a>的Gemini，或者玩一玩免费的<a href="https://chat.deepseek.com">DeepSeek网页版</a>。最近DeepSeek发布了新版本，在保持低廉价格的同时可用性也仅次于几家闭源大模型了，不得不多用用了。<br>
@@ -39,8 +39,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org212e19c" class="outline-2">
-<h2 id="org212e19c"><span class="section-number-2">2.</span> 软件配置</h2>
+<div id="outline-container-org0c9e93f" class="outline-2">
+<h2 id="org0c9e93f"><span class="section-number-2">2.</span> 软件配置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 首先要安装<a href="https://github.com/karthink/gptel">gptel</a>和<a href="https://github.com/jwiegley/ob-gptel">ob-gptel</a>。<br>
@@ -56,8 +56,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgcd57576" class="outline-2">
-<h2 id="orgcd57576"><span class="section-number-2">3.</span> gptel</h2>
+<div id="outline-container-orga9ee82f" class="outline-2">
+<h2 id="orga9ee82f"><span class="section-number-2">3.</span> gptel</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 然后我们配置 <code>gptel</code> 。首先是变量设置环节。我们设置使用外部的 <code>curl</code> 用于发送网络请求。内置的 <code>url-retrieve</code> 总会有一些大大小小的问题。<br>
@@ -119,8 +119,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgfd8deea" class="outline-2">
-<h2 id="orgfd8deea"><span class="section-number-2">4.</span> ob-gptel</h2>
+<div id="outline-container-orgaf5325a" class="outline-2">
+<h2 id="orgaf5325a"><span class="section-number-2">4.</span> ob-gptel</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 然后我们配置 <code>ob-gptel</code> 。由于该包还未上melpa，我们只能从对方的repo手动下载了。下面的代码适用于30之后的emacs，我设置了该包在 <code>org</code> 加载完成后立即载入。<br>
@@ -153,8 +153,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgbad1253" class="outline-2">
-<h2 id="orgbad1253"><span class="section-number-2">5.</span> 使用例</h2>
+<div id="outline-container-org6c63761" class="outline-2">
+<h2 id="org6c63761"><span class="section-number-2">5.</span> 使用例</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 请参考<a href="https://github.com/jwiegley/ob-gptel#basic-query">ob-gptel的README</a>。这里举例最基础用法：<br>
@@ -167,6 +167,16 @@
 
 <span style="color: #63728f;">#+RESULTS:</span>
 The capital of France is Paris.
+</code></pre>
+</div>
+
+<p>
+切换模型<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-org" tabindex="0"><code><span style="color: #63728f; background-color: #f2e9db;">#+begin_src gptel :model deepseek-v4-flash</span>
+<span style="background-color: #f2e9db;">Write a haiku about Emacs.</span>
+<span style="color: #63728f; background-color: #f2e9db;">#+end_src</span>
 </code></pre>
 </div>
 
@@ -197,8 +207,8 @@ The capital of France is Paris.
 </div>
 </div>
 </div>
-<div id="outline-container-org359dd4c" class="outline-2">
-<h2 id="org359dd4c"><span class="section-number-2">6.</span> 配置文件</h2>
+<div id="outline-container-orgd1c62ab" class="outline-2">
+<h2 id="orgd1c62ab"><span class="section-number-2">6.</span> 配置文件</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 <a href="https://blog.prayhand13013.top/gptel-config.el">一键查看上述配置代码汇总</a><br>
