@@ -1,0 +1,43 @@
+(use-package markdown-mode
+  :mode "\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\|mdx\\)\\'")
+
+(use-package gptel :demand t 
+  :custom
+  (gptel-use-curl t)
+
+  (gptel-directives
+    '((default . "")))
+
+  :hook
+  (gptel-post-response-functions . gptel-end-of-response)
+
+  :config
+  (when (eq system-type 'windows-nt)
+    (setq gptel-curl-extra-args '("--ssl-no-revoke")))
+
+  (setq gptel-model   "deepseek-v4-pro"
+        gptel-backend (gptel-make-openai "DeepSeek"
+                        :host "api.deepseek.com"
+                        :endpoint "/chat/completions"
+                        :stream t
+                        :key "YOUR-DEEPSEEK-KEY"
+                        :models '("deepseek-v4-flash" "deepseek-v4-pro")))
+
+  (gptel-make-preset 'max
+    :request-params '(:reasoning_effort "max"))
+  (gptel-make-preset 'no-r
+    :request-params '(:thinking '(:type "disabled"))))
+
+(use-package ob-gptel :after org :demand t
+  :vc (:url "git@github.com:jwiegley/ob-gptel"
+           :rev :newest)
+
+  :config
+  (add-to-list 'org-babel-load-languages '(gptel . t))
+
+  (defun my/ob-gptel-exclude-current-block (orig-fun &rest args)
+    "Adjust point so that the current block is not included in session history."
+    (save-excursion
+      (beginning-of-line)
+      (apply orig-fun args)))
+  (advice-add 'ob-gptel-find-session :around #'my/ob-gptel-exclude-current-block))

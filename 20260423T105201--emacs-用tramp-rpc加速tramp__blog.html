@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-27 周一 16:47 -->
+<!-- 2026-04-29 三 11:53 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-用tramp-rpc加速tramp</title>
@@ -15,16 +15,16 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-27 周一 16:43]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-29 三 11:53]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">emacs-用tramp-rpc加速tramp</h1>
 </header><p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-23T10:52:00">[2026-04-23 周四 10:52]</time></span><br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-23T10:52:00">[2026-04-23 四 10:52]</time></span><br>
 </p>
-<div id="outline-container-org82c9e9c" class="outline-2">
-<h2 id="org82c9e9c"><span class="section-number-2">1.</span> Tramp是什么</h2>
+<div id="outline-container-org455cad1" class="outline-2">
+<h2 id="org455cad1"><span class="section-number-2">1.</span> Tramp是什么</h2>
 <div class="outline-text-2" id="text-1">
 <blockquote>
 <p>
@@ -52,65 +52,67 @@ TRAMP-RPC 采用在远程主机上运行的轻量级 Rust 服务器来替代传�
 </blockquote>
 </div>
 </div>
-<div id="outline-container-orgb3374c7" class="outline-2">
-<h2 id="orgb3374c7"><span class="section-number-2">2.</span> tramp-rpc配置</h2>
+<div id="outline-container-org793b906" class="outline-2">
+<h2 id="org793b906"><span class="section-number-2">2.</span> tramp-rpc配置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-具体配置如下<br>
+首先我们启用 <code>tramp</code> 和 <code>tramp-rpc</code> 。由于 <code>tramp-rpc</code> 还未上melpa，因此这里通过emacs30以后内置的 <code>:vc</code> 方式下载：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> tramp<span style="color: #3c3bbe;">)</span>
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> tramp-rpc
-  <span style="color: #a01f64;">:after</span> tramp <span style="color: #a01f64;">:demand</span> t
-  <span style="color: #a01f64;">:vc</span> <span style="color: #a01f64;">(</span><span style="color: #a01f64;">:url</span> <span style="color: #a04646;">"git@github.com:ArthurHeymans/emacs-tramp-rpc.git"</span>
-       <span style="color: #a01f64;">:rev</span> <span style="color: #a01f64;">:newest</span>
-       <span style="color: #a01f64;">:lisp-dir</span> <span style="color: #a04646;">"lisp"</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">:custom</span>
-  <span style="color: #a01f64;">(</span>tramp-rpc-deploy-release-url-format <span style="color: #a04646;">"https://gh-proxy.org/https://github.com/%s/releases/download/v%s/%s"</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">:config</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">setq</span> tramp-default-method <span style="color: #a04646;">"rpc"</span><span style="color: #a01f64;">)</span>
-  
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">when</span> <span style="color: #2f5f9f;">(</span>eq system-type 'windows-nt<span style="color: #2f5f9f;">)</span>
-    <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">setq</span> tramp-rpc-use-controlmaster nil<span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
-<span style="color: #506fa0;">;; </span><span style="color: #506fa0;">&#23558;tramp&#25991;&#20214;&#25386;&#20986;&#25105;&#30340;.emacs.d</span>
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">setq</span> tramp-persistency-file-name <span style="color: #a04646;">"~/emacs-local/tramp"</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">use-package</span> tramp<span style="color: #a45a22;">)</span>
+<span style="color: #a45a22;">(</span><span style="color: #a45a22;">use-package</span> tramp-rpc
+  <span style="color: #cf2f4f;">:after</span> tramp <span style="color: #cf2f4f;">:demand</span> t
+  <span style="color: #cf2f4f;">:vc</span> <span style="color: #ba2d2f;">(</span><span style="color: #cf2f4f;">:url</span> <span style="color: #5f7200;">"git@github.com:ArthurHeymans/emacs-tramp-rpc.git"</span>
+       <span style="color: #cf2f4f;">:rev</span> <span style="color: #cf2f4f;">:newest</span>
+       <span style="color: #cf2f4f;">:lisp-dir</span> <span style="color: #5f7200;">"lisp"</span><span style="color: #ba2d2f;">)</span>
 </code></pre>
 </div>
-</div>
-<div id="outline-container-org9b91865" class="outline-3">
-<h3 id="org9b91865"><span class="section-number-3">2.1.</span> 配置详解</h3>
-<div class="outline-text-3" id="text-2-1">
 <p>
 这里通过替换github链接，实现无代理加速下载二进制包<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #a01f64;">:custom</span>
-<span style="color: #3c3bbe;">(</span>tramp-rpc-deploy-release-url-format <span style="color: #a04646;">"https://gh-proxy.org/https://github.com/%s/releases/download/v%s/%s"</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #cf2f4f;">:custom</span>
+  <span style="color: #a45a22;">(</span>tramp-rpc-deploy-release-url-format <span style="color: #5f7200;">"https://gh-proxy.org/https://github.com/%s/releases/download/v%s/%s"</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 <p>
 这里设置默认方式为 <code>rpc</code> ，使我们可以在 <code>C-x C-f</code> 后通过 <code>/-:</code> 来替代 <code>/rpc:</code><br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">setq</span> tramp-default-method <span style="color: #a04646;">"rpc"</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #cf2f4f;">:config</span>
+  <span style="color: #a45a22;">(</span><span style="color: #a45a22;">setq</span> tramp-default-method <span style="color: #5f7200;">"rpc"</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 <p>
 根据<a href="https://github.com/ArthurHeymans/emacs-tramp-rpc/issues/142">这个issue</a>，「ControlMaster 选项仅适用于 UNIX/Linux 系统」，所以我们在Windows使用时需要禁用它。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">when</span> <span style="color: #a01f64;">(</span>eq system-type 'windows-nt<span style="color: #a01f64;">)</span>
-    <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">setq</span> tramp-rpc-use-controlmaster nil<span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a45a22;">(</span><span style="color: #a45a22;">when</span> <span style="color: #ba2d2f;">(</span>eq system-type 'windows-nt<span style="color: #ba2d2f;">)</span>
+    <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">setq</span> tramp-rpc-use-controlmaster nil<span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span><span style="color: #ce3f00; background-color: #ffdde5;">)</span>
+</code></pre>
+</div>
+<p>
+通过下列变量设置，将tramp文件挪出我的.emacs.d（因为我在用git同步整个.emacs.d文件夹）<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">setq</span> tramp-persistency-file-name <span style="color: #5f7200;">"~/emacs-local/tramp"</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-</div>
-<div id="outline-container-orgf39973e" class="outline-2">
-<h2 id="orgf39973e"><span class="section-number-2">3.</span> 操作说明</h2>
+<div id="outline-container-org385421c" class="outline-2">
+<h2 id="org385421c"><span class="section-number-2">3.</span> 操作说明</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 参考<a href="https://zhuanlan.zhihu.com/p/488366338">Tramp 使用指南</a><br>
+</p>
+</div>
+</div>
+<div id="outline-container-org36dc118" class="outline-2">
+<h2 id="org36dc118"><span class="section-number-2">4.</span> 配置文件</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a href="https://blog.prayhand13013.top/tramp-rpc-config.el">一键查看上述配置代码汇总</a><br>
 </p>
 </div>
 </div>
