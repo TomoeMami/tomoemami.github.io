@@ -1,0 +1,50 @@
+#+title: emacs-adding-lunar-anniversary-dates
+#+filetags: :blog:
+#+identifier: 20240426T090000
+#+date: [2024-04-26 Fri 09:00]
+
+[2024-04-26 Friday 09:00]
+
+Anniversaries can be shown in =org-agenda=. To add a Gregorian anniversary, create a new line in one of the files listed in =org-agenda-files= and enter the following (ISO date style is enabled here):
+
+#+begin_src elisp
+;; Enable ISO date style (year month day)
+(setq calendar-date-style 'iso)
+
+%%(diary-anniversary 1949 10 1) The %d Gregorian birthday of New China
+#+end_src
+
+On October 1st, the following entry will appear at the bottom of the day’s schedule in =org-agenda=:
+
+#+begin_src
+The 75th Gregorian birthday of New China
+#+end_src
+
+To add a Chinese lunar anniversary you need another function, =diary-chinese-anniversary=. However, the third optional argument (=year=) accepted by this function is a number formed by concatenating the cycle number and the year-within-cycle of the Yellow Emperor era (Huangdi year), and you cannot directly supply a Gregorian year.
+
+Taking the example of the 10th day of the 8th lunar month in 1949 (i.e., October 1, 1949), with ISO date style enabled:
+
+#+begin_src elisp
+;; Enable ISO date style (year month day)
+(setq calendar-date-style 'iso)
+
+;; Load the built-in cal-china package
+(require 'cal-china)
+
+;; diary-chinese-anniversary from cal-china only supports American date format,
+;; so we locally bind the variable with let
+(defun my/diary-chinese-anniversary (year month day)
+(let ((calendar-date-style 'american))
+(diary-chinese-anniversary month day year nil)))
+
+;; Compute the Chinese lunar year from a Gregorian date
+(defun my/chinese-year (year month day)
+(+ (* 100 (car (calendar-chinese-from-absolute (calendar-absolute-from-gregorian (diary-make-date year month day)))))
+(cadr (calendar-chinese-from-absolute (calendar-absolute-from-gregorian (diary-make-date year month day))))))
+#+end_src
+
+Now you can use the following line to show a lunar birthday reminder for someone born on the 10th day of the 8th lunar month in 1949 (October 1, 1949):
+
+#+begin_src elisp
+%%(my/diary-chinese-anniversary (my/chinese-year 1949 10 1) 8 10) The %d lunar birthday of New China
+#+end_src
