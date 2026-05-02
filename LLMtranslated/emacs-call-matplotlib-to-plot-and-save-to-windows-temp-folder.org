@@ -1,0 +1,99 @@
+#+title:      emacs-call-matplotlib-to-plot-and-save-to-windows-temp-folder
+#+filetags:   :blog:
+#+identifier: 20240407T101300
+#+date:       [2024-04-07 Sun 10:13]
+
+[2024-04-07 Wed 10:13]
+
+Based on an existing table for plotting, annotate the name above the table, for example:
+
+#+begin_src org
+,#+NAME: myTimeTable
+|1|2|
+|-+-|
+|3|4|
+#+end_src
+
+Pass the table data in the header of the Python code line (in my org 9.6.14, the data automatically removes the title row and separator row, leaving only the data rows below):
+
+#+begin_src python
+,#+begin_src python :results file link :var data=myTimeTable
+import os,matplotlib, numpy
+……
+
+savedir = os.getenv('TEMP')+'\\myTimeTable.png'
+plt.savefig(savedir)
+return savedir
+#+end_src
+
+This dynamically passes the name above the code block into the code.
+
+#+begin_src python
+,#+name: code-block-name
+,#+begin_src python :var filename=(org-element-property :name (org-element-context)) :results file link
+import os,matplotlib, numpy
+……
+savedir = os.getenv('TEMP')+'\\'+filename+'.png'
+plt.savefig(savedir)
+return savedir
+#+end_src
+
+After execution, it generates below:
+
+#+begin_src org
+,#+RESULTS:
+[[file:..../XXX.png]]
+#+end_src
+
+This image can be used with inline image related functions.
+
+#+begin_src elisp
+;; (setq org-startup-with-inline-images t)
+;;; Only display inline images under current subtree.
+(defun org-display-subtree-inline-images (&optional state)
+  "Toggle the display of inline images under current subtree.
+INCLUDE-LINKED is passed to `org-display-inline-images'."
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (org-narrow-to-subtree)
+      (let* ((beg (point-min))
+             (end (point-max))
+             (image-overlays (cl-intersection
+                              org-inline-image-overlays
+                              (overlays-in beg end)))
+             (display-inline-images-local
+              (lambda ()
+                (org-display-inline-images t t beg end)
+                (setq image-overlays (cl-intersection
+                                      org-inline-image-overlays
+                                      (overlays-in beg end)))
+                (if (and (org-called-interactively-p) image-overlays)
+                    (message "%d images displayed inline"
+                             (length image-overlays)))))
+             (hide-inline-images-local
+              (lambda ()
+                (org-remove-inline-images)
+                (message "Inline image display turned off"))))
+        (if state
+            (pcase state
+              ('subtree
+               (funcall display-inline-images-local))
+              ('folded
+               (funcall hide-inline-images-local)))
+          (if image-overlays
+              (funcall display-inline-images-local)
+            (funcall hide-inline-images-local)))))))
+
+(define-key org-mode-map (kbd "C-c C-x C-v") 'org-display-subtree-inline-images)
+
+;;; auto display inline images on Org TAB cycle expand headlines.
+(add-hook 'org-cycle-hook #'org-display-subtree-inline-images)
+(add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+#+end_src
+
+Reference: https://emacs-china.org/t/org-link/13502/6
+
+* Reusing code snippets via code block references
+
+Add =#+NAME: line-plot= above the code block, then add the =:noweb yes= parameter to the code block that needs to reference it, and use =<<pie-plot>>= internally to reuse the code.

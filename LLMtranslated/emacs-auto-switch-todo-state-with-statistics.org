@@ -1,0 +1,120 @@
+#+title:      emacs-auto-switch-todo-state-with-statistics
+#+date:       [2026-03-13 Fri 16:40]
+#+filetags:   :blog:
+#+identifier: 20260313T164041
+
+[2026-03-13 Fri 16:40]
+
+In org-mode, checkboxes are a very common type of list:
+#+begin_src org
+- [-] Pending item
+  - [ ] Sub-item 1
+  - [X] Sub-item 2
+#+end_src
+
+And checkboxes have a feature: the parent item is automatically marked as complete only after all child tasks are completed; if child tasks are uncompleted, the parent item is also automatically unmarked as complete.
+
+#+begin_src org
+- [X] Pending item
+  - [X] Sub-item 1
+  - [X] Sub-item 2
+#+end_src
+
+So, since org-mode can arrange TODO tasks in outline form, can we make TODO tasks automatically change like this?
+
+We can set the variable =org-enforce-todo-dependencies= to =t= to "prevent a task from changing from an incomplete state to a complete state when it has unfinished child tasks" ([[https://www.zmonster.me/2015/07/15/org-mode-planning.html#org99414a4][source]]). However, this option is global and will affect all other tasks.
+
+Alternatively, we can use =org-after-todo-statistics-hook= to provide auto-switching functions for TODO items with statistics ( =[/]= ).
+
+* Specific Settings
+
+First, we need to set up two sets of TODO keywords. Since these headings will automatically switch states, we use a new set of keywords =STEP= and =FINI= so that when needed, these auto-managed items won't appear in our possible agenda/org-ql and other filtering results.
+
+#+begin_src elisp
+(setq org-todo-keywords '((sequence "TODO(t)" "HOLD(h)" "|" "DONE(d)" "XXXX(x)")
+                          (sequence "STEP(s)" "|" "FINI(f)")))
+;; Set org-TODO-keyword colors
+(setq org-todo-keyword-faces `(("TODO" . (:foreground ,(modus-themes-get-color-value 'red-warmer) :weight bold))
+                               ("STEP" . (:foreground ,(modus-themes-get-color-value 'red-cooler) :weight bold))
+                               ("HOLD" . (:foreground ,(modus-themes-get-color-value 'yellow-warmer) :weight bold ))
+                               ("XXXX" . (:foreground ,(modus-themes-get-color-value 'magenta-warmer) :weight bold ))
+                               ("DONE" . (:foreground ,(modus-themes-get-color-value 'green-warmer) :weight bold ))
+                               ("FINI" . (:foreground ,(modus-themes-get-color-value 'green-cooler) :weight bold ))))
+#+end_src
+
+If you don't have =modus-themes= or =ef-themes= installed, you can specify colors yourself. Here is an example using the gruvbox color scheme:
+
+#+begin_src elisp
+;; Set org-TODO-keyword colors
+(setq org-todo-keyword-faces '(("TODO" . (:foreground "#cc241d" :weight bold))
+                               ("STEP" . (:foreground "#9d0006" :weight bold))
+                               ("HOLD" . (:foreground "#d79921" :weight bold ))
+                               ("XXXX" . (:foreground "#b16286" :weight bold ))
+                               ("DONE" . (:foreground "#98971a" :weight bold ))
+                               ("FINI" . (:foreground "#79740e" :weight bold ))))
+#+end_src
+
+Then we add a function to the =org-after-todo-statistics-hook= variable:
+
+#+begin_src elisp
+(defun my/org-heading-as-checkbox (n-done n-not-done)
+  "Automatically update the TODO state of the parent heading based on changes in child task progress."
+  (let* ((org-log-done nil)     ;; Do not trigger CLOSED timestamps or popup notes during auto-change, keep it clean
+         (org-todo-log-states nil)
+         (state (org-get-todo-state))) ;; Get the current state of the parent heading that triggered the statistics
+    (if (and state (= n-not-done 0))
+        ;; 1. If all child tasks are completed (number of incomplete tasks is 0)
+        (when (string= state "STEP") (org-todo "FINI"))        ;; Child steps automatically become FINI
+      
+      ;; 2. If there are still incomplete child tasks (not all completed), it will automatically revert.
+      (when (string= state "FINI") (org-todo "STEP")))))
+
+;; Attach this function to the TODO statistics update trigger
+(add-hook 'org-after-todo-statistics-hook 'my/org-heading-as-checkbox)
+#+end_src
+
+With this, for items with =STEP= or =FINI= keywords and a progress statistics cookie =[/]= or =[%]= at the end, along with their child items, they will automatically switch between completed =FINI= and incomplete =STEP= based on progress.
+
+If auto-triggering doesn't happen due to manual editing, you can press =C-c #= to globally refresh the statistics cookie.
+
+Note: This function hardcodes the =STEP= and =FINI= keywords. If you customize them with different names, remember to update the strings in the function accordingly.
+
+#+begin_src org
+,* STEP Project A [1/2]  <-- This statistics cookie [1/2] is required to trigger auto-switching
+,** DONE Sub-task 1
+,** TODO Sub-task 2
+#+end_src
+
+** Additional Notes
+
+*** Why set up a separate group of TODO keywords
+
+Consider the following scenario:
+
+#+begin_src org
+,* TODO Parent task[1/3]
+,** TODO Sub-task 1
+,** TODO Sub-task 2[0/3]
+,*** TODO Sub-sub-task 1
+,*** TODO Sub-sub-task 2
+,** DONE Sub-task 3
+#+end_src
+
+In this case, child tasks need to have TODO keywords, otherwise they will be ignored by the parent task's statistics cookie; child tasks don't need manual management and should be marked as completed once all sub-sub-tasks are done. If the old TODO keywords are reused, these auto-managed tasks would be captured by functions like =org-ql=, =org-agenda=, or =org-sparse-tree=, polluting our result pages.
+
+Therefore, the best choice is to create a new set of TODO keywords, used only for auto-updating the state of automated tasks:
+
+#+begin_src org
+,* TODO Parent task[0/3]
+,** STEP Sub-task 1
+,** STEP Sub-task 2[0/3]
+,*** TODO Sub-sub-task 1
+,*** TODO Sub-sub-task 2
+,** FINI Sub-task 3
+#+end_src
+
+*** More advanced and detailed automation
+
+I have used [[https://www.nongnu.org/org-edna-el/][Org Edna]], but currently my personal task management doesn't require such a detailed plugin, so I temporarily removed it. If needed, you can check out related articles:
+- [[https://www.neverstop.eu.org/post/2024/04/set-tasks-dependency-with-org-edna/][How to Set Task Dependencies in org-mode using the org-edna Plugin | Ian's Site]]
+- [[https://karl-voit.at/2020/10/01/org-depend-to-edna/][Migrating Org Mode Files from org-depend to org-edna]]

@@ -1,0 +1,91 @@
+#+title:      emacs-configuring-sis-on-windows
+#+date:       [2026-04-09 Thu 14:03]
+#+filetags:   :blog:
+#+identifier: 20260409T140325
+
+[2026-04-09 Thu 14:03]
+=sis= is an abbreviation for [[https://github.com/laishulu/emacs-smart-input-source][smart-input-source]]. In a nutshell, it automatically switches the input method between =english= and =other= states based on Emacs' internal state.
+
+Based on my recent experience, sis on Windows is basically usable now. =w32-get-ime-open-status= works correctly, returning =t= or =nil= depending on the input method's open/closed state.
+
+* Relevant Software Versions
+My Emacs version: kiennq's emacs-k installed via scoop ([[https://github.com/kiennq/scoop][scoop link]], [[https://github.com/kiennq/emacs-build/releases/tag/v31.411.20260401.e2ec4ff9][corresponding Emacs build link]])
+My Squirrel (Weasel) version: Latest version automatically built by GitHub Action [[https://github.com/fxliang/weasel/actions/runs/22654231381/artifacts/5753307361][4397056]]
+
+* sis Configuration
+My sis configuration:
+#+begin_src elisp
+(use-package sis
+  :demand t
+  :config
+  ;; Configure for Windows
+  (cond ((eq system-type 'windows-nt)
+         (defun sis-switch ()
+           "Switch input source between \\='english and \\='other."
+           (interactive)
+           (setq sis--for-buffer-locked nil)
+           (if (w32-get-ime-open-status)
+               (sis--set-english)
+             (sis--set-other))))
+        ;; Configure for Emacs-plus with input patch
+        ((eq system-type 'darwin) (sis-ism-lazyman-config "com.apple.keylayout.UnicodeHexInput" "im.rime.inputmethod.Squirrel.Hans" 'emp)))
+  ;; Enable global cursor color
+  (sis-global-cursor-color-mode t)
+  ;; Set sis cursor colors for states
+  (setq sis-other-cursor-color (modus-themes-get-color-value 'fg-alt))
+  (setq sis-default-cursor-color (modus-themes-get-color-value 'border))
+  (set-cursor-color "#ffffff") 
+  ;; enable the /respect/ mode
+  ;; Enable global respect mode
+  (sis-global-respect-mode t)
+  ;; enable the /context/ mode for all buffers
+  (sis-global-context-mode t)
+  ;; enable the /inline english/ mode for all buffers
+  (sis-global-inline-mode t)
+  ;; Automatically set to English functions
+  (setq sis-respect-go-english-triggers
+	(list #'org-agenda))
+  ;; Fetch and update input method state after window switching
+  (add-function :after after-focus-change-function (lambda () (sis--get)))
+  :hook
+  (org-capture-mode . sis-set-other)
+  (atomic-chrome-edit-mode . sis-set-other)
+  (beancount-mode . sis-set-other)
+  (xeft-mode . sis-set-other)
+  :bind
+  ("C-\\" . sis-switch))
+#+end_src
+
+My Squirrel =default.custom.yaml= configuration:
+#+begin_src yaml
+patch:
+  ascii_composer:
+    good_old_caps_lock: true  # true | false
+    switch_key:
+      Caps_Lock: clear      # commit_code | commit_text | clear
+      Shift_L: noop  # commit_code | commit_text | inline_ascii | clear | noop
+      Shift_R: noop  # commit_code | commit_text | inline_ascii | clear | noop
+      Control_L: noop       # commit_code | commit_text | inline_ascii | clear | noop
+      Control_R: noop       # commit_code | commit_text | inline_ascii | clear | noop
+#+end_src
+
+** Explanation of redefining =sis-switch=
+When using sis, there are actually two states. One is the current input state stored in the =sis--current= variable. In the original =sis-switch= function, this is detected by comparing =(eq sis--current 'english)=. The other is our global input method state, which can be obtained via =(w32-get-ime-open-status)=.
+
+The =commit_code= functionality of key presses in Squirrel is not the same as the =ctrl+space= key toggle functionality, and it cannot trigger sis's auto-detection (see [[https://github.com/rime/weasel/issues/1687][related issue]]). This can potentially cause a mismatch where the internal stored state does not change even after the input method state has changed.
+
+#+begin_quote
+Brief summary: sis on Windows relies on =w32-get-ime-open-status= to poll the input method's on/off state in real time. Squirrel's =inline_ascii= or =commit_code= only switches the code table output inside the Rime engine, without changing the on/off state at the Windows IME API level, so Emacs cannot detect this switch.
+#+end_quote
+
+Therefore, we set =shift= to =noop= and modify the definition of =sis-switch= to avoid mismatches as much as possible.
+
+Note that after disabling =Shift= switching, my daily Chinese/English switching within Emacs relies entirely on =C-\= (bound to =sis-switch=). Outside Emacs, I rely on the system's =Ctrl+Space= to toggle the input method.
+
++Note: Windows' "Let me use a different input method for each app window" setting is unrelated to this. When enabled, it allows using different input methods for different app windows, but Windows already saves the on/off state of a given input method separately for each window by default.+
+
+[2026-04-13 Mon]: It is recommended to enable Windows' "Let me use a different input method for each app window" setting.
+
+If this feature is disabled, assuming Squirrel is in Chinese (enabled) state within Emacs, when you switch to another application and close Squirrel with Ctrl+Space, then switch back to Emacs, sis will remain in Chinese state, but Squirrel will follow the close and be in English, causing a state mismatch.
+
+If this feature is enabled (note that if enabled mid-session, you need to restart the existing Emacs process), the input method on/off state will be independently maintained across different windows. In the above scenario, when switching back to Emacs, Squirrel will automatically change back to Chinese.

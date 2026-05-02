@@ -1,0 +1,139 @@
+#+title:      emacs-using-ob-gptel-to-save-llm-chat-dialogue-in-org-files-deepseek-example
+#+date:       [2026-04-28 Tue 17:10]
+#+filetags:   :blog:
+#+identifier: 20260428T171017
+
+[2026-04-28 Tue 17:10] 
+* Introduction
+I rarely use AI. Mostly I freeload on the web version of [[https://aistudio.google.com/prompts/new_chat][Google AI Studio]] for Gemini, or play with the free [[https://chat.deepseek.com][DeepSeek web app]]. Recently DeepSeek released a new version that remains very affordable while its usability is now second only to a few closed-source large models – I have to use it more.
+
+However, the DeepSeek web experience feels inferior to Google AI Studio. The latter treats each conversation as a plain text file, allowing you to freely edit or delete previous user inputs and AI outputs. In DeepSeek, both the user’s historical inputs and the model’s historical outputs are fixed and cannot be modified, which loses a great deal of flexibility.
+
+Fortunately, we have Emacs, which lets us fully customise the whole experience.
+* Software configuration
+First install [[https://github.com/karthink/gptel][gptel]] and [[https://github.com/jwiegley/ob-gptel][ob-gptel]].
+
+Because large models output in =markdown= by default, you need to install =markdown-mode=.
+#+begin_src elisp
+(use-package markdown-mode
+  :mode "\\.\\(?:md\\|markdown\\|mkd\\|mdown\\|mkdn\\|mdwn\\|mdx\\)\\'")
+#+end_src
+* gptel
+Configure =gptel=. First, set the variables. We use the external =curl= to send network requests. The built-in =url-retrieve= always has various small problems.
+#+begin_src elisp
+(use-package gptel :demand t 
+  :custom
+  (gptel-use-curl t)
+#+end_src
+=gptel-directives= is a complete set of system prompts. You can write the prompts you need to reuse there and quickly switch between them in the =gptel-menu=. I leave it empty by default.
+#+begin_src elisp
+  (gptel-directives
+    '((default . "")))
+#+end_src
+Set automatic cursor movement. If you converse in a gptel buffer, by default the cursor stays at the position where you sent the message after the model’s output is inserted. The following setting makes the cursor jump automatically.
+#+begin_src elisp
+  :hook
+  (gptel-post-response-functions . gptel-end-of-response)
+#+end_src
+Set the model. On Windows you need to configure =curl= specially.
+#+begin_src elisp
+  :config
+  (when (eq system-type 'windows-nt)
+    (setq gptel-curl-extra-args '("--ssl-no-revoke")))
+#+end_src
+Start configuring the DeepSeek model. The default model used here is =deepseek-v4-pro=. Remember to replace =YOUR-DEEPSEEK-KEY= with your own API key.
+#+begin_src elisp
+  (setq gptel-model   "deepseek-v4-pro"
+        gptel-backend (gptel-make-openai "DeepSeek"
+                        :host "api.deepseek.com"
+                        :endpoint "/chat/completions"
+                        :stream t
+                        :key "YOUR-DEEPSEEK-KEY"
+                        :models '("deepseek-v4-flash" "deepseek-v4-pro")))
+#+end_src
+Next configure some presets that can be activated later via =:preset=.
+Two presets are set here: =max= sets the reasoning effort to max (the default is high), and =no-r= turns off reasoning for the flash model.
+#+begin_src elisp
+  (gptel-make-preset 'max
+    :request-params '(:reasoning_effort "max"))
+  (gptel-make-preset 'no-r
+    :request-params '(:thinking '(:type "disabled"))))
+#+end_src
+* ob-gptel
+Configure =ob-gptel=. Since this package is not yet on MELPA, we must download it manually from its repository. The code below works with Emacs 30 and later; I set the package to load immediately after =org= is loaded.
+#+begin_src elisp
+(use-package ob-gptel :after org :demand t
+  :vc (:url "git@github.com:jwiegley/ob-gptel"
+           :rev :newest)
+#+end_src
+Add =gptel= to =org-babel='s executable languages:
+#+begin_src elisp
+  :config
+  (add-to-list 'org-babel-load-languages '(gptel . t))
+#+end_src
+Fix [[https://github.com/jwiegley/ob-gptel/issues/10][a small issue]]: when the cursor is after the =c= of =end_src=, pressing =C-c C-c= to execute the code will repeatedly include the current block in the conversation context. The solution is simple – just move to the beginning of the line before calling the session-finding function.
+#+begin_src elisp
+  (defun my/ob-gptel-exclude-current-block (orig-fun &rest args)
+    "Adjust point so that the current block is not included in session history."
+    (save-excursion
+      (beginning-of-line)
+      (apply orig-fun args)))
+  (advice-add 'ob-gptel-find-session :around #'my/ob-gptel-exclude-current-block))
+#+end_src
+* Usage examples
+Please refer to [[https://github.com/jwiegley/ob-gptel#basic-query][ob-gptel’s README]]. Here are the most basic usages as examples:
+Basic query
+#+begin_src org
+,#+begin_src gptel
+What is the capital of France?
+,#+end_src
+
+,#+RESULTS:
+The capital of France is Paris.
+#+end_src
+
+Switching models
+#+begin_src org
+,#+begin_src gptel :model deepseek-v4-flash
+Write a haiku about Emacs.
+,#+end_src
+#+end_src
+
+The =:session= parameter collects all preceding blocks that share the same session name. Here =:dry-run yes= is enabled so we can preview the content that would be sent to the LLM in the =RESULTS= block without actually sending it.
+
+#+begin_src org :exports both
+,#+begin_src gptel :session my-chat
+Tell me about Emacs.
+,#+end_src
+,#+RESULTS:
+Assume this is the model's reply to the first input
+,#+begin_src gptel :session my-chat :dry-run yes
+What about its history?
+,#+end_src
+#+end_src
+
+#+RESULTS:
+: (:model "deepseek-v4-pro" :messages
+:         [(:role "user" :content "Tell me about Emacs.")
+:          (:role "assistant" :content "Assume this is the model's reply to the first input")
+:          (:role "user" :content "What about its history?")]
+:         :stream :json-false :temperature 1.0)
+
+If you have already configured gptel presets, you can use them directly:
+
+#+begin_src org
+,#+begin_src gptel :preset no-r
+Explain monads simply.
+,#+end_src
+#+end_src
+
+* Configuration file
+#+begin_src emacs-lisp :exports both :results raw :eval no-export
+(files--ensure-directory my/desktop-path)
+(let ((file "gptel-config.txt"))
+  (org-babel-tangle-file (buffer-file-name) (concat my/desktop-path file) "elisp")
+  (format "[[https://blog.prayhand13013.top/%s][View the configuration summary above]]" file))
+#+end_src
+
+#+RESULTS:
+[[https://blog.prayhand13013.top/gptel-config.txt][View the configuration summary above]]

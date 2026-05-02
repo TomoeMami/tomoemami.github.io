@@ -1,0 +1,139 @@
+#+title:      emacs-using-majutsu-to-manage-git-on-windows
+#+date:       [2025-10-16 Thu 14:24]
+#+filetags:   :blog:
+#+identifier: 20251016T142418
+
+I presume you, as an Emacs user, have heard of Git. Although powerful and a cornerstone of modern community development, Git is not easy to use. Fortunately, we have a great package in Emacs called [[https://github.com/magit/magit][Magit]], which can greatly enhance the happiness of using Git.
+
+However, on Windows, Magit's performance is quite poor. According to [[https://github.com/magit/magit/discussions/5301][relevant discussions]], the main reason is that Magit runs many Git processes to collect the required information, and the cost of creating processes on Windows is relatively high.
+
+Fast forward to 2025. In the trend of "Rewrite It In Rust," many classic Linux tools have been rewritten in Rust, and there is also a Rust-written alternative to Git: [[https://github.com/jj-vcs/jj][Jujutsu]]. In short, jj can manage Git repositories, adopting a somewhat simplified design philosophy, though it also lacks some features. Most importantly, on Windows, the responsiveness of Majutsu+Jujutsu is faster than Magit+Git.
+
+* Configuring Git and Jujutsu
+Jujutsu needs to be installed alongside Git, and after managing a repository, it also calls Git for operations like push/fetch.
+
+According to [[https://cevolve05.github.io/post/2024/10/05/fix-scoop-git-not-use-win32-openssh/][this post]], Git on Windows cannot be installed via scoop; you need to download the Installer and check "Use external OpenSSH" during installation. If you unfortunately installed it via scoop, please uninstall it and use the [[https://gitforwindows.org/][official installer]] (otherwise you will find that jj cannot push).
+
+[2025-10-19 Sun 16:06]:
+When using external SSH, to set a proxy for Git, you should manually specify the path to ~connect.exe~, for example:
+
+=Proxycommand C:\Program Files\Git\mingw64\bin\connect.exe -S 127.0.0.1:7890 %h %p=
+
+Jujutsu can be installed via scoop: just run ~scoop install jj~.
+
+* Configuring majutsu
+
+If you are using Emacs version 30+, you can use the ~:vc~ keyword of ~use-package~ to install Majutsu directly from the GitHub repo.
+
+#+begin_src elisp
+(use-package majutsu
+  :vc (:url "https://github.com/0WD0/majutsu"
+            :rev :newest)
+  :bind
+  (("C-x j" . majutsu-log)
+   ("C-x C-j" . majutsu-log)))
+#+end_src
+
+Otherwise, you can use other methods or manually download the relevant files.
+
+* Using majutsu
+~C-x j~ enters the majutsu interface. Jujutsu's design philosophy differs from Git; it eliminates the staging area and other concepts. The current state of files is an unnamed new HEAD, which becomes fixed after committing.
+
+A simple workflow is:
+
+Make some changes in the current repository. When you feel the current state should be saved, press ~C-x j~ and then ~c~, enter the commit message, and create a commit.
+
+To push, press ~C-x j~, move the cursor to the commit you want to update to, then press ~b~ ~s~ to move =main= there, and finally press ~G~ ~p~ ~p~ to push.
+
+For more detailed introductions, see the following two tutorials:
+
+[[https://maddie.wtf/posts/2025-07-21-jujutsu-for-busy-devs][Jujutsu Tutorial for Busy Developers]]
+
+[[https://jj-for-everyone.github.io/introduction.html][Jujutsu Tutorial for Everyone]]
+
+[2025-10-31 Fri] Below I explain the operations with a few practical examples.
+
+** Initialization
+This step needs to be done in cmd/pwsh. The following assumes the default branch is ~main~.
+
+If you need to clone a repo from scratch:
+#+begin_src bash
+jj git clone --colocate REPO-URL
+#+end_src
+
+If you already have a local git repo, after initialization you need to explicitly track ~main@origin~ (depending on the actual main branch):
+#+begin_src bash
+jj git init --colocate
+jj bookmark track main@origin
+#+end_src
+
+** Saving changes as a commit
+Make some changes in the current repository. When you feel the current state should be saved, press ~C-x j~ and then ~c~, enter the commit message, press ~C-c C-c~ to save and create a commit.
+
+** Pushing a local commit
+Press ~C-x j~ to enter the Majutsu interface, move the cursor to the commit you want to update to, then press ~b~ ~s~ to move ~main~ there, and finally press ~G~ ~p~ ~p~ to push.
+
+** Fetching and merging remote changes
+Since there is no new branch, the default approach is rebase.
+Press ~C-x j~ to enter the Majutsu interface, then press ~G~ ~f~ ~f~ to fetch from remote, then press ~r~ to enter the rebase interface. Move the cursor to the local commit and press ~s~ to select it as the start, then move the cursor to the fetched remote commit and press ~d~ to select it as the end, and finally press ~r~ to confirm the rebase.
+
+** Discarding local changes
+Sometimes you need to discard local changes. Only mutable changes (non-diamond icon) can be discarded. Move the cursor to that commit, press ~a~ and then ~y~ to discard.
+
+* Afterword
+[2026-01-12 Mon 13:49] Since I mainly use jj to manage .emacs.d and rarely use other features, I switched to lazycat's [[https://github.com/manateelazycat/one-key][one-key]] to simplify operations and abandoned =majutsu=.
+
+#+begin_src elisp
+(use-package with-editor
+  :ensure t :demand t
+  :config
+  (defun my/setup-editor-buffer ()
+    (when (string-prefix-p "editor-" (buffer-name))
+      (with-editor-mode 1)))
+  :hook
+  (server-visit-hook . my/setup-editor-buffer))
+(defun my/personal-jj (action)
+  (let* ((emacs-exe (if (eq system-type 'windows-nt)
+                        "emacsclientw"
+                      "emacsclient"))
+         (args " --no-pager")
+         (str
+          (cond ((eq action 'push)
+                 "jj b s main && jj git push")
+                ((eq action 'fetch)
+                 "jj git fetch && jj rebase -d main")
+                ((eq action 'commit)
+                 "jj commit")
+                ((eq action 'squash)
+                 "jj squash")
+                ((eq action 'describe)
+                 "jj describe")
+                ((eq action 'log)
+                 "jj log")
+                ((eq action 'status)
+                 "jj status")
+                ((eq action 'abandon)
+                 (concat "jj abandon " (read-string "Abandon: ")))
+                ((eq action 'edit)
+                 (concat "jj edit " (read-string "Edit: ")))))
+         (process-environment (cons (concat "JJ_EDITOR=" emacs-exe) process-environment)))
+    (async-shell-command (concat str args) "*JJ*")))
+
+(use-package one-key :demand t
+  :vc (:url "git@github.com:manateelazycat/one-key"
+           :rev :newest))
+(one-key-create-menu
+ "GIT"
+ '(
+   (("p" . "Push") . (lambda () (interactive) (my/personal-jj 'push)))
+   (("f" . "Fetch") . (lambda () (interactive) (my/personal-jj 'fetch)))
+   (("g" . "Status") . (lambda () (interactive) (my/personal-jj 'status)))
+   (("d" . "Describe") . (lambda () (interactive) (my/personal-jj 'describe)))
+   (("l" . "Log") . (lambda () (interactive) (my/personal-jj 'log)))
+   (("q" . "sQuash") . (lambda () (interactive) (my/personal-jj 'squash)))
+   (("a" . "Abandon") . (lambda () (interactive) (my/personal-jj 'abandon)))
+   (("e" . "Edit") . (lambda () (interactive) (my/personal-jj 'edit)))
+   (("c" . "Commit") . (lambda () (interactive) (my/personal-jj 'commit))))
+ t)
+(global-set-key "\C-cg" #'one-key-menu-git)
+#+end_src

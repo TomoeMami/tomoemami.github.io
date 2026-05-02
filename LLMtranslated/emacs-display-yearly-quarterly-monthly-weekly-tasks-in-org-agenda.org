@@ -1,0 +1,206 @@
+#+title:      emacs-display-yearly-quarterly-monthly-weekly-tasks-in-org-agenda
+#+date:       [2025-09-05 Fri 16:27]
+#+filetags:   :blog:
+#+identifier: 20250905T162740
+
+Those who frequently use task management software know that some tasks do not have a specific deadline but rather a general timeframe, such as yearly, quarterly, monthly, or weekly tasks. The traditional approach in org-mode based on =SCHEDULED= and =DEADLINE= struggles to meet the needs of viewing and repeating such tasks.
+
+After some thought, I found a method to achieve viewing and repetition of related tasks using [[https://github.com/alphapapa/org-ql][Org-QL]] and [[https://github.com/TomoeMami/org-repeat-by-cron.el][org-repeat-by-cron]], and I am sharing it here.
+
+Note: [[https://github.com/TomoeMami/org-repeat-by-cron.el][org-repeat-by-cron]] is my modification of [[https://github.com/Raemi/org-reschedule-by-rule]]. The minor changes made are not discussed here.
+
+* Setting Up Tasks to be Tracked
+
+Add a property named =PERIOD= to the tasks that need to be tracked.
+
+Since Emacs Org-Mode's repetitive tasks cannot be positioned on "the last day of a certain month" for monthly repetitions, cron is needed for quarterly and monthly tasks to help with positioning.
+
+#+begin_src org
+,* TODO This is a yearly task
+DEADLINE: <2025-12-31 Wed ++1y>
+:PROPERTIES:
+:PERIOD:   year
+:END:
+
+,* TODO This is a quarterly task
+DEADLINE: <2025-09-30 Tue>
+:PROPERTIES:
+:REPEAT_CRON: L 3,6,9,12 *
+:PERIOD:   season
+:REPEAT_DEADLINE: t
+:END:
+
+,* TODO This is a monthly task
+DEADLINE: <2025-09-30 Tue>
+:PROPERTIES:
+:REPEAT_CRON: L * *
+:PERIOD:   month
+:REPEAT_DEADLINE: t
+:END:
+
+,* TODO This is a weekly task
+DEADLINE: <2025-09-12 Fri ++1w>
+:PROPERTIES:
+:PERIOD:   week
+:END:
+#+end_src
+
+* Setting Up Agenda Commands
+
+** Custom Related Functions
+
+*** my/org-ql-ts-period
+
+Here we define two related functions. The first function, =my/org-ql-ts-period=, returns the start and end dates of the current period based on the input period.
+
+For example, if executed on September 9, 2025 as =(my/org-ql-ts-period 's)=, it returns =("2025-07-01" . "2025-09-30")=
+
+#+begin_src elisp
+(defun my/org-ql-ts-period (period)
+"Return the start and end dates of the current year, quarter, month, or week based on input PERIOD ('y', 's', 'm', 'w').
+Format is 'YYYY-MM-DD'.
+
+Season definition:
+- Quarter 1: January - March
+- Quarter 2: April - June
+- Quarter 3: July - September
+- Quarter 4: October - December
+
+Monday is considered the start of the week.
+
+Parameters:
+PERIOD: A symbol representing the time period, can be 'y', 's', 'm', or 'w'.
+
+Returns:
+A cons cell containing start and end dates in 'YYYY-MM-DD' format,
+or an error message if the input is invalid."
+  (let* ((now (current-time))
+         (decoded-time (decode-time now))
+         (sec (nth 0 decoded-time))
+         (min (nth 1 decoded-time))
+         (hour (nth 2 decoded-time))
+         (day (nth 3 decoded-time))
+         (month (nth 4 decoded-time))
+         (year (nth 5 decoded-time))
+         start-date
+         end-date)
+    (cond
+     ;; Year
+     ((eq period 'y)
+      (setq start-date (format-time-string "%Y-01-01"))
+      (setq end-date (format-time-string "%Y-12-31")))
+
+     ;; Season
+     ((eq period 's)
+      (let* ((start-month (cond ((<= month 3) 1)
+                                ((<= month 6) 4)
+                                ((<= month 9) 7)
+                                (t 10)))
+             (end-month (+ start-month 2))
+             (end-day (calendar-last-day-of-month end-month year)))
+        (setq start-date (format-time-string "%Y-%m-01" (encode-time 0 0 0 1 start-month year)))
+        (setq end-date (format-time-string (format "%%Y-%%m-%d" end-day) (encode-time 0 0 0 end-day end-month year)))))
+
+     ;; Month
+     ((eq period 'm)
+      (setq start-date (format-time-string "%Y-%m-01"))
+      (let* ((last-day (calendar-last-day-of-month month year)))
+        (setq end-date (format-time-string (format "%%Y-%%m-%d" last-day)))))
+
+     ;; Week
+     ((eq period 'w)
+      (let* ((day-of-week (string-to-number (format-time-string "%u"))) ; Monday is 1, Sunday is 7
+             (start-offset (- day-of-week 1))
+             (end-offset (- 7 day-of-week))
+             (start-time (time-subtract now (seconds-to-time (* start-offset 24 60 60))))
+             (end-time (time-add now (seconds-to-time (* end-offset 24 60 60)))))
+        (setq start-date (format-time-string "%Y-%m-%d" start-time))
+        (setq end-date (format-time-string "%Y-%m-%d" end-time))))
+
+     ;; Invalid input
+     (t (error "Invalid parameter, please enter 'y', 's', 'm', or 'w'")))
+
+    (cons start-date end-date)))
+#+end_src
+
+*** my/org-ql-block-period
+
+The second function, =my/org-ql-block-period=, simplifies the repeated code that may appear in =org-agenda-custom-commands=. It constructs different =org-ql-block= based on the input period.
+
+#+begin_src elisp
+(defun my/org-ql-block-period (period)
+  (let ((property-string nil)
+        (header-string nil))
+    (cond
+     ;; Year
+     ((eq period 'y)
+      (setq property-string "year"
+            header-string "Year"))
+     ;; Season
+     ((eq period 's)
+      (setq property-string "season"
+            header-string "Quarter"))
+     ;; Month
+     ((eq period 'm)
+      (setq property-string "month"
+            header-string "Month"))
+     ;; Week
+     ((eq period 'w)
+      (setq property-string "week"
+            header-string "Week"))
+     ;; Invalid input
+     (t (error "Invalid parameter, please enter 'y', 's', 'm', or 'w'")))
+    (org-ql-block `(and (todo "TODO" "HOLD") (property "PERIOD" property-string)(ts-active :from ,(car (my/org-ql-ts-period period)) :to ,(cdr (my/org-ql-ts-period period))))
+                    ((org-ql-block-header ,(concat "🔄Period--" header-string "🔄"))))))
+;; Reference setting
+;; (my/org-ql-block-period 'y)
+#+end_src
+
+*** org-agenda-custom-commands
+
+Finally, we need to customize =org-agenda-custom-commands= to include the above block function:
+
+#+begin_src elisp
+(setq org-agenda-custom-commands
+      '(("d" "Daily Agenda"
+         ;; Omitted above...
+         ;; Pull out periodic tasks
+         (my/org-ql-block-period 'y)
+         (my/org-ql-block-period 's)
+         (my/org-ql-block-period 'm)
+         (my/org-ql-block-period 'w)
+          ;; Omitted below...
+          )))
+#+end_src
+
+Thus, after executing =(org-agenda nil "d")=, you can see in the Agenda area:
+
+#+begin_src org
+──────────────────────────────────────────────────────────────
+🔄Period--Year🔄
+  TODO This is a yearly task  
+
+───────────────────────────────────────────────────────────────
+🔄Period--Quarter🔄
+  TODO This is a quarterly task 
+
+───────────────────────────────────────────────────────────────
+🔄Period--Month🔄
+  TODO This is a monthly task  
+
+───────────────────────────────────────────────────────────────
+🔄Period--Week🔄
+  TODO This is a weekly task  
+#+end_src
+
+* Explanation of the Principle
+
+The =org-ql-block= function can display search results as a block in the agenda. Here, the search criteria are =(and (todo "TODO" "HOLD") (property "PERIOD" property-string)(ts-active :from ,(car (my/org-ql-ts-period period)) :to ,(cdr (my/org-ql-ts-period period))))=, which actually searches for tasks satisfying the following three conditions:
+
+- =(todo "TODO" "HOLD")= : HEADINGS in TODO states like TODO or HOLD
+- =(property "PERIOD" property-string)= : Searches for tasks with =PERIOD= property matching =year=, =season=, =month=, or =week=
+- =(ts-active :from ,(car (my/org-ql-ts-period period)) :to ,(cdr (my/org-ql-ts-period period)))= : Active timestamps that fall within the start and end dates of the current year/quarter/month/week, as generated by the =my/org-ql-ts-period= function.
+
+We use =DEADLINE= here to reserve =SCHEDULED= for planning when such tasks should start being worked on. If a task is marked as done, it will automatically set its =DEADLINE= to the last day of the next qualifying period, thus removing it from our Agenda View (because the timestamp would be beyond the deadline).
+
+When a task is marked as DONE in org-todo, because we use =DEADLINE=, it will clear =SCHEDULED= and reset the =DEADLINE= timestamp according to the repeat rule.

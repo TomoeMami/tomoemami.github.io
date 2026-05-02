@@ -1,0 +1,23 @@
+#+title:      emacs-using-vterm-on-windows
+#+date:       [2025-10-03 Fri 20:39]
+#+filetags:   :blog:
+#+identifier: 20251003T203912
+
+Original post: [[https://emacs-china.org/t/windows-emacs-libvterm/30140][[Share] Make Windows support emacs-libvterm]]
+Original author: [[https://github.com/xhcoding/emacs-libvterm][xhcoding]] 
+
+TL;DR of the discovered process:
+
+1. Download [[https://github.com/xhcoding/conpty-proxy/releases/tag/v1.0.1][conpty_proxy.exe]] and put it in your preferred location (I put it in ~~/.emacs.d/bin/~ )
+2. Download [[https://github.com/xhcoding/emacs-libvterm/blob/master/vterm.el][vterm.el]] and put it in your preferred location (I put it in ~~/.emacs.d/elpa/~ )
+3. Download the [[https://github.com/TomoeMami/emacs-libvterm/actions][corresponding dll]] (both ucrt and regular versions are available) and put it in your preferred location (I put it in ~~/.emacs.d/bin/~ )
+4. Configure your Emacs startup file. Note that if you set variables like ~load-suffixes~ at startup, you need to configure ~vterm~ after restoring them.
+   #+begin_src elisp
+(add-to-list 'load-path "~/.emacs.d/bin")
+(use-package vterm
+  :load-path "~/.emacs.d/elpa/"
+  :config
+  (when (eq system-type 'windows-nt)
+    (setq vterm-shell "powershell")))
+   #+end_src
+5. ~M-x vterm~

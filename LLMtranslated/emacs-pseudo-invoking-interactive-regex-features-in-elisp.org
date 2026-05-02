@@ -1,0 +1,218 @@
+#+title:      emacs-pseudo-invoking-interactive-regex-features-in-elisp
+#+date:       [2025-09-26 Fri 11:30]
+#+filetags:   :blog:
+#+identifier: 20250926T113025
+
+Emacs users often use powerful interactive replacement commands like ~replace-regexp~ and ~query-replace-regexp~. Beyond basic text replacement and capture group backreferences (like ~\&~ and ~\1~), interactive replacement supports two lesser-known but powerful special sequences:
+
+1. ~\,(...)~ : Allows executing arbitrary Elisp expressions within the replacement string and inserting their results.
+2. ~\#~ : Represents the current replacement count, starting from 0.
+
+However, these convenient features cannot be directly used when called programmatically via non-interactive Elisp code. Therefore, I partially implemented the ability to invoke these interactive regex features through the two custom functions below.
+
+[2025-09-26 Fri 22:35]: [[https://emacs-china.org/u/Kana][@Kana]] pointed out in [[https://emacs-china.org/t/elisp/30137/2?u=tomoemami][a reply]] that the same effect can be achieved with the following function, which also supports the ~\,(...)~ format:
+
+#+begin_src elisp
+(defun my/replace-regexp (regexp replacement)
+  "`replace-regexp', non-interactively."
+  (perform-replace
+   regexp
+   (query-replace-compile-replacement replacement t)
+   nil t nil))
+#+end_src
+
+Testing confirms this works and also supports the evaluation format of ~\,(...)~. The two functions below can be ignored.
+
+* Evaluation Function ~my/eval-lisp-in-string~
+
+This function is the core for implementing the ~\,(...)~ functionality. Its task is to find all expressions of the form ~,(...)~ within a string, evaluate the Lisp code inside the parentheses, and then replace ~,(...)~ with the evaluation result.
+
+#+begin_src elisp
+(defun my/eval-lisp-in-string (str)
+  "Find all `,(...)` patterns in string STR.
+Evaluate the S-expression inside the parentheses and replace the original pattern with its result."
+  (with-temp-buffer
+    (insert str)
+    (goto-char (point-max)) ; Start from the end of the buffer
+    (save-match-data
+      ;; Search backwards from the end so replacements don't affect subsequent search positions
+      (while (re-search-backward ",(" nil t)
+        (let* ((match-start (match-beginning 0)) ; Position of ","
+               (sexp-start (match-end 0)))     ; Position after "(" 
+          
+          ;; Use save-excursion to find the end of the S-expression without moving the cursor permanently
+          (save-excursion
+            (goto-char sexp-start) ; Move after "("
+            (backward-char)        ; Move to the "("
+            
+            (let* ((sexp-string ; Extract the S-expression as a string
+                    (buffer-substring-no-properties
+                     (point) ; Start of S-expression
+                     (progn (forward-sexp) (point)))) ; End of S-expression
+                   (match-end (point)) ; Record the end position of the S-expression
+                   (replacement-text ; Compute the replacement text
+                    (condition-case err ; Catch potential errors
+                        ;; Core evaluation logic
+                        (format "%s" (eval (car (read-from-string (format "(progn %s)" sexp-string)))))
+                      ;; If evaluation errors, use the error message as replacement text
+                      (error (format "<Evaluation error: %s>" (error-message-string err))))))
+              
+              ;; Perform substitution
+              (delete-region match-start match-end)
+              (goto-char match-start)
+              (insert replacement-text))))))
+    ;; Return the final result after the entire buffer has been modified
+    (buffer-string)))
+#+end_src
+
+Code logic:
+
+1. The function uses ~with-temp-buffer~ to create a temporary workspace, avoiding contamination of the current buffer.
+2. It searches for ~,(~ from the end of the string using ~re-search-backward~. The advantage is that after each replacement, it doesn't affect the starting position of the next search.
+3. After finding ~,(~, it uses ~forward-sexp~ to precisely locate the matching ~)~, thereby extracting the complete Lisp code string within the parentheses.
+4. The core evaluation is accomplished with ~eval~ and ~read-from-string~.
+5. Finally, it deletes the original ~,(...)~ text and inserts the evaluated result string at the same position.
+
+* Replacement Function ~my/replace-regexp~
+
+Now, we construct the ~my/replace-regexp~ function. It cyclically searches for the given regular expression starting from the cursor, processes all special sequences in the replacement string for each match, and finally performs the replacement.
+
+#+begin_src elisp
+(defun my/replace-regexp (regexp rep)
+  "The replacement string (REP) supports the following special sequences:
+  \\&      - Represents the entire matched text.
+  \\1, \\2 ... - Represents the text matched by the Nth capture group in the regexp.
+  ,(...)  - The content inside parentheses is evaluated as a Lisp expression, and its result is used as the replacement content.
+  \\#      - Represents the replacement count (starting from 0).
+
+Examples:
+  - Replacing `foo(\\d+)` with `bar\\1` changes `foo123` to `bar123`.
+  - Replacing `\\w+` with `\\,(upcase \\&)` converts all words to uppercase.
+  - Replacing `^` with `\\# ` inserts line numbers at the beginning of each line."
+  (let ((count 0))
+    (while (re-search-forward regexp nil t)
+      (let* ((rep-with-count
+              (replace-regexp-in-string "\\\\#" (number-to-string count) rep t t))
+             (rep-with-args
+              (substring-no-properties (match-substitute-replacement rep-with-count)))
+             (rep-with-func
+              (my/eval-lisp-in-string rep-with-args)))
+        (replace-match rep-with-func t))
+      (setq count (1+ count)))))
+#+end_src
+
+Code logic:
+
+1. The ~while~ loop and ~re-search-forward~ traverse all occurrences matching ~regexp~ in the current buffer, starting from the cursor position.
+2. Before entering the core processing logic, ~replace-regexp-in-string~ first replaces the ~\\#~ pattern in the replacement template ~rep~ with the current counter value ~count~.
+3. ~match-substitute-replacement~ processes the ~\\&~ (entire match) and ~\\N~ (capture groups) in the ~rep-with-count~ obtained from the previous step.
+4. The string with other sequences processed is passed to the ~my/eval-lisp-in-string~ function to complete the evaluation and replacement of Lisp expressions ~,(...)~.
+5. ~replace-match~ is called to apply the final replacement string ~rep-with-func~ to the buffer, completing the replacement for a single match.
+6. ~count~ is incremented after each loop, preparing for the next ~\\#~ processing.
+
+Note that if we follow the interactive regex replacement convention and use ~\\,(...)~ to denote expressions, the ~match-substitute-replacement~ function will throw an error. Hence, we use ~,(...)~ instead.
+
+* Usage Examples
+
+Suppose our buffer contains:
+
+#+begin_src
+hello world
+foo123
+bar456
+#+end_src
+
+** Example 1: Lowercase to Uppercase
+
+Suppose we want to convert all English letters in the buffer to uppercase.
+
+#+begin_src elisp
+(with-temp-buffer
+  (insert "hello world
+foo123
+bar456")
+  (goto-char (point-min))
+  (my/replace-regexp "[a-z]+" ",(upcase (symbol-name '\\&))")
+  (buffer-string))  
+#+end_src
+
+Result:
+#+begin_src
+HELLO WORLD
+FOO123
+BAR456
+#+end_src
+
+Note that ~\\&~ is replaced by ~match-substitute-replacement~ with the matched English letters themselves as a symbol. So it needs to be converted to a string recognizable by other functions via ~(symbol-name '\\&)~.
+
+** Example 2: Adding Line Numbers to Each Line
+
+#+begin_src elisp
+(with-temp-buffer
+  (insert "hello world
+foo123
+bar456")
+  (goto-char (point-min))
+  (my/replace-regexp "^" "\\# ")
+  (buffer-string))  
+#+end_src
+
+Result:
+#+begin_src 
+0 hello world
+1 foo123
+2 bar456
+#+end_src
+
+~my/replace-regexp~ matches at the beginning of each line. For the first match, ~\\#~ is replaced with ~0~; for the second, ~1~, and so on, easily adding line numbers.
+
+To maintain consistency with interactive functions, the count still starts at 0. For counting starting at 1, see the next example.
+
+** Example 3: Mathematical Operations
+
+Suppose we want line numbers to start from 1.
+
+#+begin_src elisp
+(with-temp-buffer
+  (insert "hello world
+foo123
+bar456")
+  (goto-char (point-min))
+  (my/replace-regexp "^" ",(1+ \\#) ")
+  (buffer-string))  
+#+end_src
+
+Result:
+#+begin_src 
+1 hello world
+2 foo123
+3 bar456
+#+end_src
+
+** Example 4: Comprehensive Example
+
+Suppose we want to multiply all numbers by 2, then add 1000 times the replacement count.
+
+#+begin_src elisp
+(with-temp-buffer
+  (insert "hello world
+foo123
+bar456")
+  (goto-char (point-min))
+  (my/replace-regexp "\\([0-9]+\\)" ",(+ (* 1000 \\#) (* 2 \\1)) ")
+  (buffer-string))  
+#+end_src
+
+Result:
+
+#+begin_src 
+hello world
+foo246 
+bar1912 
+#+end_src
+
+This example combines multiple features:
+
+1. ~\\#~ is replaced by the match count, starting from 0.
+2. In the expression ~,(* 2 \\1)~, ~\\1~ is replaced by ~match-substitute-replacement~ with the captured numeric symbol.
+3. The Lisp code ~(+ (* 1000 \\#) (* 2 \\1))~ completes the calculation.

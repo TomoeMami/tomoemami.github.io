@@ -1,0 +1,40 @@
+#+title:      emacs-beautify-task-priorities-in-org-mode
+#+date:       [2026-03-12 Thu 17:03]
+#+filetags:   :blog:
+#+identifier: 20260312T170304
+
+[2026-03-12 Thu 17:03]
+
+In my younger days, I never set priorities for tasks. Because I was convinced, and practice had proven, that the human brain automatically determines task priority—just a glance at the task list is enough.
+
+Now, perhaps I'm older and feel that every time I review the task list, it consumes my dwindling judgment energy; or perhaps I've come to realize that from a code simplification perspective, it's better to avoid repeatedly judging task priorities, so using text-based priorities as a cache for the brain's judgment results. In any case, I started configuring and using org-mode's built-in task priorities.
+
+Since this is a built-in feature, no configuration is needed initially. By pressing =S+↑/↓= on a task without priority, you can create a default level =[#B]=. Then pressing =S+↑/↓= again will increase or decrease the priority accordingly.
+
+But we always want to beautify things. I currently use the third-party package [[https://github.com/harrybournis/org-fancy-priorities][org-fancy-priorities]], which allows custom overlay replacement strings for the defined priority sequence symbols.
+
+* Specific Configuration
+
+#+begin_src elisp
+(use-package org-fancy-priorities
+  :after org :ensure t :demand t
+  :hook
+  (org-mode-hook . org-fancy-priorities-mode)
+  :custom
+  (org-priority-highest 1)
+  (org-priority-lowest 4)
+  (org-priority-default 3)
+  (org-fancy-priorities-list
+   `((?1 . ,(propertize "🆂" 'face '(:foreground "#fe8019" :weight bold :slant normal)))
+     (?2 . ,(propertize "🅰" 'face '(:foreground "#8f3f71" :weight bold :slant normal)))
+     (?3 . ,(propertize "🅱" 'face '(:foreground "#458588" :weight bold :slant normal)))
+     (?4 . ,(propertize "🅲" 'face '(:foreground "#7c6f64":weight bold :slant normal))))))
+#+end_src
+
+In the above configuration, I set the priority order as 1>2>3>4, with the default value being 3. Then I configured the decoration patterns to display as 🆂>🅰>🅱>🅲 respectively, and manually set the foreground colors as suggested in [[https://github.com/harrybournis/org-fancy-priorities/issues/8][this issue]].
+
+Thus, when we press =S+↑/↓=, a level displayed as =🅱= will be created, and it will change to other symbols as we press =S+↑/↓=.
+
+* Screenshot
+
+[[file:./fancy-priority.webp]]

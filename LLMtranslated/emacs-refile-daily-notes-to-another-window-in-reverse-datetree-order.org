@@ -1,0 +1,35 @@
+#+title:      emacs-refile-daily-notes-to-another-window-in-reverse-datetree-order
+#+filetags:   :blog:
+#+identifier: 20240407T101239
+#+date:       [2024-04-07 Sun 10:12]
+
+[2024-04-07 Sun 10:12]
+
+Refile daily notes to another window in reverse datetree order.
+
+Between two side-by-side windows, based on the title of the current buffer, refile the specified headline to the other window and arrange it in reverse-datetree order.
+
+#+begin_src elisp
+(use-package org-reverse-datetree)
+(setq-default org-reverse-datetree-level-formats
+              '("%Y"                    ; year
+                "%Y-%m %B"
+                "%Y-%m-%d %A"           ; date
+                ))
+(defun org-get-next-window-file ()
+  (if (delq (selected-window) (window-list-1 (next-window nil 'nomini 'visible)))
+      (let ((buffer2 (window-buffer (next-window nil 'nomini 'visible))))
+        (with-current-buffer buffer2
+          (when (eq major-mode 'org-mode)
+            (buffer-file-name buffer2))))))
+(defun org-get-current-window-title ()
+  (with-current-buffer (window-buffer)
+        (pcase (org-collect-keywords '("TITLE"))
+          (`(("TITLE" . ,val))
+           (setq title (car val))))))
+(defun org-refile-to-other-window (arg)
+  (interactive "P")
+  (if (org-get-next-window-file)
+      (org-reverse-datetree-refile-to-file (org-get-next-window-file) (date-to-time (org-get-current-window-title)))
+        ))
+#+end_src

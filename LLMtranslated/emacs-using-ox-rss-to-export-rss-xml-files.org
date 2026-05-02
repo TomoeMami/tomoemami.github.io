@@ -1,0 +1,97 @@
+#+title:      emacs-using-ox-rss-to-export-rss-xml-files
+#+filetags:   :blog:
+#+identifier: 20240522T214121
+#+date:       [2024-05-22 Wed 21:41]
+
+[2024-05-22 21:41]
+
+Setting up =ox-rss=, you can refer to this link:
+
+https://nicolasknoebber.com/posts/blogging-with-emacs-and-org.html#org9edef43
+
+#+begin_src elisp
+("rss"
+           :publishing-directory ,my/publish-directory
+           :base-directory ,website-directory
+           :base-extension "org"
+           :exclude ".*"
+           :include ,(my/ox-files)
+           :publishing-function publish-posts-rss-feed
+           :rss-extension "xml"
+           :html-link-home "https://tomoemami.github.io/blog"
+           :html-link-use-abs-url t
+           :html-link-org-files-as-html t
+           :auto-sitemap t
+           :sitemap-function posts-rss-feed
+           :sitemap-title "TomoeMami's Blog"
+           :sitemap-filename "rss.org"
+           :sitemap-style list
+           :sitemap-sort-files anti-chronologically
+           :sitemap-format-entry format-posts-rss-feed-entry)
+
+(require 'ox-rss)
+(defun posts-rss-feed (title list)
+  "Generate a sitemap of posts that is exported as a RSS feed.
+TITLE is the title of the RSS feed.  LIST is an internal
+representation for the files to include.  PROJECT is the current
+project."
+  (concat
+   "#+TITLE: " title "\n\n"
+   (org-list-to-subtree list)))
+
+(defun publish-posts-rss-feed (plist filename dir)
+  "Publish PLIST to RSS when FILENAME is rss.org.
+DIR is the location of the output."
+  (if (equal "rss.org" (file-name-nondirectory filename))
+      (org-rss-publish-to-rss plist filename dir)))
+
+(defun format-posts-rss-feed-entry (entry _style project)
+  "Format ENTRY for the posts RSS feed in PROJECT."
+  (let* (
+         (title (org-publish-find-title entry project))
+         (link (concat (file-name-sans-extension entry) ".html"))
+         (pubdate (format-time-string (cdr org-time-stamp-formats)
+                                      (org-publish-find-date entry project))))
+    (message pubdate)
+    (format "%s
+:properties:
+:rss_permalink: %s
+:pubdate: %s
+:ROAM_EXCLUDE: t
+:end:\n"
+            title
+            link
+            pubdate)))
+#+end_src
+
+Here, =:ROAM_EXCLUDE: t= is used to prevent org-roam from adding the generated =rss.org= file to the org-roam database.
+
+Then, you need to modify =org-roam='s =org-roam-capture-templates= to add a =DATE= property to files:
+
+#+begin_src elisp
+(setq org-roam-capture-templates
+      '(("d" "default" plain "[%<%Y-%m-%d %H:%M>]\n%?" :target
+  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+date: <%<%Y-%m-%d %H:%M>>
+")
+  :unnarrowed t)))
+#+end_src
+
+This way, the RSS generation function can read the file's creation date and use it as the =pubdate= for the RSS.
+
+According to [[https://list.orgmode.org/orgmode/878r21fl64.fsf@localhost/][this PR]], =org-publish= currently caches the =:title/:date/:index= properties and does not update them. If you manually modify the above properties, you need to delete the cache file and re-export.
+
+[2025-11-28 Fri]: If you want to export a ~sitemap.txt~ for search engine indexing, you can do the following:
+
+#+begin_src elisp
+(defun adv/org-publish-project-done-message (&optional one two three )
+  "Update 'sitemap.txt'"
+  ;; Replace the following content with 'export directory/sitemap.txt'
+  (with-current-buffer (find-file-noselect (concat my/desktop-path "sitemap.txt"))
+    (erase-buffer)
+    (dolist (tag '("_blog" "_wiki"))
+      (dolist (file (denote-directory-files tag))
+        (insert (concat "https://tomoemami.github.io/" (file-name-sans-extension (file-name-nondirectory file)) ".html\n"))))))
+
+;; Execute the above function after exporting the project
+(advice-add #'org-publish-current-project :after #'adv/org-publish-project-done-message)
+#+end_src

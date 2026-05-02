@@ -1,0 +1,45 @@
+#+title:      emacs-overriding-functions-in-packages
+#+date:       [2026-03-14 Sat 17:48]
+#+filetags:   :blog:
+#+identifier: 20260314T174830
+
+[2026-03-14 Sat 17:48]
+
+One of Emacs' great strengths is the ability to freely modify and override Elisp functions. We often encounter situations where a package provides functions that don't meet our needs, or the author has been absent for a long time, leaving many issues and PRs unaddressed. In such cases, we can manually override some functions and set some variables to achieve the desired effect.
+
+Assuming you have manually downloaded the package's =.el= files from MELPA, ELPA, or GitHub, there are generally two ways to override functions. Let's use =org-ql= as an example, which has =org-ql.el= and =org-ql-view.el=, etc.
+
+* Overriding functions in the package's main file
+If we want to modify functions in the file that shares the name with the package, we can directly set it in =use-package=:
+
+#+begin_src elisp
+(use-package org-ql
+  :config
+  (defun function-to-override))
+#+end_src
+
+Since "the code in =:config= will be loaded after the package is loaded" (source: [[https://egh0bww1.com/posts/2023-09-02-43-use-use-package-manage-emacs-config/#orgnh-2.1][Managing Emacs Configuration with use-package]]), we place the functions we want to override here.
+
+* Overriding functions in other package files
+Sometimes, a package is split into several files. If the function we want to override is not in the package's main file, then it's very likely that if that function's file has not been loaded yet, defining the function as described in the previous section may fail due to missing referenced variables or functions.
+
+Assuming the function we need to override is in =org-ql-view.el= (you can check which file a function resides in by searching with =C-h f=), we can use the following approach:
+
+#+begin_src elisp
+(use-package org-ql
+  :config
+  (with-eval-after-load 'org-ql-view
+    (defun function-to-override)))
+#+end_src
+
+This will execute the redefinition after the =org-ql-view.el= file is loaded. By that time, the relevant variables and functions are usually already set up.
+
+* Additional Notes
+
+** Why not use advice
+As is well known, Emacs has powerful =advice= functionality that allows various adjustments to functions. If you are simply adding new functionality, I highly recommend using =advice= functions, as they can be conveniently added/removed.
+
+The main reason for using direct overriding here is that the author is not updating promptly. Direct overriding avoids worrying about code updates causing functional anomalies, while also saving some computer resources — perhaps only existing spiritually.
+
+** Is there a more concise way?
+The current overriding method indeed requires rewriting the entire function again, which is somewhat tedious. If interested, readers can use [[https://github.com/radian-software/el-patch][el-patch]] to modify Elisp functions more precisely.

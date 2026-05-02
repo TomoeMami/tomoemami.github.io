@@ -1,0 +1,55 @@
+#+title:      emacs-fix-option-space-special-character-issue-on-macos
+#+date:       [2026-02-02 Mon 17:25]
+#+filetags:   :blog:
+#+identifier: 20260202T172529
+
+[2026-02-04 Wed 19:27]
+
+If you are lucky or unlucky enough to have bound =M-SPC= in Emacs like I did:
+#+begin_src emacs-lisp
+;; Quickly insert zero-width space
+(define-key global-map (kbd "M-SPC")
+  (lambda () (interactive) (insert "　")))
+#+end_src
+And you also have =sis= enabled to automatically switch between Chinese and English input methods:
+#+begin_src emacs-lisp
+(use-package sis
+  :demand t
+  :config
+  (cond ((eq system-type 'darwin)
+         (sis-ism-lazyman-config "com.apple.keylayout.US" "im.rime.inputmethod.Squirrel.Hans" 'emp)))
+  ;; Other configuration items omitted
+  )
+#+end_src
+
+#+begin_quote
+Note, the option here is ='emp= because I am using the input method related patch from macport. The installation script from [[https://github.com/LuciusChen/.emacs.d][LuciusChen/.emacs.d]] is recommended.
+#+end_quote
+
+Furthermore, you have remapped the keys so that =Option= is equivalent to the =Meta= key:
+#+begin_src emacs-lisp
+(setq mac-option-modifier 'meta)
+#+end_src
+
+Then you will find that after pressing the =M-SPC= key combination, the input method automatically switches to English mode.
+
+According to [[https://zhuanlan.zhihu.com/p/641528773][a discussion on Zhihu]], this happens because the English keyboard on macOS inserts corresponding special characters when pressing =Option+any key=. The solution is simple: change the default English keyboard to something else. Here we choose the Unicode keyboard.
+
+#+begin_quote
+Using Unicode to Enter 64 Hexagram Symbols on MacBook - Zhihu
+https://zhuanlan.zhihu.com/p/648611930
+
+Go to System Settings -> Keyboard -> Text Input -> Edit, click the "+" in the lower left, scroll to the end to "Others", select "Unicode Hex Input", then click "Add" and "Done". From the input method selection in the menu bar, choose "Unicode Hex Input".
+#+end_quote
+
+Then modify the =sis= configuration accordingly:
+#+begin_src emacs-lisp
+(use-package sis
+  :demand t
+  :config
+  (cond (eq system-type 'darwin)
+        (sis-ism-lazyman-config "com.apple.keylayout.UnicodeHexInput" "im.rime.inputmethod.Squirrel.Hans" 'emp))
+  )
+#+end_src
+
+This way, the default special character input method of the English keyboard on macOS will no longer interfere with our insertion of full-width spaces!

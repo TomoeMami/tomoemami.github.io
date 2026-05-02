@@ -1,0 +1,37 @@
+#+title:      emacs-add-org-ql-view-as-org-mode-link
+#+filetags:   :blog:
+#+identifier: 20240407T101301
+#+date:       [2024-04-07 Sun 10:13]
+
+[2024-04-07 Sun 10:13]
+
+When using org-ql, I found that the links recommended in the [[https://github.com/alphapapa/org-ql?tab=readme-ov-file#links][official documentation]] like
+
+#+begin_src elisp
+[[org-ql-search:todo:NEXT priority:A]]
+[[org-ql-search:(and (todo "NEXT") (priority "A"))]]
+#+end_src
+
+have some practical issues:
+1. If using the officially recommended =org-store-link= method, on Windows, Chinese characters cause mismatches when matching tags containing Chinese;
+2. After restarting Emacs, you cannot directly click the link to launch it; it prompts "No Match" (this issue only occurs when org-ql has not been started before).
+
+Therefore, you can save commonly used org-ql-view searches and add the following code to quickly launch specified org-ql-view results via org-links of the form =[[qlview: Personal Matters]]=
+
+#+begin_src elisp
+(org-add-link-type
+ "qlview" 'my/org-ql-view)
+(defun my/org-ql-view (name)
+  "View saved org-ql-view"
+  (org-ql-view name))
+#+end_src
+
+* Supplementary org-ql-search related code
+
+#+begin_src elisp
+(org-add-link-type
+ "qlsearch" 'my/org-ql-search)
+(defun my/org-ql-search (query)
+  "Search query in default mode"
+  (org-ql-search (org-agenda-files) query :narrow nil :super-groups '((:auto-tags)) :sort nil))
+#+end_src

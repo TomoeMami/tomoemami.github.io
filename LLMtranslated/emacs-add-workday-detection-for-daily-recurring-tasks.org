@@ -1,0 +1,109 @@
+#+title:      emacs-add-workday-detection-for-daily-recurring-tasks
+#+filetags:   :blog:
+#+identifier: 20241217T142137
+#+date:       [2024-12-17 Tue 14:21]
+
+[2024-12-17 14:21]
+
+Sometimes, we only want to handle work-related daily recurring tasks on workdays.
+
+* Setting Up Holidays
+
+After excluding Saturdays, Sundays, and public holidays (maybe also custom holidays), we get workdays. Add the following content to any file in =org-agenda-files=:
+
+#+begin_src elisp
+;; 2025 China Public Holidays
+%%(diary-date 1 1 2025) 🏮New Year's Day🏮
+%%(diary-block 1 28 2025 2 4 2025) 🏮Spring Festival🏮
+%%(diary-date 1 26 2025) 💼Spring Festival - Work Day💼
+%%(diary-date 2 8 2025) 💼Spring Festival - Work Day💼
+%%(diary-block 4 4 2025 4 6 2025) 🏮Tomb-Sweeping Day🏮
+%%(diary-block 5 1 2025 5 5 2025) 🏮Labor Day🏮
+%%(diary-date 4 27 2025) 💼Labor Day - Work Day💼
+%%(diary-block 5 31 2025 6 2 2025) 🏮Dragon Boat Festival🏮
+%%(diary-block 10 1 2025 10 8 2025) 🏮National Day & Mid-Autumn Festival🏮
+%%(diary-date 9 28 2025) 💼National Day & Mid-Autumn - Work Day💼
+%%(diary-date 10 11 2025) 💼National Day & Mid-Autumn - Work Day💼
+#+end_src
+
+This generates sexp-based calendar entries in org-agenda, which will be used later.
+
+* Setting Up Functions
+
+#+begin_src elisp
+(defun my/date-is-workday (date &optional offset)
+  "Determine if a date is a workday (including adjusted working days). DATE format is 'YYYY-MM-DD'."
+  (let* ((d (date-to-time date))
+         ;; Handle offset
+         (target-time (time-add d (days-to-time (or offset 0))))
+         (greg (calendar-gregorian-from-absolute (time-to-days target-time)))
+         ;; Get the Agenda string for the day
+         (entries (mapconcat (lambda (f) 
+                               (mapconcat #'identity (org-agenda-get-day-entries f greg :sexp) ""))
+                             (org-agenda-files) ""))
+         (is-holiday (string-match-p "🏮" entries))
+         (is-workday (string-match-p "💼" entries))
+         (day-of-week (calendar-day-of-week greg)))
+    
+    (cond
+     ;; Priority 1: If marked as an adjusted workday (💼), force as workday
+     (is-workday t)
+     ;; Priority 2: If marked as a holiday (🏮), force as non-workday
+     (is-holiday nil)
+     ;; Priority 3: Weekends are non-workdays, Monday to Friday are workdays
+     ((memq day-of-week '(0 6)) nil)
+     (t t))))
+#+end_src
+
+This function determines whether a given date (plus an optional offset) is a workday by matching emojis.
+
+The following function references this article[fn:1].
+
+#+begin_src elisp
+(defun my/org-hook-for-repeat-on-workday ()
+  "If a task has a WORKDAY attribute and is a recurring task, automatically skip holidays and reschedule to the next workday."
+  (let ((workday-attr (org-entry-get nil "WORKDAY")))
+    (when (and workday-attr (org-get-repeat))
+      (let* ((offset (string-to-number workday-attr))
+             ;; Get the original timestamp
+             (time (org-time-string-to-time (org-entry-get nil "SCHEDULED")))
+             (day-sec (* 24 60 60)))
+        
+        ;; Loop until finding a date that is neither a holiday nor a "holiday with offset"
+        ;; Note: The original logic is preserved here: both conditions must be satisfied to stop the loop
+        (while (and (not (my/date-is-workday (format-time-string "%Y-%m-%d" time)))
+                    (not (my/date-is-workday (format-time-string "%Y-%m-%d" time) (- offset))))
+          (setq time (time-add time (seconds-to-time day-sec))))
+        
+        ;; Reschedule
+        (org-schedule nil (format-time-string 
+                           (if (string-match-p ":" (org-entry-get nil "SCHEDULED"))
+                               "%Y-%m-%d %a %H:%M"
+                             "%Y-%m-%d %a")
+                           time))))))
+
+(add-hook 'org-todo-repeat-hook 'my/org-hook-for-repeat-on-workday)
+#+end_src
+
+This function extracts the =WORKDAY= property from the task. If it has a value and is set to repeat daily, it will activate.
+
+The main purpose of the offset value is to handle requirements for the "first day of a holiday" and the "last day of a holiday". If a task needs to repeat on the "first day of a holiday" and workdays, set the =WORKDAY= value to 1. If a task needs to repeat on the "last day of a holiday" and workdays, set the =WORKDAY= value to -1. If neither is needed, set the =WORKDAY= value to 0, and it will only match workdays.
+
+* Usage Effect
+
+Judgment is based on the 🏮 and 💼 emojis in the sexp expression entries.
+
+-> Is weekend
+---> Has 💼
+-----> Workday
+---> No 💼
+-----> Holiday
+-> Not weekend
+---> Has 🏮
+-----> Holiday
+---> No 🏮
+-----> Workday
+
+* Footnotes
+
+[fn:1] https://liron.tilde.team/blog/skipping-weekends-when-scheduling-items-with-org-mode20758.html

@@ -1,0 +1,92 @@
+#+title:      emacs-merge-pdf-files-in-dired
+#+date:       [2026-04-15 Wed 11:35]
+#+filetags:   :blog:
+#+identifier: 20260415T113509
+
+[2026-04-15 Wed 11:35]
+
+On Windows, there is an open-source software called [[https://github.com/wmjordan/PDFPatcher][pdfpatcher]] that provides convenient PDF splitting and merging functions. Coincidentally, Emacs also has a similar package [[https://github.com/wjbg/emacs-pdftk][pdftk-dired]] that allows simple PDF operations through the open-source pdftk.
+
+However, in Emacs, using the command line for complex operations like splitting is a bit too painful. So I extracted the merging function and used AI to optimize the logic for standalone use:
+
+#+begin_src elisp
+(defun pdftk-merge (filenames output-file)
+  "Merge PDF files listed in FILENAMES and save them to OUTPUT-FILE.
+
+FILENAMES is a list of filenames to be merged, while OUTPUT-FILE
+is the path where the new PDF should be saved.
+
+This function requires 'pdftk' command-line tool to be installed
+and available in the system's PATH.
+
+Example: (pdftk-merge
+             '(\"/path/to/input_1.pdf\" \"/path/to/input_2.pdf\")
+             \"/path/to/output.pdf\")"
+  ;; 1. Check if pdftk is installed
+  (unless (executable-find "pdftk")
+    (error "Command 'pdftk' not found. Please install it first"))
+  
+  ;; 2. Convert all file paths to absolute paths to avoid missing files due to default-directory changes
+  (let* ((abs-filenames (mapcar #'expand-file-name filenames))
+         (abs-output (expand-file-name output-file))
+         ;; 3. Build argument list (no need to manually handle quotes)
+         (args (append abs-filenames (list "cat" "output" abs-output)))
+         ;; 4. Call the program directly using call-process to avoid shell injection and escaping issues
+         (exit-code (apply #'call-process "pdftk" nil nil nil args)))
+    
+    ;; 5. Check exit status code
+    (if (zerop exit-code)
+        (message "Successfully merged PDFs into %s" output-file)
+      (error "pdftk failed to merge files (exit code %d)" exit-code))
+    abs-output))
+
+(defun my/dired-merge-pdfs ()
+  "Merge selected PDF files in Dired.
+Note: Files are merged in the order they appear in the Dired buffer.
+
+This function prompts the user for an output file name and then 
+merges the marked PDF files into this new file."
+  (interactive)
+  ;; 1. Ensure it runs in Dired mode
+  (unless (derived-mode-p 'dired-mode)
+    (error "This command must be run in a Dired buffer"))
+  
+  (let* ((all-marked (dired-get-marked-files))
+         ;; 2. Filter out non-PDF files and directories for safety
+         (pdf-files (seq-filter (lambda (f)
+                                  (and (not (file-directory-p f))
+                                       (string-match-p "\\.[pP][dD][fF]\\'" f)))
+                                all-marked)))
+    
+    ;; 3. Check if there are enough files to merge
+    (when (< (length pdf-files) 2)
+      (error "Please mark at least 2 PDF files to merge"))
+    
+    (let* ((default-output-file "merged.pdf")
+           ;; 4. Optimize the prompt, using the current directory as the default path
+           (output-file (read-file-name "Output file: "
+                                        default-directory
+                                        default-output-file
+                                        nil
+                                        default-output-file)))
+      
+      ;; 5. Execute the merge
+      (pdftk-merge pdf-files output-file)
+      ;; 6. Refresh the Dired buffer to show the newly generated file
+      (revert-buffer))))
+
+(use-package dired
+  ;; built-in package
+  :ensure nil
+  :config
+  (defun my/dired-narrow ()
+    (interactive)
+    (call-interactively #'dired-mark-files-regexp)
+    (command-execute "tk"))
+  :bind
+  (:map dired-mode-map
+        ("M-m" . my/dired-merge-pdfs)
+        ("/" . my/dired-narrow)))
+#+end_src
+
+The original version allows customizing the merge order through key sequences. The distinguishing feature of this modified version is that the file merge order follows the sorting order displayed in Dired. The advantage is that it doesn't require occupying additional keys or customizing keys for marking functions. You simply mark files with =m= and then press =M-m= to execute =my/dired-merge-pdfs= to perform the merge.

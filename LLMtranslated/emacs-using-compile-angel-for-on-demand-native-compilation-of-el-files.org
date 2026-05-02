@@ -1,0 +1,110 @@
+#+title:      emacs-using-compile-angel-for-on-demand-native-compilation-of-el-files
+#+date:       [2026-01-20 Tue 10:51]
+#+filetags:   :blog:
+#+identifier: 20260120T105128
+
+[2026-01-20 Tue 10:51]
+
+Since version 28.1, Emacs has had native compilation capabilities. Compared to byte compilation (which produces =elc= files), native compilation offers better performance:
+
+#+begin_quote
+Unlike byte-compiled code, natively-compiled Lisp code is executed directly by the machine’s hardware, and thus runs at full speed that the host CPU can provide. The speedup can vary typically between 2.5 and 5 times, depending on the Lisp code.
+
+Since native code is generally not portable across different systems, natively-compiled code cannot be transferred from one machine to another and used there; it can be used only on the same machine where it was generated, or on a very similar machine (having the same CPU and runtime libraries). The portability of natively-compiled code is identical to that of shared libraries (.so or .dll files).
+
+——[[https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html ][Native Compilation (GNU Emacs Lisp Reference Manual)]]
+#+end_quote
+
+The [[https://github.com/jamescherti/compile-angel.el?tab=readme-ov-file#why-use-compile-angel ][compile-angel]] package, which will be introduced next, can "ensure that all =.el= files that are loaded are compiled transparently, regardless of whether they belong to a package or not."
+
+** Official Recommended Settings
+
+*** In early-init.el (create it if it doesn't exist)
+Set the following variables at the very beginning of the =early-init.el= file:
+
+#+begin_src elisp
+;; Ensure Emacs loads the latest byte-compiled files.
+(setq load-prefer-newer t)
+
+;; Make Emacs asynchronously natively compile .elc files by setting `native-comp-jit-compilation` to t.
+(setq native-comp-jit-compilation t)
+(setq native-comp-deferred-compilation native-comp-jit-compilation)  ; Deprecated
+#+end_src
+
+*** In the init.el file
+We download this package via melpa; how to install and configure melpa is not covered here.
+Add the following code at the very beginning of the =init.el= file, before all other packages:
+
+#+begin_src elisp
+(use-package compile-angel
+  :ensure t
+  :demand t
+  :config
+  ;; Set `compile-angel-verbose' to nil to disable compile-angel messages.
+  ;; (When set to nil, compile-angel will not display which files are being compiled.)
+  (setq compile-angel-verbose t)
+
+  ;; If you uncomment the line below, it will automatically compile Elisp files when saving
+  ;; (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode)
+
+  ;; The following directives prevent compile-angel from compiling your initialization files.
+  ;; If you choose to remove this entry from `compile-angel-excluded-files`
+  ;; and compile your pre/post initialization files, make sure you understand the potential
+  ;; implications and thoroughly test your code. For example, if you are using the
+  ;; `use-package` macro, you need to explicitly add at the top of your initialization file:
+  ;; (eval-when-compile (require 'use-package))
+  (push "/init.el" compile-angel-excluded-files)
+  (push "/early-init.el" compile-angel-excluded-files)
+
+  ;; A global mode that compiles .el files before loading them via `load` or `require`.
+  (compile-angel-on-load-mode 1))
+#+end_src
+
+*** Additional Notes
+If you have other configuration files, such as an automatically generated =config.el= file I maintain separately, you also need to add that file to the exclusion list. Note that these exclusions need to be executed before =compile--angel-on-load-mode=.
+
+#+begin_src elisp
+;; Run the following code before enabling `compile-angel-on-load-mode`
+(push "/config.el" compile-angel-excluded-files)
+
+;; Some test files and local path files do not need to be compiled
+(push ".dir-locals.el" compile-angel-excluded-files)
+(push "test.el" compile-angel-excluded-files)
+
+;; Then run: (compile-angel-on-load-mode 1)
+#+end_src
+
+*** Optional
+Other optional recommendations from the original author. Personally, I have disabled byte compilation because it generates hard-to-manage elc files. It's better to use natively compiled eln files directly on each device.
+
+#+begin_src elisp
+;; Ensure Emacs only exits after native compilation is complete,
+;; preventing incomplete or residual compilation files from being left in the `/tmp` directory.
+(setq native-comp-async-query-on-exit t)
+(setq confirm-kill-processes t)
+
+;; A non-nil value means to natively compile packages when installing them.
+(setq package-native-compile t)
+
+;; Exclude custom-file, recentf, and savehist files
+;;
+;; Ensure that compile-angel is loaded using `require`, `use-package`, or other package managers,
+;; because compile-angel-excluded-files is declared after the package is loaded.
+;; Ensure that the values of `savehist-file` `recentf-save-file` `custom-file` are updated before processing
+(with-eval-after-load "savehist"
+  (push (concat "/" (file-name-nondirectory savehist-file))
+        compile-angel-excluded-files))
+(with-eval-after-load "recentf"
+  (push (concat "/" (file-name-nondirectory recentf-save-file))
+        compile-angel-excluded-files))
+(with-eval-after-load "cus-edit"
+  (when (stringp custom-file)
+    (push (concat "/" (file-name-nondirectory custom-file))
+          compile-angel-excluded-files)))
+
+;; Enable byte compilation and native compilation (default is t)
+(setq compile-angel-enable-byte-compile nil)
+(setq compile-angel-enable-native-compile t)
+
+;; Enable (compile-angel-on-load-mode) after the above settings
+#+end_src

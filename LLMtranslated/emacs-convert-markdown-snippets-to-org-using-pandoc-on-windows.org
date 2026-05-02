@@ -1,0 +1,80 @@
+#+title:      emacs-convert-markdown-snippets-to-org-using-pandoc-on-windows
+#+filetags:   :blog:
+#+identifier: 20240731T111101
+#+date:       [2024-07-31 Wed 11:11]
+
+[2024-07-31 11:11]
+
+Based on a Stack Overflow question: [[https://emacs.stackexchange.com/questions/60723/convert-region-subtree-from-markdown-to-org][Convert region/subtree from Markdown to org]], you can convert a region of Markdown-formatted text to Org format with the following code:
+
+#+begin_src elisp
+(defun my-md-to-org-region (start end)
+  "Convert region from markdown to org"
+  (interactive "r")
+  (shell-command-on-region start end "pandoc -f markdown -t org" t t))
+#+end_src
+
+However, some adjustments are still needed on Windows. The process is documented below.
+
+Install pandoc directly via Winget:
+
+#+begin_src powershell
+winget install pandoc --proxy YOUR_PROXY_URL
+#+end_src
+
+Restart after installation so that Emacs re-reads the path.
+
+Define the function:
+
+#+begin_src elisp
+(defun my/md-to-org-region (start end)
+  "Convert region from markdown to org"
+  (interactive "r")
+  (let ((default-directory "~/.emacs.d/")
+        (coding-system-for-write 'utf-8)
+        (coding-system-for-read 'utf-8))
+    (shell-command-on-region start end "pandoc -f markdown -t org --lua-filter=remove-org.lua --wrap=preserve" t t)))
+#+end_src
+
+Here we specify the input and output character format as =utf-8=, and set the shell execution path to =~/.emacs.d/=. Place a =remove-org.lua= file in that path with the following content:
+
+#+begin_src lua
+function Header (header)
+  return pandoc.Header(header.level, header.content, pandoc.Attr())
+end
+#+end_src
+
+Then execute this function on a selected markdown region to replace it with org format.
+
+Example:
+
+#+begin_src markdown
+[IT Home](https://www.ithome.com/) July 31 news, Apple recently released a paper \[[PDF](https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf)\], sharing details about the Apple Intelligence model. *Some performance metrics have already exceeded OpenAI's GPT-4.*
+
+### Model Overview
+
+Apple introduces the Apple Foundation Model (AFM) in the paper, which comes in the following two versions:
+
+- **AFM-on-device:** Runs locally with 3 billion parameters, efficiently running on devices such as [iPhone](https://iphone.ithome.com/) and [iPad](https://ipad.ithome.com/);
+- **AFM-server:** Apple has not yet disclosed details such as parameters.
+
+### Training Data Sources
+
+Apple states that the training dataset consists of licensed data from publishers, curated public or open-source datasets, and public information crawled by its web crawler, Applebot.
+#+end_src
+
+Transforms into:
+
+#+begin_src org
+[[https://www.ithome.com/][IT Home]] July 31 news, Apple recently released a paper [[[https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf][PDF]]], sharing details about the Apple Intelligence model. *Some performance metrics have already exceeded OpenAI's GPT-4.*
+
+\*** Model Overview
+Apple introduces the Apple Foundation Model (AFM) in the paper, which comes in the following two versions:
+
+- *AFM-on-device:* Runs locally with 3 billion parameters, efficiently running on devices such as [[https://iphone.ithome.com/][iPhone]] and [[https://ipad.ithome.com/][iPad]];
+
+- *AFM-server:* Apple has not yet disclosed details such as parameters.
+
+\*** Training Data Sources
+Apple states that the training dataset consists of licensed data from publishers, curated public or open-source datasets, and public information crawled by its web crawler, Applebot.
+#+end_src

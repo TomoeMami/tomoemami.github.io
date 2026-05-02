@@ -1,0 +1,43 @@
+#+title:      emacs-execute-code-based-on-emacs-compilation-time
+#+date:       [2026-02-10 Tue 17:08]
+#+filetags:   :blog:
+#+identifier: 20260210T170824
+
+[2026-02-10 Tue 17:08]
+
+After another routine update of Melpa, I found that tag completion with =C-c C-q= in org files no longer worked. Since I use =vertico=, after some investigation, I found the whole story.
+[2026-02-12 Thu 16:15] The author of =vertico= reverted the related commit on February 10, 2026. The following code no longer applies to vertico.
+
+* The story behind vertico breakage
+In Emacs 30 and earlier versions, the =completing-read-multiple= function does not prompt users that multiple strings can be completed. The author of vertico, minad, [[https://debbugs.gnu.org/cgi/bugreport.cgi?bug=76028][submitted a patch as early as February 2025]] and [[https://github.com/minad/vertico?tab=readme-ov-file#completing-read-multiple][wrote about it in the README]].
+
+Fast forward to February 8, 2026, the official Emacs repo finally [[https://github.com/emacs-mirror/emacs/commit/c86094057b0c391d6160ba8c37c6df9bb0370b16][merged this patch]]. minad was delighted, and on February 9, 2026, he [[https://github.com/minad/vertico/commit/8f75f18b01ce9baa392469104a3c7dd08c3a608d][modified vertico's code]] to support the latest changes.
+
+Unfortunately, my Emacs was compiled on February 4, 2026, so it just missed the latest Emacs source code. Therefore, we need to find a way to maintain compatibility.
+
+It should be noted that only those using the very latest Emacs and package versions need to worry about this. If you use sources like Melpa-stable or GNU Elpa, new versions are only submitted after a release by default. Of course, the trade-off is that many package developers are reluctant to make releases, so updates may happen only every few months or even years.
+
+* Executing code based on compilation time
+Now that we've determined the time point and content of the change, the next step is simple. We find the old version of the code, wrap it slightly, and add it to our configuration:
+
+#+begin_src elisp
+(use-package vertico
+  :demand t :ensure t
+  :config
+  (when (and emacs-build-time
+               ;; vertico change time point
+               (not (time-less-p (encode-time 0 0 0 8 2 2026) emacs-build-time)))
+    ;; Emacs compiled before 2026-02-08 needs the old vertico code
+    (define-minor-mode vertico-mode
+      "VERTical Interactive COmpletion."
+      :global t :group 'vertico
+      (dolist (fun '(completing-read-default completing-read-multiple))
+        (if vertico-mode
+            (advice-add fun :around #'vertico--advice)
+          (advice-remove fun #'vertico--advice)))))
+  (vertico-mode 1)
+#+end_src
+
+Here we obtain the =emacs-build-time= variable and compare it with our specified date, February 8, 2026. If the specified date > build-time, we execute the subsequent steps to restore the old =vertico-mode= code.
+
+Then, after this step completes, we enable =vertico-mode=.

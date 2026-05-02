@@ -1,0 +1,89 @@
+#+title:      emacs-viewing-miniflux-content-with-elfeed
+#+date:       [2026-04-22 Wed 20:39]
+#+filetags:   :blog:
+#+identifier: 20260422T203959
+
+[2026-04-22 Wed 20:40]
+
+[[https://miniflux.app/docs/docker.html][miniflux]] is a self-hosted RSS reader. There are many tutorials online, so I won’t describe the setup process here.
+
+Assuming we have miniflux up and running, how can we read and sync content fetched by miniflux inside Emacs?
+* miniflux configuration
+In miniflux, go to =Settings= -> =Integrations=, click on =Fever=, check “Enable Fever API”, enter a custom username and password below and update. Here we assume the username is =user=, the password is =mima=, and the miniflux access URL is =http://miniflux.com=.
+* emacs configuration
+Install =elfeed= and [[https://github.com/fasheng/elfeed-protocol][elfeed-protocol]] and just launch it.
+
+#+begin_src elisp
+(use-package elfeed :demand t
+  :custom
+#+end_src
+The elfeed database defaults to ="~/.elfeed"=, but I’ve moved it to a custom directory.
+#+begin_src elisp
+  (elfeed-db-directory "~/emacs-local/elfeed")
+#+end_src
+When entering elfeed, you usually land in the =elfeed-search= buffer. Add a hook to update once on entry.
+  #+begin_src elisp
+  :config
+  (add-hook 'elfeed-search-mode-hook   #'elfeed-update)
+  #+end_src
+Define a custom function =my/elfeed-search-toggle-star= and bind it to the =m= key in =elfeed-search-mode=, so that pressing =m= toggles the “star” tag (favorites).
+  #+begin_src elisp
+  (defun my/elfeed-search-toggle-star ()
+    "Toggle 'star' tag for selected entries in elfeed-search mode."
+    (interactive)
+    (let* ((entries (elfeed-search-selected))
+           (tag 'star))
+      (dolist (entry entries)
+        (if (member tag (elfeed-entry-tags entry))
+            (elfeed-untag entry tag)
+          (elfeed-tag entry tag)
+          (elfeed-untag entry 'unread))
+        (next-line)
+        (elfeed-search-update-entry entry))))
+  :bind
+  ;; Bind the toggle star function to the m key
+  (:map elfeed-search-mode-map
+        ("m" . my/elfeed-search-toggle-star)))
+  #+end_src
+Next, connect elfeed to the Fever API.
+#+begin_src elisp
+(use-package elfeed-protocol
+  :demand t
+  :after elfeed
+  :config
+#+end_src
+The following settings are recommended by elfeed-protocol.
+  #+begin_src elisp
+  (setq elfeed-feeds nil)
+  (setq elfeed-use-curl t)
+  (setq elfeed-protocol-fever-update-unread-only t)
+  (setq elfeed-protocol-fever-fetch-category-as-tag t)
+  (elfeed-set-timeout 36000)
+  #+end_src
+Configure the miniflux Fever API path, username, and password here.
+  #+begin_src elisp
+  (setq elfeed-protocol-feeds
+        `(("fever+https://user@http://miniflux.com"
+           :api-url "http://miniflux.com/fever/"
+           :password "mima")))
+  #+end_src
+Don’t forget to enable =elfeed-protocol=.
+  #+begin_src elisp
+  (elfeed-protocol-enable))
+  #+end_src
+
+* Usage notes
+Since I have many feeds in miniflux (about 3000 items per day), I usually do a quick scan of the entries, mark the ones I want to read as favorites, and then view them in the web version later.
+
+So I run =M-x elfeed=, press =r= to mark uninteresting items as read, and press =m= to mark interesting ones as favorites. After clearing the unread items, I switch to the web version of miniflux for a quick read.
+
+* Configuration file
+#+begin_src emacs-lisp :exports results :results raw :eval no-export
+(files--ensure-directory my/desktop-path)
+(let ((file "elfeed-protocol-config.txt"))
+  (org-babel-tangle-file (buffer-file-name) (concat my/desktop-path file) "elisp")
+  (format "[[https://blog.prayhand13013.top/%s][One-click view of the configuration code summary]]" file))
+#+end_src
+
+#+RESULTS:
+[[https://blog.prayhand13013.top/elfeed-protocol-config.txt][One-click view of the configuration code summary]]

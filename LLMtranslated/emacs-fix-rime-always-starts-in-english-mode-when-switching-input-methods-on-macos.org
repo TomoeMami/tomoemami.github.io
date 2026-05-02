@@ -1,0 +1,19 @@
+#+title:      emacs-fix-rime-always-starts-in-english-mode-when-switching-input-methods-on-macos
+#+date:       [2025-06-26 Thu 15:07]
+#+filetags:   :blog:
+#+identifier: 20250626T150734
+
+I use the Emacs patch from [[https://github.com/LuciusChen/.emacs.d]] on macOS, which provides the Emacs-plus + EMP input method operation module.
+
+When calling [[https://github.com/laishulu/emacs-smart-input-source][smart-input-source]], I found that when Rime is in Chinese mode, if I switch to an English input method and then switch back to Rime, it automatically jumps to Rime's English mode.
+
+I tried many methods, even including deleting =ascii_composer= under =engine/processors=, and finally discovered that the culprit was a program-specific setting.
+
+Deleting the following from =squirrel.yaml=:
+
+#+begin_src yaml
+  org.gnu.Emacs:
+    ascii_mode: true
+#+end_src
+
+solved the problem.

@@ -1,0 +1,163 @@
+#+title:      emacs-dynamically-setting-org-agenda-files
+#+date:       [2026-04-28 Tue 21:15]
+#+filetags:   :blog:
+#+identifier: 20260428T211543
+
+[2026-04-28 Tue 21:15]
+
+Dynamically setting =org-agenda-files= has many benefits, the most important being that it reduces the number of files that =org-agenda= needs to open, saving time.
+
+The main function comes from this link: https://www.d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5, but the original was written for =org-roam=. I have extracted and slightly modified it here to work with =denote=.
+* Enabling denote-agenda
+Integrate =denote= with =org-agenda= through automation
+#+begin_src elisp :results none
+(use-package denote-agenda
+  :demand t :after denote
+  :config
+  ;; Set the default files for org-agenda; the argument is a list of filenames
+  (defun adv/set-denote-agenda-static-files (&rest _)
+    (setq denote-agenda-static-files (directory-files my/org-dir1 t "\\.org$")))
+  (advice-add #'denote-agenda-set-agenda-files :before #'adv/set-denote-agenda-static-files)
+  ;; Set the regexp that denote files must match to be included in `agenda-files'
+  (setq denote-agenda-include-regexp "_agenda")
+  ;; The following function will add denote files matching `include-regexp' to `denote-agenda-static-files'
+  ;; and set the result as `org-agenda-files'
+  (denote-agenda-insinuate))
+#+end_src
+* Automatically adding tags to denote files
+#+begin_src elisp :results none
+(defun vulpea-project-p ()
+  "Return non-nil if the current buffer contains any TODO items."
+  (seq-find                                 ; (3)
+   (lambda (type)
+     (eq type 'todo))
+   (org-element-map                         ; (2)
+       (org-element-parse-buffer 'headline) ; (1)
+       'headline
+     (lambda (h)
+       (org-element-property :todo-type h)))))
+
+(defun vulpea-buffer-p ()
+  "Return non-nil if the current buffer is an 'org' file in a 'given path'."
+  (and buffer-file-name
+       (eq major-mode 'org-mode)
+       (string-suffix-p "org" buffer-file-name)
+       (string-prefix-p
+        (expand-file-name (file-name-as-directory denote-directory))
+        (file-name-directory buffer-file-name))))
+
+(defun vulpea-buffer-prop-set (name value)
+  "Add a global property NAME with VALUE to the current buffer. Overwrites existing values."
+  (setq name (downcase name))
+  (org-with-point-at 1
+    (let ((case-fold-search t))
+      (if (re-search-forward (concat "^#\\+" name ":\\(.*\\)")
+                             (point-max) t)
+          (replace-match (concat "#+" name ": " value) 'fixedcase)
+        (while (and (not (eobp))
+                    (looking-at "^[#:]"))
+          (if (save-excursion (end-of-line) (eobp))
+              (progn
+                (end-of-line)
+                (insert "\n"))
+            (forward-line)
+            (beginning-of-line)))
+        (insert "#+" name ": " value "\n")))))
+
+(defun vulpea-buffer-prop-remove (name)
+  "Remove the property named NAME from the current buffer."
+  (org-with-point-at 1
+    (when (re-search-forward (concat "\\(^#\\+" name ":.*\n?\\)")
+                             (point-max) t)
+      (replace-match ""))))
+
+(defun vulpea-buffer-tags-set (&rest tags)
+  "Set the 'filetags' property of the current buffer."
+  (if tags
+      (vulpea-buffer-prop-set
+       "filetags" (concat ":" (string-join tags ":") ":"))
+    (vulpea-buffer-prop-remove "filetags")))
+
+(defun vulpea-buffer-prop-get (name)
+  "Get the value of property NAME from the current buffer as a string."
+  (org-with-point-at 1
+    (when (re-search-forward (concat "^#\\+" name ": \\(.*\\)")
+                             (point-max) t)
+      (let ((value (string-trim
+                    (buffer-substring-no-properties
+                     (match-beginning 1)
+                     (match-end 1)))))
+        (unless (string-empty-p value)
+          value)))))
+
+(defun vulpea-buffer-prop-get-list (name &optional separators)
+  "Get the value of property NAME as a list, split by optional SEPARATORS.
+
+If SEPARATORS is non-nil, it should be a regexp matching the split characters;
+otherwise it defaults to `split-string-default-separators' (usually \"[ \f\t\n\r\v]+\"), and 'omit-nulls' is forced to 't'."
+  (let ((value (vulpea-buffer-prop-get name)))
+    (when value
+      (split-string-and-unquote value separators))))
+
+
+(defun vulpea-buffer-tags-get ()
+  "Return the 'filetags' value of the current buffer as a list."
+  (vulpea-buffer-prop-get-list "filetags" "[ :]"))
+
+(defun vulpea-project-update-tag ()
+  "Add the 'agenda' value to the current buffer's 'filetags' property."
+  (when (and (not (active-minibuffer-window))
+             (vulpea-buffer-p))
+    (save-excursion
+      (goto-char (point-min))
+      (let* ((tags (vulpea-buffer-tags-get))
+             (original-tags tags))
+        (if (vulpea-project-p)
+            (setq tags (cons "agenda" tags))
+          (setq tags (remove "agenda" tags)))
+
+        ;; cleanup duplicates
+        (setq tags (seq-uniq tags))
+
+        ;; update tags if changed
+        (when (or (seq-difference tags original-tags)
+                  (seq-difference original-tags tags))
+          (apply #'vulpea-buffer-tags-set tags))))))
+
+;; Run the tag update command before each save
+(add-hook 'before-save-hook #'vulpea-project-update-tag)
+
+;; From the official denote manual https://protesilaos.com/emacs/denote#h:c7d4dd3a-38bb-4f1c-a36e-989ec0bc79a6
+(defun my/denote-rename-on-save-based-on-front-matter ()
+  "Rename the current Denote file if needed, and save again.
+The rename information comes from the front matter.
+This function should be added to `after-save-hook'."
+  ;; Disable rename confirmations locally
+  (let ((denote-rename-confirmations nil)
+        (denote-save-buffers t)) ; to save again post-rename
+    (when (and buffer-file-name
+               (denote-file-is-note-p buffer-file-name)
+               (or ;; Only trigger when front-matter keywords/title/identifier differ from the filename,
+                   ;; to reduce resource consumption on large files. I currently don't use signature, so it is ignored.
+                (not (equal (when (vulpea-buffer-tags-get) (mapconcat #'identity (vulpea-buffer-tags-get) "_"))
+                            (denote-retrieve-filename-keywords buffer-file-name)))
+                (not (equal (downcase (vulpea-buffer-prop-get "title")) ;; because the title in the filename is all lowercase
+                            (denote-retrieve-filename-title buffer-file-name)))
+                (not (equal (vulpea-buffer-prop-get "identifier")
+                            (denote-retrieve-filename-identifier buffer-file-name)))))
+      (denote--rename-file buffer-file-name (vulpea-buffer-prop-get "title") (vulpea-buffer-tags-get) "" (denote-valid-date-p (vulpea-buffer-prop-get "identifier")) (vulpea-buffer-prop-get "identifier"))
+      (message "Denote file name updated")
+      (denote-agenda-set-agenda-files))))
+
+(add-hook 'after-save-hook #'my/denote-rename-on-save-based-on-front-matter)
+#+end_src
+* Configuration file
+#+begin_src emacs-lisp :exports results :results raw :eval no-export
+(files--ensure-directory my/desktop-path)
+(let ((file "dyna-org-agenda-files-config.txt"))
+  (org-babel-tangle-file (buffer-file-name) (concat my/desktop-path file) "elisp")
+  (format "[[https://blog.prayhand13013.top/%s][View the configuration summary above]]" file))
+#+end_src
+
+#+RESULTS:
+[[https://blog.prayhand13013.top/dyna-org-agenda-files-config.txt][View the configuration summary above]]
