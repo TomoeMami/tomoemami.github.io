@@ -38,6 +38,6 @@
   (defun my/ob-gptel-exclude-current-block (orig-fun &rest args)
     "Adjust point so that the current block is not included in session history."
     (save-excursion
-      (beginning-of-line)
+      (org-backward-element)
       (apply orig-fun args)))
   (advice-add 'ob-gptel-find-session :around #'my/ob-gptel-exclude-current-block))

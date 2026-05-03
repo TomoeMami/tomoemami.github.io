@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-29 周三 13:31 -->
+<!-- 2026-05-03 日 19:50 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-动态设置org-agenda-files</title>
@@ -15,13 +15,13 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-29 周三 13:31]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-03 日 19:50]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">emacs-动态设置org-agenda-files</h1>
 </header><p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-28T21:15:00">[2026-04-28 周二 21:15]</time></span><br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-28T21:15:00">[2026-04-28 二 21:15]</time></span><br>
 </p>
 
 <p>
@@ -31,161 +31,169 @@
 <p>
 主要函数来自于这个链接：<a href="https://www.d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5">https://www.d12frosted.io/posts/2021-01-16-task-management-with-roam-vol5</a> 但是原文是针对于 <code>org-roam</code> 的，我这里将其略作提取修改，改为配合 <code>denote</code> 使用。<br>
 </p>
-<div id="outline-container-org51691b2" class="outline-2">
-<h2 id="org51691b2"><span class="section-number-2">1.</span> 启用denote-agenda</h2>
+<div id="outline-container-orgec51935" class="outline-2">
+<h2 id="orgec51935"><span class="section-number-2">1.</span> 启用denote-agenda</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 整合 <code>denote</code> 与 <code>org-agenda</code> ，通过自动化<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> denote-agenda
-  <span style="color: #557400;">:demand</span> t <span style="color: #557400;">:after</span> denote
-  <span style="color: #557400;">:config</span>
-  <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#35774;&#32622;org-agenda&#30340;&#40664;&#35748;&#25991;&#20214;&#65292;&#36825;&#37324;&#30340;&#21442;&#25968;&#26159;&#19968;&#20010;&#21253;&#21547;&#25991;&#20214;&#21517;&#30340;&#21015;&#34920;</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">adv/set-denote-agenda-static-files</span> <span style="color: #bf4400;">(</span><span style="color: #444fcf;">&amp;rest</span> _<span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">setq</span> denote-agenda-static-files <span style="color: #3f6faf;">(</span>directory-files my/org-dir1 t <span style="color: #ca3400;">"\\.org$"</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span>advice-add #'denote-agenda-set-agenda-files <span style="color: #557400;">:before</span> #'adv/set-denote-agenda-static-files<span style="color: #557400;">)</span>
-  <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#35774;&#32622;&#38656;&#35201;&#28155;&#21152;&#36827;`</span><span style="color: #00824f;">agenda-files</span><span style="color: #8f6f4a;">'&#30340;`</span><span style="color: #00824f;">denote</span><span style="color: #8f6f4a;">'&#25991;&#20214;&#30340;`</span><span style="color: #00824f;">regexp</span><span style="color: #8f6f4a;">'</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">setq</span> denote-agenda-include-regexp <span style="color: #ca3400;">"_agenda"</span><span style="color: #557400;">)</span>
-  <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#19979;&#38754;&#30340;&#20989;&#25968;&#20250;&#24448;`</span><span style="color: #00824f;">denote-agenda-static-files</span><span style="color: #8f6f4a;">'&#37324;&#28155;&#21152;&#31526;&#21512;`</span><span style="color: #00824f;">include-regexp</span><span style="color: #8f6f4a;">'&#30340;`</span><span style="color: #00824f;">denote</span><span style="color: #8f6f4a;">'&#25991;&#20214;&#65292;&#24182;&#23558;&#35813;&#32467;&#26524;&#35774;&#32622;&#20026;`</span><span style="color: #00824f;">org-agenda-files</span><span style="color: #8f6f4a;">'</span>
-  <span style="color: #557400;">(</span>denote-agenda-insinuate<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">use-package</span> denote-agenda
+  <span style="color: #946830;">:demand</span> t <span style="color: #946830;">:after</span> denote
+  <span style="color: #946830;">:config</span>
+  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#35774;&#32622;org-agenda&#30340;&#40664;&#35748;&#25991;&#20214;&#65292;&#36825;&#37324;&#30340;&#21442;&#25968;&#26159;&#19968;&#20010;&#21253;&#21547;&#25991;&#20214;&#21517;&#30340;&#21015;&#34920;</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">adv/set-denote-agenda-static-files</span> <span style="color: #5a7400;">(</span><span style="color: #008250;">&amp;rest</span> _<span style="color: #5a7400;">)</span>
+    <span style="color: #5a7400;">(</span><span style="color: #a26310;">setq</span> denote-agenda-static-files <span style="color: #c02945;">(</span>directory-files my/org-dir1 t <span style="color: #c74400;">"\\.org$"</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>advice-add #'denote-agenda-set-agenda-files <span style="color: #946830;">:before</span> #'adv/set-denote-agenda-static-files<span style="color: #a26310;">)</span>
+  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#35774;&#32622;&#38656;&#35201;&#28155;&#21152;&#36827;`</span><span style="color: #3f60af;">agenda-files</span><span style="color: #7f6f1a;">'&#30340;`</span><span style="color: #3f60af;">denote</span><span style="color: #7f6f1a;">'&#25991;&#20214;&#30340;`</span><span style="color: #3f60af;">regexp</span><span style="color: #7f6f1a;">'</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">setq</span> denote-agenda-include-regexp <span style="color: #c74400;">"_agenda"</span><span style="color: #a26310;">)</span>
+  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#19979;&#38754;&#30340;&#20989;&#25968;&#20250;&#24448;`</span><span style="color: #3f60af;">denote-agenda-static-files</span><span style="color: #7f6f1a;">'&#37324;&#28155;&#21152;&#31526;&#21512;`</span><span style="color: #3f60af;">include-regexp</span><span style="color: #7f6f1a;">'&#30340;`</span><span style="color: #3f60af;">denote</span><span style="color: #7f6f1a;">'&#25991;&#20214;&#65292;&#24182;&#23558;&#35813;&#32467;&#26524;&#35774;&#32622;&#20026;`</span><span style="color: #3f60af;">org-agenda-files</span><span style="color: #7f6f1a;">'</span>
+  <span style="color: #a26310;">(</span>denote-agenda-insinuate<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf0fae25" class="outline-2">
-<h2 id="orgf0fae25"><span class="section-number-2">2.</span> 为denote文件自动添加标签</h2>
+<div id="outline-container-org96b3b83" class="outline-2">
+<h2 id="org96b3b83"><span class="section-number-2">2.</span> 为denote文件自动添加标签</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">vulpea-project-p</span> <span style="color: #557400;">()</span>
-  <span style="color: #4f677f;">"&#22914;&#26524;&#24403;&#21069;buffer&#21547;&#26377;&#20219;&#20309;TODO&#39033;&#65292;&#21017;&#36820;&#22238;&#38750;&#31354;&#12290;"</span>
-  <span style="color: #557400;">(</span>seq-find                                 <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">(3)</span>
-   <span style="color: #bf4400;">(</span><span style="color: #006f00;">lambda</span> <span style="color: #3f6faf;">(</span>type<span style="color: #3f6faf;">)</span>
-     <span style="color: #3f6faf;">(</span>eq type 'todo<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-   <span style="color: #bf4400;">(</span>org-element-map                         <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">(2)</span>
-       <span style="color: #3f6faf;">(</span>org-element-parse-buffer 'headline<span style="color: #3f6faf;">)</span> <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">(1)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">vulpea-project-p</span> <span style="color: #a26310;">()</span>
+  <span style="color: #b05350;">"&#22914;&#26524;&#24403;&#21069;buffer&#21547;&#26377;&#20219;&#20309;TODO&#39033;&#65292;&#21017;&#36820;&#22238;&#38750;&#31354;&#12290;"</span>
+  <span style="color: #a26310;">(</span>seq-find                                 <span style="color: #7f6f1a;">; </span><span style="color: #7f6f1a;">(3)</span>
+   <span style="color: #5a7400;">(</span><span style="color: #a26310;">lambda</span> <span style="color: #c02945;">(</span>type<span style="color: #c02945;">)</span>
+     <span style="color: #c02945;">(</span>eq type 'todo<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+   <span style="color: #5a7400;">(</span>org-element-map                         <span style="color: #7f6f1a;">; </span><span style="color: #7f6f1a;">(2)</span>
+       <span style="color: #c02945;">(</span>org-element-parse-buffer 'headline<span style="color: #c02945;">)</span> <span style="color: #7f6f1a;">; </span><span style="color: #7f6f1a;">(1)</span>
        'headline
-     <span style="color: #3f6faf;">(</span><span style="color: #006f00;">lambda</span> <span style="color: #00824f;">(</span>h<span style="color: #00824f;">)</span>
-       <span style="color: #00824f;">(</span>org-element-property <span style="color: #557400;">:todo-type</span> h<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+     <span style="color: #c02945;">(</span><span style="color: #a26310;">lambda</span> <span style="color: #4060a0;">(</span>h<span style="color: #4060a0;">)</span>
+       <span style="color: #4060a0;">(</span>org-element-property <span style="color: #946830;">:todo-type</span> h<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">vulpea-buffer-p</span> <span style="color: #557400;">()</span>
-  <span style="color: #4f677f;">"&#22914;&#26524;&#24403;&#21069;buffer&#26159;&#19968;&#20010;'</span><span style="color: #00824f;">&#25351;&#23450;&#36335;&#24452;</span><span style="color: #4f677f;">'&#20013;&#30340;'</span><span style="color: #00824f;">org</span><span style="color: #4f677f;">'&#25991;&#20214;&#65292;&#21017;&#36820;&#22238;&#38750;&#31354;&#12290;"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">and</span> buffer-file-name
-       <span style="color: #bf4400;">(</span>eq major-mode 'org-mode<span style="color: #bf4400;">)</span>
-       <span style="color: #bf4400;">(</span>string-suffix-p <span style="color: #ca3400;">"org"</span> buffer-file-name<span style="color: #bf4400;">)</span>
-       <span style="color: #bf4400;">(</span>string-prefix-p
-        <span style="color: #3f6faf;">(</span>expand-file-name <span style="color: #00824f;">(</span>file-name-as-directory denote-directory<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-        <span style="color: #3f6faf;">(</span>file-name-directory buffer-file-name<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">vulpea-buffer-p</span> <span style="color: #a26310;">()</span>
+  <span style="color: #b05350;">"&#22914;&#26524;&#24403;&#21069;buffer&#26159;&#19968;&#20010;'</span><span style="color: #3f60af;">&#25351;&#23450;&#36335;&#24452;</span><span style="color: #b05350;">'&#20013;&#30340;'</span><span style="color: #3f60af;">org</span><span style="color: #b05350;">'&#25991;&#20214;&#65292;&#21017;&#36820;&#22238;&#38750;&#31354;&#12290;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">and</span> buffer-file-name
+       <span style="color: #5a7400;">(</span>eq major-mode 'org-mode<span style="color: #5a7400;">)</span>
+       <span style="color: #5a7400;">(</span>string-suffix-p <span style="color: #c74400;">"org"</span> buffer-file-name<span style="color: #5a7400;">)</span>
+       <span style="color: #5a7400;">(</span>string-prefix-p
+        <span style="color: #c02945;">(</span>expand-file-name <span style="color: #4060a0;">(</span>file-name-as-directory denote-directory<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+        <span style="color: #c02945;">(</span>file-name-directory buffer-file-name<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">vulpea-buffer-prop-set</span> <span style="color: #557400;">(</span>name value<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"&#20026;&#24403;&#21069;buffer&#28155;&#21152;&#20840;&#23616;&#23646;&#24615;'</span><span style="color: #00824f;">name</span><span style="color: #4f677f;">'&#65292;&#24182;&#20351;&#20854;&#20540;&#20026;'</span><span style="color: #00824f;">value</span><span style="color: #4f677f;">'&#12290;&#20250;&#35206;&#30422;&#29616;&#26377;&#20540;&#12290;"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">setq</span> name <span style="color: #bf4400;">(</span>downcase name<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">org-with-point-at</span> 1
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">let</span> <span style="color: #3f6faf;">(</span><span style="color: #00824f;">(</span>case-fold-search t<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span><span style="color: #006f00;">if</span> <span style="color: #00824f;">(</span>re-search-forward <span style="color: #9a456f;">(</span>concat <span style="color: #ca3400;">"^#\\+"</span> name <span style="color: #ca3400;">":</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">(</span><span style="color: #ca3400;">.*</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">)</span><span style="color: #ca3400;">"</span><span style="color: #9a456f;">)</span>
-                             <span style="color: #9a456f;">(</span>point-max<span style="color: #9a456f;">)</span> t<span style="color: #00824f;">)</span>
-          <span style="color: #00824f;">(</span>replace-match <span style="color: #9a456f;">(</span>concat <span style="color: #ca3400;">"#+"</span> name <span style="color: #ca3400;">": "</span> value<span style="color: #9a456f;">)</span> 'fixedcase<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span><span style="color: #006f00;">while</span> <span style="color: #9a456f;">(</span><span style="color: #006f00;">and</span> <span style="color: #a2604f;">(</span>not <span style="color: #007a9f;">(</span>eobp<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
-                    <span style="color: #a2604f;">(</span>looking-at <span style="color: #ca3400;">"^[#:]"</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
-          <span style="color: #9a456f;">(</span><span style="color: #006f00;">if</span> <span style="color: #a2604f;">(</span><span style="color: #006f00;">save-excursion</span> <span style="color: #007a9f;">(</span>end-of-line<span style="color: #007a9f;">)</span> <span style="color: #007a9f;">(</span>eobp<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
-              <span style="color: #a2604f;">(</span><span style="color: #006f00;">progn</span>
-                <span style="color: #007a9f;">(</span>end-of-line<span style="color: #007a9f;">)</span>
-                <span style="color: #007a9f;">(</span>insert <span style="color: #ca3400;">"\n"</span><span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span>
-            <span style="color: #a2604f;">(</span>forward-line<span style="color: #a2604f;">)</span>
-            <span style="color: #a2604f;">(</span>beginning-of-line<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>insert <span style="color: #ca3400;">"#+"</span> name <span style="color: #ca3400;">": "</span> value <span style="color: #ca3400;">"\n"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">vulpea-buffer-prop-set</span> <span style="color: #a26310;">(</span>name value<span style="color: #a26310;">)</span>
+  <span style="color: #b05350;">"&#20026;&#24403;&#21069;buffer&#28155;&#21152;&#20840;&#23616;&#23646;&#24615;'</span><span style="color: #3f60af;">name</span><span style="color: #b05350;">'&#65292;&#24182;&#20351;&#20854;&#20540;&#20026;'</span><span style="color: #3f60af;">value</span><span style="color: #b05350;">'&#12290;&#20250;&#35206;&#30422;&#29616;&#26377;&#20540;&#12290;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">setq</span> name <span style="color: #5a7400;">(</span>downcase name<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">org-with-point-at</span> 1
+    <span style="color: #5a7400;">(</span><span style="color: #a26310;">let</span> <span style="color: #c02945;">(</span><span style="color: #4060a0;">(</span>case-fold-search t<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+      <span style="color: #c02945;">(</span><span style="color: #a26310;">if</span> <span style="color: #4060a0;">(</span>re-search-forward <span style="color: #aa3e74;">(</span>concat <span style="color: #c74400;">"^#\\+"</span> name <span style="color: #c74400;">":</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">(</span><span style="color: #c74400;">.*</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">)</span><span style="color: #c74400;">"</span><span style="color: #aa3e74;">)</span>
+                             <span style="color: #aa3e74;">(</span>point-max<span style="color: #aa3e74;">)</span> t<span style="color: #4060a0;">)</span>
+          <span style="color: #4060a0;">(</span>replace-match <span style="color: #aa3e74;">(</span>concat <span style="color: #c74400;">"#+"</span> name <span style="color: #c74400;">": "</span> value<span style="color: #aa3e74;">)</span> 'fixedcase<span style="color: #4060a0;">)</span>
+        <span style="color: #4060a0;">(</span><span style="color: #a26310;">while</span> <span style="color: #aa3e74;">(</span><span style="color: #a26310;">and</span> <span style="color: #008250;">(</span>not <span style="color: #b02f80;">(</span>eobp<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span>
+                    <span style="color: #008250;">(</span>looking-at <span style="color: #c74400;">"^[#:]"</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+          <span style="color: #aa3e74;">(</span><span style="color: #a26310;">if</span> <span style="color: #008250;">(</span><span style="color: #a26310;">save-excursion</span> <span style="color: #b02f80;">(</span>end-of-line<span style="color: #b02f80;">)</span> <span style="color: #b02f80;">(</span>eobp<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span>
+              <span style="color: #008250;">(</span><span style="color: #a26310;">progn</span>
+                <span style="color: #b02f80;">(</span>end-of-line<span style="color: #b02f80;">)</span>
+                <span style="color: #b02f80;">(</span>insert <span style="color: #c74400;">"\n"</span><span style="color: #b02f80;">)</span><span style="color: #008250;">)</span>
+            <span style="color: #008250;">(</span>forward-line<span style="color: #008250;">)</span>
+            <span style="color: #008250;">(</span>beginning-of-line<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span>
+        <span style="color: #4060a0;">(</span>insert <span style="color: #c74400;">"#+"</span> name <span style="color: #c74400;">": "</span> value <span style="color: #c74400;">"\n"</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">vulpea-buffer-prop-remove</span> <span style="color: #557400;">(</span>name<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"&#31227;&#38500;&#24403;&#21069;buffer&#21517;&#31216;&#20026;'</span><span style="color: #00824f;">name</span><span style="color: #4f677f;">'&#30340;&#23646;&#24615;"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">org-with-point-at</span> 1
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">when</span> <span style="color: #3f6faf;">(</span>re-search-forward <span style="color: #00824f;">(</span>concat <span style="color: #ca3400;">"</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">(</span><span style="color: #ca3400;">^#\\+"</span> name <span style="color: #ca3400;">":.*\n?</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">)</span><span style="color: #ca3400;">"</span><span style="color: #00824f;">)</span>
-                             <span style="color: #00824f;">(</span>point-max<span style="color: #00824f;">)</span> t<span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span>replace-match <span style="color: #ca3400;">""</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">vulpea-buffer-prop-remove</span> <span style="color: #a26310;">(</span>name<span style="color: #a26310;">)</span>
+  <span style="color: #b05350;">"&#31227;&#38500;&#24403;&#21069;buffer&#21517;&#31216;&#20026;'</span><span style="color: #3f60af;">name</span><span style="color: #b05350;">'&#30340;&#23646;&#24615;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">org-with-point-at</span> 1
+    <span style="color: #5a7400;">(</span><span style="color: #a26310;">when</span> <span style="color: #c02945;">(</span>re-search-forward <span style="color: #4060a0;">(</span>concat <span style="color: #c74400;">"</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">(</span><span style="color: #c74400;">^#\\+"</span> name <span style="color: #c74400;">":.*\n?</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">)</span><span style="color: #c74400;">"</span><span style="color: #4060a0;">)</span>
+                             <span style="color: #4060a0;">(</span>point-max<span style="color: #4060a0;">)</span> t<span style="color: #c02945;">)</span>
+      <span style="color: #c02945;">(</span>replace-match <span style="color: #c74400;">""</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">vulpea-buffer-tags-set</span> <span style="color: #557400;">(</span><span style="color: #444fcf;">&amp;rest</span> tags<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"&#35774;&#32622;&#24403;&#21069;buffer&#30340;'</span><span style="color: #00824f;">filetags</span><span style="color: #4f677f;">'&#23646;&#24615;"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">if</span> tags
-      <span style="color: #bf4400;">(</span>vulpea-buffer-prop-set
-       <span style="color: #ca3400;">"filetags"</span> <span style="color: #3f6faf;">(</span>concat <span style="color: #ca3400;">":"</span> <span style="color: #00824f;">(</span>string-join tags <span style="color: #ca3400;">":"</span><span style="color: #00824f;">)</span> <span style="color: #ca3400;">":"</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span>vulpea-buffer-prop-remove <span style="color: #ca3400;">"filetags"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">vulpea-buffer-tags-set</span> <span style="color: #a26310;">(</span><span style="color: #008250;">&amp;rest</span> tags<span style="color: #a26310;">)</span>
+  <span style="color: #b05350;">"&#35774;&#32622;&#24403;&#21069;buffer&#30340;'</span><span style="color: #3f60af;">filetags</span><span style="color: #b05350;">'&#23646;&#24615;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">if</span> tags
+      <span style="color: #5a7400;">(</span>vulpea-buffer-prop-set
+       <span style="color: #c74400;">"filetags"</span> <span style="color: #c02945;">(</span>concat <span style="color: #c74400;">":"</span> <span style="color: #4060a0;">(</span>string-join tags <span style="color: #c74400;">":"</span><span style="color: #4060a0;">)</span> <span style="color: #c74400;">":"</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    <span style="color: #5a7400;">(</span>vulpea-buffer-prop-remove <span style="color: #c74400;">"filetags"</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">vulpea-buffer-prop-get</span> <span style="color: #557400;">(</span>name<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"&#33719;&#21462;&#24403;&#21069;buffer&#30340;'</span><span style="color: #00824f;">name</span><span style="color: #4f677f;">'&#23646;&#24615;&#20540;&#20026;&#23383;&#31526;&#20018;"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">org-with-point-at</span> 1
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">when</span> <span style="color: #3f6faf;">(</span>re-search-forward <span style="color: #00824f;">(</span>concat <span style="color: #ca3400;">"^#\\+"</span> name <span style="color: #ca3400;">": </span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">(</span><span style="color: #ca3400;">.*</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">)</span><span style="color: #ca3400;">"</span><span style="color: #00824f;">)</span>
-                             <span style="color: #00824f;">(</span>point-max<span style="color: #00824f;">)</span> t<span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span><span style="color: #006f00;">let</span> <span style="color: #00824f;">(</span><span style="color: #9a456f;">(</span>value <span style="color: #a2604f;">(</span>string-trim
-                    <span style="color: #007a9f;">(</span>buffer-substring-no-properties
-                     <span style="color: #9f0d0f;">(</span>match-beginning 1<span style="color: #9f0d0f;">)</span>
-                     <span style="color: #9f0d0f;">(</span>match-end 1<span style="color: #9f0d0f;">)</span><span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span><span style="color: #006f00;">unless</span> <span style="color: #9a456f;">(</span>string-empty-p value<span style="color: #9a456f;">)</span>
-          value<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">vulpea-buffer-prop-get</span> <span style="color: #a26310;">(</span>name<span style="color: #a26310;">)</span>
+  <span style="color: #b05350;">"&#33719;&#21462;&#24403;&#21069;buffer&#30340;'</span><span style="color: #3f60af;">name</span><span style="color: #b05350;">'&#23646;&#24615;&#20540;&#20026;&#23383;&#31526;&#20018;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">org-with-point-at</span> 1
+    <span style="color: #5a7400;">(</span><span style="color: #a26310;">when</span> <span style="color: #c02945;">(</span>re-search-forward <span style="color: #4060a0;">(</span>concat <span style="color: #c74400;">"^#\\+"</span> name <span style="color: #c74400;">": </span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">(</span><span style="color: #c74400;">.*</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">)</span><span style="color: #c74400;">"</span><span style="color: #4060a0;">)</span>
+                             <span style="color: #4060a0;">(</span>point-max<span style="color: #4060a0;">)</span> t<span style="color: #c02945;">)</span>
+      <span style="color: #c02945;">(</span><span style="color: #a26310;">let</span> <span style="color: #4060a0;">(</span><span style="color: #aa3e74;">(</span>value <span style="color: #008250;">(</span>string-trim
+                    <span style="color: #b02f80;">(</span>buffer-substring-no-properties
+                     <span style="color: #0f708a;">(</span>match-beginning 1<span style="color: #0f708a;">)</span>
+                     <span style="color: #0f708a;">(</span>match-end 1<span style="color: #0f708a;">)</span><span style="color: #b02f80;">)</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span>
+        <span style="color: #4060a0;">(</span><span style="color: #a26310;">unless</span> <span style="color: #aa3e74;">(</span>string-empty-p value<span style="color: #aa3e74;">)</span>
+          value<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">vulpea-buffer-prop-get-list</span> <span style="color: #557400;">(</span>name <span style="color: #444fcf;">&amp;optional</span> separators<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"&#33719;&#21462;&#24403;&#21069;buffer&#30340;'</span><span style="color: #00824f;">name</span><span style="color: #4f677f;">'&#23646;&#24615;&#20540;&#20026;&#21015;&#34920;&#65292;&#29992;&#21487;&#36873;&#30340;'</span><span style="color: #00824f;">separator</span><span style="color: #4f677f;">'&#20998;&#21106;&#12290;</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">vulpea-buffer-prop-get-list</span> <span style="color: #a26310;">(</span>name <span style="color: #008250;">&amp;optional</span> separators<span style="color: #a26310;">)</span>
+  <span style="color: #b05350;">"&#33719;&#21462;&#24403;&#21069;buffer&#30340;'</span><span style="color: #3f60af;">name</span><span style="color: #b05350;">'&#23646;&#24615;&#20540;&#20026;&#21015;&#34920;&#65292;&#29992;&#21487;&#36873;&#30340;'</span><span style="color: #3f60af;">separator</span><span style="color: #b05350;">'&#20998;&#21106;&#12290;</span>
 
-<span style="color: #4f677f;">&#22914;&#26524;'</span><span style="color: #00824f;">separator</span><span style="color: #4f677f;">'&#38750;&#31354;&#65292;&#21017;&#24212;&#20026;&#19968;&#20010;&#21305;&#37197;&#20998;&#21106;&#23383;&#31526;&#30340;&#27491;&#21017;&#65307;&#22914;&#26524;&#20026;&#31354;&#65292;&#21017;&#40664;&#35748;&#35774;&#32622;&#20026;`</span><span style="color: #00824f;">split-string-default-separators</span><span style="color: #4f677f;">'&#65292;&#36890;&#24120;&#20026;\"[ \f\t\n\r\v]+\"&#65292;&#24182;&#19988; '</span><span style="color: #00824f;">omit-nulls</span><span style="color: #4f677f;">' &#24378;&#21046;&#20026; '</span><span style="color: #00824f;">t</span><span style="color: #4f677f;">'&#12290;"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>value <span style="color: #00824f;">(</span>vulpea-buffer-prop-get name<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">when</span> value
-      <span style="color: #3f6faf;">(</span>split-string-and-unquote value separators<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #b05350;">&#22914;&#26524;'</span><span style="color: #3f60af;">separator</span><span style="color: #b05350;">'&#38750;&#31354;&#65292;&#21017;&#24212;&#20026;&#19968;&#20010;&#21305;&#37197;&#20998;&#21106;&#23383;&#31526;&#30340;&#27491;&#21017;&#65307;&#22914;&#26524;&#20026;&#31354;&#65292;&#21017;&#40664;&#35748;&#35774;&#32622;&#20026;`</span><span style="color: #3f60af;">split-string-default-separators</span><span style="color: #b05350;">'&#65292;&#36890;&#24120;&#20026;\"[ \f\t\n\r\v]+\"&#65292;&#24182;&#19988; '</span><span style="color: #3f60af;">omit-nulls</span><span style="color: #b05350;">' &#24378;&#21046;&#20026; '</span><span style="color: #3f60af;">t</span><span style="color: #b05350;">'&#12290;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">let</span> <span style="color: #5a7400;">(</span><span style="color: #c02945;">(</span>value <span style="color: #4060a0;">(</span>vulpea-buffer-prop-get name<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    <span style="color: #5a7400;">(</span><span style="color: #a26310;">when</span> value
+      <span style="color: #c02945;">(</span>split-string-and-unquote value separators<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">vulpea-buffer-tags-get</span> <span style="color: #557400;">()</span>
-  <span style="color: #4f677f;">"&#36820;&#22238;&#24403;&#21069;buffer&#30340;'</span><span style="color: #00824f;">filetags</span><span style="color: #4f677f;">'&#20540;&#20026;&#21015;&#34920;"</span>
-  <span style="color: #557400;">(</span>vulpea-buffer-prop-get-list <span style="color: #ca3400;">"filetags"</span> <span style="color: #ca3400;">"[ :]"</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">vulpea-buffer-tags-get</span> <span style="color: #a26310;">()</span>
+  <span style="color: #b05350;">"&#36820;&#22238;&#24403;&#21069;buffer&#30340;'</span><span style="color: #3f60af;">filetags</span><span style="color: #b05350;">'&#20540;&#20026;&#21015;&#34920;"</span>
+  <span style="color: #a26310;">(</span>vulpea-buffer-prop-get-list <span style="color: #c74400;">"filetags"</span> <span style="color: #c74400;">"[ :]"</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">vulpea-project-update-tag</span> <span style="color: #557400;">()</span>
-  <span style="color: #4f677f;">"&#20026;&#24403;&#21069;buffer&#30340;'</span><span style="color: #00824f;">filetags</span><span style="color: #4f677f;">'&#23646;&#24615;&#28155;&#21152;'</span><span style="color: #00824f;">agenda</span><span style="color: #4f677f;">'&#20540;"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">when</span> <span style="color: #bf4400;">(</span><span style="color: #006f00;">and</span> <span style="color: #3f6faf;">(</span>not <span style="color: #00824f;">(</span>active-minibuffer-window<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-             <span style="color: #3f6faf;">(</span>vulpea-buffer-p<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">save-excursion</span>
-      <span style="color: #3f6faf;">(</span>goto-char <span style="color: #00824f;">(</span>point-min<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span><span style="color: #006f00;">let*</span> <span style="color: #00824f;">(</span><span style="color: #9a456f;">(</span>tags <span style="color: #a2604f;">(</span>vulpea-buffer-tags-get<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
-             <span style="color: #9a456f;">(</span>original-tags tags<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span><span style="color: #006f00;">if</span> <span style="color: #9a456f;">(</span>vulpea-project-p<span style="color: #9a456f;">)</span>
-            <span style="color: #9a456f;">(</span><span style="color: #006f00;">setq</span> tags <span style="color: #a2604f;">(</span>cons <span style="color: #ca3400;">"agenda"</span> tags<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
-          <span style="color: #9a456f;">(</span><span style="color: #006f00;">setq</span> tags <span style="color: #a2604f;">(</span>remove <span style="color: #ca3400;">"agenda"</span> tags<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">vulpea-project-update-tag</span> <span style="color: #a26310;">()</span>
+  <span style="color: #b05350;">"&#20026;&#24403;&#21069;buffer&#30340;'</span><span style="color: #3f60af;">filetags</span><span style="color: #b05350;">'&#23646;&#24615;&#28155;&#21152;'</span><span style="color: #3f60af;">agenda</span><span style="color: #b05350;">'&#20540;"</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">when</span> <span style="color: #5a7400;">(</span><span style="color: #a26310;">and</span> <span style="color: #c02945;">(</span>not <span style="color: #4060a0;">(</span>active-minibuffer-window<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+             <span style="color: #c02945;">(</span>vulpea-buffer-p<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
+    <span style="color: #5a7400;">(</span><span style="color: #a26310;">save-excursion</span>
+      <span style="color: #c02945;">(</span>goto-char <span style="color: #4060a0;">(</span>point-min<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+      <span style="color: #c02945;">(</span><span style="color: #a26310;">let*</span> <span style="color: #4060a0;">(</span><span style="color: #aa3e74;">(</span>tags <span style="color: #008250;">(</span>vulpea-buffer-tags-get<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+             <span style="color: #aa3e74;">(</span>original-tags tags<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span>
+        <span style="color: #4060a0;">(</span><span style="color: #a26310;">if</span> <span style="color: #aa3e74;">(</span>vulpea-project-p<span style="color: #aa3e74;">)</span>
+            <span style="color: #aa3e74;">(</span><span style="color: #a26310;">setq</span> tags <span style="color: #008250;">(</span>cons <span style="color: #c74400;">"agenda"</span> tags<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+          <span style="color: #aa3e74;">(</span><span style="color: #a26310;">setq</span> tags <span style="color: #008250;">(</span>remove <span style="color: #c74400;">"agenda"</span> tags<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span>
 
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">cleanup duplicates</span>
-        <span style="color: #00824f;">(</span><span style="color: #006f00;">setq</span> tags <span style="color: #9a456f;">(</span>seq-uniq tags<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+        <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">cleanup duplicates</span>
+        <span style="color: #4060a0;">(</span><span style="color: #a26310;">setq</span> tags <span style="color: #aa3e74;">(</span>seq-uniq tags<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span>
 
-        <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">update tags if changed</span>
-        <span style="color: #00824f;">(</span><span style="color: #006f00;">when</span> <span style="color: #9a456f;">(</span><span style="color: #006f00;">or</span> <span style="color: #a2604f;">(</span>seq-difference tags original-tags<span style="color: #a2604f;">)</span>
-                  <span style="color: #a2604f;">(</span>seq-difference original-tags tags<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
-          <span style="color: #9a456f;">(</span>apply #'vulpea-buffer-tags-set tags<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+        <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">update tags if changed</span>
+        <span style="color: #4060a0;">(</span><span style="color: #a26310;">when</span> <span style="color: #aa3e74;">(</span><span style="color: #a26310;">or</span> <span style="color: #008250;">(</span>seq-difference tags original-tags<span style="color: #008250;">)</span>
+                  <span style="color: #008250;">(</span>seq-difference original-tags tags<span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+          <span style="color: #aa3e74;">(</span>apply #'vulpea-buffer-tags-set tags<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#27599;&#27425;&#20445;&#23384;&#20043;&#21069;&#37117;&#36816;&#34892;&#19968;&#19979;&#26356;&#26032;tag&#21629;&#20196;</span>
-<span style="color: #a7601f;">(</span>add-hook 'before-save-hook #'vulpea-project-update-tag<span style="color: #a7601f;">)</span>
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#27599;&#27425;&#20445;&#23384;&#20043;&#21069;&#37117;&#36816;&#34892;&#19968;&#19979;&#26356;&#26032;tag&#21629;&#20196;</span>
+<span style="color: #ba5205;">(</span>add-hook 'before-save-hook #'vulpea-project-update-tag<span style="color: #ba5205;">)</span>
 
-<span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#26469;&#33258;denote&#23448;&#26041;&#25163;&#20876; https://protesilaos.com/emacs/denote#h:c7d4dd3a-38bb-4f1c-a36e-989ec0bc79a6</span>
-<span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/denote-rename-on-save-based-on-front-matter</span> <span style="color: #557400;">()</span>
-  <span style="color: #4f677f;">"&#37325;&#21629;&#21517;&#24403;&#21069;Denote&#25991;&#20214;&#65292;&#22914;&#26524;&#38656;&#35201;&#30340;&#35805;&#20877;&#27425;&#20445;&#23384;&#12290;</span>
-<span style="color: #4f677f;">&#37325;&#21629;&#21517;&#30456;&#20851;&#20449;&#24687;&#26469;&#33258;&#20110;front matter&#12290;</span>
-<span style="color: #4f677f;">&#38656;&#35201;&#25226;&#35813;&#20989;&#25968;&#28155;&#21152;&#21040;`</span><span style="color: #00824f;">after-save-hook</span><span style="color: #4f677f;">'&#12290;"</span>
-  <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#23616;&#37096;&#20851;&#38381;&#37325;&#21629;&#21517;&#25552;&#37266;</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">let</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>denote-rename-confirmations nil<span style="color: #3f6faf;">)</span>
-        <span style="color: #3f6faf;">(</span>denote-save-buffers t<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span> <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">to save again post-rename</span>
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">when</span> <span style="color: #3f6faf;">(</span><span style="color: #006f00;">and</span> buffer-file-name
-               <span style="color: #00824f;">(</span>denote-file-is-note-p buffer-file-name<span style="color: #00824f;">)</span>
-               <span style="color: #00824f;">(</span><span style="color: #006f00;">or</span> <span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#21482;&#22312;front-matter&#21644;&#25991;&#20214;&#21517;&#30340;keyword/title/identifier&#19981;&#31561;&#30340;&#26102;&#20505;&#35302;&#21457;&#65292;&#20943;&#23569;&#22823;&#25991;&#20214;&#20445;&#23384;&#36164;&#28304;&#28040;&#32791;&#12290;&#25105;&#30446;&#21069;&#27809;&#29992;&#21040;signature&#65292;&#25152;&#20197;&#24573;&#30053;&#20102;&#12290;</span>
-                <span style="color: #9a456f;">(</span>not <span style="color: #a2604f;">(</span>equal <span style="color: #007a9f;">(</span><span style="color: #006f00;">when</span> <span style="color: #9f0d0f;">(</span>vulpea-buffer-tags-get<span style="color: #9f0d0f;">)</span> <span style="color: #9f0d0f;">(</span>mapconcat #'identity <span style="color: #a7601f;">(</span>vulpea-buffer-tags-get<span style="color: #a7601f;">)</span> <span style="color: #ca3400;">"_"</span><span style="color: #9f0d0f;">)</span><span style="color: #007a9f;">)</span>
-                            <span style="color: #007a9f;">(</span>denote-retrieve-filename-keywords buffer-file-name<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
-                <span style="color: #9a456f;">(</span>not <span style="color: #a2604f;">(</span>equal <span style="color: #007a9f;">(</span>downcase <span style="color: #9f0d0f;">(</span>vulpea-buffer-prop-get <span style="color: #ca3400;">"title"</span><span style="color: #9f0d0f;">)</span><span style="color: #007a9f;">)</span> <span style="color: #8f6f4a;">;;</span><span style="color: #8f6f4a;">&#22240;&#20026;&#20316;&#20026;&#25991;&#20214;&#21517;&#30340;title&#20840;&#23567;&#20889;</span>
-                            <span style="color: #007a9f;">(</span>denote-retrieve-filename-title buffer-file-name<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span>
-                <span style="color: #9a456f;">(</span>not <span style="color: #a2604f;">(</span>equal <span style="color: #007a9f;">(</span>vulpea-buffer-prop-get <span style="color: #ca3400;">"identifier"</span><span style="color: #007a9f;">)</span>
-                            <span style="color: #007a9f;">(</span>denote-retrieve-filename-identifier buffer-file-name<span style="color: #007a9f;">)</span><span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span>denote--rename-file buffer-file-name <span style="color: #00824f;">(</span>vulpea-buffer-prop-get <span style="color: #ca3400;">"title"</span><span style="color: #00824f;">)</span> <span style="color: #00824f;">(</span>vulpea-buffer-tags-get<span style="color: #00824f;">)</span> <span style="color: #ca3400;">""</span> <span style="color: #00824f;">(</span>denote-valid-date-p <span style="color: #9a456f;">(</span>vulpea-buffer-prop-get <span style="color: #ca3400;">"identifier"</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span> <span style="color: #00824f;">(</span>vulpea-buffer-prop-get <span style="color: #ca3400;">"identifier"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span>message <span style="color: #ca3400;">"Denote file name updated"</span><span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span>denote-agenda-set-agenda-files<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#26469;&#33258;denote&#23448;&#26041;&#25163;&#20876; https://protesilaos.com/emacs/denote#h:c7d4dd3a-38bb-4f1c-a36e-989ec0bc79a6</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">my/denote-rename-on-save-based-on-front-matter</span> <span style="color: #a26310;">()</span>
+  <span style="color: #b05350;">"&#37325;&#21629;&#21517;&#24403;&#21069;Denote&#25991;&#20214;&#65292;&#22914;&#26524;&#38656;&#35201;&#30340;&#35805;&#20877;&#27425;&#20445;&#23384;&#12290;</span>
+<span style="color: #b05350;">&#37325;&#21629;&#21517;&#30456;&#20851;&#20449;&#24687;&#26469;&#33258;&#20110;front matter&#12290;</span>
+<span style="color: #b05350;">&#38656;&#35201;&#25226;&#35813;&#20989;&#25968;&#28155;&#21152;&#21040;`</span><span style="color: #3f60af;">after-save-hook</span><span style="color: #b05350;">'&#12290;"</span>
+  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#23616;&#37096;&#20851;&#38381;&#37325;&#21629;&#21517;&#25552;&#37266;</span>
+  <span style="color: #a26310;">(</span><span style="color: #a26310;">let</span> <span style="color: #5a7400;">(</span><span style="color: #c02945;">(</span>denote-rename-confirmations nil<span style="color: #c02945;">)</span>
+        <span style="color: #c02945;">(</span>denote-save-buffers t<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span> <span style="color: #7f6f1a;">; </span><span style="color: #7f6f1a;">to save again post-rename</span>
+    <span style="color: #5a7400;">(</span><span style="color: #a26310;">when</span> <span style="color: #c02945;">(</span><span style="color: #a26310;">and</span> buffer-file-name
+               <span style="color: #4060a0;">(</span>denote-file-is-note-p buffer-file-name<span style="color: #4060a0;">)</span>
+               <span style="color: #4060a0;">(</span><span style="color: #a26310;">or</span> <span style="color: #7f6f1a;">;;</span><span style="color: #7f6f1a;">&#21482;&#22312;front-matter&#21644;&#25991;&#20214;&#21517;&#30340;keyword/title/identifier&#19981;&#31561;&#30340;&#26102;&#20505;&#35302;&#21457;&#65292;&#20943;&#23569;&#22823;&#25991;&#20214;&#20445;&#23384;&#36164;&#28304;&#28040;&#32791;&#12290;&#25105;&#30446;&#21069;&#27809;&#29992;&#21040;signature&#65292;&#25152;&#20197;&#24573;&#30053;&#20102;&#12290;</span>
+                <span style="color: #aa3e74;">(</span>not <span style="color: #008250;">(</span>equal <span style="color: #b02f80;">(</span><span style="color: #a26310;">when</span> <span style="color: #0f708a;">(</span>vulpea-buffer-tags-get<span style="color: #0f708a;">)</span> <span style="color: #0f708a;">(</span>mapconcat #'identity <span style="color: #ba5205;">(</span>vulpea-buffer-tags-get<span style="color: #ba5205;">)</span> <span style="color: #c74400;">"_"</span><span style="color: #0f708a;">)</span><span style="color: #b02f80;">)</span>
+                            <span style="color: #b02f80;">(</span>denote-retrieve-filename-keywords buffer-file-name<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+                <span style="color: #aa3e74;">(</span>not <span style="color: #008250;">(</span>equal <span style="color: #b02f80;">(</span>downcase <span style="color: #0f708a;">(</span>vulpea-buffer-prop-get <span style="color: #c74400;">"title"</span><span style="color: #0f708a;">)</span><span style="color: #b02f80;">)</span> <span style="color: #7f6f1a;">;;</span><span style="color: #7f6f1a;">&#22240;&#20026;&#20316;&#20026;&#25991;&#20214;&#21517;&#30340;title&#20840;&#23567;&#20889;</span>
+                            <span style="color: #b02f80;">(</span>denote-retrieve-filename-title buffer-file-name<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span>
+                <span style="color: #aa3e74;">(</span>not <span style="color: #008250;">(</span>equal <span style="color: #b02f80;">(</span>vulpea-buffer-prop-get <span style="color: #c74400;">"identifier"</span><span style="color: #b02f80;">)</span>
+                            <span style="color: #b02f80;">(</span>denote-retrieve-filename-identifier buffer-file-name<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+      <span style="color: #c02945;">(</span>denote--rename-file buffer-file-name <span style="color: #4060a0;">(</span>vulpea-buffer-prop-get <span style="color: #c74400;">"title"</span><span style="color: #4060a0;">)</span> <span style="color: #4060a0;">(</span>vulpea-buffer-tags-get<span style="color: #4060a0;">)</span> <span style="color: #c74400;">""</span> <span style="color: #4060a0;">(</span>denote-valid-date-p <span style="color: #aa3e74;">(</span>vulpea-buffer-prop-get <span style="color: #c74400;">"identifier"</span><span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span> <span style="color: #4060a0;">(</span>vulpea-buffer-prop-get <span style="color: #c74400;">"identifier"</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
+      <span style="color: #c02945;">(</span>message <span style="color: #c74400;">"Denote file name updated"</span><span style="color: #c02945;">)</span>
+      <span style="color: #c02945;">(</span>denote-agenda-set-agenda-files<span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 
-<span style="color: #a7601f;">(</span>add-hook 'after-save-hook #'my/denote-rename-on-save-based-on-front-matter<span style="color: #a7601f;">)</span>
+<span style="color: #ba5205;">(</span>add-hook 'after-save-hook #'my/denote-rename-on-save-based-on-front-matter<span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org06473e0" class="outline-2">
-<h2 id="org06473e0"><span class="section-number-2">3.</span> 配置文件</h2>
+<div id="outline-container-org5b57f98" class="outline-2">
+<h2 id="org5b57f98"><span class="section-number-2">3.</span> 配置文件</h2>
 <div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #ba5205;">(</span>files--ensure-directory my/desktop-path<span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">let</span> <span style="color: #a26310;">(</span><span style="color: #5a7400;">(</span>file <span style="color: #c74400;">"dyna-org-agenda-files-config.txt"</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>org-babel-tangle-file <span style="color: #5a7400;">(</span>buffer-file-name<span style="color: #5a7400;">)</span> <span style="color: #5a7400;">(</span>concat my/desktop-path file<span style="color: #5a7400;">)</span> <span style="color: #c74400;">"elisp"</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>format <span style="color: #c74400;">"[[https://blog.prayhand13013.top/%s][&#19968;&#38190;&#26597;&#30475;&#19978;&#36848;&#37197;&#32622;&#20195;&#30721;&#27719;&#24635;]]"</span> file<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+</code></pre>
+</div>
+
 <p>
 <a href="https://blog.prayhand13013.top/dyna-org-agenda-files-config.txt">一键查看上述配置代码汇总</a><br>
 </p>

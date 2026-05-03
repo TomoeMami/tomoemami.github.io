@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-29 周三 14:23 -->
+<!-- 2026-05-03 日 19:50 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在org文件中利用ob-gptel保存调用LLM聊天对话（deepseek为例）</title>
@@ -15,16 +15,16 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-04-29 周三 14:23]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-03 日 19:48]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">emacs-在org文件中利用ob-gptel保存调用LLM聊天对话（deepseek为例）</h1>
 </header><p>
-<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-28T17:10:00">[2026-04-28 周二 17:10]</time></span> 　 <a href="https://blog.prayhand13013.top/20260428T171017--emacs-%E5%9C%A8org%E6%96%87%E4%BB%B6%E4%B8%AD%E5%88%A9%E7%94%A8ob-gptel%E4%BF%9D%E5%AD%98%E8%B0%83%E7%94%A8llm%E8%81%8A%E5%A4%A9%E5%AF%B9%E8%AF%9D%EF%BC%88deepseek%E4%B8%BA%E4%BE%8B%EF%BC%89__blog.html">原文链接</a><br>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-04-28T17:10:00">[2026-04-28 二 17:10]</time></span> 　 <a href="https://blog.prayhand13013.top/20260428T171017--emacs-%E5%9C%A8org%E6%96%87%E4%BB%B6%E4%B8%AD%E5%88%A9%E7%94%A8ob-gptel%E4%BF%9D%E5%AD%98%E8%B0%83%E7%94%A8llm%E8%81%8A%E5%A4%A9%E5%AF%B9%E8%AF%9D%EF%BC%88deepseek%E4%B8%BA%E4%BE%8B%EF%BC%89__blog.html">原文链接</a><br>
 </p>
-<div id="outline-container-org032ce57" class="outline-2">
-<h2 id="org032ce57"><span class="section-number-2">1.</span> 前言</h2>
+<div id="outline-container-org14801d8" class="outline-2">
+<h2 id="org14801d8"><span class="section-number-2">1.</span> 前言</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 我用AI用得比较少，也就网页白嫖一下<a href="https://aistudio.google.com/prompts/new_chat">Google AI Studio</a>的Gemini，或者玩一玩免费的<a href="https://chat.deepseek.com">DeepSeek网页版</a>。最近DeepSeek发布了新版本，在保持低廉价格的同时可用性也仅次于几家闭源大模型了，不得不多用用了。<br>
@@ -39,8 +39,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org664f32a" class="outline-2">
-<h2 id="org664f32a"><span class="section-number-2">2.</span> 软件配置</h2>
+<div id="outline-container-orgb3db097" class="outline-2">
+<h2 id="orgb3db097"><span class="section-number-2">2.</span> 软件配置</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 首先要安装<a href="https://github.com/karthink/gptel">gptel</a>和<a href="https://github.com/jwiegley/ob-gptel">ob-gptel</a>。<br>
@@ -50,60 +50,60 @@
 因为大模型默认以 <code>markdown</code> 格式输出，所以需要安装 <code>markdown-mode</code> 。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> markdown-mode
-  <span style="color: #557400;">:mode</span> <span style="color: #ca3400;">"\\.</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">(?:</span><span style="color: #ca3400;">md</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">|</span><span style="color: #ca3400;">markdown</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">|</span><span style="color: #ca3400;">mkd</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">|</span><span style="color: #ca3400;">mdown</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">|</span><span style="color: #ca3400;">mkdn</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">|</span><span style="color: #ca3400;">mdwn</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">|</span><span style="color: #ca3400;">mdx</span><span style="color: #8448aa;">\\</span><span style="color: #007a9f;">)</span><span style="color: #ca3400;">\\'"</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">use-package</span> markdown-mode
+  <span style="color: #946830;">:mode</span> <span style="color: #c74400;">"\\.</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">(?:</span><span style="color: #c74400;">md</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">|</span><span style="color: #c74400;">markdown</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">|</span><span style="color: #c74400;">mkd</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">|</span><span style="color: #c74400;">mdown</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">|</span><span style="color: #c74400;">mkdn</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">|</span><span style="color: #c74400;">mdwn</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">|</span><span style="color: #c74400;">mdx</span><span style="color: #007a0a;">\\</span><span style="color: #6448ca;">)</span><span style="color: #c74400;">\\'"</span><span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga533d9a" class="outline-2">
-<h2 id="orga533d9a"><span class="section-number-2">3.</span> gptel</h2>
+<div id="outline-container-org6113e6b" class="outline-2">
+<h2 id="org6113e6b"><span class="section-number-2">3.</span> gptel</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 配置 <code>gptel</code> 。首先是变量设置环节。我们设置使用外部的 <code>curl</code> 用于发送网络请求。内置的 <code>url-retrieve</code> 总会有一些大大小小的问题。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> gptel <span style="color: #557400;">:demand</span> t 
-  <span style="color: #557400;">:custom</span>
-  <span style="color: #557400;">(</span>gptel-use-curl t<span style="color: #557400;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">use-package</span> gptel <span style="color: #946830;">:demand</span> t 
+  <span style="color: #946830;">:custom</span>
+  <span style="color: #a26310;">(</span>gptel-use-curl t<span style="color: #a26310;">)</span>
 </code></pre>
 </div>
 <p>
 <code>gptel-directives</code> 是一整套系统提示词，你可以把需要重复使用的提示词写在里面，在 <code>gptel-menu</code> 中快捷切换。我这边就默认留空了。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a7601f;">(</span>gptel-directives
-    '<span style="color: #557400;">(</span><span style="color: #bf4400;">(</span>default . <span style="color: #ca3400;">""</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #ba5205;">(</span>gptel-directives
+    '<span style="color: #a26310;">(</span><span style="color: #5a7400;">(</span>default . <span style="color: #c74400;">""</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 <p>
 设置自动移动光标。如果你在gptel的buffer中对话，默认情况下，模型的输出插入完毕后光标会停留在你发送的位置。通过以下设置自动跳转光标<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #557400;">:hook</span>
-  <span style="color: #a7601f;">(</span>gptel-post-response-functions . gptel-end-of-response<span style="color: #a7601f;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #946830;">:hook</span>
+  <span style="color: #ba5205;">(</span>gptel-post-response-functions . gptel-end-of-response<span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 <p>
 设置模型。首先在windows上，需要专门配置一下 <code>curl</code><br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #557400;">:config</span>
-  <span style="color: #a7601f;">(</span><span style="color: #006f00;">when</span> <span style="color: #557400;">(</span>eq system-type 'windows-nt<span style="color: #557400;">)</span>
-    <span style="color: #557400;">(</span><span style="color: #006f00;">setq</span> gptel-curl-extra-args '<span style="color: #bf4400;">(</span><span style="color: #ca3400;">"--ssl-no-revoke"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #946830;">:config</span>
+  <span style="color: #ba5205;">(</span><span style="color: #a26310;">when</span> <span style="color: #a26310;">(</span>eq system-type 'windows-nt<span style="color: #a26310;">)</span>
+    <span style="color: #a26310;">(</span><span style="color: #a26310;">setq</span> gptel-curl-extra-args '<span style="color: #5a7400;">(</span><span style="color: #c74400;">"--ssl-no-revoke"</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 <p>
 开始配置deepseek模型。这里配置默认使用 <code>deepseek-v4-pro</code> 模型。记得将 <code>YOUR-DEEPSEEK-KEY</code> 替换为你自己的api密钥。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a7601f;">(</span><span style="color: #006f00;">setq</span> gptel-model   <span style="color: #ca3400;">"deepseek-v4-pro"</span>
-        gptel-backend <span style="color: #557400;">(</span>gptel-make-openai <span style="color: #ca3400;">"DeepSeek"</span>
-                        <span style="color: #557400;">:host</span> <span style="color: #ca3400;">"api.deepseek.com"</span>
-                        <span style="color: #557400;">:endpoint</span> <span style="color: #ca3400;">"/chat/completions"</span>
-                        <span style="color: #557400;">:stream</span> t
-                        <span style="color: #557400;">:key</span> <span style="color: #ca3400;">"YOUR-DEEPSEEK-KEY"</span>
-                        <span style="color: #557400;">:models</span> '<span style="color: #bf4400;">(</span><span style="color: #ca3400;">"deepseek-v4-flash"</span> <span style="color: #ca3400;">"deepseek-v4-pro"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #ba5205;">(</span><span style="color: #a26310;">setq</span> gptel-model   <span style="color: #c74400;">"deepseek-v4-pro"</span>
+        gptel-backend <span style="color: #a26310;">(</span>gptel-make-openai <span style="color: #c74400;">"DeepSeek"</span>
+                        <span style="color: #946830;">:host</span> <span style="color: #c74400;">"api.deepseek.com"</span>
+                        <span style="color: #946830;">:endpoint</span> <span style="color: #c74400;">"/chat/completions"</span>
+                        <span style="color: #946830;">:stream</span> t
+                        <span style="color: #946830;">:key</span> <span style="color: #c74400;">"YOUR-DEEPSEEK-KEY"</span>
+                        <span style="color: #946830;">:models</span> '<span style="color: #5a7400;">(</span><span style="color: #c74400;">"deepseek-v4-flash"</span> <span style="color: #c74400;">"deepseek-v4-pro"</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 <p>
@@ -111,61 +111,61 @@
 这里设置了两个预设， <code>max</code> 用于配置思考深度为max（默认high），而 <code>no-r</code> 用于关闭flash模型的思考。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a7601f;">(</span>gptel-make-preset 'max
-    <span style="color: #557400;">:request-params</span> '<span style="color: #557400;">(</span><span style="color: #557400;">:reasoning_effort</span> <span style="color: #ca3400;">"max"</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
-  <span style="color: #a7601f;">(</span>gptel-make-preset 'no-r
-    <span style="color: #557400;">:request-params</span> '<span style="color: #557400;">(</span><span style="color: #557400;">:thinking</span> '<span style="color: #bf4400;">(</span><span style="color: #557400;">:type</span> <span style="color: #ca3400;">"disabled"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span><span style="color: #dd0020; background-color: #ffd4bf;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #ba5205;">(</span>gptel-make-preset 'max
+    <span style="color: #946830;">:request-params</span> '<span style="color: #a26310;">(</span><span style="color: #946830;">:reasoning_effort</span> <span style="color: #c74400;">"max"</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+  <span style="color: #ba5205;">(</span>gptel-make-preset 'no-r
+    <span style="color: #946830;">:request-params</span> '<span style="color: #a26310;">(</span><span style="color: #946830;">:thinking</span> '<span style="color: #5a7400;">(</span><span style="color: #946830;">:type</span> <span style="color: #c74400;">"disabled"</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span><span style="color: #c74400; background-color: #ffd4b5;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0cf48f1" class="outline-2">
-<h2 id="org0cf48f1"><span class="section-number-2">4.</span> ob-gptel</h2>
+<div id="outline-container-org959ecdb" class="outline-2">
+<h2 id="org959ecdb"><span class="section-number-2">4.</span> ob-gptel</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 配置 <code>ob-gptel</code> 。由于该包还未上melpa，我们只能从对方的repo手动下载了。下面的代码适用于30之后的emacs，我设置了该包在 <code>org</code> 加载完成后立即载入。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">use-package</span> ob-gptel <span style="color: #557400;">:after</span> org <span style="color: #557400;">:demand</span> t
-  <span style="color: #557400;">:vc</span> <span style="color: #557400;">(</span><span style="color: #557400;">:url</span> <span style="color: #ca3400;">"git@github.com:jwiegley/ob-gptel"</span>
-           <span style="color: #557400;">:rev</span> <span style="color: #557400;">:newest</span><span style="color: #557400;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">use-package</span> ob-gptel <span style="color: #946830;">:after</span> org <span style="color: #946830;">:demand</span> t
+  <span style="color: #946830;">:vc</span> <span style="color: #a26310;">(</span><span style="color: #946830;">:url</span> <span style="color: #c74400;">"git@github.com:jwiegley/ob-gptel"</span>
+           <span style="color: #946830;">:rev</span> <span style="color: #946830;">:newest</span><span style="color: #a26310;">)</span>
 </code></pre>
 </div>
 <p>
 把 <code>gptel</code> 加入 <code>org-babel</code> 的可执行语言中：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #557400;">:config</span>
-  <span style="color: #a7601f;">(</span>add-to-list 'org-babel-load-languages '<span style="color: #557400;">(</span>gptel . t<span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #946830;">:config</span>
+  <span style="color: #ba5205;">(</span>add-to-list 'org-babel-load-languages '<span style="color: #a26310;">(</span>gptel . t<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
 </code></pre>
 </div>
 <p>
-修复<a href="https://github.com/jwiegley/ob-gptel/issues/10">一个小问题</a>：当光标在 <code>end_src</code> 的 <code>c</code> 之后时，按 <code>C-c C-c</code> 执行代码的时候，会将本代码块重复纳入对话上下文中。解决方法也很简单，直接在寻找session函数前执行一下跳至行首即可。<br>
+修复<a href="https://github.com/jwiegley/ob-gptel/issues/10">一个小问题</a>：当光标在 <code>end_src</code> 的 <code>c</code> 之后时，按 <code>C-c C-c</code> 执行代码的时候，会将本代码块重复纳入对话上下文中。解决方法也很简单，直接在寻找session函数前执行一下 <code>org-backward-element</code> 即可。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/ob-gptel-exclude-current-block</span> <span style="color: #557400;">(</span>orig-fun <span style="color: #444fcf;">&amp;rest</span> args<span style="color: #557400;">)</span>
-    <span style="color: #4f677f;">"Adjust point so that the current block is not included in session history."</span>
-    <span style="color: #557400;">(</span><span style="color: #006f00;">save-excursion</span>
-      <span style="color: #bf4400;">(</span>beginning-of-line<span style="color: #bf4400;">)</span>
-      <span style="color: #bf4400;">(</span>apply orig-fun args<span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
-  <span style="color: #a7601f;">(</span>advice-add 'ob-gptel-find-session <span style="color: #557400;">:around</span> #'my/ob-gptel-exclude-current-block<span style="color: #a7601f;">)</span><span style="color: #dd0020; background-color: #ffd4bf;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">my/ob-gptel-exclude-current-block</span> <span style="color: #a26310;">(</span>orig-fun <span style="color: #008250;">&amp;rest</span> args<span style="color: #a26310;">)</span>
+    <span style="color: #b05350;">"Adjust point so that the current block is not included in session history."</span>
+    <span style="color: #a26310;">(</span><span style="color: #a26310;">save-excursion</span>
+      <span style="color: #5a7400;">(</span>org-backward-element<span style="color: #5a7400;">)</span>
+      <span style="color: #5a7400;">(</span>apply orig-fun args<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+  <span style="color: #ba5205;">(</span>advice-add 'ob-gptel-find-session <span style="color: #946830;">:around</span> #'my/ob-gptel-exclude-current-block<span style="color: #ba5205;">)</span><span style="color: #c74400; background-color: #ffd4b5;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org78030cd" class="outline-2">
-<h2 id="org78030cd"><span class="section-number-2">5.</span> 使用例</h2>
+<div id="outline-container-org2ae8b5d" class="outline-2">
+<h2 id="org2ae8b5d"><span class="section-number-2">5.</span> 使用例</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 请参考<a href="https://github.com/jwiegley/ob-gptel#basic-query">ob-gptel的README</a>。这里举例最基础用法：<br>
 基本查询<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-org" tabindex="0"><code><span style="color: #59786f; background-color: #f0ece0;">#+begin_src gptel</span>
-<span style="background-color: #f0ece0;">What is the capital of France?</span>
-<span style="color: #59786f; background-color: #f0ece0;">#+end_src</span>
+<pre class="src src-org" tabindex="0"><code><span style="color: #68708a; background-color: #f5e9cb;">#+begin_src gptel</span>
+<span style="background-color: #f5e9cb;">What is the capital of France?</span>
+<span style="color: #68708a; background-color: #f5e9cb;">#+end_src</span>
 
-<span style="color: #59786f;">#+RESULTS:</span>
+<span style="color: #68708a;">#+RESULTS:</span>
 The capital of France is Paris.
 </code></pre>
 </div>
@@ -174,9 +174,9 @@ The capital of France is Paris.
 切换模型<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-org" tabindex="0"><code><span style="color: #59786f; background-color: #f0ece0;">#+begin_src gptel :model deepseek-v4-flash</span>
-<span style="background-color: #f0ece0;">Write a haiku about Emacs.</span>
-<span style="color: #59786f; background-color: #f0ece0;">#+end_src</span>
+<pre class="src src-org" tabindex="0"><code><span style="color: #68708a; background-color: #f5e9cb;">#+begin_src gptel :model deepseek-v4-flash</span>
+<span style="background-color: #f5e9cb;">Write a haiku about Emacs.</span>
+<span style="color: #68708a; background-color: #f5e9cb;">#+end_src</span>
 </code></pre>
 </div>
 
@@ -185,14 +185,14 @@ The capital of France is Paris.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org" tabindex="0"><code><span style="color: #59786f; background-color: #f0ece0;">#+begin_src gptel :session my-chat</span>
-<span style="background-color: #f0ece0;">Tell me about Emacs.</span>
-<span style="color: #59786f; background-color: #f0ece0;">#+end_src</span>
-<span style="color: #59786f;">#+RESULTS:</span>
+<pre class="src src-org" tabindex="0"><code><span style="color: #68708a; background-color: #f5e9cb;">#+begin_src gptel :session my-chat</span>
+<span style="background-color: #f5e9cb;">Tell me about Emacs.</span>
+<span style="color: #68708a; background-color: #f5e9cb;">#+end_src</span>
+<span style="color: #68708a;">#+RESULTS:</span>
 &#20551;&#35774;&#36825;&#26159;&#31532;&#19968;&#20010;&#36755;&#20837;&#30340;&#27169;&#22411;&#22238;&#22797;
-<span style="color: #59786f; background-color: #f0ece0;">#+begin_src gptel :session my-chat :dry-run yes</span>
-<span style="background-color: #f0ece0;">What about its history?</span>
-<span style="color: #59786f; background-color: #f0ece0;">#+end_src</span>
+<span style="color: #68708a; background-color: #f5e9cb;">#+begin_src gptel :session my-chat :dry-run yes</span>
+<span style="background-color: #f5e9cb;">What about its history?</span>
+<span style="color: #68708a; background-color: #f5e9cb;">#+end_src</span>
 </code></pre>
 </div>
 
@@ -209,16 +209,24 @@ The capital of France is Paris.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org" tabindex="0"><code><span style="color: #59786f; background-color: #f0ece0;">#+begin_src gptel :preset no-r</span>
-<span style="background-color: #f0ece0;">Explain monads simply.</span>
-<span style="color: #59786f; background-color: #f0ece0;">#+end_src</span>
+<pre class="src src-org" tabindex="0"><code><span style="color: #68708a; background-color: #f5e9cb;">#+begin_src gptel :preset no-r</span>
+<span style="background-color: #f5e9cb;">Explain monads simply.</span>
+<span style="color: #68708a; background-color: #f5e9cb;">#+end_src</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgacd07ce" class="outline-2">
-<h2 id="orgacd07ce"><span class="section-number-2">6.</span> 配置文件</h2>
+<div id="outline-container-orgc556f08" class="outline-2">
+<h2 id="orgc556f08"><span class="section-number-2">6.</span> 配置文件</h2>
 <div class="outline-text-2" id="text-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #ba5205;">(</span>files--ensure-directory my/desktop-path<span style="color: #ba5205;">)</span>
+<span style="color: #ba5205;">(</span><span style="color: #a26310;">let</span> <span style="color: #a26310;">(</span><span style="color: #5a7400;">(</span>file <span style="color: #c74400;">"gptel-config.txt"</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>org-babel-tangle-file <span style="color: #5a7400;">(</span>buffer-file-name<span style="color: #5a7400;">)</span> <span style="color: #5a7400;">(</span>concat my/desktop-path file<span style="color: #5a7400;">)</span> <span style="color: #c74400;">"elisp"</span><span style="color: #a26310;">)</span>
+  <span style="color: #a26310;">(</span>format <span style="color: #c74400;">"[[https://blog.prayhand13013.top/%s][&#19968;&#38190;&#26597;&#30475;&#19978;&#36848;&#37197;&#32622;&#20195;&#30721;&#27719;&#24635;]]"</span> file<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+</code></pre>
+</div>
+
 <p>
 <a href="https://blog.prayhand13013.top/gptel-config.txt">一键查看上述配置代码汇总</a><br>
 </p>
