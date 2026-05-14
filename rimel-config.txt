@@ -1,0 +1,20 @@
+(use-package rimel :ensure t
+
+(use-package rimel :ensure t
+
+  :custom
+  (liberime-module-file "~/.emacs.d/bin/liberime-core.dll")
+
+  (liberime-shared-data-dir "~/.emacs.d/bin/rime-data")
+  (liberime-user-data-dir "~/emacs-local/rimel")
+
+  (default-input-method "rimel")
+
+  ;; 推荐配置：代码区 + 字母后 + 大写字母
+  (rimel-disable-predicates
+      '(rimel-predicate-prog-in-code-p
+        rimel-predicate-after-alphabet-char-p
+        rimel-predicate-current-uppercase-letter-p)
+
+;; 可选：使用 posframe 展示候选（如果安装了 posframe,默认会使用 posframe）
+  (rimel-show-candidate 'posframe))
