@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- 2026-05-14 周四 09:39 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>翻译-软件界的 Emacs 化</title>
+<meta name="author" content="TomoeMami" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='./org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-14 周四 09:38]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">翻译-软件界的 Emacs 化</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-05-14T09:30:00">[2026-05-14 周四 09:30]</time></span><br>
+</p>
+<div id="outline-container-org6126d3f" class="outline-2">
+<h2 id="org6126d3f"><span class="section-number-2">1.</span> <a href="https://sockpuppet.org/blog/2026/05/12/emacsification/">软件界的 Emacs 化</a></h2>
+<div class="outline-text-2" id="text-1">
+<p>
+12 May 2026<br>
+</p>
+
+<p>
+<b>你对好用的 Markdown 查看器的渴望，远超你自己的想象。</b><br>
+</p>
+
+<p>
+我们都在大量阅读 Markdown。早在 LLMs 兴起之前，它就已经是软件开发领域的通用语言。但如今，AI 代理将我们拖入了一场 TUI 工具的诅咒式复兴，阅读体验变得难以忍受。我敢肯定，关于 AI 代码的焦虑中，至少有 14% 源于对终端中无休止滚动 Markdown 的厌倦。<br>
+</p>
+
+<p>
+有一些不错的 TUI Markdown 查看器。Charm 团队开发了 <code>glow</code> ，我使用过并且很喜欢。我的朋友 Josh 构建了 <a href="https://github.com/jvanderberg/markless">Markless</a>，它外观精美且功能丰富，最突出的是目录导航功能。这些工具都很棒，但它们受限于终端本身，终端几乎总是等宽字体，阅读起来容易疲劳。<br>
+</p>
+
+<p>
+市面上不乏优秀的图形界面 Markdown 编辑器。在我日常使用的 macOS 上，就有 <a href="https://obsidian.md/">Obsidian</a>、<a href="https://typora.io/">Typora</a> 和 <a href="https://bear.app/">Bear</a>（我个人的主力工具。）原生界面的 Markdown 编辑器美观且清晰，阅读体验极佳。但它们终究是编辑器。我的编辑器都安置在特定的虚拟桌面中，窗口布局也精心安排过。每当我随手点开一个 <code>.md</code> 文件，它就会打乱我的编辑环境，这简直让我抓狂。<br>
+</p>
+
+<p>
+于是我去了一趟应用商店，那里确实有一些 Markdown 查看器。它们还算可以，但没有一个真正好用。我想要的只是双击 <code>.md</code> 文件时能出现合理的操作，而应用商店里能下载到的查看器起初看起来确实合理。但只有使用一段时间后，问题才会显现出来。其中几个缺少文本搜索功能，有些还有应用内购买（？！）。我选定了一个，结果几天后发现它不支持复制文本到剪贴板。到那时，我彻底放弃了。<br>
+</p>
+
+<p>
+突然间我意识到：花时间寻找一个好的 Markdown 查看器是件蠢事。现在是 2026 年，我完全可以自己定制一个。<br>
+</p>
+
+<p>
+❦<br>
+</p>
+
+<p>
+花了好几个小时才生成一个比 App Store 上能找到的更好的 Markdown 查看器，但其中只有大约 30 分钟是交互式的。其余时间都花在 Facebook 上为分区改革吵吵嚷嚷，而 Claude 则在后台默默运行。看，这就是 <a href="https://github.com/tqbf/mdv">MDV.app</a>：<br>
+</p>
+
+<p>
+现在，我在时间线上稍微取巧了一点，因为几周前我就做了一些准备。我找来一台旧 Macbook 运行 Claude，配置了 Xcode 和 git，设置好 Claude，并查阅了一些 Swift 和 macOS 设计技巧。但那个查看器本身，达到比 App Store 上现有版本更好的可用状态，只用了大约 30 分钟。<br>
+</p>
+
+<p>
+MDV 并非有史以来最好的 macOS 应用程序，甚至算不上特别出色的软件（尽管：它很可能是最好的专用 macOS Markdown 查看器）。但它极大地改善了我的生活质量。<br>
+</p>
+
+<p>
+它能实现各种酷炫功能。我和 Claude 已经破解了从文档中选取和复制文本的代码，以及查找文档内固定字符串的难题。此外：MDV 会为其（可编辑）历史记录中的所有 Markdown 文件维护一个 SQLite 全文搜索索引，同时配备快捷键书签和目录导航。它能在文档切换时记住我的阅读位置，即使重启程序也不会丢失。它还拥有精致的配色方案和出色的排版，这是专用 Markdown 阅读器最重要的特性。现在只要我点击 <code>.md</code> ，所有这些功能都能即时生效。真是太棒了。<br>
+</p>
+
+<p>
+❦<br>
+</p>
+
+<p>
+我是如何知道这很严重的：因为每次有人给我发 Signal 消息时，我的屏幕就会闪烁。这种闪烁不会停止，直到我手动隐藏 Signal 应用-&ndash;&mdash;而我总是忘记这么做，直到被这种细微的闪烁折磨到偏头痛发作的前兆状态。<br>
+</p>
+
+<p>
+这是因为 Signal 是一个 <a href="https://www.doyensec.com/services/electronjs-based-applications.html">Electron 应用</a>，这意味着尽管它看起来像原生的 macOS 应用，但实际上并非如此。它实际上是 Chromium 的完整副本在渲染一个隐藏的网页。过去十年间发布的几乎所有 UI 应用都具有这一特性，每个应用都携带着自己那个闪烁的 Chromium 副本。<br>
+</p>
+
+<p>
+Electron 并不优秀，但一直以来都足够好用。构建真正的原生用户界面历来是个难题，光是找到能胜任这项工作的替代级人才就困难重重。具备能力的 macOS 原生 UI 开发者更是凤毛麟角。<br>
+</p>
+
+<p>
+但 Claude 并非仅仅是替代级的 SwiftUI 开发者。Claude 实际上相当出色。<br>
+</p>
+
+<p>
+❦<br>
+</p>
+
+<p>
+这篇文章并非关于 Electron 即将消亡（但愿如此）。也不是要说服你使用我那款<a href="https://github.com/tqbf/mdv/releases">安装极其简便</a>、比应用商店里任何阅读器都更出色的 Markdown 查看器（尽管你确实应该试试它）。<br>
+</p>
+
+<p>
+实际上，不！停下。别安装它。请像 Emacs 用户对待某个特别闪亮的 <code>.emacs</code> 那样，对待我那堪称绝妙的 Markdown 查看器-&ndash;&mdash;借鉴其创意，然后做出更好的。<br>
+</p>
+
+<p>
+对于不熟悉的人来说，Emacs 文化是这样的：它的终身用户用 elisp（世界上<a href="https://www.perl.org/">最</a><a href="https://www.tcl-lang.org/about/language.html">糟糕</a>的<a href="https://www.gnu.org/software/bash/">语言</a>之一）构建完整的应用程序。这些“应用程序”总是为了解决与文本编辑相关的个人需求而诞生，并且不可避免地会在雄心和范围上超越文本编辑器应有的合理界限。如果你浏览/r/emacs，会发现这里 0%是 Product Hunt 式的产品推介，100%是展示与分享。<br>
+</p>
+
+<p>
+有许多流行的 elisp 包被广泛使用。但除了 <a href="https://magit.vc/">Magit</a> 之外，极客们惊人地倾向于用自己更炫酷的版本替换它们（然后炫耀这些版本，进入 elisp 生命周期的孢子形成阶段）。Emacs 中的一切皆可塑形。<br>
+</p>
+
+<p>
+迄今为止，Emacs 文化的致命弱点在于，除了 Magit 之外，其软件包的用户体验往往糟糕透顶。它们丑陋、缓慢，且只有在你历经数年 Elisp 语言对大脑皮层的摧残后，才能逐渐摸索出使用门道。<br>
+</p>
+
+<p>
+但 AI 代理已渗透进 Emacs 文化，并正将其特质扩散至更广阔的世界。当获得屏幕与输入权限后，代理程序总能构建出原生用户界面，这本是专业封装程序的专属领域。如今这一切都变得像你的编辑器配置一样定制化。虽然我确信（在当前前沿模型下）这些界面的质量存在上限，但这个天花板仍高于你在 TUI 中能实现的任何效果。<br>
+</p>
+
+<p>
+❦<br>
+</p>
+
+<p>
+软件被 Emacs 化意味着什么？让我们深入探讨。<br>
+</p>
+
+<p>
+首先，这是个人软件。其中大部分只对其创建者有用，随后便被遗忘，就像散落在我 <code>.emacs</code> 中的几十个过时的 elisp 小程序一样。个人软件定义了 Emacs 的精神内核。这个编辑器历经数十年精心设计，正是为了培育这类工具而存在。“Emacs 化”意味着如今万物皆循此道，而不仅仅是那些巴洛克风格的文字编辑器。<br>
+</p>
+
+<p>
+不过，偶尔会有某个程序突破这种封闭性。当它足够实用时，就会有不止一个人安装使用。但即便如此，发布的成品本身并非其最重要的部分，源代码同样不是。如果某个智能体替我编写了项目中所有的 SwiftUI 代码，你仔细研读这些代码又能获得什么呢？<br>
+</p>
+
+<p>
+我可能只说对了一小部分，但我认为新 Emacs 包的主要驱动力，是你混乱的本地配置与他人 elisp 代码之间的催化反应。一旦你掌握了用 elisp 解决问题的方法，构建自己的解决方案往往比 <code>package-install</code> 现有方案更容易。在这种环境下，代码只是过眼云烟。真正重要的是那些想法，以及”没错，你可以做到，而且效果会很好”的洞察。<br>
+</p>
+
+<p>
+对于我所说的这类软件，你更想要的是提示词，而不是源代码。<br>
+</p>
+
+<p>
+如果你是一个乐于自行构建软件的极客，那么现在一切皆可编程，这不仅是技术层面的，更是实践层面的。这引出了许多人在用智能体创建软件时的一种感受：当你说自己在“构建”软件时，这究竟意味着什么？“构建”一词暗示着比实际付出的更多努力。你正在做的事情，更像是在一个突然变得高度可配置的平台上进行配置。这个平台给人的感觉，越来越像 Emacs 了。<br>
+</p>
+
+<p>
+❦<br>
+</p>
+
+<p>
+一个被 AI 洗脑的开发者，在初次尝试后告诉你的第一件事，就是他们终于完成了多年来积攒的各种零散副业项目。<br>
+</p>
+
+<p>
+这本身就是一个令人兴奋的前景。但如今，那些高度专业化的工具，使用起来也能令人愉悦。我并非没有意识到，Emacs 化正在削弱许多容忍 Emacs 本身及其笨拙用户界面的理由。Magit 仍然是目前最好的选择。至少现在是这样。<br>
+</p>
+
+<p>
+关于软件的未来，我并无宏论可陈。但我确信，极客软件将变得有趣得多。有多少笨重的终端应用能被我们大幅（且轻松地）改进？我终于能看懂 <code>iostat</code> 了！甚至能跨主机群操作。还有 <code>bpftrace</code> ！你见过 Brendan Gregg 为了在 <code>bpftrace</code> 上实现终端可视化而<a href="https://www.brendangregg.com/blog/2019-08-19/bpftrace.html">忍受的糟心事</a>吗？这些你都不必再忍受了。<a href="https://gist.github.com/tqbf/03d7d3656a41f838308e6ce55224ebe3">事实上，我也不必了</a>。<br>
+</p>
+
+<p>
+我是一名漏洞研究员，2026 年上半年，随着智能体编程领域在漏洞利用开发上取得一系列突破，我就像个置身糖果店的孩子般兴奋。但我明白这让我显得格格不入，对大多数人而言，这些进步带来的只有恐惧。<br>
+</p>
+
+<p>
+所以我很高兴能聊点新东西，而且这感觉纯粹是件好事。构建原生 UI 现在变得有趣了；比构建网页界面有趣得多。试试看吧；做点专门解决自己问题的傻气小玩意儿，享受一会儿，然后找个地方分享出来-&ndash;&mdash;或者，更好的方式是，只分享一张截图和你用来制作它的提示词。<br>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+</div>
+</body>
+</html>
