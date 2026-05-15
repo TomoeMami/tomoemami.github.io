@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-05-15 周五 12:55 -->
+<!-- 2026-05-15 周五 14:56 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在windows上使用emacs内的rimel进行中文输入</title>
@@ -10,7 +10,7 @@
 </head>
 <body>
 <div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-15 周五 12:55]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-15 周五 14:56]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -55,7 +55,7 @@ Emacs的中文输入一直以来都是一个问题。虽然我们已经有了珠
 因为这两者都上了 melpa 且 rimel 依赖着 liberime ，因此我们在写 use-package 的时候仅需要指明 rimel 即可：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">use-package</span> rimel <span style="color: #946830;">:ensure</span> t
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #007000;">(</span><span style="color: #8f2f30;">use-package</span> rimel <span style="color: #00704f;">:ensure</span> t
 </code></pre>
 </div>
 
@@ -68,28 +68,28 @@ Emacs的中文输入一直以来都是一个问题。虽然我们已经有了珠
 我把 <code>liberime-core.dll</code> 放在了 <code>~/.emacs.d/bin/</code> 路径下，以便在多设备下同步。相关的依赖 DLL ，也在同一个位置，我们后面详解有哪些需要复制过来。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #946830;">:custom</span>
-  <span style="color: #ba5205;">(</span>liberime-module-file <span style="color: #c74400;">"~/.emacs.d/bin/liberime-core.dll"</span><span style="color: #ba5205;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #00704f;">:custom</span>
+  <span style="color: #007000;">(</span>liberime-module-file <span style="color: #557000;">"~/.emacs.d/bin/liberime-core.dll"</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 
 <p>
-然后我们设置两个关键的文件夹路径： <code>shared-data-dir</code> 决定了共享的基础 rime 配置文件，每次我们启动 rimel 的时候，都会从这个文件夹和 <code>user-data-dir</code> 读取配置文件，并在 <code>user-data-dir</code> 生成一个直接使用的最终build文件夹。两者最好都不放在跨设备同步的文件夹内，还是另外找个地方放起来。我这里是把它们放到了 <code>~/emacs-local/</code> 文件夹中。<br>
+然后我们设置两个关键的文件夹路径： <code>shared-data-dir</code> 决定了共享的基础 rime 配置文件，每次我们启动 rimel 的时候，都会从这个文件夹和 <code>user-data-dir</code> 读取配置文件，并在 <code>user-data-dir</code> 生成一个直接使用的最终build文件夹。处于一次配置所有设备共享的考虑，我们可以将输入方案放在 <code>shared-data-dir</code> 里面，并将 <code>shared-data-dir</code> 设置到一个跟随 Emacs 配置文件同步的路径中，将 <code>user-data-dir</code> 放到不同步的路径中（我放在 <code>~/emacs-local/</code> 文件夹）。<br>
 </p>
 
 <p>
 前者可以先从 liberime 的 release 路径里 <code>/share/rime-data</code> 中复制来。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #ba5205;">(</span>liberime-shared-data-dir <span style="color: #c74400;">"~/emacs-local/rime-data"</span><span style="color: #ba5205;">)</span>
-  <span style="color: #ba5205;">(</span>liberime-user-data-dir <span style="color: #c74400;">"~/emacs-local/rimel"</span><span style="color: #ba5205;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #007000;">(</span>liberime-shared-data-dir <span style="color: #557000;">"~/.emacs.d/bin/rime-data"</span><span style="color: #007000;">)</span>
+  <span style="color: #007000;">(</span>liberime-user-data-dir <span style="color: #557000;">"~/emacs-local/rimel"</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 <p>
 这里记得配置一下默认输入法为 rimel<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #ba5205;">(</span>default-input-method <span style="color: #c74400;">"rimel"</span><span style="color: #ba5205;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #007000;">(</span>default-input-method <span style="color: #557000;">"rimel"</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 
@@ -97,11 +97,11 @@ Emacs的中文输入一直以来都是一个问题。虽然我们已经有了珠
 下面这个变量决定了在什么区域自动关闭输入法进入英文模式。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#25512;&#33616;&#37197;&#32622;&#65306;&#20195;&#30721;&#21306; + &#23383;&#27597;&#21518; + &#22823;&#20889;&#23383;&#27597;</span>
-  <span style="color: #ba5205;">(</span>rimel-disable-predicates
-      '<span style="color: #a26310;">(</span>rimel-predicate-prog-in-code-p
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #6e678f;">;; </span><span style="color: #6e678f;">&#25512;&#33616;&#37197;&#32622;&#65306;&#20195;&#30721;&#21306; + &#23383;&#27597;&#21518; + &#22823;&#20889;&#23383;&#27597;</span>
+  <span style="color: #007000;">(</span>rimel-disable-predicates
+      '<span style="color: #8f2f30;">(</span>rimel-predicate-prog-in-code-p
         rimel-predicate-after-alphabet-char-p
-        rimel-predicate-current-uppercase-letter-p<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+        rimel-predicate-current-uppercase-letter-p<span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 <p>
@@ -120,14 +120,14 @@ Note that affiliated keywords and blank lines after are considered a part of a s
 在 GUI 下使用悬浮框展示候选词<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#21487;&#36873;&#65306;&#20351;&#29992; posframe &#23637;&#31034;&#20505;&#36873;&#65288;&#22914;&#26524;&#23433;&#35013;&#20102; posframe,&#40664;&#35748;&#20250;&#20351;&#29992; posframe&#65289;</span>
-  <span style="color: #ba5205;">(</span>rimel-show-candidate 'posframe<span style="color: #ba5205;">)</span><span style="color: #c74400; background-color: #ffd4b5;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #6e678f;">;; </span><span style="color: #6e678f;">&#21487;&#36873;&#65306;&#20351;&#29992; posframe &#23637;&#31034;&#20505;&#36873;&#65288;&#22914;&#26524;&#23433;&#35013;&#20102; posframe,&#40664;&#35748;&#20250;&#20351;&#29992; posframe&#65289;</span>
+  <span style="color: #007000;">(</span>rimel-show-candidate 'posframe<span style="color: #007000;">)</span><span style="color: #b20f00; background-color: #ffd4b5;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb95da87" class="outline-2">
-<h2 id="orgb95da87"><span class="section-number-2">2.</span> 安装配置 DLL</h2>
+<div id="outline-container-org7599a68" class="outline-2">
+<h2 id="org7599a68"><span class="section-number-2">2.</span> 安装配置 DLL</h2>
 <div class="outline-text-2" id="text-2">
 <blockquote>
 <p>
@@ -146,7 +146,7 @@ Note that affiliated keywords and blank lines after are considered a part of a s
 具体依赖文件如下：<br>
 </p>
 
-<pre class="example" id="org0e8e667">
+<pre class="example" id="org248b719">
 libgflags.dll
 libglog-2.dll
 libleveldb.dll
@@ -165,8 +165,8 @@ libyaml-cpp.dll
 </p>
 </div>
 </div>
-<div id="outline-container-org286f15a" class="outline-2">
-<h2 id="org286f15a"><span class="section-number-2">3.</span> 调整 rime 配置方案</h2>
+<div id="outline-container-org27b6dcc" class="outline-2">
+<h2 id="org27b6dcc"><span class="section-number-2">3.</span> 调整 rime 配置方案</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 假如你以上两步均胜利完成，那么重启 Emacs 之后，轻按 <code>C-\</code> ，随便按几下键盘，应该就能看见候选词出现在 minibuffer 或者 posframe 中了。但细心的你同样发现，怎么打出来的是繁体字啊？这是因为前面复制的默认使用明月拼音，初始输出就是繁体。幸好，我们可以充分利用 rime 的自定义功能，换成我们想用的方案。<br>
@@ -192,10 +192,10 @@ libyaml-cpp.dll
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f6f1a;"># &#26041;&#26696;&#21015;&#34920;</span>
-<span style="color: #0f708a;">schema_list</span>:
-  <span style="color: #7f6f1a;"># &#21487;&#20197;&#30452;&#25509;&#21024;&#38500;&#25110;&#27880;&#37322;&#19981;&#38656;&#35201;&#30340;&#26041;&#26696;&#65292;&#23545;&#24212;&#30340; *.schema.yaml &#26041;&#26696;&#25991;&#20214;&#20063;&#21487;&#20197;&#30452;&#25509;&#21024;&#38500;</span>
-  - <span style="color: #0f708a;">schema</span>: <span style="color: #c74400;">rime_frost_double_pinyin_flypy</span>    <span style="color: #7f6f1a;"># &#23567;&#40548;&#21452;&#25340;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #6e678f;"># &#26041;&#26696;&#21015;&#34920;</span>
+<span style="color: #aa184f;">schema_list</span>:
+  <span style="color: #6e678f;"># &#21487;&#20197;&#30452;&#25509;&#21024;&#38500;&#25110;&#27880;&#37322;&#19981;&#38656;&#35201;&#30340;&#26041;&#26696;&#65292;&#23545;&#24212;&#30340; *.schema.yaml &#26041;&#26696;&#25991;&#20214;&#20063;&#21487;&#20197;&#30452;&#25509;&#21024;&#38500;</span>
+  - <span style="color: #aa184f;">schema</span>: <span style="color: #557000;">rime_frost_double_pinyin_flypy</span>    <span style="color: #6e678f;"># &#23567;&#40548;&#21452;&#25340;</span>
 </code></pre>
 </div>
 
@@ -204,41 +204,41 @@ libyaml-cpp.dll
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f6f1a;"># &#36755;&#20837;&#24341;&#25806;</span>
-<span style="color: #0f708a;">engine</span>:
-  <span style="color: #0f708a;">processors</span>:
-    - <span style="color: #c74400;">ascii_composer</span>
-    - <span style="color: #c74400;">recognizer</span>
-    - <span style="color: #c74400;">key_binder</span>
-    - <span style="color: #c74400;">speller</span>
-    - <span style="color: #c74400;">punctuator</span>
-    - <span style="color: #c74400;">selector</span>
-    - <span style="color: #c74400;">navigator</span>
-    - <span style="color: #c74400;">express_editor</span>
-  <span style="color: #0f708a;">segmentors</span>:
-    - <span style="color: #c74400;">ascii_segmentor</span>
-    - <span style="color: #c74400;">matcher</span>
-    - <span style="color: #c74400;">abc_segmentor</span>
-    - <span style="color: #c74400;">affix_segmentor@radical_lookup</span>  <span style="color: #7f6f1a;"># &#37096;&#20214;&#25286;&#23383;&#33258;&#23450;&#20041; tag</span>
-    - <span style="color: #c74400;">punct_segmentor</span>
-    - <span style="color: #c74400;">fallback_segmentor</span>
-  <span style="color: #0f708a;">translators</span>:
-    - <span style="color: #c74400;">punct_translator</span>
-    - <span style="color: #c74400;">table_translator@frost_aux</span>       <span style="color: #7f6f1a;"># ` single-char aux lookup</span>
-    - <span style="color: #c74400;">script_translator</span>
-    - <span style="color: #c74400;">table_translator@custom_phrase</span>    <span style="color: #7f6f1a;"># &#33258;&#23450;&#20041;&#30701;&#35821; custom_phrase.txt</span>
-    - <span style="color: #c74400;">table_translator@melt_eng</span>         <span style="color: #7f6f1a;"># &#33521;&#25991;&#36755;&#20837;</span>
-    - <span style="color: #c74400;">table_translator@cn_en</span>            <span style="color: #7f6f1a;"># &#20013;&#33521;&#28151;&#21512;&#35789;&#27719;</span>
-    - <span style="color: #c74400;">table_translator@radical_lookup</span>   <span style="color: #7f6f1a;"># &#37096;&#20214;&#25286;&#23383;&#21453;&#26597;</span>
-  <span style="color: #0f708a;">filters</span>:
-    - <span style="color: #c74400;">reverse_lookup_filter@radical_reverse_lookup</span>  <span style="color: #7f6f1a;"># &#37096;&#20214;&#25286;&#23383;&#28388;&#38236;</span>
-    - <span style="color: #c74400;">simplifier@emoji</span>                              <span style="color: #7f6f1a;"># Emoji</span>
-    - <span style="color: #c74400;">simplifier@chaifen</span>
-    - <span style="color: #c74400;">simplifier@chaifen_all</span>
-    - <span style="color: #c74400;">simplifier@chinese_english</span>
-    - <span style="color: #c74400;">simplifier@traditionalize</span>                     <span style="color: #7f6f1a;"># &#31616;&#32321;&#20999;&#25442;</span>
-    - <span style="color: #c74400;">simplifier@mars</span>                               <span style="color: #7f6f1a;">#&#28779;&#26143;&#25991;</span>
-    - <span style="color: #c74400;">uniquifier</span>                                    <span style="color: #7f6f1a;"># &#21435;&#37325;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #6e678f;"># &#36755;&#20837;&#24341;&#25806;</span>
+<span style="color: #aa184f;">engine</span>:
+  <span style="color: #aa184f;">processors</span>:
+    - <span style="color: #557000;">ascii_composer</span>
+    - <span style="color: #557000;">recognizer</span>
+    - <span style="color: #557000;">key_binder</span>
+    - <span style="color: #557000;">speller</span>
+    - <span style="color: #557000;">punctuator</span>
+    - <span style="color: #557000;">selector</span>
+    - <span style="color: #557000;">navigator</span>
+    - <span style="color: #557000;">express_editor</span>
+  <span style="color: #aa184f;">segmentors</span>:
+    - <span style="color: #557000;">ascii_segmentor</span>
+    - <span style="color: #557000;">matcher</span>
+    - <span style="color: #557000;">abc_segmentor</span>
+    - <span style="color: #557000;">affix_segmentor@radical_lookup</span>  <span style="color: #6e678f;"># &#37096;&#20214;&#25286;&#23383;&#33258;&#23450;&#20041; tag</span>
+    - <span style="color: #557000;">punct_segmentor</span>
+    - <span style="color: #557000;">fallback_segmentor</span>
+  <span style="color: #aa184f;">translators</span>:
+    - <span style="color: #557000;">punct_translator</span>
+    - <span style="color: #557000;">table_translator@frost_aux</span>       <span style="color: #6e678f;"># ` single-char aux lookup</span>
+    - <span style="color: #557000;">script_translator</span>
+    - <span style="color: #557000;">table_translator@custom_phrase</span>    <span style="color: #6e678f;"># &#33258;&#23450;&#20041;&#30701;&#35821; custom_phrase.txt</span>
+    - <span style="color: #557000;">table_translator@melt_eng</span>         <span style="color: #6e678f;"># &#33521;&#25991;&#36755;&#20837;</span>
+    - <span style="color: #557000;">table_translator@cn_en</span>            <span style="color: #6e678f;"># &#20013;&#33521;&#28151;&#21512;&#35789;&#27719;</span>
+    - <span style="color: #557000;">table_translator@radical_lookup</span>   <span style="color: #6e678f;"># &#37096;&#20214;&#25286;&#23383;&#21453;&#26597;</span>
+  <span style="color: #aa184f;">filters</span>:
+    - <span style="color: #557000;">reverse_lookup_filter@radical_reverse_lookup</span>  <span style="color: #6e678f;"># &#37096;&#20214;&#25286;&#23383;&#28388;&#38236;</span>
+    - <span style="color: #557000;">simplifier@emoji</span>                              <span style="color: #6e678f;"># Emoji</span>
+    - <span style="color: #557000;">simplifier@chaifen</span>
+    - <span style="color: #557000;">simplifier@chaifen_all</span>
+    - <span style="color: #557000;">simplifier@chinese_english</span>
+    - <span style="color: #557000;">simplifier@traditionalize</span>                     <span style="color: #6e678f;"># &#31616;&#32321;&#20999;&#25442;</span>
+    - <span style="color: #557000;">simplifier@mars</span>                               <span style="color: #6e678f;">#&#28779;&#26143;&#25991;</span>
+    - <span style="color: #557000;">uniquifier</span>                                    <span style="color: #6e678f;"># &#21435;&#37325;</span>
 </code></pre>
 </div>
 </div>
@@ -259,18 +259,18 @@ libyaml-cpp.dll
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">rimel-activate</span> <span style="color: #a26310;">(</span>_name<span style="color: #a26310;">)</span>
-  <span style="color: #b05350;">"Activate rimel input method.</span>
-<span style="color: #b05350;">Called by Emacs when user selects the \"rimel\" input method.</span>
-<span style="color: #b05350;">_NAME is the input method name (unused)."</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">unless</span> <span style="color: #5a7400;">(</span>liberime-workable-p<span style="color: #5a7400;">)</span>
-    <span style="color: #5a7400;">(</span>liberime-load<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">when</span> <span style="color: #5a7400;">(</span><span style="color: #a26310;">and</span> rimel-schema
-             <span style="color: #c02945;">(</span>liberime-workable-p<span style="color: #c02945;">)</span>
-             <span style="color: #c02945;">(</span>not <span style="color: #4060a0;">(</span>string= rimel-schema <span style="color: #aa3e74;">(</span>liberime-current-schema<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
-    <span style="color: #5a7400;">(</span>liberime-try-select-schema rimel-schema<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">setq-local</span> input-method-function #'rimel-input-method<span style="color: #a26310;">)</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">setq-local</span> deactivate-current-input-method-function #'rimel-deactivate<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #007000;">(</span><span style="color: #8f2f30;">defun</span> <span style="color: #007000;">rimel-activate</span> <span style="color: #8f2f30;">(</span>_name<span style="color: #8f2f30;">)</span>
+  <span style="color: #8d6068;">"Activate rimel input method.</span>
+<span style="color: #8d6068;">Called by Emacs when user selects the \"rimel\" input method.</span>
+<span style="color: #8d6068;">_NAME is the input method name (unused)."</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">unless</span> <span style="color: #00704f;">(</span>liberime-workable-p<span style="color: #00704f;">)</span>
+    <span style="color: #00704f;">(</span>liberime-load<span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">when</span> <span style="color: #00704f;">(</span><span style="color: #8f2f30;">and</span> rimel-schema
+             <span style="color: #906200;">(</span>liberime-workable-p<span style="color: #906200;">)</span>
+             <span style="color: #906200;">(</span>not <span style="color: #557000;">(</span>string= rimel-schema <span style="color: #0f7688;">(</span>liberime-current-schema<span style="color: #0f7688;">)</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+    <span style="color: #00704f;">(</span>liberime-try-select-schema rimel-schema<span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">setq-local</span> input-method-function #'rimel-input-method<span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">setq-local</span> deactivate-current-input-method-function #'rimel-deactivate<span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 
@@ -279,18 +279,18 @@ libyaml-cpp.dll
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">rimel-activate</span> <span style="color: #a26310;">(</span>_name<span style="color: #a26310;">)</span>
-  <span style="color: #b05350;">"Activate rimel input method.</span>
-<span style="color: #b05350;">Called by Emacs when user selects the \"rimel\" input method.</span>
-<span style="color: #b05350;">_NAME is the input method name (unused)."</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">unless</span> <span style="color: #5a7400;">(</span>liberime-workable-p<span style="color: #5a7400;">)</span>
-    <span style="color: #5a7400;">(</span>liberime-load<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">when</span> <span style="color: #5a7400;">(</span><span style="color: #a26310;">and</span> rimel-schema
-             <span style="color: #c02945;">(</span>liberime-workable-p<span style="color: #c02945;">)</span>
-             <span style="color: #c02945;">(</span>not <span style="color: #4060a0;">(</span>string= rimel-schema liberime-current-schema<span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span>
-    <span style="color: #5a7400;">(</span>liberime-try-select-schema rimel-schema<span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">setq-local</span> input-method-function #'rimel-input-method<span style="color: #a26310;">)</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">setq-local</span> deactivate-current-input-method-function #'rimel-deactivate<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #007000;">(</span><span style="color: #8f2f30;">defun</span> <span style="color: #007000;">rimel-activate</span> <span style="color: #8f2f30;">(</span>_name<span style="color: #8f2f30;">)</span>
+  <span style="color: #8d6068;">"Activate rimel input method.</span>
+<span style="color: #8d6068;">Called by Emacs when user selects the \"rimel\" input method.</span>
+<span style="color: #8d6068;">_NAME is the input method name (unused)."</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">unless</span> <span style="color: #00704f;">(</span>liberime-workable-p<span style="color: #00704f;">)</span>
+    <span style="color: #00704f;">(</span>liberime-load<span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">when</span> <span style="color: #00704f;">(</span><span style="color: #8f2f30;">and</span> rimel-schema
+             <span style="color: #906200;">(</span>liberime-workable-p<span style="color: #906200;">)</span>
+             <span style="color: #906200;">(</span>not <span style="color: #557000;">(</span>string= rimel-schema liberime-current-schema<span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span>
+    <span style="color: #00704f;">(</span>liberime-try-select-schema rimel-schema<span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">setq-local</span> input-method-function #'rimel-input-method<span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">setq-local</span> deactivate-current-input-method-function #'rimel-deactivate<span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 
@@ -299,41 +299,58 @@ libyaml-cpp.dll
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #ba5205;">(</span><span style="color: #a26310;">defun</span> <span style="color: #5a7400;">my/rimel-predicate-org-in-src-block-p</span> <span style="color: #a26310;">()</span>
-  <span style="color: #b05350;">"Return non-nil when point is inside an Org source block."</span>
-  <span style="color: #a26310;">(</span><span style="color: #a26310;">and</span> <span style="color: #5a7400;">(</span>derived-mode-p 'org-mode<span style="color: #5a7400;">)</span>
-       <span style="color: #5a7400;">(</span>fboundp 'org-in-src-block-p<span style="color: #5a7400;">)</span>
-       <span style="color: #5a7400;">(</span><span style="color: #a26310;">let</span> <span style="color: #c02945;">(</span><span style="color: #4060a0;">(</span>element <span style="color: #aa3e74;">(</span>org-element-at-point<span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span>
-         <span style="color: #c02945;">(</span><span style="color: #a26310;">when</span> <span style="color: #4060a0;">(</span>org-element-type-p element 'src-block<span style="color: #4060a0;">)</span>
-           <span style="color: #4060a0;">(</span>not <span style="color: #aa3e74;">(</span><span style="color: #a26310;">or</span> <span style="color: #008250;">(</span>&lt;= <span style="color: #b02f80;">(</span>line-beginning-position<span style="color: #b02f80;">)</span>
-                        <span style="color: #b02f80;">(</span>org-element-post-affiliated element<span style="color: #b02f80;">)</span><span style="color: #008250;">)</span>
-                    <span style="color: #008250;">(</span>&gt;= <span style="color: #b02f80;">(</span>line-end-position<span style="color: #b02f80;">)</span>
-                        <span style="color: #b02f80;">(</span><span style="color: #a26310;">org-with-point-at</span> <span style="color: #0f708a;">(</span>org-element-end element<span style="color: #0f708a;">)</span>
-                          <span style="color: #0f708a;">(</span>point<span style="color: #0f708a;">)</span><span style="color: #b02f80;">)</span><span style="color: #008250;">)</span><span style="color: #aa3e74;">)</span><span style="color: #4060a0;">)</span><span style="color: #c02945;">)</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #007000;">(</span><span style="color: #8f2f30;">defun</span> <span style="color: #007000;">my/rimel-predicate-org-in-src-block-p</span> <span style="color: #8f2f30;">()</span>
+  <span style="color: #8d6068;">"Return non-nil when point is inside an Org source block."</span>
+  <span style="color: #8f2f30;">(</span><span style="color: #8f2f30;">and</span> <span style="color: #00704f;">(</span>derived-mode-p 'org-mode<span style="color: #00704f;">)</span>
+       <span style="color: #00704f;">(</span>fboundp 'org-in-src-block-p<span style="color: #00704f;">)</span>
+       <span style="color: #00704f;">(</span><span style="color: #8f2f30;">let</span> <span style="color: #906200;">(</span><span style="color: #557000;">(</span>element <span style="color: #0f7688;">(</span>org-element-at-point<span style="color: #0f7688;">)</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span>
+         <span style="color: #906200;">(</span><span style="color: #8f2f30;">when</span> <span style="color: #557000;">(</span>org-element-type-p element 'src-block<span style="color: #557000;">)</span>
+           <span style="color: #557000;">(</span>not <span style="color: #0f7688;">(</span><span style="color: #8f2f30;">or</span> <span style="color: #8a6340;">(</span>&lt;= <span style="color: #aa184f;">(</span>line-beginning-position<span style="color: #aa184f;">)</span>
+                        <span style="color: #aa184f;">(</span>org-element-post-affiliated element<span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span>
+                    <span style="color: #8a6340;">(</span>&gt;= <span style="color: #aa184f;">(</span>line-end-position<span style="color: #aa184f;">)</span>
+                        <span style="color: #aa184f;">(</span><span style="color: #8f2f30;">org-with-point-at</span> <span style="color: #3f69af;">(</span>org-element-end element<span style="color: #3f69af;">)</span>
+                          <span style="color: #3f69af;">(</span>point<span style="color: #3f69af;">)</span><span style="color: #aa184f;">)</span><span style="color: #8a6340;">)</span><span style="color: #0f7688;">)</span><span style="color: #557000;">)</span><span style="color: #906200;">)</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 
-<span style="color: #7f6f1a;">;; </span><span style="color: #7f6f1a;">&#28155;&#21152;&#36827;&#21435;</span>
-<span style="color: #ba5205;">(</span>add-to-list 'rimel-disable-predicates 'my/rimel-predicate-org-in-src-block-p<span style="color: #ba5205;">)</span>
+<span style="color: #6e678f;">;; </span><span style="color: #6e678f;">&#28155;&#21152;&#36827;&#21435;</span>
+<span style="color: #007000;">(</span>add-to-list 'rimel-disable-predicates 'my/rimel-predicate-org-in-src-block-p<span style="color: #007000;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orgefb6c35" class="outline-2">
-<h2 id="orgefb6c35"><span class="section-number-2">4.</span> 补充说明</h2>
+<div id="outline-container-org7dd2c43" class="outline-2">
+<h2 id="org7dd2c43"><span class="section-number-2">4.</span> 补充说明</h2>
 <div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org48220d5" class="outline-3">
+<h3 id="org48220d5"><span class="section-number-3">4.1.</span> 关于启动报错</h3>
+<div class="outline-text-3" id="text-4-1">
 <p>
 如果你一切都配置就绪了，但是发现执行 <code>liberime-load</code> 的时候报错，可能是加载路径的问题，可以考虑将 <code>liberime-module-file</code> 所在路径添加到 Windows 的用户环境变量里，然后重启电脑以重新读取用户环境变量，再启动 Emacs 试试。<br>
 </p>
+</div>
+</div>
+<div id="outline-container-org0f7180d" class="outline-3">
+<h3 id="org0f7180d"><span class="section-number-3">4.2.</span> 关于macOS</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+我也在 macOS 配置了 rimel 。总体和 Windows 上大差不差，仅需从 liberime 的 release 里面下载对应架构的 <code>liberime-core.dylib</code> ，放在路径中，然后 <code>brew install librime</code> 即可。记得配置里分别明确 windows 和 macOS 下的 <code>liberime-module-file</code> 路径。<br>
+</p>
+
+<p>
+需要注意一点，我之前设置的 emoji 为 Twitter Emoji ，在按下 <code>e</code> 键的时候报错，取消恢复到 Apple 默认 emoji 之后就正常了。<br>
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-h:d17912fe-ec54-456a-986c-d5920f488a5b" class="outline-2">
 <h2 id="h:d17912fe-ec54-456a-986c-d5920f488a5b"><span class="section-number-2">5.</span> 配置文件</h2>
 <div class="outline-text-2" id="text-h:d17912fe-ec54-456a-986c-d5920f488a5b">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #ba5205;">(</span>files--ensure-directory my/desktop-path<span style="color: #ba5205;">)</span>
-<span style="color: #ba5205;">(</span><span style="color: #a26310;">let</span> <span style="color: #a26310;">(</span><span style="color: #5a7400;">(</span>file <span style="color: #c74400;">"rimel-config.txt"</span><span style="color: #5a7400;">)</span><span style="color: #a26310;">)</span>
-  <span style="color: #a26310;">(</span>org-babel-tangle-file <span style="color: #5a7400;">(</span>buffer-file-name<span style="color: #5a7400;">)</span> <span style="color: #5a7400;">(</span>concat my/desktop-path file<span style="color: #5a7400;">)</span> <span style="color: #c74400;">"elisp"</span><span style="color: #a26310;">)</span>
-  <span style="color: #a26310;">(</span>format <span style="color: #c74400;">"[[https://blog.prayhand13013.top/%s][&#19968;&#38190;&#26597;&#30475;&#19978;&#36848;&#37197;&#32622;&#20195;&#30721;&#27719;&#24635;]]"</span> file<span style="color: #a26310;">)</span><span style="color: #ba5205;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #007000;">(</span>files--ensure-directory my/desktop-path<span style="color: #007000;">)</span>
+<span style="color: #007000;">(</span><span style="color: #8f2f30;">let</span> <span style="color: #8f2f30;">(</span><span style="color: #00704f;">(</span>file <span style="color: #557000;">"rimel-config.txt"</span><span style="color: #00704f;">)</span><span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span>org-babel-tangle-file <span style="color: #00704f;">(</span>buffer-file-name<span style="color: #00704f;">)</span> <span style="color: #00704f;">(</span>concat my/desktop-path file<span style="color: #00704f;">)</span> <span style="color: #557000;">"elisp"</span><span style="color: #8f2f30;">)</span>
+  <span style="color: #8f2f30;">(</span>format <span style="color: #557000;">"[[https://blog.prayhand13013.top/%s][&#19968;&#38190;&#26597;&#30475;&#19978;&#36848;&#37197;&#32622;&#20195;&#30721;&#27719;&#24635;]]"</span> file<span style="color: #8f2f30;">)</span><span style="color: #007000;">)</span>
 </code></pre>
 </div>
 
