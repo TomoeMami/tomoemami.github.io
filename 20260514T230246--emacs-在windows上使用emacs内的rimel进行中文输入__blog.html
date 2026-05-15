@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-05-15 周五 11:06 -->
+<!-- 2026-05-15 周五 11:19 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在windows上使用emacs内的rimel进行中文输入</title>
@@ -10,7 +10,7 @@
 </head>
 <body>
 <div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-15 周五 11:06]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-15 周五 11:19]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -74,7 +74,7 @@ Emacs的中文输入一直以来都是一个问题。虽然我们已经有了珠
 </div>
 
 <p>
-然后我们设置两个关键的文件夹路径： <code>shared-data-dir</code> 决定了 rime 配置文件放在哪里，每次我们启动 rimel 的时候，都会从这个文件夹读取配置文件，并生成一个直接使用的最终文件到 <code>user-data-dir</code> 中。由于前者可能还涉及到多设备同步中设备自定义名称，因此两者最好都不放在跨设备同步的文件夹内，还是另外找个地方放起来。我这里是把它们放到了 <code>~/emacs-local/</code> 文件夹中。<br>
+然后我们设置两个关键的文件夹路径： <code>shared-data-dir</code> 决定了共享的基础 rime 配置文件，每次我们启动 rimel 的时候，都会从这个文件夹和 <code>user-data-dir</code> 读取配置文件，并在 <code>user-data-dir</code> 生成一个直接使用的最终build文件夹。两者最好都不放在跨设备同步的文件夹内，还是另外找个地方放起来。我这里是把它们放到了 <code>~/emacs-local/</code> 文件夹中。<br>
 </p>
 
 <p>
@@ -126,8 +126,8 @@ Note that affiliated keywords and blank lines after are considered a part of a s
 </div>
 </div>
 </div>
-<div id="outline-container-org8dbfb9e" class="outline-2">
-<h2 id="org8dbfb9e"><span class="section-number-2">2.</span> 安装配置 DLL</h2>
+<div id="outline-container-org54e7c83" class="outline-2">
+<h2 id="org54e7c83"><span class="section-number-2">2.</span> 安装配置 DLL</h2>
 <div class="outline-text-2" id="text-2">
 <blockquote>
 <p>
@@ -146,7 +146,7 @@ Note that affiliated keywords and blank lines after are considered a part of a s
 具体依赖文件如下：<br>
 </p>
 
-<pre class="example" id="org7b41d82">
+<pre class="example" id="org427701a">
 libgflags.dll
 libglog-2.dll
 libleveldb.dll
@@ -165,8 +165,8 @@ libyaml-cpp.dll
 </p>
 </div>
 </div>
-<div id="outline-container-orgb9b5808" class="outline-2">
-<h2 id="orgb9b5808"><span class="section-number-2">3.</span> 调整 rime 配置方案</h2>
+<div id="outline-container-org45170de" class="outline-2">
+<h2 id="org45170de"><span class="section-number-2">3.</span> 调整 rime 配置方案</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 假如你以上两步均胜利完成，那么重启 Emacs 之后，轻按 <code>C-\</code> ，随便按几下键盘，应该就能看见候选词出现在 minibuffer 或者 posframe 中了。但细心的你同样发现，怎么打出来的是繁体字啊？这是因为前面复制的默认使用明月拼音，初始输出就是繁体。幸好，我们可以充分利用 rime 的自定义功能，换成我们想用的方案。<br>
@@ -181,7 +181,7 @@ libyaml-cpp.dll
 </p>
 
 <p>
-我们从 rime-frost 的 <a href="https://github.com/gaboolic/rime-frost/releases">release</a> 下载最新方案压缩包，解压之后将里面内容全部复制替换 <code>shared-data-dir</code> 内文件，并直接修改 <code>shared-data-dir</code> 内对应文件。<br>
+我们从 rime-frost 的 <a href="https://github.com/gaboolic/rime-frost/releases">release</a> 下载最新方案压缩包，解压之后将里面内容全部复制替换 <code>user-data-dir</code> 内文件，并直接修改 <code>user-data-dir</code> 内对应文件。<br>
 </p>
 </div>
 <div id="outline-container-h:ce635fc6-238c-4dcd-b8f0-387294f3d6e6" class="outline-3">
@@ -314,8 +314,8 @@ rimel在启动的时候似乎会错误将 <code>rimel-schema</code> 与 <code>(l
 </div>
 </div>
 </div>
-<div id="outline-container-org79e4cec" class="outline-2">
-<h2 id="org79e4cec"><span class="section-number-2">4.</span> 补充说明</h2>
+<div id="outline-container-org5deaa08" class="outline-2">
+<h2 id="org5deaa08"><span class="section-number-2">4.</span> 补充说明</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 如果你一切都配置就绪了，但是发现执行 <code>liberime-load</code> 的时候报错，可能是加载路径的问题，可以考虑将 <code>liberime-module-file</code> 所在路径添加到 Windows 的用户环境变量里，然后重启电脑以重新读取用户环境变量，再启动 Emacs 试试。<br>
