@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2026-05-15 周五 14:56 -->
+<!-- 2026-05-15 周五 15:03 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>emacs-在windows上使用emacs内的rimel进行中文输入</title>
@@ -10,7 +10,7 @@
 </head>
 <body>
 <div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-15 周五 14:56]</span></span></p>
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-15 周五 15:03]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -74,7 +74,7 @@ Emacs的中文输入一直以来都是一个问题。虽然我们已经有了珠
 </div>
 
 <p>
-然后我们设置两个关键的文件夹路径： <code>shared-data-dir</code> 决定了共享的基础 rime 配置文件，每次我们启动 rimel 的时候，都会从这个文件夹和 <code>user-data-dir</code> 读取配置文件，并在 <code>user-data-dir</code> 生成一个直接使用的最终build文件夹。处于一次配置所有设备共享的考虑，我们可以将输入方案放在 <code>shared-data-dir</code> 里面，并将 <code>shared-data-dir</code> 设置到一个跟随 Emacs 配置文件同步的路径中，将 <code>user-data-dir</code> 放到不同步的路径中（我放在 <code>~/emacs-local/</code> 文件夹）。<br>
+然后我们设置两个关键的文件夹路径： <code>shared-data-dir</code> 决定了共享的基础 rime 配置文件，每次我们启动 rimel 的时候，都会从这个文件夹和 <code>user-data-dir</code> 读取配置文件，并在 <code>user-data-dir</code> 生成一个直接使用的最终build文件夹。处于一次配置所有设备共享的考虑，我们可以将输入方案放在 <code>shared-data-dir</code> 里面，并将 <code>shared-data-dir</code> 设置到一个跟随 Emacs 配置文件同步的路径中，以便在不同设备中快捷共享配置方案。然后将 <code>user-data-dir</code> 放到不同步的路径中（我放在 <code>~/emacs-local/</code> 文件夹）。<br>
 </p>
 
 <p>
@@ -126,8 +126,8 @@ Note that affiliated keywords and blank lines after are considered a part of a s
 </div>
 </div>
 </div>
-<div id="outline-container-org7599a68" class="outline-2">
-<h2 id="org7599a68"><span class="section-number-2">2.</span> 安装配置 DLL</h2>
+<div id="outline-container-org6f88c70" class="outline-2">
+<h2 id="org6f88c70"><span class="section-number-2">2.</span> 安装配置 DLL</h2>
 <div class="outline-text-2" id="text-2">
 <blockquote>
 <p>
@@ -146,7 +146,7 @@ Note that affiliated keywords and blank lines after are considered a part of a s
 具体依赖文件如下：<br>
 </p>
 
-<pre class="example" id="org248b719">
+<pre class="example" id="org1374e49">
 libgflags.dll
 libglog-2.dll
 libleveldb.dll
@@ -165,8 +165,8 @@ libyaml-cpp.dll
 </p>
 </div>
 </div>
-<div id="outline-container-org27b6dcc" class="outline-2">
-<h2 id="org27b6dcc"><span class="section-number-2">3.</span> 调整 rime 配置方案</h2>
+<div id="outline-container-orgb267948" class="outline-2">
+<h2 id="orgb267948"><span class="section-number-2">3.</span> 调整 rime 配置方案</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 假如你以上两步均胜利完成，那么重启 Emacs 之后，轻按 <code>C-\</code> ，随便按几下键盘，应该就能看见候选词出现在 minibuffer 或者 posframe 中了。但细心的你同样发现，怎么打出来的是繁体字啊？这是因为前面复制的默认使用明月拼音，初始输出就是繁体。幸好，我们可以充分利用 rime 的自定义功能，换成我们想用的方案。<br>
@@ -243,8 +243,16 @@ libyaml-cpp.dll
 </div>
 </div>
 </div>
+<div id="outline-container-org48603d5" class="outline-3">
+<h3 id="org48603d5"><span class="section-number-3">3.2.</span> 配置同步</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+如果你之前和我一样，将方案放在了 <code>shared-data-dir</code> 中，那么你会发现同步的结果几乎等于零，因为同步功能只看用户文件夹。所以我们需要将 <code>shared-data-dir</code> 中的方案复制到  <code>user-data-dir</code> 里，才可以利用 rime 的同步功能。<br>
+</p>
+</div>
+</div>
 <div id="outline-container-h:4c8d6c4a-612d-4ef6-b322-487c8daf5e1f" class="outline-3">
-<h3 id="h:4c8d6c4a-612d-4ef6-b322-487c8daf5e1f"><span class="section-number-3">3.2.</span> 一些个人偏好的优化</h3>
+<h3 id="h:4c8d6c4a-612d-4ef6-b322-487c8daf5e1f"><span class="section-number-3">3.3.</span> 一些个人偏好的优化</h3>
 <div class="outline-text-3" id="text-h:4c8d6c4a-612d-4ef6-b322-487c8daf5e1f">
 <p>
 由于 Emacs 的内部界面寸土寸金，我关闭了候选词备注拼音功能，仅需将 <code>translator:</code> 的 <code>comment_format:</code> 设置为 <code>- xform/.*//</code> 即可。<br>
@@ -315,23 +323,50 @@ libyaml-cpp.dll
 <span style="color: #007000;">(</span>add-to-list 'rimel-disable-predicates 'my/rimel-predicate-org-in-src-block-p<span style="color: #007000;">)</span>
 </code></pre>
 </div>
+
+<p>
+如果你使用的系统输入法是小狼毫或者鼠须管，可以在对应的 <code>weasel.custom.yaml</code> 或者 <code>squirrel.custom.yaml</code> 中，明确在 Emacs 里切换到英文模式：<br>
+</p>
+
+<p>
+下面是weasel<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #aa184f;">patch</span>:
+  <span style="color: #aa184f;">app_options</span>:
+    <span style="color: #aa184f;">emacs.exe</span>:               <span style="color: #6e678f;"># &#24102; .exe &#30340;&#36827;&#31243;&#21517;&#65306;Weasel 15.0 &#21450;&#20043;&#21069;&#29256;&#26412;&#39035;&#23567;&#20889;; PR #1049 &#21512;&#24182;&#21518;&#37322;&#20986;&#30340;&#29256;&#26412;&#22823;&#23567;&#20889;&#19981;&#25935;&#24863;</span>
+      <span style="color: #aa184f;">ascii_mode</span>: <span style="color: #a23ea4;">true</span>     <span style="color: #6e678f;"># &#33521;&#25991;&#27169;&#24335;</span>
+</code></pre>
+</div>
+
+<p>
+下面是squirrel<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #aa184f;">patch</span>:
+  <span style="color: #aa184f;">app_options</span>:
+    <span style="color: #aa184f;">org.gnu.Emacs</span>:
+      <span style="color: #aa184f;">ascii_mode</span>: <span style="color: #a23ea4;">true</span>
+      <span style="color: #aa184f;">no_inline</span>: <span style="color: #a23ea4;">true</span>
+</code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7dd2c43" class="outline-2">
-<h2 id="org7dd2c43"><span class="section-number-2">4.</span> 补充说明</h2>
+</div>
+<div id="outline-container-orga71294b" class="outline-2">
+<h2 id="orga71294b"><span class="section-number-2">4.</span> 补充说明</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org48220d5" class="outline-3">
-<h3 id="org48220d5"><span class="section-number-3">4.1.</span> 关于启动报错</h3>
+<div id="outline-container-org936e92e" class="outline-3">
+<h3 id="org936e92e"><span class="section-number-3">4.1.</span> 关于启动报错</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 如果你一切都配置就绪了，但是发现执行 <code>liberime-load</code> 的时候报错，可能是加载路径的问题，可以考虑将 <code>liberime-module-file</code> 所在路径添加到 Windows 的用户环境变量里，然后重启电脑以重新读取用户环境变量，再启动 Emacs 试试。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org0f7180d" class="outline-3">
-<h3 id="org0f7180d"><span class="section-number-3">4.2.</span> 关于macOS</h3>
+<div id="outline-container-orgf809a16" class="outline-3">
+<h3 id="orgf809a16"><span class="section-number-3">4.2.</span> 关于macOS</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 我也在 macOS 配置了 rimel 。总体和 Windows 上大差不差，仅需从 liberime 的 release 里面下载对应架构的 <code>liberime-core.dylib</code> ，放在路径中，然后 <code>brew install librime</code> 即可。记得配置里分别明确 windows 和 macOS 下的 <code>liberime-module-file</code> 路径。<br>
