@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2026-05-18 一 14:25 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-使用use-package的:vc像melpa一样安装package快照</title>
+<meta name="author" content="ahs" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='./org.css'/>
+</head>
+<body>
+<div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-18 一 14:25]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-使用use-package的:vc像melpa一样安装package快照</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-05-18T12:09:00">[2026-05-18 一 12:09]</time></span><br>
+</p>
+
+<p>
+<a href="https://melpa.org/#/">MELPA</a> (Milkypostman’s Emacs Lisp Package Archive) 是 Emacs 社区中一个广泛使用的第三方包托管网站。根据我个人的观察，和手动调用 <code>package-vc-install</code> / <code>straight</code> / <code>borg</code> 这种基于 Git 的包管理方式相比，主要优点是与 <code>package.el</code> 的集成不错，可以方便快捷地在一个页面搜索 package 、更新删除，还可以通过其中自动安装其他 package 的依赖。<br>
+</p>
+
+<p>
+也正因为 melpa 上托管了不少第三方包，导致其更新周期有一点长，基本是2-3小时才能完成一次更新。更雪上加霜的是，由于国内网络环境，直连 melpa 的速度令人忍俊不禁，第三方源的同步频率更是底到一天两次。<br>
+</p>
+
+<p>
+针对我的使用场景，还有一点特殊：我将整个 <code>.emacs.d</code> 文件夹放进了 git 中同步。如果使用普通的 git 相关包管理工具，由于它们都会在本地 clone 一个 git repo ，导致其下载到本地的代码文件夹会被 <code>.emacs.d</code> 的 git 给当成 submodule 忽略掉。<br>
+</p>
+
+<blockquote>
+<p>
+对 Git 而言，如果工作树中出现另一个仓库的 .git 目录，它就会将其视为“子仓库”（nested repository）。此时上层 Git 只会记录一个所谓的 gitlink（一个表示子仓库提交哈希的条目），而不会跟踪该目录内的具体文件。<br>
+</p>
+</blockquote>
+
+<p>
+有没有办法将安装好的包也纳入同步呢？我们可以利用 <code>use-package</code> 新增的 <code>:vc</code> 关键字，并为其增加一些自定义 advice 。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #cb1aaa;">(</span><span style="color: #8e44f3;">with-eval-after-load</span> 'package-vc
+  <span style="color: #8e44f3;">(</span><span style="color: #8e44f3;">defun</span> <span style="color: #cb1aaa;">my/package-vc--clone-remove-dotgit</span> <span style="color: #a45f22;">(</span>pkg-desc _pkg-spec pkg-dir <span style="color: #3f6faf;">&amp;rest</span> _<span style="color: #a45f22;">)</span>
+    <span style="color: #5f60bf;">"Remove .git right after cloning."</span>
+    <span style="color: #a45f22;">(</span><span style="color: #8e44f3;">let</span> <span style="color: #1f6fbf;">(</span><span style="color: #ba35af;">(</span>git-path <span style="color: #5250ef;">(</span>expand-file-name <span style="color: #b6532f;">".git"</span> pkg-dir<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span>
+      <span style="color: #1f6fbf;">(</span><span style="color: #8e44f3;">when</span> <span style="color: #ba35af;">(</span>file-exists-p git-path<span style="color: #ba35af;">)</span>
+        <span style="color: #ba35af;">(</span><span style="color: #8e44f3;">if</span> <span style="color: #5250ef;">(</span>file-directory-p git-path<span style="color: #5250ef;">)</span>
+            <span style="color: #5250ef;">(</span>delete-directory git-path t<span style="color: #5250ef;">)</span>
+          <span style="color: #5250ef;">(</span>delete-file git-path<span style="color: #5250ef;">)</span><span style="color: #ba35af;">)</span>
+        <span style="color: #ba35af;">(</span>message <span style="color: #b6532f;">"Removed .git from %s"</span> pkg-dir<span style="color: #ba35af;">)</span><span style="color: #1f6fbf;">)</span><span style="color: #a45f22;">)</span><span style="color: #8e44f3;">)</span>
+  <span style="color: #8e44f3;">(</span>advice-add 'package-vc--clone <span style="color: #ba35af;">:after</span> #'my/package-vc--clone-remove-dotgit<span style="color: #8e44f3;">)</span><span style="color: #cb1aaa;">)</span>
+</code></pre>
+</div>
+
+<p>
+通过上面这个函数以及 advice ，我们可以为 <code>package-vc--clone</code> 添加一个后续的操作函数，将 <code>clone</code> 路径里的 <code>.git</code> 文件删除。这样一来，这些 repo 也会被上层 git 给发现并纳入同步了。<br>
+</p>
+
+<p>
+现在，我们在使用 <code>use-package</code> + <code>:vc</code> 的时候，也能像 melpa 一样了：<br>
+</p>
+<ol class="org-ol">
+<li>可以指定需要的 <code>commit</code> 版本，比 melpa 更自由。<br></li>
+<li>仅保留当前选定commit的快照，所有放在 .git 里的历史记录都归于虚无，和 melpa 仅保存快照的工作机制一致。<br></li>
+<li>可以通过 <code>use-pacakge</code> 统一管理，而且可以通过同步整个 <code>.emacs.d</code> 保持多设备配置一致。<br></li>
+</ol>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+</div>
+</body>
+</html>
