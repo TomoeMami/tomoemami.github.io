@@ -1,0 +1,38 @@
+#+title:      emacs-using-use-package-s-vc-to-install-package-snapshots-like-melpa
+#+date:       [2026-05-18 Mon 12:09]
+#+filetags:   :blog:
+#+identifier: 20260518T120920
+
+[2026-05-18 Monday 12:09]
+
+[[https://melpa.org/#/][MELPA]] (Milkypostman’s Emacs Lisp Package Archive) is a widely used third-party package hosting site in the Emacs community. Based on my observation, compared to manually calling =package-vc-install= / =straight= / =borg= (Git-based package management methods), MELPA's main advantage is its good integration with =package.el=, allowing convenient and quick searching, updating, and deleting of packages from a single page, as well as automatically installing dependencies of other packages.
+
+However, precisely because MELPA hosts many third-party packages, its update cycle is somewhat long, taking about 2-3 hours to complete one update. Making matters worse, due to the domestic network environment in China, connecting directly to MELPA is painfully slow, and third-party mirror sync frequencies are as low as twice per day.
+
+For my specific use case, there is another special consideration: I put my entire =.emacs.d= folder into git for synchronization. If I use ordinary Git-based package management tools, they clone a Git repo locally, causing the downloaded local code folder to be treated by =.emacs.d='s git as a submodule and thus ignored.
+
+#+begin_quote
+For Git, if another repository's .git directory appears in the working tree, it is treated as a "nested repository". The parent Git will only record a so-called gitlink (an entry indicating the sub-repository's commit hash) and will not track the actual files within that directory.
+#+end_quote
+
+Is there a way to include installed packages in synchronization? We can use the newly added =:vc= keyword from =use-package= and add some custom advice to it.
+
+#+begin_src elisp
+(with-eval-after-load 'package-vc
+  (defun my/package-vc--clone-remove-dotgit (pkg-desc _pkg-spec pkg-dir &rest _)
+    "Remove .git right after cloning."
+    (let ((git-path (expand-file-name ".git" pkg-dir)))
+      (when (file-exists-p git-path)
+        (if (file-directory-p git-path)
+            (delete-directory git-path t)
+          (delete-file git-path))
+        (message "Removed .git from %s" pkg-dir))))
+  (advice-add 'package-vc--clone :after #'my/package-vc--clone-remove-dotgit))
+#+end_src
+
+With the above function and advice, we can add a follow-up operation to =package-vc--clone= that deletes the =.git= file in the =clone= path. As a result, these repos will also be discovered by the parent git and included in synchronization.
+
+Now, when using =use-package= + =:vc=, we can achieve a MELPA-like experience:
+1. You can specify the desired =commit= version, which is more flexible than MELPA.
+2. Only the snapshot of the selected commit is retained; all history stored in .git vanishes, consistent with MELPA's snapshot-only working mechanism.
+3. You can manage everything uniformly through =use-package=, and keep configuration consistent across multiple devices by synchronizing the entire =.emacs.d=.
