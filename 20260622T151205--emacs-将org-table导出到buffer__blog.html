@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- 2026-06-22 周一 16:25 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>emacs-将org-table导出到buffer</title>
+<meta name="author" content="TomoeMami" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='./org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-06-22 周一 16:24]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-将org-table导出到buffer</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-06-22T15:12:00">[2026-06-22 周一 15:12]</time></span><br>
+</p>
+
+<p>
+org-mode 的 table 相当好用，究其根本，他可以被无缝引用到 elisp 代码块中，作为一个存储数据的变量。<br>
+</p>
+
+<p>
+然而，有的时候我们想将 org-table 与第三方表格软件协作。默认的 <code>org-table-export</code> 函数会将光标所在的 org-table 导出为一个文件，稍后就用 Excel/WPS 等软件打开。不过，我们可以采取更简单的办法转移数据。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/org-table-export-to-buffer</span> <span style="color: #557400;">(</span>format<span style="color: #557400;">)</span>
+  <span style="color: #4f677f;">"&#23558;&#24403;&#21069; Org &#34920;&#26684;&#25353;&#25351;&#23450; FORMAT &#23548;&#20986;&#21040; buffer&#12290;</span>
+<span style="color: #4f677f;">FORMAT &#21487;&#20197;&#26159; \"tsv\", \"csv\", \"orgtbl-to-html\" &#31561;&#12290;</span>
+<span style="color: #4f677f;">&#22914;&#26524;&#23548;&#20986; buffer &#24050;&#32463;&#26174;&#31034;&#22312;&#26576;&#20010;&#31383;&#21475;&#20013;&#65292;&#21017;&#37325;&#29992;&#35813;&#31383;&#21475;&#26356;&#26032;&#20869;&#23481;&#65292;&#21542;&#21017;&#21019;&#24314;&#26032;&#31383;&#21475;&#12290;"</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span>
+   <span style="color: #bf4400;">(</span>list <span style="color: #3f6faf;">(</span>read-string <span style="color: #00824f;">(</span>format <span style="color: #ca3400;">"&#23548;&#20986;&#26684;&#24335; (&#40664;&#35748; %s): "</span>
+                              org-table-export-default-format<span style="color: #00824f;">)</span>
+                      nil nil org-table-export-default-format<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">unless</span> <span style="color: #bf4400;">(</span>org-table-p<span style="color: #bf4400;">)</span> <span style="color: #bf4400;">(</span><span style="color: #a7601f;">user-error</span> <span style="color: #ca3400;">"&#20809;&#26631;&#19981;&#22312; Org &#34920;&#26684;&#20869;"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
+  <span style="color: #557400;">(</span><span style="color: #006f00;">let*</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>table <span style="color: #00824f;">(</span>org-table-to-lisp<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>func-symbol <span style="color: #00824f;">(</span>intern <span style="color: #9a456f;">(</span><span style="color: #006f00;">if</span> <span style="color: #a2604f;">(</span>string-prefix-p <span style="color: #ca3400;">"orgtbl-to-"</span> format<span style="color: #a2604f;">)</span>
+                                  format
+                                <span style="color: #a2604f;">(</span>concat <span style="color: #ca3400;">"orgtbl-to-"</span> format<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>func <span style="color: #00824f;">(</span>symbol-function func-symbol<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>result <span style="color: #00824f;">(</span>funcall func table '<span style="color: #9a456f;">(</span><span style="color: #557400;">:raw</span> t<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>buf-name <span style="color: #ca3400;">"*Org Table Export*"</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>buf <span style="color: #00824f;">(</span>get-buffer-create buf-name<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+         <span style="color: #3f6faf;">(</span>win <span style="color: #00824f;">(</span>get-buffer-window buf<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>    <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">&#26816;&#26597;&#26159;&#21542;&#24050;&#26377;&#31383;&#21475;&#26174;&#31034;&#35813; buffer</span>
+    <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#26356;&#26032; buffer &#20869;&#23481;&#65288;&#20801;&#35768;&#20020;&#26102;&#20462;&#25913;&#21482;&#35835; buffer&#65289;</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00;">with-current-buffer</span> buf
+      <span style="color: #3f6faf;">(</span><span style="color: #006f00;">let</span> <span style="color: #00824f;">(</span><span style="color: #9a456f;">(</span>inhibit-read-only t<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+        <span style="color: #00824f;">(</span>erase-buffer<span style="color: #00824f;">)</span>
+        <span style="color: #00824f;">(</span>insert result<span style="color: #00824f;">)</span>
+        <span style="color: #00824f;">(</span>goto-char <span style="color: #9a456f;">(</span>point-min<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
+        <span style="color: #00824f;">(</span>set-buffer-modified-p nil<span style="color: #00824f;">)</span>
+        <span style="color: #00824f;">(</span>read-only-mode 1<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>              <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">&#37325;&#26032;&#35774;&#20026;&#21482;&#35835;</span>
+    <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#26174;&#31034; buffer&#65306;&#20248;&#20808;&#37325;&#29992;&#24050;&#26377;&#31383;&#21475;&#65292;&#21542;&#21017;&#26032;&#24314;</span>
+    <span style="color: #bf4400;">(</span><span style="color: #006f00;">if</span> win
+        <span style="color: #3f6faf;">(</span><span style="color: #006f00;">progn</span>
+          <span style="color: #00824f;">(</span>select-window win<span style="color: #00824f;">)</span>             <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">&#20999;&#25442;&#21040;&#24050;&#26377;&#31383;&#21475;</span>
+          <span style="color: #00824f;">(</span>message <span style="color: #ca3400;">"&#24050;&#26356;&#26032;&#34920;&#26684;&#23548;&#20986;&#20869;&#23481;"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
+      <span style="color: #3f6faf;">(</span>switch-to-buffer-other-window buf<span style="color: #3f6faf;">)</span>
+      <span style="color: #3f6faf;">(</span>message <span style="color: #ca3400;">"&#34920;&#26684;&#24050;&#23548;&#20986;&#21040; buffer: %s"</span> buf-name<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+</code></pre>
+</div>
+
+<p>
+上面的函数可以将光标所在的表格导出到 buffer ，默认是 <code>tsv</code> 格式，也就是用制表符分割列、换行符分割行。这样一来，就可以直接把里面的内容复制，并在表格软件里粘贴了。<br>
+</p>
+
+<p>
+如果需要导出为 <code>csv</code> 格式，也可以在运行后的提示框中手动输入。<br>
+</p>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+</div>
+</body>
+</html>
