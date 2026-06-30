@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>一键拨打电话</title>
+    <style>
+        /* ===== 全局重置 & 基础 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #f5f7fa 0%, #e9edf5 100%);
+            padding: 20px;
+        }
+
+        /* ===== 卡片容器 ===== */
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 48px 32px 40px;
+            box-shadow:
+                0 20px 60px rgba(0, 20, 40, 0.12),
+                0 8px 24px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            text-align: center;
+            transition: transform 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== 图标 / 装饰 ===== */
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #34c759, #28a745);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 32px rgba(52, 199, 89, 0.30);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .icon-wrapper svg {
+            width: 40px;
+            height: 40px;
+            fill: #fff;
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* ===== 电话号码展示 ===== */
+        .phone-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a2639;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            font-variant-numeric: tabular-nums;
+            word-break: break-all;
+        }
+
+        .phone-label {
+            font-size: 14px;
+            color: #8e9aaf;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            font-weight: 500;
+        }
+
+        /* ===== 拨号按钮 ===== */
+        .call-btn {
+            display: block;
+            width: 100%;
+            padding: 20px 24px;
+            border: none;
+            border-radius: 60px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #34c759, #28a745);
+            box-shadow: 0 8px 28px rgba(52, 199, 89, 0.35);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            text-align: center;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .call-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .call-btn:active::after {
+            opacity: 1;
+        }
+
+        .call-btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 16px rgba(52, 199, 89, 0.25);
+        }
+
+        .call-btn .sub-text {
+            display: block;
+            font-size: 12px;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-top: 4px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== 状态提示 ===== */
+        .status {
+            margin-top: 24px;
+            font-size: 14px;
+            color: #8e9aaf;
+            line-height: 1.6;
+            min-height: 40px;
+            transition: color 0.3s ease;
+        }
+
+        .status.error {
+            color: #ff3b30;
+        }
+
+        .status.success {
+            color: #34c759;
+        }
+
+        /* ===== 底部 footer ===== */
+        .footer {
+            margin-top: 28px;
+            font-size: 12px;
+            color: #b0bcca;
+            letter-spacing: 0.5px;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+            padding-top: 20px;
+        }
+
+        .footer a {
+            color: #8e9aaf;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(142, 154, 175, 0.3);
+            transition: border-color 0.2s ease;
+        }
+
+        .footer a:hover {
+            border-color: #8e9aaf;
+        }
+
+        /* ===== 响应式微调 ===== */
+        @media (max-width: 440px) {
+            .container {
+                padding: 32px 20px 28px;
+                border-radius: 32px;
+            }
+
+            .phone-number {
+                font-size: 24px;
+            }
+
+            .call-btn {
+                font-size: 20px;
+                padding: 18px 20px;
+            }
+
+            .icon-wrapper {
+                width: 64px;
+                height: 64px;
+            }
+
+            .icon-wrapper svg {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .container {
+                padding: 24px 16px 20px;
+                border-radius: 24px;
+            }
+
+            .phone-number {
+                font-size: 20px;
+            }
+
+            .call-btn {
+                font-size: 18px;
+                padding: 16px 16px;
+                border-radius: 50px;
+            }
+
+            .phone-label {
+                font-size: 12px;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* ===== 暗色模式（可选，自动适配） ===== */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(145deg, #1c1f2b, #141824);
+            }
+
+            .container {
+                background: rgba(30, 34, 48, 0.88);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border-color: rgba(255, 255, 255, 0.06);
+                box-shadow:
+                    0 20px 60px rgba(0, 0, 0, 0.5),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            }
+
+            .phone-number {
+                color: #f0f2f8;
+            }
+
+            .phone-label {
+                color: #7a88a6;
+            }
+
+            .status {
+                color: #7a88a6;
+            }
+
+            .status.error {
+                color: #ff453a;
+            }
+
+            .status.success {
+                color: #32d76b;
+            }
+
+            .footer {
+                color: #4e5a73;
+                border-top-color: rgba(255, 255, 255, 0.05);
+            }
+
+            .footer a {
+                color: #7a88a6;
+            }
+
+            .icon-wrapper {
+                background: linear-gradient(135deg, #2ecc71, #1e9e4a);
+                box-shadow: 0 12px 32px rgba(46, 204, 113, 0.25);
+            }
+
+            .call-btn {
+                background: linear-gradient(135deg, #2ecc71, #1e9e4a);
+                box-shadow: 0 8px 28px rgba(46, 204, 113, 0.25);
+            }
+
+            .call-btn:active {
+                box-shadow: 0 4px 16px rgba(46, 204, 113, 0.15);
+            }
+        }
+
+        /* ===== 禁用选择 & 高亮 ===== */
+        .call-btn,
+        .phone-number {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        /* ===== 加载占位动画 ===== */
+        .loading-shimmer {
+            display: inline-block;
+            background: linear-gradient(90deg, #e0e4ec 25%, #f0f2f8 50%, #e0e4ec 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.8s ease-in-out infinite;
+            border-radius: 8px;
+            color: transparent !important;
+            min-width: 120px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .loading-shimmer {
+                background: linear-gradient(90deg, #2a2f40 25%, #3a4055 50%, #2a2f40 75%);
+                background-size: 200% 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" role="main" aria-label="拨打电话工具">
+        <!-- 图标 -->
+        <div class="icon-wrapper" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+            </svg>
+        </div>
+
+        <!-- 电话号码 -->
+        <div class="phone-number" id="phoneDisplay" aria-label="电话号码">—</div>
+        <div class="phone-label">📞 呼叫号码</div>
+
+        <!-- 拨打电话按钮 -->
+        <a class="call-btn" id="callBtn" href="#" role="button" aria-label="拨打电话">
+            📱 拨打电话
+            <span class="sub-text">点击即可呼叫</span>
+        </a>
+
+        <!-- 状态 / 提示 -->
+        <div class="status" id="statusMessage">正在获取号码…</div>
+
+        <!-- 底部 -->
+        <div class="footer">
+            号码从网址中自动识别 &nbsp;·&nbsp; <a href="#" id="resetLink">重新获取</a>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== DOM 引用 =====
+            const phoneDisplay = document.getElementById('phoneDisplay');
+            const callBtn = document.getElementById('callBtn');
+            const statusMsg = document.getElementById('statusMessage');
+            const resetLink = document.getElementById('resetLink');
+
+            // ===== 工具：从 URL 中提取电话号码 =====
+            function extractPhoneFromURL() {
+                // 1. 优先取路径最后一段 (如 /13800138000)
+                const pathname = window.location.pathname;
+                const pathParts = pathname.split('/').filter(p => p.length > 0);
+                let phone = '';
+
+                if (pathParts.length > 0) {
+                    const lastPart = pathParts[pathParts.length - 1];
+                    // 如果最后一段是纯数字（允许 + 和 - 作为分隔符），则视为电话号码
+                    if (/^[\+\d\-\(\)\s]+$/.test(lastPart) && lastPart.replace(/[\s\-\(\)]/g, '').length > 0) {
+                        phone = lastPart;
+                    }
+                }
+
+                // 2. 如果路径没取到，尝试查询参数 ?phone=xxx 或 ?tel=xxx
+                if (!phone) {
+                    const params = new URLSearchParams(window.location.search);
+                    phone = params.get('phone') || params.get('tel') || params.get('number') || '';
+                }
+
+                // 3. 如果还没取到，尝试 hash 中的 phone 参数 (如 #phone=13800138000)
+                if (!phone && window.location.hash) {
+                    try {
+                        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+                        phone = hashParams.get('phone') || hashParams.get('tel') || hashParams.get('number') || '';
+                    } catch (_) { /* ignore */ }
+                }
+
+                // 4. 清理：移除多余空格，只保留数字、+、-、(、)
+                phone = phone.trim();
+                // 如果包含非号码字符，尝试提取纯数字+加号
+                const cleaned = phone.replace(/\s/g, '');
+                // 基本验证：至少要有数字
+                if (cleaned.replace(/[\+\-\(\)]/g, '').length === 0) {
+                    return '';
+                }
+                return cleaned;
+            }
+
+            // ===== 验证号码是否可拨号 =====
+            function isValidPhoneNumber(phone) {
+                if (!phone || phone.length === 0) return false;
+                // 至少包含一个数字
+                return /\d/.test(phone);
+            }
+
+            // ===== 更新界面 =====
+            function updateUI(phone) {
+                const isValid = isValidPhoneNumber(phone);
+
+                if (isValid) {
+                    // 显示号码
+                    phoneDisplay.textContent = phone;
+                    phoneDisplay.classList.remove('loading-shimmer');
+
+                    // 设置按钮 href
+                    callBtn.href = 'tel:' + phone;
+                    callBtn.style.pointerEvents = 'auto';
+                    callBtn.style.opacity = '1';
+
+                    // 状态提示
+                    statusMsg.textContent = '✅ 点击上方按钮即可拨打 ' + phone;
+                    statusMsg.className = 'status success';
+
+                    // 更新 aria-label
+                    callBtn.setAttribute('aria-label', '拨打电话 ' + phone);
+                } else {
+                    // 无有效号码
+                    phoneDisplay.textContent = '未检测到号码';
+                    phoneDisplay.classList.remove('loading-shimmer');
+
+                    callBtn.href = '#';
+                    callBtn.style.pointerEvents = 'none';
+                    callBtn.style.opacity = '0.5';
+
+                    statusMsg.textContent = '⚠️ 请在网址后添加电话号码 (如 /13800138000 或 ?phone=13800138000)';
+                    statusMsg.className = 'status error';
+
+                    callBtn.setAttribute('aria-label', '无有效号码');
+                }
+            }
+
+            // ===== 从当前 URL 提取并更新 =====
+            function refreshFromURL() {
+                // 显示加载状态
+                phoneDisplay.textContent = '加载中…';
+                phoneDisplay.classList.add('loading-shimmer');
+                statusMsg.textContent = '正在识别号码…';
+                statusMsg.className = 'status';
+
+                // 模拟微延迟，让 UI 更新 (实际提取很快，但为了体验)
+                setTimeout(() => {
+                    const phone = extractPhoneFromURL();
+                    updateUI(phone);
+                }, 120);
+            }
+
+            // ===== 监听 hash 变化（SPA 场景） =====
+            function handleHashChange() {
+                refreshFromURL();
+            }
+
+            // ===== 重置 / 重新获取 =====
+            function handleReset(e) {
+                e.preventDefault();
+                refreshFromURL();
+            }
+
+            // ===== 初始化 =====
+            function init() {
+                refreshFromURL();
+
+                // 监听 hash 变化
+                window.addEventListener('hashchange', handleHashChange);
+
+                // 监听 popstate (浏览器前进/后退)
+                window.addEventListener('popstate', handleHashChange);
+
+                // 重置链接
+                resetLink.addEventListener('click', handleReset);
+
+                // 点击按钮时的额外反馈（移动端振动，如果支持）
+                callBtn.addEventListener('click', function(e) {
+                    if (this.href && this.href.startsWith('tel:')) {
+                        // 轻触反馈（可选）
+                        if (navigator.vibrate) {
+                            navigator.vibrate(10);
+                        }
+                        // 状态提示
+                        const num = this.href.replace('tel:', '');
+                        statusMsg.textContent = '📞 正在呼叫 ' + num + ' …';
+                        statusMsg.className = 'status success';
+                        // 2秒后恢复
+                        setTimeout(() => {
+                            const currentPhone = extractPhoneFromURL();
+                            if (isValidPhoneNumber(currentPhone)) {
+                                statusMsg.textContent = '✅ 点击上方按钮即可拨打 ' + currentPhone;
+                                statusMsg.className = 'status success';
+                            }
+                        }, 3000);
+                    }
+                });
+
+                console.log('📱 拨打电话工具已启动');
+                console.log('💡 使用方式: 在网址后追加电话号码，如 /13800138000 或 ?phone=13800138000');
+            }
+
+            // ===== 页面完全加载后执行 =====
+            if (document.readyState === 'complete') {
+                init();
+            } else {
+                window.addEventListener('load', init);
+            }
+
+        })();
+    </script>
+
+</body>
+</html>
