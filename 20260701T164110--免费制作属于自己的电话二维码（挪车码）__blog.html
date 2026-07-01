@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- 2026-07-01 三 20:06 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>免费制作属于自己的电话二维码（挪车码）</title>
+<meta name="author" content="TomoeMami" />
+<meta name="generator" content="Org Mode" />
+<link rel='stylesheet' type='text/css' href='./org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-07-01 三 20:06]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">免费制作属于自己的电话二维码（挪车码）</h1>
+</header><p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-07-01T16:41:00">[2026-07-01 三 16:41]</time></span><br>
+</p>
+<div id="outline-container-orge21e399" class="outline-2">
+<h2 id="orge21e399"><span class="section-number-2">1.</span> 前言</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+考虑挪车的场景。你停车在路边，需要在车上留一个联系方式。传统的做法是留一串手机号在车窗底部，但毕竟需要其他人手动输入，存在看错输错的风险。<br>
+</p>
+
+<p>
+考虑到微信「扫一扫」已经相当普遍，你也许会想到制作一个包含手机号码的二维码。但是普通的纯文本二维码在微信中只会解析为一串电话号码，还需要手动长按拨号。如果对方手机操作不甚熟练，可能还以为这个二维码是错的，扫不出结果。<br>
+</p>
+
+<p>
+考虑到微信有许多挪车码小程序，你也许会想到利用微信的生态找一个。但是这种小程序实际上提供给你的是指向他们小程序的二维码，每次扫码打开都要看广告（请理解，这也是他们维持服务的方式），还需要你将手机号提供给对方，存在可能的信息数据泄露的风险。<br>
+</p>
+
+<p>
+于是，你决定自己制作一个挪车码。<br>
+</p>
+
+<p>
+<b>本方案基于微信扫一扫实测</b> <br>
+</p>
+</div>
+</div>
+<div id="outline-container-org2ef8ab6" class="outline-2">
+<h2 id="org2ef8ab6"><span class="section-number-2">2.</span> 操作流程</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+（对背后的操作流程和技术细节不感兴趣的请跳至后方「省流结果」，不要看下面的内容）<br>
+</p>
+
+<p>
+我们都知道，通过网页上指向 <code>tel:114514</code> 的链接，可以在手机上一键点击之后唤起拨号「114514」。我们又知道，可以将网页网址生成为一个二维码。<br>
+</p>
+
+<p>
+所以我们的需求就变成了：<br>
+</p>
+<ol class="org-ol">
+<li>生成一个简单的网页，他会根据网址后面增加的「电话号码」，自动生成一个适配移动手机的按钮；<br></li>
+<li>将这个网页托管到网上，获取对应网址；<br></li>
+<li>将网址按照自己需求修改，并生成修改后网址的二维码。<br></li>
+</ol>
+
+<p>
+接下来我们就逐步开展。<br>
+</p>
+</div>
+<div id="outline-container-org94b70fb" class="outline-3">
+<h3 id="org94b70fb"><span class="section-number-3">2.1.</span> 网页生成</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+已经到2026年中了，大家想必已经迫不及待利用 AI 来生成网页了，正巧我也一样，所以我就问了DeepSeek:<br>
+</p>
+
+<p>
+<a href="https://chat.deepseek.com/share/bz2heiuuuxl69fvecl">https://chat.deepseek.com/share/bz2heiuuuxl69fvecl</a><br>
+</p>
+</div>
+</div>
+<div id="outline-container-org591898d" class="outline-3">
+<h3 id="org591898d"><span class="section-number-3">2.2.</span> 托管网页</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+为什么要托管网页？因为我们需要获取网址以便进一步生成二维码，而这就意味着需要够通过公网访问到这个网页。如果你有自己的服务器，或者有自己的域名，这一步需要怎么干也不用我多说了。<br>
+</p>
+
+<p>
+根据上面生成的 HTML 代码，我们选择 <a href="https://www.900.cool/">900.cool</a> 网站来托管这个简单的网页。注册登录之后，将代码提交并发布。这里我已经发布了：<br>
+</p>
+
+<p>
+<a href="https://w99.site/telcall/index.html?phone=1145141919810">https://w99.site/telcall/index.html?phone=1145141919810</a><br>
+</p>
+</div>
+</div>
+<div id="outline-container-orge26277a" class="outline-3">
+<h3 id="orge26277a"><span class="section-number-3">2.3.</span> 后记</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+我也考察过使用 <a href="https://urlapp.org/apps/doc2024072200001/urlAppWhitePaper">urlapp</a> ，将整个网页打包为一段网址，但是最终生成的网址依旧过长，导致二维码变得又大又难看，失去实用价值。<br>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org9b93082" class="outline-2">
+<h2 id="org9b93082"><span class="section-number-2">3.</span> 省流结果</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+<a href="https://w99.site/telcall/index.html?phone=1145141919810">https://w99.site/telcall/index.html?phone=1145141919810</a><br>
+</p>
+
+<p>
+上面这个网址默认生成指向「1145141919810」的拨号连接。如你所见，这段字符明显比实际手机号长，所以我们需要根据自己的实际情况调整这串数字。<br>
+</p>
+
+<p>
+<b>请务必将「phone=」后面的数字替换为你自己的手机号</b><br>
+</p>
+</div>
+</div>
+<div id="outline-container-org451d785" class="outline-2">
+<h2 id="org451d785"><span class="section-number-2">4.</span> 生成二维码</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+我们在网上<a href="https://uutool.cn/qrcode/">随便挑一个工具</a>，比如<a href="https://cli.im">草料二维码</a>，把上面的网址生成为二维码即可。<br>
+</p>
+
+<p>
+如果你使用的电脑端 Edge 浏览器，在刚才那个网址页面右键 - 为此页面创建 QR 代码，就可以得到一张二维码图片。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org0dbe8b9" class="outline-2">
+<h2 id="org0dbe8b9"><span class="section-number-2">5.</span> 粘贴二维码</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+打印二维码和粘贴到车窗上（可以用静电贴）的细节，在网上有很多教程，这里不赘述。<br>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+</div>
+</body>
+</html>
