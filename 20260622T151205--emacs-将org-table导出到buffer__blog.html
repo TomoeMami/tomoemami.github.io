@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-06-22 周一 16:25 -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 2026-07-11 周六 14:01 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-将org-table导出到buffer</title>
-<meta name="author" content="TomoeMami" />
-<meta name="generator" content="Org Mode" />
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
 <link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-06-22 周一 16:24]</span></span></p>
+<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-06-22 周一 16:24]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -33,39 +33,39 @@ org-mode 的 table 相当好用，究其根本，他可以被无缝引用到 eli
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #a7601f;">(</span><span style="color: #006f00;">defun</span> <span style="color: #a7601f;">my/org-table-export-to-buffer</span> <span style="color: #557400;">(</span>format<span style="color: #557400;">)</span>
-  <span style="color: #4f677f;">"&#23558;&#24403;&#21069; Org &#34920;&#26684;&#25353;&#25351;&#23450; FORMAT &#23548;&#20986;&#21040; buffer&#12290;</span>
-<span style="color: #4f677f;">FORMAT &#21487;&#20197;&#26159; \"tsv\", \"csv\", \"orgtbl-to-html\" &#31561;&#12290;</span>
-<span style="color: #4f677f;">&#22914;&#26524;&#23548;&#20986; buffer &#24050;&#32463;&#26174;&#31034;&#22312;&#26576;&#20010;&#31383;&#21475;&#20013;&#65292;&#21017;&#37325;&#29992;&#35813;&#31383;&#21475;&#26356;&#26032;&#20869;&#23481;&#65292;&#21542;&#21017;&#21019;&#24314;&#26032;&#31383;&#21475;&#12290;"</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">interactive</span>
-   <span style="color: #bf4400;">(</span>list <span style="color: #3f6faf;">(</span>read-string <span style="color: #00824f;">(</span>format <span style="color: #ca3400;">"&#23548;&#20986;&#26684;&#24335; (&#40664;&#35748; %s): "</span>
-                              org-table-export-default-format<span style="color: #00824f;">)</span>
-                      nil nil org-table-export-default-format<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">unless</span> <span style="color: #bf4400;">(</span>org-table-p<span style="color: #bf4400;">)</span> <span style="color: #bf4400;">(</span><span style="color: #a7601f;">user-error</span> <span style="color: #ca3400;">"&#20809;&#26631;&#19981;&#22312; Org &#34920;&#26684;&#20869;"</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span>
-  <span style="color: #557400;">(</span><span style="color: #006f00;">let*</span> <span style="color: #bf4400;">(</span><span style="color: #3f6faf;">(</span>table <span style="color: #00824f;">(</span>org-table-to-lisp<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-         <span style="color: #3f6faf;">(</span>func-symbol <span style="color: #00824f;">(</span>intern <span style="color: #9a456f;">(</span><span style="color: #006f00;">if</span> <span style="color: #a2604f;">(</span>string-prefix-p <span style="color: #ca3400;">"orgtbl-to-"</span> format<span style="color: #a2604f;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/org-table-export-to-buffer</span> <span style="color: #dd22dd;">(</span>format<span style="color: #dd22dd;">)</span>
+  <span style="color: #304463;">"&#23558;&#24403;&#21069; Org &#34920;&#26684;&#25353;&#25351;&#23450; FORMAT &#23548;&#20986;&#21040; buffer&#12290;</span>
+<span style="color: #304463;">FORMAT &#21487;&#20197;&#26159; \"tsv\", \"csv\", \"orgtbl-to-html\" &#31561;&#12290;</span>
+<span style="color: #304463;">&#22914;&#26524;&#23548;&#20986; buffer &#24050;&#32463;&#26174;&#31034;&#22312;&#26576;&#20010;&#31383;&#21475;&#20013;&#65292;&#21017;&#37325;&#29992;&#35813;&#31383;&#21475;&#26356;&#26032;&#20869;&#23481;&#65292;&#21542;&#21017;&#21019;&#24314;&#26032;&#31383;&#21475;&#12290;"</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">interactive</span>
+   <span style="color: #008899;">(</span>list <span style="color: #972500;">(</span>read-string <span style="color: #808000;">(</span>format <span style="color: #00598b;">"&#23548;&#20986;&#26684;&#24335; (&#40664;&#35748; %s): "</span>
+                              org-table-export-default-format<span style="color: #808000;">)</span>
+                      nil nil org-table-export-default-format<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">unless</span> <span style="color: #008899;">(</span>org-table-p<span style="color: #008899;">)</span> <span style="color: #008899;">(</span><span style="color: #6d5000;">user-error</span> <span style="color: #00598b;">"&#20809;&#26631;&#19981;&#22312; Org &#34920;&#26684;&#20869;"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let*</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>table <span style="color: #808000;">(</span>org-table-to-lisp<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>func-symbol <span style="color: #808000;">(</span>intern <span style="color: #531ab6;">(</span><span style="color: #0031a9;">if</span> <span style="color: #008900;">(</span>string-prefix-p <span style="color: #00598b;">"orgtbl-to-"</span> format<span style="color: #008900;">)</span>
                                   format
-                                <span style="color: #a2604f;">(</span>concat <span style="color: #ca3400;">"orgtbl-to-"</span> format<span style="color: #a2604f;">)</span><span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-         <span style="color: #3f6faf;">(</span>func <span style="color: #00824f;">(</span>symbol-function func-symbol<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-         <span style="color: #3f6faf;">(</span>result <span style="color: #00824f;">(</span>funcall func table '<span style="color: #9a456f;">(</span><span style="color: #557400;">:raw</span> t<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-         <span style="color: #3f6faf;">(</span>buf-name <span style="color: #ca3400;">"*Org Table Export*"</span><span style="color: #3f6faf;">)</span>
-         <span style="color: #3f6faf;">(</span>buf <span style="color: #00824f;">(</span>get-buffer-create buf-name<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-         <span style="color: #3f6faf;">(</span>win <span style="color: #00824f;">(</span>get-buffer-window buf<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>    <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">&#26816;&#26597;&#26159;&#21542;&#24050;&#26377;&#31383;&#21475;&#26174;&#31034;&#35813; buffer</span>
-    <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#26356;&#26032; buffer &#20869;&#23481;&#65288;&#20801;&#35768;&#20020;&#26102;&#20462;&#25913;&#21482;&#35835; buffer&#65289;</span>
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">with-current-buffer</span> buf
-      <span style="color: #3f6faf;">(</span><span style="color: #006f00;">let</span> <span style="color: #00824f;">(</span><span style="color: #9a456f;">(</span>inhibit-read-only t<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>erase-buffer<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>insert result<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>goto-char <span style="color: #9a456f;">(</span>point-min<span style="color: #9a456f;">)</span><span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>set-buffer-modified-p nil<span style="color: #00824f;">)</span>
-        <span style="color: #00824f;">(</span>read-only-mode 1<span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span>              <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">&#37325;&#26032;&#35774;&#20026;&#21482;&#35835;</span>
-    <span style="color: #8f6f4a;">;; </span><span style="color: #8f6f4a;">&#26174;&#31034; buffer&#65306;&#20248;&#20808;&#37325;&#29992;&#24050;&#26377;&#31383;&#21475;&#65292;&#21542;&#21017;&#26032;&#24314;</span>
-    <span style="color: #bf4400;">(</span><span style="color: #006f00;">if</span> win
-        <span style="color: #3f6faf;">(</span><span style="color: #006f00;">progn</span>
-          <span style="color: #00824f;">(</span>select-window win<span style="color: #00824f;">)</span>             <span style="color: #8f6f4a;">; </span><span style="color: #8f6f4a;">&#20999;&#25442;&#21040;&#24050;&#26377;&#31383;&#21475;</span>
-          <span style="color: #00824f;">(</span>message <span style="color: #ca3400;">"&#24050;&#26356;&#26032;&#34920;&#26684;&#23548;&#20986;&#20869;&#23481;"</span><span style="color: #00824f;">)</span><span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span>switch-to-buffer-other-window buf<span style="color: #3f6faf;">)</span>
-      <span style="color: #3f6faf;">(</span>message <span style="color: #ca3400;">"&#34920;&#26684;&#24050;&#23548;&#20986;&#21040; buffer: %s"</span> buf-name<span style="color: #3f6faf;">)</span><span style="color: #bf4400;">)</span><span style="color: #557400;">)</span><span style="color: #a7601f;">)</span>
+                                <span style="color: #008900;">(</span>concat <span style="color: #00598b;">"orgtbl-to-"</span> format<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>func <span style="color: #808000;">(</span>symbol-function func-symbol<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>result <span style="color: #808000;">(</span>funcall func table '<span style="color: #531ab6;">(</span><span style="color: #721045;">:raw</span> t<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>buf-name <span style="color: #00598b;">"*Org Table Export*"</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>buf <span style="color: #808000;">(</span>get-buffer-create buf-name<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>win <span style="color: #808000;">(</span>get-buffer-window buf<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>    <span style="color: #7f0000;">; </span><span style="color: #7f0000;">&#26816;&#26597;&#26159;&#21542;&#24050;&#26377;&#31383;&#21475;&#26174;&#31034;&#35813; buffer</span>
+    <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#26356;&#26032; buffer &#20869;&#23481;&#65288;&#20801;&#35768;&#20020;&#26102;&#20462;&#25913;&#21482;&#35835; buffer&#65289;</span>
+    <span style="color: #008899;">(</span><span style="color: #0031a9;">with-current-buffer</span> buf
+      <span style="color: #972500;">(</span><span style="color: #0031a9;">let</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>inhibit-read-only t<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+        <span style="color: #808000;">(</span>erase-buffer<span style="color: #808000;">)</span>
+        <span style="color: #808000;">(</span>insert result<span style="color: #808000;">)</span>
+        <span style="color: #808000;">(</span>goto-char <span style="color: #531ab6;">(</span>point-min<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+        <span style="color: #808000;">(</span>set-buffer-modified-p nil<span style="color: #808000;">)</span>
+        <span style="color: #808000;">(</span>read-only-mode 1<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>              <span style="color: #7f0000;">; </span><span style="color: #7f0000;">&#37325;&#26032;&#35774;&#20026;&#21482;&#35835;</span>
+    <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#26174;&#31034; buffer&#65306;&#20248;&#20808;&#37325;&#29992;&#24050;&#26377;&#31383;&#21475;&#65292;&#21542;&#21017;&#26032;&#24314;</span>
+    <span style="color: #008899;">(</span><span style="color: #0031a9;">if</span> win
+        <span style="color: #972500;">(</span><span style="color: #0031a9;">progn</span>
+          <span style="color: #808000;">(</span>select-window win<span style="color: #808000;">)</span>             <span style="color: #7f0000;">; </span><span style="color: #7f0000;">&#20999;&#25442;&#21040;&#24050;&#26377;&#31383;&#21475;</span>
+          <span style="color: #808000;">(</span>message <span style="color: #00598b;">"&#24050;&#26356;&#26032;&#34920;&#26684;&#23548;&#20986;&#20869;&#23481;"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span>switch-to-buffer-other-window buf<span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span>message <span style="color: #00598b;">"&#34920;&#26684;&#24050;&#23548;&#20986;&#21040; buffer: %s"</span> buf-name<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 
@@ -78,7 +78,7 @@ org-mode 的 table 相当好用，究其根本，他可以被无缝引用到 eli
 </p>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

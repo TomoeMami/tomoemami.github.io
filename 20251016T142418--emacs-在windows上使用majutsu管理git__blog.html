@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-27 周一 16:46 -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 2026-07-11 周六 14:00 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-在Windows上使用majutsu管理git</title>
-<meta name="author" content="TomoeMami" />
-<meta name="generator" content="Org Mode" />
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
 <link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
@@ -15,12 +15,31 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-12 周一 13:52]</span></span></p>
+<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-12 周一 13:52]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">emacs-在Windows上使用majutsu管理git</h1>
-</header><p>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0aa7160">1. 配置Git、Jujutsu</a></li>
+<li><a href="#org32e7c49">2. 配置majutsu</a></li>
+<li><a href="#org0409027">3. 使用majutsu</a>
+<ul>
+<li><a href="#org9d6bb5f">3.1. 初始化</a></li>
+<li><a href="#org8171c69">3.2. 保存变更为commit</a></li>
+<li><a href="#org261b4dd">3.3. 将本地commit上传</a></li>
+<li><a href="#org68b53ec">3.4. 拉取并merge远端</a></li>
+<li><a href="#org3d20bce">3.5. 放弃本地变更</a></li>
+</ul>
+</li>
+<li><a href="#orge0bf4aa">4. 后记</a></li>
+</ul>
+</div>
+</nav>
+<p>
 想必使用Emacs的你，应该听说过Git。虽然功能强大且成为了现代社区开发的基石之一，但Git的使用难度着实不低。幸好，我们Emacs上有一个伟大的pcakage <a href="https://github.com/magit/magit">Magit</a> ，可以极大程度提升Git使用幸福度。<br>
 </p>
 
@@ -31,8 +50,8 @@
 <p>
 时间来到了2025年，在Rewrite It In Rust的风潮中，许多经典的Linux工具被Rust重写，而Git也有一个以Rust编写的相似软件：<a href="https://github.com/jj-vcs/jj">Jujutsu</a>。简单来说，jj能够管理Git的repo，采用了简化一点的设计思路，当然也有缺少的功能。不过最重要的是，在Windows上用Majutsu+Jujutsu比Magit+Git响应速度更快。<br>
 </p>
-<div id="outline-container-orgb38c0f9" class="outline-2">
-<h2 id="orgb38c0f9"><span class="section-number-2">1.</span> 配置Git、Jujutsu</h2>
+<div id="outline-container-org0aa7160" class="outline-2">
+<h2 id="org0aa7160"><span class="section-number-2">1.</span> 配置Git、Jujutsu</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 Jujutsu需要和Git一起安装，在管理repo之后也会调用Git进行push/fetch等操作。<br>
@@ -56,19 +75,19 @@ Jujutsu可以通过scoop安装，直接 <code>scoop install jj</code> 就行了�
 </p>
 </div>
 </div>
-<div id="outline-container-orgf806ce9" class="outline-2">
-<h2 id="orgf806ce9"><span class="section-number-2">2.</span> 配置majutsu</h2>
+<div id="outline-container-org32e7c49" class="outline-2">
+<h2 id="org32e7c49"><span class="section-number-2">2.</span> 配置majutsu</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 如果你用的emacs 30+ 的版本，可以用 <code>use-package</code> 的 <code>:vc</code> 关键字直接从Github Repo安装Majutsu。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> majutsu
-  <span style="color: #a01f64;">:vc</span> <span style="color: #a01f64;">(</span><span style="color: #a01f64;">:url</span> <span style="color: #a04646;">"https://github.com/0WD0/majutsu"</span>
-            <span style="color: #a01f64;">:rev</span> <span style="color: #a01f64;">:newest</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">:bind</span>
-  <span style="color: #a01f64;">(</span><span style="color: #2f5f9f;">(</span><span style="color: #a04646;">"C-x j"</span> . majutsu-log<span style="color: #2f5f9f;">)</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">"C-x C-j"</span> . majutsu-log<span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> majutsu
+  <span style="color: #721045;">:vc</span> <span style="color: #dd22dd;">(</span><span style="color: #721045;">:url</span> <span style="color: #00598b;">"https://github.com/0WD0/majutsu"</span>
+            <span style="color: #721045;">:rev</span> <span style="color: #721045;">:newest</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #721045;">:bind</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span><span style="color: #00598b;">"C-x j"</span> . majutsu-log<span style="color: #008899;">)</span>
+   <span style="color: #008899;">(</span><span style="color: #00598b;">"C-x C-j"</span> . majutsu-log<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 
@@ -77,8 +96,8 @@ Jujutsu可以通过scoop安装，直接 <code>scoop install jj</code> 就行了�
 </p>
 </div>
 </div>
-<div id="outline-container-org74af698" class="outline-2">
-<h2 id="org74af698"><span class="section-number-2">3.</span> 使用majutsu</h2>
+<div id="outline-container-org0409027" class="outline-2">
+<h2 id="org0409027"><span class="section-number-2">3.</span> 使用majutsu</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 <code>C-x j</code> 进入majutsu界面。jujutsu的思路和git不一样，取消了暂存区等功能，当前文件的状态是一个未命名的新HEAD，commit之后就会固定。<br>
@@ -112,8 +131,8 @@ Jujutsu可以通过scoop安装，直接 <code>scoop install jj</code> 就行了�
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-10-31">[2025-10-31 周五]</time></span> 下面我用几个实际案例说明一下操作。<br>
 </p>
 </div>
-<div id="outline-container-org45420ee" class="outline-3">
-<h3 id="org45420ee"><span class="section-number-3">3.1.</span> 初始化</h3>
+<div id="outline-container-org9d6bb5f" class="outline-3">
+<h3 id="org9d6bb5f"><span class="section-number-3">3.1.</span> 初始化</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 这一步需要在cmd/pwsh中进行。以下均假设默认branch为 <code>main</code> 。<br>
@@ -137,24 +156,24 @@ jj bookmark track main@origin
 </div>
 </div>
 </div>
-<div id="outline-container-orgc3c31b2" class="outline-3">
-<h3 id="orgc3c31b2"><span class="section-number-3">3.2.</span> 保存变更为commit</h3>
+<div id="outline-container-org8171c69" class="outline-3">
+<h3 id="org8171c69"><span class="section-number-3">3.2.</span> 保存变更为commit</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 在当前repo里进行一些变更，等觉得应该保存当前状态了，就 <code>C-x j</code> 然后 <code>c</code> ，输入commit内容， <code>C-c C-c</code> 保存并生成一个commit。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org172a176" class="outline-3">
-<h3 id="org172a176"><span class="section-number-3">3.3.</span> 将本地commit上传</h3>
+<div id="outline-container-org261b4dd" class="outline-3">
+<h3 id="org261b4dd"><span class="section-number-3">3.3.</span> 将本地commit上传</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 <code>C-x j</code> 进入Majutsu界面，然后将光标移动至想更新到的commit上，再 <code>b</code> <code>s</code> ，将 <code>main</code> 移动过来，最后 <code>G</code> <code>p</code> <code>p</code> 推送。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org78eb700" class="outline-3">
-<h3 id="org78eb700"><span class="section-number-3">3.4.</span> 拉取并merge远端</h3>
+<div id="outline-container-org68b53ec" class="outline-3">
+<h3 id="org68b53ec"><span class="section-number-3">3.4.</span> 拉取并merge远端</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 由于没有新branch，默认是采取的rebase方法。<br>
@@ -162,8 +181,8 @@ jj bookmark track main@origin
 </p>
 </div>
 </div>
-<div id="outline-container-orgfffca92" class="outline-3">
-<h3 id="orgfffca92"><span class="section-number-3">3.5.</span> 放弃本地变更</h3>
+<div id="outline-container-org3d20bce" class="outline-3">
+<h3 id="org3d20bce"><span class="section-number-3">3.5.</span> 放弃本地变更</h3>
 <div class="outline-text-3" id="text-3-5">
 <p>
 有的时候需要放弃本地变更。只能放弃可变的变更（非菱形图标），将光标移动到该commit上，按 <code>a</code> 再按 <code>y</code> 就能放弃。<br>
@@ -171,72 +190,72 @@ jj bookmark track main@origin
 </div>
 </div>
 </div>
-<div id="outline-container-orgaf27202" class="outline-2">
-<h2 id="orgaf27202"><span class="section-number-2">4.</span> 后记</h2>
+<div id="outline-container-orge0bf4aa" class="outline-2">
+<h2 id="orge0bf4aa"><span class="section-number-2">4.</span> 后记</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2026-01-12T13:49:00">[2026-01-12 周一 13:49]</time></span> 由于我主要用jj管理.emacs.d，很少用到其他功能，因此使用懒猫的<a href="https://github.com/manateelazycat/one-key">one-key</a>来简化操作，放弃了 <code>majutsu</code> 。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> with-editor
-  <span style="color: #a01f64;">:ensure</span> t <span style="color: #a01f64;">:demand</span> t
-  <span style="color: #a01f64;">:config</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">my/setup-editor-buffer</span> <span style="color: #2f5f9f;">()</span>
-    <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">when</span> <span style="color: #a04646;">(</span>string-prefix-p <span style="color: #a04646;">"editor-"</span> <span style="color: #7022bf;">(</span>buffer-name<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
-      <span style="color: #a04646;">(</span>with-editor-mode 1<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">:hook</span>
-  <span style="color: #a01f64;">(</span>server-visit-hook . my/setup-editor-buffer<span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">my/personal-jj</span> <span style="color: #a01f64;">(</span>action<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">let*</span> <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span>emacs-exe <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">if</span> <span style="color: #d5305f;">(</span>eq system-type 'windows-nt<span style="color: #d5305f;">)</span>
-                        <span style="color: #a04646;">"emacsclientw"</span>
-                      <span style="color: #a04646;">"emacsclient"</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
-         <span style="color: #a04646;">(</span>args <span style="color: #a04646;">" --no-pager"</span><span style="color: #a04646;">)</span>
-         <span style="color: #a04646;">(</span>str
-          <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">cond</span> <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>eq action 'push<span style="color: #9f248a;">)</span>
-                 <span style="color: #a04646;">"jj b s main &amp;&amp; jj git push"</span><span style="color: #d5305f;">)</span>
-                <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>eq action 'fetch<span style="color: #9f248a;">)</span>
-                 <span style="color: #a04646;">"jj git fetch &amp;&amp; jj rebase -d main"</span><span style="color: #d5305f;">)</span>
-                <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>eq action 'commit<span style="color: #9f248a;">)</span>
-                 <span style="color: #a04646;">"jj commit"</span><span style="color: #d5305f;">)</span>
-                <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>eq action 'squash<span style="color: #9f248a;">)</span>
-                 <span style="color: #a04646;">"jj squash"</span><span style="color: #d5305f;">)</span>
-                <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>eq action 'describe<span style="color: #9f248a;">)</span>
-                 <span style="color: #a04646;">"jj describe"</span><span style="color: #d5305f;">)</span>
-                <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>eq action 'log<span style="color: #9f248a;">)</span>
-                 <span style="color: #a04646;">"jj log"</span><span style="color: #d5305f;">)</span>
-                <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>eq action 'status<span style="color: #9f248a;">)</span>
-                 <span style="color: #a04646;">"jj status"</span><span style="color: #d5305f;">)</span>
-                <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>eq action 'abandon<span style="color: #9f248a;">)</span>
-                 <span style="color: #9f248a;">(</span>concat <span style="color: #a04646;">"jj abandon "</span> <span style="color: #1077ab;">(</span>read-string <span style="color: #a04646;">"Abandon: "</span><span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span>
-                <span style="color: #d5305f;">(</span><span style="color: #9f248a;">(</span>eq action 'edit<span style="color: #9f248a;">)</span>
-                 <span style="color: #9f248a;">(</span>concat <span style="color: #a04646;">"jj edit "</span> <span style="color: #1077ab;">(</span>read-string <span style="color: #a04646;">"Edit: "</span><span style="color: #1077ab;">)</span><span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
-         <span style="color: #a04646;">(</span>process-environment <span style="color: #7022bf;">(</span>cons <span style="color: #d5305f;">(</span>concat <span style="color: #a04646;">"JJ_EDITOR="</span> emacs-exe<span style="color: #d5305f;">)</span> process-environment<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-    <span style="color: #2f5f9f;">(</span>async-shell-command <span style="color: #a04646;">(</span>concat str args<span style="color: #a04646;">)</span> <span style="color: #a04646;">"*JJ*"</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> with-editor
+  <span style="color: #721045;">:ensure</span> t <span style="color: #721045;">:demand</span> t
+  <span style="color: #721045;">:config</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/setup-editor-buffer</span> <span style="color: #008899;">()</span>
+    <span style="color: #008899;">(</span><span style="color: #0031a9;">when</span> <span style="color: #972500;">(</span>string-prefix-p <span style="color: #00598b;">"editor-"</span> <span style="color: #808000;">(</span>buffer-name<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+      <span style="color: #972500;">(</span>with-editor-mode 1<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #721045;">:hook</span>
+  <span style="color: #dd22dd;">(</span>server-visit-hook . my/setup-editor-buffer<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/personal-jj</span> <span style="color: #dd22dd;">(</span>action<span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let*</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>emacs-exe <span style="color: #808000;">(</span><span style="color: #0031a9;">if</span> <span style="color: #531ab6;">(</span>eq system-type 'windows-nt<span style="color: #531ab6;">)</span>
+                        <span style="color: #00598b;">"emacsclientw"</span>
+                      <span style="color: #00598b;">"emacsclient"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>args <span style="color: #00598b;">" --no-pager"</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>str
+          <span style="color: #808000;">(</span><span style="color: #0031a9;">cond</span> <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>eq action 'push<span style="color: #008900;">)</span>
+                 <span style="color: #00598b;">"jj b s main &amp;&amp; jj git push"</span><span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>eq action 'fetch<span style="color: #008900;">)</span>
+                 <span style="color: #00598b;">"jj git fetch &amp;&amp; jj rebase -d main"</span><span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>eq action 'commit<span style="color: #008900;">)</span>
+                 <span style="color: #00598b;">"jj commit"</span><span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>eq action 'squash<span style="color: #008900;">)</span>
+                 <span style="color: #00598b;">"jj squash"</span><span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>eq action 'describe<span style="color: #008900;">)</span>
+                 <span style="color: #00598b;">"jj describe"</span><span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>eq action 'log<span style="color: #008900;">)</span>
+                 <span style="color: #00598b;">"jj log"</span><span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>eq action 'status<span style="color: #008900;">)</span>
+                 <span style="color: #00598b;">"jj status"</span><span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>eq action 'abandon<span style="color: #008900;">)</span>
+                 <span style="color: #008900;">(</span>concat <span style="color: #00598b;">"jj abandon "</span> <span style="color: #3546c2;">(</span>read-string <span style="color: #00598b;">"Abandon: "</span><span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
+                <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>eq action 'edit<span style="color: #008900;">)</span>
+                 <span style="color: #008900;">(</span>concat <span style="color: #00598b;">"jj edit "</span> <span style="color: #3546c2;">(</span>read-string <span style="color: #00598b;">"Edit: "</span><span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         <span style="color: #972500;">(</span>process-environment <span style="color: #808000;">(</span>cons <span style="color: #531ab6;">(</span>concat <span style="color: #00598b;">"JJ_EDITOR="</span> emacs-exe<span style="color: #531ab6;">)</span> process-environment<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span>async-shell-command <span style="color: #972500;">(</span>concat str args<span style="color: #972500;">)</span> <span style="color: #00598b;">"*JJ*"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> one-key <span style="color: #a01f64;">:demand</span> t
-  <span style="color: #a01f64;">:vc</span> <span style="color: #a01f64;">(</span><span style="color: #a01f64;">:url</span> <span style="color: #a04646;">"git@github.com:manateelazycat/one-key"</span>
-           <span style="color: #a01f64;">:rev</span> <span style="color: #a01f64;">:newest</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">one-key-create-menu</span>
- <span style="color: #a04646;">"GIT"</span>
- '<span style="color: #a01f64;">(</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"p"</span> . <span style="color: #a04646;">"Push"</span><span style="color: #a04646;">)</span> . <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">()</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #7022bf;">)</span> <span style="color: #7022bf;">(</span>my/personal-jj 'push<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"f"</span> . <span style="color: #a04646;">"Fetch"</span><span style="color: #a04646;">)</span> . <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">()</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #7022bf;">)</span> <span style="color: #7022bf;">(</span>my/personal-jj 'fetch<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"g"</span> . <span style="color: #a04646;">"Status"</span><span style="color: #a04646;">)</span> . <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">()</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #7022bf;">)</span> <span style="color: #7022bf;">(</span>my/personal-jj 'status<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"d"</span> . <span style="color: #a04646;">"Describe"</span><span style="color: #a04646;">)</span> . <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">()</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #7022bf;">)</span> <span style="color: #7022bf;">(</span>my/personal-jj 'describe<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"l"</span> . <span style="color: #a04646;">"Log"</span><span style="color: #a04646;">)</span> . <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">()</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #7022bf;">)</span> <span style="color: #7022bf;">(</span>my/personal-jj 'log<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"q"</span> . <span style="color: #a04646;">"sQuash"</span><span style="color: #a04646;">)</span> . <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">()</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #7022bf;">)</span> <span style="color: #7022bf;">(</span>my/personal-jj 'squash<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"a"</span> . <span style="color: #a04646;">"Abandon"</span><span style="color: #a04646;">)</span> . <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">()</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #7022bf;">)</span> <span style="color: #7022bf;">(</span>my/personal-jj 'abandon<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"e"</span> . <span style="color: #a04646;">"Edit"</span><span style="color: #a04646;">)</span> . <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">()</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #7022bf;">)</span> <span style="color: #7022bf;">(</span>my/personal-jj 'edit<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-   <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span><span style="color: #a04646;">"c"</span> . <span style="color: #a04646;">"Commit"</span><span style="color: #a04646;">)</span> . <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">()</span> <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #7022bf;">)</span> <span style="color: #7022bf;">(</span>my/personal-jj 'commit<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
- t<span style="color: #3c3bbe;">)</span>
-<span style="color: #3c3bbe;">(</span>global-set-key <span style="color: #a04646;">"\C-cg"</span> #'one-key-menu-git<span style="color: #3c3bbe;">)</span>
+<span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> one-key <span style="color: #721045;">:demand</span> t
+  <span style="color: #721045;">:vc</span> <span style="color: #dd22dd;">(</span><span style="color: #721045;">:url</span> <span style="color: #00598b;">"git@github.com:manateelazycat/one-key"</span>
+           <span style="color: #721045;">:rev</span> <span style="color: #721045;">:newest</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #0031a9;">one-key-create-menu</span>
+ <span style="color: #00598b;">"GIT"</span>
+ '<span style="color: #dd22dd;">(</span>
+   <span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #00598b;">"p"</span> . <span style="color: #00598b;">"Push"</span><span style="color: #972500;">)</span> . <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">()</span> <span style="color: #808000;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>my/personal-jj 'push<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+   <span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #00598b;">"f"</span> . <span style="color: #00598b;">"Fetch"</span><span style="color: #972500;">)</span> . <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">()</span> <span style="color: #808000;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>my/personal-jj 'fetch<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+   <span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #00598b;">"g"</span> . <span style="color: #00598b;">"Status"</span><span style="color: #972500;">)</span> . <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">()</span> <span style="color: #808000;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>my/personal-jj 'status<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+   <span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #00598b;">"d"</span> . <span style="color: #00598b;">"Describe"</span><span style="color: #972500;">)</span> . <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">()</span> <span style="color: #808000;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>my/personal-jj 'describe<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+   <span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #00598b;">"l"</span> . <span style="color: #00598b;">"Log"</span><span style="color: #972500;">)</span> . <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">()</span> <span style="color: #808000;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>my/personal-jj 'log<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+   <span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #00598b;">"q"</span> . <span style="color: #00598b;">"sQuash"</span><span style="color: #972500;">)</span> . <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">()</span> <span style="color: #808000;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>my/personal-jj 'squash<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+   <span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #00598b;">"a"</span> . <span style="color: #00598b;">"Abandon"</span><span style="color: #972500;">)</span> . <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">()</span> <span style="color: #808000;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>my/personal-jj 'abandon<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+   <span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #00598b;">"e"</span> . <span style="color: #00598b;">"Edit"</span><span style="color: #972500;">)</span> . <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">()</span> <span style="color: #808000;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>my/personal-jj 'edit<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+   <span style="color: #008899;">(</span><span style="color: #972500;">(</span><span style="color: #00598b;">"c"</span> . <span style="color: #00598b;">"Commit"</span><span style="color: #972500;">)</span> . <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">()</span> <span style="color: #808000;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>my/personal-jj 'commit<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+ t<span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span>global-set-key <span style="color: #00598b;">"\C-cg"</span> #'one-key-menu-git<span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

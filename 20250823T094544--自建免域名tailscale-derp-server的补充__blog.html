@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-27 周一 16:46 -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 2026-07-11 周六 14:00 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>自建免域名Tailscale DERP Server的补充</title>
-<meta name="author" content="TomoeMami" />
-<meta name="generator" content="Org Mode" />
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
 <link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
@@ -15,12 +15,22 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-18 周二 11:13]</span></span></p>
+<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-11-18 周二 11:13]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">自建免域名Tailscale DERP Server的补充</h1>
-</header><p>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org4c4d8da">1. 端口设置</a></li>
+<li><a href="#org0003b8b">2. ACL规则</a></li>
+<li><a href="#org43e3808">3. <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-18">[2025-11-18 周二]</time></span> 使用peer-relay</a></li>
+</ul>
+</div>
+</nav>
+<p>
 Tailscale官方中介服务器不在大陆，所以我们可以租用云服务器然后自建一个，提供低延迟服务。<br>
 </p>
 
@@ -35,8 +45,8 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 <p>
 以上两篇文章已经说得很全面了，我这里补充几个萌新可能遇见问题的地方（以第二篇文章为例）。<br>
 </p>
-<div id="outline-container-orged30aa8" class="outline-2">
-<h2 id="orged30aa8"><span class="section-number-2">1.</span> 端口设置</h2>
+<div id="outline-container-org4c4d8da" class="outline-2">
+<h2 id="org4c4d8da"><span class="section-number-2">1.</span> 端口设置</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在 <code>docker-compose.yml</code> 中，需要设置连接的端口：<br>
@@ -62,47 +72,47 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 </p>
 </div>
 </div>
-<div id="outline-container-org9c108c8" class="outline-2">
-<h2 id="org9c108c8"><span class="section-number-2">2.</span> ACL规则</h2>
+<div id="outline-container-org0003b8b" class="outline-2">
+<h2 id="org0003b8b"><span class="section-number-2">2.</span> ACL规则</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 <code>derpMap</code> 开头的那段规则存放的位置是在最底部，不可直接覆盖，具体位置如下：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-json" tabindex="0"><code>{
-//……上略
-//Test asccess rules every time they're saved.
-//"tests": [
-//{
-// ……
-//},
-//],
-//直接复制，粘贴在上面这段话的下面
-"derpMap": {
-		"OmitDefaultRegions": false,
-		"Regions": {"900": {
-			"RegionID":   900,
-			"RegionCode": "gz", // 按需要填
-			"RegionName": "Guangzhou", // 按需要填
-			"Nodes": [{
-				"Name":      "myderper", // 按需要填
-				"RegionID":  900,
-				"HostName":  "IP/HOST", // 改成自己的 IP/域名
-				"DERPPort":  13477,
-				"STUNPort":  13478,
-				"CanPort80": false,
-				"InsecureForTests": true // 去掉域名证书检测
-			}],
-		}},
-	}
-}
+<pre class="src src-json" tabindex="0"><code><span style="color: #000000;">{</span>
+<span style="color: #7f0000;">//&#8230;&#8230;&#19978;&#30053;</span>
+<span style="color: #7f0000;">//Test asccess rules every time they're saved.</span>
+<span style="color: #7f0000;">//"tests": [</span>
+<span style="color: #7f0000;">//{</span>
+<span style="color: #7f0000;">// &#8230;&#8230;</span>
+<span style="color: #7f0000;">//},</span>
+<span style="color: #7f0000;">//],</span>
+<span style="color: #7f0000;">//&#30452;&#25509;&#22797;&#21046;&#65292;&#31896;&#36148;&#22312;&#19978;&#38754;&#36825;&#27573;&#35805;&#30340;&#19979;&#38754;</span>
+<span style="color: #00603f;">"derpMap"</span><span style="color: #000000;">:</span> <span style="color: #dd22dd;">{</span>
+        <span style="color: #00603f;">"OmitDefaultRegions"</span><span style="color: #000000;">:</span> <span style="color: #531ab6;">false</span><span style="color: #000000;">,</span>
+        <span style="color: #00603f;">"Regions"</span><span style="color: #000000;">:</span> <span style="color: #008899;">{</span><span style="color: #00603f;">"900"</span><span style="color: #000000;">:</span> <span style="color: #972500;">{</span>
+            <span style="color: #00603f;">"RegionID"</span><span style="color: #000000;">:</span>   <span style="color: #000000;">900</span><span style="color: #000000;">,</span>
+            <span style="color: #00603f;">"RegionCode"</span><span style="color: #000000;">:</span> <span style="color: #00598b;">"gz"</span><span style="color: #000000;">,</span> <span style="color: #7f0000;">// &#25353;&#38656;&#35201;&#22635;</span>
+            <span style="color: #00603f;">"RegionName"</span><span style="color: #000000;">:</span> <span style="color: #00598b;">"Guangzhou"</span><span style="color: #000000;">,</span> <span style="color: #7f0000;">// &#25353;&#38656;&#35201;&#22635;</span>
+            <span style="color: #00603f;">"Nodes"</span><span style="color: #000000;">:</span> <span style="color: #808000;">[</span><span style="color: #531ab6;">{</span>
+                <span style="color: #00603f;">"Name"</span><span style="color: #000000;">:</span>      <span style="color: #00598b;">"myderper"</span><span style="color: #000000;">,</span> <span style="color: #7f0000;">// &#25353;&#38656;&#35201;&#22635;</span>
+                <span style="color: #00603f;">"RegionID"</span><span style="color: #000000;">:</span>  <span style="color: #000000;">900</span><span style="color: #000000;">,</span>
+                <span style="color: #00603f;">"HostName"</span><span style="color: #000000;">:</span>  <span style="color: #00598b;">"IP/HOST"</span><span style="color: #000000;">,</span> <span style="color: #7f0000;">// &#25913;&#25104;&#33258;&#24049;&#30340; IP/&#22495;&#21517;</span>
+                <span style="color: #00603f;">"DERPPort"</span><span style="color: #000000;">:</span>  <span style="color: #000000;">13477</span><span style="color: #000000;">,</span>
+                <span style="color: #00603f;">"STUNPort"</span><span style="color: #000000;">:</span>  <span style="color: #000000;">13478</span><span style="color: #000000;">,</span>
+                <span style="color: #00603f;">"CanPort80"</span><span style="color: #000000;">:</span> <span style="color: #531ab6;">false</span><span style="color: #000000;">,</span>
+                <span style="color: #00603f;">"InsecureForTests"</span><span style="color: #000000;">:</span> <span style="color: #531ab6;">true</span> <span style="color: #7f0000;">// &#21435;&#25481;&#22495;&#21517;&#35777;&#20070;&#26816;&#27979;</span>
+            <span style="color: #531ab6;">}</span><span style="color: #808000;">]</span><span style="color: #6d5000;">,</span>
+        <span style="color: #972500;">}</span><span style="color: #008899;">}</span><span style="color: #6d5000;">,</span>
+    <span style="color: #dd22dd;">}</span>
+<span style="color: #000000;">}</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org8f8cbde" class="outline-2">
-<h2 id="org8f8cbde"><span class="section-number-2">3.</span> <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-18">[2025-11-18 周二]</time></span> 使用peer-relay</h2>
+<div id="outline-container-org43e3808" class="outline-2">
+<h2 id="org43e3808"><span class="section-number-2">3.</span> <span class="timestamp-wrapper"><time class="timestamp" datetime="2025-11-18">[2025-11-18 周二]</time></span> 使用peer-relay</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 参考<a href="https://blog.sleepstars.net/archives/ti-dai-derp-zui-gao-xiao-de-guan-fang-tailscale-relay-lu-you">这篇博客</a> 还有<a href="https://blog.ysicing.net/tailscale-peer-relays">另一篇博客</a>，但是其中ACL的部分需要根据实际修改。<br>
@@ -112,17 +122,17 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 首先是这部分，按照<a href="https://tailscale.com/kb/1591/peer-relays">官方文档的说法</a>，需要允许其他设备把中转设备当成relay：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-json" tabindex="0"><code>{
-  "grants": [
-    {
-      "src": ["tag:us-east-vpc"], // Devices that can be accessed through the peer relay
-      "dst": ["tag:us-east-relays"], // Devices functioning as peer relays for the src devices
-      "app": {
-        "tailscale.com/cap/relay": [] // The relay capability doesn't require any parameters
-      }
-    }
-  ]
-}
+<pre class="src src-json" tabindex="0"><code><span style="color: #000000;">{</span>
+  <span style="color: #00603f;">"grants"</span><span style="color: #000000;">:</span> <span style="color: #dd22dd;">[</span>
+    <span style="color: #008899;">{</span>
+      <span style="color: #00603f;">"src"</span><span style="color: #000000;">:</span> <span style="color: #972500;">[</span><span style="color: #00598b;">"tag:us-east-vpc"</span><span style="color: #972500;">]</span><span style="color: #000000;">,</span> <span style="color: #7f0000;">// Devices that can be accessed through the peer relay</span>
+      <span style="color: #00603f;">"dst"</span><span style="color: #000000;">:</span> <span style="color: #972500;">[</span><span style="color: #00598b;">"tag:us-east-relays"</span><span style="color: #972500;">]</span><span style="color: #000000;">,</span> <span style="color: #7f0000;">// Devices functioning as peer relays for the src devices</span>
+      <span style="color: #00603f;">"app"</span><span style="color: #000000;">:</span> <span style="color: #972500;">{</span>
+        <span style="color: #00603f;">"tailscale.com/cap/relay"</span><span style="color: #000000;">:</span> <span style="color: #808000;">[]</span> <span style="color: #7f0000;">// The relay capability doesn't require any parameters</span>
+      <span style="color: #972500;">}</span>
+    <span style="color: #008899;">}</span>
+  <span style="color: #dd22dd;">]</span>
+<span style="color: #000000;">}</span>
 </code></pre>
 </div>
 <p>
@@ -133,15 +143,15 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 然后我们需要允许设备间相互访问，按照<a href="https://tailscale.com/kb/1458/grant-examples#allow-all">allow-all的文档</a>，是这样：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-json" tabindex="0"><code>{
-  "grants": [
-    {
-      "src": ["*"],
-      "dst": ["*"],
-      "ip": ["*"]
-    }
-  ]
-}
+<pre class="src src-json" tabindex="0"><code><span style="color: #000000;">{</span>
+  <span style="color: #00603f;">"grants"</span><span style="color: #000000;">:</span> <span style="color: #dd22dd;">[</span>
+    <span style="color: #008899;">{</span>
+      <span style="color: #00603f;">"src"</span><span style="color: #000000;">:</span> <span style="color: #972500;">[</span><span style="color: #00598b;">"*"</span><span style="color: #972500;">]</span><span style="color: #000000;">,</span>
+      <span style="color: #00603f;">"dst"</span><span style="color: #000000;">:</span> <span style="color: #972500;">[</span><span style="color: #00598b;">"*"</span><span style="color: #972500;">]</span><span style="color: #000000;">,</span>
+      <span style="color: #00603f;">"ip"</span><span style="color: #000000;">:</span> <span style="color: #972500;">[</span><span style="color: #00598b;">"*"</span><span style="color: #972500;">]</span>
+    <span style="color: #008899;">}</span>
+  <span style="color: #dd22dd;">]</span>
+<span style="color: #000000;">}</span>
 </code></pre>
 </div>
 
@@ -149,27 +159,27 @@ Tailscale官方中介服务器不在大陆，所以我们可以租用云服务�
 最终合并的结果：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-json" tabindex="0"><code>	"grants": [
-		/* ① srv 允许用 celay 作为中继 */
+<pre class="src src-json" tabindex="0"><code>    <span style="color: #00598b;">"grants"</span><span style="color: #6d5000;">: </span><span style="color: #000000;">[</span>
+<span style="color: #6d5000;">        /* &#9312; srv &#20801;&#35768;&#29992; celay &#20316;&#20026;&#20013;&#32487; */</span>
 
-		{
-			"src": ["*"],
-			"dst": ["100.109.5.42"],
-			"app": {"tailscale.com/cap/relay": []},
-		},
-		{
-			"src": ["*"],
-			"dst": ["*"],
-			"ip":  ["*"],
-		},
-	],
+<span style="color: #6d5000;">        </span><span style="color: #dd22dd;">{</span>
+<span style="color: #6d5000;">            "src": </span><span style="color: #008899;">[</span><span style="color: #6d5000;">"*"</span><span style="color: #008899;">]</span><span style="color: #6d5000;">,</span>
+<span style="color: #6d5000;">            "dst": </span><span style="color: #008899;">[</span><span style="color: #6d5000;">"100.109.5.42"</span><span style="color: #008899;">]</span><span style="color: #6d5000;">,</span>
+<span style="color: #6d5000;">            "app": </span><span style="color: #008899;">{</span><span style="color: #6d5000;">"tailscale.com/cap/relay": </span><span style="color: #972500;">[]</span><span style="color: #008899;">}</span><span style="color: #6d5000;">,</span>
+<span style="color: #6d5000;">        </span><span style="color: #dd22dd;">}</span><span style="color: #6d5000;">,</span>
+<span style="color: #6d5000;">        </span><span style="color: #dd22dd;">{</span>
+<span style="color: #6d5000;">            "src": </span><span style="color: #008899;">[</span><span style="color: #6d5000;">"*"</span><span style="color: #008899;">]</span><span style="color: #6d5000;">,</span>
+<span style="color: #6d5000;">            "dst": </span><span style="color: #008899;">[</span><span style="color: #6d5000;">"*"</span><span style="color: #008899;">]</span><span style="color: #6d5000;">,</span>
+<span style="color: #6d5000;">            "ip":  </span><span style="color: #008899;">[</span><span style="color: #6d5000;">"*"</span><span style="color: #008899;">]</span><span style="color: #6d5000;">,</span>
+<span style="color: #6d5000;">        </span><span style="color: #dd22dd;">}</span><span style="color: #6d5000;">,</span>
+<span style="color: #6d5000;">    </span><span style="color: #000000;">]</span><span style="color: #6d5000;">,</span>
 </code></pre>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

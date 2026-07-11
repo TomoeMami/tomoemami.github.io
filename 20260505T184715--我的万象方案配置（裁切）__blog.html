@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-05-14 周四 09:39 -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 2026-07-11 周六 14:01 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>我的万象方案配置（裁切）</title>
-<meta name="author" content="TomoeMami" />
-<meta name="generator" content="Org Mode" />
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
 <link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
@@ -15,105 +15,118 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-06 周三 15:17]</span></span></p>
+<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-06 周三 15:17]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">我的万象方案配置（裁切）</h1>
-</header><p>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org3bb362f">1. 前言</a></li>
+<li><a href="#org5e30fd7">2. default.custom.yaml</a></li>
+<li><a href="#org5eb2fa8">3. wanxiang_pro.schema.yaml</a></li>
+<li><a href="#orge5594be">4. squirrel.custom.yaml</a></li>
+<li><a href="#org790839c">5. weasel.custom.yaml</a></li>
+<li><a href="#orge5e036d">6. 附言：为什么移除lua脚本</a></li>
+</ul>
+</div>
+</nav>
+<p>
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2026-05-05T18:47:00">[2026-05-05 周二 18:47]</time></span><br>
 </p>
-<div id="outline-container-org1105fdc" class="outline-2">
-<h2 id="org1105fdc"><span class="section-number-2">1.</span> 前言</h2>
+<div id="outline-container-org3bb362f" class="outline-2">
+<h2 id="org3bb362f"><span class="section-number-2">1.</span> 前言</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 万象是个好方案，特别是加入音调之后，非常符合直觉，都不用拆字反查了。但是由于万象方案覆盖面很广，其实很多东西都是没必要的，添加了启用了反而可能影响性能。这里跟大家分享一下我自用的万象裁切方案，其中关闭了很多功能，但启用了音调输入和时间输入功能，性能比全启用的万象好一点。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-org9610949" class="outline-2">
-<h2 id="org9610949"><span class="section-number-2">2.</span> default.custom.yaml</h2>
+<div id="outline-container-org5e30fd7" class="outline-2">
+<h2 id="org5e30fd7"><span class="section-number-2">2.</span> default.custom.yaml</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 这里就只写改了什么地方，不过我基本也还是将原版复制过来再直接替换的。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #2f783f;">patch</span>:  <span style="color: #6f6a70;"># Rime default settings</span>
-  <span style="color: #2f783f;">config_version</span>: <span style="color: #5f7200;">'LTS'</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">patch</span>:  <span style="color: #7f0000;"># Rime default settings</span>
+  <span style="color: #00603f;">config_version</span>: <span style="color: #00598b;">'LTS'</span>
 </code></pre>
 </div>
 <p>
 启用pro方案<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #2f783f;">schema_list</span>:
-    - <span style="color: #2f783f;">schema</span>: <span style="color: #5f7200;">wanxiang_pro</span>
+<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #00603f;">schema_list</span>:
+    - <span style="color: #00603f;">schema</span>: <span style="color: #00598b;">wanxiang_pro</span>
 </code></pre>
 </div>
 <p>
 为了把 <code>7</code> <code>8</code> <code>9</code> <code>0</code> 留给四个音调，故设置候选词为5个<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #2f783f;">menu</span>:
-    <span style="color: #2f783f;">page_size</span>: <span style="color: #6c4631;">5</span>  <span style="color: #6f6a70;"># &#20505;&#36873;&#35789;&#20010;&#25968;&#65292;&#19981;&#24471;&#36229;&#36807;6&#20010;&#65292;7890&#20195;&#34920;&#22768;&#35843;</span>
-    <span style="color: #2f783f;">alternative_select_labels</span>: [ <span style="color: #6c4631;">1</span>, <span style="color: #6c4631;">2</span>, <span style="color: #6c4631;">3</span>, <span style="color: #6c4631;">4</span>, <span style="color: #6c4631;">5</span>, <span style="color: #6c4631;">6</span>, <span style="color: #6c4631;">7</span>, <span style="color: #6c4631;">8</span>, <span style="color: #6c4631;">9</span>, <span style="color: #6c4631;">10</span> ]  <span style="color: #6f6a70;"># &#20462;&#25913;&#20505;&#36873;&#39033;&#26631;&#31614;&#65292;Windows&#29992;&#36825;&#34892;&#20250;&#33258;&#21160;&#21152;&#28857;</span>
+<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #00603f;">menu</span>:
+    <span style="color: #00603f;">page_size</span>: <span style="color: #000000;">5</span>  <span style="color: #7f0000;"># &#20505;&#36873;&#35789;&#20010;&#25968;&#65292;&#19981;&#24471;&#36229;&#36807;6&#20010;&#65292;7890&#20195;&#34920;&#22768;&#35843;</span>
+    <span style="color: #00603f;">alternative_select_labels</span>: [ <span style="color: #000000;">1</span>, <span style="color: #000000;">2</span>, <span style="color: #000000;">3</span>, <span style="color: #000000;">4</span>, <span style="color: #000000;">5</span>, <span style="color: #000000;">6</span>, <span style="color: #000000;">7</span>, <span style="color: #000000;">8</span>, <span style="color: #000000;">9</span>, <span style="color: #000000;">10</span> ]  <span style="color: #7f0000;"># &#20462;&#25913;&#20505;&#36873;&#39033;&#26631;&#31614;&#65292;Windows&#29992;&#36825;&#34892;&#20250;&#33258;&#21160;&#21152;&#28857;</span>
 </code></pre>
 </div>
 <p>
 这里将左Shift设置为无操作，是我使用emacs的结果，不用的人请不用修改。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #2f783f;">ascii_composer</span>:
-    <span style="color: #2f783f;">good_old_caps_lock</span>: <span style="color: #a05a22;">true</span>  <span style="color: #6f6a70;"># true | false</span>
-    <span style="color: #2f783f;">switch_key</span>:
-      <span style="color: #2f783f;">Caps_Lock</span>: <span style="color: #5f7200;">clear</span>      <span style="color: #6f6a70;"># commit_code | commit_text | clear</span>
-      <span style="color: #2f783f;">Shift_L</span>: <span style="color: #5f7200;">noop</span>  <span style="color: #6f6a70;"># commit_code | commit_text | inline_ascii | clear | noop</span>
-      <span style="color: #2f783f;">Shift_R</span>: <span style="color: #5f7200;">commit_code</span>  <span style="color: #6f6a70;"># commit_code | commit_text | inline_ascii | clear | noop</span>
-      <span style="color: #2f783f;">Control_L</span>: <span style="color: #5f7200;">noop</span>       <span style="color: #6f6a70;"># commit_code | commit_text | inline_ascii | clear | noop</span>
-      <span style="color: #2f783f;">Control_R</span>: <span style="color: #5f7200;">noop</span>       <span style="color: #6f6a70;"># commit_code | commit_text | inline_ascii | clear | noop</span>
+<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #00603f;">ascii_composer</span>:
+    <span style="color: #00603f;">good_old_caps_lock</span>: <span style="color: #531ab6;">true</span>  <span style="color: #7f0000;"># true | false</span>
+    <span style="color: #00603f;">switch_key</span>:
+      <span style="color: #00603f;">Caps_Lock</span>: <span style="color: #00598b;">clear</span>      <span style="color: #7f0000;"># commit_code | commit_text | clear</span>
+      <span style="color: #00603f;">Shift_L</span>: <span style="color: #00598b;">noop</span>  <span style="color: #7f0000;"># commit_code | commit_text | inline_ascii | clear | noop</span>
+      <span style="color: #00603f;">Shift_R</span>: <span style="color: #00598b;">commit_code</span>  <span style="color: #7f0000;"># commit_code | commit_text | inline_ascii | clear | noop</span>
+      <span style="color: #00603f;">Control_L</span>: <span style="color: #00598b;">noop</span>       <span style="color: #7f0000;"># commit_code | commit_text | inline_ascii | clear | noop</span>
+      <span style="color: #00603f;">Control_R</span>: <span style="color: #00598b;">noop</span>       <span style="color: #7f0000;"># commit_code | commit_text | inline_ascii | clear | noop</span>
 </code></pre>
 </div>
 <p>
 一些个人风格的快捷键<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #2f783f;">recognizer</span>:
-    <span style="color: #2f783f;">patterns</span>:
-  <span style="color: #2f783f;">key_binder</span>:
-    <span style="color: #2f783f;">bindings</span>:
-      <span style="color: #6f6a70;"># emacs_editing:</span>
-      - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+p</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Up</span> }
-      - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+n</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Down</span> }
-      - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+b</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Left</span> }
-      - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+f</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Right</span> }
-      - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+a</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Home</span> }
-      - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+e</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">End</span> }
-      - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+d</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Delete</span> }
-      - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+k</span>, <span style="color: #2f783f;">toggle</span>: <span style="color: #5f7200;">xxxxx</span> } <span style="color: #6f6a70;">#&#37322;&#25918;Ctrl+k=ctrl+del &#19975;&#35937;&#29992;&#26469;&#35843;&#24207;&#65292;&#19988;&#21024;&#38500;&#23646;&#20110;&#20302;&#39057;&#22330;&#26223;&#65292;&#24314;&#35758;&#21452;&#25163;&#25805;&#20316;</span>
-      - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+g</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Escape</span> }
-      <span style="color: #6f6a70;"># &#23558;&#23567;&#38190;&#30424; 0~9 . &#26144;&#23556;&#21040;&#20027;&#38190;&#30424;&#65292;&#25968;&#23383;&#37329;&#39069;&#22823;&#20889;&#30340; Lua &#22914; R1234.5678 &#21487;&#20351;&#29992;&#23567;&#38190;&#30424;&#36755;&#20837;</span>
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_0</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">0</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_1</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">1</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_2</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">2</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_3</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">3</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_4</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">4</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_5</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">5</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_6</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">6</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_7</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">7</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_8</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">8</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_9</span>, <span style="color: #2f783f;">send</span>: <span style="color: #6c4631;">9</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_Decimal</span>,  <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">period</span>  , <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_Multiply</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">asterisk</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_Add</span>,      <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">plus</span>,     <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_Subtract</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">minus</span>,    <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_Divide</span>,   <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">slash</span>,    <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
-      - {<span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">KP_Enter</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Return</span>, <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>}
+<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #00603f;">recognizer</span>:
+    <span style="color: #00603f;">patterns</span>:
+  <span style="color: #00603f;">key_binder</span>:
+    <span style="color: #00603f;">bindings</span>:
+      <span style="color: #7f0000;"># emacs_editing:</span>
+      - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+p</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Up</span> }
+      - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+n</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Down</span> }
+      - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+b</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Left</span> }
+      - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+f</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Right</span> }
+      - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+a</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Home</span> }
+      - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+e</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">End</span> }
+      - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+d</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Delete</span> }
+      - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+k</span>, <span style="color: #00603f;">toggle</span>: <span style="color: #00598b;">xxxxx</span> } <span style="color: #7f0000;">#&#37322;&#25918;Ctrl+k=ctrl+del &#19975;&#35937;&#29992;&#26469;&#35843;&#24207;&#65292;&#19988;&#21024;&#38500;&#23646;&#20110;&#20302;&#39057;&#22330;&#26223;&#65292;&#24314;&#35758;&#21452;&#25163;&#25805;&#20316;</span>
+      - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+g</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Escape</span> }
+      <span style="color: #7f0000;"># &#23558;&#23567;&#38190;&#30424; 0~9 . &#26144;&#23556;&#21040;&#20027;&#38190;&#30424;&#65292;&#25968;&#23383;&#37329;&#39069;&#22823;&#20889;&#30340; Lua &#22914; R1234.5678 &#21487;&#20351;&#29992;&#23567;&#38190;&#30424;&#36755;&#20837;</span>
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_0</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">0</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_1</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">1</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_2</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">2</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_3</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">3</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_4</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">4</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_5</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">5</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_6</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">6</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_7</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">7</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_8</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">8</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_9</span>, <span style="color: #00603f;">send</span>: <span style="color: #000000;">9</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_Decimal</span>,  <span style="color: #00603f;">send</span>: <span style="color: #00598b;">period</span>  , <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_Multiply</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">asterisk</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_Add</span>,      <span style="color: #00603f;">send</span>: <span style="color: #00598b;">plus</span>,     <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_Subtract</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">minus</span>,    <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_Divide</span>,   <span style="color: #00603f;">send</span>: <span style="color: #00598b;">slash</span>,    <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
+      - {<span style="color: #00603f;">accept</span>: <span style="color: #00598b;">KP_Enter</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Return</span>, <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>}
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org60c2d9a" class="outline-2">
-<h2 id="org60c2d9a"><span class="section-number-2">3.</span> wanxiang_pro.schema.yaml</h2>
+<div id="outline-container-org5eb2fa8" class="outline-2">
+<h2 id="org5eb2fa8"><span class="section-number-2">3.</span> wanxiang_pro.schema.yaml</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 我没有采用custom的方式，而是直接修改pro文件，再在每次更新时将当前文件和新文件diff一下，比对是否有额外修改。如果有，则修改当前文件，然后将下载下来的方案中除pro-schema外的其他文件覆盖rime文件夹内文件。<br>
@@ -127,201 +140,201 @@
 删除了mixcode、english和reverse方案，不需要英语单词、混合输入与反查。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #6f6a70;"># Rime schema</span>
-<span style="color: #6f6a70;"># encoding: utf-8</span>
-<span style="color: #6f6a70;"># &#26041;&#26696;&#35828;&#26126;</span>
-<span style="color: #2f783f;">schema</span>:
-  <span style="color: #2f783f;">schema_id</span>: <span style="color: #5f7200;">wanxiang_pro</span>
-  <span style="color: #2f783f;">name</span>: <span style="color: #5f7200;">&#19975;&#35937;&#25340;&#38899;PRO</span>
-  <span style="color: #2f783f;">version</span>: <span style="color: #5f7200;">"LTS"</span>
-  <span style="color: #2f783f;">author</span>:
-    - <span style="color: #5f7200;">amzxyz</span>
-  <span style="color: #2f783f;">description</span>: <span style="color: #5f7200;">|</span>
-<span style="color: #5f7200;">    &#39640;&#24230;&#35009;&#20999;&#30340;&#19975;&#35937;&#25340;&#38899;&#65292;15.9.9</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f0000;"># Rime schema</span>
+<span style="color: #7f0000;"># encoding: utf-8</span>
+<span style="color: #7f0000;"># &#26041;&#26696;&#35828;&#26126;</span>
+<span style="color: #00603f;">schema</span>:
+  <span style="color: #00603f;">schema_id</span>: <span style="color: #00598b;">wanxiang_pro</span>
+  <span style="color: #00603f;">name</span>: <span style="color: #00598b;">&#19975;&#35937;&#25340;&#38899;PRO</span>
+  <span style="color: #00603f;">version</span>: <span style="color: #00598b;">"LTS"</span>
+  <span style="color: #00603f;">author</span>:
+    - <span style="color: #00598b;">amzxyz</span>
+  <span style="color: #00603f;">description</span>: <span style="color: #00598b;">|</span>
+<span style="color: #00598b;">    &#39640;&#24230;&#35009;&#20999;&#30340;&#19975;&#35937;&#25340;&#38899;&#65292;15.9.9</span>
 </code></pre>
 </div>
 <p>
 保留了几个开关，默认开启了emoji<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #2f783f;">switches</span>:
-  - <span style="color: #2f783f;">name</span>: <span style="color: #5f7200;">full_shape</span>                   <span style="color: #6f6a70;">#&#20840;&#35282;&#12289;&#21322;&#35282;&#23383;&#31526;&#36755;&#20986;</span>
-    <span style="color: #2f783f;">states</span>: [ <span style="color: #5f7200;">&#21322;&#35282;</span>, <span style="color: #5f7200;">&#20840;&#35282;</span> ]
-  - <span style="color: #2f783f;">name</span>: <span style="color: #5f7200;">emoji</span>                        <span style="color: #6f6a70;">#&#20505;&#36873;&#20986;&#29616;emoji&#28388;&#38236;&#65292;&#20250;&#26174;&#31034;&#22312;&#30456;&#24212;&#30340;&#20505;&#36873;&#21518;&#38754;&#65292;&#19975;&#35937;&#20391;&#37325;&#20110;tips&#25552;&#31034;&#65292;&#36991;&#20813;&#20505;&#36873;&#34987;&#21344;&#29992;&#65292;&#22240;&#27492;&#40664;&#35748;&#20026;reset: 0&#65292;&#24402;&#23646;opencc emoji&#28388;&#38236;</span>
-    <span style="color: #2f783f;">states</span>: [ <span style="color: #5f7200;">&#34920;&#24773;&#20851;</span>, <span style="color: #5f7200;">&#34920;&#24773;&#24320;</span> ]
-    <span style="color: #2f783f;">reset</span>: <span style="color: #6c4631;">1</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">switches</span>:
+  - <span style="color: #00603f;">name</span>: <span style="color: #00598b;">full_shape</span>                   <span style="color: #7f0000;">#&#20840;&#35282;&#12289;&#21322;&#35282;&#23383;&#31526;&#36755;&#20986;</span>
+    <span style="color: #00603f;">states</span>: [ <span style="color: #00598b;">&#21322;&#35282;</span>, <span style="color: #00598b;">&#20840;&#35282;</span> ]
+  - <span style="color: #00603f;">name</span>: <span style="color: #00598b;">emoji</span>                        <span style="color: #7f0000;">#&#20505;&#36873;&#20986;&#29616;emoji&#28388;&#38236;&#65292;&#20250;&#26174;&#31034;&#22312;&#30456;&#24212;&#30340;&#20505;&#36873;&#21518;&#38754;&#65292;&#19975;&#35937;&#20391;&#37325;&#20110;tips&#25552;&#31034;&#65292;&#36991;&#20813;&#20505;&#36873;&#34987;&#21344;&#29992;&#65292;&#22240;&#27492;&#40664;&#35748;&#20026;reset: 0&#65292;&#24402;&#23646;opencc emoji&#28388;&#38236;</span>
+    <span style="color: #00603f;">states</span>: [ <span style="color: #00598b;">&#34920;&#24773;&#20851;</span>, <span style="color: #00598b;">&#34920;&#24773;&#24320;</span> ]
+    <span style="color: #00603f;">reset</span>: <span style="color: #000000;">1</span>
 </code></pre>
 </div>
 <p>
 默认关闭了声调转换<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  - <span style="color: #2f783f;">name</span>: <span style="color: #5f7200;">prediction</span>
-    <span style="color: #2f783f;">states</span>: [ <span style="color: #5f7200;">&#39044;&#27979;&#20851;</span>, <span style="color: #5f7200;">&#39044;&#27979;&#24320;</span> ]            <span style="color: #6f6a70;"># &#36825;&#20010;&#21517;&#31216;&#33021;&#29992;&#20110;&#25554;&#20214;&#20063;&#33021;&#29992;&#20110;&#19975;&#35937;&#30340;lua&#23454;&#29616;&#65292;&#29992;&#26469;&#24320;&#21551;&#20851;&#38381;&#39044;&#27979;&#21151;&#33021;</span>
-  - <span style="color: #2f783f;">options</span>: [ <span style="color: #5f7200;">raw_input</span>, <span style="color: #5f7200;">tone_display</span>, <span style="color: #5f7200;">full_pinyin</span> ]   <span style="color: #6f6a70;">#&#24320;&#21551;&#21518;&#22312;&#36755;&#20837;&#32534;&#30721;&#30340;&#20301;&#32622;&#23454;&#26102;&#36716;&#25442;&#20026;&#24102;&#22768;&#35843;&#20840;&#25340;&#25110;&#32773;&#19981;&#24102;&#22768;&#35843;&#20840;&#25340;&#65292;&#19981;&#24320;&#21551;&#21017;&#37319;&#29992;&#31995;&#32479;&#37197;&#32622;&#21407;&#22987;&#32534;&#30721;&#65292;&#24433;&#21709;&#30340;&#26159;preedit_format,&#24402;&#23646;&#65306;super_preedit.lua</span>
-    <span style="color: #2f783f;">states</span>: [ <span style="color: #5f7200;">&#21407;&#32534;&#30721;</span>, <span style="color: #5f7200;">&#26377;&#22768;&#35843;</span>, <span style="color: #5f7200;">&#26080;&#22768;&#35843;</span> ]
-    <span style="color: #2f783f;">reset</span>: <span style="color: #6c4631;">0</span>     <span style="color: #6f6a70;">#&#23545;&#20110;&#24320;&#20851;&#32452;&#20174;0&#24320;&#22987;&#25968;&#65292;&#31532;&#20960;&#20010;&#23601;reset&#20960;&#21487;&#35774;&#20026;&#40664;&#35748;</span>
-  - <span style="color: #2f783f;">options</span>: [ <span style="color: #5f7200;">s2s</span>, <span style="color: #5f7200;">s2t</span>, <span style="color: #5f7200;">s2hk</span>, <span style="color: #5f7200;">s2tw</span> ]  <span style="color: #6f6a70;"># &#31616;&#32321;&#36716;&#25442;&#24320;&#20851;&#32452;&#65292;&#21487;&#20197;&#22312;&#19968;&#20010;&#31354;&#36873;&#39033;&#21644;&#22810;&#20010;&#23454;&#38469;&#8220;- simplifier@s2hk&#8221;&#24341;&#20837;&#30340;&#39033;&#30446;&#20043;&#21069;&#20999;&#25442;&#65292;&#36825;&#26159;&#19968;&#20010;&#24320;&#20851;&#32452;&#65292;&#20320;&#21487;&#20197;&#23558;&#20854;&#20013;&#20219;&#24847;&#19968;&#20010;s2s&#31561;&#35774;&#32622;&#20026;toggle&#24555;&#25463;&#38190;&#65292;&#22810;&#27425;&#25353;&#19979;&#23558;&#36718;&#35810;</span>
-    <span style="color: #2f783f;">states</span>: [ <span style="color: #5f7200;">&#31616;&#20307;</span>, <span style="color: #5f7200;">&#36890;&#32321;</span>, <span style="color: #5f7200;">&#28207;&#32321;</span>, <span style="color: #5f7200;">&#33274;&#32321;</span> ]
+<pre class="src src-yaml" tabindex="0"><code>  - <span style="color: #00603f;">name</span>: <span style="color: #00598b;">prediction</span>
+    <span style="color: #00603f;">states</span>: [ <span style="color: #00598b;">&#39044;&#27979;&#20851;</span>, <span style="color: #00598b;">&#39044;&#27979;&#24320;</span> ]            <span style="color: #7f0000;"># &#36825;&#20010;&#21517;&#31216;&#33021;&#29992;&#20110;&#25554;&#20214;&#20063;&#33021;&#29992;&#20110;&#19975;&#35937;&#30340;lua&#23454;&#29616;&#65292;&#29992;&#26469;&#24320;&#21551;&#20851;&#38381;&#39044;&#27979;&#21151;&#33021;</span>
+  - <span style="color: #00603f;">options</span>: [ <span style="color: #00598b;">raw_input</span>, <span style="color: #00598b;">tone_display</span>, <span style="color: #00598b;">full_pinyin</span> ]   <span style="color: #7f0000;">#&#24320;&#21551;&#21518;&#22312;&#36755;&#20837;&#32534;&#30721;&#30340;&#20301;&#32622;&#23454;&#26102;&#36716;&#25442;&#20026;&#24102;&#22768;&#35843;&#20840;&#25340;&#25110;&#32773;&#19981;&#24102;&#22768;&#35843;&#20840;&#25340;&#65292;&#19981;&#24320;&#21551;&#21017;&#37319;&#29992;&#31995;&#32479;&#37197;&#32622;&#21407;&#22987;&#32534;&#30721;&#65292;&#24433;&#21709;&#30340;&#26159;preedit_format,&#24402;&#23646;&#65306;super_preedit.lua</span>
+    <span style="color: #00603f;">states</span>: [ <span style="color: #00598b;">&#21407;&#32534;&#30721;</span>, <span style="color: #00598b;">&#26377;&#22768;&#35843;</span>, <span style="color: #00598b;">&#26080;&#22768;&#35843;</span> ]
+    <span style="color: #00603f;">reset</span>: <span style="color: #000000;">0</span>     <span style="color: #7f0000;">#&#23545;&#20110;&#24320;&#20851;&#32452;&#20174;0&#24320;&#22987;&#25968;&#65292;&#31532;&#20960;&#20010;&#23601;reset&#20960;&#21487;&#35774;&#20026;&#40664;&#35748;</span>
+  - <span style="color: #00603f;">options</span>: [ <span style="color: #00598b;">s2s</span>, <span style="color: #00598b;">s2t</span>, <span style="color: #00598b;">s2hk</span>, <span style="color: #00598b;">s2tw</span> ]  <span style="color: #7f0000;"># &#31616;&#32321;&#36716;&#25442;&#24320;&#20851;&#32452;&#65292;&#21487;&#20197;&#22312;&#19968;&#20010;&#31354;&#36873;&#39033;&#21644;&#22810;&#20010;&#23454;&#38469;&#8220;- simplifier@s2hk&#8221;&#24341;&#20837;&#30340;&#39033;&#30446;&#20043;&#21069;&#20999;&#25442;&#65292;&#36825;&#26159;&#19968;&#20010;&#24320;&#20851;&#32452;&#65292;&#20320;&#21487;&#20197;&#23558;&#20854;&#20013;&#20219;&#24847;&#19968;&#20010;s2s&#31561;&#35774;&#32622;&#20026;toggle&#24555;&#25463;&#38190;&#65292;&#22810;&#27425;&#25353;&#19979;&#23558;&#36718;&#35810;</span>
+    <span style="color: #00603f;">states</span>: [ <span style="color: #00598b;">&#31616;&#20307;</span>, <span style="color: #00598b;">&#36890;&#32321;</span>, <span style="color: #00598b;">&#28207;&#32321;</span>, <span style="color: #00598b;">&#33274;&#32321;</span> ]
 </code></pre>
 </div>
 <p>
 关闭了简码，不需要的功能<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  - <span style="color: #2f783f;">name</span>: <span style="color: #5f7200;">abbrev</span>
-    <span style="color: #2f783f;">states</span>: [ <span style="color: #5f7200;">&#31616;&#30721;&#20851;</span>, <span style="color: #5f7200;">&#31616;&#30721;&#24320;</span> ]
-    <span style="color: #2f783f;">reset</span>: <span style="color: #6c4631;">0</span>
-  - <span style="color: #2f783f;">name</span>: <span style="color: #5f7200;">char_priority</span>                <span style="color: #6f6a70;">#&#22810;&#20307;&#29616;&#22312;&#32534;&#30721;&#37325;&#21512;&#20294;&#20505;&#36873;&#26377;&#21333;&#23383;&#25110;&#32773;&#22810;&#23383;&#30340;&#24773;&#20917;`&#24341;&#23548;&#30340;&#36741;&#30721;&#26597;&#35789;&#26102;&#26159;&#21542;&#21333;&#23383;&#20248;&#20808;&#65292;&#20840;&#25340;&#24120;&#35265;&#65292;&#31867;&#20284;&#20110;&#29305;&#23450;&#32534;&#30721;&#24773;&#20917;&#19979;&#12289;&#21453;&#26597;&#29366;&#24577;&#19979;&#30340;&#35843;&#24207;&#33021;&#21147;&#12290;&#24402;&#23646;&#65306;super_lookup.lua</span>
-    <span style="color: #2f783f;">states</span>: [<span style="color: #5f7200;">&#35789;&#32452;&#20808;</span>, <span style="color: #5f7200;">&#21333;&#23383;&#20808;</span>]
+<pre class="src src-yaml" tabindex="0"><code>  - <span style="color: #00603f;">name</span>: <span style="color: #00598b;">abbrev</span>
+    <span style="color: #00603f;">states</span>: [ <span style="color: #00598b;">&#31616;&#30721;&#20851;</span>, <span style="color: #00598b;">&#31616;&#30721;&#24320;</span> ]
+    <span style="color: #00603f;">reset</span>: <span style="color: #000000;">0</span>
+  - <span style="color: #00603f;">name</span>: <span style="color: #00598b;">char_priority</span>                <span style="color: #7f0000;">#&#22810;&#20307;&#29616;&#22312;&#32534;&#30721;&#37325;&#21512;&#20294;&#20505;&#36873;&#26377;&#21333;&#23383;&#25110;&#32773;&#22810;&#23383;&#30340;&#24773;&#20917;`&#24341;&#23548;&#30340;&#36741;&#30721;&#26597;&#35789;&#26102;&#26159;&#21542;&#21333;&#23383;&#20248;&#20808;&#65292;&#20840;&#25340;&#24120;&#35265;&#65292;&#31867;&#20284;&#20110;&#29305;&#23450;&#32534;&#30721;&#24773;&#20917;&#19979;&#12289;&#21453;&#26597;&#29366;&#24577;&#19979;&#30340;&#35843;&#24207;&#33021;&#21147;&#12290;&#24402;&#23646;&#65306;super_lookup.lua</span>
+    <span style="color: #00603f;">states</span>: [<span style="color: #00598b;">&#35789;&#32452;&#20808;</span>, <span style="color: #00598b;">&#21333;&#23383;&#20808;</span>]
 </code></pre>
 </div>
 <p>
 输入引擎将不需要的功能删得差不多了，只留下必要的几个lua脚本<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #6f6a70;"># &#36755;&#20837;&#24341;&#25806;</span>
-<span style="color: #2f783f;">engine</span>:
-  <span style="color: #2f783f;">processors</span>:
-    - <span style="color: #5f7200;">lua_processor@*wanxiang.user_predict*P</span>    <span style="color: #6f6a70;">#&#38752;&#33258;&#24049;&#20859;&#30340;&#19987;&#23646;&#39044;&#27979;&#32852;&#24819;&#22788;&#29702;&#22120;&#65292;&#19981;&#20877;&#20381;&#36182;&#21069;&#31471;&#25554;&#20214;&#20197;&#21450;&#22266;&#23450;&#25968;&#25454;</span>
-    - <span style="color: #5f7200;">lua_processor@*wanxiang.super_processor</span>       <span style="color: #6f6a70;">#KP&#23567;&#38190;&#30424;&#12289;&#23383;&#27597;&#36873;&#35789;&#12289;&#31526;&#21495;&#24555;&#25171;&#12289;&#36229;&#24378;&#20998;&#35789;&#12289;&#37325;&#22797;&#38480;&#21046;&#12289;&#36864;&#26684;&#38480;&#21046;&#12289;&#22768;&#35843;&#22238;&#36864;&#12289;&#20197;&#35789;&#23450;&#23383;</span>
-    - <span style="color: #5f7200;">lua_processor@*wanxiang.super_sequence*P</span>      <span style="color: #6f6a70;">#&#25163;&#21160;&#25490;&#24207;&#65292;&#39640;&#20142;&#20505;&#36873; ctrl+j&#24038;&#31227;&#21160; ctrl+k &#21491;&#31227;&#21160; ctrl+l &#31227;&#38500;&#20301;&#31227;  ctrl+p &#32622;&#39030;</span>
-    - <span style="color: #5f7200;">ascii_composer</span>                                <span style="color: #6f6a70;">#&#22788;&#29702;&#33521;&#25991;&#27169;&#24335;&#21450;&#20013;&#33521;&#25991;&#20999;&#25442;</span>
-    - <span style="color: #5f7200;">recognizer</span>                                    <span style="color: #6f6a70;">#&#19982; matcher &#25645;&#37197;&#65292;&#22788;&#29702;&#31526;&#21512;&#29305;&#23450;&#35268;&#21017;&#30340;&#36755;&#20837;&#30721;&#65292;&#22914;&#32593;&#22336;&#12289;&#21453;&#26597;&#31561; tags</span>
-    - <span style="color: #5f7200;">key_binder</span>                                    <span style="color: #6f6a70;">#&#22312;&#29305;&#23450;&#26465;&#20214;&#19979;&#23558;&#25353;&#38190;&#32465;&#23450;&#21040;&#20854;&#20182;&#25353;&#38190;&#65292;&#22914;&#37325;&#23450;&#20041;&#36887;&#21495;&#12289;&#21477;&#21495;&#20026;&#20505;&#36873;&#32763;&#39029;&#12289;&#24320;&#20851;&#24555;&#25463;&#38190;&#31561;</span>
-    - <span style="color: #5f7200;">lua_processor@*wanxiang.key_binder</span>            <span style="color: #6f6a70;">#&#32465;&#23450;&#25353;&#38190;&#25193;&#23637;&#33021;&#21147;&#65292;&#25903;&#25345;&#27491;&#21017;&#25193;&#23637;&#23558;&#25353;&#38190;&#29983;&#25928;&#24773;&#26223;&#26356;&#21152;&#32454;&#21270;</span>
-    - <span style="color: #5f7200;">speller</span>                              <span style="color: #6f6a70;">#&#25340;&#20889;&#22788;&#29702;&#22120;&#65292;&#25509;&#21463;&#23383;&#31526;&#25353;&#38190;&#65292;&#32534;&#36753;&#36755;&#20837;</span>
-    - <span style="color: #5f7200;">punctuator</span>                           <span style="color: #6f6a70;">#&#31526;&#21495;&#22788;&#29702;&#22120;&#65292;&#23558;&#21333;&#20010;&#23383;&#31526;&#25353;&#38190;&#30452;&#25509;&#26144;&#23556;&#20026;&#26631;&#28857;&#31526;&#21495;&#25110;&#25991;&#23383;</span>
-    - <span style="color: #5f7200;">selector</span>                             <span style="color: #6f6a70;">#&#36873;&#23383;&#22788;&#29702;&#22120;&#65292;&#22788;&#29702;&#25968;&#23383;&#36873;&#23383;&#38190;&#12308;&#21487;&#20197;&#25442;&#25104;&#21035;&#30340;&#21734;&#12309;&#12289;&#19978;&#12289;&#19979;&#20505;&#36873;&#23450;&#20301;&#12289;&#25442;&#39029;</span>
-    - <span style="color: #5f7200;">navigator</span>                            <span style="color: #6f6a70;">#&#22788;&#29702;&#36755;&#20837;&#26639;&#20869;&#30340;&#20809;&#26631;&#31227;&#21160;</span>
-    - <span style="color: #5f7200;">express_editor</span>                       <span style="color: #6f6a70;">#&#32534;&#36753;&#22120;&#65292;&#22788;&#29702;&#31354;&#26684;&#12289;&#22238;&#36710;&#19978;&#23631;&#12289;&#22238;&#36864;&#38190;</span>
-  <span style="color: #2f783f;">segmentors</span>:
-    - <span style="color: #5f7200;">ascii_segmentor</span>                      <span style="color: #6f6a70;">#&#26631;&#35782;&#33521;&#25991;&#27573;&#33853;&#12308;&#35692;&#22914;&#22312;&#33521;&#25991;&#27169;&#24335;&#19979;&#12309;&#23383;&#27597;&#30452;&#25509;&#19978;&#23643;</span>
-    - <span style="color: #5f7200;">matcher</span>                              <span style="color: #6f6a70;">#&#37197;&#21512; recognizer &#26631;&#35782;&#31526;&#21512;&#29305;&#23450;&#35268;&#21017;&#30340;&#27573;&#33853;&#65292;&#22914;&#32593;&#22336;&#12289;&#21453;&#26597;&#31561;&#65292;&#21152;&#19978;&#29305;&#23450; tag</span>
-    - <span style="color: #5f7200;">abc_segmentor</span>                        <span style="color: #6f6a70;">#&#26631;&#35782;&#24120;&#35268;&#30340;&#25991;&#23383;&#27573;&#33853;&#65292;&#21152;&#19978; abc &#36825;&#20010; tag</span>
-    - <span style="color: #5f7200;">affix_segmentor@add_user_dict</span>        <span style="color: #6f6a70;">#&#33258;&#36896;&#35789;&#21152;&#35789; tag</span>
-    - <span style="color: #5f7200;">punct_segmentor</span>                      <span style="color: #6f6a70;">#&#26631;&#35782;&#31526;&#21495;&#27573;&#33853;&#12308;&#38190;&#20837;&#26631;&#28857;&#31526;&#21495;&#29992;&#12309;&#21152;&#19978; punct &#36825;&#20010; tag</span>
-    - <span style="color: #5f7200;">fallback_segmentor</span>                   <span style="color: #6f6a70;">#&#26631;&#35782;&#20854;&#20182;&#26410;&#26631;&#35782;&#27573;&#33853;&#65292;&#24517;&#39035;&#25918;&#22312;&#26368;&#21518;&#24110;&#21161;tag&#27169;&#24335;&#20999;&#25442;&#21518;&#22238;&#36864;&#37325;&#26032;&#22788;&#29702;</span>
-  <span style="color: #2f783f;">translators</span>:
-    - <span style="color: #5f7200;">punct_translator</span>                     <span style="color: #6f6a70;">#&#37197;&#21512; punct_segmentor &#36716;&#25442;&#26631;&#28857;&#31526;&#21495;</span>
-    - <span style="color: #5f7200;">script_translator</span>                    <span style="color: #6f6a70;">#&#33050;&#26412;&#32763;&#35793;&#22120;&#65292;&#29992;&#20110;&#25340;&#38899;&#12289;&#31908;&#25340;&#31561;&#22522;&#20110;&#38899;&#33410;&#34920;&#30340;&#36755;&#20837;&#26041;&#26696;</span>
-    - <span style="color: #5f7200;">lua_translator@*wanxiang.user_predict*T</span>       <span style="color: #6f6a70;">#&#38752;&#33258;&#24049;&#20859;&#30340;&#19987;&#23646;&#39044;&#27979;&#32852;&#24819;&#22788;&#29702;&#22120;&#65292;&#19981;&#20877;&#20381;&#36182;&#21069;&#31471;&#25554;&#20214;&#20197;&#21450;&#22266;&#23450;&#25968;&#25454;</span>
-    - <span style="color: #5f7200;">lua_translator@*wanxiang.shijian</span>              <span style="color: #6f6a70;">#&#20892;&#21382;&#12289;&#26085;&#26399;&#12289;&#33410;&#27668;&#12289;&#33410;&#26085;&#12289;&#26102;&#38388;&#12289;&#21608;&#12289;&#38382;&#20505;&#27169;&#26495;&#31561;&#31561;&#65292;&#35302;&#21457;&#28165;&#21333;&#30475;&#19979;&#25991;</span>
-    - <span style="color: #5f7200;">table_translator@custom_phrase</span>       <span style="color: #6f6a70;">#&#33258;&#23450;&#20041;&#30701;&#35821; custom_phrase.txt&#65292;&#29992;&#20110;&#32622;&#39030;&#33258;&#23450;&#20041;&#32534;&#30721;&#20505;&#36873;&#35789;</span>
-    - <span style="color: #5f7200;">script_translator@user_dict_set</span>      <span style="color: #6f6a70;">#&#33258;&#36896;&#35789;&#20043;&#20351;&#29992;&#35789;&#27719;&#20837;&#21475;</span>
-    - <span style="color: #5f7200;">script_translator@add_user_dict</span>      <span style="color: #6f6a70;">#&#33258;&#36896;&#35789;&#20043;&#21046;&#36896;&#35789;&#27719;&#20837;&#21475;</span>
-  <span style="color: #2f783f;">filters</span>:
-    - <span style="color: #5f7200;">lua_filter@*wanxiang.auto_phrase</span>              <span style="color: #6f6a70;">#&#26080;&#24863;&#36896;&#35789;,&#33521;&#25991;&#36896;&#35789;</span>
-    - <span style="color: #5f7200;">lua_filter@*wanxiang.charset_filter</span>           <span style="color: #6f6a70;">#&#25918;replacer&#21069;&#38754;,&#20840;&#26041;&#20301;&#33258;&#23450;&#20041;&#30340;&#23383;&#31526;&#38598;&#36807;&#28388;&#22120;&#65292;&#25903;&#25345;&#32321;&#20307;&#23383;&#31526;&#38598;&#24320;&#25918;</span>
-    - <span style="color: #5f7200;">lua_filter@*wanxiang.super_comment_preedit</span>    <span style="color: #6f6a70;">#&#25918;&#20854;&#20182;&#38656;&#35201;&#27880;&#37322;&#22788;&#29702;&#22120;&#21518;&#38754;,&#20250;&#26377;&#28165;&#31354;&#27880;&#37322;&#30340;&#25805;&#20316;,&#36229;&#32423;&#27880;&#37322;&#27169;&#22359;&#65292;&#25903;&#25345;&#38169;&#35789;&#25552;&#31034;&#12289;&#36741;&#21161;&#30721;&#26174;&#31034;&#65292;&#37096;&#20214;&#32452;&#23383;&#35835;&#38899;&#27880;&#37322;&#65292;&#25903;&#25345;&#20010;&#24615;&#21270;&#37197;&#32622;&#21644;&#20851;&#38381;&#30456;&#24212;&#30340;&#21151;&#33021;&#65292;&#35814;&#24773;&#25628;&#32034;super_comment&#36827;&#34892;&#35814;&#32454;&#37197;&#32622;</span>
-    - <span style="color: #5f7200;">lua_filter@*wanxiang.super_replacer</span>           <span style="color: #6f6a70;">#OpenCC&#26367;&#20195;&#22120;&#65292;&#26356;&#28789;&#27963;&#30340;&#22788;&#29702;&#26041;&#24335;&#65292;&#26356;&#33258;&#30001;&#30340;&#33258;&#23450;&#20041;&#26041;&#24335;&#65292;&#25903;&#25345;&#31616;&#32321;&#36716;&#25442;&#12289;&#31616;&#30721;&#27169;&#24335;&#12289;&#25903;&#25345;&#20505;&#36873;&#26367;&#25442;&#12289;&#27880;&#37322;&#26367;&#25442;&#12289;&#20505;&#36873;&#27966;&#29983;&#31561;&#31561;</span>
-    - <span style="color: #5f7200;">lua_filter@*wanxiang.super_filter</span>             <span style="color: #6f6a70;">#&#20808;&#36827;&#34892;&#23383;&#31526;&#36807;&#28388;&#21518;&#31616;&#32321;&#36716;&#25442;&#65292;&#36825;&#26679;&#33021;&#32321;&#20307;&#32487;&#25215;&#31616;&#20307;&#26435;&#37325;&#12290;&#26412;&#36136;&#21151;&#33021;&#30456;&#20851;&#21151;&#33021;&#35265;Lua&#25991;&#20214;</span>
-    - <span style="color: #5f7200;">lua_filter@*wanxiang.super_sequence*F</span>         <span style="color: #6f6a70;">#&#25918;&#21435;&#37325;&#21069;,&#25509;&#31649;&#25490;&#24207;&#32034;&#24341;&#22266;&#23450;,&#25163;&#21160;&#25490;&#24207;&#65292;&#23545;&#39640;&#20142;&#20505;&#36873; ctrl+j&#24038;&#31227;&#21160; ctrl+k &#21491;&#31227;&#21160; ctrl+0 &#31227;&#38500;&#20301;&#31227;</span>
-    - <span style="color: #5f7200;">lua_filter@*wanxiang.user_predict*F</span>           <span style="color: #6f6a70;">#&#29992;&#20110;&#36755;&#20837;&#32534;&#30721;&#21518;&#30340;&#19978;&#19979;&#25991;&#35843;&#39057;</span>
-    - <span style="color: #5f7200;">uniquifier</span>                                    <span style="color: #6f6a70;">#&#21435;&#37325;,&#24517;&#39035;&#22312;&#26368;&#21518;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f0000;"># &#36755;&#20837;&#24341;&#25806;</span>
+<span style="color: #00603f;">engine</span>:
+  <span style="color: #00603f;">processors</span>:
+    - <span style="color: #00598b;">lua_processor@*wanxiang.user_predict*P</span>    <span style="color: #7f0000;">#&#38752;&#33258;&#24049;&#20859;&#30340;&#19987;&#23646;&#39044;&#27979;&#32852;&#24819;&#22788;&#29702;&#22120;&#65292;&#19981;&#20877;&#20381;&#36182;&#21069;&#31471;&#25554;&#20214;&#20197;&#21450;&#22266;&#23450;&#25968;&#25454;</span>
+    - <span style="color: #00598b;">lua_processor@*wanxiang.super_processor</span>       <span style="color: #7f0000;">#KP&#23567;&#38190;&#30424;&#12289;&#23383;&#27597;&#36873;&#35789;&#12289;&#31526;&#21495;&#24555;&#25171;&#12289;&#36229;&#24378;&#20998;&#35789;&#12289;&#37325;&#22797;&#38480;&#21046;&#12289;&#36864;&#26684;&#38480;&#21046;&#12289;&#22768;&#35843;&#22238;&#36864;&#12289;&#20197;&#35789;&#23450;&#23383;</span>
+    - <span style="color: #00598b;">lua_processor@*wanxiang.super_sequence*P</span>      <span style="color: #7f0000;">#&#25163;&#21160;&#25490;&#24207;&#65292;&#39640;&#20142;&#20505;&#36873; ctrl+j&#24038;&#31227;&#21160; ctrl+k &#21491;&#31227;&#21160; ctrl+l &#31227;&#38500;&#20301;&#31227;  ctrl+p &#32622;&#39030;</span>
+    - <span style="color: #00598b;">ascii_composer</span>                                <span style="color: #7f0000;">#&#22788;&#29702;&#33521;&#25991;&#27169;&#24335;&#21450;&#20013;&#33521;&#25991;&#20999;&#25442;</span>
+    - <span style="color: #00598b;">recognizer</span>                                    <span style="color: #7f0000;">#&#19982; matcher &#25645;&#37197;&#65292;&#22788;&#29702;&#31526;&#21512;&#29305;&#23450;&#35268;&#21017;&#30340;&#36755;&#20837;&#30721;&#65292;&#22914;&#32593;&#22336;&#12289;&#21453;&#26597;&#31561; tags</span>
+    - <span style="color: #00598b;">key_binder</span>                                    <span style="color: #7f0000;">#&#22312;&#29305;&#23450;&#26465;&#20214;&#19979;&#23558;&#25353;&#38190;&#32465;&#23450;&#21040;&#20854;&#20182;&#25353;&#38190;&#65292;&#22914;&#37325;&#23450;&#20041;&#36887;&#21495;&#12289;&#21477;&#21495;&#20026;&#20505;&#36873;&#32763;&#39029;&#12289;&#24320;&#20851;&#24555;&#25463;&#38190;&#31561;</span>
+    - <span style="color: #00598b;">lua_processor@*wanxiang.key_binder</span>            <span style="color: #7f0000;">#&#32465;&#23450;&#25353;&#38190;&#25193;&#23637;&#33021;&#21147;&#65292;&#25903;&#25345;&#27491;&#21017;&#25193;&#23637;&#23558;&#25353;&#38190;&#29983;&#25928;&#24773;&#26223;&#26356;&#21152;&#32454;&#21270;</span>
+    - <span style="color: #00598b;">speller</span>                              <span style="color: #7f0000;">#&#25340;&#20889;&#22788;&#29702;&#22120;&#65292;&#25509;&#21463;&#23383;&#31526;&#25353;&#38190;&#65292;&#32534;&#36753;&#36755;&#20837;</span>
+    - <span style="color: #00598b;">punctuator</span>                           <span style="color: #7f0000;">#&#31526;&#21495;&#22788;&#29702;&#22120;&#65292;&#23558;&#21333;&#20010;&#23383;&#31526;&#25353;&#38190;&#30452;&#25509;&#26144;&#23556;&#20026;&#26631;&#28857;&#31526;&#21495;&#25110;&#25991;&#23383;</span>
+    - <span style="color: #00598b;">selector</span>                             <span style="color: #7f0000;">#&#36873;&#23383;&#22788;&#29702;&#22120;&#65292;&#22788;&#29702;&#25968;&#23383;&#36873;&#23383;&#38190;&#12308;&#21487;&#20197;&#25442;&#25104;&#21035;&#30340;&#21734;&#12309;&#12289;&#19978;&#12289;&#19979;&#20505;&#36873;&#23450;&#20301;&#12289;&#25442;&#39029;</span>
+    - <span style="color: #00598b;">navigator</span>                            <span style="color: #7f0000;">#&#22788;&#29702;&#36755;&#20837;&#26639;&#20869;&#30340;&#20809;&#26631;&#31227;&#21160;</span>
+    - <span style="color: #00598b;">express_editor</span>                       <span style="color: #7f0000;">#&#32534;&#36753;&#22120;&#65292;&#22788;&#29702;&#31354;&#26684;&#12289;&#22238;&#36710;&#19978;&#23631;&#12289;&#22238;&#36864;&#38190;</span>
+  <span style="color: #00603f;">segmentors</span>:
+    - <span style="color: #00598b;">ascii_segmentor</span>                      <span style="color: #7f0000;">#&#26631;&#35782;&#33521;&#25991;&#27573;&#33853;&#12308;&#35692;&#22914;&#22312;&#33521;&#25991;&#27169;&#24335;&#19979;&#12309;&#23383;&#27597;&#30452;&#25509;&#19978;&#23643;</span>
+    - <span style="color: #00598b;">matcher</span>                              <span style="color: #7f0000;">#&#37197;&#21512; recognizer &#26631;&#35782;&#31526;&#21512;&#29305;&#23450;&#35268;&#21017;&#30340;&#27573;&#33853;&#65292;&#22914;&#32593;&#22336;&#12289;&#21453;&#26597;&#31561;&#65292;&#21152;&#19978;&#29305;&#23450; tag</span>
+    - <span style="color: #00598b;">abc_segmentor</span>                        <span style="color: #7f0000;">#&#26631;&#35782;&#24120;&#35268;&#30340;&#25991;&#23383;&#27573;&#33853;&#65292;&#21152;&#19978; abc &#36825;&#20010; tag</span>
+    - <span style="color: #00598b;">affix_segmentor@add_user_dict</span>        <span style="color: #7f0000;">#&#33258;&#36896;&#35789;&#21152;&#35789; tag</span>
+    - <span style="color: #00598b;">punct_segmentor</span>                      <span style="color: #7f0000;">#&#26631;&#35782;&#31526;&#21495;&#27573;&#33853;&#12308;&#38190;&#20837;&#26631;&#28857;&#31526;&#21495;&#29992;&#12309;&#21152;&#19978; punct &#36825;&#20010; tag</span>
+    - <span style="color: #00598b;">fallback_segmentor</span>                   <span style="color: #7f0000;">#&#26631;&#35782;&#20854;&#20182;&#26410;&#26631;&#35782;&#27573;&#33853;&#65292;&#24517;&#39035;&#25918;&#22312;&#26368;&#21518;&#24110;&#21161;tag&#27169;&#24335;&#20999;&#25442;&#21518;&#22238;&#36864;&#37325;&#26032;&#22788;&#29702;</span>
+  <span style="color: #00603f;">translators</span>:
+    - <span style="color: #00598b;">punct_translator</span>                     <span style="color: #7f0000;">#&#37197;&#21512; punct_segmentor &#36716;&#25442;&#26631;&#28857;&#31526;&#21495;</span>
+    - <span style="color: #00598b;">script_translator</span>                    <span style="color: #7f0000;">#&#33050;&#26412;&#32763;&#35793;&#22120;&#65292;&#29992;&#20110;&#25340;&#38899;&#12289;&#31908;&#25340;&#31561;&#22522;&#20110;&#38899;&#33410;&#34920;&#30340;&#36755;&#20837;&#26041;&#26696;</span>
+    - <span style="color: #00598b;">lua_translator@*wanxiang.user_predict*T</span>       <span style="color: #7f0000;">#&#38752;&#33258;&#24049;&#20859;&#30340;&#19987;&#23646;&#39044;&#27979;&#32852;&#24819;&#22788;&#29702;&#22120;&#65292;&#19981;&#20877;&#20381;&#36182;&#21069;&#31471;&#25554;&#20214;&#20197;&#21450;&#22266;&#23450;&#25968;&#25454;</span>
+    - <span style="color: #00598b;">lua_translator@*wanxiang.shijian</span>              <span style="color: #7f0000;">#&#20892;&#21382;&#12289;&#26085;&#26399;&#12289;&#33410;&#27668;&#12289;&#33410;&#26085;&#12289;&#26102;&#38388;&#12289;&#21608;&#12289;&#38382;&#20505;&#27169;&#26495;&#31561;&#31561;&#65292;&#35302;&#21457;&#28165;&#21333;&#30475;&#19979;&#25991;</span>
+    - <span style="color: #00598b;">table_translator@custom_phrase</span>       <span style="color: #7f0000;">#&#33258;&#23450;&#20041;&#30701;&#35821; custom_phrase.txt&#65292;&#29992;&#20110;&#32622;&#39030;&#33258;&#23450;&#20041;&#32534;&#30721;&#20505;&#36873;&#35789;</span>
+    - <span style="color: #00598b;">script_translator@user_dict_set</span>      <span style="color: #7f0000;">#&#33258;&#36896;&#35789;&#20043;&#20351;&#29992;&#35789;&#27719;&#20837;&#21475;</span>
+    - <span style="color: #00598b;">script_translator@add_user_dict</span>      <span style="color: #7f0000;">#&#33258;&#36896;&#35789;&#20043;&#21046;&#36896;&#35789;&#27719;&#20837;&#21475;</span>
+  <span style="color: #00603f;">filters</span>:
+    - <span style="color: #00598b;">lua_filter@*wanxiang.auto_phrase</span>              <span style="color: #7f0000;">#&#26080;&#24863;&#36896;&#35789;,&#33521;&#25991;&#36896;&#35789;</span>
+    - <span style="color: #00598b;">lua_filter@*wanxiang.charset_filter</span>           <span style="color: #7f0000;">#&#25918;replacer&#21069;&#38754;,&#20840;&#26041;&#20301;&#33258;&#23450;&#20041;&#30340;&#23383;&#31526;&#38598;&#36807;&#28388;&#22120;&#65292;&#25903;&#25345;&#32321;&#20307;&#23383;&#31526;&#38598;&#24320;&#25918;</span>
+    - <span style="color: #00598b;">lua_filter@*wanxiang.super_comment_preedit</span>    <span style="color: #7f0000;">#&#25918;&#20854;&#20182;&#38656;&#35201;&#27880;&#37322;&#22788;&#29702;&#22120;&#21518;&#38754;,&#20250;&#26377;&#28165;&#31354;&#27880;&#37322;&#30340;&#25805;&#20316;,&#36229;&#32423;&#27880;&#37322;&#27169;&#22359;&#65292;&#25903;&#25345;&#38169;&#35789;&#25552;&#31034;&#12289;&#36741;&#21161;&#30721;&#26174;&#31034;&#65292;&#37096;&#20214;&#32452;&#23383;&#35835;&#38899;&#27880;&#37322;&#65292;&#25903;&#25345;&#20010;&#24615;&#21270;&#37197;&#32622;&#21644;&#20851;&#38381;&#30456;&#24212;&#30340;&#21151;&#33021;&#65292;&#35814;&#24773;&#25628;&#32034;super_comment&#36827;&#34892;&#35814;&#32454;&#37197;&#32622;</span>
+    - <span style="color: #00598b;">lua_filter@*wanxiang.super_replacer</span>           <span style="color: #7f0000;">#OpenCC&#26367;&#20195;&#22120;&#65292;&#26356;&#28789;&#27963;&#30340;&#22788;&#29702;&#26041;&#24335;&#65292;&#26356;&#33258;&#30001;&#30340;&#33258;&#23450;&#20041;&#26041;&#24335;&#65292;&#25903;&#25345;&#31616;&#32321;&#36716;&#25442;&#12289;&#31616;&#30721;&#27169;&#24335;&#12289;&#25903;&#25345;&#20505;&#36873;&#26367;&#25442;&#12289;&#27880;&#37322;&#26367;&#25442;&#12289;&#20505;&#36873;&#27966;&#29983;&#31561;&#31561;</span>
+    - <span style="color: #00598b;">lua_filter@*wanxiang.super_filter</span>             <span style="color: #7f0000;">#&#20808;&#36827;&#34892;&#23383;&#31526;&#36807;&#28388;&#21518;&#31616;&#32321;&#36716;&#25442;&#65292;&#36825;&#26679;&#33021;&#32321;&#20307;&#32487;&#25215;&#31616;&#20307;&#26435;&#37325;&#12290;&#26412;&#36136;&#21151;&#33021;&#30456;&#20851;&#21151;&#33021;&#35265;Lua&#25991;&#20214;</span>
+    - <span style="color: #00598b;">lua_filter@*wanxiang.super_sequence*F</span>         <span style="color: #7f0000;">#&#25918;&#21435;&#37325;&#21069;,&#25509;&#31649;&#25490;&#24207;&#32034;&#24341;&#22266;&#23450;,&#25163;&#21160;&#25490;&#24207;&#65292;&#23545;&#39640;&#20142;&#20505;&#36873; ctrl+j&#24038;&#31227;&#21160; ctrl+k &#21491;&#31227;&#21160; ctrl+0 &#31227;&#38500;&#20301;&#31227;</span>
+    - <span style="color: #00598b;">lua_filter@*wanxiang.user_predict*F</span>           <span style="color: #7f0000;">#&#29992;&#20110;&#36755;&#20837;&#32534;&#30721;&#21518;&#30340;&#19978;&#19979;&#25991;&#35843;&#39057;</span>
+    - <span style="color: #00598b;">uniquifier</span>                                    <span style="color: #7f0000;">#&#21435;&#37325;,&#24517;&#39035;&#22312;&#26368;&#21518;</span>
 </code></pre>
 </div>
 <p>
 超级注释，有一点点用，比如能清晰看出来哪些词是用户词典的，哪些是内置的<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #2f783f;">super_comment</span>:                  <span style="color: #6f6a70;"># &#36229;&#32423;&#27880;&#37322;&#27169;&#22359;&#65292;&#23376;&#39033;&#37197;&#32622; true &#24320;&#21551;&#65292;false &#20851;&#38381;</span>
-  <span style="color: #2f783f;">candidate_length</span>: <span style="color: #6c4631;">1</span>           <span style="color: #6f6a70;"># &#20505;&#36873;&#35789;&#36741;&#21161;&#30721;&#25552;&#37266;&#30340;&#29983;&#25928;&#38271;&#24230;&#65292;0&#20026;&#20851;&#38381;  &#20294;&#21516;&#26102;&#28165;&#31354;&#20854;&#23427;&#65292;&#24212;&#24403;&#20351;&#29992;&#19978;&#38754;&#24320;&#20851;&#26469;&#22788;&#29702;</span>
-  <span style="color: #2f783f;">corrector_type</span>: <span style="color: #5f7200;">"&#12308;comment&#12309;"</span>  <span style="color: #6f6a70;"># &#38543;&#24847;&#26356;&#25442;&#24038;&#21491;&#25324;&#21495;&#65292;&#27604;&#22914;"&#12308;comment&#12309;" &#19981;&#21152;&#25324;&#21495;&#20026;&#26080;&#25324;&#21495;&#65292;comment&#21344;&#20301;&#19981;&#33021;&#21160;</span>
-  <span style="color: #2f783f;">cand_type</span>:
-    <span style="color: #2f783f;">user_phrase</span>: <span style="color: #5f7200;">"&#8314;"</span>
-    <span style="color: #2f783f;">sentence</span>: <span style="color: #5f7200;">""</span>
-    <span style="color: #2f783f;">phrase</span>: <span style="color: #5f7200;">""</span>
-    <span style="color: #2f783f;">table</span>: <span style="color: #5f7200;">""</span>
-    <span style="color: #2f783f;">user_table</span>: <span style="color: #5f7200;">""</span>
-    <span style="color: #2f783f;">completion</span>: <span style="color: #5f7200;">""</span>
-    <span style="color: #2f783f;">abbrev</span>: <span style="color: #5f7200;">""</span>
-    <span style="color: #2f783f;">predict</span>: <span style="color: #5f7200;">""</span>
-    <span style="color: #2f783f;">fallback</span>: <span style="color: #5f7200;">"~"</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">super_comment</span>:                  <span style="color: #7f0000;"># &#36229;&#32423;&#27880;&#37322;&#27169;&#22359;&#65292;&#23376;&#39033;&#37197;&#32622; true &#24320;&#21551;&#65292;false &#20851;&#38381;</span>
+  <span style="color: #00603f;">candidate_length</span>: <span style="color: #000000;">1</span>           <span style="color: #7f0000;"># &#20505;&#36873;&#35789;&#36741;&#21161;&#30721;&#25552;&#37266;&#30340;&#29983;&#25928;&#38271;&#24230;&#65292;0&#20026;&#20851;&#38381;  &#20294;&#21516;&#26102;&#28165;&#31354;&#20854;&#23427;&#65292;&#24212;&#24403;&#20351;&#29992;&#19978;&#38754;&#24320;&#20851;&#26469;&#22788;&#29702;</span>
+  <span style="color: #00603f;">corrector_type</span>: <span style="color: #00598b;">"&#12308;comment&#12309;"</span>  <span style="color: #7f0000;"># &#38543;&#24847;&#26356;&#25442;&#24038;&#21491;&#25324;&#21495;&#65292;&#27604;&#22914;"&#12308;comment&#12309;" &#19981;&#21152;&#25324;&#21495;&#20026;&#26080;&#25324;&#21495;&#65292;comment&#21344;&#20301;&#19981;&#33021;&#21160;</span>
+  <span style="color: #00603f;">cand_type</span>:
+    <span style="color: #00603f;">user_phrase</span>: <span style="color: #00598b;">"&#8314;"</span>
+    <span style="color: #00603f;">sentence</span>: <span style="color: #00598b;">""</span>
+    <span style="color: #00603f;">phrase</span>: <span style="color: #00598b;">""</span>
+    <span style="color: #00603f;">table</span>: <span style="color: #00598b;">""</span>
+    <span style="color: #00603f;">user_table</span>: <span style="color: #00598b;">""</span>
+    <span style="color: #00603f;">completion</span>: <span style="color: #00598b;">""</span>
+    <span style="color: #00603f;">abbrev</span>: <span style="color: #00598b;">""</span>
+    <span style="color: #00603f;">predict</span>: <span style="color: #00598b;">""</span>
+    <span style="color: #00603f;">fallback</span>: <span style="color: #00598b;">"~"</span>
 </code></pre>
 </div>
 <p>
 调整音调输入显示成什么字符，比如输入7显示成上标1<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #6f6a70;">#&#24120;&#35268;&#29366;&#24577;&#19979;&#25968;&#23383;&#36716;&#25442;&#25104;&#30456;&#24212;&#30340;&#23383;&#31526;&#65292;&#30001;&#36229;&#32423;preedit&#25509;&#31649;</span>
-<span style="color: #2f783f;">tone_preedit</span>:
-  <span style="color: #2f783f;">"7"</span>: <span style="color: #5f7200;">"&#185;"</span>
-  <span style="color: #2f783f;">"8"</span>: <span style="color: #5f7200;">"&#178;"</span>
-  <span style="color: #2f783f;">"9"</span>: <span style="color: #5f7200;">"&#179;"</span>
-  <span style="color: #2f783f;">"0"</span>: <span style="color: #5f7200;">"&#8308;"</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f0000;">#&#24120;&#35268;&#29366;&#24577;&#19979;&#25968;&#23383;&#36716;&#25442;&#25104;&#30456;&#24212;&#30340;&#23383;&#31526;&#65292;&#30001;&#36229;&#32423;preedit&#25509;&#31649;</span>
+<span style="color: #00603f;">tone_preedit</span>:
+  <span style="color: #00603f;">"7"</span>: <span style="color: #00598b;">"&#185;"</span>
+  <span style="color: #00603f;">"8"</span>: <span style="color: #00598b;">"&#178;"</span>
+  <span style="color: #00603f;">"9"</span>: <span style="color: #00598b;">"&#179;"</span>
+  <span style="color: #00603f;">"0"</span>: <span style="color: #00598b;">"&#8308;"</span>
 </code></pre>
 </div>
 <p>
 自定义了控制排序的键位<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #2f783f;">super_sequence</span>:  <span style="color: #6f6a70;"># Lua &#37197;&#32622;&#65306;&#25163;&#21160;&#25490;&#24207;&#30340;&#24555;&#25463;&#38190; super_sequence.lua&#65292;&#19981;&#35201;&#29992;&#26041;&#21521;&#38190;&#65292;&#21508;&#31181;&#20914;&#31361;&#65292;&#19968;&#23450;&#35201;&#36991;&#20813;&#20914;&#31361;</span>
-  <span style="color: #2f783f;">db_name</span>: <span style="color: #5f7200;">"lua/sequence"</span>
-  <span style="color: #2f783f;">up</span>: <span style="color: #5f7200;">"Control+j"</span>    <span style="color: #6f6a70;"># &#19978;&#31227;</span>
-  <span style="color: #2f783f;">down</span>: <span style="color: #5f7200;">"Control+k"</span>  <span style="color: #6f6a70;"># &#19979;&#31227;</span>
-  <span style="color: #2f783f;">reset</span>: <span style="color: #5f7200;">"Control+l"</span> <span style="color: #6f6a70;"># &#37325;&#32622;</span>
-  <span style="color: #2f783f;">pin</span>: <span style="color: #5f7200;">"Control+p"</span>   <span style="color: #6f6a70;"># &#32622;&#39030;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">super_sequence</span>:  <span style="color: #7f0000;"># Lua &#37197;&#32622;&#65306;&#25163;&#21160;&#25490;&#24207;&#30340;&#24555;&#25463;&#38190; super_sequence.lua&#65292;&#19981;&#35201;&#29992;&#26041;&#21521;&#38190;&#65292;&#21508;&#31181;&#20914;&#31361;&#65292;&#19968;&#23450;&#35201;&#36991;&#20813;&#20914;&#31361;</span>
+  <span style="color: #00603f;">db_name</span>: <span style="color: #00598b;">"lua/sequence"</span>
+  <span style="color: #00603f;">up</span>: <span style="color: #00598b;">"Control+j"</span>    <span style="color: #7f0000;"># &#19978;&#31227;</span>
+  <span style="color: #00603f;">down</span>: <span style="color: #00598b;">"Control+k"</span>  <span style="color: #7f0000;"># &#19979;&#31227;</span>
+  <span style="color: #00603f;">reset</span>: <span style="color: #00598b;">"Control+l"</span> <span style="color: #7f0000;"># &#37325;&#32622;</span>
+  <span style="color: #00603f;">pin</span>: <span style="color: #00598b;">"Control+p"</span>   <span style="color: #7f0000;"># &#32622;&#39030;</span>
 </code></pre>
 </div>
 <p>
 好像是候选词自动替换，留了一个emoji，删掉了简写<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #2f783f;">super_replacer</span>:
-  <span style="color: #2f783f;">db_name</span>: <span style="color: #5f7200;">lua/replacer</span>
-  <span style="color: #2f783f;">delimiter</span>: <span style="color: #5f7200;">"|"</span>
-  <span style="color: #2f783f;">comment_format</span>: <span style="color: #5f7200;">"&#12308;%s&#12309;"</span>
-  <span style="color: #2f783f;">chain</span>: <span style="color: #a05a22;">true</span>   <span style="color: #6f6a70;">#true&#34920;&#31034;&#27969;&#27700;&#32447;&#20316;&#19994;&#65292;&#19978;&#19968;&#20010;option&#20135;&#20986;&#20132;&#32473;&#19979;&#19968;&#20010;&#22788;&#29702;&#65292;&#20856;&#22411;&#30340;s2t&gt;t2hk=s2hk&#65292;false&#23601;&#26159;&#24182;&#34892;&#65292;&#30452;&#25509;&#29992;text&#36716;&#25442;</span>
-  <span style="color: #2f783f;">rules</span>:
-    <span style="color: #6f6a70;"># &#22330;&#26223;1&#65306;&#36755;&#20837; '&#21704;&#21704;' -&gt; &#21464;&#25104; '1.&#21704;&#21704; 2.&#128516;'</span>
-    - <span style="color: #2f783f;">option</span>: <span style="color: #5f7200;">emoji</span>           <span style="color: #6f6a70;"># &#24320;&#20851;&#21517;&#31216;&#19982;&#19978;&#38754;&#24320;&#20851;&#21517;&#31216;&#20445;&#25345;&#19968;&#33268;</span>
-      <span style="color: #2f783f;">mode</span>: <span style="color: #5f7200;">append</span>            <span style="color: #6f6a70;"># &#26032;&#22686;&#20505;&#36873;append &#26367;&#25442;&#21407;&#20505;&#36873;replace &#26367;&#25442;&#27880;&#37322;comment &#31616;&#30721;&#27169;&#24335;abbrev&#21305;&#37197;&#36755;&#20837;&#32534;&#30721;&#32622;&#39030;&#35789;&#32452;</span>
-      <span style="color: #2f783f;">comment_mode</span>: <span style="color: #5f7200;">none</span>      <span style="color: #6f6a70;"># &#27880;&#37322;&#27169;&#24335;: "append"(&#21407;&#20505;&#36873;&#27880;&#37322;&#32487;&#25215;), "text"(&#21407;&#20505;&#36873;&#25991;&#26412;&#25918;&#22312;&#27880;&#37322;), "none"(&#31354;&#65292;&#40664;&#35748;)</span>
-      <span style="color: #2f783f;">tags</span>: [<span style="color: #5f7200;">abc</span>]             <span style="color: #6f6a70;"># &#29983;&#25928;&#30340;tag</span>
-      <span style="color: #2f783f;">prefix</span>: <span style="color: #5f7200;">"_em_"</span>          <span style="color: #6f6a70;"># &#21069;&#32512;&#29992;&#20110;&#21306;&#20998;&#21516;&#19968;&#20010;&#25968;&#25454;&#24211;&#30340;&#19981;&#21516;&#29992;&#36884;&#25968;&#25454;</span>
-      <span style="color: #2f783f;">files</span>:
-        - <span style="color: #5f7200;">lua/data/emoji.txt</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">super_replacer</span>:
+  <span style="color: #00603f;">db_name</span>: <span style="color: #00598b;">lua/replacer</span>
+  <span style="color: #00603f;">delimiter</span>: <span style="color: #00598b;">"|"</span>
+  <span style="color: #00603f;">comment_format</span>: <span style="color: #00598b;">"&#12308;%s&#12309;"</span>
+  <span style="color: #00603f;">chain</span>: <span style="color: #531ab6;">true</span>   <span style="color: #7f0000;">#true&#34920;&#31034;&#27969;&#27700;&#32447;&#20316;&#19994;&#65292;&#19978;&#19968;&#20010;option&#20135;&#20986;&#20132;&#32473;&#19979;&#19968;&#20010;&#22788;&#29702;&#65292;&#20856;&#22411;&#30340;s2t&gt;t2hk=s2hk&#65292;false&#23601;&#26159;&#24182;&#34892;&#65292;&#30452;&#25509;&#29992;text&#36716;&#25442;</span>
+  <span style="color: #00603f;">rules</span>:
+    <span style="color: #7f0000;"># &#22330;&#26223;1&#65306;&#36755;&#20837; '&#21704;&#21704;' -&gt; &#21464;&#25104; '1.&#21704;&#21704; 2.&#128516;'</span>
+    - <span style="color: #00603f;">option</span>: <span style="color: #00598b;">emoji</span>           <span style="color: #7f0000;"># &#24320;&#20851;&#21517;&#31216;&#19982;&#19978;&#38754;&#24320;&#20851;&#21517;&#31216;&#20445;&#25345;&#19968;&#33268;</span>
+      <span style="color: #00603f;">mode</span>: <span style="color: #00598b;">append</span>            <span style="color: #7f0000;"># &#26032;&#22686;&#20505;&#36873;append &#26367;&#25442;&#21407;&#20505;&#36873;replace &#26367;&#25442;&#27880;&#37322;comment &#31616;&#30721;&#27169;&#24335;abbrev&#21305;&#37197;&#36755;&#20837;&#32534;&#30721;&#32622;&#39030;&#35789;&#32452;</span>
+      <span style="color: #00603f;">comment_mode</span>: <span style="color: #00598b;">none</span>      <span style="color: #7f0000;"># &#27880;&#37322;&#27169;&#24335;: "append"(&#21407;&#20505;&#36873;&#27880;&#37322;&#32487;&#25215;), "text"(&#21407;&#20505;&#36873;&#25991;&#26412;&#25918;&#22312;&#27880;&#37322;), "none"(&#31354;&#65292;&#40664;&#35748;)</span>
+      <span style="color: #00603f;">tags</span>: [<span style="color: #00598b;">abc</span>]             <span style="color: #7f0000;"># &#29983;&#25928;&#30340;tag</span>
+      <span style="color: #00603f;">prefix</span>: <span style="color: #00598b;">"_em_"</span>          <span style="color: #7f0000;"># &#21069;&#32512;&#29992;&#20110;&#21306;&#20998;&#21516;&#19968;&#20010;&#25968;&#25454;&#24211;&#30340;&#19981;&#21516;&#29992;&#36884;&#25968;&#25454;</span>
+      <span style="color: #00603f;">files</span>:
+        - <span style="color: #00598b;">lua/data/emoji.txt</span>
 </code></pre>
 </div>
 <p>
 没改动，保留原样<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>    <span style="color: #6f6a70;"># &#22330;&#26223;3&#65306;&#29992;&#20110;&#24120;&#39547;&#30340;&#30452;&#25509;&#26367;&#25442; option: true</span>
-    - <span style="color: #2f783f;">option</span>: <span style="color: #a05a22;">true</span>
-      <span style="color: #2f783f;">mode</span>: <span style="color: #5f7200;">append</span>         <span style="color: #6f6a70;"># &lt;--- &#26032;&#22686;&#20505;&#36873;&#27169;&#24335;</span>
-      <span style="color: #2f783f;">comment_mode</span>: <span style="color: #5f7200;">none</span>
-      <span style="color: #2f783f;">tags</span>: [<span style="color: #5f7200;">abc</span>]
-      <span style="color: #2f783f;">prefix</span>: <span style="color: #5f7200;">"_ot_"</span>
-      <span style="color: #2f783f;">files</span>:
-        - <span style="color: #5f7200;">lua/data/others.txt</span>
-    <span style="color: #6f6a70;"># &#22330;&#26223;4&#65306;&#29992;&#20110;&#31616;&#32321;&#36716;&#25442;&#30340;&#30452;&#25509;&#26367;&#25442;</span>
-    - <span style="color: #2f783f;">option</span>: [ <span style="color: #5f7200;">s2t</span>, <span style="color: #5f7200;">s2hk</span>, <span style="color: #5f7200;">s2tw</span> ]   <span style="color: #6f6a70;">#&#21518;&#38754;&#20381;&#36182;&#36825;&#26465;&#27969;&#27700;&#32447;&#26377;&#19968;&#20010;&#24320;&#20851;&#20026;true&#36825;&#26465;&#27969;&#27700;&#32447;&#23601;&#33021;&#24037;&#20316;</span>
-      <span style="color: #2f783f;">mode</span>: <span style="color: #5f7200;">replace</span>         <span style="color: #6f6a70;"># &lt;--- &#26367;&#25442;&#21407;&#20505;&#36873;&#27169;&#24335;</span>
-      <span style="color: #2f783f;">comment_mode</span>: <span style="color: #5f7200;">append</span>
-      <span style="color: #2f783f;">sentence</span>: <span style="color: #a05a22;">true</span>        <span style="color: #6f6a70;"># &lt;--- &#21477;&#23376;&#32423;&#21035;&#26367;&#25442;</span>
-      <span style="color: #2f783f;">tags</span>: [<span style="color: #5f7200;">abc</span>]
-      <span style="color: #2f783f;">prefix</span>: <span style="color: #5f7200;">"_s2t_"</span>
-      <span style="color: #2f783f;">files</span>:
-        - <span style="color: #5f7200;">lua/data/STCharacters.txt</span>
-        - <span style="color: #5f7200;">lua/data/STPhrases.txt</span>
-    - <span style="color: #2f783f;">option</span>: <span style="color: #5f7200;">s2hk</span>
-      <span style="color: #2f783f;">mode</span>: <span style="color: #5f7200;">replace</span>         <span style="color: #6f6a70;"># &lt;--- &#26367;&#25442;&#21407;&#20505;&#36873;&#27169;&#24335;</span>
-      <span style="color: #2f783f;">comment_mode</span>: <span style="color: #5f7200;">append</span>
-      <span style="color: #2f783f;">sentence</span>: <span style="color: #a05a22;">true</span>        <span style="color: #6f6a70;"># &lt;--- &#21477;&#23376;&#32423;&#21035;&#26367;&#25442;</span>
-      <span style="color: #2f783f;">tags</span>: [<span style="color: #5f7200;">abc</span>]
-      <span style="color: #2f783f;">prefix</span>: <span style="color: #5f7200;">"_s2hk_"</span>
-      <span style="color: #2f783f;">files</span>:
-        - <span style="color: #5f7200;">lua/data/HKVariants.txt</span>
-    - <span style="color: #2f783f;">option</span>: <span style="color: #5f7200;">s2tw</span>
-      <span style="color: #2f783f;">mode</span>: <span style="color: #5f7200;">replace</span>         <span style="color: #6f6a70;"># &lt;--- &#26367;&#25442;&#21407;&#20505;&#36873;&#27169;&#24335;</span>
-      <span style="color: #2f783f;">comment_mode</span>: <span style="color: #5f7200;">append</span>
-      <span style="color: #2f783f;">sentence</span>: <span style="color: #a05a22;">true</span>        <span style="color: #6f6a70;"># &lt;--- &#21477;&#23376;&#32423;&#21035;&#26367;&#25442;</span>
-      <span style="color: #2f783f;">tags</span>: [<span style="color: #5f7200;">abc</span>]
-      <span style="color: #2f783f;">prefix</span>: <span style="color: #5f7200;">"_s2tw_"</span>
-      <span style="color: #2f783f;">files</span>:
-        - <span style="color: #5f7200;">lua/data/TWVariants.txt</span>
+<pre class="src src-yaml" tabindex="0"><code>    <span style="color: #7f0000;"># &#22330;&#26223;3&#65306;&#29992;&#20110;&#24120;&#39547;&#30340;&#30452;&#25509;&#26367;&#25442; option: true</span>
+    - <span style="color: #00603f;">option</span>: <span style="color: #531ab6;">true</span>
+      <span style="color: #00603f;">mode</span>: <span style="color: #00598b;">append</span>         <span style="color: #7f0000;"># &lt;--- &#26032;&#22686;&#20505;&#36873;&#27169;&#24335;</span>
+      <span style="color: #00603f;">comment_mode</span>: <span style="color: #00598b;">none</span>
+      <span style="color: #00603f;">tags</span>: [<span style="color: #00598b;">abc</span>]
+      <span style="color: #00603f;">prefix</span>: <span style="color: #00598b;">"_ot_"</span>
+      <span style="color: #00603f;">files</span>:
+        - <span style="color: #00598b;">lua/data/others.txt</span>
+    <span style="color: #7f0000;"># &#22330;&#26223;4&#65306;&#29992;&#20110;&#31616;&#32321;&#36716;&#25442;&#30340;&#30452;&#25509;&#26367;&#25442;</span>
+    - <span style="color: #00603f;">option</span>: [ <span style="color: #00598b;">s2t</span>, <span style="color: #00598b;">s2hk</span>, <span style="color: #00598b;">s2tw</span> ]   <span style="color: #7f0000;">#&#21518;&#38754;&#20381;&#36182;&#36825;&#26465;&#27969;&#27700;&#32447;&#26377;&#19968;&#20010;&#24320;&#20851;&#20026;true&#36825;&#26465;&#27969;&#27700;&#32447;&#23601;&#33021;&#24037;&#20316;</span>
+      <span style="color: #00603f;">mode</span>: <span style="color: #00598b;">replace</span>         <span style="color: #7f0000;"># &lt;--- &#26367;&#25442;&#21407;&#20505;&#36873;&#27169;&#24335;</span>
+      <span style="color: #00603f;">comment_mode</span>: <span style="color: #00598b;">append</span>
+      <span style="color: #00603f;">sentence</span>: <span style="color: #531ab6;">true</span>        <span style="color: #7f0000;"># &lt;--- &#21477;&#23376;&#32423;&#21035;&#26367;&#25442;</span>
+      <span style="color: #00603f;">tags</span>: [<span style="color: #00598b;">abc</span>]
+      <span style="color: #00603f;">prefix</span>: <span style="color: #00598b;">"_s2t_"</span>
+      <span style="color: #00603f;">files</span>:
+        - <span style="color: #00598b;">lua/data/STCharacters.txt</span>
+        - <span style="color: #00598b;">lua/data/STPhrases.txt</span>
+    - <span style="color: #00603f;">option</span>: <span style="color: #00598b;">s2hk</span>
+      <span style="color: #00603f;">mode</span>: <span style="color: #00598b;">replace</span>         <span style="color: #7f0000;"># &lt;--- &#26367;&#25442;&#21407;&#20505;&#36873;&#27169;&#24335;</span>
+      <span style="color: #00603f;">comment_mode</span>: <span style="color: #00598b;">append</span>
+      <span style="color: #00603f;">sentence</span>: <span style="color: #531ab6;">true</span>        <span style="color: #7f0000;"># &lt;--- &#21477;&#23376;&#32423;&#21035;&#26367;&#25442;</span>
+      <span style="color: #00603f;">tags</span>: [<span style="color: #00598b;">abc</span>]
+      <span style="color: #00603f;">prefix</span>: <span style="color: #00598b;">"_s2hk_"</span>
+      <span style="color: #00603f;">files</span>:
+        - <span style="color: #00598b;">lua/data/HKVariants.txt</span>
+    - <span style="color: #00603f;">option</span>: <span style="color: #00598b;">s2tw</span>
+      <span style="color: #00603f;">mode</span>: <span style="color: #00598b;">replace</span>         <span style="color: #7f0000;"># &lt;--- &#26367;&#25442;&#21407;&#20505;&#36873;&#27169;&#24335;</span>
+      <span style="color: #00603f;">comment_mode</span>: <span style="color: #00598b;">append</span>
+      <span style="color: #00603f;">sentence</span>: <span style="color: #531ab6;">true</span>        <span style="color: #7f0000;"># &lt;--- &#21477;&#23376;&#32423;&#21035;&#26367;&#25442;</span>
+      <span style="color: #00603f;">tags</span>: [<span style="color: #00598b;">abc</span>]
+      <span style="color: #00603f;">prefix</span>: <span style="color: #00598b;">"_s2tw_"</span>
+      <span style="color: #00603f;">files</span>:
+        - <span style="color: #00598b;">lua/data/TWVariants.txt</span>
 
 charset:
   - option: charset_filter
@@ -347,296 +360,296 @@ charset:
 自定义了时间格式和排序，没用过农历或者节气之类，只用sj、rq和dj这三个，同时稍微统一了一下三者格式的顺序。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #2f783f;">date_formats</span>:
-  - <span style="color: #5f7200;">"Y&#24180;n&#26376;j&#26085;"</span>
-  - <span style="color: #5f7200;">"Y.m.d"</span>
-  - <span style="color: #5f7200;">"Y-m-d"</span>
-  - <span style="color: #5f7200;">"Ymd"</span>
-  - <span style="color: #5f7200;">"n&#26376;j&#26085;"</span>
-<span style="color: #2f783f;">time_formats</span>:
-  - <span style="color: #5f7200;">"H&#26102;M&#20998;"</span>
-  - <span style="color: #5f7200;">"H:M"</span>
-  - <span style="color: #5f7200;">"H-M-S"</span>
-  - <span style="color: #5f7200;">"HM"</span>
-  - <span style="color: #5f7200;">"H&#28857;M&#20998;S&#31186;"</span>
-<span style="color: #2f783f;">datetime_formats</span>:
-  - <span style="color: #5f7200;">"Y&#24180;m&#26376;d&#26085;H&#26102;M&#20998;"</span>
-  - <span style="color: #5f7200;">"Y-m-d H:M:S"</span>
-  - <span style="color: #5f7200;">"Y-m-d-H-M-S"</span>
-  - <span style="color: #5f7200;">"YmdTHMS"</span>
-  - <span style="color: #5f7200;">"Y&#24180;m&#26376;d&#26085; H&#28857;M&#20998;S&#31186;"</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">date_formats</span>:
+  - <span style="color: #00598b;">"Y&#24180;n&#26376;j&#26085;"</span>
+  - <span style="color: #00598b;">"Y.m.d"</span>
+  - <span style="color: #00598b;">"Y-m-d"</span>
+  - <span style="color: #00598b;">"Ymd"</span>
+  - <span style="color: #00598b;">"n&#26376;j&#26085;"</span>
+<span style="color: #00603f;">time_formats</span>:
+  - <span style="color: #00598b;">"H&#26102;M&#20998;"</span>
+  - <span style="color: #00598b;">"H:M"</span>
+  - <span style="color: #00598b;">"H-M-S"</span>
+  - <span style="color: #00598b;">"HM"</span>
+  - <span style="color: #00598b;">"H&#28857;M&#20998;S&#31186;"</span>
+<span style="color: #00603f;">datetime_formats</span>:
+  - <span style="color: #00598b;">"Y&#24180;m&#26376;d&#26085;H&#26102;M&#20998;"</span>
+  - <span style="color: #00598b;">"Y-m-d H:M:S"</span>
+  - <span style="color: #00598b;">"Y-m-d-H-M-S"</span>
+  - <span style="color: #00598b;">"YmdTHMS"</span>
+  - <span style="color: #00598b;">"Y&#24180;m&#26376;d&#26085; H&#28857;M&#20998;S&#31186;"</span>
 </code></pre>
 </div>
 <p>
 为用户自定义短语文件改个其他名会方便很多，避免被替换掉。我把 <code>custom_phrase</code> 改成了 <code>tomoe_phrase</code> <br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #6f6a70;"># &#33258;&#23450;&#20041;&#30701;&#35821;</span>
-<span style="color: #2f783f;">custom_phrase</span>:
-  <span style="color: #2f783f;">dictionary</span>: <span style="color: #5f7200;">""</span>
-  <span style="color: #2f783f;">user_dict</span>: <span style="color: #5f7200;">tomoe_phrase</span>  <span style="color: #6f6a70;"># &#38656;&#35201;&#25163;&#21160;&#21019;&#24314; custom_phrase.txt &#25991;&#20214;</span>
-  <span style="color: #2f783f;">db_class</span>: <span style="color: #5f7200;">stabledb</span>
-  <span style="color: #2f783f;">enable_completion</span>: <span style="color: #a05a22;">false</span> <span style="color: #6f6a70;"># &#34917;&#20840;&#25552;&#31034;</span>
-  <span style="color: #2f783f;">enable_sentence</span>: <span style="color: #a05a22;">false</span>   <span style="color: #6f6a70;"># &#31105;&#27490;&#36896;&#21477;</span>
-  <span style="color: #2f783f;">initial_quality</span>: <span style="color: #6c4631;">99</span>      <span style="color: #6f6a70;"># custom_phrase &#30340;&#26435;&#37325;&#24212;&#35813;&#27604; pinyin &#21644; wanxiang_en &#22823;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f0000;"># &#33258;&#23450;&#20041;&#30701;&#35821;</span>
+<span style="color: #00603f;">custom_phrase</span>:
+  <span style="color: #00603f;">dictionary</span>: <span style="color: #00598b;">""</span>
+  <span style="color: #00603f;">user_dict</span>: <span style="color: #00598b;">tomoe_phrase</span>  <span style="color: #7f0000;"># &#38656;&#35201;&#25163;&#21160;&#21019;&#24314; custom_phrase.txt &#25991;&#20214;</span>
+  <span style="color: #00603f;">db_class</span>: <span style="color: #00598b;">stabledb</span>
+  <span style="color: #00603f;">enable_completion</span>: <span style="color: #531ab6;">false</span> <span style="color: #7f0000;"># &#34917;&#20840;&#25552;&#31034;</span>
+  <span style="color: #00603f;">enable_sentence</span>: <span style="color: #531ab6;">false</span>   <span style="color: #7f0000;"># &#31105;&#27490;&#36896;&#21477;</span>
+  <span style="color: #00603f;">initial_quality</span>: <span style="color: #000000;">99</span>      <span style="color: #7f0000;"># custom_phrase &#30340;&#26435;&#37325;&#24212;&#35813;&#27604; pinyin &#21644; wanxiang_en &#22823;</span>
 </code></pre>
 </div>
 <p>
 <code>auto_phrase.lua</code> 总是会尝试使用 <code>wanxiang_english</code> 方案，这里保留需要的dictionary路径避免报错。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #6f6a70;"># &#20013;&#25991;&#12289;&#33521;&#25991;&#12289;&#25968;&#23383;&#12289;&#31526;&#21495;&#31561;&#28151;&#21512;&#35789;&#27719;</span>
-<span style="color: #2f783f;">wanxiang_english</span>:
-  <span style="color: #2f783f;">dictionary</span>: <span style="color: #5f7200;">wanxiang_english</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f0000;"># &#20013;&#25991;&#12289;&#33521;&#25991;&#12289;&#25968;&#23383;&#12289;&#31526;&#21495;&#31561;&#28151;&#21512;&#35789;&#27719;</span>
+<span style="color: #00603f;">wanxiang_english</span>:
+  <span style="color: #00603f;">dictionary</span>: <span style="color: #00598b;">wanxiang_english</span>
 </code></pre>
 </div>
 <p>
 由于我把其他的东西删得差不多了，所以只有更改后的符号、时间等统一触发键 <code>;</code> 与添加自造词键 <code>``</code> <br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #6f6a70;"># &#22788;&#29702;&#31526;&#21512;&#29305;&#23450;&#35268;&#21017;&#30340;&#36755;&#20837;&#30721;&#65292;&#22914;&#32593;&#22336;&#12289;&#21453;&#26597;</span>
-<span style="color: #2f783f;">recognizer</span>:
-  <span style="color: #2f783f;">import_preset</span>: <span style="color: #5f7200;">default</span>  <span style="color: #6f6a70;"># &#20174; default.yaml &#32487;&#25215;&#36890;&#29992;&#30340;</span>
-  <span style="color: #2f783f;">patterns</span>:  <span style="color: #6f6a70;"># &#20877;&#22686;&#21152;&#26041;&#26696;&#19987;&#26377;&#30340;&#65306;</span>
-    <span style="color: #2f783f;">punct</span>: <span style="color: #5f7200;">"^;([0-9]|10|[A-Za-z]+)$"</span>    <span style="color: #6f6a70;"># &#21709;&#24212; symbols.yaml &#30340; symbols</span>
-    <span style="color: #2f783f;">add_user_dict</span>: <span style="color: #5f7200;">"^``[A-Za-z/`']*$"</span>      <span style="color: #6f6a70;">#&#33258;&#36896;&#35789;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f0000;"># &#22788;&#29702;&#31526;&#21512;&#29305;&#23450;&#35268;&#21017;&#30340;&#36755;&#20837;&#30721;&#65292;&#22914;&#32593;&#22336;&#12289;&#21453;&#26597;</span>
+<span style="color: #00603f;">recognizer</span>:
+  <span style="color: #00603f;">import_preset</span>: <span style="color: #00598b;">default</span>  <span style="color: #7f0000;"># &#20174; default.yaml &#32487;&#25215;&#36890;&#29992;&#30340;</span>
+  <span style="color: #00603f;">patterns</span>:  <span style="color: #7f0000;"># &#20877;&#22686;&#21152;&#26041;&#26696;&#19987;&#26377;&#30340;&#65306;</span>
+    <span style="color: #00603f;">punct</span>: <span style="color: #00598b;">"^;([0-9]|10|[A-Za-z]+)$"</span>    <span style="color: #7f0000;"># &#21709;&#24212; symbols.yaml &#30340; symbols</span>
+    <span style="color: #00603f;">add_user_dict</span>: <span style="color: #00598b;">"^``[A-Za-z/`']*$"</span>      <span style="color: #7f0000;">#&#33258;&#36896;&#35789;</span>
 </code></pre>
 </div>
 <p>
 时间触发键 <code>;</code> <br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #6f6a70;"># Lua &#37197;&#32622;: shijian.lua &#30340;&#24341;&#23548;&#31526;&#65292;&#28041;&#21450;&#65306;&#26085;&#26399;&#12289;&#26102;&#38388;&#12289;&#33410;&#26085;&#12289;&#33410;&#27668;&#12289;&#29983;&#26085;&#12289;&#38382;&#20505;&#27169;&#26495;&#31561;&#21151;&#33021;</span>
-  <span style="color: #2f783f;">shijian_keys</span>: [<span style="color: #5f7200;">";"</span>]
+<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #7f0000;"># Lua &#37197;&#32622;: shijian.lua &#30340;&#24341;&#23548;&#31526;&#65292;&#28041;&#21450;&#65306;&#26085;&#26399;&#12289;&#26102;&#38388;&#12289;&#33410;&#26085;&#12289;&#33410;&#27668;&#12289;&#29983;&#26085;&#12289;&#38382;&#20505;&#27169;&#26495;&#31561;&#21151;&#33021;</span>
+  <span style="color: #00603f;">shijian_keys</span>: [<span style="color: #00598b;">";"</span>]
 </code></pre>
 </div>
 <p>
 自定义按键分布。我把 <code>tab</code> 和 <code>shift+tab</code> 设置成了翻页，然后 <code>-</code> 和 <code>=</code> 设置成了移动词<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #2f783f;">bindings</span>:             <span style="color: #6f6a70;"># &#20063;&#21487;&#20197;&#20877;&#22686;&#21152;&#26041;&#26696;&#19987;&#26377;&#30340;</span>
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">has_menu</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Shift+Tab</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Page_Up</span> }
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">has_menu</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Tab</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Page_Down</span> }
-<span style="color: #6f6a70;"># Option/Alt + &#8592;/&#8594; &#20999;&#25442;&#20809;&#26631;&#33267;&#19979;/&#19978;&#19968;&#20010;&#25340;&#38899;</span>
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">always</span>, <span style="color: #2f783f;">toggle</span>: <span style="color: #5f7200;">ascii_punct</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+Shift+3</span> }              <span style="color: #6f6a70;"># &#20999;&#25442;&#20013;&#33521;&#26631;&#28857;</span>
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">always</span>, <span style="color: #2f783f;">toggle</span>: <span style="color: #5f7200;">ascii_punct</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+Shift+numbersign</span> }     <span style="color: #6f6a70;"># &#20999;&#25442;&#20013;&#33521;&#26631;&#28857;</span>
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">always</span>, <span style="color: #2f783f;">toggle</span>: <span style="color: #5f7200;">s2t</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+Shift+4</span> }       <span style="color: #6f6a70;"># &#20999;&#25442;&#31616;&#32321;</span>
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">always</span>, <span style="color: #2f783f;">toggle</span>: <span style="color: #5f7200;">s2t</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+Shift+dollar</span> }  <span style="color: #6f6a70;"># &#20999;&#25442;&#31616;&#32321;</span>
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">always</span>, <span style="color: #2f783f;">toggle</span>: <span style="color: #5f7200;">full_shape</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+Shift+1</span> }             <span style="color: #6f6a70;"># &#20999;&#25442;&#20840;&#21322;&#35282;</span>
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">always</span>, <span style="color: #2f783f;">toggle</span>: <span style="color: #5f7200;">full_shape</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+Shift+exclam</span> }       <span style="color: #6f6a70;"># &#20999;&#25442;&#20840;&#21322;&#35282;</span>
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">minus</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Shift+Left</span> }
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">equal</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Shift+Right</span> }
-    - { <span style="color: #2f783f;">when</span>: <span style="color: #5f7200;">composing</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">Control+w</span>, <span style="color: #2f783f;">send</span>: <span style="color: #5f7200;">Control+Delete</span> }
+<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #00603f;">bindings</span>:             <span style="color: #7f0000;"># &#20063;&#21487;&#20197;&#20877;&#22686;&#21152;&#26041;&#26696;&#19987;&#26377;&#30340;</span>
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">has_menu</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Shift+Tab</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Page_Up</span> }
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">has_menu</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Tab</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Page_Down</span> }
+<span style="color: #7f0000;"># Option/Alt + &#8592;/&#8594; &#20999;&#25442;&#20809;&#26631;&#33267;&#19979;/&#19978;&#19968;&#20010;&#25340;&#38899;</span>
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">always</span>, <span style="color: #00603f;">toggle</span>: <span style="color: #00598b;">ascii_punct</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+Shift+3</span> }              <span style="color: #7f0000;"># &#20999;&#25442;&#20013;&#33521;&#26631;&#28857;</span>
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">always</span>, <span style="color: #00603f;">toggle</span>: <span style="color: #00598b;">ascii_punct</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+Shift+numbersign</span> }     <span style="color: #7f0000;"># &#20999;&#25442;&#20013;&#33521;&#26631;&#28857;</span>
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">always</span>, <span style="color: #00603f;">toggle</span>: <span style="color: #00598b;">s2t</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+Shift+4</span> }       <span style="color: #7f0000;"># &#20999;&#25442;&#31616;&#32321;</span>
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">always</span>, <span style="color: #00603f;">toggle</span>: <span style="color: #00598b;">s2t</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+Shift+dollar</span> }  <span style="color: #7f0000;"># &#20999;&#25442;&#31616;&#32321;</span>
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">always</span>, <span style="color: #00603f;">toggle</span>: <span style="color: #00598b;">full_shape</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+Shift+1</span> }             <span style="color: #7f0000;"># &#20999;&#25442;&#20840;&#21322;&#35282;</span>
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">always</span>, <span style="color: #00603f;">toggle</span>: <span style="color: #00598b;">full_shape</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+Shift+exclam</span> }       <span style="color: #7f0000;"># &#20999;&#25442;&#20840;&#21322;&#35282;</span>
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">minus</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Shift+Left</span> }
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">equal</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Shift+Right</span> }
+    - { <span style="color: #00603f;">when</span>: <span style="color: #00598b;">composing</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">Control+w</span>, <span style="color: #00603f;">send</span>: <span style="color: #00598b;">Control+Delete</span> }
 </code></pre>
 </div>
 <p>
 这一行的作用是输入音码之后通过双击 <code>``</code> 自动进入造词模式<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #6f6a70;"># &#24403;&#36755;&#20837;&#32534;&#30721;&#21518;&#21457;&#29616;&#27809;&#26377;&#35789;&#65292;&#21017;&#36890;&#36807;&#21452;&#20987;``&#36827;&#20837;&#36896;&#35789;&#27169;&#24335;&#32780;&#19988;&#19981;&#38656;&#35201;&#21024;&#38500;&#32534;&#30721;&#65292;&#36825;&#20010;&#21151;&#33021;&#19982;``&#30452;&#25509;&#24341;&#23548;&#30456;&#21628;&#24212;&#30456;&#37197;&#21512;</span>
-    - { <span style="color: #2f783f;">match</span>: <span style="color: #5f7200;">"^.*`$"</span>, <span style="color: #2f783f;">accept</span>: <span style="color: #5f7200;">"`"</span>, <span style="color: #2f783f;">send_sequence</span>: <span style="color: #5f7200;">'{BackSpace}{Home}{`}{`}{End}'</span> }
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f0000;"># &#24403;&#36755;&#20837;&#32534;&#30721;&#21518;&#21457;&#29616;&#27809;&#26377;&#35789;&#65292;&#21017;&#36890;&#36807;&#21452;&#20987;``&#36827;&#20837;&#36896;&#35789;&#27169;&#24335;&#32780;&#19988;&#19981;&#38656;&#35201;&#21024;&#38500;&#32534;&#30721;&#65292;&#36825;&#20010;&#21151;&#33021;&#19982;``&#30452;&#25509;&#24341;&#23548;&#30456;&#21628;&#24212;&#30456;&#37197;&#21512;</span>
+    - { <span style="color: #00603f;">match</span>: <span style="color: #00598b;">"^.*`$"</span>, <span style="color: #00603f;">accept</span>: <span style="color: #00598b;">"`"</span>, <span style="color: #00603f;">send_sequence</span>: <span style="color: #00598b;">'{BackSpace}{Home}{`}{`}{End}'</span> }
 </code></pre>
 </div>
 <p>
 这里用于设置什么按键可以直接上屏，由于我们需要 <code>;</code> 触发时间或符号 <code>`</code> 触发造词，因此将这俩加进去，把斜杠取出来。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #6f6a70;"># &#22914;&#26524;&#19981;&#24819;&#35753;&#20160;&#20040;&#26631;&#28857;&#30452;&#25509;&#19978;&#23631;&#65292;&#21487;&#20197;&#21152;&#22312; alphabet&#65292;&#25110;&#32773;&#32534;&#36753;&#26631;&#28857;&#31526;&#21495;&#20026;&#20004;&#20010;&#21450;&#20197;&#19978;&#30340;&#26144;&#23556;</span>
-  <span style="color: #2f783f;">alphabet</span>: <span style="color: #5f7200;">zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA1234567890`;</span>
-  <span style="color: #6f6a70;"># initials &#23450;&#20041;&#20165;&#20316;&#20026;&#22987;&#30721;&#30340;&#25353;&#38190;&#65292;&#25490;&#38500; ` &#35753;&#21333;&#20010;&#30340; ` &#21487;&#20197;&#30452;&#25509;&#19978;&#23631;</span>
-  <span style="color: #2f783f;">initials</span>: <span style="color: #5f7200;">zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA;</span>
+<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #7f0000;"># &#22914;&#26524;&#19981;&#24819;&#35753;&#20160;&#20040;&#26631;&#28857;&#30452;&#25509;&#19978;&#23631;&#65292;&#21487;&#20197;&#21152;&#22312; alphabet&#65292;&#25110;&#32773;&#32534;&#36753;&#26631;&#28857;&#31526;&#21495;&#20026;&#20004;&#20010;&#21450;&#20197;&#19978;&#30340;&#26144;&#23556;</span>
+  <span style="color: #00603f;">alphabet</span>: <span style="color: #00598b;">zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA1234567890`;</span>
+  <span style="color: #7f0000;"># initials &#23450;&#20041;&#20165;&#20316;&#20026;&#22987;&#30721;&#30340;&#25353;&#38190;&#65292;&#25490;&#38500; ` &#35753;&#21333;&#20010;&#30340; ` &#21487;&#20197;&#30452;&#25509;&#19978;&#23631;</span>
+  <span style="color: #00603f;">initials</span>: <span style="color: #00598b;">zyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA;</span>
 </code></pre>
 </div>
 <p>
 启用小鹤双拼<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #2f783f;">algebra</span>:
-    <span style="color: #2f783f;">__patch</span>:
-      <span style="color: #6f6a70;">#- &#27169;&#31946;&#38899;             #&#27169;&#31946;&#38899;&#36873;&#25321;&#24615;&#24320;&#21551;</span>
-      - <span style="color: #5f7200;">wanxiang_algebra:/pro/&#23567;&#40548;&#21452;&#25340;</span>     <span style="color: #6f6a70;">#&#25340;&#38899;&#36716;&#21452;&#25340;&#30721;</span>
-      - <span style="color: #5f7200;">wanxiang_algebra:/pro/&#38388;&#25509;&#36741;&#21161;</span>     <span style="color: #6f6a70;">#&#36741;&#21161;&#30721;&#37096;&#20998;</span>
+<pre class="src src-yaml" tabindex="0"><code>  <span style="color: #00603f;">algebra</span>:
+    <span style="color: #00603f;">__patch</span>:
+      <span style="color: #7f0000;">#- &#27169;&#31946;&#38899;             #&#27169;&#31946;&#38899;&#36873;&#25321;&#24615;&#24320;&#21551;</span>
+      - <span style="color: #00598b;">wanxiang_algebra:/pro/&#23567;&#40548;&#21452;&#25340;</span>     <span style="color: #7f0000;">#&#25340;&#38899;&#36716;&#21452;&#25340;&#30721;</span>
+      - <span style="color: #00598b;">wanxiang_algebra:/pro/&#38388;&#25509;&#36741;&#21161;</span>     <span style="color: #7f0000;">#&#36741;&#21161;&#30721;&#37096;&#20998;</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org3567b9c" class="outline-2">
-<h2 id="org3567b9c"><span class="section-number-2">4.</span> squirrel.custom.yaml</h2>
+<div id="outline-container-orge5594be" class="outline-2">
+<h2 id="orge5594be"><span class="section-number-2">4.</span> squirrel.custom.yaml</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 这个和 <code>weasel.custom.yaml</code> 都没啥好说的，外观配置罢了。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #2f783f;">patch</span>:
-  <span style="color: #2f783f;">show_notifications_when</span>: <span style="color: #5f7200;">appropriate</span>
-  <span style="color: #2f783f;">show_notifications_via_notification_center</span>: <span style="color: #a05a22;">true</span>
-  <span style="color: #2f783f;">app_options</span>: {}
-  <span style="color: #2f783f;">style</span>:
-    <span style="color: #2f783f;">inline_preedit</span>: <span style="color: #a05a22;">true</span>    <span style="color: #6f6a70;"># &#22312;&#25991;&#26412;&#26694;&#39023;&#31034;&#36664;&#20837;&#20018;</span>
-    <span style="color: #2f783f;">inline_candidate</span>: <span style="color: #a05a22;">false</span> <span style="color: #6f6a70;"># &#22312;&#25991;&#26412;&#26694;&#39023;&#31034;&#39318;&#36984;&#38917;</span>
-    <span style="color: #2f783f;">translucency</span>: <span style="color: #a05a22;">true</span>      <span style="color: #6f6a70;"># &#36879;&#26126;&#24230;&#32317;&#38283;&#38364;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">patch</span>:
+  <span style="color: #00603f;">show_notifications_when</span>: <span style="color: #00598b;">appropriate</span>
+  <span style="color: #00603f;">show_notifications_via_notification_center</span>: <span style="color: #531ab6;">true</span>
+  <span style="color: #00603f;">app_options</span>: {}
+  <span style="color: #00603f;">style</span>:
+    <span style="color: #00603f;">inline_preedit</span>: <span style="color: #531ab6;">true</span>    <span style="color: #7f0000;"># &#22312;&#25991;&#26412;&#26694;&#39023;&#31034;&#36664;&#20837;&#20018;</span>
+    <span style="color: #00603f;">inline_candidate</span>: <span style="color: #531ab6;">false</span> <span style="color: #7f0000;"># &#22312;&#25991;&#26412;&#26694;&#39023;&#31034;&#39318;&#36984;&#38917;</span>
+    <span style="color: #00603f;">translucency</span>: <span style="color: #531ab6;">true</span>      <span style="color: #7f0000;"># &#36879;&#26126;&#24230;&#32317;&#38283;&#38364;</span>
 
-    <span style="color: #6f6a70;"># &#28154;&#33394;&#20027;&#39064;</span>
-    <span style="color: #2f783f;">color_scheme</span>: <span style="color: #5f7200;">wechat</span>
-    <span style="color: #6f6a70;"># &#28145;&#33394;&#20027;&#39064;</span>
-    <span style="color: #2f783f;">color_scheme_dark</span>: <span style="color: #5f7200;">apathy</span>
+    <span style="color: #7f0000;"># &#28154;&#33394;&#20027;&#39064;</span>
+    <span style="color: #00603f;">color_scheme</span>: <span style="color: #00598b;">wechat</span>
+    <span style="color: #7f0000;"># &#28145;&#33394;&#20027;&#39064;</span>
+    <span style="color: #00603f;">color_scheme_dark</span>: <span style="color: #00598b;">apathy</span>
 
-    <span style="color: #6f6a70;"># &#40664;&#35469;&#30028;&#38754;&#35373;&#32622; (&#26371;&#34987;&#20855;&#39636;&#20027;&#38988;&#35206;&#23531;)</span>
-    <span style="color: #2f783f;">font_point</span>: <span style="color: #6c4631;">14</span>
-    <span style="color: #2f783f;">font_face</span>: <span style="color: #5f7200;">LXGW WenKai</span>
-    <span style="color: #2f783f;">corner_radius</span>: <span style="color: #6c4631;">5</span>
-    <span style="color: #6f6a70;"># hilited_corner_radius: 5</span>
-    <span style="color: #2f783f;">line_spacing</span>: <span style="color: #6c4631;">8</span>
-    <span style="color: #2f783f;">hilite_spacing</span>: <span style="color: #6c4631;">6</span>
-    <span style="color: #2f783f;">spacing</span>: <span style="color: #6c4631;">12</span>
-    <span style="color: #2f783f;">text_orientation</span>: <span style="color: #5f7200;">horizontal</span>  <span style="color: #6f6a70;"># horizontal | vertical</span>
+    <span style="color: #7f0000;"># &#40664;&#35469;&#30028;&#38754;&#35373;&#32622; (&#26371;&#34987;&#20855;&#39636;&#20027;&#38988;&#35206;&#23531;)</span>
+    <span style="color: #00603f;">font_point</span>: <span style="color: #000000;">14</span>
+    <span style="color: #00603f;">font_face</span>: <span style="color: #00598b;">LXGW WenKai</span>
+    <span style="color: #00603f;">corner_radius</span>: <span style="color: #000000;">5</span>
+    <span style="color: #7f0000;"># hilited_corner_radius: 5</span>
+    <span style="color: #00603f;">line_spacing</span>: <span style="color: #000000;">8</span>
+    <span style="color: #00603f;">hilite_spacing</span>: <span style="color: #000000;">6</span>
+    <span style="color: #00603f;">spacing</span>: <span style="color: #000000;">12</span>
+    <span style="color: #00603f;">text_orientation</span>: <span style="color: #00598b;">horizontal</span>  <span style="color: #7f0000;"># horizontal | vertical</span>
 
-  <span style="color: #2f783f;">preset_color_schemes</span>:
-    <span style="color: #2f783f;">wechat</span>:
-      <span style="color: #2f783f;">name</span>: <span style="color: #5f7200;">"&#39640;&#20223;&#24494;&#20449;&#36755;&#20837;&#27861;"</span>
-      <span style="color: #2f783f;">author</span>: <span style="color: #5f7200;">"Lufs X <a href="mailto:i%40isteed.cc">&lt;i@isteed.cc&gt;</a>"</span>
+  <span style="color: #00603f;">preset_color_schemes</span>:
+    <span style="color: #00603f;">wechat</span>:
+      <span style="color: #00603f;">name</span>: <span style="color: #00598b;">"&#39640;&#20223;&#24494;&#20449;&#36755;&#20837;&#27861;"</span>
+      <span style="color: #00603f;">author</span>: <span style="color: #00598b;">"Lufs X <a href="mailto:i%40isteed.cc">&lt;i@isteed.cc&gt;</a>"</span>
       
-      <span style="color: #2f783f;">font_face</span>: <span style="color: #5f7200;">"PingFangSC-Regular"</span>
-      <span style="color: #2f783f;">font_point</span>: <span style="color: #6c4631;">18</span>
-      <span style="color: #2f783f;">label_font_face</span>: <span style="color: #5f7200;">"PingFangSC-Regular"</span>
-      <span style="color: #2f783f;">label_font_point</span>: <span style="color: #6c4631;">16</span>
-      <span style="color: #2f783f;">comment_font_face</span>: <span style="color: #5f7200;">"PingFangSC-Regular"</span>
-      <span style="color: #2f783f;">comment_font_point</span>: <span style="color: #6c4631;">16</span>
+      <span style="color: #00603f;">font_face</span>: <span style="color: #00598b;">"PingFangSC-Regular"</span>
+      <span style="color: #00603f;">font_point</span>: <span style="color: #000000;">18</span>
+      <span style="color: #00603f;">label_font_face</span>: <span style="color: #00598b;">"PingFangSC-Regular"</span>
+      <span style="color: #00603f;">label_font_point</span>: <span style="color: #000000;">16</span>
+      <span style="color: #00603f;">comment_font_face</span>: <span style="color: #00598b;">"PingFangSC-Regular"</span>
+      <span style="color: #00603f;">comment_font_point</span>: <span style="color: #000000;">16</span>
       
-      <span style="color: #2f783f;">candidate_format</span>: <span style="color: #5f7200;">"%c</span><span style="color: #2f783f;">\u2005</span><span style="color: #5f7200;">%@"</span>
-      <span style="color: #2f783f;">candidate_list_layout</span>: <span style="color: #5f7200;">linear</span>
-      <span style="color: #2f783f;">text_orientation</span>: <span style="color: #5f7200;">horizontal</span>
-      <span style="color: #2f783f;">inline_preedit</span>: <span style="color: #a05a22;">true</span>
+      <span style="color: #00603f;">candidate_format</span>: <span style="color: #00598b;">"%c</span><span style="color: #8f0075;">\u2005</span><span style="color: #00598b;">%@"</span>
+      <span style="color: #00603f;">candidate_list_layout</span>: <span style="color: #00598b;">linear</span>
+      <span style="color: #00603f;">text_orientation</span>: <span style="color: #00598b;">horizontal</span>
+      <span style="color: #00603f;">inline_preedit</span>: <span style="color: #531ab6;">true</span>
       
-      <span style="color: #2f783f;">corner_radius</span>: <span style="color: #6c4631;">7</span>
-      <span style="color: #2f783f;">hilited_corner_radius</span>: <span style="color: #6c4631;">7</span>
-      <span style="color: #2f783f;">border_height</span>: <span style="color: #6c4631;">-2</span>
+      <span style="color: #00603f;">corner_radius</span>: <span style="color: #000000;">7</span>
+      <span style="color: #00603f;">hilited_corner_radius</span>: <span style="color: #000000;">7</span>
+      <span style="color: #00603f;">border_height</span>: <span style="color: #000000;">-2</span>
       
-      <span style="color: #2f783f;">color_space</span>: <span style="color: #5f7200;">display_p3</span>
-      <span style="color: #2f783f;">back_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">border_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">candidate_text_color</span>: <span style="color: #6c4631;">0x444444</span>
-      <span style="color: #2f783f;">comment_text_color</span>: <span style="color: #6c4631;">0x8E8E8E</span>
-      <span style="color: #2f783f;">label_color</span>: <span style="color: #6c4631;">0x888785</span>
-      <span style="color: #2f783f;">hilited_candidate_back_color</span>: <span style="color: #6c4631;">0xaf9a23</span>
-      <span style="color: #2f783f;">hilited_candidate_text_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">hilited_comment_text_color</span>: <span style="color: #6c4631;">0xF0F0F0</span>
-      <span style="color: #2f783f;">hilited_candidate_label_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">text_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">hilited_text_color</span>: <span style="color: #6c4631;">0xD8000000</span>
+      <span style="color: #00603f;">color_space</span>: <span style="color: #00598b;">display_p3</span>
+      <span style="color: #00603f;">back_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">border_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">candidate_text_color</span>: <span style="color: #000000;">0x444444</span>
+      <span style="color: #00603f;">comment_text_color</span>: <span style="color: #000000;">0x8E8E8E</span>
+      <span style="color: #00603f;">label_color</span>: <span style="color: #000000;">0x888785</span>
+      <span style="color: #00603f;">hilited_candidate_back_color</span>: <span style="color: #000000;">0xaf9a23</span>
+      <span style="color: #00603f;">hilited_candidate_text_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">hilited_comment_text_color</span>: <span style="color: #000000;">0xF0F0F0</span>
+      <span style="color: #00603f;">hilited_candidate_label_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">text_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">hilited_text_color</span>: <span style="color: #000000;">0xD8000000</span>
     
-    <span style="color: #2f783f;">apathy</span>:
-      <span style="color: #2f783f;">name</span>: <span style="color: #5f7200;">&#20919;&#28448;&#65295;Apathy</span>
-      <span style="color: #2f783f;">author</span>: <span style="color: #5f7200;">LIANG Hai</span>
-      <span style="color: #2f783f;">candidate_list_layout</span>: <span style="color: #5f7200;">linear</span>  <span style="color: #6f6a70;"># &#27700;&#24179;&#25490;&#21015;</span>
-      <span style="color: #2f783f;">inline_preedit</span>: <span style="color: #a05a22;">true</span> <span style="color: #6f6a70;">#&#21333;&#34892;&#26174;&#31034;&#65292;false&#21452;&#34892;&#26174;&#31034;</span>
-      <span style="color: #2f783f;">candidate_format</span>: <span style="color: #5f7200;">"%c</span><span style="color: #2f783f;">\u2005</span><span style="color: #5f7200;">%@</span><span style="color: #2f783f;">\u2005</span><span style="color: #5f7200;">"</span>  <span style="color: #6f6a70;"># &#32534;&#21495; %c &#21644;&#20505;&#36873;&#35789; %@ &#21069;&#21518;&#30340;&#31354;&#38388;</span>
-      <span style="color: #2f783f;">corner_radius</span>: <span style="color: #6c4631;">5</span>  <span style="color: #6f6a70;">#&#20505;&#36873;&#26465;&#22278;&#35282;</span>
-      <span style="color: #2f783f;">border_height</span>: <span style="color: #6c4631;">0</span>
-      <span style="color: #2f783f;">border_width</span>: <span style="color: #6c4631;">0</span>
-      <span style="color: #2f783f;">back_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>  <span style="color: #6f6a70;">#&#20505;&#36873;&#26465;&#32972;&#26223;&#33394;</span>
-      <span style="color: #2f783f;">font_face</span>: <span style="color: #5f7200;">"PingFangSC-Regular,HanaMinB"</span>  <span style="color: #6f6a70;">#&#20505;&#36873;&#35789;&#23383;&#20307;</span>
-      <span style="color: #2f783f;">font_point</span>: <span style="color: #6c4631;">16</span>  <span style="color: #6f6a70;">#&#20505;&#36873;&#23383;&#35789;&#22823;&#23567;</span>
-      <span style="color: #2f783f;">text_color</span>: <span style="color: #6c4631;">0x424242</span>  <span style="color: #6f6a70;">#&#39640;&#20142;&#36873;&#20013;&#35789;&#39068;&#33394;</span>
-      <span style="color: #2f783f;">label_font_face</span>: <span style="color: #5f7200;">"STHeitiSC-Light"</span>   <span style="color: #6f6a70;">#&#20505;&#36873;&#35789;&#32534;&#21495;&#23383;&#20307;</span>
-      <span style="color: #2f783f;">label_font_point</span>: <span style="color: #6c4631;">12</span>   <span style="color: #6f6a70;">#&#20505;&#36873;&#32534;&#21495;&#22823;&#23567;</span>
-      <span style="color: #2f783f;">hilited_candidate_text_color</span>: <span style="color: #6c4631;">0xEE6E00</span>  <span style="color: #6f6a70;">#&#20505;&#36873;&#25991;&#23383;&#39068;&#33394;</span>
-      <span style="color: #2f783f;">hilited_candidate_back_color</span>: <span style="color: #6c4631;">0xFFF0E4</span>  <span style="color: #6f6a70;">#&#20505;&#36873;&#25991;&#23383;&#32972;&#26223;&#33394;</span>
-      <span style="color: #2f783f;">comment_text_color</span>: <span style="color: #6c4631;">0x999999</span>  <span style="color: #6f6a70;">#&#25340;&#38899;&#31561;&#25552;&#31034;&#25991;&#23383;&#39068;&#33394;</span>
+    <span style="color: #00603f;">apathy</span>:
+      <span style="color: #00603f;">name</span>: <span style="color: #00598b;">&#20919;&#28448;&#65295;Apathy</span>
+      <span style="color: #00603f;">author</span>: <span style="color: #00598b;">LIANG Hai</span>
+      <span style="color: #00603f;">candidate_list_layout</span>: <span style="color: #00598b;">linear</span>  <span style="color: #7f0000;"># &#27700;&#24179;&#25490;&#21015;</span>
+      <span style="color: #00603f;">inline_preedit</span>: <span style="color: #531ab6;">true</span> <span style="color: #7f0000;">#&#21333;&#34892;&#26174;&#31034;&#65292;false&#21452;&#34892;&#26174;&#31034;</span>
+      <span style="color: #00603f;">candidate_format</span>: <span style="color: #00598b;">"%c</span><span style="color: #8f0075;">\u2005</span><span style="color: #00598b;">%@</span><span style="color: #8f0075;">\u2005</span><span style="color: #00598b;">"</span>  <span style="color: #7f0000;"># &#32534;&#21495; %c &#21644;&#20505;&#36873;&#35789; %@ &#21069;&#21518;&#30340;&#31354;&#38388;</span>
+      <span style="color: #00603f;">corner_radius</span>: <span style="color: #000000;">5</span>  <span style="color: #7f0000;">#&#20505;&#36873;&#26465;&#22278;&#35282;</span>
+      <span style="color: #00603f;">border_height</span>: <span style="color: #000000;">0</span>
+      <span style="color: #00603f;">border_width</span>: <span style="color: #000000;">0</span>
+      <span style="color: #00603f;">back_color</span>: <span style="color: #000000;">0xFFFFFF</span>  <span style="color: #7f0000;">#&#20505;&#36873;&#26465;&#32972;&#26223;&#33394;</span>
+      <span style="color: #00603f;">font_face</span>: <span style="color: #00598b;">"PingFangSC-Regular,HanaMinB"</span>  <span style="color: #7f0000;">#&#20505;&#36873;&#35789;&#23383;&#20307;</span>
+      <span style="color: #00603f;">font_point</span>: <span style="color: #000000;">16</span>  <span style="color: #7f0000;">#&#20505;&#36873;&#23383;&#35789;&#22823;&#23567;</span>
+      <span style="color: #00603f;">text_color</span>: <span style="color: #000000;">0x424242</span>  <span style="color: #7f0000;">#&#39640;&#20142;&#36873;&#20013;&#35789;&#39068;&#33394;</span>
+      <span style="color: #00603f;">label_font_face</span>: <span style="color: #00598b;">"STHeitiSC-Light"</span>   <span style="color: #7f0000;">#&#20505;&#36873;&#35789;&#32534;&#21495;&#23383;&#20307;</span>
+      <span style="color: #00603f;">label_font_point</span>: <span style="color: #000000;">12</span>   <span style="color: #7f0000;">#&#20505;&#36873;&#32534;&#21495;&#22823;&#23567;</span>
+      <span style="color: #00603f;">hilited_candidate_text_color</span>: <span style="color: #000000;">0xEE6E00</span>  <span style="color: #7f0000;">#&#20505;&#36873;&#25991;&#23383;&#39068;&#33394;</span>
+      <span style="color: #00603f;">hilited_candidate_back_color</span>: <span style="color: #000000;">0xFFF0E4</span>  <span style="color: #7f0000;">#&#20505;&#36873;&#25991;&#23383;&#32972;&#26223;&#33394;</span>
+      <span style="color: #00603f;">comment_text_color</span>: <span style="color: #000000;">0x999999</span>  <span style="color: #7f0000;">#&#25340;&#38899;&#31561;&#25552;&#31034;&#25991;&#23383;&#39068;&#33394;</span>
       
       
-  <span style="color: #2f783f;">app_options</span>:
-    <span style="color: #2f783f;">com.google.Chrome</span>:
-      <span style="color: #6f6a70;"># &#35215;&#36991; https://github.com/rime/squirrel/issues/435</span>
-      <span style="color: #2f783f;">inline</span>: <span style="color: #a05a22;">true</span>
-    <span style="color: #2f783f;">ru.keepcoder.Telegram</span>:
-      <span style="color: #6f6a70;"># &#35215;&#36991; https://github.com/rime/squirrel/issues/475</span>
-      <span style="color: #2f783f;">inline</span>: <span style="color: #a05a22;">true</span>
+  <span style="color: #00603f;">app_options</span>:
+    <span style="color: #00603f;">com.google.Chrome</span>:
+      <span style="color: #7f0000;"># &#35215;&#36991; https://github.com/rime/squirrel/issues/435</span>
+      <span style="color: #00603f;">inline</span>: <span style="color: #531ab6;">true</span>
+    <span style="color: #00603f;">ru.keepcoder.Telegram</span>:
+      <span style="color: #7f0000;"># &#35215;&#36991; https://github.com/rime/squirrel/issues/475</span>
+      <span style="color: #00603f;">inline</span>: <span style="color: #531ab6;">true</span>
       
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgcc0a1fe" class="outline-2">
-<h2 id="orgcc0a1fe"><span class="section-number-2">5.</span> weasel.custom.yaml</h2>
+<div id="outline-container-org790839c" class="outline-2">
+<h2 id="org790839c"><span class="section-number-2">5.</span> weasel.custom.yaml</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #2f783f;">patch</span>:
-  <span style="color: #2f783f;">app_options</span>:
-    <span style="color: #2f783f;">firefox.exe</span>:
-      <span style="color: #2f783f;">inline_preedit</span>: <span style="color: #a05a22;">true</span> <span style="color: #6f6a70;"># &#34892;&#20869;&#26174;&#31034;&#39044;&#32534;&#36753;&#21306;&#65306;&#35268;&#36991; https://github.com/rime/weasel/issues/946</span>
-  <span style="color: #2f783f;">style</span>:
-    <span style="color: #2f783f;">color_scheme</span>: <span style="color: #5f7200;">wechat</span>      <span style="color: #6f6a70;"># &#40664;&#35748;&#37197;&#33394;&#26041;&#26696;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">patch</span>:
+  <span style="color: #00603f;">app_options</span>:
+    <span style="color: #00603f;">firefox.exe</span>:
+      <span style="color: #00603f;">inline_preedit</span>: <span style="color: #531ab6;">true</span> <span style="color: #7f0000;"># &#34892;&#20869;&#26174;&#31034;&#39044;&#32534;&#36753;&#21306;&#65306;&#35268;&#36991; https://github.com/rime/weasel/issues/946</span>
+  <span style="color: #00603f;">style</span>:
+    <span style="color: #00603f;">color_scheme</span>: <span style="color: #00598b;">wechat</span>      <span style="color: #7f0000;"># &#40664;&#35748;&#37197;&#33394;&#26041;&#26696;</span>
 
-    <span style="color: #6f6a70;"># &#20840;&#23616;&#23383;&#20307;</span>
-    <span style="color: #6f6a70;"># &#26684;&#24335;&#65306;&#23383;&#20307;1:&#36215;&#22987;&#30721;&#20301;:&#32467;&#26463;&#30721;&#20301;:&#23383;&#37325;:&#23383;&#24418;,&#23383;&#20307;2&#8230;&#8230;&#65292;&#23383;&#20307;&#20250;&#20381;&#27425; fallback</span>
-    <span style="color: #6f6a70;"># &#35814;&#32454;&#35774;&#23450;&#35831;&#21442;&#32771; <a href="https://github.com/rime/weasel/wiki/&#23383;&#39636;&#35373;&#23450;">&lt;https://github.com/rime/weasel/wiki/&#23383;&#39636;&#35373;&#23450;&gt;</a></span>
-    <span style="color: #2f783f;">font_face</span>: <span style="color: #5f7200;">"Segoe UI Emoji, HarmonyOS Sans SC, SF Pro, Noto Color Emoji"</span>
-    <span style="color: #2f783f;">label_font_face</span>: <span style="color: #5f7200;">"HarmonyOS Sans SC"</span>       <span style="color: #6f6a70;"># &#26631;&#31614;&#23383;&#20307;</span>
-    <span style="color: #2f783f;">comment_font_face</span>: <span style="color: #5f7200;">"HarmonyOS Sans SC"</span>     <span style="color: #6f6a70;"># &#27880;&#37322;&#23383;&#20307;</span>
-    <span style="color: #2f783f;">font_point</span>: <span style="color: #6c4631;">12</span>                           <span style="color: #6f6a70;"># &#20840;&#23616;&#23383;&#20307;&#23383;&#21495;</span>
-    <span style="color: #2f783f;">label_font_point</span>: <span style="color: #6c4631;">11</span>                     <span style="color: #6f6a70;"># &#26631;&#31614;&#23383;&#20307;&#23383;&#21495;&#65292;&#19981;&#35774;&#23450; fallback &#21040; font_point</span>
-    <span style="color: #2f783f;">comment_font_point</span>: <span style="color: #6c4631;">11</span>                   <span style="color: #6f6a70;"># &#27880;&#37322;&#23383;&#20307;&#23383;&#21495;&#65292;&#19981;&#35774;&#23450; fallback &#21040; font_point</span>
+    <span style="color: #7f0000;"># &#20840;&#23616;&#23383;&#20307;</span>
+    <span style="color: #7f0000;"># &#26684;&#24335;&#65306;&#23383;&#20307;1:&#36215;&#22987;&#30721;&#20301;:&#32467;&#26463;&#30721;&#20301;:&#23383;&#37325;:&#23383;&#24418;,&#23383;&#20307;2&#8230;&#8230;&#65292;&#23383;&#20307;&#20250;&#20381;&#27425; fallback</span>
+    <span style="color: #7f0000;"># &#35814;&#32454;&#35774;&#23450;&#35831;&#21442;&#32771; <a href="https://github.com/rime/weasel/wiki/&#23383;&#39636;&#35373;&#23450;">&lt;https://github.com/rime/weasel/wiki/&#23383;&#39636;&#35373;&#23450;&gt;</a></span>
+    <span style="color: #00603f;">font_face</span>: <span style="color: #00598b;">"Segoe UI Emoji, HarmonyOS Sans SC, SF Pro, Noto Color Emoji"</span>
+    <span style="color: #00603f;">label_font_face</span>: <span style="color: #00598b;">"HarmonyOS Sans SC"</span>       <span style="color: #7f0000;"># &#26631;&#31614;&#23383;&#20307;</span>
+    <span style="color: #00603f;">comment_font_face</span>: <span style="color: #00598b;">"HarmonyOS Sans SC"</span>     <span style="color: #7f0000;"># &#27880;&#37322;&#23383;&#20307;</span>
+    <span style="color: #00603f;">font_point</span>: <span style="color: #000000;">12</span>                           <span style="color: #7f0000;"># &#20840;&#23616;&#23383;&#20307;&#23383;&#21495;</span>
+    <span style="color: #00603f;">label_font_point</span>: <span style="color: #000000;">11</span>                     <span style="color: #7f0000;"># &#26631;&#31614;&#23383;&#20307;&#23383;&#21495;&#65292;&#19981;&#35774;&#23450; fallback &#21040; font_point</span>
+    <span style="color: #00603f;">comment_font_point</span>: <span style="color: #000000;">11</span>                   <span style="color: #7f0000;"># &#27880;&#37322;&#23383;&#20307;&#23383;&#21495;&#65292;&#19981;&#35774;&#23450; fallback &#21040; font_point</span>
 
-    <span style="color: #2f783f;">inline_preedit</span>: <span style="color: #a05a22;">true</span>                     <span style="color: #6f6a70;"># &#34892;&#20869;&#26174;&#31034;&#39044;&#32534;&#36753;&#21306;&#65306;true&#65307;false</span>
-    <span style="color: #2f783f;">preedit_type</span>: <span style="color: #5f7200;">composition</span>                <span style="color: #6f6a70;"># &#39044;&#32534;&#36753;&#21306;&#20869;&#23481;&#65306;composition&#65288;&#32534;&#30721;&#65289;&#65307; preview&#65288;&#36873;&#20013;&#30340;&#20505;&#36873;&#65289;&#65307;preview_all&#65288;&#20840;&#37096;&#20505;&#36873;&#65289;</span>
+    <span style="color: #00603f;">inline_preedit</span>: <span style="color: #531ab6;">true</span>                     <span style="color: #7f0000;"># &#34892;&#20869;&#26174;&#31034;&#39044;&#32534;&#36753;&#21306;&#65306;true&#65307;false</span>
+    <span style="color: #00603f;">preedit_type</span>: <span style="color: #00598b;">composition</span>                <span style="color: #7f0000;"># &#39044;&#32534;&#36753;&#21306;&#20869;&#23481;&#65306;composition&#65288;&#32534;&#30721;&#65289;&#65307; preview&#65288;&#36873;&#20013;&#30340;&#20505;&#36873;&#65289;&#65307;preview_all&#65288;&#20840;&#37096;&#20505;&#36873;&#65289;</span>
 
-    <span style="color: #2f783f;">fullscreen</span>: <span style="color: #a05a22;">false</span>                        <span style="color: #6f6a70;"># &#20505;&#36873;&#31383;&#21475;&#20840;&#23631;&#26174;&#31034;&#65306;true&#65307;false</span>
-    <span style="color: #2f783f;">horizontal</span>: <span style="color: #a05a22;">true</span>                         <span style="color: #6f6a70;"># &#20505;&#36873;&#39033;&#27178;&#25490;&#65306;true&#65307;false</span>
-    <span style="color: #2f783f;">vertical_text</span>: <span style="color: #a05a22;">false</span>                     <span style="color: #6f6a70;"># &#31446;&#25490;&#25991;&#26412;&#65306;true&#65307;false</span>
-    <span style="color: #6f6a70;"># text_orientation: horizontal           # &#25991;&#26412;&#25490;&#21015;&#26041;&#21521;&#65292;&#25928;&#26524;&#21644; `vertical_text` &#30456;&#21516;&#65306;horizontal&#65307;vertical</span>
-    <span style="color: #2f783f;">vertical_text_left_to_right</span>: <span style="color: #a05a22;">false</span>       <span style="color: #6f6a70;"># &#31446;&#25490;&#26041;&#21521;&#26159;&#21542;&#20174;&#24038;&#21040;&#21491;&#65306;true&#65307;false</span>
-    <span style="color: #2f783f;">vertical_text_with_wrap</span>: <span style="color: #a05a22;">false</span>           <span style="color: #6f6a70;"># &#25991;&#26412;&#31446;&#25490;&#27169;&#24335;&#19979;&#65292;&#33258;&#21160;&#25442;&#34892;&#65306;true&#65307;false</span>
-    <span style="color: #2f783f;">vertical_auto_reverse</span>: <span style="color: #a05a22;">false</span>             <span style="color: #6f6a70;"># &#25991;&#26412;&#31446;&#25490;&#27169;&#24335;&#19979;&#65292;&#20505;&#36873;&#31383;&#21475;&#20301;&#20110;&#20809;&#26631;&#19978;&#26041;&#26102;&#20498;&#24207;&#25490;&#21015;&#65306;true&#65307;false</span>
+    <span style="color: #00603f;">fullscreen</span>: <span style="color: #531ab6;">false</span>                        <span style="color: #7f0000;"># &#20505;&#36873;&#31383;&#21475;&#20840;&#23631;&#26174;&#31034;&#65306;true&#65307;false</span>
+    <span style="color: #00603f;">horizontal</span>: <span style="color: #531ab6;">true</span>                         <span style="color: #7f0000;"># &#20505;&#36873;&#39033;&#27178;&#25490;&#65306;true&#65307;false</span>
+    <span style="color: #00603f;">vertical_text</span>: <span style="color: #531ab6;">false</span>                     <span style="color: #7f0000;"># &#31446;&#25490;&#25991;&#26412;&#65306;true&#65307;false</span>
+    <span style="color: #7f0000;"># text_orientation: horizontal           # &#25991;&#26412;&#25490;&#21015;&#26041;&#21521;&#65292;&#25928;&#26524;&#21644; `vertical_text` &#30456;&#21516;&#65306;horizontal&#65307;vertical</span>
+    <span style="color: #00603f;">vertical_text_left_to_right</span>: <span style="color: #531ab6;">false</span>       <span style="color: #7f0000;"># &#31446;&#25490;&#26041;&#21521;&#26159;&#21542;&#20174;&#24038;&#21040;&#21491;&#65306;true&#65307;false</span>
+    <span style="color: #00603f;">vertical_text_with_wrap</span>: <span style="color: #531ab6;">false</span>           <span style="color: #7f0000;"># &#25991;&#26412;&#31446;&#25490;&#27169;&#24335;&#19979;&#65292;&#33258;&#21160;&#25442;&#34892;&#65306;true&#65307;false</span>
+    <span style="color: #00603f;">vertical_auto_reverse</span>: <span style="color: #531ab6;">false</span>             <span style="color: #7f0000;"># &#25991;&#26412;&#31446;&#25490;&#27169;&#24335;&#19979;&#65292;&#20505;&#36873;&#31383;&#21475;&#20301;&#20110;&#20809;&#26631;&#19978;&#26041;&#26102;&#20498;&#24207;&#25490;&#21015;&#65306;true&#65307;false</span>
 
-    <span style="color: #2f783f;">label_format</span>: <span style="color: #5f7200;">"%s"</span>                       <span style="color: #6f6a70;"># &#26631;&#31614;&#23383;&#31526;&#65306;&#20363;&#22914; %s. &#25928;&#26524;&#20026; 1. 2. 3. ....</span>
-    <span style="color: #2f783f;">mark_text</span>: <span style="color: #5f7200;">""</span>                           <span style="color: #6f6a70;"># &#26631;&#35760;&#23383;&#31526;&#65292;&#26174;&#31034;&#22312;&#36873;&#20013;&#30340;&#20505;&#36873;&#26631;&#31614;&#21069;&#65292;&#38656;&#35201;&#22312;&#37197;&#33394;&#26041;&#26696;&#20013;&#25351;&#23450;&#39068;&#33394;&#65307;&#22914;&#35813;&#39033;&#20026;&#31354;&#23383;&#31526;&#20018; "" &#32780;&#37197;&#33394;&#26041;&#26696;&#20013; hilited_mark_color &#38750;&#36879;&#26126;&#33394;&#65292;&#21017;&#26174;&#31034; Windows 11 &#36755;&#20837;&#27861;&#39118;&#26684;&#26631;&#35760;</span>
-    <span style="color: #2f783f;">ascii_tip_follow_cursor</span>: <span style="color: #a05a22;">false</span>           <span style="color: #6f6a70;"># &#20999;&#25442; ASCII &#27169;&#24335;&#26102;&#65292;&#25552;&#31034;&#36319;&#38543;&#40736;&#26631;&#65292;&#32780;&#38750;&#36755;&#20837;&#20809;&#26631;</span>
-    <span style="color: #2f783f;">enhanced_position</span>: <span style="color: #a05a22;">true</span>                  <span style="color: #6f6a70;"># &#26080;&#27861;&#23450;&#20301;&#20505;&#36873;&#26694;&#26102;&#65292;&#22312;&#31383;&#21475;&#24038;&#19978;&#35282;&#26174;&#31034;&#20505;&#36873;&#26694;&#65306;true&#65307;false</span>
-    <span style="color: #2f783f;">display_tray_icon</span>: <span style="color: #a05a22;">false</span>                 <span style="color: #6f6a70;"># &#25176;&#30424;&#26174;&#31034;&#29420;&#31435;&#20110;&#35821;&#35328;&#26639;&#30340;&#39069;&#22806;&#22270;&#26631;&#65306;true&#65307;false</span>
-    <span style="color: #2f783f;">antialias_mode</span>: <span style="color: #5f7200;">default</span>                  <span style="color: #6f6a70;"># &#27425;&#20687;&#32032;&#21453;&#38191;&#40831;&#35774;&#23450;&#65306;default&#65307;force_dword&#65307;cleartype&#65307;grayscale&#65307;aliased</span>
-    <span style="color: #2f783f;">candidate_abbreviate_length</span>: <span style="color: #6c4631;">30</span>          <span style="color: #6f6a70;"># &#20505;&#36873;&#39033;&#30053;&#20889;&#65292;&#36229;&#36807;&#27492;&#25968;&#23383;&#21017;&#29992;&#30465;&#30053;&#21495;&#20195;&#26367;&#12290;&#35774;&#32622;&#20026; 0 &#21017;&#19981;&#21551;&#29992;&#27492;&#21151;&#33021;</span>
-    <span style="color: #6f6a70;"># mouse_hover_ms: 0                      # ! &#24050;&#24323;&#29992;&#12290;&#40736;&#26631;&#24748;&#20572;&#36873;&#35789;&#21709;&#24212;&#26102;&#38388;&#65288;ms&#65289;&#65292;&#35774;&#32622;&#20026; 0 &#26102;&#31105;&#29992;&#35813;&#21151;&#33021;</span>
-    <span style="color: #2f783f;">hover_type</span>: <span style="color: #5f7200;">semi_hilite</span>                  <span style="color: #6f6a70;"># &#40736;&#26631;&#22312;&#20505;&#36873;&#31383;&#21475;&#24748;&#20572;&#26102;&#65306;none&#65288;&#26080;&#21160;&#20316;&#65289;&#65307;hilite&#65288;&#36873;&#20013;&#40736;&#26631;&#19979;&#30340;&#20505;&#36873;&#65289;&#65307;semi_hilite&#65288;&#39640;&#20142;&#40736;&#26631;&#19979;&#30340;&#20505;&#36873;&#65289;</span>
+    <span style="color: #00603f;">label_format</span>: <span style="color: #00598b;">"%s"</span>                       <span style="color: #7f0000;"># &#26631;&#31614;&#23383;&#31526;&#65306;&#20363;&#22914; %s. &#25928;&#26524;&#20026; 1. 2. 3. ....</span>
+    <span style="color: #00603f;">mark_text</span>: <span style="color: #00598b;">""</span>                           <span style="color: #7f0000;"># &#26631;&#35760;&#23383;&#31526;&#65292;&#26174;&#31034;&#22312;&#36873;&#20013;&#30340;&#20505;&#36873;&#26631;&#31614;&#21069;&#65292;&#38656;&#35201;&#22312;&#37197;&#33394;&#26041;&#26696;&#20013;&#25351;&#23450;&#39068;&#33394;&#65307;&#22914;&#35813;&#39033;&#20026;&#31354;&#23383;&#31526;&#20018; "" &#32780;&#37197;&#33394;&#26041;&#26696;&#20013; hilited_mark_color &#38750;&#36879;&#26126;&#33394;&#65292;&#21017;&#26174;&#31034; Windows 11 &#36755;&#20837;&#27861;&#39118;&#26684;&#26631;&#35760;</span>
+    <span style="color: #00603f;">ascii_tip_follow_cursor</span>: <span style="color: #531ab6;">false</span>           <span style="color: #7f0000;"># &#20999;&#25442; ASCII &#27169;&#24335;&#26102;&#65292;&#25552;&#31034;&#36319;&#38543;&#40736;&#26631;&#65292;&#32780;&#38750;&#36755;&#20837;&#20809;&#26631;</span>
+    <span style="color: #00603f;">enhanced_position</span>: <span style="color: #531ab6;">true</span>                  <span style="color: #7f0000;"># &#26080;&#27861;&#23450;&#20301;&#20505;&#36873;&#26694;&#26102;&#65292;&#22312;&#31383;&#21475;&#24038;&#19978;&#35282;&#26174;&#31034;&#20505;&#36873;&#26694;&#65306;true&#65307;false</span>
+    <span style="color: #00603f;">display_tray_icon</span>: <span style="color: #531ab6;">false</span>                 <span style="color: #7f0000;"># &#25176;&#30424;&#26174;&#31034;&#29420;&#31435;&#20110;&#35821;&#35328;&#26639;&#30340;&#39069;&#22806;&#22270;&#26631;&#65306;true&#65307;false</span>
+    <span style="color: #00603f;">antialias_mode</span>: <span style="color: #00598b;">default</span>                  <span style="color: #7f0000;"># &#27425;&#20687;&#32032;&#21453;&#38191;&#40831;&#35774;&#23450;&#65306;default&#65307;force_dword&#65307;cleartype&#65307;grayscale&#65307;aliased</span>
+    <span style="color: #00603f;">candidate_abbreviate_length</span>: <span style="color: #000000;">30</span>          <span style="color: #7f0000;"># &#20505;&#36873;&#39033;&#30053;&#20889;&#65292;&#36229;&#36807;&#27492;&#25968;&#23383;&#21017;&#29992;&#30465;&#30053;&#21495;&#20195;&#26367;&#12290;&#35774;&#32622;&#20026; 0 &#21017;&#19981;&#21551;&#29992;&#27492;&#21151;&#33021;</span>
+    <span style="color: #7f0000;"># mouse_hover_ms: 0                      # ! &#24050;&#24323;&#29992;&#12290;&#40736;&#26631;&#24748;&#20572;&#36873;&#35789;&#21709;&#24212;&#26102;&#38388;&#65288;ms&#65289;&#65292;&#35774;&#32622;&#20026; 0 &#26102;&#31105;&#29992;&#35813;&#21151;&#33021;</span>
+    <span style="color: #00603f;">hover_type</span>: <span style="color: #00598b;">semi_hilite</span>                  <span style="color: #7f0000;"># &#40736;&#26631;&#22312;&#20505;&#36873;&#31383;&#21475;&#24748;&#20572;&#26102;&#65306;none&#65288;&#26080;&#21160;&#20316;&#65289;&#65307;hilite&#65288;&#36873;&#20013;&#40736;&#26631;&#19979;&#30340;&#20505;&#36873;&#65289;&#65307;semi_hilite&#65288;&#39640;&#20142;&#40736;&#26631;&#19979;&#30340;&#20505;&#36873;&#65289;</span>
 
-    <span style="color: #2f783f;">paging_on_scroll</span>: <span style="color: #a05a22;">true</span>                   <span style="color: #6f6a70;"># &#22312;&#20505;&#36873;&#31383;&#21475;&#19978;&#28369;&#21160;&#28378;&#36718;&#30340;&#34892;&#20026;&#65306;true&#65288;&#32763;&#39029;&#65289;&#65307;false &#65288;&#36873;&#20013;&#19979;&#19968;&#20010;&#20505;&#36873;&#65289;</span>
-    <span style="color: #2f783f;">click_to_capture</span>: <span style="color: #a05a22;">false</span>                  <span style="color: #6f6a70;"># &#40736;&#26631;&#28857;&#20987;&#20505;&#36873;&#39033;&#65292;&#21019;&#24314;&#25130;&#22270;&#65306;true&#65307;false</span>
+    <span style="color: #00603f;">paging_on_scroll</span>: <span style="color: #531ab6;">true</span>                   <span style="color: #7f0000;"># &#22312;&#20505;&#36873;&#31383;&#21475;&#19978;&#28369;&#21160;&#28378;&#36718;&#30340;&#34892;&#20026;&#65306;true&#65288;&#32763;&#39029;&#65289;&#65307;false &#65288;&#36873;&#20013;&#19979;&#19968;&#20010;&#20505;&#36873;&#65289;</span>
+    <span style="color: #00603f;">click_to_capture</span>: <span style="color: #531ab6;">false</span>                  <span style="color: #7f0000;"># &#40736;&#26631;&#28857;&#20987;&#20505;&#36873;&#39033;&#65292;&#21019;&#24314;&#25130;&#22270;&#65306;true&#65307;false</span>
 
-    <span style="color: #2f783f;">layout</span>:
-      <span style="color: #2f783f;">max_height</span>: <span style="color: #6c4631;">0</span>
-      <span style="color: #2f783f;">max_width</span>: <span style="color: #6c4631;">1200</span>
-      <span style="color: #2f783f;">min_width</span>: <span style="color: #6c4631;">10</span>
-      <span style="color: #2f783f;">margin_x</span>: <span style="color: #6c4631;">10</span>
-      <span style="color: #2f783f;">margin_y</span>: <span style="color: #6c4631;">8</span>
-      <span style="color: #2f783f;">candidate_spacing</span>: <span style="color: #6c4631;">24</span>
-      <span style="color: #2f783f;">hilite_spacing</span>: <span style="color: #6c4631;">6</span>
-      <span style="color: #2f783f;">hilite_padding</span>: <span style="color: #6c4631;">3</span>
-      <span style="color: #2f783f;">hilite_padding_x</span>: <span style="color: #6c4631;">5</span>
-      <span style="color: #2f783f;">corner_radius</span>: <span style="color: #6c4631;">8</span>
-      <span style="color: #2f783f;">round_corner</span>: <span style="color: #6c4631;">8</span>
-      <span style="color: #2f783f;">shadow_radius</span>: <span style="color: #6c4631;">4</span>
+    <span style="color: #00603f;">layout</span>:
+      <span style="color: #00603f;">max_height</span>: <span style="color: #000000;">0</span>
+      <span style="color: #00603f;">max_width</span>: <span style="color: #000000;">1200</span>
+      <span style="color: #00603f;">min_width</span>: <span style="color: #000000;">10</span>
+      <span style="color: #00603f;">margin_x</span>: <span style="color: #000000;">10</span>
+      <span style="color: #00603f;">margin_y</span>: <span style="color: #000000;">8</span>
+      <span style="color: #00603f;">candidate_spacing</span>: <span style="color: #000000;">24</span>
+      <span style="color: #00603f;">hilite_spacing</span>: <span style="color: #000000;">6</span>
+      <span style="color: #00603f;">hilite_padding</span>: <span style="color: #000000;">3</span>
+      <span style="color: #00603f;">hilite_padding_x</span>: <span style="color: #000000;">5</span>
+      <span style="color: #00603f;">corner_radius</span>: <span style="color: #000000;">8</span>
+      <span style="color: #00603f;">round_corner</span>: <span style="color: #000000;">8</span>
+      <span style="color: #00603f;">shadow_radius</span>: <span style="color: #000000;">4</span>
 
-  <span style="color: #2f783f;">preset_color_schemes</span>:
-    <span style="color: #2f783f;">wechat</span>:
-      <span style="color: #2f783f;">name</span>: <span style="color: #5f7200;">"&#24494;&#20449;&#65295;Wechat"</span>
-      <span style="color: #2f783f;">text_color</span>: <span style="color: #6c4631;">0x424242</span>
-      <span style="color: #2f783f;">label_color</span>: <span style="color: #6c4631;">0x999999</span>
-      <span style="color: #2f783f;">back_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">border_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">comment_text_color</span>: <span style="color: #6c4631;">0x999999</span>
-      <span style="color: #2f783f;">candidate_text_color</span>: <span style="color: #6c4631;">0x3c3c3c</span>
-      <span style="color: #2f783f;">hilited_comment_text_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">hilited_back_color</span>: <span style="color: #6c4631;">0xaf9a23</span>
-      <span style="color: #2f783f;">hilited_text_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">hilited_label_color</span>: <span style="color: #6c4631;">0xFFFFFF</span>
-      <span style="color: #2f783f;">hilited_candidate_back_color</span>: <span style="color: #6c4631;">0xaf9a23</span>
-      <span style="color: #2f783f;">shadow_color</span>: <span style="color: #6c4631;">0x20000000</span>
+  <span style="color: #00603f;">preset_color_schemes</span>:
+    <span style="color: #00603f;">wechat</span>:
+      <span style="color: #00603f;">name</span>: <span style="color: #00598b;">"&#24494;&#20449;&#65295;Wechat"</span>
+      <span style="color: #00603f;">text_color</span>: <span style="color: #000000;">0x424242</span>
+      <span style="color: #00603f;">label_color</span>: <span style="color: #000000;">0x999999</span>
+      <span style="color: #00603f;">back_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">border_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">comment_text_color</span>: <span style="color: #000000;">0x999999</span>
+      <span style="color: #00603f;">candidate_text_color</span>: <span style="color: #000000;">0x3c3c3c</span>
+      <span style="color: #00603f;">hilited_comment_text_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">hilited_back_color</span>: <span style="color: #000000;">0xaf9a23</span>
+      <span style="color: #00603f;">hilited_text_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">hilited_label_color</span>: <span style="color: #000000;">0xFFFFFF</span>
+      <span style="color: #00603f;">hilited_candidate_back_color</span>: <span style="color: #000000;">0xaf9a23</span>
+      <span style="color: #00603f;">shadow_color</span>: <span style="color: #000000;">0x20000000</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org47fff2f" class="outline-2">
-<h2 id="org47fff2f"><span class="section-number-2">6.</span> 附言：为什么移除lua脚本</h2>
+<div id="outline-container-orge5e036d" class="outline-2">
+<h2 id="orge5e036d"><span class="section-number-2">6.</span> 附言：为什么移除lua脚本</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 我把整套lua脚本发给deepseek，让其帮我看看哪些最可能导致weasel不停dump，这是它给我的回答：<br>
@@ -718,7 +731,7 @@ user_predict.lua 的清理命令：/clean 时全量遍历 DB 并批量删除，�
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

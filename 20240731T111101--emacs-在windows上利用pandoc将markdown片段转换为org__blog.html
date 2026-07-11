@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-27 周一 16:45 -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 2026-07-11 周六 14:00 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-在windows上利用pandoc将markdown片段转换为org</title>
-<meta name="author" content="TomoeMami" />
-<meta name="generator" content="Org Mode" />
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
 <link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:19]</span></span></p>
+<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:19]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -29,10 +29,10 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">my-md-to-org-region</span> <span style="color: #a01f64;">(</span>start end<span style="color: #a01f64;">)</span>
-  <span style="color: #954f90;">"Convert region from markdown to org"</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">interactive</span> <span style="color: #a04646;">"r"</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span>shell-command-on-region start end <span style="color: #a04646;">"pandoc -f markdown -t org"</span> t t<span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my-md-to-org-region</span> <span style="color: #dd22dd;">(</span>start end<span style="color: #dd22dd;">)</span>
+  <span style="color: #304463;">"Convert region from markdown to org"</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">interactive</span> <span style="color: #00598b;">"r"</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>shell-command-on-region start end <span style="color: #00598b;">"pandoc -f markdown -t org"</span> t t<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 
@@ -58,13 +58,13 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">my/md-to-org-region</span> <span style="color: #a01f64;">(</span>start end<span style="color: #a01f64;">)</span>
-  <span style="color: #954f90;">"Convert region from markdown to org"</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">interactive</span> <span style="color: #a04646;">"r"</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">let</span> <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span>default-directory <span style="color: #a04646;">"~/.emacs.d/"</span><span style="color: #a04646;">)</span>
-        <span style="color: #a04646;">(</span>coding-system-for-write 'utf-8<span style="color: #a04646;">)</span>
-        <span style="color: #a04646;">(</span>coding-system-for-read 'utf-8<span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-    <span style="color: #2f5f9f;">(</span>shell-command-on-region start end <span style="color: #a04646;">"pandoc -f markdown -t org --lua-filter=remove-org.lua --wrap=preserve"</span> t t<span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/md-to-org-region</span> <span style="color: #dd22dd;">(</span>start end<span style="color: #dd22dd;">)</span>
+  <span style="color: #304463;">"Convert region from markdown to org"</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">interactive</span> <span style="color: #00598b;">"r"</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>default-directory <span style="color: #00598b;">"~/.emacs.d/"</span><span style="color: #972500;">)</span>
+        <span style="color: #972500;">(</span>coding-system-for-write 'utf-8<span style="color: #972500;">)</span>
+        <span style="color: #972500;">(</span>coding-system-for-read 'utf-8<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span>shell-command-on-region start end <span style="color: #00598b;">"pandoc -f markdown -t org --lua-filter=remove-org.lua --wrap=preserve"</span> t t<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 <p>
@@ -72,9 +72,9 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-lua" tabindex="0"><code><span style="color: #3c3bbe;">function</span> <span style="color: #9f248a;">Header</span> <span style="color: #3c3bbe;">(</span><span style="color: #4250ef;">header</span><span style="color: #3c3bbe;">)</span>
-  <span style="color: #3c3bbe;">return</span> pandoc.Header<span style="color: #3c3bbe;">(</span>header.level, header.content, pandoc.Attr<span style="color: #a01f64;">()</span><span style="color: #3c3bbe;">)</span>
-<span style="color: #3c3bbe;">end</span>
+<pre class="src src-lua" tabindex="0"><code><span style="color: #0031a9;">function</span> <span style="color: #602938;">Header</span> <span style="color: #000000;">(</span><span style="color: #00603f;">header</span><span style="color: #000000;">)</span>
+  <span style="color: #0031a9;">return</span> pandoc.Header<span style="color: #000000;">(</span>header.level, header.content, pandoc.Attr<span style="color: #dd22dd;">()</span><span style="color: #000000;">)</span>
+<span style="color: #0031a9;">end</span>
 </code></pre>
 </div>
 
@@ -87,20 +87,20 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-markdown" tabindex="0"><code><span style="color: #776f79;">[</span><span style="color: #3c3bbe; text-decoration: underline;">IT&#20043;&#23478;</span><span style="color: #776f79;">](</span><span style="color: #af4988;">https://www.ithome.com/</span><span style="color: #776f79;">)</span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; <span style="color: #776f79;">\</span>[<span style="color: #776f79;">[</span><span style="color: #3c3bbe; text-decoration: underline;">PDF</span><span style="color: #776f79;">](</span><span style="color: #af4988;">https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf</span><span style="color: #776f79;">)\</span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292;<span style="color: #776f79;">**</span><span style="font-weight: bold;">&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;</span><span style="color: #776f79;">**</span>
+<pre class="src src-markdown" tabindex="0"><code>[IT之家](https://www.ithome.com/) 7 月 31 日消息，苹果公司最新发布论文 \[[PDF](https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf)\]，分享了关于 Apple Intelligence 模型的相关细节，**部分性能已经超过 OpenAI 的 GPT-4。**
 
-<span style="color: #776f79;">### </span><span style="color: #a04646;">&#27169;&#22411;&#31616;&#20171;</span>
+### 模型简介
 
-&#33529;&#26524;&#22312;&#35770;&#25991;&#20013;&#20171;&#32461;&#20102; Apple Foundation Model&#65288;&#19979;&#25991;&#31616;&#31216; AFM&#65289;&#27169;&#22411;&#65292;&#20849;&#26377;&#20197;&#19979;&#20004;&#27454;&#65306;
+苹果在论文中介绍了 Apple Foundation Model（下文简称 AFM）模型，共有以下两款：
 
-<span style="color: #776f79;">-</span>   <span style="color: #776f79;">**</span><span style="font-weight: bold;">AFM-on-device&#65306;</span><span style="color: #776f79;">**</span>&#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #776f79;">[</span><span style="color: #3c3bbe; text-decoration: underline;">iPhone</span><span style="color: #776f79;">](</span><span style="color: #af4988;">https://iphone.ithome.com/</span><span style="color: #776f79;">)</span>&#12289;<span style="color: #776f79;">[</span><span style="color: #3c3bbe; text-decoration: underline;">iPad</span><span style="color: #776f79;">](</span><span style="color: #af4988;">https://ipad.ithome.com/</span><span style="color: #776f79;">)</span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
+-   **AFM-on-device：**本地运行，30 亿参数，可以在 [iPhone](https://iphone.ithome.com/)、[iPad](https://ipad.ithome.com/) 等设备上高效运行；
     
-<span style="color: #776f79;">-</span>   <span style="color: #776f79;">**</span><span style="font-weight: bold;">AFM-server&#65306;</span><span style="color: #776f79;">**</span>&#33529;&#26524;&#23578;&#26410;&#20844;&#24067;&#21442;&#25968;&#31561;&#32454;&#33410;&#12290;
+-   **AFM-server：**苹果尚未公布参数等细节。
     
 
-<span style="color: #776f79;">### </span><span style="color: #a04646;">&#35757;&#32451;&#25968;&#25454;&#26469;&#28304;</span>
+### 训练数据来源
 
-&#33529;&#26524;&#34920;&#31034;&#35757;&#32451;&#25968;&#25454;&#38598;&#21253;&#25324;&#20174;&#20986;&#29256;&#21830;&#22788;&#33719;&#24471;&#25480;&#26435;&#30340;&#25968;&#25454;&#12289;&#32463;&#36807;&#31574;&#21010;&#30340;&#20844;&#24320;&#25110;&#24320;&#28304;&#25968;&#25454;&#38598;&#20197;&#21450;&#25105;&#20204;&#30340;&#32593;&#32476;&#29228;&#34411; Applebot &#25235;&#21462;&#30340;&#20844;&#24320;&#20449;&#24687;&#32452;&#25104;&#12290;
+苹果表示训练数据集包括从出版商处获得授权的数据、经过策划的公开或开源数据集以及我们的网络爬虫 Applebot 抓取的公开信息组成。
 </code></pre>
 </div>
 
@@ -109,12 +109,12 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org" tabindex="0"><code><span style="color: #3c3bbe; text-decoration: underline;"><a href="https://www.ithome.com/">IT&#20043;&#23478;</a></span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; [<span style="color: #3c3bbe; text-decoration: underline;"><a href="https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf">PDF</a></span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292; <span style="font-weight: bold;">*&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;*</span>
+<pre class="src src-org" tabindex="0"><code><span style="color: #3546c2; text-decoration: underline;"><a href="https://www.ithome.com/">IT&#20043;&#23478;</a></span> 7 &#26376; 31 &#26085;&#28040;&#24687;&#65292;&#33529;&#26524;&#20844;&#21496;&#26368;&#26032;&#21457;&#24067;&#35770;&#25991; [<span style="color: #3546c2; text-decoration: underline;"><a href="https://machinelearning.apple.com/papers/apple_intelligence_foundation_language_models.pdf">PDF</a></span>]&#65292;&#20998;&#20139;&#20102;&#20851;&#20110; Apple Intelligence &#27169;&#22411;&#30340;&#30456;&#20851;&#32454;&#33410;&#65292; <span style="font-weight: bold;">*&#37096;&#20998;&#24615;&#33021;&#24050;&#32463;&#36229;&#36807; OpenAI &#30340; GPT-4&#12290;*</span>
 
 \*** &#27169;&#22411;&#31616;&#20171;
 &#33529;&#26524;&#22312;&#35770;&#25991;&#20013;&#20171;&#32461;&#20102; Apple Foundation Model&#65288;&#19979;&#25991;&#31616;&#31216; AFM&#65289;&#27169;&#22411;&#65292;&#20849;&#26377;&#20197;&#19979;&#20004;&#27454;&#65306;
 
-- <span style="font-weight: bold;">*AFM-on-device&#65306;*</span> &#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #3c3bbe; text-decoration: underline;"><a href="https://iphone.ithome.com/">iPhone</a></span>&#12289;<span style="color: #3c3bbe; text-decoration: underline;"><a href="https://ipad.ithome.com/">iPad</a></span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
+- <span style="font-weight: bold;">*AFM-on-device&#65306;*</span> &#26412;&#22320;&#36816;&#34892;&#65292;30 &#20159;&#21442;&#25968;&#65292;&#21487;&#20197;&#22312; <span style="color: #3546c2; text-decoration: underline;"><a href="https://iphone.ithome.com/">iPhone</a></span>&#12289;<span style="color: #3546c2; text-decoration: underline;"><a href="https://ipad.ithome.com/">iPad</a></span> &#31561;&#35774;&#22791;&#19978;&#39640;&#25928;&#36816;&#34892;&#65307;
 
 - <span style="font-weight: bold;">*AFM-server&#65306;*</span> &#33529;&#26524;&#23578;&#26410;&#20844;&#24067;&#21442;&#25968;&#31561;&#32454;&#33410;&#12290;
 
@@ -125,7 +125,7 @@
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-27 周一 16:46 -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 2026-07-11 周六 14:01 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-美化org-mode中任务的优先级priority</title>
-<meta name="author" content="TomoeMami" />
-<meta name="generator" content="Org Mode" />
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
 <link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
@@ -15,12 +15,21 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-13 周五 11:58]</span></span></p>
+<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-13 周五 11:58]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
 <h1 class="title">emacs-美化org-mode中任务的优先级priority</h1>
-</header><p>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orga82d0e9">1. 具体配置</a></li>
+<li><a href="#orgaf687f1">2. 效果图</a></li>
+</ul>
+</div>
+</nav>
+<p>
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2026-03-12T17:03:00">[2026-03-12 周四 17:03]</time></span><br>
 </p>
 
@@ -39,23 +48,23 @@
 <p>
 但是我们总是想美化一下。目前我采取了第三方包 <a href="https://github.com/harrybournis/org-fancy-priorities">org-fancy-priorities</a> ，它可以为设定的序列符号自定义overlay替换字符串。<br>
 </p>
-<div id="outline-container-orgba3e24b" class="outline-2">
-<h2 id="orgba3e24b"><span class="section-number-2">1.</span> 具体配置</h2>
+<div id="outline-container-orga82d0e9" class="outline-2">
+<h2 id="orga82d0e9"><span class="section-number-2">1.</span> 具体配置</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> org-fancy-priorities
-  <span style="color: #a01f64;">:after</span> org <span style="color: #a01f64;">:ensure</span> t <span style="color: #a01f64;">:demand</span> t
-  <span style="color: #a01f64;">:hook</span>
-  <span style="color: #a01f64;">(</span>org-mode-hook . org-fancy-priorities-mode<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">:custom</span>
-  <span style="color: #a01f64;">(</span>org-priority-highest 1<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span>org-priority-lowest 4<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span>org-priority-default 3<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span>org-fancy-priorities-list
-   `<span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span>?1 . ,<span style="color: #7022bf;">(</span>propertize <span style="color: #a04646;">"&#127362;"</span> 'face '<span style="color: #d5305f;">(</span><span style="color: #a01f64;">:foreground</span> <span style="color: #a04646;">"#fe8019"</span> <span style="color: #a01f64;">:weight</span> bold <span style="color: #a01f64;">:slant</span> normal<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
-     <span style="color: #a04646;">(</span>?2 . ,<span style="color: #7022bf;">(</span>propertize <span style="color: #a04646;">"&#127344;"</span> 'face '<span style="color: #d5305f;">(</span><span style="color: #a01f64;">:foreground</span> <span style="color: #a04646;">"#8f3f71"</span> <span style="color: #a01f64;">:weight</span> bold <span style="color: #a01f64;">:slant</span> normal<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
-     <span style="color: #a04646;">(</span>?3 . ,<span style="color: #7022bf;">(</span>propertize <span style="color: #a04646;">"&#127345;"</span> 'face '<span style="color: #d5305f;">(</span><span style="color: #a01f64;">:foreground</span> <span style="color: #a04646;">"#458588"</span> <span style="color: #a01f64;">:weight</span> bold <span style="color: #a01f64;">:slant</span> normal<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
-     <span style="color: #a04646;">(</span>?4 . ,<span style="color: #7022bf;">(</span>propertize <span style="color: #a04646;">"&#127346;"</span> 'face '<span style="color: #d5305f;">(</span><span style="color: #a01f64;">:foreground</span> <span style="color: #a04646;">"#7c6f64"</span><span style="color: #a01f64;">:weight</span> bold <span style="color: #a01f64;">:slant</span> normal<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> org-fancy-priorities
+  <span style="color: #721045;">:after</span> org <span style="color: #721045;">:ensure</span> t <span style="color: #721045;">:demand</span> t
+  <span style="color: #721045;">:hook</span>
+  <span style="color: #dd22dd;">(</span>org-mode-hook . org-fancy-priorities-mode<span style="color: #dd22dd;">)</span>
+  <span style="color: #721045;">:custom</span>
+  <span style="color: #dd22dd;">(</span>org-priority-highest 1<span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>org-priority-lowest 4<span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>org-priority-default 3<span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span>org-fancy-priorities-list
+   `<span style="color: #008899;">(</span><span style="color: #972500;">(</span>?1 . ,<span style="color: #808000;">(</span>propertize <span style="color: #00598b;">"&#127362;"</span> 'face '<span style="color: #531ab6;">(</span><span style="color: #721045;">:foreground</span> <span style="color: #00598b;">"#fe8019"</span> <span style="color: #721045;">:weight</span> bold <span style="color: #721045;">:slant</span> normal<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #972500;">(</span>?2 . ,<span style="color: #808000;">(</span>propertize <span style="color: #00598b;">"&#127344;"</span> 'face '<span style="color: #531ab6;">(</span><span style="color: #721045;">:foreground</span> <span style="color: #00598b;">"#8f3f71"</span> <span style="color: #721045;">:weight</span> bold <span style="color: #721045;">:slant</span> normal<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #972500;">(</span>?3 . ,<span style="color: #808000;">(</span>propertize <span style="color: #00598b;">"&#127345;"</span> 'face '<span style="color: #531ab6;">(</span><span style="color: #721045;">:foreground</span> <span style="color: #00598b;">"#458588"</span> <span style="color: #721045;">:weight</span> bold <span style="color: #721045;">:slant</span> normal<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #972500;">(</span>?4 . ,<span style="color: #808000;">(</span>propertize <span style="color: #00598b;">"&#127346;"</span> 'face '<span style="color: #531ab6;">(</span><span style="color: #721045;">:foreground</span> <span style="color: #00598b;">"#7c6f64"</span><span style="color: #721045;">:weight</span> bold <span style="color: #721045;">:slant</span> normal<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 
@@ -68,11 +77,11 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org3f5ebeb" class="outline-2">
-<h2 id="org3f5ebeb"><span class="section-number-2">2.</span> 效果图</h2>
+<div id="outline-container-orgaf687f1" class="outline-2">
+<h2 id="orgaf687f1"><span class="section-number-2">2.</span> 效果图</h2>
 <div class="outline-text-2" id="text-2">
 
-<figure id="orgcaff114">
+<figure id="orgb165540">
 <img src="./fancy-priority.webp" alt="fancy-priority.webp"><br>
 
 </figure>
@@ -80,7 +89,7 @@
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

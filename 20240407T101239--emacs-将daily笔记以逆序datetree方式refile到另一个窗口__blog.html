@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-27 周一 16:45 -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 2026-07-11 周六 14:00 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-将daily笔记以逆序datetree方式refile到另一个窗口</title>
-<meta name="author" content="TomoeMami" />
-<meta name="generator" content="Org Mode" />
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
 <link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:09]</span></span></p>
+<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:09]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -33,33 +33,33 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> org-reverse-datetree<span style="color: #3c3bbe;">)</span>
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">setq-default</span> org-reverse-datetree-level-formats
-              '<span style="color: #a01f64;">(</span><span style="color: #a04646;">"%Y"</span>                    <span style="color: #506fa0;">; </span><span style="color: #506fa0;">year</span>
-                <span style="color: #a04646;">"%Y-%m %B"</span>
-                <span style="color: #a04646;">"%Y-%m-%d %A"</span>           <span style="color: #506fa0;">; </span><span style="color: #506fa0;">date</span>
-                <span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">org-get-next-window-file</span> <span style="color: #a01f64;">()</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">if</span> <span style="color: #2f5f9f;">(</span>delq <span style="color: #a04646;">(</span>selected-window<span style="color: #a04646;">)</span> <span style="color: #a04646;">(</span>window-list-1 <span style="color: #7022bf;">(</span>next-window nil 'nomini 'visible<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-      <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">let</span> <span style="color: #a04646;">(</span><span style="color: #7022bf;">(</span>buffer2 <span style="color: #d5305f;">(</span>window-buffer <span style="color: #9f248a;">(</span>next-window nil 'nomini 'visible<span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
-        <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">with-current-buffer</span> buffer2
-          <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">when</span> <span style="color: #d5305f;">(</span>eq major-mode 'org-mode<span style="color: #d5305f;">)</span>
-            <span style="color: #d5305f;">(</span>buffer-file-name buffer2<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">org-get-current-window-title</span> <span style="color: #a01f64;">()</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">with-current-buffer</span> <span style="color: #2f5f9f;">(</span>window-buffer<span style="color: #2f5f9f;">)</span>
-        <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">pcase</span> <span style="color: #a04646;">(</span>org-collect-keywords '<span style="color: #7022bf;">(</span><span style="color: #a04646;">"TITLE"</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span>
-          <span style="color: #a04646;">(</span>`<span style="color: #7022bf;">(</span><span style="color: #d5305f;">(</span><span style="color: #a04646;">"TITLE"</span> . ,val<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span>
-           <span style="color: #7022bf;">(</span><span style="color: #3c3bbe;">setq</span> title <span style="color: #d5305f;">(</span>car val<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">defun</span> <span style="color: #9f248a;">org-refile-to-other-window</span> <span style="color: #a01f64;">(</span>arg<span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">interactive</span> <span style="color: #a04646;">"P"</span><span style="color: #a01f64;">)</span>
-  <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">if</span> <span style="color: #2f5f9f;">(</span>org-get-next-window-file<span style="color: #2f5f9f;">)</span>
-      <span style="color: #2f5f9f;">(</span>org-reverse-datetree-refile-to-file <span style="color: #a04646;">(</span>org-get-next-window-file<span style="color: #a04646;">)</span> <span style="color: #a04646;">(</span>date-to-time <span style="color: #7022bf;">(</span>org-get-current-window-title<span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-        <span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> org-reverse-datetree<span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #0031a9;">setq-default</span> org-reverse-datetree-level-formats
+              '<span style="color: #dd22dd;">(</span><span style="color: #00598b;">"%Y"</span>                    <span style="color: #7f0000;">; </span><span style="color: #7f0000;">year</span>
+                <span style="color: #00598b;">"%Y-%m %B"</span>
+                <span style="color: #00598b;">"%Y-%m-%d %A"</span>           <span style="color: #7f0000;">; </span><span style="color: #7f0000;">date</span>
+                <span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">org-get-next-window-file</span> <span style="color: #dd22dd;">()</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">if</span> <span style="color: #008899;">(</span>delq <span style="color: #972500;">(</span>selected-window<span style="color: #972500;">)</span> <span style="color: #972500;">(</span>window-list-1 <span style="color: #808000;">(</span>next-window nil 'nomini 'visible<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+      <span style="color: #008899;">(</span><span style="color: #0031a9;">let</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>buffer2 <span style="color: #531ab6;">(</span>window-buffer <span style="color: #008900;">(</span>next-window nil 'nomini 'visible<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+        <span style="color: #972500;">(</span><span style="color: #0031a9;">with-current-buffer</span> buffer2
+          <span style="color: #808000;">(</span><span style="color: #0031a9;">when</span> <span style="color: #531ab6;">(</span>eq major-mode 'org-mode<span style="color: #531ab6;">)</span>
+            <span style="color: #531ab6;">(</span>buffer-file-name buffer2<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">org-get-current-window-title</span> <span style="color: #dd22dd;">()</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">with-current-buffer</span> <span style="color: #008899;">(</span>window-buffer<span style="color: #008899;">)</span>
+        <span style="color: #008899;">(</span><span style="color: #0031a9;">pcase</span> <span style="color: #972500;">(</span>org-collect-keywords '<span style="color: #808000;">(</span><span style="color: #00598b;">"TITLE"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+          <span style="color: #972500;">(</span>`<span style="color: #808000;">(</span><span style="color: #531ab6;">(</span><span style="color: #00598b;">"TITLE"</span> . ,val<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
+           <span style="color: #808000;">(</span><span style="color: #0031a9;">setq</span> title <span style="color: #531ab6;">(</span>car val<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">org-refile-to-other-window</span> <span style="color: #dd22dd;">(</span>arg<span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">interactive</span> <span style="color: #00598b;">"P"</span><span style="color: #dd22dd;">)</span>
+  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">if</span> <span style="color: #008899;">(</span>org-get-next-window-file<span style="color: #008899;">)</span>
+      <span style="color: #008899;">(</span>org-reverse-datetree-refile-to-file <span style="color: #972500;">(</span>org-get-next-window-file<span style="color: #972500;">)</span> <span style="color: #972500;">(</span>date-to-time <span style="color: #808000;">(</span>org-get-current-window-title<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+        <span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

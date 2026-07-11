@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-04-27 周一 16:45 -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- 2026-07-11 周六 14:00 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-org-roam-node操作排除daily文件夹下node</title>
-<meta name="author" content="TomoeMami" />
-<meta name="generator" content="Org Mode" />
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
 <link rel='stylesheet' type='text/css' href='./org.css'/>
 </head>
 <body>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>▼ 本文更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 15:03]</span></span></p>
+<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 15:03]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -29,24 +29,24 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">use-package</span> org-roam<span style="color: #3c3bbe;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> org-roam<span style="color: #000000;">)</span>
 
-<span style="color: #3c3bbe;">(</span>org-roam-db-autosync-mode<span style="color: #3c3bbe;">)</span>
+<span style="color: #000000;">(</span>org-roam-db-autosync-mode<span style="color: #000000;">)</span>
 
-<span style="color: #3c3bbe;">(</span><span style="color: #3c3bbe;">cl-defmethod</span> <span style="color: #9f248a;">org-roam-node-directories</span> <span style="color: #a01f64;">(</span><span style="color: #2f5f9f;">(</span>node org-roam-node<span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span>
-    <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">if-let</span> <span style="color: #2f5f9f;">(</span><span style="color: #a04646;">(</span>dirs <span style="color: #7022bf;">(</span>file-name-directory <span style="color: #d5305f;">(</span>file-relative-name <span style="color: #9f248a;">(</span>org-roam-node-file node<span style="color: #9f248a;">)</span> org-roam-directory<span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-        <span style="color: #2f5f9f;">(</span>format <span style="color: #a04646;">"(%s)"</span> <span style="color: #a04646;">(</span>car <span style="color: #7022bf;">(</span>split-string dirs <span style="color: #a04646;">"/"</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span>
-      <span style="color: #a04646;">""</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<span style="color: #000000;">(</span><span style="color: #0031a9;">cl-defmethod</span> <span style="color: #602938;">org-roam-node-directories</span> <span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span>node org-roam-node<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
+    <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">if-let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>dirs <span style="color: #808000;">(</span>file-name-directory <span style="color: #531ab6;">(</span>file-relative-name <span style="color: #008900;">(</span>org-roam-node-file node<span style="color: #008900;">)</span> org-roam-directory<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+        <span style="color: #008899;">(</span>format <span style="color: #00598b;">"(%s)"</span> <span style="color: #972500;">(</span>car <span style="color: #808000;">(</span>split-string dirs <span style="color: #00598b;">"/"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+      <span style="color: #00598b;">""</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 
-<span style="color: #3c3bbe;">(</span>global-set-key <span style="color: #a04646;">"\C-cxf"</span> <span style="color: #a01f64;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #2f5f9f;">()</span> <span style="color: #2f5f9f;">(</span><span style="color: #3c3bbe;">interactive</span><span style="color: #2f5f9f;">)</span>
-    <span style="color: #2f5f9f;">(</span>org-roam-node-find nil nil
-        <span style="color: #a04646;">(</span><span style="color: #3c3bbe;">lambda</span> <span style="color: #7022bf;">(</span>node<span style="color: #7022bf;">)</span>
-            <span style="color: #7022bf;">(</span>not <span style="color: #d5305f;">(</span>string-search <span style="color: #a04646;">"daily"</span> <span style="color: #9f248a;">(</span>org-roam-node-directories node<span style="color: #9f248a;">)</span><span style="color: #d5305f;">)</span><span style="color: #7022bf;">)</span><span style="color: #a04646;">)</span><span style="color: #2f5f9f;">)</span><span style="color: #a01f64;">)</span><span style="color: #3c3bbe;">)</span>
+<span style="color: #000000;">(</span>global-set-key <span style="color: #00598b;">"\C-cxf"</span> <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #008899;">()</span> <span style="color: #008899;">(</span><span style="color: #0031a9;">interactive</span><span style="color: #008899;">)</span>
+    <span style="color: #008899;">(</span>org-roam-node-find nil nil
+        <span style="color: #972500;">(</span><span style="color: #0031a9;">lambda</span> <span style="color: #808000;">(</span>node<span style="color: #808000;">)</span>
+            <span style="color: #808000;">(</span>not <span style="color: #531ab6;">(</span>string-search <span style="color: #00598b;">"daily"</span> <span style="color: #008900;">(</span>org-roam-node-directories node<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
 </code></pre>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">Comment</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>
