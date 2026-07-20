@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- 2026-07-20 周一 14:18 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>翻译-我加入了 IndieWeb，以下是我的收获</title>
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
+<link rel='stylesheet' type='text/css' href='./org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-07-20 周一 14:18]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">翻译-我加入了 IndieWeb，以下是我的收获</h1>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orge4b6b25">1. 什么是 IndieWeb</a></li>
+<li><a href="#org7951ea7">2. 敌人有一个名字：数据孤岛</a></li>
+<li><a href="#org472df2e">3. 这些原则</a></li>
+<li><a href="#org7195b40">4. 技术部分</a>
+<ul>
+<li><a href="#orgaa92ca6">4.1. 起点：你的域名</a></li>
+<li><a href="#org37d6956">4.2. microformats2：你的 HTML 就是你的 API</a></li>
+<li><a href="#org6133a67">4.3. rel=“me”：无需中央权威即可验证身份</a></li>
+<li><a href="#org70d6db9">4.4. Webmention：网站间的对话</a></li>
+<li><a href="#orgd252f4f">4.5. IndieAuth：用你的域名作为登录凭证</a></li>
+<li><a href="#org0ad4bc1">4.6. Micropub：从任何客户端发布内容</a></li>
+<li><a href="#orgc60f4f3">4.7. WebSub：实时订阅</a></li>
+<li><a href="#orgc6ddcc7">4.8. Microsub：解耦的阅读器</a></li>
+</ul>
+</li>
+<li><a href="#org9923c6f">5. 发布策略：POSSE、PESOS 与回馈机制</a></li>
+<li><a href="#orgca1a815">6. 与联邦宇宙、RSS 及好友的关系</a></li>
+<li><a href="#org912149e">7. 如何开始</a></li>
+<li><a href="#org520e509">8. 我已实现的内容（以及尚未实现的部分）</a></li>
+</ul>
+</div>
+</nav>
+<p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-07-20T14:15:00">[2026-07-20 周一 14:15]</time></span><br>
+</p>
+
+<p>
+原标题：I joined the IndieWeb, here's what I learned | Andros Fenollosa<br>
+原始链接：<a href="https://en.andros.dev/blog/0b8e451e/i-joined-the-indieweb-heres-what-i-learned/">https://en.andros.dev/blog/0b8e451e/i-joined-the-indieweb-heres-what-i-learned/</a><br>
+</p>
+
+<p>
+Written by Andros Fenollosa<br>
+</p>
+
+<p>
+July 19, 2026<br>
+</p>
+
+<p>
+出于好奇，我决定一探究竟——那些经常出现在某些博客和 Mastodon 嘟文中的 IndieWeb 标签到底意味着什么。很快我就发现，这并非一个空洞的概念，也不是对 90 年代网络的怀旧情怀。这是一个拥有具体理念、协议和活跃社区的运动！在阅读他们的维基百科时，我越来越理解他们的立场和提案的智慧。我热情高涨，决定遵循他们的建议，采用那些适合我网站的协议。完成测试和调整后，我可以确认这次体验非常积极：我学到了很多，网站的 UX（用户体验）有了进一步提升，而且整个过程让我乐在其中。<br>
+</p>
+
+<p>
+正因如此，我决定写下这篇文章，整理过去几个月的笔记。或许它能帮助其他人发现 IndieWeb，并在此过程中改善网络的健康状况。对于好奇的读者，我还会告诉你我实现了哪些部分、放弃了哪些部分及其原因，以及哪些建议最终被证明最为实用。<br>
+</p>
+
+<p>
+但首先，我们需要回答一个根本性的问题。<br>
+</p>
+<div id="outline-container-orge4b6b25" class="outline-2">
+<h2 id="orge4b6b25"><span class="section-number-2">1.</span> 什么是 IndieWeb</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="https://indieweb.org/">IndieWeb</a> 将其自身定义为「以人为中心、对抗企业网络的替代方案」。它并非提出某款软件或某个框架，而是一种意识形态基础。它有意接纳多元化的方法与项目。正如其首页所言：“我们以人为中心，而非以项目为中心。”<br>
+</p>
+
+<p>
+这一切始于 2010 年，当时 <a href="https://aaronparecki.com/">Aaron Parecki</a> 和 <a href="https://tantek.com/">Tantek Çelik</a> 参加了在波特兰举行的联邦社交网络峰会。他们离开时感到需要一种不同的方法：更少的协议，更多的创作者。2011 年，首届 IndieWebCamp 在波特兰举办，此后每年在世界各地举行，同时还有 Homebrew Website Club 聚会，人们聚在一起改进自己的个人网站。<br>
+</p>
+
+<p>
+定义它的三大支柱是：<br>
+</p>
+
+<ul class="org-ul">
+<li><b>你的内容属于你</b> ：当你在网络上发布内容时，它应当属于你，而非某家公司。太多企业倒闭时，带走了用户的数据。<br></li>
+<li><b>你拥有更广泛的连接</b> ：你的文章可以分发到任何平台，而非局限于单一平台；来自其他服务的回复和点赞也能汇聚回你的网站，让你将所有内容集中在一处。<br></li>
+<li><b>你掌握主动权</b> ：你可以随心所欲地发布任何内容，采用任何格式，并拥有可读且永久有效的链接，这些链接将始终可用。<br></li>
+</ul>
+
+<p>
+因此，我们可以说这是一个由个人独立网站组成的社区，共同秉持着这些承诺。<br>
+</p>
+
+<p>
+这也是为什么它不禁止你使用社交网络，但确实反对封闭式花园。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org7951ea7" class="outline-2">
+<h2 id="org7951ea7"><span class="section-number-2">2.</span> 敌人有一个名字：数据孤岛</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+整个独立网络的词汇体系都是围绕一个概念构建的：数据孤岛，也称为封闭式花园。 <a href="https://indieweb.org/silo">维基百科将其定义为</a>集中式网站，通常由营利性公司拥有，对你贡献的内容主张某些权利，并以某种方式限制访问。其特点包括：<br>
+</p>
+
+<ul class="org-ul">
+<li>它们要求你创建特定于该网站的账户才能参与。<br></li>
+<li>它们只允许你与同一网站上的其他账户互动。<br></li>
+<li>而且它们通常还会附加：限制性的服务条款、对你创作内容的版权主张、阻止索引的壁垒，以及阻碍内容导入导出的障碍。<br></li>
+</ul>
+
+<p>
+这为什么是个问题？因为这些信息孤岛会消亡，而它们消亡时也会带走你的内容。 <a href="https://indieweb.org/site-deaths">网站死亡页面</a> （「不可思议的旅程终结之处」，暗指企业委婉语「我们的不可思议之旅」）记录了一段令人痛心的编年史：<br>
+</p>
+
+<ul class="org-ul">
+<li><b>GeoCities</b> ：雅虎于 2009 年 10 月 26 日将其关闭。2300 万个页面就此消失。<br></li>
+<li><b>MySpace</b> ：2019 年，在一次服务器迁移中，它丢失了前 12 年上传的所有音乐，来自 1400 万艺术家的超过 5000 万首歌曲。<br></li>
+<li><b>Google+</b> ：于 2019 年 4 月关闭。<br></li>
+<li><b>Posterous、FriendFeed、Vine、Yahoo Groups、TinyLetter、Cohost</b> &hellip;&hellip;这个名单还在不断增长，甚至还有“即将消亡”和“收购”板块，而收购往往预示着这些平台的终结。<br></li>
+</ul>
+
+<p>
+这些封闭平台甚至不需要彻底消亡：网络本身天生脆弱。根据 <a href="https://www.pewresearch.org/data-labs/2024/05/17/when-online-content-disappears/">2024 年皮尤研究中心的一项研究</a> ，2013 年存在的网页中，有 38%在十年后已无法访问。<br>
+</p>
+
+<p>
+独立网络的结论并非「不要使用社交网络」。它更为微妙：你可以使用任何你喜欢的平台，但要确保你内容的权威副本保存在你控制的域名上。<br>
+</p>
+
+<p>
+正因如此，它定义了一套原则来对抗网络的脆弱性。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org472df2e" class="outline-2">
+<h2 id="org472df2e"><span class="section-number-2">3.</span> 这些原则</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+社区遵循 <a href="https://indieweb.org/principles">11 项原则</a>：<br>
+</p>
+
+<ol class="org-ol">
+<li><b>拥有你的数据</b> ：你的内容、元数据和身份都归属于你的域名之下，并且你能长期保留对它们的访问权限。<br></li>
+<li><b>使用并发布可见数据</b> ：以人为本，机器为次。如果 HTML 能承载数据，就不需要并行 API。<br></li>
+<li><b>按需创造</b> ：为自己打造工具，而非为假想中的用户。「若为假想用户设计，他们或许根本不存在；若为自己创造，你确实真实存在。」<br></li>
+<li><b>使用你所创造的东西</b> ：每天使用你构建的成果。「如果你自己都不依赖它，凭什么指望别人依赖呢？」<br></li>
+<li><b>记录你的内容</b> ：你已有一个表达想法的地方，用它来记录你的流程、想法和代码。你帮助了他人，也帮助了未来的自己。<br></li>
+<li><b>开源你的作品</b> ：非强制，但能帮助他人更快地融入独立网络。<br></li>
+<li><b>协议之前先考虑用户体验</b> ：用户体验优先，然后设计最简单、最精简的协议来支撑它，仅此而已。他们将其总结为”用户体验优先于底层架构”。<br></li>
+<li><b>模块化</b> ：小而松散耦合的组件，使你不依赖于特定设备、语言或平台。<br></li>
+<li><b>长寿</b> ：为长久的网络而建。「如果人类社会能够保存古老的莎草纸、维多利亚时代的照片和恐龙骨骼，那么我们也应该能够构建出不需要每隔几年就以进步之名摧毁一切的网络技术。」<br></li>
+<li><b>多元性</b> ：刻意鼓励多元方法，使社区比任何单一文化都更具韧性。<br></li>
+<li><b>最重要的是，要玩得开心</b> ：记住 90 年代的网络、GeoCities、花哨的背景和动态 GIF。「那时的网页可能又丑又乱，但很有趣。让网络保持古怪和有趣吧。」<br></li>
+</ol>
+
+<p>
+编号仅供参考，并非优先级排序。社区并不要求你全部完成，但希望你牢记于心。<br>
+</p>
+
+<p>
+但独立网络并非仅靠原则维系。它有一套标准体系，能帮助你的网站更开放、更具互操作性，且不易消失。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org7195b40" class="outline-2">
+<h2 id="org7195b40"><span class="section-number-2">4.</span> 技术部分</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+并非发明一个平台，而是定义了一系列相互组合的小型标准。<a href="https://spec.indieweb.org/">官方索引</a>按实施时间和广度对它们进行排序。<br>
+</p>
+
+<p>
+我们逐一来看。<br>
+</p>
+</div>
+<div id="outline-container-orgaa92ca6" class="outline-3">
+<h3 id="orgaa92ca6"><span class="section-number-3">4.1.</span> 起点：你的域名</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+它并非一种协议，但却是其他一切的前提条件： <b>使用你自己的域名作为你在网络上的主要身份标识</b> 。这是 <a href="https://indieweb.org/Getting_Started">《入门指南》</a> 的第一步，也是社区认为「加入」独立网络所需的最低要求。如果明天你更换了主机或内容管理系统，但保留了域名，那么你所有的链接、读者和搜索排名都能在迁移中得以保留。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org37d6956" class="outline-3">
+<h3 id="org37d6956"><span class="section-number-3">4.2.</span> microformats2：你的 HTML 就是你的 API</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+<a href="https://microformats.org/wiki/microformats2">microformats2</a>  解决了一个问题：让你的内容无需发布并行文件或构建 API 即可被机器读取。<br>
+</p>
+
+<p>
+实现方式非常优雅，因为它利用了你现有 HTML 中的 CSS 类。前缀表示数据类型： <code>h-*</code> 代表根元素， <code>p-*</code> 代表纯文本， <code>u-*</code> 代表 URL， <code>dt-*</code> 代表日期， <code>e-*</code> 代表嵌入式 HTML。两个核心词汇表：<br>
+</p>
+
+<p>
+h-card 是你的身份标识：相当于在线版名片。只需在主页上提供姓名、网址和照片等基本信息，读者便能在你的文章旁看到个人资料，应用程序也能识别你的身份。它的运作方式类似于基于域名的 Gravatar，而非基于电子邮箱的版本：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html" tabindex="0"><code>&lt;<span style="color: #cf2030;">a</span> <span style="color: #2f783f;">class</span>=<span style="color: #5f7200;">"h-card"</span> <span style="color: #2f783f;">href</span>=<span style="color: #5f7200;">"https://example.com"</span>&gt;
+  &lt;<span style="color: #cf2030;">img</span> <span style="color: #2f783f;">src</span>=<span style="color: #5f7200;">"/photo.png"</span> <span style="color: #2f783f;">alt</span>=<span style="color: #5f7200;">""</span> /&gt;
+  Jane Doe
+&lt;/<span style="color: #cf2030;">a</span>&gt;
+</code></pre>
+</div>
+<p>
+h-entry 是内容的基本单位：即帖子的标记结构。维基将其称为”独立网络的关键构建模块”。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html" tabindex="0"><code>&lt;<span style="color: #cf2030;">article</span> <span style="color: #2f783f;">class</span>=<span style="color: #5f7200;">"h-entry"</span>&gt;
+  &lt;<span style="color: #cf2030;">h1</span> <span style="color: #2f783f;">class</span>=<span style="color: #5f7200;">"p-name"</span>&gt;Article title&lt;/<span style="color: #cf2030;">h1</span>&gt;
+  &lt;<span style="color: #cf2030;">p</span>&gt;By &lt;<span style="color: #cf2030;">a</span> <span style="color: #2f783f;">class</span>=<span style="color: #5f7200;">"p-author h-card"</span> <span style="color: #2f783f;">href</span>=<span style="color: #5f7200;">"https://example.com"</span>&gt;Jane Doe&lt;/<span style="color: #cf2030;">a</span>&gt;,
+     &lt;<span style="color: #cf2030;">time</span> <span style="color: #2f783f;">class</span>=<span style="color: #5f7200;">"dt-published"</span> <span style="color: #2f783f;">datetime</span>=<span style="color: #5f7200;">"2026-07-19"</span>&gt;July 19, 2026&lt;/<span style="color: #cf2030;">time</span>&gt;&lt;/<span style="color: #cf2030;">p</span>&gt;
+  &lt;<span style="color: #cf2030;">div</span> <span style="color: #2f783f;">class</span>=<span style="color: #5f7200;">"e-content"</span>&gt;
+    &lt;<span style="color: #cf2030;">p</span>&gt;The post content...&lt;/<span style="color: #cf2030;">p</span>&gt;
+  &lt;/<span style="color: #cf2030;">div</span>&gt;
+&lt;/<span style="color: #cf2030;">article</span>&gt;
+</code></pre>
+</div>
+
+<p>
+还有 h-feed，它可以将多个 h-entry 元素组合在一起，让你的列表页面变成一个可以直接从 HTML 订阅的订阅源。<br>
+</p>
+
+<p>
+维基百科用一句我喜欢的话总结道：<br>
+</p>
+
+<blockquote>
+<p>
+你的网站就是你的 API<br>
+</p>
+</blockquote>
+
+<p>
+阅读用微格式，写作用 Micropub（我们稍后会讲到）。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org6133a67" class="outline-3">
+<h3 id="org6133a67"><span class="section-number-3">4.3.</span> rel=“me”：无需中央权威即可验证身份</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+<a href="https://indieweb.org/rel-me">rel-me</a> 是最简单的部分，也是效果最立竿见影的。它是一个链接上的属性，表示「该链接的目标地址代表与当前页面相同的人」：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html" tabindex="0"><code>&lt;<span style="color: #cf2030;">a</span> <span style="color: #2f783f;">href</span>=<span style="color: #5f7200;">"https://mastodon.social/@jane"</span> <span style="color: #2f783f;">rel</span>=<span style="color: #5f7200;">"me"</span>&gt;Mastodon&lt;/<span style="color: #cf2030;">a</span>&gt;
+</code></pre>
+</div>
+
+<p>
+验证需要双向确认：你的网站链接到个人资料页，而个人资料页也链接回你的网站，两者都使用 <code>rel</code>"me"= 标记。这样就能实现去中心化的身份验证，无需任何中央权威机构参与。这正是 Mastodon 绿色认证勾号背后的机制：如果你的页面通过 rel-me 链接到个人资料页，且个人资料页也反向链接，Mastodon 就会显示你的域名已通过验证。Threads、PixelFed、GitHub、Keybase 和 Wikipedia 也都支持这一功能。<br>
+</p>
+
+<p>
+在 rel-me 之上的是 <b>RelMeAuth</b> ：使用你的个人网址在服务上进行身份验证，将身份证明委托给你的主页所链接的 OAuth 提供商（如 GitHub）。这是 <a href="https://indielogin.com/">IndieLogin</a> 等服务的基石。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org70d6db9" class="outline-3">
+<h3 id="org70d6db9"><span class="section-number-3">4.4.</span> Webmention：网站间的对话</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+<a href="https://indieweb.org/Webmention">Webmention</a> 是核心标准， <b>自 2017 年 1 月 12 日起成为 W3C 推荐标准</b> ，也是 Pingback 的现代继承者。它解决了网站间的对话问题：评论、点赞、回复和转发都能在网页间直接进行，无需中间平台。许多人将其用作 Disqus 的替代方案。<br>
+</p>
+
+<p>
+流程特意设计得简单明了：<br>
+</p>
+
+<ol class="org-ol">
+<li>我写了一篇链接到你文章的文章。<br></li>
+<li>我的服务器访问你的文章，寻找你的端点：HTML 中的 HTTP 标头 <code>Link: &lt;...&gt;; rel</code>"webmention"= 或 <code>&lt;link rel</code>"webmention"&gt;= 。<br></li>
+<li>它发送一个 POST 请求，仅包含两个参数： <code>source</code> （我的帖子）和 <code>target</code> （你的帖子）。<br></li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-none" tabindex="0"><code>POST /webmention HTTP/1.1
+Host: your-site.com
+Content-Type: application/x-www-form-urlencoded
+
+source=https://my-site.com/my-post&amp;target=https://your-site.com/your-article
+</code></pre>
+</div>
+
+
+<ol class="org-ol">
+<li>您的服务器会验证提及：规范要求下载 <code>source</code> 并检查其中是否确实包含指向 <code>target</code> 的链接。如果没有这种验证，任何人都可以伪造虚假提及。<br></li>
+<li>验证通过后，你的网站会决定如何处理它。这时微格式就派上用场了：通过解析来源的 h-entry，你可以判断它是回复（ <code>u-in-reply-to</code> ）、点赞（ <code>u-like-of</code> ）还是转发（ <code>u-repost-of</code> ），而作者的 h-card 则能让你像在普通评论区那样显示他们的姓名和头像。<br></li>
+</ol>
+
+<p>
+如果这听起来像社交网络，那是因为它本来就是！每个网站都是网络中的一个节点，而它们之间的链接构成了社交图谱。<br>
+</p>
+
+<p>
+它并非一个完美的系统，因为它面临着与其他去中心化网络相同的问题，正因如此，才有若干扩展程序专门针对其薄弱环节进行改进：<br>
+</p>
+
+<ul class="org-ul">
+<li><b><a href="https://indieweb.org/Vouch">Vouch</a></b> ，反垃圾信息：Webmention 携带第三个参数，即「担保人」的 URL，这是一个你已知的、链接到发送者域名的网站。它将过滤成本从接收者转移到了发送者身上。<br></li>
+<li><b><a href="https://indieweb.org/Salmention">Salmention</a></b> ，用于传播线程：如果有人回复了我帖子中的评论，原帖会通过向所有相关方重新发送更新 Webmention 来获知这一情况。<br></li>
+</ul>
+
+<p>
+你无法摆脱垃圾信息或审核问题。不过，它是构建分布式评论系统的一个良好基础。<br>
+</p>
+
+<p>
+如果你的网站没有后端，也不必担心： <a href="https://webmention.io/">webmention.io</a> 可以代你接收网络提及。只需在 HTML 中添加一个指向该服务的 <code>&lt;link&gt;</code> 标签，它就会提供一个 API 供你查询和显示这些内容。如果你使用 Hugo、Jekyll 或 Eleventy 这类静态网站生成器，这正是你所需要的。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgd252f4f" class="outline-3">
+<h3 id="orgd252f4f"><span class="section-number-3">4.5.</span> IndieAuth：用你的域名作为登录凭证</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+<a href="https://indieauth.spec.indieweb.org/">IndieAuth</a> 回答了一个问题：如果登录身份是你的网址，而不是「你在谷歌上的身份」或「你在脸书上的身份」，会怎样？从技术上讲，它是 OAuth 2.0，一种用于身份验证和授权的标准。用户和应用程序都通过网址来标识，这消除了预先注册客户端的需要（「IndieAuth 使用 DNS 替代客户端注册」），并且 PKCE 是强制性的（一种防止攻击者窃取访问令牌的安全机制）。<br>
+</p>
+
+<p>
+简而言之的流程：你在登录表单中输入域名，服务端获取你的页面并通过 <code>rel</code>"indieauth-metadata"= 发现你的授权服务器，将你重定向到那里，你以自己喜欢的方式（密码、邮箱、RelMeAuth）进行身份验证，服务端收到确认你拥有该 URL 的控制权。这是一个社区认为稳定的现行标准。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org0ad4bc1" class="outline-3">
+<h3 id="org0ad4bc1"><span class="section-number-3">4.6.</span> Micropub：从任何客户端发布内容</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+<a href="https://indieweb.org/Micropub">Micropub</a> <b>自 2017 年 5 月起成为 W3C 推荐标准</b> ，它将发布界面与网站软件分离：任何应用程序（网页端、iOS、Android）都能在你的域名上创建、编辑和删除帖子。它通过 IndieAuth 获取的 OAuth 令牌，取代了依赖共享密码的旧版 MetaWeblog 和 AtomPub 协议。<br>
+</p>
+
+<p>
+其精妙之处在于词汇体系：它并未自创术语，而是采用序列化的微格式。创建一篇帖子只需通过 POST 请求携带 <code>h=entry</code> 参数，并沿用相同的 h-entry 属性即可。<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh" tabindex="0"><code>curl https://your-site.com/micropub <span style="color: #5f7200;">\</span>
+  -d <span style="color: #2f783f;">h</span>=entry <span style="color: #5f7200;">\</span>
+  -d <span style="color: #5f7200;">"content=Hello world"</span> <span style="color: #5f7200;">\</span>
+  -H <span style="color: #5f7200;">"Authorization: Bearer XXXXXXX"</span>
+</code></pre>
+</div>
+
+<p>
+如果你已经习惯了使用 REST API，那么上手会非常自然。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgc60f4f3" class="outline-3">
+<h3 id="orgc60f4f3"><span class="section-number-3">4.7.</span> WebSub：实时订阅</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+<a href="https://indieweb.org/WebSub">WebSub</a>，原名 PubSubHubbub， <b>自 2018 年 1 月起成为 W3C 推荐标准</b> ，它消除了轮询机制：不再需要上千个读者每半小时向你的服务器询问是否有新内容，而是当你发布内容时通知中心枢纽，该枢纽通过 webhook 立即通知所有订阅者。这既减轻了服务器负载，又能让更新即时送达。<br>
+</p>
+
+<p>
+许多阅读器与聚合工具都支持 WebSub，例如 Feedly 或 NewsBlur。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgc6ddcc7" class="outline-3">
+<h3 id="orgc6ddcc7"><span class="section-number-3">4.8.</span> Microsub：解耦的阅读器</h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+<a href="https://indieweb.org/Microsub">Microsub</a> 是最新的标准，目前仍处于草案阶段。可以将其视为将一切整合到社交阅读应用中的基础设施。<br>
+</p>
+
+<p>
+它包含两个层级：一个负责底层处理的服务器（管理订阅、抓取并解析内容源、标准化数据），以及一个仅渲染阅读界面的客户端。这样客户端可以在用户体验上竞争，而你的订阅内容可在不同客户端间迁移。结合用于从阅读器回复的 Micropub 和用于通知的 Webmention，便构成了 IndieWeb “社交阅读器”的完整架构。<br>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org9923c6f" class="outline-2">
+<h2 id="org9923c6f"><span class="section-number-2">5.</span> 发布策略：POSSE、PESOS 与回馈机制</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+除了原则和协议之外，独立网络还提供了一种与社交网络共存而不将内容拱手相让的心智模型：<br>
+</p>
+
+<p>
+<b><a href="https://indieweb.org/POSSE">POSSE</a></b> （在自己的网站上发布，再同步到其他平台）：先在个人网站发布内容，然后将副本推送至各社交网络，每个副本都附上原文链接。这是推荐的做法。你的朋友可以继续在他们习惯的平台阅读你的内容，你保留着权威版本，即使某个平台明天关闭或封禁你，你也不会损失任何东西。这个术语由坦特克·切利克于 2012 年提出，从科里·多克托罗的《多元主义》到莫莉·怀特（她在 2024 年重新推广了这一概念），每个人都在实践这一做法。维基百科中有一个精妙的细节：从副本链接回原文也是一种「网络合气道」，可以对抗那些抄袭帖子的垃圾信息发送者，因为他们连带着也会复制那个为你带来信誉的链接。<br>
+</p>
+
+<p>
+<b><a href="https://indieweb.org/PESOS">PESOS</a></b> （在他处发布，同步至个人站点）：反向路径，即在封闭平台发布内容，随后在个人站点存档副本。维基百科坦诚其优势（封闭平台应用体验极佳，且具有异步特性：即便网站宕机仍可发布），但认为此方式较为逊色：从发布第一秒起便受制于封闭平台条款，副本不具备权威性，且继承其限制，如字符上限或 t.co 包裹的链接。<br>
+</p>
+
+<p>
+<b><a href="https://indieweb.org/backfeed">Backfeed</a></b> ：互动的反向聚合。你的 POSSE 副本在社交网络上收到的点赞、回复和转发，会以网络提及的形式回流到你最初发布的文章。这样一来，完整的对话记录就归档在你的域名下，避免了下一个信息孤岛的消亡。这项参考服务由 Bridgy 提供：它会监控你在 Mastodon、GitHub、Flickr、Reddit 或 Bluesky 上的副本，并为每一次互动向你发送网络提及。<br>
+</p>
+
+<p>
+简而言之：你在自己的网站上发布内容，再将其同步到各大平台并附上原文链接，而来自各平台的互动反馈则会以 Webmention 的形式回流至你的网站。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgca1a815" class="outline-2">
+<h2 id="orgca1a815"><span class="section-number-2">6.</span> 与联邦宇宙、RSS 及好友的关系</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+你可能会感到意外，但 IndieWeb 并非与联邦宇宙隔绝。有趣的是：Webmention、Micropub 和 WebSub 等协议都源自同一机构——W3C 社交网络工作组。该工作组同样孕育了著名的 ActivityPub 协议（即联邦宇宙的核心协议）。尽管两者遵循不同的理念，但它们实为表亲关系。<br>
+</p>
+
+<p>
+联邦宇宙将 <b>服务器</b> 联合起来：你的身份是 <code>@user@instance</code> ，如果你不运行自己的实例，就得依赖他人的实例。维基百科直言不讳：加入 Mastodon 实例意味着「从一个信息孤岛，转向一个可能更基于开源、更支持开放标准的信息孤岛，却仍然依赖另一个中央组织」，更糟糕的是还有管理税——审核和维护实例的沉重成本。而独立网络则将 <b>网站</b> 联合起来：你的身份就是你的域名，联邦化只是众多渠道之一。<br>
+</p>
+
+<p>
+然而，它们并非互不兼容。Bridgy Fed 这座桥梁能将你的 h-card、h-entry 以及 webmention 转换为 ActivityPub（以及 Bluesky 的 AT 协议），反之亦然。其结果是，你的域名会成为一个形如 <code>@example.com@example.com</code> 的联邦宇宙账号，人们可以从 Mastodon 找到并关注你，而回复则会以回馈形式回到你的帖子中。Mastodon 能够理解你的个人资料和帖子都托管在你的网站上。<br>
+</p>
+
+<p>
+然而，RSS/Atom 订阅源的情况则有所不同，因为 IndieWeb 认为这些格式存在结构性问题。其论据基于 DRY 原则：内容已存在于 HTML 中，维护一份并行的 XML 副本相当于”维护税”，这是一条可能不同步的独立代码路径，体积更大（有些 Atom 文件比对应的 HTML 文件大 4.5 倍），而且当用户点击订阅链接时体验极差。他们提出的替代方案是 h-feed：将 HTML 本身作为订阅源。但正如常发生的那样，技术上的优越性并不等同于被广泛接受。他们自己也承认，支持微格式的阅读器寥寥无几。因此，他们建议在 IndieWeb 中使用 h-feed，而对其他用户则推荐 RSS/Atom。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org912149e" class="outline-2">
+<h2 id="org912149e"><span class="section-number-2">7.</span> 如何开始</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+<a href="https://indieweb.org/Getting_Started">入门指南</a> 入门指南建议按以下顺序执行这些步骤：<br>
+</p>
+
+<ol class="org-ol">
+<li><b>获取你的域名</b> ，并将其作为你在网络上的主要身份标识。他们给出的具体建议是：考虑注册商的 whois 隐私保护选项，但前提是你完全信任该提供商，因为如果你未被列为合法所有者，所有权纠纷会变得复杂。<br></li>
+<li><b>设置托管</b> ：如果你是新手，可以使用托管服务（他们提到了 GitHub Pages、Netlify、Neocities 等）；如果你熟悉操作，可以选择自托管。<br></li>
+<li><b>创建你的页面</b> ：静态网站生成器、手写 HTML 或内容管理系统，这都不重要。没有官方指定的技术，这是有意为之（多元性原则）。<br></li>
+<li><b>向其他平台发布内容（POSSE）</b> ，并附上指向原文的链接。<br></li>
+<li><b>添加微格式</b> ：在主页上使用 <code>rel</code>"me"= 链接到你的个人资料，并在你的文章中添加 h-entry 标记。<br></li>
+<li>使用 <a href="https://indiewebify.me/">IndieWebify.me</a> <b>验证你的工作</b> ，它会逐步检查你的 rel-me、h-card 和 h-entry。<br></li>
+<li><b>加入社区</b> ：分享你构建的内容，哪怕只是一个页面，并在维基上记录下来，以便后来者参考。<br></li>
+</ol>
+
+<p>
+对于希望循序渐进的人，可以参考 <a href="https://indieweb.org/IndieMark">IndieMark</a>,，这是一个分级体系，也是开发者的入门指南。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org520e509" class="outline-2">
+<h2 id="org520e509"><span class="section-number-2">8.</span> 我已实现的内容（以及尚未实现的部分）</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+我一开始就承诺过，会告诉你哪些功能我实现了，哪些放弃了，以及原因。以下是清单：<br>
+</p>
+
+<ul class="org-ul">
+<li>✅ <b>Webmention</b> ，支持发送和接收。发送功能通过每日任务自动完成，会在新文章发布 24 小时后（留出修正错别字的时间）通知外部链接。接收功能则用于在每篇文章末尾生成引用列表。不过，我将其与评论功能分开管理，因为评论是通过邮件处理的。<br></li>
+<li>✅ 每篇文章都添加了 <b>h-entry</b> 标记，首页也设置了 <b>h-card</b> ，并通过 mf2py 验证。<br></li>
+<li>✅ 页脚添加了指向 Mastodon、GitHub 和 Org Social 的 <code>rel="me"</code> 属性，并附有绿色对勾标记。<br></li>
+<li>❌ <b>Micropub and IndieAuth</b> ：这是经过深思熟虑的决定。我的发布界面是编辑器和 Git；文章采用版本控制的 Markdown 格式。发布端点对我而言毫无意义。<br></li>
+<li>❌ <b>WebSub</b> ：评估后已弃用。由于我的发布刻意延迟 24 小时，“实时性”并不值得增加这种复杂性。<br></li>
+<li>❌ <b>h-feed</b> ：我的文章卡片会在其他场景中复用，例如每篇文章内出现的推荐内容，若对其进行标记，会给解析器造成歧义的 h-entry。如果当初设计模板时就考虑到这种结构，情况会有所不同。RSS 已经很好地承担了这一角色。<br></li>
+</ul>
+
+<p>
+但对我帮助最大的建议并非技术层面，而是关于哲学与网页设计伦理。这些散落在维基中的见解，无论是否与 IndieWeb 相关，都价值连城。我的精选如下：<br>
+</p>
+
+<ul class="org-ul">
+<li><b>纯 HTML 是最耐用的格式</b> 。你无需使用 JavaScript 就能浏览整个网络。<br></li>
+<li><b>酷 URI 不会改变</b> ：设计你可以永久维护的固定链接。例如，我可以修改一篇文章的别名，而它依然能正常访问。<br></li>
+<li><b>逐步承诺，逐个平台</b> ：无需大规模迁移。每当你开始在自己的网站上优先发布一种类型的内容，就是在掌控自己数据的道路上迈出一步。<br></li>
+<li><b>思考极端持久性</b> ：该维基严肃讨论了当你去世后网站会如何，从将密钥交给信任之人的「死亡开关」，到彼得·莫尔纳总结的实际问题：「如果你不在了，谁会为你的域名付费？」。<br></li>
+</ul>
+
+<p>
+还有&hellip;&hellip;要玩得开心。一个不完美、古怪的个人网站，胜过你厌倦维护的完美模板。<br>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+</div>
+</body>
+</html>
