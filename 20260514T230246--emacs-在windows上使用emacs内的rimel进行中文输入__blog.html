@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-07-11 周六 14:01 -->
+<!-- 2026-07-29 周三 15:31 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-在windows上使用emacs内的rimel进行中文输入</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-20 周三 17:12]</span></span></p>
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-05-20 周三 17:12]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -25,18 +25,18 @@
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
 <li><a href="#h:c325fffd-458b-4160-ac3c-f8304bc6b7a5">1. 安装配置 liberime 和 rimel</a></li>
-<li><a href="#org1d5b771">2. 安装配置 DLL</a></li>
-<li><a href="#org6460317">3. 调整 rime 配置方案</a>
+<li><a href="#orgd1a38ef">2. 安装配置 DLL</a></li>
+<li><a href="#orgfb23a8b">3. 调整 rime 配置方案</a>
 <ul>
 <li><a href="#h:ce635fc6-238c-4dcd-b8f0-387294f3d6e6">3.1. 修改默认输入方案</a></li>
-<li><a href="#orgd766243">3.2. 配置同步</a></li>
+<li><a href="#org4572e07">3.2. 配置同步</a></li>
 <li><a href="#h:4c8d6c4a-612d-4ef6-b322-487c8daf5e1f">3.3. 一些个人偏好的配置</a></li>
 </ul>
 </li>
-<li><a href="#org290cce9">4. 补充说明</a>
+<li><a href="#orgaa07dbd">4. 补充说明</a>
 <ul>
-<li><a href="#org20cc71d">4.1. 关于启动报错</a></li>
-<li><a href="#orgac8b7f6">4.2. 关于macOS</a></li>
+<li><a href="#org640ce77">4.1. 关于启动报错</a></li>
+<li><a href="#org52eb41c">4.2. 关于macOS</a></li>
 </ul>
 </li>
 <li><a href="#h:d17912fe-ec54-456a-986c-d5920f488a5b">5. 配置文件</a></li>
@@ -83,7 +83,7 @@ Emacs的中文输入一直以来都是一个问题。虽然我们已经有了珠
 因为这两者都上了 melpa 且 rimel 依赖着 liberime ，因此我们在写 use-package 的时候仅需要指明 rimel 即可：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> rimel <span style="color: #721045;">:ensure</span> t
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">use-package</span> rimel <span style="color: #cf2f4f;">:ensure</span> t
 </code></pre>
 </div>
 
@@ -96,8 +96,8 @@ Emacs的中文输入一直以来都是一个问题。虽然我们已经有了珠
 我把 <code>liberime-core.dll</code> 放在了 <code>~/.emacs.d/bin/</code> 路径下，以便在多设备下同步。相关的依赖 DLL ，也在同一个位置，我们后面详解有哪些需要复制过来。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #721045;">:custom</span>
-  <span style="color: #000000;">(</span>liberime-module-file <span style="color: #00598b;">"~/.emacs.d/bin/liberime-core.dll"</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #cf2f4f;">:custom</span>
+  <span style="color: #a45a22;">(</span>liberime-module-file <span style="color: #5f7200;">"~/.emacs.d/bin/liberime-core.dll"</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -109,15 +109,15 @@ Emacs的中文输入一直以来都是一个问题。虽然我们已经有了珠
 前者可以先从 liberime 的 release 路径里 <code>/share/rime-data</code> 中复制来。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #000000;">(</span>liberime-shared-data-dir <span style="color: #00598b;">"~/.emacs.d/bin/rime-data"</span><span style="color: #000000;">)</span>
-  <span style="color: #000000;">(</span>liberime-user-data-dir <span style="color: #00598b;">"~/emacs-local/rimel"</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a45a22;">(</span>liberime-shared-data-dir <span style="color: #5f7200;">"~/.emacs.d/bin/rime-data"</span><span style="color: #a45a22;">)</span>
+  <span style="color: #a45a22;">(</span>liberime-user-data-dir <span style="color: #5f7200;">"~/emacs-local/rimel"</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 <p>
 这里记得配置一下默认输入法为 rimel<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #000000;">(</span>default-input-method <span style="color: #00598b;">"rimel"</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #a45a22;">(</span>default-input-method <span style="color: #5f7200;">"rimel"</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -125,11 +125,11 @@ Emacs的中文输入一直以来都是一个问题。虽然我们已经有了珠
 下面这个变量决定了在什么区域自动关闭输入法进入英文模式。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#25512;&#33616;&#37197;&#32622;&#65306;&#20195;&#30721;&#21306; + &#23383;&#27597;&#21518; + &#22823;&#20889;&#23383;&#27597;</span>
-  <span style="color: #000000;">(</span>rimel-disable-predicates
-      '<span style="color: #dd22dd;">(</span>rimel-predicate-prog-in-code-p
+<pre class="src src-elisp" tabindex="0"><code>  <span style="color: #527545;">;; </span><span style="color: #527545;">&#25512;&#33616;&#37197;&#32622;&#65306;&#20195;&#30721;&#21306; + &#23383;&#27597;&#21518; + &#22823;&#20889;&#23383;&#27597;</span>
+  <span style="color: #a45a22;">(</span>rimel-disable-predicates
+      '<span style="color: #ba2d2f;">(</span>rimel-predicate-prog-in-code-p
         rimel-predicate-after-alphabet-char-p
-        rimel-predicate-current-uppercase-letter-p<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+        rimel-predicate-current-uppercase-letter-p<span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 <p>
@@ -148,14 +148,14 @@ Note that affiliated keywords and blank lines after are considered a part of a s
 在 GUI 下使用悬浮框展示候选词<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#21487;&#36873;&#65306;&#20351;&#29992; posframe &#23637;&#31034;&#20505;&#36873;&#65288;&#22914;&#26524;&#23433;&#35013;&#20102; posframe,&#40664;&#35748;&#20250;&#20351;&#29992; posframe&#65289;</span>
-  <span style="color: #000000;">(</span>rimel-show-candidate 'posframe<span style="color: #000000;">)</span><span style="color: #000000; background-color: #ff8f88;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #527545;">;; </span><span style="color: #527545;">&#21487;&#36873;&#65306;&#20351;&#29992; posframe &#23637;&#31034;&#20505;&#36873;&#65288;&#22914;&#26524;&#23433;&#35013;&#20102; posframe,&#40664;&#35748;&#20250;&#20351;&#29992; posframe&#65289;</span>
+  <span style="color: #a45a22;">(</span>rimel-show-candidate 'posframe<span style="color: #a45a22;">)</span><span style="color: #ce3f00; background-color: #ffdde5;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org1d5b771" class="outline-2">
-<h2 id="org1d5b771"><span class="section-number-2">2.</span> 安装配置 DLL</h2>
+<div id="outline-container-orgd1a38ef" class="outline-2">
+<h2 id="orgd1a38ef"><span class="section-number-2">2.</span> 安装配置 DLL</h2>
 <div class="outline-text-2" id="text-2">
 <blockquote>
 <p>
@@ -174,7 +174,7 @@ Note that affiliated keywords and blank lines after are considered a part of a s
 具体依赖文件如下：<br>
 </p>
 
-<pre class="example" id="org44d005e">
+<pre class="example" id="orga465812">
 libgflags.dll
 libglog-2.dll
 libleveldb.dll
@@ -193,8 +193,8 @@ libyaml-cpp.dll
 </p>
 </div>
 </div>
-<div id="outline-container-org6460317" class="outline-2">
-<h2 id="org6460317"><span class="section-number-2">3.</span> 调整 rime 配置方案</h2>
+<div id="outline-container-orgfb23a8b" class="outline-2">
+<h2 id="orgfb23a8b"><span class="section-number-2">3.</span> 调整 rime 配置方案</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 假如你以上两步均胜利完成，那么重启 Emacs 之后，轻按 <code>C-\</code> ，随便按几下键盘，应该就能看见候选词出现在 minibuffer 或者 posframe 中了。但细心的你同样发现，怎么打出来的是繁体字啊？这是因为前面复制的默认使用明月拼音，初始输出就是繁体。幸好，我们可以充分利用 rime 的自定义功能，换成我们想用的方案。<br>
@@ -220,10 +220,10 @@ libyaml-cpp.dll
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f0000;"># &#26041;&#26696;&#21015;&#34920;</span>
-<span style="color: #00603f;">schema_list</span>:
-  <span style="color: #7f0000;"># &#21487;&#20197;&#30452;&#25509;&#21024;&#38500;&#25110;&#27880;&#37322;&#19981;&#38656;&#35201;&#30340;&#26041;&#26696;&#65292;&#23545;&#24212;&#30340; *.schema.yaml &#26041;&#26696;&#25991;&#20214;&#20063;&#21487;&#20197;&#30452;&#25509;&#21024;&#38500;</span>
-  - <span style="color: #00603f;">schema</span>: <span style="color: #00598b;">rime_frost_double_pinyin_flypy</span>    <span style="color: #7f0000;"># &#23567;&#40548;&#21452;&#25340;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #527545;"># &#26041;&#26696;&#21015;&#34920;</span>
+<span style="color: #8448aa;">schema_list</span>:
+  <span style="color: #527545;"># &#21487;&#20197;&#30452;&#25509;&#21024;&#38500;&#25110;&#27880;&#37322;&#19981;&#38656;&#35201;&#30340;&#26041;&#26696;&#65292;&#23545;&#24212;&#30340; *.schema.yaml &#26041;&#26696;&#25991;&#20214;&#20063;&#21487;&#20197;&#30452;&#25509;&#21024;&#38500;</span>
+  - <span style="color: #8448aa;">schema</span>: <span style="color: #5f7200;">rime_frost_double_pinyin_flypy</span>    <span style="color: #527545;"># &#23567;&#40548;&#21452;&#25340;</span>
 </code></pre>
 </div>
 
@@ -232,47 +232,47 @@ libyaml-cpp.dll
 </p>
 
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #7f0000;"># &#36755;&#20837;&#24341;&#25806;</span>
-<span style="color: #00603f;">engine</span>:
-  <span style="color: #00603f;">processors</span>:
-    - <span style="color: #00598b;">ascii_composer</span>
-    - <span style="color: #00598b;">recognizer</span>
-    - <span style="color: #00598b;">key_binder</span>
-    - <span style="color: #00598b;">speller</span>
-    - <span style="color: #00598b;">punctuator</span>
-    - <span style="color: #00598b;">selector</span>
-    - <span style="color: #00598b;">navigator</span>
-    - <span style="color: #00598b;">express_editor</span>
-  <span style="color: #00603f;">segmentors</span>:
-    - <span style="color: #00598b;">ascii_segmentor</span>
-    - <span style="color: #00598b;">matcher</span>
-    - <span style="color: #00598b;">abc_segmentor</span>
-    - <span style="color: #00598b;">affix_segmentor@radical_lookup</span>  <span style="color: #7f0000;"># &#37096;&#20214;&#25286;&#23383;&#33258;&#23450;&#20041; tag</span>
-    - <span style="color: #00598b;">punct_segmentor</span>
-    - <span style="color: #00598b;">fallback_segmentor</span>
-  <span style="color: #00603f;">translators</span>:
-    - <span style="color: #00598b;">punct_translator</span>
-    - <span style="color: #00598b;">table_translator@frost_aux</span>       <span style="color: #7f0000;"># ` single-char aux lookup</span>
-    - <span style="color: #00598b;">script_translator</span>
-    - <span style="color: #00598b;">table_translator@custom_phrase</span>    <span style="color: #7f0000;"># &#33258;&#23450;&#20041;&#30701;&#35821; custom_phrase.txt</span>
-    - <span style="color: #00598b;">table_translator@melt_eng</span>         <span style="color: #7f0000;"># &#33521;&#25991;&#36755;&#20837;</span>
-    - <span style="color: #00598b;">table_translator@cn_en</span>            <span style="color: #7f0000;"># &#20013;&#33521;&#28151;&#21512;&#35789;&#27719;</span>
-    - <span style="color: #00598b;">table_translator@radical_lookup</span>   <span style="color: #7f0000;"># &#37096;&#20214;&#25286;&#23383;&#21453;&#26597;</span>
-  <span style="color: #00603f;">filters</span>:
-    - <span style="color: #00598b;">reverse_lookup_filter@radical_reverse_lookup</span>  <span style="color: #7f0000;"># &#37096;&#20214;&#25286;&#23383;&#28388;&#38236;</span>
-    - <span style="color: #00598b;">simplifier@emoji</span>                              <span style="color: #7f0000;"># Emoji</span>
-    - <span style="color: #00598b;">simplifier@chaifen</span>
-    - <span style="color: #00598b;">simplifier@chaifen_all</span>
-    - <span style="color: #00598b;">simplifier@chinese_english</span>
-    - <span style="color: #00598b;">simplifier@traditionalize</span>                     <span style="color: #7f0000;"># &#31616;&#32321;&#20999;&#25442;</span>
-    - <span style="color: #00598b;">simplifier@mars</span>                               <span style="color: #7f0000;">#&#28779;&#26143;&#25991;</span>
-    - <span style="color: #00598b;">uniquifier</span>                                    <span style="color: #7f0000;"># &#21435;&#37325;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #527545;"># &#36755;&#20837;&#24341;&#25806;</span>
+<span style="color: #8448aa;">engine</span>:
+  <span style="color: #8448aa;">processors</span>:
+    - <span style="color: #5f7200;">ascii_composer</span>
+    - <span style="color: #5f7200;">recognizer</span>
+    - <span style="color: #5f7200;">key_binder</span>
+    - <span style="color: #5f7200;">speller</span>
+    - <span style="color: #5f7200;">punctuator</span>
+    - <span style="color: #5f7200;">selector</span>
+    - <span style="color: #5f7200;">navigator</span>
+    - <span style="color: #5f7200;">express_editor</span>
+  <span style="color: #8448aa;">segmentors</span>:
+    - <span style="color: #5f7200;">ascii_segmentor</span>
+    - <span style="color: #5f7200;">matcher</span>
+    - <span style="color: #5f7200;">abc_segmentor</span>
+    - <span style="color: #5f7200;">affix_segmentor@radical_lookup</span>  <span style="color: #527545;"># &#37096;&#20214;&#25286;&#23383;&#33258;&#23450;&#20041; tag</span>
+    - <span style="color: #5f7200;">punct_segmentor</span>
+    - <span style="color: #5f7200;">fallback_segmentor</span>
+  <span style="color: #8448aa;">translators</span>:
+    - <span style="color: #5f7200;">punct_translator</span>
+    - <span style="color: #5f7200;">table_translator@frost_aux</span>       <span style="color: #527545;"># ` single-char aux lookup</span>
+    - <span style="color: #5f7200;">script_translator</span>
+    - <span style="color: #5f7200;">table_translator@custom_phrase</span>    <span style="color: #527545;"># &#33258;&#23450;&#20041;&#30701;&#35821; custom_phrase.txt</span>
+    - <span style="color: #5f7200;">table_translator@melt_eng</span>         <span style="color: #527545;"># &#33521;&#25991;&#36755;&#20837;</span>
+    - <span style="color: #5f7200;">table_translator@cn_en</span>            <span style="color: #527545;"># &#20013;&#33521;&#28151;&#21512;&#35789;&#27719;</span>
+    - <span style="color: #5f7200;">table_translator@radical_lookup</span>   <span style="color: #527545;"># &#37096;&#20214;&#25286;&#23383;&#21453;&#26597;</span>
+  <span style="color: #8448aa;">filters</span>:
+    - <span style="color: #5f7200;">reverse_lookup_filter@radical_reverse_lookup</span>  <span style="color: #527545;"># &#37096;&#20214;&#25286;&#23383;&#28388;&#38236;</span>
+    - <span style="color: #5f7200;">simplifier@emoji</span>                              <span style="color: #527545;"># Emoji</span>
+    - <span style="color: #5f7200;">simplifier@chaifen</span>
+    - <span style="color: #5f7200;">simplifier@chaifen_all</span>
+    - <span style="color: #5f7200;">simplifier@chinese_english</span>
+    - <span style="color: #5f7200;">simplifier@traditionalize</span>                     <span style="color: #527545;"># &#31616;&#32321;&#20999;&#25442;</span>
+    - <span style="color: #5f7200;">simplifier@mars</span>                               <span style="color: #527545;">#&#28779;&#26143;&#25991;</span>
+    - <span style="color: #5f7200;">uniquifier</span>                                    <span style="color: #527545;"># &#21435;&#37325;</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgd766243" class="outline-3">
-<h3 id="orgd766243"><span class="section-number-3">3.2.</span> 配置同步</h3>
+<div id="outline-container-org4572e07" class="outline-3">
+<h3 id="org4572e07"><span class="section-number-3">3.2.</span> 配置同步</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 因为同步功能只看用户文件夹，所以我们需要进入 <code>user-data-dir</code> 里，修改 <code>installation.yaml</code> ，添加一行 <code>sync_dir:</code> ，才可以利用 rime 的同步功能。<br>
@@ -298,10 +298,10 @@ libyaml-cpp.dll
 下面是weasel<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">patch</span>:
-  <span style="color: #00603f;">app_options</span>:
-    <span style="color: #00603f;">emacs.exe</span>:               <span style="color: #7f0000;"># &#24102; .exe &#30340;&#36827;&#31243;&#21517;&#65306;Weasel 15.0 &#21450;&#20043;&#21069;&#29256;&#26412;&#39035;&#23567;&#20889;; PR #1049 &#21512;&#24182;&#21518;&#37322;&#20986;&#30340;&#29256;&#26412;&#22823;&#23567;&#20889;&#19981;&#25935;&#24863;</span>
-      <span style="color: #00603f;">ascii_mode</span>: <span style="color: #531ab6;">true</span>     <span style="color: #7f0000;"># &#33521;&#25991;&#27169;&#24335;</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #8448aa;">patch</span>:
+  <span style="color: #8448aa;">app_options</span>:
+    <span style="color: #8448aa;">emacs.exe</span>:               <span style="color: #527545;"># &#24102; .exe &#30340;&#36827;&#31243;&#21517;&#65306;Weasel 15.0 &#21450;&#20043;&#21069;&#29256;&#26412;&#39035;&#23567;&#20889;; PR #1049 &#21512;&#24182;&#21518;&#37322;&#20986;&#30340;&#29256;&#26412;&#22823;&#23567;&#20889;&#19981;&#25935;&#24863;</span>
+      <span style="color: #8448aa;">ascii_mode</span>: <span style="color: #ce3f00;">true</span>     <span style="color: #527545;"># &#33521;&#25991;&#27169;&#24335;</span>
 </code></pre>
 </div>
 
@@ -309,11 +309,11 @@ libyaml-cpp.dll
 下面是squirrel<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml" tabindex="0"><code><span style="color: #00603f;">patch</span>:
-  <span style="color: #00603f;">app_options</span>:
-    <span style="color: #00603f;">org.gnu.Emacs</span>:
-      <span style="color: #00603f;">ascii_mode</span>: <span style="color: #531ab6;">true</span>
-      <span style="color: #00603f;">no_inline</span>: <span style="color: #531ab6;">true</span>
+<pre class="src src-yaml" tabindex="0"><code><span style="color: #8448aa;">patch</span>:
+  <span style="color: #8448aa;">app_options</span>:
+    <span style="color: #8448aa;">org.gnu.Emacs</span>:
+      <span style="color: #8448aa;">ascii_mode</span>: <span style="color: #ce3f00;">true</span>
+      <span style="color: #8448aa;">no_inline</span>: <span style="color: #ce3f00;">true</span>
 </code></pre>
 </div>
 
@@ -323,20 +323,20 @@ libyaml-cpp.dll
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/rimel-predicate-org-in-src-block-p</span> <span style="color: #dd22dd;">()</span>
-  <span style="color: #304463;">"Return non-nil when point is inside an Org source block."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">and</span> <span style="color: #008899;">(</span>derived-mode-p 'org-mode<span style="color: #008899;">)</span>
-       <span style="color: #008899;">(</span>fboundp 'org-in-src-block-p<span style="color: #008899;">)</span>
-       <span style="color: #008899;">(</span><span style="color: #0031a9;">let</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>element <span style="color: #531ab6;">(</span>org-element-at-point<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span><span style="color: #0031a9;">when</span> <span style="color: #808000;">(</span>org-element-type-p element 'src-block<span style="color: #808000;">)</span>
-           <span style="color: #808000;">(</span>not <span style="color: #531ab6;">(</span><span style="color: #0031a9;">or</span> <span style="color: #008900;">(</span>&lt;= <span style="color: #3546c2;">(</span>line-beginning-position<span style="color: #3546c2;">)</span>
-                        <span style="color: #3546c2;">(</span>org-element-post-affiliated element<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span>
-                    <span style="color: #008900;">(</span>&gt;= <span style="color: #3546c2;">(</span>line-end-position<span style="color: #3546c2;">)</span>
-                        <span style="color: #3546c2;">(</span><span style="color: #0031a9;">org-with-point-at</span> <span style="color: #8f0075;">(</span>org-element-end element<span style="color: #8f0075;">)</span>
-                          <span style="color: #8f0075;">(</span>point<span style="color: #8f0075;">)</span><span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">my/rimel-predicate-org-in-src-block-p</span> <span style="color: #ba2d2f;">()</span>
+  <span style="color: #9a625a;">"Return non-nil when point is inside an Org source block."</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">and</span> <span style="color: #5f7200;">(</span>derived-mode-p 'org-mode<span style="color: #5f7200;">)</span>
+       <span style="color: #5f7200;">(</span>fboundp 'org-in-src-block-p<span style="color: #5f7200;">)</span>
+       <span style="color: #5f7200;">(</span><span style="color: #a45a22;">let</span> <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>element <span style="color: #aa4f30;">(</span>org-element-at-point<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">when</span> <span style="color: #3f60af;">(</span>org-element-type-p element 'src-block<span style="color: #3f60af;">)</span>
+           <span style="color: #3f60af;">(</span>not <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">or</span> <span style="color: #8448aa;">(</span>&lt;= <span style="color: #cf2f4f;">(</span>line-beginning-position<span style="color: #cf2f4f;">)</span>
+                        <span style="color: #cf2f4f;">(</span>org-element-post-affiliated element<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+                    <span style="color: #8448aa;">(</span>&gt;= <span style="color: #cf2f4f;">(</span>line-end-position<span style="color: #cf2f4f;">)</span>
+                        <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">org-with-point-at</span> <span style="color: #0f7f5f;">(</span>org-element-end element<span style="color: #0f7f5f;">)</span>
+                          <span style="color: #0f7f5f;">(</span>point<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 
-<span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#28155;&#21152;&#36827;&#21435;</span>
-<span style="color: #000000;">(</span>add-to-list 'rimel-disable-predicates 'my/rimel-predicate-org-in-src-block-p<span style="color: #000000;">)</span>
+<span style="color: #527545;">;; </span><span style="color: #527545;">&#28155;&#21152;&#36827;&#21435;</span>
+<span style="color: #a45a22;">(</span>add-to-list 'rimel-disable-predicates 'my/rimel-predicate-org-in-src-block-p<span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -348,24 +348,24 @@ libyaml-cpp.dll
 下面这个断言可以在 <code>非ASCII+空格</code> 的情况下返回 <code>t</code> ，启用 <code>pass-through</code> ，在 <code>ASCII+空格</code> 的情况下正常启用输入法。<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/rimel-predicate-space-after-nonascii-char-p</span> <span style="color: #dd22dd;">()</span>
-  <span style="color: #304463;">"Return t when the char before point is a space and the one before it is non-ASCII.</span>
-<span style="color: #304463;">Both characters must be on the same line as point.  If point is at the</span>
-<span style="color: #304463;">beginning of the buffer, or either of the two preceding characters belongs</span>
-<span style="color: #304463;">to a previous line, return nil.</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">my/rimel-predicate-space-after-nonascii-char-p</span> <span style="color: #ba2d2f;">()</span>
+  <span style="color: #9a625a;">"Return t when the char before point is a space and the one before it is non-ASCII.</span>
+<span style="color: #9a625a;">Both characters must be on the same line as point.  If point is at the</span>
+<span style="color: #9a625a;">beginning of the buffer, or either of the two preceding characters belongs</span>
+<span style="color: #9a625a;">to a previous line, return nil.</span>
 
-<span style="color: #304463;">This function never moves point."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>cpoint <span style="color: #808000;">(</span>point<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #0031a9;">and</span> <span style="color: #972500;">(</span>not <span style="color: #808000;">(</span>bobp<span style="color: #808000;">)</span><span style="color: #972500;">)</span>                         <span style="color: #7f0000;">; </span><span style="color: #7f0000;">&#19981;&#22312; buffer &#24320;&#22836;</span>
-         <span style="color: #972500;">(</span>not <span style="color: #808000;">(</span>bolp<span style="color: #808000;">)</span><span style="color: #972500;">)</span>                         <span style="color: #7f0000;">; </span><span style="color: #7f0000;">point &#19981;&#22312;&#34892;&#39318; &#8594; &#21069;&#19968;&#20010;&#23383;&#31526;&#22312;&#26412;&#34892;</span>
-         <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#30830;&#20445;&#21069;&#19968;&#20010;&#23383;&#31526;&#19981;&#26159;&#34892;&#39318; &#8594; &#21069;&#21069;&#19968;&#20010;&#23383;&#31526;&#20063;&#22312;&#26412;&#34892;</span>
-         <span style="color: #972500;">(</span>not <span style="color: #808000;">(</span>= <span style="color: #531ab6;">(</span>1- cpoint<span style="color: #531ab6;">)</span> <span style="color: #531ab6;">(</span>line-beginning-position<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span><span style="color: #0031a9;">let</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>prev <span style="color: #008900;">(</span>char-before<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>           <span style="color: #7f0000;">; </span><span style="color: #7f0000;">&#21069;&#19968;&#20010;&#23383;&#31526;&#65288;&#19981;&#20256;&#21442;&#65292;&#40664;&#35748; point&#65289;</span>
-           <span style="color: #808000;">(</span><span style="color: #0031a9;">and</span> prev
-                <span style="color: #531ab6;">(</span>= prev ?\s<span style="color: #531ab6;">)</span>                   <span style="color: #7f0000;">; </span><span style="color: #7f0000;">&#21069;&#19968;&#20010;&#23383;&#31526;&#24517;&#39035;&#26159;&#31354;&#26684;</span>
-                <span style="color: #531ab6;">(</span><span style="color: #0031a9;">let</span> <span style="color: #008900;">(</span><span style="color: #3546c2;">(</span>prevprev <span style="color: #8f0075;">(</span>char-before <span style="color: #000000;">(</span>1- cpoint<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3546c2;">)</span><span style="color: #008900;">)</span> <span style="color: #7f0000;">; </span><span style="color: #7f0000;">&#21069;&#21069;&#19968;&#20010;&#23383;&#31526;</span>
-                  <span style="color: #008900;">(</span><span style="color: #0031a9;">and</span> prevprev
-                       <span style="color: #3546c2;">(</span>&gt;= prevprev 128<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #9a625a;">This function never moves point."</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">let</span> <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>cpoint <span style="color: #3f60af;">(</span>point<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">and</span> <span style="color: #cb2f80;">(</span>not <span style="color: #3f60af;">(</span>bobp<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>                         <span style="color: #527545;">; </span><span style="color: #527545;">&#19981;&#22312; buffer &#24320;&#22836;</span>
+         <span style="color: #cb2f80;">(</span>not <span style="color: #3f60af;">(</span>bolp<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>                         <span style="color: #527545;">; </span><span style="color: #527545;">point &#19981;&#22312;&#34892;&#39318; &#8594; &#21069;&#19968;&#20010;&#23383;&#31526;&#22312;&#26412;&#34892;</span>
+         <span style="color: #527545;">;; </span><span style="color: #527545;">&#30830;&#20445;&#21069;&#19968;&#20010;&#23383;&#31526;&#19981;&#26159;&#34892;&#39318; &#8594; &#21069;&#21069;&#19968;&#20010;&#23383;&#31526;&#20063;&#22312;&#26412;&#34892;</span>
+         <span style="color: #cb2f80;">(</span>not <span style="color: #3f60af;">(</span>= <span style="color: #aa4f30;">(</span>1- cpoint<span style="color: #aa4f30;">)</span> <span style="color: #aa4f30;">(</span>line-beginning-position<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">let</span> <span style="color: #3f60af;">(</span><span style="color: #aa4f30;">(</span>prev <span style="color: #8448aa;">(</span>char-before<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>           <span style="color: #527545;">; </span><span style="color: #527545;">&#21069;&#19968;&#20010;&#23383;&#31526;&#65288;&#19981;&#20256;&#21442;&#65292;&#40664;&#35748; point&#65289;</span>
+           <span style="color: #3f60af;">(</span><span style="color: #a45a22;">and</span> prev
+                <span style="color: #aa4f30;">(</span>= prev ?\s<span style="color: #aa4f30;">)</span>                   <span style="color: #527545;">; </span><span style="color: #527545;">&#21069;&#19968;&#20010;&#23383;&#31526;&#24517;&#39035;&#26159;&#31354;&#26684;</span>
+                <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">let</span> <span style="color: #8448aa;">(</span><span style="color: #cf2f4f;">(</span>prevprev <span style="color: #0f7f5f;">(</span>char-before <span style="color: #a45a22;">(</span>1- cpoint<span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span> <span style="color: #527545;">; </span><span style="color: #527545;">&#21069;&#21069;&#19968;&#20010;&#23383;&#31526;</span>
+                  <span style="color: #8448aa;">(</span><span style="color: #a45a22;">and</span> prevprev
+                       <span style="color: #cf2f4f;">(</span>&gt;= prevprev 128<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -374,38 +374,38 @@ libyaml-cpp.dll
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#35753; echo area &#20505;&#36873;&#31383;&#21475;&#24635;&#26159;&#26174;&#31034;&#39044;&#32534;&#36753;&#23383;&#31526;&#20018;</span>
-  <span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/rimel--echo-area-show</span> <span style="color: #dd22dd;">(</span>orig-fun context<span style="color: #dd22dd;">)</span>
-    <span style="color: #304463;">"Call ORIG-FUN, but force showing preedit in echo area."</span>
-    <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>rimel-inline-preedit 'candidate<span style="color: #972500;">)</span><span style="color: #008899;">)</span>   <span style="color: #7f0000;">; </span><span style="color: #7f0000;">&#27450;&#39575;&#20869;&#37096;&#36923;&#36753;</span>
-      <span style="color: #008899;">(</span>funcall orig-fun context<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
-  <span style="color: #000000;">(</span>advice-add 'rimel--echo-area-show <span style="color: #721045;">:around</span> #'my/rimel--echo-area-show<span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #527545;">;; </span><span style="color: #527545;">&#35753; echo area &#20505;&#36873;&#31383;&#21475;&#24635;&#26159;&#26174;&#31034;&#39044;&#32534;&#36753;&#23383;&#31526;&#20018;</span>
+  <span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">my/rimel--echo-area-show</span> <span style="color: #ba2d2f;">(</span>orig-fun context<span style="color: #ba2d2f;">)</span>
+    <span style="color: #9a625a;">"Call ORIG-FUN, but force showing preedit in echo area."</span>
+    <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">let</span> <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>rimel-inline-preedit 'candidate<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>   <span style="color: #527545;">; </span><span style="color: #527545;">&#27450;&#39575;&#20869;&#37096;&#36923;&#36753;</span>
+      <span style="color: #5f7200;">(</span>funcall orig-fun context<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
+  <span style="color: #a45a22;">(</span>advice-add 'rimel--echo-area-show <span style="color: #cf2f4f;">:around</span> #'my/rimel--echo-area-show<span style="color: #a45a22;">)</span>
   
-  <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#35753; posframe &#20505;&#36873;&#31383;&#21475;&#24635;&#26159;&#26174;&#31034;&#39044;&#32534;&#36753;&#23383;&#31526;&#20018;</span>
-  <span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/rimel--posframe-show</span> <span style="color: #dd22dd;">(</span>orig-fun context<span style="color: #dd22dd;">)</span>
-    <span style="color: #304463;">"Call ORIG-FUN, but force showing preedit in posframe."</span>
-    <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>rimel-inline-preedit 'candidate<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-      <span style="color: #008899;">(</span>funcall orig-fun context<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
-  <span style="color: #000000;">(</span>advice-add 'rimel--posframe-show <span style="color: #721045;">:around</span> #'my/rimel--posframe-show<span style="color: #000000;">)</span>
+  <span style="color: #527545;">;; </span><span style="color: #527545;">&#35753; posframe &#20505;&#36873;&#31383;&#21475;&#24635;&#26159;&#26174;&#31034;&#39044;&#32534;&#36753;&#23383;&#31526;&#20018;</span>
+  <span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">my/rimel--posframe-show</span> <span style="color: #ba2d2f;">(</span>orig-fun context<span style="color: #ba2d2f;">)</span>
+    <span style="color: #9a625a;">"Call ORIG-FUN, but force showing preedit in posframe."</span>
+    <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">let</span> <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>rimel-inline-preedit 'candidate<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+      <span style="color: #5f7200;">(</span>funcall orig-fun context<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
+  <span style="color: #a45a22;">(</span>advice-add 'rimel--posframe-show <span style="color: #cf2f4f;">:around</span> #'my/rimel--posframe-show<span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org290cce9" class="outline-2">
-<h2 id="org290cce9"><span class="section-number-2">4.</span> 补充说明</h2>
+<div id="outline-container-orgaa07dbd" class="outline-2">
+<h2 id="orgaa07dbd"><span class="section-number-2">4.</span> 补充说明</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-org20cc71d" class="outline-3">
-<h3 id="org20cc71d"><span class="section-number-3">4.1.</span> 关于启动报错</h3>
+<div id="outline-container-org640ce77" class="outline-3">
+<h3 id="org640ce77"><span class="section-number-3">4.1.</span> 关于启动报错</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 如果你一切都配置就绪了，但是发现执行 <code>liberime-load</code> 的时候报错，可能是加载路径的问题，可以考虑将 <code>liberime-module-file</code> 所在路径添加到 Windows 的用户环境变量里，然后重启电脑以重新读取用户环境变量，再启动 Emacs 试试。<br>
 </p>
 </div>
 </div>
-<div id="outline-container-orgac8b7f6" class="outline-3">
-<h3 id="orgac8b7f6"><span class="section-number-3">4.2.</span> 关于macOS</h3>
+<div id="outline-container-org52eb41c" class="outline-3">
+<h3 id="org52eb41c"><span class="section-number-3">4.2.</span> 关于macOS</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 我也在 macOS 配置了 rimel 。总体和 Windows 上大差不差，仅需从 liberime 的 release 里面下载对应架构的 <code>liberime-core.dylib</code> ，放在路径中，然后 <code>brew install librime</code> 即可。记得配置里分别明确 windows 和 macOS 下的 <code>liberime-module-file</code> 路径。<br>
@@ -421,10 +421,10 @@ libyaml-cpp.dll
 <h2 id="h:d17912fe-ec54-456a-986c-d5920f488a5b"><span class="section-number-2">5.</span> 配置文件</h2>
 <div class="outline-text-2" id="text-h:d17912fe-ec54-456a-986c-d5920f488a5b">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #000000;">(</span>files--ensure-directory my/desktop-path<span style="color: #000000;">)</span>
-<span style="color: #000000;">(</span><span style="color: #0031a9;">let</span> <span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span>file <span style="color: #00598b;">"rimel-config.txt"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span>org-babel-tangle-file <span style="color: #008899;">(</span>buffer-file-name<span style="color: #008899;">)</span> <span style="color: #008899;">(</span>concat my/desktop-path file<span style="color: #008899;">)</span> <span style="color: #00598b;">"elisp"</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span>format <span style="color: #00598b;">"[[https://blog.prayhand13013.top/%s][&#19968;&#38190;&#26597;&#30475;&#19978;&#36848;&#37197;&#32622;&#20195;&#30721;&#27719;&#24635;]]"</span> file<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-emacs-lisp" tabindex="0"><code><span style="color: #a45a22;">(</span>files--ensure-directory my/desktop-path<span style="color: #a45a22;">)</span>
+<span style="color: #a45a22;">(</span><span style="color: #a45a22;">let</span> <span style="color: #ba2d2f;">(</span><span style="color: #5f7200;">(</span>file <span style="color: #5f7200;">"rimel-config.txt"</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span>
+  <span style="color: #ba2d2f;">(</span>org-babel-tangle-file <span style="color: #5f7200;">(</span>buffer-file-name<span style="color: #5f7200;">)</span> <span style="color: #5f7200;">(</span>concat my/desktop-path file<span style="color: #5f7200;">)</span> <span style="color: #5f7200;">"elisp"</span><span style="color: #ba2d2f;">)</span>
+  <span style="color: #ba2d2f;">(</span>format <span style="color: #5f7200;">"[[https://blog.prayhand13013.top/%s][&#19968;&#38190;&#26597;&#30475;&#19978;&#36848;&#37197;&#32622;&#20195;&#30721;&#27719;&#24635;]]"</span> file<span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -435,7 +435,7 @@ libyaml-cpp.dll
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-07-11 周六 14:00 -->
+<!-- 2026-07-29 周三 15:30 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-使用ox-rss导出rss的xml文件</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:14]</span></span></p>
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:14]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -33,58 +33,58 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #00598b;">"rss"</span>
-           <span style="color: #721045;">:publishing-directory</span> ,my/publish-directory
-           <span style="color: #721045;">:base-directory</span> ,website-directory
-           <span style="color: #721045;">:base-extension</span> <span style="color: #00598b;">"org"</span>
-           <span style="color: #721045;">:exclude</span> <span style="color: #00598b;">".*"</span>
-           <span style="color: #721045;">:include</span> ,<span style="color: #dd22dd;">(</span>my/ox-files<span style="color: #dd22dd;">)</span>
-           <span style="color: #721045;">:publishing-function</span> publish-posts-rss-feed
-           <span style="color: #721045;">:rss-extension</span> <span style="color: #00598b;">"xml"</span>
-           <span style="color: #721045;">:html-link-home</span> <span style="color: #00598b;">"https://tomoemami.github.io/blog"</span>
-           <span style="color: #721045;">:html-link-use-abs-url</span> t
-           <span style="color: #721045;">:html-link-org-files-as-html</span> t
-           <span style="color: #721045;">:auto-sitemap</span> t
-           <span style="color: #721045;">:sitemap-function</span> posts-rss-feed
-           <span style="color: #721045;">:sitemap-title</span> <span style="color: #00598b;">"TomoeMami's Blog"</span>
-           <span style="color: #721045;">:sitemap-filename</span> <span style="color: #00598b;">"rss.org"</span>
-           <span style="color: #721045;">:sitemap-style</span> list
-           <span style="color: #721045;">:sitemap-sort-files</span> anti-chronologically
-           <span style="color: #721045;">:sitemap-format-entry</span> format-posts-rss-feed-entry<span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #5f7200;">"rss"</span>
+           <span style="color: #cf2f4f;">:publishing-directory</span> ,my/publish-directory
+           <span style="color: #cf2f4f;">:base-directory</span> ,website-directory
+           <span style="color: #cf2f4f;">:base-extension</span> <span style="color: #5f7200;">"org"</span>
+           <span style="color: #cf2f4f;">:exclude</span> <span style="color: #5f7200;">".*"</span>
+           <span style="color: #cf2f4f;">:include</span> ,<span style="color: #ba2d2f;">(</span>my/ox-files<span style="color: #ba2d2f;">)</span>
+           <span style="color: #cf2f4f;">:publishing-function</span> publish-posts-rss-feed
+           <span style="color: #cf2f4f;">:rss-extension</span> <span style="color: #5f7200;">"xml"</span>
+           <span style="color: #cf2f4f;">:html-link-home</span> <span style="color: #5f7200;">"https://tomoemami.github.io/blog"</span>
+           <span style="color: #cf2f4f;">:html-link-use-abs-url</span> t
+           <span style="color: #cf2f4f;">:html-link-org-files-as-html</span> t
+           <span style="color: #cf2f4f;">:auto-sitemap</span> t
+           <span style="color: #cf2f4f;">:sitemap-function</span> posts-rss-feed
+           <span style="color: #cf2f4f;">:sitemap-title</span> <span style="color: #5f7200;">"TomoeMami's Blog"</span>
+           <span style="color: #cf2f4f;">:sitemap-filename</span> <span style="color: #5f7200;">"rss.org"</span>
+           <span style="color: #cf2f4f;">:sitemap-style</span> list
+           <span style="color: #cf2f4f;">:sitemap-sort-files</span> anti-chronologically
+           <span style="color: #cf2f4f;">:sitemap-format-entry</span> format-posts-rss-feed-entry<span style="color: #a45a22;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #0031a9;">require</span> '<span style="color: #531ab6;">ox-rss</span><span style="color: #000000;">)</span>
-<span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">posts-rss-feed</span> <span style="color: #dd22dd;">(</span>title list<span style="color: #dd22dd;">)</span>
-  <span style="color: #304463;">"Generate a sitemap of posts that is exported as a RSS feed.</span>
-<span style="color: #304463;">TITLE is the title of the RSS feed.  LIST is an internal</span>
-<span style="color: #304463;">representation for the files to include.  PROJECT is the current</span>
-<span style="color: #304463;">project."</span>
-  <span style="color: #dd22dd;">(</span>concat
-   <span style="color: #00598b;">"#+TITLE: "</span> title <span style="color: #00598b;">"\n\n"</span>
-   <span style="color: #008899;">(</span>org-list-to-subtree list<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #a45a22;">(</span><span style="color: #a45a22;">require</span> '<span style="color: #ce3f00;">ox-rss</span><span style="color: #a45a22;">)</span>
+<span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">posts-rss-feed</span> <span style="color: #ba2d2f;">(</span>title list<span style="color: #ba2d2f;">)</span>
+  <span style="color: #9a625a;">"Generate a sitemap of posts that is exported as a RSS feed.</span>
+<span style="color: #9a625a;">TITLE is the title of the RSS feed.  LIST is an internal</span>
+<span style="color: #9a625a;">representation for the files to include.  PROJECT is the current</span>
+<span style="color: #9a625a;">project."</span>
+  <span style="color: #ba2d2f;">(</span>concat
+   <span style="color: #5f7200;">"#+TITLE: "</span> title <span style="color: #5f7200;">"\n\n"</span>
+   <span style="color: #5f7200;">(</span>org-list-to-subtree list<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">publish-posts-rss-feed</span> <span style="color: #dd22dd;">(</span>plist filename dir<span style="color: #dd22dd;">)</span>
-  <span style="color: #304463;">"Publish PLIST to RSS when FILENAME is rss.org.</span>
-<span style="color: #304463;">DIR is the location of the output."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">if</span> <span style="color: #008899;">(</span>equal <span style="color: #00598b;">"rss.org"</span> <span style="color: #972500;">(</span>file-name-nondirectory filename<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-      <span style="color: #008899;">(</span>org-rss-publish-to-rss plist filename dir<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">publish-posts-rss-feed</span> <span style="color: #ba2d2f;">(</span>plist filename dir<span style="color: #ba2d2f;">)</span>
+  <span style="color: #9a625a;">"Publish PLIST to RSS when FILENAME is rss.org.</span>
+<span style="color: #9a625a;">DIR is the location of the output."</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">if</span> <span style="color: #5f7200;">(</span>equal <span style="color: #5f7200;">"rss.org"</span> <span style="color: #cb2f80;">(</span>file-name-nondirectory filename<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+      <span style="color: #5f7200;">(</span>org-rss-publish-to-rss plist filename dir<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">format-posts-rss-feed-entry</span> <span style="color: #dd22dd;">(</span>entry _style project<span style="color: #dd22dd;">)</span>
-  <span style="color: #304463;">"Format ENTRY for the posts RSS feed in PROJECT."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let*</span> <span style="color: #008899;">(</span>
-         <span style="color: #972500;">(</span>title <span style="color: #808000;">(</span>org-publish-find-title entry project<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>link <span style="color: #808000;">(</span>concat <span style="color: #531ab6;">(</span>file-name-sans-extension entry<span style="color: #531ab6;">)</span> <span style="color: #00598b;">".html"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>pubdate <span style="color: #808000;">(</span>format-time-string <span style="color: #531ab6;">(</span>cdr org-time-stamp-formats<span style="color: #531ab6;">)</span>
-                                      <span style="color: #531ab6;">(</span>org-publish-find-date entry project<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>message pubdate<span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>format <span style="color: #00598b;">"%s</span>
-<span style="color: #00598b;">:properties:</span>
-<span style="color: #00598b;">:rss_permalink: %s</span>
-<span style="color: #00598b;">:pubdate: %s</span>
-<span style="color: #00598b;">:ROAM_EXCLUDE: t</span>
-<span style="color: #00598b;">:end:\n"</span>
+<span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">format-posts-rss-feed-entry</span> <span style="color: #ba2d2f;">(</span>entry _style project<span style="color: #ba2d2f;">)</span>
+  <span style="color: #9a625a;">"Format ENTRY for the posts RSS feed in PROJECT."</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #5f7200;">(</span>
+         <span style="color: #cb2f80;">(</span>title <span style="color: #3f60af;">(</span>org-publish-find-title entry project<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>link <span style="color: #3f60af;">(</span>concat <span style="color: #aa4f30;">(</span>file-name-sans-extension entry<span style="color: #aa4f30;">)</span> <span style="color: #5f7200;">".html"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>pubdate <span style="color: #3f60af;">(</span>format-time-string <span style="color: #aa4f30;">(</span>cdr org-time-stamp-formats<span style="color: #aa4f30;">)</span>
+                                      <span style="color: #aa4f30;">(</span>org-publish-find-date entry project<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span>message pubdate<span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span>format <span style="color: #5f7200;">"%s</span>
+<span style="color: #5f7200;">:properties:</span>
+<span style="color: #5f7200;">:rss_permalink: %s</span>
+<span style="color: #5f7200;">:pubdate: %s</span>
+<span style="color: #5f7200;">:ROAM_EXCLUDE: t</span>
+<span style="color: #5f7200;">:end:\n"</span>
             title
             link
-            pubdate<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+            pubdate<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -97,11 +97,11 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">setq</span> org-roam-capture-templates
-      '<span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span><span style="color: #00598b;">"d"</span> <span style="color: #00598b;">"default"</span> plain <span style="color: #00598b;">"[%&lt;%Y-%m-%d %H:%M&gt;]\n%?"</span> <span style="color: #721045;">:target</span>
-  <span style="color: #972500;">(</span>file+head <span style="color: #00598b;">"%&lt;%Y%m%d%H%M%S&gt;-${slug}.org"</span> <span style="color: #00598b;">"#+title: ${title}\n#+date: &lt;%&lt;%Y-%m-%d %H:%M&gt;&gt;</span>
-<span style="color: #00598b;">"</span><span style="color: #972500;">)</span>
-  <span style="color: #721045;">:unnarrowed</span> t<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">setq</span> org-roam-capture-templates
+      '<span style="color: #ba2d2f;">(</span><span style="color: #5f7200;">(</span><span style="color: #5f7200;">"d"</span> <span style="color: #5f7200;">"default"</span> plain <span style="color: #5f7200;">"[%&lt;%Y-%m-%d %H:%M&gt;]\n%?"</span> <span style="color: #cf2f4f;">:target</span>
+  <span style="color: #cb2f80;">(</span>file+head <span style="color: #5f7200;">"%&lt;%Y%m%d%H%M%S&gt;-${slug}.org"</span> <span style="color: #5f7200;">"#+title: ${title}\n#+date: &lt;%&lt;%Y-%m-%d %H:%M&gt;&gt;</span>
+<span style="color: #5f7200;">"</span><span style="color: #cb2f80;">)</span>
+  <span style="color: #cf2f4f;">:unnarrowed</span> t<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -118,22 +118,22 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">adv/org-publish-project-done-message</span> <span style="color: #dd22dd;">(</span><span style="color: #306010;">&amp;optional</span> one two three <span style="color: #dd22dd;">)</span>
-  <span style="color: #304463;">"&#26356;&#26032;'</span><span style="color: #531ab6;">sitemap.txt</span><span style="color: #304463;">'"</span>
-  <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#36825;&#37324;&#25226;&#21518;&#38754;&#30340;&#20869;&#23481;&#25442;&#25104;'</span><span style="color: #531ab6;">&#23548;&#20986;&#30446;&#24405;/sitemap.txt</span><span style="color: #7f0000;">'</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">with-current-buffer</span> <span style="color: #008899;">(</span>find-file-noselect <span style="color: #972500;">(</span>concat my/desktop-path <span style="color: #00598b;">"sitemap.txt"</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>erase-buffer<span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #0031a9;">dolist</span> <span style="color: #972500;">(</span>tag '<span style="color: #808000;">(</span><span style="color: #00598b;">"_blog"</span> <span style="color: #00598b;">"_wiki"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #0031a9;">dolist</span> <span style="color: #808000;">(</span>file <span style="color: #531ab6;">(</span>denote-directory-files tag<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span>insert <span style="color: #531ab6;">(</span>concat <span style="color: #00598b;">"https://tomoemami.github.io/"</span> <span style="color: #008900;">(</span>file-name-sans-extension <span style="color: #3546c2;">(</span>file-name-nondirectory file<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span> <span style="color: #00598b;">".html\n"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">adv/org-publish-project-done-message</span> <span style="color: #ba2d2f;">(</span><span style="color: #0f7f5f;">&amp;optional</span> one two three <span style="color: #ba2d2f;">)</span>
+  <span style="color: #9a625a;">"&#26356;&#26032;'</span><span style="color: #ce3f00;">sitemap.txt</span><span style="color: #9a625a;">'"</span>
+  <span style="color: #527545;">;; </span><span style="color: #527545;">&#36825;&#37324;&#25226;&#21518;&#38754;&#30340;&#20869;&#23481;&#25442;&#25104;'</span><span style="color: #ce3f00;">&#23548;&#20986;&#30446;&#24405;/sitemap.txt</span><span style="color: #527545;">'</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">with-current-buffer</span> <span style="color: #5f7200;">(</span>find-file-noselect <span style="color: #cb2f80;">(</span>concat my/desktop-path <span style="color: #5f7200;">"sitemap.txt"</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span>erase-buffer<span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">dolist</span> <span style="color: #cb2f80;">(</span>tag '<span style="color: #3f60af;">(</span><span style="color: #5f7200;">"_blog"</span> <span style="color: #5f7200;">"_wiki"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+      <span style="color: #cb2f80;">(</span><span style="color: #a45a22;">dolist</span> <span style="color: #3f60af;">(</span>file <span style="color: #aa4f30;">(</span>denote-directory-files tag<span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+        <span style="color: #3f60af;">(</span>insert <span style="color: #aa4f30;">(</span>concat <span style="color: #5f7200;">"https://tomoemami.github.io/"</span> <span style="color: #8448aa;">(</span>file-name-sans-extension <span style="color: #cf2f4f;">(</span>file-name-nondirectory file<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span> <span style="color: #5f7200;">".html\n"</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 
-<span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#23548;&#20986;&#39033;&#30446;&#21518;&#25191;&#34892;&#19978;&#36848;&#20989;&#25968;</span>
-<span style="color: #000000;">(</span>advice-add #'org-publish-current-project <span style="color: #721045;">:after</span> #'adv/org-publish-project-done-message<span style="color: #000000;">)</span>
+<span style="color: #527545;">;; </span><span style="color: #527545;">&#23548;&#20986;&#39033;&#30446;&#21518;&#25191;&#34892;&#19978;&#36848;&#20989;&#25968;</span>
+<span style="color: #a45a22;">(</span>advice-add #'org-publish-current-project <span style="color: #cf2f4f;">:after</span> #'adv/org-publish-project-done-message<span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-07-11 周六 14:00 -->
+<!-- 2026-07-29 周三 15:30 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-配置简易org-cite</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:20]</span></span></p>
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-01-06 周二 17:20]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -24,9 +24,9 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org38993d4">1. 设置bib文件内容及路径</a></li>
-<li><a href="#orga68680f">2. 网页引用的bib写法</a></li>
-<li><a href="#orgd26ae71">3. 修改pandoc导出命令</a></li>
+<li><a href="#org87c89cd">1. 设置bib文件内容及路径</a></li>
+<li><a href="#org8b204f6">2. 网页引用的bib写法</a></li>
+<li><a href="#orgd418653">3. 修改pandoc导出命令</a></li>
 </ul>
 </div>
 </nav>
@@ -37,8 +37,8 @@
 <p>
 有了功能，就可以配合pandoc在org-mode中进行论文写作了。如果需要进行很学术、很专业的论文写作，推荐查阅 <code>LaTeX</code> 、 <code>BibTeX</code> 、 <code>org-ref</code> 等工具。这里配置一个简单的摘要功能，便于引用。<br>
 </p>
-<div id="outline-container-org38993d4" class="outline-2">
-<h2 id="org38993d4"><span class="section-number-2">1.</span> 设置bib文件内容及路径</h2>
+<div id="outline-container-org87c89cd" class="outline-2">
+<h2 id="org87c89cd"><span class="section-number-2">1.</span> 设置bib文件内容及路径</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在org文件顶部加上：<br>
@@ -58,8 +58,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orga68680f" class="outline-2">
-<h2 id="orga68680f"><span class="section-number-2">2.</span> 网页引用的bib写法</h2>
+<div id="outline-container-org8b204f6" class="outline-2">
+<h2 id="org8b204f6"><span class="section-number-2">2.</span> 网页引用的bib写法</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 如果在正规的学术网站上，是可以直接复制到 <code>bibtex</code> 格式的引用文本，粘贴进 <code>.bib</code> 文件即可。但如果引用的资料在网页上，则需要进入<a href="https://web.funnysaltyfish.fun/link2ref/?source=index">网页引用生成器</a>，将引用的链接粘贴进之后生成引用文本，然后根据引用文本自行填写 <code>.bib</code> 文件内容。<br>
@@ -92,20 +92,20 @@ howpublished = {[EB/OL]. (2021-12-21)[2021-12-21]. https://news.china.com/zw/new
 </p>
 </div>
 </div>
-<div id="outline-container-orgd26ae71" class="outline-2">
-<h2 id="orgd26ae71"><span class="section-number-2">3.</span> 修改pandoc导出命令</h2>
+<div id="outline-container-orgd418653" class="outline-2">
+<h2 id="orgd418653"><span class="section-number-2">3.</span> 修改pandoc导出命令</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 将导出函数中 <code>shell-command</code> 一行改为一个带判断的函数：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">if</span> <span style="color: #dd22dd;">(</span>string-match <span style="color: #00598b;">"&#35770;&#25991;"</span> docx-file<span style="color: #dd22dd;">)</span>
-    <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>bib-file <span style="color: #00598b;">"path/to/your/bib&#25991;&#20214;.bib"</span><span style="color: #972500;">)</span>
-          <span style="color: #972500;">(</span>csl-file <span style="color: #00598b;">"path/to/your/csl&#25991;&#20214;.csl"</span><span style="color: #972500;">)</span>
-          <span style="color: #972500;">(</span>ref-title <span style="color: #00598b;">"&#21442;&#32771;&#25991;&#29486;"</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-      <span style="color: #008899;">(</span>shell-command <span style="color: #972500;">(</span>format <span style="color: #00598b;">"pandoc --from org+east_asian_line_breaks+citations -M reference-section-title=%s -N -C --bibliography=%s --csl=%s %s -o %s --reference-doc=%s"</span> ref-title bib-file csl-file <span style="color: #808000;">(</span>my/save-buffer-to-temp-org<span style="color: #808000;">)</span> docx-file template-file<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span>shell-command <span style="color: #008899;">(</span>format <span style="color: #00598b;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #972500;">(</span>my/save-buffer-to-temp-org<span style="color: #972500;">)</span> docx-file template-file<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">if</span> <span style="color: #ba2d2f;">(</span>string-match <span style="color: #5f7200;">"&#35770;&#25991;"</span> docx-file<span style="color: #ba2d2f;">)</span>
+    <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">let</span> <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>bib-file <span style="color: #5f7200;">"path/to/your/bib&#25991;&#20214;.bib"</span><span style="color: #cb2f80;">)</span>
+          <span style="color: #cb2f80;">(</span>csl-file <span style="color: #5f7200;">"path/to/your/csl&#25991;&#20214;.csl"</span><span style="color: #cb2f80;">)</span>
+          <span style="color: #cb2f80;">(</span>ref-title <span style="color: #5f7200;">"&#21442;&#32771;&#25991;&#29486;"</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+      <span style="color: #5f7200;">(</span>shell-command <span style="color: #cb2f80;">(</span>format <span style="color: #5f7200;">"pandoc --from org+east_asian_line_breaks+citations -M reference-section-title=%s -N -C --bibliography=%s --csl=%s %s -o %s --reference-doc=%s"</span> ref-title bib-file csl-file <span style="color: #3f60af;">(</span>my/save-buffer-to-temp-org<span style="color: #3f60af;">)</span> docx-file template-file<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span>
+  <span style="color: #ba2d2f;">(</span>shell-command <span style="color: #5f7200;">(</span>format <span style="color: #5f7200;">"pandoc %s --from org+east_asian_line_breaks -o %s --reference-doc=%s"</span> <span style="color: #cb2f80;">(</span>my/save-buffer-to-temp-org<span style="color: #cb2f80;">)</span> docx-file template-file<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -120,7 +120,7 @@ howpublished = {[EB/OL]. (2021-12-21)[2021-12-21]. https://news.china.com/zw/new
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

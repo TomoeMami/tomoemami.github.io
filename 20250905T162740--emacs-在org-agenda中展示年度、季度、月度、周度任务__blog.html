@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-07-11 周六 14:00 -->
+<!-- 2026-07-29 周三 15:31 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-在org-agenda中展示年度、季度、月度、周度任务</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-09-09 周二 20:20]</span></span></p>
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2025-09-09 周二 20:20]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -24,13 +24,13 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9d51668">1. 设置需要被追踪的任务</a></li>
-<li><a href="#org01812c0">2. 设置Agenda Commands</a>
+<li><a href="#org973f251">1. 设置需要被追踪的任务</a></li>
+<li><a href="#orgd348fb6">2. 设置Agenda Commands</a>
 <ul>
-<li><a href="#orgabad8cd">2.1. 自定义相关函数</a></li>
+<li><a href="#org922a0b5">2.1. 自定义相关函数</a></li>
 </ul>
 </li>
-<li><a href="#org2fbc155">3. 原理解释</a></li>
+<li><a href="#orgd69a627">3. 原理解释</a></li>
 </ul>
 </div>
 </nav>
@@ -45,8 +45,8 @@
 <p>
 提示：<a href="https://github.com/TomoeMami/org-repeat-by-cron.el">org-repeat-by-cron</a> 是我修改自 <a href="https://github.com/Raemi/org-reschedule-by-rule">https://github.com/Raemi/org-reschedule-by-rule</a> 的包，略微修改之处在此按下不表。<br>
 </p>
-<div id="outline-container-org9d51668" class="outline-2">
-<h2 id="org9d51668"><span class="section-number-2">1.</span> 设置需要被追踪的任务</h2>
+<div id="outline-container-org973f251" class="outline-2">
+<h2 id="org973f251"><span class="section-number-2">1.</span> 设置需要被追踪的任务</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在需要被追踪的任务中，添加名为 <code>PERIOD</code> 的属性。<br>
@@ -57,47 +57,47 @@
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org" tabindex="0"><code><span style="color: #000000;">* </span><span style="color: #972500; font-weight: bold;">TODO</span><span style="color: #000000;"> &#36825;&#26159;&#19968;&#20010;&#24180;&#24230;&#20219;&#21153;</span>
-<span style="color: #595959;">DEADLINE:</span> <span style="color: #00598b;">&lt;2025-12-31 &#21608;&#19977; ++1y&gt;</span>
-<span style="color: #595959;">:PROPERTIES:</span>
-<span style="color: #595959;">:PERIOD:</span>   <span style="color: #193668;">year</span>
-<span style="color: #595959;">:END:</span>
+<pre class="src src-org" tabindex="0"><code><span style="color: #ba2d2f;">* </span><span style="color: #ce3f00; font-weight: bold;">TODO</span><span style="color: #ba2d2f;"> &#36825;&#26159;&#19968;&#20010;&#24180;&#24230;&#20219;&#21153;</span>
+<span style="color: #63728f;">DEADLINE:</span> <span style="color: #0f7b8f;">&lt;2025-12-31 &#21608;&#19977; ++1y&gt;</span>
+<span style="color: #63728f;">:PROPERTIES:</span>
+<span style="color: #63728f;">:PERIOD:</span>   <span style="color: #8f5f4a;">year</span>
+<span style="color: #63728f;">:END:</span>
 
-<span style="color: #000000;">* </span><span style="color: #972500; font-weight: bold;">TODO</span><span style="color: #000000;"> &#36825;&#26159;&#19968;&#20010;&#23395;&#24230;&#20219;&#21153;</span>
-<span style="color: #595959;">DEADLINE:</span> <span style="color: #00598b;">&lt;2025-09-30 &#21608;&#20108;&gt;</span>
-<span style="color: #595959;">:PROPERTIES:</span>
-<span style="color: #595959;">:REPEAT_CRON:</span> <span style="color: #193668;">L 3,6,9,12 *</span>
-<span style="color: #595959;">:PERIOD:</span>   <span style="color: #193668;">season</span>
-<span style="color: #595959;">:REPEAT_DEADLINE:</span> <span style="color: #193668;">t</span>
-<span style="color: #595959;">:END:</span>
+<span style="color: #ba2d2f;">* </span><span style="color: #ce3f00; font-weight: bold;">TODO</span><span style="color: #ba2d2f;"> &#36825;&#26159;&#19968;&#20010;&#23395;&#24230;&#20219;&#21153;</span>
+<span style="color: #63728f;">DEADLINE:</span> <span style="color: #0f7b8f;">&lt;2025-09-30 &#21608;&#20108;&gt;</span>
+<span style="color: #63728f;">:PROPERTIES:</span>
+<span style="color: #63728f;">:REPEAT_CRON:</span> <span style="color: #8f5f4a;">L 3,6,9,12 *</span>
+<span style="color: #63728f;">:PERIOD:</span>   <span style="color: #8f5f4a;">season</span>
+<span style="color: #63728f;">:REPEAT_DEADLINE:</span> <span style="color: #8f5f4a;">t</span>
+<span style="color: #63728f;">:END:</span>
 
-<span style="color: #000000;">* </span><span style="color: #972500; font-weight: bold;">TODO</span><span style="color: #000000;"> &#36825;&#26159;&#19968;&#20010;&#26376;&#24230;&#20219;&#21153;</span>
-<span style="color: #595959;">DEADLINE:</span> <span style="color: #00598b;">&lt;2025-09-30 &#21608;&#20108;&gt;</span>
-<span style="color: #595959;">:PROPERTIES:</span>
-<span style="color: #595959;">:REPEAT_CRON:</span> <span style="color: #193668;">L * *</span>
-<span style="color: #595959;">:PERIOD:</span>   <span style="color: #193668;">month</span>
-<span style="color: #595959;">:REPEAT_DEADLINE:</span> <span style="color: #193668;">t</span>
-<span style="color: #595959;">:END:</span>
+<span style="color: #ba2d2f;">* </span><span style="color: #ce3f00; font-weight: bold;">TODO</span><span style="color: #ba2d2f;"> &#36825;&#26159;&#19968;&#20010;&#26376;&#24230;&#20219;&#21153;</span>
+<span style="color: #63728f;">DEADLINE:</span> <span style="color: #0f7b8f;">&lt;2025-09-30 &#21608;&#20108;&gt;</span>
+<span style="color: #63728f;">:PROPERTIES:</span>
+<span style="color: #63728f;">:REPEAT_CRON:</span> <span style="color: #8f5f4a;">L * *</span>
+<span style="color: #63728f;">:PERIOD:</span>   <span style="color: #8f5f4a;">month</span>
+<span style="color: #63728f;">:REPEAT_DEADLINE:</span> <span style="color: #8f5f4a;">t</span>
+<span style="color: #63728f;">:END:</span>
 
-<span style="color: #000000;">* </span><span style="color: #972500; font-weight: bold;">TODO</span><span style="color: #000000;"> &#36825;&#26159;&#19968;&#20010;&#21608;&#24230;&#20219;&#21153;</span>
-<span style="color: #595959;">DEADLINE:</span> <span style="color: #00598b;">&lt;2025-09-12 &#21608;&#20116; ++1w&gt;</span>
-<span style="color: #595959;">:PROPERTIES:</span>
-<span style="color: #595959;">:PERIOD:</span>   <span style="color: #193668;">week</span>
-<span style="color: #595959;">:END:</span>
+<span style="color: #ba2d2f;">* </span><span style="color: #ce3f00; font-weight: bold;">TODO</span><span style="color: #ba2d2f;"> &#36825;&#26159;&#19968;&#20010;&#21608;&#24230;&#20219;&#21153;</span>
+<span style="color: #63728f;">DEADLINE:</span> <span style="color: #0f7b8f;">&lt;2025-09-12 &#21608;&#20116; ++1w&gt;</span>
+<span style="color: #63728f;">:PROPERTIES:</span>
+<span style="color: #63728f;">:PERIOD:</span>   <span style="color: #8f5f4a;">week</span>
+<span style="color: #63728f;">:END:</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org01812c0" class="outline-2">
-<h2 id="org01812c0"><span class="section-number-2">2.</span> 设置Agenda Commands</h2>
+<div id="outline-container-orgd348fb6" class="outline-2">
+<h2 id="orgd348fb6"><span class="section-number-2">2.</span> 设置Agenda Commands</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgabad8cd" class="outline-3">
-<h3 id="orgabad8cd"><span class="section-number-3">2.1.</span> 自定义相关函数</h3>
+<div id="outline-container-org922a0b5" class="outline-3">
+<h3 id="org922a0b5"><span class="section-number-3">2.1.</span> 自定义相关函数</h3>
 <div class="outline-text-3" id="text-2-1">
 </div>
-<div id="outline-container-org0161bb7" class="outline-4">
-<h4 id="org0161bb7"><span class="section-number-4">2.1.1.</span> my/org-ql-ts-period</h4>
+<div id="outline-container-org75a43c6" class="outline-4">
+<h4 id="org75a43c6"><span class="section-number-4">2.1.1.</span> my/org-ql-ts-period</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 这里我们定义了两个相关函数。第一个函数 <code>my/org-ql-ts-period</code> 会根据输入的周期，返回当前时间所在周期的起止日期。<br>
@@ -107,131 +107,131 @@
 如在2025年9月9日执行 <code>(my/org-ql-ts-period 's)</code> ，则会返回 <code>("2025-07-01" . "2025-09-30")</code><br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/org-ql-ts-period</span> <span style="color: #dd22dd;">(</span>period<span style="color: #dd22dd;">)</span>
-<span style="color: #304463;">"&#26681;&#25454;&#36755;&#20837;&#30340; PERIOD ('</span><span style="color: #531ab6;">y</span><span style="color: #304463;">', '</span><span style="color: #531ab6;">s</span><span style="color: #304463;">', '</span><span style="color: #531ab6;">m</span><span style="color: #304463;">', '</span><span style="color: #531ab6;">w</span><span style="color: #304463;">') &#36820;&#22238;&#24403;&#21069;&#24180;&#12289;&#23395;&#24230;&#12289;&#26376;&#25110;&#21608;&#30340;&#36215;&#27490;&#26085;&#26399;&#12290;</span>
-<span style="color: #304463;">&#26684;&#24335;&#20026; '</span><span style="color: #531ab6;">YYYY-MM-DD</span><span style="color: #304463;">'&#12290;</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">my/org-ql-ts-period</span> <span style="color: #ba2d2f;">(</span>period<span style="color: #ba2d2f;">)</span>
+<span style="color: #9a625a;">"&#26681;&#25454;&#36755;&#20837;&#30340; PERIOD ('</span><span style="color: #ce3f00;">y</span><span style="color: #9a625a;">', '</span><span style="color: #ce3f00;">s</span><span style="color: #9a625a;">', '</span><span style="color: #ce3f00;">m</span><span style="color: #9a625a;">', '</span><span style="color: #ce3f00;">w</span><span style="color: #9a625a;">') &#36820;&#22238;&#24403;&#21069;&#24180;&#12289;&#23395;&#24230;&#12289;&#26376;&#25110;&#21608;&#30340;&#36215;&#27490;&#26085;&#26399;&#12290;</span>
+<span style="color: #9a625a;">&#26684;&#24335;&#20026; '</span><span style="color: #ce3f00;">YYYY-MM-DD</span><span style="color: #9a625a;">'&#12290;</span>
 
-<span style="color: #304463;">&#23395;&#33410; (Season) &#23450;&#20041;:</span>
-<span style="color: #304463;">- &#23395;&#24230;1: 1&#26376; - 3&#26376;</span>
-<span style="color: #304463;">- &#23395;&#24230;2: 4&#26376; - 6&#26376;</span>
-<span style="color: #304463;">- &#23395;&#24230;3: 7&#26376; - 9&#26376;</span>
-<span style="color: #304463;">- &#23395;&#24230;4: 10&#26376; - 12&#26376;</span>
+<span style="color: #9a625a;">&#23395;&#33410; (Season) &#23450;&#20041;:</span>
+<span style="color: #9a625a;">- &#23395;&#24230;1: 1&#26376; - 3&#26376;</span>
+<span style="color: #9a625a;">- &#23395;&#24230;2: 4&#26376; - 6&#26376;</span>
+<span style="color: #9a625a;">- &#23395;&#24230;3: 7&#26376; - 9&#26376;</span>
+<span style="color: #9a625a;">- &#23395;&#24230;4: 10&#26376; - 12&#26376;</span>
 
-<span style="color: #304463;">&#26143;&#26399;&#19968;&#34987;&#35270;&#20026;&#19968;&#21608;&#30340;&#24320;&#22987;&#12290;</span>
+<span style="color: #9a625a;">&#26143;&#26399;&#19968;&#34987;&#35270;&#20026;&#19968;&#21608;&#30340;&#24320;&#22987;&#12290;</span>
 
-<span style="color: #304463;">&#21442;&#25968;:</span>
-<span style="color: #304463;">PERIOD: &#19968;&#20010;&#34920;&#31034;&#26102;&#38388;&#27573;&#30340;&#31526;&#21495;&#65292;&#21487;&#20197;&#26159; '</span><span style="color: #531ab6;">y</span><span style="color: #304463;">', '</span><span style="color: #531ab6;">s</span><span style="color: #304463;">', '</span><span style="color: #531ab6;">m</span><span style="color: #304463;">', &#25110; '</span><span style="color: #531ab6;">w</span><span style="color: #304463;">'&#12290;</span>
+<span style="color: #9a625a;">&#21442;&#25968;:</span>
+<span style="color: #9a625a;">PERIOD: &#19968;&#20010;&#34920;&#31034;&#26102;&#38388;&#27573;&#30340;&#31526;&#21495;&#65292;&#21487;&#20197;&#26159; '</span><span style="color: #ce3f00;">y</span><span style="color: #9a625a;">', '</span><span style="color: #ce3f00;">s</span><span style="color: #9a625a;">', '</span><span style="color: #ce3f00;">m</span><span style="color: #9a625a;">', &#25110; '</span><span style="color: #ce3f00;">w</span><span style="color: #9a625a;">'&#12290;</span>
 
-<span style="color: #304463;">&#36820;&#22238;:</span>
-<span style="color: #304463;">&#19968;&#20010;&#21253;&#21547;&#36215;&#27490;&#26085;&#26399;&#30340;&#23383;&#31526;&#20018;&#65292;&#26684;&#24335;&#20026; 'YYYY-MM-DD - YYYY-MM-DD'&#65292;</span>
-<span style="color: #304463;">&#22914;&#26524;&#36755;&#20837;&#26080;&#25928;&#21017;&#36820;&#22238;&#38169;&#35823;&#20449;&#24687;&#12290;"</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let*</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>now <span style="color: #808000;">(</span>current-time<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>decoded-time <span style="color: #808000;">(</span>decode-time now<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>sec <span style="color: #808000;">(</span>nth 0 decoded-time<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>min <span style="color: #808000;">(</span>nth 1 decoded-time<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>hour <span style="color: #808000;">(</span>nth 2 decoded-time<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>day <span style="color: #808000;">(</span>nth 3 decoded-time<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>month <span style="color: #808000;">(</span>nth 4 decoded-time<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>year <span style="color: #808000;">(</span>nth 5 decoded-time<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+<span style="color: #9a625a;">&#36820;&#22238;:</span>
+<span style="color: #9a625a;">&#19968;&#20010;&#21253;&#21547;&#36215;&#27490;&#26085;&#26399;&#30340;&#23383;&#31526;&#20018;&#65292;&#26684;&#24335;&#20026; 'YYYY-MM-DD - YYYY-MM-DD'&#65292;</span>
+<span style="color: #9a625a;">&#22914;&#26524;&#36755;&#20837;&#26080;&#25928;&#21017;&#36820;&#22238;&#38169;&#35823;&#20449;&#24687;&#12290;"</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>now <span style="color: #3f60af;">(</span>current-time<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>decoded-time <span style="color: #3f60af;">(</span>decode-time now<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>sec <span style="color: #3f60af;">(</span>nth 0 decoded-time<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>min <span style="color: #3f60af;">(</span>nth 1 decoded-time<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>hour <span style="color: #3f60af;">(</span>nth 2 decoded-time<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>day <span style="color: #3f60af;">(</span>nth 3 decoded-time<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>month <span style="color: #3f60af;">(</span>nth 4 decoded-time<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>year <span style="color: #3f60af;">(</span>nth 5 decoded-time<span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
          start-date
-         end-date<span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #0031a9;">cond</span>
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#24180; (Year)</span>
-     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq period 'y<span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">setq</span> start-date <span style="color: #531ab6;">(</span>format-time-string <span style="color: #00598b;">"%Y-01-01"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">setq</span> end-date <span style="color: #531ab6;">(</span>format-time-string <span style="color: #00598b;">"%Y-12-31"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+         end-date<span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">cond</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#24180; (Year)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>eq period 'y<span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> start-date <span style="color: #aa4f30;">(</span>format-time-string <span style="color: #5f7200;">"%Y-01-01"</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> end-date <span style="color: #aa4f30;">(</span>format-time-string <span style="color: #5f7200;">"%Y-12-31"</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
 
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#23395; (Season)</span>
-     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq period 's<span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">let*</span> <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>start-month <span style="color: #3546c2;">(</span><span style="color: #0031a9;">cond</span> <span style="color: #8f0075;">(</span><span style="color: #000000;">(</span>&lt;= month 3<span style="color: #000000;">)</span> 1<span style="color: #8f0075;">)</span>
-                                <span style="color: #8f0075;">(</span><span style="color: #000000;">(</span>&lt;= month 6<span style="color: #000000;">)</span> 4<span style="color: #8f0075;">)</span>
-                                <span style="color: #8f0075;">(</span><span style="color: #000000;">(</span>&lt;= month 9<span style="color: #000000;">)</span> 7<span style="color: #8f0075;">)</span>
-                                <span style="color: #8f0075;">(</span>t 10<span style="color: #8f0075;">)</span><span style="color: #3546c2;">)</span><span style="color: #008900;">)</span>
-             <span style="color: #008900;">(</span>end-month <span style="color: #3546c2;">(</span>+ start-month 2<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span>
-             <span style="color: #008900;">(</span>end-day <span style="color: #3546c2;">(</span>calendar-last-day-of-month end-month year<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-        <span style="color: #531ab6;">(</span><span style="color: #0031a9;">setq</span> start-date <span style="color: #008900;">(</span>format-time-string <span style="color: #00598b;">"%Y-%m-01"</span> <span style="color: #3546c2;">(</span>encode-time 0 0 0 1 start-month year<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-        <span style="color: #531ab6;">(</span><span style="color: #0031a9;">setq</span> end-date <span style="color: #008900;">(</span>format-time-string <span style="color: #3546c2;">(</span>format <span style="color: #00598b;">"%%Y-%%m-%d"</span> end-day<span style="color: #3546c2;">)</span> <span style="color: #3546c2;">(</span>encode-time 0 0 0 end-day end-month year<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#23395; (Season)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>eq period 's<span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #aa4f30;">(</span><span style="color: #8448aa;">(</span>start-month <span style="color: #cf2f4f;">(</span><span style="color: #a45a22;">cond</span> <span style="color: #0f7f5f;">(</span><span style="color: #a45a22;">(</span>&lt;= month 3<span style="color: #a45a22;">)</span> 1<span style="color: #0f7f5f;">)</span>
+                                <span style="color: #0f7f5f;">(</span><span style="color: #a45a22;">(</span>&lt;= month 6<span style="color: #a45a22;">)</span> 4<span style="color: #0f7f5f;">)</span>
+                                <span style="color: #0f7f5f;">(</span><span style="color: #a45a22;">(</span>&lt;= month 9<span style="color: #a45a22;">)</span> 7<span style="color: #0f7f5f;">)</span>
+                                <span style="color: #0f7f5f;">(</span>t 10<span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+             <span style="color: #8448aa;">(</span>end-month <span style="color: #cf2f4f;">(</span>+ start-month 2<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+             <span style="color: #8448aa;">(</span>end-day <span style="color: #cf2f4f;">(</span>calendar-last-day-of-month end-month year<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+        <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> start-date <span style="color: #8448aa;">(</span>format-time-string <span style="color: #5f7200;">"%Y-%m-01"</span> <span style="color: #cf2f4f;">(</span>encode-time 0 0 0 1 start-month year<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+        <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> end-date <span style="color: #8448aa;">(</span>format-time-string <span style="color: #cf2f4f;">(</span>format <span style="color: #5f7200;">"%%Y-%%m-%d"</span> end-day<span style="color: #cf2f4f;">)</span> <span style="color: #cf2f4f;">(</span>encode-time 0 0 0 end-day end-month year<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
 
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#26376; (Month)</span>
-     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq period 'm<span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">setq</span> start-date <span style="color: #531ab6;">(</span>format-time-string <span style="color: #00598b;">"%Y-%m-01"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">let*</span> <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>last-day <span style="color: #3546c2;">(</span>calendar-last-day-of-month month year<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-        <span style="color: #531ab6;">(</span><span style="color: #0031a9;">setq</span> end-date <span style="color: #008900;">(</span>format-time-string <span style="color: #3546c2;">(</span>format <span style="color: #00598b;">"%%Y-%%m-%d"</span> last-day<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#26376; (Month)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>eq period 'm<span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> start-date <span style="color: #aa4f30;">(</span>format-time-string <span style="color: #5f7200;">"%Y-%m-01"</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #aa4f30;">(</span><span style="color: #8448aa;">(</span>last-day <span style="color: #cf2f4f;">(</span>calendar-last-day-of-month month year<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+        <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> end-date <span style="color: #8448aa;">(</span>format-time-string <span style="color: #cf2f4f;">(</span>format <span style="color: #5f7200;">"%%Y-%%m-%d"</span> last-day<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
 
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#21608; (Week)</span>
-     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq period 'w<span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">let*</span> <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>day-of-week <span style="color: #3546c2;">(</span>string-to-number <span style="color: #8f0075;">(</span>format-time-string <span style="color: #00598b;">"%u"</span><span style="color: #8f0075;">)</span><span style="color: #3546c2;">)</span><span style="color: #008900;">)</span> <span style="color: #7f0000;">; </span><span style="color: #7f0000;">&#26143;&#26399;&#19968;&#20026;1&#65292;&#26143;&#26399;&#26085;&#20026;7</span>
-             <span style="color: #008900;">(</span>start-offset <span style="color: #3546c2;">(</span>- day-of-week 1<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span>
-             <span style="color: #008900;">(</span>end-offset <span style="color: #3546c2;">(</span>- 7 day-of-week<span style="color: #3546c2;">)</span><span style="color: #008900;">)</span>
-             <span style="color: #008900;">(</span>start-time <span style="color: #3546c2;">(</span>time-subtract now <span style="color: #8f0075;">(</span>seconds-to-time <span style="color: #000000;">(</span>* start-offset 24 60 60<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3546c2;">)</span><span style="color: #008900;">)</span>
-             <span style="color: #008900;">(</span>end-time <span style="color: #3546c2;">(</span>time-add now <span style="color: #8f0075;">(</span>seconds-to-time <span style="color: #000000;">(</span>* end-offset 24 60 60<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3546c2;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-        <span style="color: #531ab6;">(</span><span style="color: #0031a9;">setq</span> start-date <span style="color: #008900;">(</span>format-time-string <span style="color: #00598b;">"%Y-%m-%d"</span> start-time<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-        <span style="color: #531ab6;">(</span><span style="color: #0031a9;">setq</span> end-date <span style="color: #008900;">(</span>format-time-string <span style="color: #00598b;">"%Y-%m-%d"</span> end-time<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#21608; (Week)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>eq period 'w<span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">let*</span> <span style="color: #aa4f30;">(</span><span style="color: #8448aa;">(</span>day-of-week <span style="color: #cf2f4f;">(</span>string-to-number <span style="color: #0f7f5f;">(</span>format-time-string <span style="color: #5f7200;">"%u"</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span> <span style="color: #527545;">; </span><span style="color: #527545;">&#26143;&#26399;&#19968;&#20026;1&#65292;&#26143;&#26399;&#26085;&#20026;7</span>
+             <span style="color: #8448aa;">(</span>start-offset <span style="color: #cf2f4f;">(</span>- day-of-week 1<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+             <span style="color: #8448aa;">(</span>end-offset <span style="color: #cf2f4f;">(</span>- 7 day-of-week<span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+             <span style="color: #8448aa;">(</span>start-time <span style="color: #cf2f4f;">(</span>time-subtract now <span style="color: #0f7f5f;">(</span>seconds-to-time <span style="color: #a45a22;">(</span>* start-offset 24 60 60<span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span>
+             <span style="color: #8448aa;">(</span>end-time <span style="color: #cf2f4f;">(</span>time-add now <span style="color: #0f7f5f;">(</span>seconds-to-time <span style="color: #a45a22;">(</span>* end-offset 24 60 60<span style="color: #a45a22;">)</span><span style="color: #0f7f5f;">)</span><span style="color: #cf2f4f;">)</span><span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+        <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> start-date <span style="color: #8448aa;">(</span>format-time-string <span style="color: #5f7200;">"%Y-%m-%d"</span> start-time<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span>
+        <span style="color: #aa4f30;">(</span><span style="color: #a45a22;">setq</span> end-date <span style="color: #8448aa;">(</span>format-time-string <span style="color: #5f7200;">"%Y-%m-%d"</span> end-time<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
 
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#26080;&#25928;&#36755;&#20837;</span>
-     <span style="color: #972500;">(</span>t <span style="color: #808000;">(</span><span style="color: #6d5000;">error</span> <span style="color: #00598b;">"&#26080;&#25928;&#30340;&#21442;&#25968;&#65292;&#35831;&#36755;&#20837; '</span><span style="color: #531ab6;">y</span><span style="color: #00598b;">', '</span><span style="color: #531ab6;">s</span><span style="color: #00598b;">', '</span><span style="color: #531ab6;">m</span><span style="color: #00598b;">', &#25110; '</span><span style="color: #531ab6;">w</span><span style="color: #00598b;">'"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#26080;&#25928;&#36755;&#20837;</span>
+     <span style="color: #cb2f80;">(</span>t <span style="color: #3f60af;">(</span><span style="color: #a45a22;">error</span> <span style="color: #5f7200;">"&#26080;&#25928;&#30340;&#21442;&#25968;&#65292;&#35831;&#36755;&#20837; '</span><span style="color: #ce3f00;">y</span><span style="color: #5f7200;">', '</span><span style="color: #ce3f00;">s</span><span style="color: #5f7200;">', '</span><span style="color: #ce3f00;">m</span><span style="color: #5f7200;">', &#25110; '</span><span style="color: #ce3f00;">w</span><span style="color: #5f7200;">'"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
 
-    <span style="color: #008899;">(</span>cons start-date end-date<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+    <span style="color: #5f7200;">(</span>cons start-date end-date<span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0ad8bb7" class="outline-4">
-<h4 id="org0ad8bb7"><span class="section-number-4">2.1.2.</span> my/org-ql-block-period</h4>
+<div id="outline-container-org4773330" class="outline-4">
+<h4 id="org4773330"><span class="section-number-4">2.1.2.</span> my/org-ql-block-period</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 第二个函数 <code>my/org-ql-block-period</code> 用来简化 <code>org-agenda-custom-commands</code> 中可能出现的重复代码。根据输入的周期，构建不同的 <code>org-ql-block</code> 。<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">my/org-ql-block-period</span> <span style="color: #dd22dd;">(</span>period<span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>property-string nil<span style="color: #972500;">)</span>
-        <span style="color: #972500;">(</span>header-string nil<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #0031a9;">cond</span>
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#24180; (Year)</span>
-     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq period 'y<span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">setq</span> property-string <span style="color: #00598b;">"year"</span>
-            header-string <span style="color: #00598b;">"&#24180;"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#23395; (Season)</span>
-     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq period 's<span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">setq</span> property-string <span style="color: #00598b;">"season"</span>
-            header-string <span style="color: #00598b;">"&#23395;"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#26376; (Month)</span>
-     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq period 'm<span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">setq</span> property-string <span style="color: #00598b;">"month"</span>
-            header-string <span style="color: #00598b;">"&#26376;"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#21608; (Week)</span>
-     <span style="color: #972500;">(</span><span style="color: #808000;">(</span>eq period 'w<span style="color: #808000;">)</span>
-      <span style="color: #808000;">(</span><span style="color: #0031a9;">setq</span> property-string <span style="color: #00598b;">"week"</span>
-            header-string <span style="color: #00598b;">"&#21608;"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-     <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#26080;&#25928;&#36755;&#20837;</span>
-     <span style="color: #972500;">(</span>t <span style="color: #808000;">(</span><span style="color: #6d5000;">error</span> <span style="color: #00598b;">"&#26080;&#25928;&#30340;&#21442;&#25968;&#65292;&#35831;&#36755;&#20837; '</span><span style="color: #531ab6;">y</span><span style="color: #00598b;">', '</span><span style="color: #531ab6;">s</span><span style="color: #00598b;">', '</span><span style="color: #531ab6;">m</span><span style="color: #00598b;">', &#25110; '</span><span style="color: #531ab6;">w</span><span style="color: #00598b;">'"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>org-ql-block `<span style="color: #972500;">(</span><span style="color: #0031a9;">and</span> <span style="color: #808000;">(</span>todo <span style="color: #00598b;">"TODO"</span> <span style="color: #00598b;">"HOLD"</span><span style="color: #808000;">)</span> <span style="color: #808000;">(</span>property <span style="color: #00598b;">"PERIOD"</span> property-string<span style="color: #808000;">)(</span>ts-active <span style="color: #721045;">:from</span> ,<span style="color: #531ab6;">(</span>car <span style="color: #008900;">(</span>my/org-ql-ts-period period<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span> <span style="color: #721045;">:to</span> ,<span style="color: #531ab6;">(</span>cdr <span style="color: #008900;">(</span>my/org-ql-ts-period period<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-                    <span style="color: #972500;">(</span><span style="color: #808000;">(</span>org-ql-block-header ,<span style="color: #531ab6;">(</span>concat <span style="color: #00598b;">"&#128260;&#21608;&#26399;--"</span> header-string <span style="color: #00598b;">"&#128260;"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
-<span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#21442;&#32771;&#35774;&#32622;</span>
-<span style="color: #7f0000;">;; </span><span style="color: #7f0000;">(my/org-ql-block-period 'y)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">my/org-ql-block-period</span> <span style="color: #ba2d2f;">(</span>period<span style="color: #ba2d2f;">)</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">let</span> <span style="color: #5f7200;">(</span><span style="color: #cb2f80;">(</span>property-string nil<span style="color: #cb2f80;">)</span>
+        <span style="color: #cb2f80;">(</span>header-string nil<span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">cond</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#24180; (Year)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>eq period 'y<span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> property-string <span style="color: #5f7200;">"year"</span>
+            header-string <span style="color: #5f7200;">"&#24180;"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#23395; (Season)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>eq period 's<span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> property-string <span style="color: #5f7200;">"season"</span>
+            header-string <span style="color: #5f7200;">"&#23395;"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#26376; (Month)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>eq period 'm<span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> property-string <span style="color: #5f7200;">"month"</span>
+            header-string <span style="color: #5f7200;">"&#26376;"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#21608; (Week)</span>
+     <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>eq period 'w<span style="color: #3f60af;">)</span>
+      <span style="color: #3f60af;">(</span><span style="color: #a45a22;">setq</span> property-string <span style="color: #5f7200;">"week"</span>
+            header-string <span style="color: #5f7200;">"&#21608;"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+     <span style="color: #527545;">;; </span><span style="color: #527545;">&#26080;&#25928;&#36755;&#20837;</span>
+     <span style="color: #cb2f80;">(</span>t <span style="color: #3f60af;">(</span><span style="color: #a45a22;">error</span> <span style="color: #5f7200;">"&#26080;&#25928;&#30340;&#21442;&#25968;&#65292;&#35831;&#36755;&#20837; '</span><span style="color: #ce3f00;">y</span><span style="color: #5f7200;">', '</span><span style="color: #ce3f00;">s</span><span style="color: #5f7200;">', '</span><span style="color: #ce3f00;">m</span><span style="color: #5f7200;">', &#25110; '</span><span style="color: #ce3f00;">w</span><span style="color: #5f7200;">'"</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span>
+    <span style="color: #5f7200;">(</span>org-ql-block `<span style="color: #cb2f80;">(</span><span style="color: #a45a22;">and</span> <span style="color: #3f60af;">(</span>todo <span style="color: #5f7200;">"TODO"</span> <span style="color: #5f7200;">"HOLD"</span><span style="color: #3f60af;">)</span> <span style="color: #3f60af;">(</span>property <span style="color: #5f7200;">"PERIOD"</span> property-string<span style="color: #3f60af;">)(</span>ts-active <span style="color: #cf2f4f;">:from</span> ,<span style="color: #aa4f30;">(</span>car <span style="color: #8448aa;">(</span>my/org-ql-ts-period period<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span> <span style="color: #cf2f4f;">:to</span> ,<span style="color: #aa4f30;">(</span>cdr <span style="color: #8448aa;">(</span>my/org-ql-ts-period period<span style="color: #8448aa;">)</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span>
+                    <span style="color: #cb2f80;">(</span><span style="color: #3f60af;">(</span>org-ql-block-header ,<span style="color: #aa4f30;">(</span>concat <span style="color: #5f7200;">"&#128260;&#21608;&#26399;--"</span> header-string <span style="color: #5f7200;">"&#128260;"</span><span style="color: #aa4f30;">)</span><span style="color: #3f60af;">)</span><span style="color: #cb2f80;">)</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
+<span style="color: #527545;">;; </span><span style="color: #527545;">&#21442;&#32771;&#35774;&#32622;</span>
+<span style="color: #527545;">;; </span><span style="color: #527545;">(my/org-ql-block-period 'y)</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org382705f" class="outline-4">
-<h4 id="org382705f"><span class="section-number-4">2.1.3.</span> org-agenda-custom-commands</h4>
+<div id="outline-container-orge5f6811" class="outline-4">
+<h4 id="orge5f6811"><span class="section-number-4">2.1.3.</span> org-agenda-custom-commands</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 最后，我们需要自定义 <code>org-agenda-custom-commands</code> ，加入上述块函数：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">setq</span> org-agenda-custom-commands
-      '<span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span><span style="color: #00598b;">"d"</span> <span style="color: #00598b;">"Daily Agenda"</span>
-         <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#19978;&#30053;&#8230;&#8230;</span>
-         <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#21608;&#26399;&#20219;&#21153;&#25343;&#20986;&#26469;</span>
-         <span style="color: #972500;">(</span>my/org-ql-block-period 'y<span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>my/org-ql-block-period 's<span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>my/org-ql-block-period 'm<span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>my/org-ql-block-period 'w<span style="color: #972500;">)</span>
-          <span style="color: #7f0000;">;; </span><span style="color: #7f0000;">&#19979;&#30053;&#8230;</span>
-          <span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">setq</span> org-agenda-custom-commands
+      '<span style="color: #ba2d2f;">(</span><span style="color: #5f7200;">(</span><span style="color: #5f7200;">"d"</span> <span style="color: #5f7200;">"Daily Agenda"</span>
+         <span style="color: #527545;">;; </span><span style="color: #527545;">&#19978;&#30053;&#8230;&#8230;</span>
+         <span style="color: #527545;">;; </span><span style="color: #527545;">&#21608;&#26399;&#20219;&#21153;&#25343;&#20986;&#26469;</span>
+         <span style="color: #cb2f80;">(</span>my/org-ql-block-period 'y<span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>my/org-ql-block-period 's<span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>my/org-ql-block-period 'm<span style="color: #cb2f80;">)</span>
+         <span style="color: #cb2f80;">(</span>my/org-ql-block-period 'w<span style="color: #cb2f80;">)</span>
+          <span style="color: #527545;">;; </span><span style="color: #527545;">&#19979;&#30053;&#8230;</span>
+          <span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -261,8 +261,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org2fbc155" class="outline-2">
-<h2 id="org2fbc155"><span class="section-number-2">3.</span> 原理解释</h2>
+<div id="outline-container-orgd69a627" class="outline-2">
+<h2 id="orgd69a627"><span class="section-number-2">3.</span> 原理解释</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 <code>org-ql-block</code> 函数可以将搜索结果展示为agenda中的一个block。这里我们搜索的内容为 <code>(and (todo "TODO" "HOLD") (property "PERIOD" property-string)(ts-active :from ,(car (my/org-ql-ts-period period)) :to ,(cdr (my/org-ql-ts-period period))))</code> ，其实是满足以下三个要求的任务：<br>
@@ -285,7 +285,7 @@
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>

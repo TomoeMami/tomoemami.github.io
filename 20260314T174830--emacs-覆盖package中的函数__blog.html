@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-07-11 周六 14:01 -->
+<!-- 2026-07-29 周三 15:31 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-覆盖package中的函数</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>🔙<a href="https://blog.prayhand13013.top/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-14 周六 20:26]</span></span></p>
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-03-14 周六 20:26]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -24,12 +24,12 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org4c1a3c2">1. 覆盖当前package主文件中的函数</a></li>
-<li><a href="#org2ebeb7d">2. 覆盖其他package文件中的函数</a></li>
-<li><a href="#orgb0b959c">3. 补充说明</a>
+<li><a href="#orgb4ec132">1. 覆盖当前package主文件中的函数</a></li>
+<li><a href="#orgb50f2e9">2. 覆盖其他package文件中的函数</a></li>
+<li><a href="#org3b7800d">3. 补充说明</a>
 <ul>
-<li><a href="#orga4d794b">3.1. 为什么不用advice</a></li>
-<li><a href="#orgfca35fa">3.2. 有没有更简洁的方式</a></li>
+<li><a href="#org9d1e8af">3.1. 为什么不用advice</a></li>
+<li><a href="#org0b05a4b">3.2. 有没有更简洁的方式</a></li>
 </ul>
 </li>
 </ul>
@@ -46,16 +46,16 @@ Emacs的一大优点，就是能自由修改、重载elisp函数。我们经常�
 <p>
 假设你从melpa、elpa或者github手动下载了package相关的 <code>.el</code> 文件，一般有两种方式覆盖函数。后续我们以 <code>org-ql</code> 为例，其有 <code>org-ql.el</code> 和 <code>org-ql-view.el</code> 等子文件。<br>
 </p>
-<div id="outline-container-org4c1a3c2" class="outline-2">
-<h2 id="org4c1a3c2"><span class="section-number-2">1.</span> 覆盖当前package主文件中的函数</h2>
+<div id="outline-container-orgb4ec132" class="outline-2">
+<h2 id="orgb4ec132"><span class="section-number-2">1.</span> 覆盖当前package主文件中的函数</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 如果我们要修改和package同名的文件中的函数，就可以直接在 <code>use-package</code> 里设置：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> org-ql
-  <span style="color: #721045;">:config</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">&#38656;&#35201;&#35206;&#30422;&#30340;&#20989;&#25968;</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">use-package</span> org-ql
+  <span style="color: #cf2f4f;">:config</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">&#38656;&#35201;&#35206;&#30422;&#30340;&#20989;&#25968;</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 <p>
@@ -63,8 +63,8 @@ Emacs的一大优点，就是能自由修改、重载elisp函数。我们经常�
 </p>
 </div>
 </div>
-<div id="outline-container-org2ebeb7d" class="outline-2">
-<h2 id="org2ebeb7d"><span class="section-number-2">2.</span> 覆盖其他package文件中的函数</h2>
+<div id="outline-container-orgb50f2e9" class="outline-2">
+<h2 id="orgb50f2e9"><span class="section-number-2">2.</span> 覆盖其他package文件中的函数</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 有的时候，一个package会拆分成数个函数。假如我们要覆盖的函数不在package主文件中，那么很可能，如果该函数所在文件并未被加载，定义在前一章节的函数就可能因为引用变量不存在或者引用函数不存在而报错。<br>
@@ -74,10 +74,10 @@ Emacs的一大优点，就是能自由修改、重载elisp函数。我们经常�
 这里假设需要覆盖的函数在 <code>org-ql-view.el</code> 中（可通过 <code>C-h f</code> 搜索函数名查看所在文件），我们就可采取下列方式：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #000000;">(</span><span style="color: #0031a9;">use-package</span> org-ql
-  <span style="color: #721045;">:config</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #0031a9;">with-eval-after-load</span> 'org-ql-view
-    <span style="color: #008899;">(</span><span style="color: #0031a9;">defun</span> <span style="color: #602938;">&#38656;&#35201;&#35206;&#30422;&#30340;&#20989;&#25968;</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a45a22;">(</span><span style="color: #a45a22;">use-package</span> org-ql
+  <span style="color: #cf2f4f;">:config</span>
+  <span style="color: #ba2d2f;">(</span><span style="color: #a45a22;">with-eval-after-load</span> 'org-ql-view
+    <span style="color: #5f7200;">(</span><span style="color: #a45a22;">defun</span> <span style="color: #ca3e54;">&#38656;&#35201;&#35206;&#30422;&#30340;&#20989;&#25968;</span><span style="color: #5f7200;">)</span><span style="color: #ba2d2f;">)</span><span style="color: #a45a22;">)</span>
 </code></pre>
 </div>
 
@@ -86,12 +86,12 @@ Emacs的一大优点，就是能自由修改、重载elisp函数。我们经常�
 </p>
 </div>
 </div>
-<div id="outline-container-orgb0b959c" class="outline-2">
-<h2 id="orgb0b959c"><span class="section-number-2">3.</span> 补充说明</h2>
+<div id="outline-container-org3b7800d" class="outline-2">
+<h2 id="org3b7800d"><span class="section-number-2">3.</span> 补充说明</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orga4d794b" class="outline-3">
-<h3 id="orga4d794b"><span class="section-number-3">3.1.</span> 为什么不用advice</h3>
+<div id="outline-container-org9d1e8af" class="outline-3">
+<h3 id="org9d1e8af"><span class="section-number-3">3.1.</span> 为什么不用advice</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 众所周知，emacs中有强大的 <code>advice</code> 功能，可以对函数进行各种各样的调整。如果仅仅是添加新功能，我也非常建议读者使用 <code>advice</code> 相关函数，可以方便地添加/移除。<br>
@@ -99,8 +99,8 @@ Emacs的一大优点，就是能自由修改、重载elisp函数。我们经常�
 </p>
 </div>
 </div>
-<div id="outline-container-orgfca35fa" class="outline-3">
-<h3 id="orgfca35fa"><span class="section-number-3">3.2.</span> 有没有更简洁的方式</h3>
+<div id="outline-container-org0b05a4b" class="outline-3">
+<h3 id="org0b05a4b"><span class="section-number-3">3.2.</span> 有没有更简洁的方式</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 目前的覆盖方法确实需要将整个函数完整重述一遍，有点繁琐。如果读者有兴趣，可以使用 <a href="https://github.com/radian-software/el-patch">el-patch</a> 更加精准修改elisp函数。<br>
@@ -110,7 +110,7 @@ Emacs的一大优点，就是能自由修改、重载elisp函数。我们经常�
 </div>
 </div>
 <div id="postamble" class="status">
-<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 31.0.90 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
 </div>
 </body>
 </html>
