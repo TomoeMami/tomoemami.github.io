@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-08-20 周四 22:17 -->
+<!-- 2026-08-22 周六 17:46 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-在龙芯UOS20旧世界设备上编译最新Emacs等软件</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-08-20 周四 16:55]</span></span></p>
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-08-21 周五 16:45]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -24,44 +24,45 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org5d2ad06">1. 编译前准备</a></li>
-<li><a href="#org75c101b">2. 编译最新Emacs</a>
+<li><a href="#org3ff6825">1. 编译前准备</a></li>
+<li><a href="#org5427d98">2. 编译最新Emacs</a>
 <ul>
-<li><a href="#org6538d8e">2.1. 安装依赖</a></li>
-<li><a href="#org0b93f18">2.2. 拉取并编译Emacs</a></li>
+<li><a href="#org2e23d1c">2.1. 安装依赖</a></li>
+<li><a href="#orgbbf2082">2.2. 拉取并编译Emacs</a></li>
 </ul>
 </li>
-<li><a href="#orga20b21f">3. 编译安装 Syncthing 2.1.3</a>
+<li><a href="#org37bfb64">3. 编译安装 Syncthing 2.1.3</a>
 <ul>
-<li><a href="#org5dadce2">3.1. 安装旧世界的Golang</a></li>
-<li><a href="#org5aa12bf">3.2. 安装依赖</a></li>
-<li><a href="#orgf5ee5d6">3.3. 配置 Go 的全局变量</a></li>
-<li><a href="#org9988925">3.4. 编译安装 syncthing 2.1.3</a></li>
-<li><a href="#org2730413">3.5. 安装并配置 systemd 服务</a></li>
+<li><a href="#orgd261298">3.1. 安装旧世界的Golang</a></li>
+<li><a href="#org889db47">3.2. 安装依赖</a></li>
+<li><a href="#org00ce88a">3.3. 配置 Go 的全局变量</a></li>
+<li><a href="#org78831a6">3.4. 编译安装 syncthing 2.1.3</a></li>
+<li><a href="#org206ccfc">3.5. 安装并配置 systemd 服务</a></li>
 </ul>
 </li>
-<li><a href="#orgef16cbe">4. 编译安装 Tailscale v1.100.0</a>
+<li><a href="#org990b33a">4. 编译安装 Tailscale v1.100.0</a>
 <ul>
-<li><a href="#org4dfe348">4.1. 编译 Tailscale bin</a></li>
-<li><a href="#org21ad2d4">4.2. 安装bin</a></li>
-<li><a href="#org0b9eac8">4.3. 配置 systemd 服务</a></li>
-<li><a href="#org1523773">4.4. 确保 TUN 可用并登录</a></li>
+<li><a href="#org9f79310">4.1. 编译 Tailscale bin</a></li>
+<li><a href="#org3061bd7">4.2. 安装bin</a></li>
+<li><a href="#org883094a">4.3. 配置 systemd 服务</a></li>
+<li><a href="#org5a02a79">4.4. 确保 TUN 可用并登录</a></li>
 </ul>
 </li>
-<li><a href="#org05e246a">5. 编译安装 Jujutsu v0.35.0</a>
+<li><a href="#orgd1730c0">5. 编译安装 Jujutsu v0.35.0</a>
 <ul>
-<li><a href="#orge4e5d36">5.1. 安装旧世界的Rust</a></li>
-<li><a href="#org86570eb">5.2. 编译安装 jujutsu v0.35.0</a></li>
+<li><a href="#org517e906">5.1. 安装旧世界的Rust</a></li>
+<li><a href="#org979cfd7">5.2. 编译安装 jujutsu v0.35.0</a></li>
 </ul>
 </li>
-<li><a href="#org2f236f4">6. 编译安装 Librime 1.8.5</a>
+<li><a href="#orgfd4b475">6. 编译安装 Librime 1.8.5</a>
 <ul>
-<li><a href="#org48988e6">6.1. 添加社区软件源</a></li>
-<li><a href="#org0aa4caa">6.2. 安装所需依赖</a></li>
-<li><a href="#org15649a8">6.3. 获取 librime 1.8.5 和插件源码</a></li>
-<li><a href="#orga3461f9">6.4. 配置、编译并安装</a></li>
+<li><a href="#orgfd7b01a">6.1. 添加社区软件源</a></li>
+<li><a href="#org5f78019">6.2. 安装所需依赖</a></li>
+<li><a href="#org17d38d0">6.3. 获取 librime 1.8.5 和插件源码</a></li>
+<li><a href="#orgca626b4">6.4. 配置、编译并安装</a></li>
 </ul>
 </li>
+<li><a href="#orgdf3f9d2">7. 编译安装 Git 2.55.0</a></li>
 </ul>
 </div>
 </nav>
@@ -72,8 +73,8 @@
 <p>
 有的时候，你会操作一台龙芯UOS20的旧世界设备，并且想在上面编译一些软件。<br>
 </p>
-<div id="outline-container-org5d2ad06" class="outline-2">
-<h2 id="org5d2ad06"><span class="section-number-2">1.</span> 编译前准备</h2>
+<div id="outline-container-org3ff6825" class="outline-2">
+<h2 id="org3ff6825"><span class="section-number-2">1.</span> 编译前准备</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 首先你需要掌握该设备的密码，然后获取该设备的开发者权限。<br>
@@ -84,39 +85,39 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org75c101b" class="outline-2">
-<h2 id="org75c101b"><span class="section-number-2">2.</span> 编译最新Emacs</h2>
+<div id="outline-container-org5427d98" class="outline-2">
+<h2 id="org5427d98"><span class="section-number-2">2.</span> 编译最新Emacs</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 考虑到兼容性，我们选择关闭 Native-Comp 。并且对于 Linux 电脑上的 Emacs 来说，应该没有可感觉的速度影响吧。<br>
 </p>
 </div>
-<div id="outline-container-org6538d8e" class="outline-3">
-<h3 id="org6538d8e"><span class="section-number-3">2.1.</span> 安装依赖</h3>
+<div id="outline-container-org2e23d1c" class="outline-3">
+<h3 id="org2e23d1c"><span class="section-number-3">2.1.</span> 安装依赖</h3>
 <div class="outline-text-3" id="text-2-1">
 <div class="org-src-container">
 <pre class="src src-bash" tabindex="0"><code>sudo apt-get update
-sudo apt-get install -y <span style="color: #3548cf;">\\</span>
-  build-essential autoconf automake pkg-config texinfo <span style="color: #3548cf;">\\</span>
-  libgtk-3-dev libgnutls28-dev libjansson-dev libncurses-dev libxml2-dev <span style="color: #3548cf;">\\</span>
-  libharfbuzz-dev libcairo2-dev libfreetype6-dev libfontconfig1-dev <span style="color: #3548cf;">\\</span>
-  libx11-dev libxft-dev libxpm-dev libxrender-dev <span style="color: #3548cf;">\\</span>
-  libpng-dev libjpeg-dev libtiff-dev libgif-dev libwebp-dev librsvg2-dev <span style="color: #3548cf;">\\</span>
-  zlib1g-dev libsqlite3-dev liblcms2-dev libotf-dev libm17n-dev <span style="color: #3548cf;">\\</span>
+sudo apt-get install -y <span style="color: #a04646;">\\</span>
+  build-essential autoconf automake pkg-config texinfo <span style="color: #a04646;">\\</span>
+  libgtk-3-dev libgnutls28-dev libjansson-dev libncurses-dev libxml2-dev <span style="color: #a04646;">\\</span>
+  libharfbuzz-dev libcairo2-dev libfreetype6-dev libfontconfig1-dev <span style="color: #a04646;">\\</span>
+  libx11-dev libxft-dev libxpm-dev libxrender-dev <span style="color: #a04646;">\\</span>
+  libpng-dev libjpeg-dev libtiff-dev libgif-dev libwebp-dev librsvg2-dev <span style="color: #a04646;">\\</span>
+  zlib1g-dev libsqlite3-dev liblcms2-dev libotf-dev libm17n-dev <span style="color: #a04646;">\\</span>
   libdbus-1-dev libsystemd-dev libacl1-dev libselinux1-dev libasound2-dev
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0b93f18" class="outline-3">
-<h3 id="org0b93f18"><span class="section-number-3">2.2.</span> 拉取并编译Emacs</h3>
+<div id="outline-container-orgbbf2082" class="outline-3">
+<h3 id="orgbbf2082"><span class="section-number-3">2.2.</span> 拉取并编译Emacs</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 最新正式版是 30.2 ：<br>
 </p>
 <div class="org-src-container">
 <pre class="src src-bash" tabindex="0"><code>wget https://ftp.gnu.org/gnu/emacs/emacs-30.2.tar.xz
-tar xf emacs-30.2.tar.xz &amp;&amp; <span style="color: #8f0075;">cd</span> emacs-30.2
+tar xf emacs-30.2.tar.xz &amp;&amp; <span style="color: #a01f64;">cd</span> emacs-30.2
 </code></pre>
 </div>
 
@@ -129,8 +130,8 @@ tar xf emacs-30.2.tar.xz &amp;&amp; <span style="color: #8f0075;">cd</span> emac
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code>wget <span style="color: #3548cf;">"https://gh-proxy.org/https://github.com/emacs-mirror/emacs/archive/refs/tags/emacs-31.1-rc1.zip"</span>
-unzip emacs-31.1-rc1.zip &amp;&amp; <span style="color: #8f0075;">cd</span> emacs-emacs-31.1-rc1
+<pre class="src src-bash" tabindex="0"><code>wget <span style="color: #a04646;">"https://gh-proxy.org/https://github.com/emacs-mirror/emacs/archive/refs/tags/emacs-31.1-rc1.zip"</span>
+unzip emacs-31.1-rc1.zip &amp;&amp; <span style="color: #a01f64;">cd</span> emacs-emacs-31.1-rc1
 ./autogen.sh
 </code></pre>
 </div>
@@ -145,7 +146,7 @@ unzip emacs-31.1-rc1.zip &amp;&amp; <span style="color: #8f0075;">cd</span> emac
 <div class="org-src-container">
 <pre class="src src-bash" tabindex="0"><code>./configure --prefix=/usr/local/emacs  --with-x-toolkit=gtk3  --without-native-compilation  --without-xwidgets  --with-tree-sitter=no
 
-make -j$<span style="color: #000000;">(</span>nproc<span style="color: #000000;">)</span>
+make -j$<span style="color: #3c3bbe;">(</span>nproc<span style="color: #3c3bbe;">)</span>
 
 sudo make install
 </code></pre>
@@ -155,18 +156,18 @@ sudo make install
 最后将 <code>emacs</code> 的安装目录放进 <code>PATH</code> 中：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code><span style="color: #8f0075;">echo</span> <span style="color: #3548cf;">'export PATH=/usr/local/emacs/bin:$PATH'</span> &gt;&gt; ~/.bashrc
+<pre class="src src-bash" tabindex="0"><code><span style="color: #a01f64;">echo</span> <span style="color: #a04646;">'export PATH=/usr/local/emacs/bin:$PATH'</span> &gt;&gt; ~/.bashrc
 </code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-orga20b21f" class="outline-2">
-<h2 id="orga20b21f"><span class="section-number-2">3.</span> 编译安装 Syncthing 2.1.3</h2>
+<div id="outline-container-org37bfb64" class="outline-2">
+<h2 id="org37bfb64"><span class="section-number-2">3.</span> 编译安装 Syncthing 2.1.3</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-org5dadce2" class="outline-3">
-<h3 id="org5dadce2"><span class="section-number-3">3.1.</span> 安装旧世界的Golang</h3>
+<div id="outline-container-orgd261298" class="outline-3">
+<h3 id="orgd261298"><span class="section-number-3">3.1.</span> 安装旧世界的Golang</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 syncthing 是用Go 编写的，好消息是龙芯开源社区有<a href="https://www.loongnix.cn/zh/toolchain/Golang/">针对旧世界发布 Golang</a>，目前最新的是 1.26.4 版本。<br>
@@ -174,8 +175,8 @@ syncthing 是用Go 编写的，好消息是龙芯开源社区有<a href="https:/
 </p>
 </div>
 </div>
-<div id="outline-container-org5aa12bf" class="outline-3">
-<h3 id="org5aa12bf"><span class="section-number-3">3.2.</span> 安装依赖</h3>
+<div id="outline-container-org889db47" class="outline-3">
+<h3 id="org889db47"><span class="section-number-3">3.2.</span> 安装依赖</h3>
 <div class="outline-text-3" id="text-3-2">
 <div class="org-src-container">
 <pre class="src src-bash" tabindex="0"><code>sudo apt-get install -y wget ca-certificates git build-essential iproute2 iptables
@@ -183,33 +184,33 @@ syncthing 是用Go 编写的，好消息是龙芯开源社区有<a href="https:/
 </div>
 </div>
 </div>
-<div id="outline-container-orgf5ee5d6" class="outline-3">
-<h3 id="orgf5ee5d6"><span class="section-number-3">3.3.</span> 配置 Go 的全局变量</h3>
+<div id="outline-container-org00ce88a" class="outline-3">
+<h3 id="org00ce88a"><span class="section-number-3">3.3.</span> 配置 Go 的全局变量</h3>
 <div class="outline-text-3" id="text-3-3">
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code>sudo tee /etc/profile.d/loong-go.sh &gt;/dev/null &lt;&lt;<span style="color: #3548cf;">'EOF'</span>
-<span style="color: #3548cf;">export GOROOT=/usr/local/go</span>
-<span style="color: #3548cf;">export PATH=/usr/local/go/bin:$PATH</span>
-<span style="color: #3548cf;">export GOPROXY=https://goproxy.cn,direct</span>
-<span style="color: #3548cf;">export GOTOOLCHAIN=local</span>
-<span style="color: #3548cf;">EOF</span>
+<pre class="src src-bash" tabindex="0"><code>sudo tee /etc/profile.d/loong-go.sh &gt;/dev/null &lt;&lt;<span style="color: #a04646;">'EOF'</span>
+<span style="color: #a04646;">export GOROOT=/usr/local/go</span>
+<span style="color: #a04646;">export PATH=/usr/local/go/bin:$PATH</span>
+<span style="color: #a04646;">export GOPROXY=https://goproxy.cn,direct</span>
+<span style="color: #a04646;">export GOTOOLCHAIN=local</span>
+<span style="color: #a04646;">EOF</span>
 
 source /etc/profile.d/loong-go.sh
-go env -w <span style="color: #005e8b;">GOPROXY</span>=https://goproxy.cn,direct <span style="color: #005e8b;">GOTOOLCHAIN</span>=local
+go env -w <span style="color: #4250ef;">GOPROXY</span>=https://goproxy.cn,direct <span style="color: #4250ef;">GOTOOLCHAIN</span>=local
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9988925" class="outline-3">
-<h3 id="org9988925"><span class="section-number-3">3.4.</span> 编译安装 syncthing 2.1.3</h3>
+<div id="outline-container-org78831a6" class="outline-3">
+<h3 id="org78831a6"><span class="section-number-3">3.4.</span> 编译安装 syncthing 2.1.3</h3>
 <div class="outline-text-3" id="text-3-4">
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code>mkdir -p ~/src &amp;&amp; <span style="color: #8f0075;">cd</span> ~/src
+<pre class="src src-bash" tabindex="0"><code>mkdir -p ~/src &amp;&amp; <span style="color: #a01f64;">cd</span> ~/src
 git clone --depth 1 --branch v2.1.3 https://gh-proxy.org/https://github.com/syncthing/syncthing.git
-<span style="color: #8f0075;">cd</span> syncthing
+<span style="color: #a01f64;">cd</span> syncthing
 
-<span style="color: #595959;"># </span><span style="color: #595959;">&#21407;&#29983;&#32534;&#35793;&#65306;&#24320;&#21551; cgo&#65292;&#20351;&#29992;&#31995;&#32479; gcc &#32534;&#35793; C &#29256; SQLite&#65288;&#23448;&#26041;&#25512;&#33616;&#65292;&#24615;&#33021;&#22909;&#65289;</span>
-<span style="color: #005e8b;">CGO_ENABLED</span>=1 go run build.go -no-upgrade build
+<span style="color: #506fa0;"># </span><span style="color: #506fa0;">&#21407;&#29983;&#32534;&#35793;&#65306;&#24320;&#21551; cgo&#65292;&#20351;&#29992;&#31995;&#32479; gcc &#32534;&#35793; C &#29256; SQLite&#65288;&#23448;&#26041;&#25512;&#33616;&#65292;&#24615;&#33021;&#22909;&#65289;</span>
+<span style="color: #4250ef;">CGO_ENABLED</span>=1 go run build.go -no-upgrade build
 </code></pre>
 </div>
 
@@ -217,24 +218,24 @@ git clone --depth 1 --branch v2.1.3 https://gh-proxy.org/https://github.com/sync
 验证：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code>./syncthing --version             <span style="color: #595959;"># </span><span style="color: #595959;">&#26399;&#26395;&#36755;&#20986; v2.1.3</span>
+<pre class="src src-bash" tabindex="0"><code>./syncthing --version             <span style="color: #506fa0;"># </span><span style="color: #506fa0;">&#26399;&#26395;&#36755;&#20986; v2.1.3</span>
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org2730413" class="outline-3">
-<h3 id="org2730413"><span class="section-number-3">3.5.</span> 安装并配置 systemd 服务</h3>
+<div id="outline-container-org206ccfc" class="outline-3">
+<h3 id="org206ccfc"><span class="section-number-3">3.5.</span> 安装并配置 systemd 服务</h3>
 <div class="outline-text-3" id="text-3-5">
 <div class="org-src-container">
 <pre class="src src-bash" tabindex="0"><code>sudo install -m 0755 syncthing /usr/local/bin/syncthing
 
-<span style="color: #595959;"># </span><span style="color: #595959;">&#20351;&#29992;&#20179;&#24211;&#33258;&#24102;&#30340; systemd &#21333;&#20803;&#65292;&#24182;&#25226;&#36335;&#24452;&#25913;&#25104; /usr/local/bin</span>
+<span style="color: #506fa0;"># </span><span style="color: #506fa0;">&#20351;&#29992;&#20179;&#24211;&#33258;&#24102;&#30340; systemd &#21333;&#20803;&#65292;&#24182;&#25226;&#36335;&#24452;&#25913;&#25104; /usr/local/bin</span>
 sudo cp etc/linux-systemd/system/syncthing@.service /etc/systemd/system/syncthing@.service
-sudo sed -i <span style="color: #3548cf;">'s#ExecStart=/usr/bin/syncthing#ExecStart=/usr/local/bin/syncthing#'</span> /etc/systemd/system/syncthing@.service
+sudo sed -i <span style="color: #a04646;">'s#ExecStart=/usr/bin/syncthing#ExecStart=/usr/local/bin/syncthing#'</span> /etc/systemd/system/syncthing@.service
 
 sudo systemctl daemon-reload
-sudo systemctl enable --now syncthing@$<span style="color: #000000;">(</span>whoami<span style="color: #000000;">)</span>.service
-systemctl --no-pager --lines=20 status syncthing@$<span style="color: #000000;">(</span>whoami<span style="color: #000000;">)</span>.service
+sudo systemctl enable --now syncthing@$<span style="color: #3c3bbe;">(</span>whoami<span style="color: #3c3bbe;">)</span>.service
+systemctl --no-pager --lines=20 status syncthing@$<span style="color: #3c3bbe;">(</span>whoami<span style="color: #3c3bbe;">)</span>.service
 </code></pre>
 </div>
 
@@ -244,78 +245,78 @@ syncthing 默认访问界面是 <a href="http://127.0.0.1:8384">http://127.0.0.1
 </div>
 </div>
 </div>
-<div id="outline-container-orgef16cbe" class="outline-2">
-<h2 id="orgef16cbe"><span class="section-number-2">4.</span> 编译安装 Tailscale v1.100.0</h2>
+<div id="outline-container-org990b33a" class="outline-2">
+<h2 id="org990b33a"><span class="section-number-2">4.</span> 编译安装 Tailscale v1.100.0</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 v1.100.0 正好要求 go 1.26.4，是目前能用龙芯 Go 1.26.4 编译的最新稳定版。<br>
 </p>
 </div>
-<div id="outline-container-org4dfe348" class="outline-3">
-<h3 id="org4dfe348"><span class="section-number-3">4.1.</span> 编译 Tailscale bin</h3>
+<div id="outline-container-org9f79310" class="outline-3">
+<h3 id="org9f79310"><span class="section-number-3">4.1.</span> 编译 Tailscale bin</h3>
 <div class="outline-text-3" id="text-4-1">
 <div class="org-src-container">
 <pre class="src src-bash" tabindex="0"><code>mkdir -p ~/go/bin
-<span style="color: #8f0075;">export</span> <span style="color: #005e8b;">GOBIN</span>=$<span style="color: #005e8b;">HOME</span>/go/bin
+<span style="color: #a01f64;">export</span> <span style="color: #4250ef;">GOBIN</span>=$<span style="color: #4250ef;">HOME</span>/go/bin
 
-<span style="color: #595959;"># </span><span style="color: #595959;">&#21152; -ldflags="-s -w" &#21487;&#25226; 30M+ &#30340;&#20108;&#36827;&#21046;&#30246;&#36523;&#21040; 20M &#24038;&#21491;&#65292;&#21487;&#30465;&#30053;</span>
-<span style="color: #005e8b;">CGO_ENABLED</span>=0 go install -ldflags=<span style="color: #3548cf;">"-s -w"</span> tailscale.com/cmd/tailscale@v1.100.0
-<span style="color: #005e8b;">CGO_ENABLED</span>=0 go install -ldflags=<span style="color: #3548cf;">"-s -w"</span> tailscale.com/cmd/tailscaled@v1.100.0
+<span style="color: #506fa0;"># </span><span style="color: #506fa0;">&#21152; -ldflags="-s -w" &#21487;&#25226; 30M+ &#30340;&#20108;&#36827;&#21046;&#30246;&#36523;&#21040; 20M &#24038;&#21491;&#65292;&#21487;&#30465;&#30053;</span>
+<span style="color: #4250ef;">CGO_ENABLED</span>=0 go install -ldflags=<span style="color: #a04646;">"-s -w"</span> tailscale.com/cmd/tailscale@v1.100.0
+<span style="color: #4250ef;">CGO_ENABLED</span>=0 go install -ldflags=<span style="color: #a04646;">"-s -w"</span> tailscale.com/cmd/tailscaled@v1.100.0
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org21ad2d4" class="outline-3">
-<h3 id="org21ad2d4"><span class="section-number-3">4.2.</span> 安装bin</h3>
+<div id="outline-container-org3061bd7" class="outline-3">
+<h3 id="org3061bd7"><span class="section-number-3">4.2.</span> 安装bin</h3>
 <div class="outline-text-3" id="text-4-2">
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code>sudo install -m 0755 $<span style="color: #005e8b;">HOME</span>/go/bin/tailscale  /usr/bin/tailscale
-sudo install -m 0755 $<span style="color: #005e8b;">HOME</span>/go/bin/tailscaled /usr/sbin/tailscaled
+<pre class="src src-bash" tabindex="0"><code>sudo install -m 0755 $<span style="color: #4250ef;">HOME</span>/go/bin/tailscale  /usr/bin/tailscale
+sudo install -m 0755 $<span style="color: #4250ef;">HOME</span>/go/bin/tailscaled /usr/sbin/tailscaled
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0b9eac8" class="outline-3">
-<h3 id="org0b9eac8"><span class="section-number-3">4.3.</span> 配置 systemd 服务</h3>
+<div id="outline-container-org883094a" class="outline-3">
+<h3 id="org883094a"><span class="section-number-3">4.3.</span> 配置 systemd 服务</h3>
 <div class="outline-text-3" id="text-4-3">
 <div class="org-src-container">
 <pre class="src src-bash" tabindex="0"><code>sudo mkdir -p /etc/default
-sudo tee /etc/default/tailscaled &gt;/dev/null &lt;&lt;<span style="color: #3548cf;">'EOF'</span>
-<span style="color: #3548cf;"># Set the port to listen on for incoming VPN packets.</span>
-<span style="color: #3548cf;"># Remote nodes will automatically be informed about the new port number,</span>
-<span style="color: #3548cf;"># but you might want to configure this in order to set external firewall</span>
-<span style="color: #3548cf;"># settings.</span>
-<span style="color: #3548cf;">PORT="41641"</span>
+sudo tee /etc/default/tailscaled &gt;/dev/null &lt;&lt;<span style="color: #a04646;">'EOF'</span>
+<span style="color: #a04646;"># Set the port to listen on for incoming VPN packets.</span>
+<span style="color: #a04646;"># Remote nodes will automatically be informed about the new port number,</span>
+<span style="color: #a04646;"># but you might want to configure this in order to set external firewall</span>
+<span style="color: #a04646;"># settings.</span>
+<span style="color: #a04646;">PORT="41641"</span>
 
-<span style="color: #3548cf;"># Extra flags you might want to pass to tailscaled.</span>
-<span style="color: #3548cf;">FLAGS=""</span>
-<span style="color: #3548cf;">EOF</span>
+<span style="color: #a04646;"># Extra flags you might want to pass to tailscaled.</span>
+<span style="color: #a04646;">FLAGS=""</span>
+<span style="color: #a04646;">EOF</span>
 
-sudo tee /etc/systemd/system/tailscaled.service &gt;/dev/null &lt;&lt;<span style="color: #3548cf;">'EOF'</span>
-<span style="color: #3548cf;">[Unit]</span>
-<span style="color: #3548cf;">Description=Tailscale node agent</span>
-<span style="color: #3548cf;">Documentation=https://tailscale.com/docs/</span>
-<span style="color: #3548cf;">Wants=network-pre.target</span>
-<span style="color: #3548cf;">After=network-pre.target NetworkManager.service systemd-resolved.service</span>
+sudo tee /etc/systemd/system/tailscaled.service &gt;/dev/null &lt;&lt;<span style="color: #a04646;">'EOF'</span>
+<span style="color: #a04646;">[Unit]</span>
+<span style="color: #a04646;">Description=Tailscale node agent</span>
+<span style="color: #a04646;">Documentation=https://tailscale.com/docs/</span>
+<span style="color: #a04646;">Wants=network-pre.target</span>
+<span style="color: #a04646;">After=network-pre.target NetworkManager.service systemd-resolved.service</span>
 
-<span style="color: #3548cf;">[Service]</span>
-<span style="color: #3548cf;">EnvironmentFile=/etc/default/tailscaled</span>
-<span style="color: #3548cf;">ExecStart=/usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=${PORT} $FLAGS</span>
-<span style="color: #3548cf;">ExecStopPost=/usr/sbin/tailscaled --cleanup</span>
+<span style="color: #a04646;">[Service]</span>
+<span style="color: #a04646;">EnvironmentFile=/etc/default/tailscaled</span>
+<span style="color: #a04646;">ExecStart=/usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state --socket=/run/tailscale/tailscaled.sock --port=${PORT} $FLAGS</span>
+<span style="color: #a04646;">ExecStopPost=/usr/sbin/tailscaled --cleanup</span>
 
-<span style="color: #3548cf;">Restart=on-failure</span>
+<span style="color: #a04646;">Restart=on-failure</span>
 
-<span style="color: #3548cf;">RuntimeDirectory=tailscale</span>
-<span style="color: #3548cf;">RuntimeDirectoryMode=0755</span>
-<span style="color: #3548cf;">StateDirectory=tailscale</span>
-<span style="color: #3548cf;">StateDirectoryMode=0700</span>
-<span style="color: #3548cf;">CacheDirectory=tailscale</span>
-<span style="color: #3548cf;">CacheDirectoryMode=0750</span>
-<span style="color: #3548cf;">Type=notify</span>
+<span style="color: #a04646;">RuntimeDirectory=tailscale</span>
+<span style="color: #a04646;">RuntimeDirectoryMode=0755</span>
+<span style="color: #a04646;">StateDirectory=tailscale</span>
+<span style="color: #a04646;">StateDirectoryMode=0700</span>
+<span style="color: #a04646;">CacheDirectory=tailscale</span>
+<span style="color: #a04646;">CacheDirectoryMode=0750</span>
+<span style="color: #a04646;">Type=notify</span>
 
-<span style="color: #3548cf;">[Install]</span>
-<span style="color: #3548cf;">WantedBy=multi-user.target</span>
-<span style="color: #3548cf;">EOF</span>
+<span style="color: #a04646;">[Install]</span>
+<span style="color: #a04646;">WantedBy=multi-user.target</span>
+<span style="color: #a04646;">EOF</span>
 
 sudo systemctl daemon-reload
 sudo systemctl enable --now tailscaled
@@ -324,35 +325,35 @@ systemctl --no-pager --lines=20 status tailscaled
 </div>
 </div>
 </div>
-<div id="outline-container-org1523773" class="outline-3">
-<h3 id="org1523773"><span class="section-number-3">4.4.</span> 确保 TUN 可用并登录</h3>
+<div id="outline-container-org5a02a79" class="outline-3">
+<h3 id="org5a02a79"><span class="section-number-3">4.4.</span> 确保 TUN 可用并登录</h3>
 <div class="outline-text-3" id="text-4-4">
 <div class="org-src-container">
 <pre class="src src-bash" tabindex="0"><code>ls -l /dev/net/tun
 sudo modprobe tun
-<span style="color: #8f0075;">echo</span> tun | sudo tee /etc/modules-load.d/tun.conf
+<span style="color: #a01f64;">echo</span> tun | sudo tee /etc/modules-load.d/tun.conf
 
 sudo tailscale up
-<span style="color: #595959;"># </span><span style="color: #595959;">&#25353;&#36755;&#20986;&#25552;&#31034;&#25171;&#24320;&#27983;&#35272;&#22120;&#23436;&#25104;&#30331;&#24405;&#65307;&#26080; GUI &#26381;&#21153;&#22120;&#21487;&#29992; tailscale up &#36755;&#20986;&#30340; URL &#22312;&#21035;&#30340;&#30005;&#33041;&#19978;&#25171;&#24320;</span>
+<span style="color: #506fa0;"># </span><span style="color: #506fa0;">&#25353;&#36755;&#20986;&#25552;&#31034;&#25171;&#24320;&#27983;&#35272;&#22120;&#23436;&#25104;&#30331;&#24405;&#65307;&#26080; GUI &#26381;&#21153;&#22120;&#21487;&#29992; tailscale up &#36755;&#20986;&#30340; URL &#22312;&#21035;&#30340;&#30005;&#33041;&#19978;&#25171;&#24320;</span>
 sudo tailscale status
 </code></pre>
 </div>
 </div>
 </div>
 </div>
-<div id="outline-container-org05e246a" class="outline-2">
-<h2 id="org05e246a"><span class="section-number-2">5.</span> 编译安装 Jujutsu v0.35.0</h2>
+<div id="outline-container-orgd1730c0" class="outline-2">
+<h2 id="orgd1730c0"><span class="section-number-2">5.</span> 编译安装 Jujutsu v0.35.0</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-orge4e5d36" class="outline-3">
-<h3 id="orge4e5d36"><span class="section-number-3">5.1.</span> 安装旧世界的Rust</h3>
+<div id="outline-container-org517e906" class="outline-3">
+<h3 id="org517e906"><span class="section-number-3">5.1.</span> 安装旧世界的Rust</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 根据<a href="https://www.loongnix.cn/zh/toolchain/Rust/">龙芯开源社区的网站</a>，目前最新的旧世界 Rust 版本为 1.92.0 。我们这里直接用<a href="https://docs.loongnix.cn/rust/rustup.html">官方 Rustup 命令</a>安装：<br>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code>curl --proto <span style="color: #3548cf;">'=https'</span> --tlsv1.2 -sSf https://rust-lang.loongnix.cn/rustup-init.sh | sh
+<pre class="src src-bash" tabindex="0"><code>curl --proto <span style="color: #a04646;">'=https'</span> --tlsv1.2 -sSf https://rust-lang.loongnix.cn/rustup-init.sh | sh
 </code></pre>
 </div>
 
@@ -360,19 +361,19 @@ sudo tailscale status
 然后按照操作提示更新一下变量：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code>source $<span style="color: #005e8b;">HOME</span>/.cargo/env
+<pre class="src src-bash" tabindex="0"><code>source $<span style="color: #4250ef;">HOME</span>/.cargo/env
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org86570eb" class="outline-3">
-<h3 id="org86570eb"><span class="section-number-3">5.2.</span> 编译安装 jujutsu v0.35.0</h3>
+<div id="outline-container-org979cfd7" class="outline-3">
+<h3 id="org979cfd7"><span class="section-number-3">5.2.</span> 编译安装 jujutsu v0.35.0</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 因为 jujutsu 并没有提供龙芯旧世界的官方预编译二进制文件，因此我们按照 <a href="https://docs.jj-vcs.dev/latest/install-and-setup/">Jujutsu 的官方手册</a>，通过以下命令编译安装：<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code><span style="color: #595959;"># </span><span style="color: #595959;">To install the *prerelease* version from the main branch</span>
+<pre class="src src-bash" tabindex="0"><code><span style="color: #506fa0;"># </span><span style="color: #506fa0;">To install the *prerelease* version from the main branch</span>
 cargo install --git https://github.com/jj-vcs/jj.git --locked --bin jj jj-cli
 </code></pre>
 </div>
@@ -390,24 +391,24 @@ cargo install --git https://github.com/jj-vcs/jj.git --locked --bin jj jj-cli
 </div>
 </div>
 </div>
-<div id="outline-container-org2f236f4" class="outline-2">
-<h2 id="org2f236f4"><span class="section-number-2">6.</span> 编译安装 Librime 1.8.5</h2>
+<div id="outline-container-orgfd4b475" class="outline-2">
+<h2 id="orgfd4b475"><span class="section-number-2">6.</span> 编译安装 Librime 1.8.5</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 由于librime 依赖一些开源库，因此我们首先需要添加社区维护的软件源。注意，在添加此软件源后不要执行任何全局升级的动作，否则可能影响系统某些软件，导致不能正常工作。<br>
 </p>
 </div>
-<div id="outline-container-org48988e6" class="outline-3">
-<h3 id="org48988e6"><span class="section-number-3">6.1.</span> 添加社区软件源</h3>
+<div id="outline-container-orgfd7b01a" class="outline-3">
+<h3 id="orgfd7b01a"><span class="section-number-3">6.1.</span> 添加社区软件源</h3>
 <div class="outline-text-3" id="text-6-1">
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code><span style="color: #595959;"># </span><span style="color: #595959;">1. &#22791;&#20221;&#29616;&#26377;&#28304;&#65288;&#21487;&#36873;&#20294;&#24314;&#35758;&#65289;</span>
+<pre class="src src-bash" tabindex="0"><code><span style="color: #506fa0;"># </span><span style="color: #506fa0;">1. &#22791;&#20221;&#29616;&#26377;&#28304;&#65288;&#21487;&#36873;&#20294;&#24314;&#35758;&#65289;</span>
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
 
-<span style="color: #595959;"># </span><span style="color: #595959;">2. &#28155;&#21152; Loongnix 20 &#31283;&#23450;&#28304;</span>
-sudo tee /etc/apt/sources.list.d/loongnix20.list &gt; /dev/null &lt;&lt;<span style="color: #3548cf;">'EOF'</span>
-<span style="color: #3548cf;">deb https://pkg.loongnix.cn/loongnix/20 DaoXiangHu-stable main contrib non-free</span>
-<span style="color: #3548cf;">EOF</span>
+<span style="color: #506fa0;"># </span><span style="color: #506fa0;">2. &#28155;&#21152; Loongnix 20 &#31283;&#23450;&#28304;</span>
+sudo tee /etc/apt/sources.list.d/loongnix20.list &gt; /dev/null &lt;&lt;<span style="color: #a04646;">'EOF'</span>
+<span style="color: #a04646;">deb https://pkg.loongnix.cn/loongnix/20 DaoXiangHu-stable main contrib non-free</span>
+<span style="color: #a04646;">EOF</span>
 </code></pre>
 </div>
 
@@ -426,8 +427,8 @@ sudo apt update
 </div>
 </div>
 </div>
-<div id="outline-container-org0aa4caa" class="outline-3">
-<h3 id="org0aa4caa"><span class="section-number-3">6.2.</span> 安装所需依赖</h3>
+<div id="outline-container-org5f78019" class="outline-3">
+<h3 id="org5f78019"><span class="section-number-3">6.2.</span> 安装所需依赖</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 librime 有一些依赖的库，需要额外安装。<br>
@@ -438,14 +439,14 @@ librime 有一些依赖的库，需要额外安装。<br>
 </div>
 </div>
 </div>
-<div id="outline-container-org15649a8" class="outline-3">
-<h3 id="org15649a8"><span class="section-number-3">6.3.</span> 获取 librime 1.8.5 和插件源码</h3>
+<div id="outline-container-org17d38d0" class="outline-3">
+<h3 id="org17d38d0"><span class="section-number-3">6.3.</span> 获取 librime 1.8.5 和插件源码</h3>
 <div class="outline-text-3" id="text-6-3">
 <div class="org-src-container">
 <pre class="src src-bash" tabindex="0"><code>git clone --depth 1 --branch 1.8.5 https://github.com/rime/librime.git
-<span style="color: #8f0075;">cd</span> librime
+<span style="color: #a01f64;">cd</span> librime
 
-<span style="color: #595959;"># </span><span style="color: #595959;">&#25554;&#20214;&#30446;&#24405;&#21517;&#24517;&#39035;&#26159; plugins/lua&#12289;plugins/octagram&#12289;plugins/predict&#12289;plugins/proto</span>
+<span style="color: #506fa0;"># </span><span style="color: #506fa0;">&#25554;&#20214;&#30446;&#24405;&#21517;&#24517;&#39035;&#26159; plugins/lua&#12289;plugins/octagram&#12289;plugins/predict&#12289;plugins/proto</span>
 git clone https://github.com/hchunhui/librime-lua.git plugins/lua
 git -C plugins/lua checkout 03a2bd9
 
@@ -459,10 +460,14 @@ git clone https://github.com/lotem/librime-proto.git plugins/proto
 git -C plugins/proto checkout d92f572
 </code></pre>
 </div>
+
+<p>
+但是由于这里的 librime-lua 版本较旧，不能支持很多配置方案里的特性，因此建议使用万象-pure 这种声明支持fcitx4的方案。<br>
+</p>
 </div>
 </div>
-<div id="outline-container-orga3461f9" class="outline-3">
-<h3 id="orga3461f9"><span class="section-number-3">6.4.</span> 配置、编译并安装</h3>
+<div id="outline-container-orgca626b4" class="outline-3">
+<h3 id="orgca626b4"><span class="section-number-3">6.4.</span> 配置、编译并安装</h3>
 <div class="outline-text-3" id="text-6-4">
 <p>
 配置cmake<br>
@@ -476,7 +481,7 @@ git -C plugins/proto checkout d92f572
 编译安装<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-bash" tabindex="0"><code>cmake --build build -j<span style="color: #3548cf;">"$(nproc)"</span>
+<pre class="src src-bash" tabindex="0"><code>cmake --build build -j<span style="color: #a04646;">"$(nproc)"</span>
 sudo cmake --install build
 sudo ldconfig
 </code></pre>
@@ -486,6 +491,47 @@ sudo ldconfig
 如有必要，可以通过 <code>fcitx -r</code> 重启 fcitx 。<br>
 </p>
 </div>
+</div>
+</div>
+<div id="outline-container-orgdf3f9d2" class="outline-2">
+<h2 id="orgdf3f9d2"><span class="section-number-2">7.</span> 编译安装 Git 2.55.0</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+官方仓库里的 Git 版本有点旧，还是 2.20.1 。我们如果要用一些功能的话，最好安装一个新一点的版本。<br>
+</p>
+
+<p>
+上面已经安装了很多依赖，同时安装了 1.92.0 的 Rust ，所以不用担心2.55.0 引入的 Rust 支持存在问题。为顺利编译，这里还需要补充安装一个：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-bash" tabindex="0"><code>sudo apt-get install libcurl4-openssl-dev
+</code></pre>
+</div>
+
+<p>
+然后我们下载 2.55.0 的安装包并解压编译安装<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-bash" tabindex="0"><code>wget https://gh-proxy.org/https://github.com/git/git/archive/refs/tags/v2.55.0.tar.gz
+tar -xzf v2.55.0.tar.gz
+<span style="color: #a01f64;">cd</span> git-2.55.0/
+
+make configure &amp;&amp; ./configure --prefix=/usr/local
+make -j<span style="color: #a04646;">"$(nproc)"</span>
+sudo make install
+</code></pre>
+</div>
+<p>
+验证一下：<br>
+</p>
+<div class="org-src-container">
+<pre class="src src-bash" tabindex="0"><code><span style="color: #a01f64;">hash</span> -r
+git --version
+</code></pre>
+</div>
+<p>
+应该显示 2.55.0<br>
+</p>
 </div>
 </div>
 </div>
