@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- 2026-08-24 一 12:52 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>翻译-文本模式的谎言：为什么现代 TUI 对无障碍性是一场噩梦</title>
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
+<link rel='stylesheet' type='text/css' href='./org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-08-24 一 12:52]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">翻译-文本模式的谎言：为什么现代 TUI 对无障碍性是一场噩梦</h1>
+</header><p>
+<a href="https://www.osnews.com/story/144892/the-text-mode-lie-why-modern-tuis-are-a-nightmare-for-accessibility/">The text mode lie: why modern TUIs are a nightmare for accessibility</a><br>
+</p>
+
+<p>
+Thom Holwerda 2026-05-05<br>
+</p>
+
+<blockquote>
+<p>
+在有视力的开发者中，存在一个根深蒂固的误解：如果一个应用程序在终端中运行，它就天然具备无障碍性。这种逻辑假设，因为没有图形、没有复杂的 DOM、也没有 WebGL 画布，内容就只是原始 ASCII 文本，屏幕阅读器可以轻松解析。<br>
+</p>
+
+<p>
+现实情况并非如此。大多数现代文本用户界面（TUI）往往比编写糟糕的图形界面更不利于无障碍访问。那些旨在提升终端中开发者体验（DX）的工具——如 Ink（JS/React）、Bubble Tea（Go）或 tcell 等框架——实际上正在破坏盲人用户的体验。<br>
+</p>
+
+<p>
+——<a href="https://xogium.me/the-text-mode-lie-why-modern-tuis-are-a-nightmare-for-accessibility">Casey Reeves</a><br>
+</p>
+</blockquote>
+
+<p>
+核心原因显而易见：命令行界面本质上只是一股数据流，最新数据位于底部，向上则线性回溯时间。任何屏幕阅读器都能相对轻松地处理这一点，虽然我个人并不需要此类工具，但我从使用过的人那里听说，内核级屏幕阅读器在其功能上表现出色。而使用现代框架构建的 TUI（即基于文本的用户界面）实际上截然不同：它们是“二维像素网格，其中每个字符单元就是一个像素。它们放弃了时间流，转而采用空间布局。”<br>
+</p>
+
+<p>
+显而易见，屏幕阅读器面对这种情况时往往不知所措，里维斯给出了无数例子，但简而言之就是：每次屏幕更新时光标都会到处乱跳，这让屏幕阅读器几近崩溃。许多较老的 TUI，在远早于这些现代 TUI 框架出现的时代设计而成，其设计方式更贴合终端特性，或者提供了隐藏光标的选项来解决问题。例如，Irssi 使用 VT100 滚动区域，而不是在每次内容变化时重绘整个屏幕。<br>
+</p>
+
+<p>
+我从未真正停下来思考过 TUI 和屏幕阅读器的问题，这在视力正常的人群中很常见。里维斯所描述的问题似乎并非源于 TUI 本身固有的不可访问性，而是因为现代框架并未真正利用终端的核心功能集。我真心希望里维斯的这篇文章能引起人们对这一问题的关注，也希望那些开发现代 TUI 的人能更加重视无障碍性。<br>
+</p>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+</div>
+</body>
+</html>
