@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<!-- 2026-09-21 周一 21:44 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>emacs-为重复任务添加自定义工作日判定</title>
+<meta name="author" content="TomoeMami">
+<meta name="generator" content="Org Mode">
+<link rel='stylesheet' type='text/css' href='./org.css'/>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="index.html"> HOME </a>
+</div><div id="preamble" class="status">
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-09-21 周一 11:13]</span></span></p>
+</div>
+<div id="content" class="content">
+<header>
+<h1 class="title">emacs-为重复任务添加自定义工作日判定</h1>
+</header><nav id="table-of-contents" role="doc-toc">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org905b52d">1. 设置节假日</a></li>
+<li><a href="#orgc88ec50">2. 工作日判定函数</a></li>
+<li><a href="#orgaa679e4">3. 处理函数</a></li>
+<li><a href="#orgd8d133b">4. 使用例</a>
+<ul>
+<li><a href="#org73ed51d">4.1. 示例：每周五的周报，自动吸附到最近工作日</a></li>
+<li><a href="#org14c3d3b">4.2. 示例：每月最后一天的账单，自动吸附到最近工作日</a></li>
+<li><a href="#orgbef7c29">4.3. 示例：季度维护，取连续工作日的第一天</a></li>
+<li><a href="#org2f765b3">4.4. 示例：与 <code>org-habit</code> 共存</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+<p>
+<span class="timestamp-wrapper"><time class="timestamp" datetime="2026-09-21T10:29:00">[2026-09-21 周一 10:29]</time></span><br>
+</p>
+
+<p>
+有的时候，你只想让有的待办事项计划在工作日，而且不是简单的固定期限的工作日，可能是工作第一日/工作最后一日，甚至在这个基础上还要再偏移一下，变成工作前一日。<br>
+</p>
+<div id="outline-container-org905b52d" class="outline-2">
+<h2 id="org905b52d"><span class="section-number-2">1.</span> 设置节假日</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+排除掉周六、周日以及法定节假日（也许还有自定义的假日）之后，就是工作日。在 <code>org-agenda-files</code> 中任一文件加入以下内容：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #475d80;">;; </span><span style="color: #475d80;">2025&#20013;&#22269;&#27861;&#23450;&#33410;&#20551;&#26085;</span>
+%%<span style="color: #906045;">(</span>diary-date 1 1 2025<span style="color: #906045;">)</span> &#127982;&#20803;&#26086;&#127982;
+%%<span style="color: #906045;">(</span>diary-block 1 28 2025 2 4 2025<span style="color: #906045;">)</span> &#127982;&#26149;&#33410;&#127982;
+%%<span style="color: #906045;">(</span>diary-date 1 26 2025<span style="color: #906045;">)</span> &#128188;&#26149;&#33410;-&#19978;&#29677;&#128188;
+%%<span style="color: #906045;">(</span>diary-date 2 8 2025<span style="color: #906045;">)</span> &#128188;&#26149;&#33410;-&#19978;&#29677;&#128188;
+%%<span style="color: #906045;">(</span>diary-block 4 4 2025 4 6 2025<span style="color: #906045;">)</span> &#127982;&#28165;&#26126;&#127982;
+%%<span style="color: #906045;">(</span>diary-block 5 1 2025 5 5 2025<span style="color: #906045;">)</span> &#127982;&#21171;&#21160;&#33410;&#127982;
+%%<span style="color: #906045;">(</span>diary-date 4 27 2025<span style="color: #906045;">)</span> &#128188;&#21171;&#21160;&#33410;-&#19978;&#29677;&#128188;
+%%<span style="color: #906045;">(</span>diary-block 5 31 2025 6 2 2025<span style="color: #906045;">)</span> &#127982;&#31471;&#21320;&#127982;
+%%<span style="color: #906045;">(</span>diary-block 10 1 2025 10 8 2025<span style="color: #906045;">)</span> &#127982;&#22269;&#24198;&#12289;&#20013;&#31179;&#127982;
+%%<span style="color: #906045;">(</span>diary-date 9 28 2025<span style="color: #906045;">)</span> &#128188;&#22269;&#24198;&#20013;&#31179;-&#19978;&#29677;&#128188;
+%%<span style="color: #906045;">(</span>diary-date 10 11 2025<span style="color: #906045;">)</span> &#128188;&#22269;&#24198;&#20013;&#31179;-&#19978;&#29677;&#128188;
+</code></pre>
+</div>
+
+<p>
+即可在org-agenda中生成sexp表达式的日历条目，后续会用到。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgc88ec50" class="outline-2">
+<h2 id="orgc88ec50"><span class="section-number-2">2.</span> 工作日判定函数</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/datestr-is-workday-p</span> <span style="color: #9f4e74;">(</span>date <span style="color: #426340;">&amp;optional</span> offset<span style="color: #9f4e74;">)</span>
+  <span style="color: #7a5c50;">"&#21028;&#26029;&#26085;&#26399;&#26159;&#21542;&#20026;&#24037;&#20316;&#26085;&#65288;&#21253;&#21547;&#35843;&#20241;&#65289;&#12290;DATE&#26684;&#24335;&#20026; '</span><span style="color: #5059c0;">YYYY-MM-DD</span><span style="color: #7a5c50;">'&#12290;</span>
+<span style="color: #7a5c50;">OFFSET &#20026;&#30456;&#23545; DATE &#30340;&#22825;&#25968;&#20559;&#31227;&#65292;&#27491;&#25968;&#21521;&#26410;&#26469;&#65292;&#36127;&#25968;&#21521;&#36807;&#21435;&#12290;"</span>
+  <span style="color: #9f4e74;">(</span><span style="color: #906045;">let*</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>d <span style="color: #7755b4;">(</span>date-to-time date<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>target-time <span style="color: #7755b4;">(</span>time-add d <span style="color: #a05900;">(</span>days-to-time <span style="color: #3060af;">(</span><span style="color: #906045;">or</span> offset 0<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>greg <span style="color: #7755b4;">(</span>calendar-gregorian-from-absolute <span style="color: #a05900;">(</span>time-to-days target-time<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>entries <span style="color: #7755b4;">(</span>org-agenda-get-day-entries <span style="color: #a05900;">(</span>concat my/org-dir1 <span style="color: #a04650;">"/cal.org"</span><span style="color: #a05900;">)</span> greg <span style="color: #97508f;">:sexp</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>is-holiday <span style="color: #7755b4;">(</span><span style="color: #906045;">and</span> entries <span style="color: #a05900;">(</span>string-match-p <span style="color: #a04650;">"&#127982;"</span> <span style="color: #3060af;">(</span>car entries<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>is-workday <span style="color: #7755b4;">(</span><span style="color: #906045;">and</span> entries <span style="color: #a05900;">(</span>string-match-p <span style="color: #a04650;">"&#128188;"</span> <span style="color: #3060af;">(</span>car entries<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>day-of-week <span style="color: #7755b4;">(</span>calendar-day-of-week greg<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
+    <span style="color: #5059c0;">(</span><span style="color: #906045;">cond</span>
+     <span style="color: #a83058;">(</span>is-workday t<span style="color: #a83058;">)</span>
+     <span style="color: #a83058;">(</span>is-holiday nil<span style="color: #a83058;">)</span>
+     <span style="color: #a83058;">(</span>t <span style="color: #7755b4;">(</span>not <span style="color: #a05900;">(</span>member day-of-week org-agenda-weekend-days<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+</code></pre>
+</div>
+
+<p>
+这个函数会根据周末及 emoji 包含的情况，判定某个日期加上偏移 offset 之后的日期是否为工作日。如果是，则返回 <code>t</code> ，否则返回 <code>nil</code> 。<br>
+</p>
+
+<p>
+注意，这里我将所有的 sexp 日程条目放在了 <code>(concat my/org-dir1 "/cal.org")</code> 路径下，如果你有其他的放置需求，需要结合自己情况进行修改，比如这样：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/datestr-is-workday-p</span> <span style="color: #9f4e74;">(</span>date <span style="color: #426340;">&amp;optional</span> offset<span style="color: #9f4e74;">)</span>
+  <span style="color: #7a5c50;">"&#21028;&#26029;&#26085;&#26399;&#26159;&#21542;&#20026;&#24037;&#20316;&#26085;&#65288;&#21253;&#21547;&#35843;&#20241;&#65289;&#12290;DATE &#26684;&#24335;&#20026; '</span><span style="color: #5059c0;">YYYY-MM-DD</span><span style="color: #7a5c50;">'&#12290;</span>
+<span style="color: #7a5c50;">OFFSET &#20026;&#30456;&#23545; DATE &#30340;&#22825;&#25968;&#20559;&#31227;&#65292;&#27491;&#25968;&#21521;&#26410;&#26469;&#65292;&#36127;&#25968;&#21521;&#36807;&#21435;&#12290;</span>
+
+<span style="color: #7a5c50;">&#22312; `</span><span style="color: #5059c0;">org-agenda-files</span><span style="color: #7a5c50;">' &#20013;&#25152;&#26377;&#25991;&#20214;&#37324;&#26597;&#25214; sexp &#26465;&#30446;&#65306;</span>
+<span style="color: #7a5c50;">  - &#21629;&#20013; &#128188; &#35270;&#20026;&#24037;&#20316;&#26085;&#65288;&#20248;&#20808;&#65289;</span>
+<span style="color: #7a5c50;">  - &#21629;&#20013; &#127982; &#35270;&#20026;&#33410;&#20551;&#26085;</span>
+<span style="color: #7a5c50;">  - &#37117;&#27809;&#26377;&#21629;&#20013;&#21017;&#25353;&#21608;&#26411;&#21028;&#26029;"</span>
+  <span style="color: #9f4e74;">(</span><span style="color: #906045;">let*</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>d <span style="color: #7755b4;">(</span>date-to-time date<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>target-time <span style="color: #7755b4;">(</span>time-add d <span style="color: #a05900;">(</span>days-to-time <span style="color: #3060af;">(</span><span style="color: #906045;">or</span> offset 0<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>greg <span style="color: #7755b4;">(</span>calendar-gregorian-from-absolute <span style="color: #a05900;">(</span>time-to-days target-time<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>files <span style="color: #7755b4;">(</span>org-agenda-files<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>is-holiday nil<span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>day-of-week <span style="color: #7755b4;">(</span>calendar-day-of-week greg<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
+    <span style="color: #5059c0;">(</span><span style="color: #906045;">if</span> <span style="color: #a83058;">(</span><span style="color: #906045;">catch</span> '<span style="color: #5059c0;">workday</span>
+          <span style="color: #7755b4;">(</span><span style="color: #906045;">dolist</span> <span style="color: #a05900;">(</span>file files<span style="color: #a05900;">)</span>
+            <span style="color: #a05900;">(</span><span style="color: #906045;">let</span> <span style="color: #3060af;">(</span><span style="color: #87591f;">(</span>entries <span style="color: #a04650;">(</span>org-agenda-get-day-entries file greg <span style="color: #97508f;">:sexp</span><span style="color: #a04650;">)</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+              <span style="color: #3060af;">(</span><span style="color: #906045;">dolist</span> <span style="color: #87591f;">(</span>entry entries<span style="color: #87591f;">)</span>
+                <span style="color: #87591f;">(</span><span style="color: #906045;">when</span> <span style="color: #a04650;">(</span>string-match-p <span style="color: #a04650;">"&#128188;"</span> entry<span style="color: #a04650;">)</span>
+                  <span style="color: #a04650;">(</span><span style="color: #906045;">throw</span> '<span style="color: #5059c0;">workday</span> t<span style="color: #a04650;">)</span><span style="color: #87591f;">)</span>
+                <span style="color: #87591f;">(</span><span style="color: #906045;">when</span> <span style="color: #a04650;">(</span>string-match-p <span style="color: #a04650;">"&#127982;"</span> entry<span style="color: #a04650;">)</span>
+                  <span style="color: #a04650;">(</span><span style="color: #906045;">setq</span> is-holiday t<span style="color: #a04650;">)</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
+          nil<span style="color: #a83058;">)</span>
+        t
+      <span style="color: #a83058;">(</span><span style="color: #906045;">if</span> is-holiday
+          nil
+        <span style="color: #7755b4;">(</span>not <span style="color: #a05900;">(</span>member day-of-week org-agenda-weekend-days<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaa679e4" class="outline-2">
+<h2 id="orgaa679e4"><span class="section-number-2">3.</span> 处理函数</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/org-repeat-by-cron--workday-date</span> <span style="color: #9f4e74;">(</span>date-str <span style="color: #426340;">&amp;optional</span> direction offset<span style="color: #9f4e74;">)</span>
+  <span style="color: #7a5c50;">"&#36820;&#22238;&#20174; DATE-STR &#20986;&#21457;&#25353; DIRECTION &#25214;&#21040;&#30340;&#26368;&#36817;&#24037;&#20316;&#26085;&#65292;&#20877;&#20559;&#31227; OFFSET &#22825;&#12290;</span>
+
+<span style="color: #7a5c50;">DATE-STR &#20026; `</span><span style="color: #5059c0;">YYYY-MM-DD</span><span style="color: #7a5c50;">'&#12290;</span>
+<span style="color: #7a5c50;">DIRECTION &#20026;&#23383;&#31526;&#20018;&#65292;&#40664;&#35748; \"-\"&#65306;</span>
+<span style="color: #7a5c50;">  - &#26041;&#21521;&#65306;\"-\" &#21521;&#36807;&#21435;&#65288;&#40664;&#35748;&#65289;&#65292;\"+\" &#21521;&#26410;&#26469;&#12290;</span>
+<span style="color: #7a5c50;">  - &#36793;&#30028;&#65306;&#21487;&#21253;&#21547; \"start\" &#25110; \"end\"&#12290;</span>
+<span style="color: #7a5c50;">      \"start\" &#34920;&#31034;&#25214;&#36830;&#32493;&#24037;&#20316;&#26085;&#30340;&#36215;&#22987;&#26085;&#65288;&#24403;&#22825;&#20026;&#24037;&#20316;&#26085;&#65292;&#21069;&#19968;&#22825;&#19981;&#26159;&#65289;&#65307;</span>
+<span style="color: #7a5c50;">      \"end\"   &#34920;&#31034;&#25214;&#36830;&#32493;&#24037;&#20316;&#26085;&#30340;&#32467;&#26463;&#26085;&#65288;&#24403;&#22825;&#20026;&#24037;&#20316;&#26085;&#65292;&#31532;&#20108;&#22825;&#19981;&#26159;&#65289;&#65307;</span>
+<span style="color: #7a5c50;">      &#19981;&#21547;&#36793;&#30028;&#35789;&#21017;&#21482;&#25214;&#26368;&#36817;&#30340;&#24037;&#20316;&#26085;&#12290;</span>
+<span style="color: #7a5c50;">  &#32452;&#21512;&#31034;&#20363;&#65306;\"-\"&#12289;\"+\"&#12289;\"-start\"&#12289;\"+end\"&#12289;\"-end\"&#12289;\"+start\"&#12290;</span>
+
+<span style="color: #7a5c50;">  &#24403; DATE-STR &#24403;&#22825;&#26412;&#36523;&#26159;&#24037;&#20316;&#26085;&#26102;&#65292;&#33509;&#21547; \"start\" &#25110; \"end\"&#65292;</span>
+<span style="color: #7a5c50;">  &#21017;&#24573;&#30053; -/+ &#26041;&#21521;&#65292;&#30452;&#25509;&#22312;&#24403;&#21069;&#36830;&#32493;&#24037;&#20316;&#26085;&#21306;&#38388;&#20869;&#23450;&#20301;&#65306;</span>
+<span style="color: #7a5c50;">    - start &#8594; &#24403;&#21069;&#21306;&#38388;&#30340;&#36215;&#22987;&#26085;&#65288;&#21521;&#36807;&#21435;&#25214;&#65289;</span>
+<span style="color: #7a5c50;">    - end   &#8594; &#24403;&#21069;&#21306;&#38388;&#30340;&#32467;&#26463;&#26085;&#65288;&#21521;&#26410;&#26469;&#25214;&#65289;</span>
+
+<span style="color: #7a5c50;">OFFSET &#20026;&#25972;&#25968;&#65292;&#40664;&#35748; 0&#65307;&#27491;&#25968;&#21521;&#26410;&#26469;&#20559;&#31227;&#65292;&#36127;&#25968;&#21521;&#36807;&#21435;&#20559;&#31227;&#12290;</span>
+<span style="color: #7a5c50;">&#26368;&#22810;&#25628;&#32034; 30 &#22825;&#65292;&#25214;&#19981;&#21040;&#36820;&#22238; nil&#12290;"</span>
+  <span style="color: #9f4e74;">(</span><span style="color: #906045;">let*</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>dir-str <span style="color: #7755b4;">(</span><span style="color: #906045;">if</span> <span style="color: #a05900;">(</span>stringp direction<span style="color: #a05900;">)</span> <span style="color: #a05900;">(</span>downcase <span style="color: #3060af;">(</span>string-trim direction<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span> <span style="color: #a04650;">""</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>explicit-step <span style="color: #7755b4;">(</span><span style="color: #906045;">if</span> <span style="color: #a05900;">(</span>string-match-p <span style="color: #a04650;">"\\+"</span> dir-str<span style="color: #a05900;">)</span> 1 -1<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>boundary <span style="color: #7755b4;">(</span><span style="color: #906045;">cond</span> <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span>string-match-p <span style="color: #a04650;">"start"</span> dir-str<span style="color: #3060af;">)</span> 'start<span style="color: #a05900;">)</span>
+                         <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span>string-match-p <span style="color: #a04650;">"end"</span> dir-str<span style="color: #3060af;">)</span> 'end<span style="color: #a05900;">)</span>
+                         <span style="color: #a05900;">(</span>t nil<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>offset <span style="color: #7755b4;">(</span><span style="color: #906045;">cond</span> <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span>numberp offset<span style="color: #3060af;">)</span> offset<span style="color: #a05900;">)</span>
+                       <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span><span style="color: #906045;">and</span> <span style="color: #87591f;">(</span>stringp offset<span style="color: #87591f;">)</span>
+                             <span style="color: #87591f;">(</span>not <span style="color: #a04650;">(</span>string-empty-p <span style="color: #906045;">(</span>string-trim offset<span style="color: #906045;">)</span><span style="color: #a04650;">)</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+                        <span style="color: #3060af;">(</span>string-to-number <span style="color: #87591f;">(</span>string-trim offset<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+                       <span style="color: #a05900;">(</span>t 0<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>base-time <span style="color: #7755b4;">(</span>date-to-time date-str<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>today-workday <span style="color: #7755b4;">(</span>my/datestr-is-workday-p date-str 0<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#24403;&#26085;&#22312;&#24037;&#20316;&#26085;&#19988;&#26377; start/end &#26102;&#65292;&#24573;&#30053; -/+ &#26041;&#21521;&#65292;</span>
+         <span style="color: #475d80;">;; </span><span style="color: #475d80;">&#24378;&#21046;&#22312;&#24403;&#21069;&#36830;&#32493;&#24037;&#20316;&#26085;&#21306;&#38388;&#20869;&#23450;&#20301;</span>
+         <span style="color: #a83058;">(</span>step <span style="color: #7755b4;">(</span><span style="color: #906045;">cond</span>
+                <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span><span style="color: #906045;">and</span> today-workday <span style="color: #87591f;">(</span>eq boundary 'start<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span> -1<span style="color: #a05900;">)</span>
+                <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span><span style="color: #906045;">and</span> today-workday <span style="color: #87591f;">(</span>eq boundary 'end<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span> 1<span style="color: #a05900;">)</span>
+                <span style="color: #a05900;">(</span>t explicit-step<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>limit 30<span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>found-offset nil<span style="color: #a83058;">)</span>
+         <span style="color: #a83058;">(</span>i 0<span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
+    <span style="color: #5059c0;">(</span><span style="color: #906045;">while</span> <span style="color: #a83058;">(</span><span style="color: #906045;">and</span> <span style="color: #7755b4;">(</span>&lt;= i limit<span style="color: #7755b4;">)</span> <span style="color: #7755b4;">(</span>not found-offset<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+      <span style="color: #a83058;">(</span><span style="color: #906045;">let*</span> <span style="color: #7755b4;">(</span><span style="color: #a05900;">(</span>candidate-offset <span style="color: #3060af;">(</span>* step i<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+             <span style="color: #a05900;">(</span>is-workday <span style="color: #3060af;">(</span>my/datestr-is-workday-p date-str candidate-offset<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
+        <span style="color: #7755b4;">(</span><span style="color: #906045;">when</span> is-workday
+          <span style="color: #a05900;">(</span><span style="color: #906045;">cond</span>
+           <span style="color: #3060af;">(</span><span style="color: #87591f;">(</span>null boundary<span style="color: #87591f;">)</span>
+            <span style="color: #87591f;">(</span><span style="color: #906045;">setq</span> found-offset candidate-offset<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+           <span style="color: #3060af;">(</span><span style="color: #87591f;">(</span>eq boundary 'start<span style="color: #87591f;">)</span>
+            <span style="color: #87591f;">(</span><span style="color: #906045;">unless</span> <span style="color: #a04650;">(</span>my/datestr-is-workday-p date-str <span style="color: #906045;">(</span>1- candidate-offset<span style="color: #906045;">)</span><span style="color: #a04650;">)</span>
+              <span style="color: #a04650;">(</span><span style="color: #906045;">setq</span> found-offset candidate-offset<span style="color: #a04650;">)</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+           <span style="color: #3060af;">(</span><span style="color: #87591f;">(</span>eq boundary 'end<span style="color: #87591f;">)</span>
+            <span style="color: #87591f;">(</span><span style="color: #906045;">unless</span> <span style="color: #a04650;">(</span>my/datestr-is-workday-p date-str <span style="color: #906045;">(</span>1+ candidate-offset<span style="color: #906045;">)</span><span style="color: #a04650;">)</span>
+              <span style="color: #a04650;">(</span><span style="color: #906045;">setq</span> found-offset candidate-offset<span style="color: #a04650;">)</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+      <span style="color: #a83058;">(</span><span style="color: #906045;">setq</span> i <span style="color: #7755b4;">(</span>1+ i<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
+    <span style="color: #5059c0;">(</span><span style="color: #906045;">when</span> found-offset
+      <span style="color: #a83058;">(</span>format-time-string
+       <span style="color: #a04650;">"%Y-%m-%d"</span>
+       <span style="color: #7755b4;">(</span>time-add base-time <span style="color: #a05900;">(</span>days-to-time <span style="color: #3060af;">(</span>+ found-offset offset<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+
+<span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/org-repeat-by-cron--snap-timestamp-to-workday</span> <span style="color: #9f4e74;">(</span>type <span style="color: #426340;">&amp;optional</span> direction offset<span style="color: #9f4e74;">)</span>
+  <span style="color: #7a5c50;">"&#25226;&#24403;&#21069; heading &#30340; TYPE &#26102;&#38388;&#25139;&#25353; DIRECTION/OFFSET &#35843;&#25972;&#21040;&#24037;&#20316;&#26085;&#38468;&#36817;&#12290;</span>
+
+<span style="color: #7a5c50;">TYPE &#20026; \"SCHEDULED\" &#25110; \"DEADLINE\"&#12290;&#26102;&#38388;&#25139;&#37324;&#33509;&#24102; HH:MM &#21017;&#20445;&#30041;&#12290;</span>
+<span style="color: #7a5c50;">DIRECTION &#40664;&#35748;&#21521;&#36807;&#21435;&#65307;OFFSET &#40664;&#35748; 0&#12290;"</span>
+  <span style="color: #9f4e74;">(</span><span style="color: #906045;">let</span> <span style="color: #5059c0;">(</span><span style="color: #a83058;">(</span>ts-str <span style="color: #7755b4;">(</span>org-entry-get nil type<span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span>
+    <span style="color: #5059c0;">(</span><span style="color: #906045;">when</span> <span style="color: #a83058;">(</span><span style="color: #906045;">and</span> ts-str <span style="color: #7755b4;">(</span>not <span style="color: #a05900;">(</span>string-empty-p <span style="color: #3060af;">(</span>string-trim ts-str<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span>
+      <span style="color: #a83058;">(</span><span style="color: #906045;">let*</span> <span style="color: #7755b4;">(</span><span style="color: #a05900;">(</span>time <span style="color: #3060af;">(</span>org-time-string-to-time ts-str<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+             <span style="color: #a05900;">(</span>date-str <span style="color: #3060af;">(</span>format-time-string <span style="color: #a04650;">"%Y-%m-%d"</span> time<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+             <span style="color: #a05900;">(</span>has-time <span style="color: #3060af;">(</span>string-match-p <span style="color: #a04650;">"[0-9]\\{1,2\\}:[0-9]\\{2\\}"</span> ts-str<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+             <span style="color: #a05900;">(</span>new-date <span style="color: #3060af;">(</span>my/org-repeat-by-cron--workday-date date-str direction offset<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
+        <span style="color: #7755b4;">(</span><span style="color: #906045;">when</span> <span style="color: #a05900;">(</span><span style="color: #906045;">and</span> new-date <span style="color: #3060af;">(</span>not <span style="color: #87591f;">(</span>string= new-date date-str<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+          <span style="color: #a05900;">(</span><span style="color: #906045;">let</span> <span style="color: #3060af;">(</span><span style="color: #87591f;">(</span>new-str <span style="color: #a04650;">(</span><span style="color: #906045;">if</span> has-time
+                             <span style="color: #906045;">(</span>format <span style="color: #a04650;">"%s %s"</span> new-date
+                                     <span style="color: #9f4e74;">(</span>format-time-string <span style="color: #a04650;">"%H:%M"</span> time<span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+                           new-date<span style="color: #a04650;">)</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+            <span style="color: #3060af;">(</span><span style="color: #906045;">pcase</span> type
+              <span style="color: #87591f;">(</span><span style="color: #a04650;">"SCHEDULED"</span> <span style="color: #a04650;">(</span>org-schedule nil new-str<span style="color: #a04650;">)</span><span style="color: #87591f;">)</span>
+              <span style="color: #87591f;">(</span><span style="color: #a04650;">"DEADLINE"</span>  <span style="color: #a04650;">(</span>org-deadline nil new-str<span style="color: #a04650;">)</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+
+<span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/org-repeat-by-cron-snap-to-workday</span> <span style="color: #9f4e74;">()</span>
+  <span style="color: #7a5c50;">"Cron &#37325;&#22797;&#23436;&#25104;&#21518;&#65292;&#33509;&#24403;&#21069; heading &#24102;&#26377; \"&#24037;&#20316;\" &#26631;&#31614;&#65292;&#21017;&#25353;&#23646;&#24615;&#35843;&#25972;&#21040;&#24037;&#20316;&#26085;&#38468;&#36817;&#12290;</span>
+
+<span style="color: #7a5c50;">&#21551;&#29992;&#26465;&#20214;&#65306;&#24403;&#21069; heading &#30340;&#26631;&#31614;&#20013;&#21253;&#21547; \"&#24037;&#20316;\"&#12290;</span>
+<span style="color: #7a5c50;">&#26041;&#21521;&#65306;WORKDAY_DIRECTION &#20026; past/future&#65292;&#40664;&#35748; past&#12290;</span>
+<span style="color: #7a5c50;">&#20559;&#31227;&#65306;WORKDAY_OFFSET &#20026;&#25972;&#25968;&#65292;&#40664;&#35748; 0&#65307;&#27491;&#25968;&#21521;&#26410;&#26469;&#65292;&#36127;&#25968;&#21521;&#36807;&#21435;&#12290;</span>
+
+<span style="color: #7a5c50;">&#22788;&#29702;&#21738;&#20123;&#26102;&#38388;&#25139;&#19982; `</span><span style="color: #5059c0;">org-repeat-by-cron-on-done</span><span style="color: #7a5c50;">' &#20445;&#25345;&#19968;&#33268;&#65306;</span>
+<span style="color: #7a5c50;">- REPEAT_DEADLINE = t         &#8594; &#21482;&#22788;&#29702; DEADLINE</span>
+<span style="color: #7a5c50;">- REPEAT_DEADLINE = cron &#34920;&#36798;&#24335; &#8594; &#21516;&#26102;&#22788;&#29702; DEADLINE &#19982; SCHEDULED</span>
+<span style="color: #7a5c50;">- &#20854;&#23427;                        &#8594; &#21482;&#22788;&#29702; SCHEDULED</span>
+
+<span style="color: #7a5c50;">&#29992;&#27861;&#65306;&#25226;&#35813;&#20989;&#25968;&#21152;&#20837; `</span><span style="color: #5059c0;">org-repeat-by-cron-after-repeat-functions</span><span style="color: #7a5c50;">'&#65306;</span>
+
+<span style="color: #7a5c50;">  (add-hook 'org-repeat-by-cron-after-repeat-functions</span>
+<span style="color: #7a5c50;">            #'my/org-repeat-by-cron-snap-to-workday)"</span>
+  <span style="color: #9f4e74;">(</span><span style="color: #906045;">when</span> <span style="color: #5059c0;">(</span>derived-mode-p 'org-mode<span style="color: #5059c0;">)</span>
+    <span style="color: #5059c0;">(</span><span style="color: #906045;">save-excursion</span>
+      <span style="color: #a83058;">(</span>org-back-to-heading t<span style="color: #a83058;">)</span>
+      <span style="color: #a83058;">(</span><span style="color: #906045;">when</span> <span style="color: #7755b4;">(</span>member <span style="color: #a04650;">"&#24037;&#20316;"</span> <span style="color: #a05900;">(</span>org-get-tags<span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span>
+        <span style="color: #7755b4;">(</span><span style="color: #906045;">let*</span> <span style="color: #a05900;">(</span><span style="color: #3060af;">(</span>direction <span style="color: #87591f;">(</span>org-entry-get nil <span style="color: #a04650;">"WORKDAY_DIRECTION"</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+               <span style="color: #3060af;">(</span>offset-str <span style="color: #87591f;">(</span>org-entry-get nil <span style="color: #a04650;">"WORKDAY_OFFSET"</span><span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+               <span style="color: #3060af;">(</span>offset <span style="color: #87591f;">(</span><span style="color: #906045;">if</span> <span style="color: #a04650;">(</span><span style="color: #906045;">and</span> offset-str
+                                <span style="color: #906045;">(</span>not <span style="color: #9f4e74;">(</span>string-empty-p <span style="color: #5059c0;">(</span>string-trim offset-str<span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span><span style="color: #a04650;">)</span>
+                           <span style="color: #a04650;">(</span>string-to-number <span style="color: #906045;">(</span>string-trim offset-str<span style="color: #906045;">)</span><span style="color: #a04650;">)</span>
+                         0<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+               <span style="color: #3060af;">(</span>deadline-prop <span style="color: #87591f;">(</span>org-entry-get nil org-repeat-by-cron-deadline-prop<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+               <span style="color: #3060af;">(</span>process-deadline nil<span style="color: #3060af;">)</span>
+               <span style="color: #3060af;">(</span>process-schedule nil<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+          <span style="color: #a05900;">(</span><span style="color: #906045;">cond</span>
+           <span style="color: #3060af;">(</span><span style="color: #87591f;">(</span><span style="color: #906045;">and</span> deadline-prop <span style="color: #a04650;">(</span>string= deadline-prop <span style="color: #a04650;">"t"</span><span style="color: #a04650;">)</span><span style="color: #87591f;">)</span>
+            <span style="color: #87591f;">(</span><span style="color: #906045;">setq</span> process-deadline t<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+           <span style="color: #3060af;">(</span><span style="color: #87591f;">(</span><span style="color: #906045;">and</span> deadline-prop
+                 <span style="color: #a04650;">(</span>org-repeat-by-cron--cron-rule-arity deadline-prop<span style="color: #a04650;">)</span><span style="color: #87591f;">)</span>
+            <span style="color: #87591f;">(</span><span style="color: #906045;">setq</span> process-deadline t<span style="color: #87591f;">)</span>
+            <span style="color: #87591f;">(</span><span style="color: #906045;">setq</span> process-schedule t<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span>
+           <span style="color: #3060af;">(</span>t
+            <span style="color: #87591f;">(</span><span style="color: #906045;">setq</span> process-schedule t<span style="color: #87591f;">)</span><span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+          <span style="color: #a05900;">(</span><span style="color: #906045;">when</span> process-schedule
+            <span style="color: #3060af;">(</span>my/org-repeat-by-cron--snap-timestamp-to-workday
+             <span style="color: #a04650;">"SCHEDULED"</span> direction offset<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span>
+          <span style="color: #a05900;">(</span><span style="color: #906045;">when</span> process-deadline
+            <span style="color: #3060af;">(</span>my/org-repeat-by-cron--snap-timestamp-to-workday
+             <span style="color: #a04650;">"DEADLINE"</span> direction offset<span style="color: #3060af;">)</span><span style="color: #a05900;">)</span><span style="color: #7755b4;">)</span><span style="color: #a83058;">)</span><span style="color: #5059c0;">)</span><span style="color: #9f4e74;">)</span><span style="color: #906045;">)</span>
+
+<span style="color: #906045;">(</span>add-hook 'org-repeat-by-cron-after-repeat-functions
+          #'my/org-repeat-by-cron-snap-to-workday<span style="color: #906045;">)</span>
+</code></pre>
+</div>
+
+<p>
+以上函数均有丰富的 docstring ，这里就不在赘述。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgd8d133b" class="outline-2">
+<h2 id="orgd8d133b"><span class="section-number-2">4.</span> 使用例</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+以上函数我特意设计为配合 <a href="https://github.com/TomoeMami/org-repeat-by-cron.el">org-repeat-by-cron</a> 包使用，不过普通使用也可以，更改一下挂载的 hook 即可。<br>
+</p>
+</div>
+<div id="outline-container-org73ed51d" class="outline-3">
+<h3 id="org73ed51d"><span class="section-number-3">4.1.</span> 示例：每周五的周报，自动吸附到最近工作日</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+假设每周五 17:00 提交周报，但如果周五是节假日，希望提前到最近的工作日：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" tabindex="0"><code>    * TODO &#25552;&#20132;&#21608;&#25253;
+      <span style="color: #6f6877;">SCHEDULED:</span> <span style="color: #97508f;">&lt;2026-09-18 Fri 17:00&gt;</span>
+      <span style="color: #6f6877;">:PROPERTIES:</span>
+      <span style="color: #6f6877;">:REPEAT_CRON:</span> <span style="color: #55447f;">0 17 * * FRI</span>
+      <span style="color: #6f6877;">:WORKDAY_DIRECTION:</span> <span style="color: #55447f;">-</span>
+      <span style="color: #6f6877;">:END:</span>
+</code></pre>
+</div>
+
+<p>
+标记 <code>DONE</code> 后， <code>org-repeat-by-cron</code> 先将时间戳推进到下一个周五；随后你的吸附函数检查该周五是否为工作日（ <code>cal.org</code> 中无 🏮 标记且非周末），若不是，则向过去找到最近的工作日，保留 <code>17:00</code> 。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-org14c3d3b" class="outline-3">
+<h3 id="org14c3d3b"><span class="section-number-3">4.2.</span> 示例：每月最后一天的账单，自动吸附到最近工作日</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+账单在每月最后一天到期，但如果最后一天是周末/节假日，希望提前到最近的工作日：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" tabindex="0"><code>    * TODO &#32564;&#32435;&#20449;&#29992;&#21345;&#36134;&#21333;
+      <span style="color: #6f6877;">DEADLINE:</span> <span style="color: #97508f;">&lt;2026-09-30 Wed&gt;</span>
+      <span style="color: #6f6877;">:PROPERTIES:</span>
+      <span style="color: #6f6877;">:REPEAT_CRON:</span> <span style="color: #55447f;">L * *</span>
+      <span style="color: #6f6877;">:REPEAT_DEADLINE:</span> <span style="color: #55447f;">t</span>
+      <span style="color: #6f6877;">:WORKDAY_DIRECTION:</span> <span style="color: #55447f;">-</span>
+      <span style="color: #6f6877;">:END:</span>
+</code></pre>
+</div>
+
+<p>
+<code>REPEAT_DEADLINE: t</code> 让 cron 规则更新 <code>DEADLINE</code> 而非 <code>SCHEDULED</code> 。 <code>L * *</code> 是 3 字段简写，表示每月最后一天，生成纯日期时间戳。<br>
+</p>
+</div>
+</div>
+<div id="outline-container-orgbef7c29" class="outline-3">
+<h3 id="orgbef7c29"><span class="section-number-3">4.3.</span> 示例：季度维护，取连续工作日的第一天</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+每季度第一个周一做服务器维护，但如果该周一是假期，希望找到 <b>假期结束后连续工作日的第一天</b> 开始维护：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" tabindex="0"><code>    * TODO &#26381;&#21153;&#22120;&#23395;&#24230;&#32500;&#25252;
+      <span style="color: #6f6877;">SCHEDULED:</span> <span style="color: #97508f;">&lt;2026-10-05 Mon&gt;</span>
+      <span style="color: #6f6877;">:PROPERTIES:</span>
+      <span style="color: #6f6877;">:REPEAT_CRON:</span> <span style="color: #55447f;">* JAN,APR,JUL,OCT MON#1</span>
+      <span style="color: #6f6877;">:WORKDAY_DIRECTION:</span> <span style="color: #55447f;">+start</span>
+      <span style="color: #6f6877;">:END:</span>
+</code></pre>
+</div>
+
+<ul class="org-ul">
+<li><code>* JAN,APR,JUL,OCT MON#1</code> ：每季度第一个月的第一个周一。<br></li>
+<li><code>-start</code> ：向未来找到连续工作日的起始日（若该周一落在长假中，会找到假期结束后的第一个工作日）。<br></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2f765b3" class="outline-3">
+<h3 id="org2f765b3"><span class="section-number-3">4.4.</span> 示例：与 <code>org-habit</code> 共存</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+<code>org-repeat-by-cron</code> 完全兼容 <code>org-habit</code> ，只要保留一个 repeater cookie。你可以在习惯任务上同时使用 cron 重复和工作日吸附：<br>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" tabindex="0"><code>    * TODO &#21147;&#37327;&#35757;&#32451;
+      <span style="color: #6f6877;">SCHEDULED:</span> <span style="color: #97508f;">&lt;2026-09-21 Mon .+1d/2d&gt;</span>
+      <span style="color: #6f6877;">:PROPERTIES:</span>
+      <span style="color: #6f6877;">:STYLE:</span> <span style="color: #55447f;">habit</span>
+      <span style="color: #6f6877;">:REPEAT_CRON:</span> <span style="color: #55447f;">* * MON,WED,FRI</span>
+      <span style="color: #6f6877;">:WORKDAY_DIRECTION:</span> <span style="color: #55447f;">+</span>
+      <span style="color: #6f6877;">:WORKDAY_OFFSET:</span> <span style="color: #55447f;">0</span>
+      <span style="color: #6f6877;">:END:</span>
+</code></pre>
+</div>
+
+<p>
+若某个训练日恰逢节假日， <code>+</code> 会向未来找最近的工作日进行补训。<br>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p>© Published by <a href="https://www.gnu.org/software/emacs/">Emacs</a> 32.0.50 (<a href="https://orgmode.org">Org</a> mode 10.0-pre)　|　<a href="https://blog.prayhand13013.top/rss.xml">RSS</a>　<a href="https://github.com/TomoeMami/tomoemami.github.io/issues">评论</a></p>
+</div>
+</body>
+</html>
