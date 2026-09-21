@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-09-21 周一 21:44 -->
+<!-- 2026-09-21 周一 21:48 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-为重复任务添加自定义工作日判定</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-09-21 周一 11:13]</span></span></p>
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-09-21 周一 21:48]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -24,15 +24,15 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org905b52d">1. 设置节假日</a></li>
-<li><a href="#orgc88ec50">2. 工作日判定函数</a></li>
-<li><a href="#orgaa679e4">3. 处理函数</a></li>
-<li><a href="#orgd8d133b">4. 使用例</a>
+<li><a href="#org859e1c3">1. 设置节假日</a></li>
+<li><a href="#org6d117ad">2. 工作日判定函数</a></li>
+<li><a href="#orgcbc005c">3. 处理函数</a></li>
+<li><a href="#orgeab5833">4. 使用例</a>
 <ul>
-<li><a href="#org73ed51d">4.1. 示例：每周五的周报，自动吸附到最近工作日</a></li>
-<li><a href="#org14c3d3b">4.2. 示例：每月最后一天的账单，自动吸附到最近工作日</a></li>
-<li><a href="#orgbef7c29">4.3. 示例：季度维护，取连续工作日的第一天</a></li>
-<li><a href="#org2f765b3">4.4. 示例：与 <code>org-habit</code> 共存</a></li>
+<li><a href="#orgd46487e">4.1. 示例：每周五的周报，自动吸附到最近工作日</a></li>
+<li><a href="#org640759c">4.2. 示例：每月最后一天的账单，自动吸附到最近工作日</a></li>
+<li><a href="#org18638b7">4.3. 示例：季度维护，取连续工作日的第一天</a></li>
+<li><a href="#orgf71d02e">4.4. 示例：与 <code>org-habit</code> 共存</a></li>
 </ul>
 </li>
 </ul>
@@ -45,8 +45,8 @@
 <p>
 有的时候，你只想让有的待办事项计划在工作日，而且不是简单的固定期限的工作日，可能是工作第一日/工作最后一日，甚至在这个基础上还要再偏移一下，变成工作前一日。<br>
 </p>
-<div id="outline-container-org905b52d" class="outline-2">
-<h2 id="org905b52d"><span class="section-number-2">1.</span> 设置节假日</h2>
+<div id="outline-container-org859e1c3" class="outline-2">
+<h2 id="org859e1c3"><span class="section-number-2">1.</span> 设置节假日</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 排除掉周六、周日以及法定节假日（也许还有自定义的假日）之后，就是工作日。在 <code>org-agenda-files</code> 中任一文件加入以下内容：<br>
@@ -73,8 +73,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orgc88ec50" class="outline-2">
-<h2 id="orgc88ec50"><span class="section-number-2">2.</span> 工作日判定函数</h2>
+<div id="outline-container-org6d117ad" class="outline-2">
+<h2 id="org6d117ad"><span class="section-number-2">2.</span> 工作日判定函数</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-elisp" tabindex="0"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/datestr-is-workday-p</span> <span style="color: #9f4e74;">(</span>date <span style="color: #426340;">&amp;optional</span> offset<span style="color: #9f4e74;">)</span>
@@ -134,8 +134,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-orgaa679e4" class="outline-2">
-<h2 id="orgaa679e4"><span class="section-number-2">3.</span> 处理函数</h2>
+<div id="outline-container-orgcbc005c" class="outline-2">
+<h2 id="orgcbc005c"><span class="section-number-2">3.</span> 处理函数</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-elisp" tabindex="0"><code><span style="color: #906045;">(</span><span style="color: #906045;">defun</span> <span style="color: #4f60a0;">my/org-repeat-by-cron--workday-date</span> <span style="color: #9f4e74;">(</span>date-str <span style="color: #426340;">&amp;optional</span> direction offset<span style="color: #9f4e74;">)</span>
@@ -272,15 +272,15 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orgd8d133b" class="outline-2">
-<h2 id="orgd8d133b"><span class="section-number-2">4.</span> 使用例</h2>
+<div id="outline-container-orgeab5833" class="outline-2">
+<h2 id="orgeab5833"><span class="section-number-2">4.</span> 使用例</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 以上函数我特意设计为配合 <a href="https://github.com/TomoeMami/org-repeat-by-cron.el">org-repeat-by-cron</a> 包使用，不过普通使用也可以，更改一下挂载的 hook 即可。<br>
 </p>
 </div>
-<div id="outline-container-org73ed51d" class="outline-3">
-<h3 id="org73ed51d"><span class="section-number-3">4.1.</span> 示例：每周五的周报，自动吸附到最近工作日</h3>
+<div id="outline-container-orgd46487e" class="outline-3">
+<h3 id="orgd46487e"><span class="section-number-3">4.1.</span> 示例：每周五的周报，自动吸附到最近工作日</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 假设每周五 17:00 提交周报，但如果周五是节假日，希望提前到最近的工作日：<br>
@@ -301,8 +301,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org14c3d3b" class="outline-3">
-<h3 id="org14c3d3b"><span class="section-number-3">4.2.</span> 示例：每月最后一天的账单，自动吸附到最近工作日</h3>
+<div id="outline-container-org640759c" class="outline-3">
+<h3 id="org640759c"><span class="section-number-3">4.2.</span> 示例：每月最后一天的账单，自动吸附到最近工作日</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 账单在每月最后一天到期，但如果最后一天是周末/节假日，希望提前到最近的工作日：<br>
@@ -324,8 +324,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orgbef7c29" class="outline-3">
-<h3 id="orgbef7c29"><span class="section-number-3">4.3.</span> 示例：季度维护，取连续工作日的第一天</h3>
+<div id="outline-container-org18638b7" class="outline-3">
+<h3 id="org18638b7"><span class="section-number-3">4.3.</span> 示例：季度维护，取连续工作日的第一天</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 每季度第一个周一做服务器维护，但如果该周一是假期，希望找到 <b>假期结束后连续工作日的第一天</b> 开始维护：<br>
@@ -343,12 +343,12 @@
 
 <ul class="org-ul">
 <li><code>* JAN,APR,JUL,OCT MON#1</code> ：每季度第一个月的第一个周一。<br></li>
-<li><code>-start</code> ：向未来找到连续工作日的起始日（若该周一落在长假中，会找到假期结束后的第一个工作日）。<br></li>
+<li><code>+start</code> ：向未来找到连续工作日的起始日（若该周一落在长假中，会找到假期结束后的第一个工作日）。<br></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2f765b3" class="outline-3">
-<h3 id="org2f765b3"><span class="section-number-3">4.4.</span> 示例：与 <code>org-habit</code> 共存</h3>
+<div id="outline-container-orgf71d02e" class="outline-3">
+<h3 id="orgf71d02e"><span class="section-number-3">4.4.</span> 示例：与 <code>org-habit</code> 共存</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 <code>org-repeat-by-cron</code> 完全兼容 <code>org-habit</code> ，只要保留一个 repeater cookie。你可以在习惯任务上同时使用 cron 重复和工作日吸附：<br>
