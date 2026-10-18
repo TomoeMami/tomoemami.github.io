@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-10-18 日 19:01 -->
+<!-- 2026-10-18 日 19:05 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-保存ediff结果为带字符级高亮的src-block</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-10-18 日 19:01]</span></span></p>
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-10-18 日 19:04]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -24,15 +24,15 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org9b051cf">1. 使用流程</a></li>
-<li><a href="#orgb6b3eac">2. LLM 分析</a>
+<li><a href="#org1ae0b0b">1. 使用流程</a></li>
+<li><a href="#org299183b">2. LLM 分析</a>
 <ul>
-<li><a href="#orgc9c0785">2.1. org 本身的限制</a></li>
-<li><a href="#orgbd7d4d2">2.2. 解决思路</a></li>
-<li><a href="#orgc883bbf">2.3. 更本质的结论</a></li>
+<li><a href="#org3e0f2aa">2.1. org 本身的限制</a></li>
+<li><a href="#org157d179">2.2. 解决思路</a></li>
+<li><a href="#org7757d37">2.3. 更本质的结论</a></li>
 </ul>
 </li>
-<li><a href="#org84d1d65">3. 相关代码</a></li>
+<li><a href="#orgb5cdaf0">3. 相关代码</a></li>
 </ul>
 </div>
 </nav>
@@ -47,8 +47,8 @@
 <p>
 还好，我们有 LLM 可以帮助我们生成代码。<br>
 </p>
-<div id="outline-container-org9b051cf" class="outline-2">
-<h2 id="org9b051cf"><span class="section-number-2">1.</span> 使用流程</h2>
+<div id="outline-container-org1ae0b0b" class="outline-2">
+<h2 id="org1ae0b0b"><span class="section-number-2">1.</span> 使用流程</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在一个 <code>org-mode</code> buffer 中，执行 <code>M-x my/org-heading-ediff-src-block</code> ，然后选择原 heading 与新 heading ，则会在光标所在位置生成一个字符级别高亮的 <code>ediff</code> <code>src-block</code> 。<br>
@@ -60,32 +60,34 @@
 <div class="org-src-container">
 <pre class="src src-ediff" tabindex="0"><code>--- original: 1
 +++ new: 2
-<span style="background-color: #e0d8c3;">@@ -1,3 +1,3 @@</span>
+<span style="background-color: #e0d8c3;">@@ -1,4 +1,4 @@</span>
 <span style="color: #9b2400; background-color: #f8c8a6;">-</span><span style="color: #8f1013; background-color: #f8c8a6;">* </span><span style="color: #8f1013; background-color: #f0aa90;">1</span>
 <span style="color: #276e27; background-color: #b0e7b0;">+</span><span style="color: #005200; background-color: #b0e7b0;">* </span><span style="color: #005200; background-color: #9ad590;">2</span>
    18:09 &#127776;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now
-<span style="color: #9b2400; background-color: #f8c8a6;">-</span><span style="color: #8f1013; background-color: #f8c8a6;">  </span><span style="color: #8f1013; background-color: #f0aa90;">24</span><span style="color: #8f1013; background-color: #f8c8a6;">:00 &#9480;&#9480;&#9480;&#9480;&#9480; &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;</span><span style="color: #8f1013; background-color: #f0aa90;">
-</span>+  <span style="color: #005200; background-color: #9ad590;">14</span>:00 &#9480;&#9480;&#9480;&#9480;&#9480; &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;
+<span style="color: #9b2400; background-color: #f8c8a6;">-</span><span style="color: #8f1013; background-color: #f8c8a6;">  </span><span style="color: #8f1013; background-color: #f0aa90;">24</span><span style="color: #8f1013; background-color: #f8c8a6;">:00 &#9480;&#9480;&#9480;&#9480;&#9480; &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;</span>
+<span style="color: #9b2400; background-color: #f8c8a6;">-</span><span style="color: #8f1013; background-color: #f8c8a6;">  </span><span style="color: #8f1013; background-color: #f0aa90;">&#33521;</span><span style="color: #8f1013; background-color: #f8c8a6;">&#25991;&#20943;</span><span style="color: #8f1013; background-color: #f0aa90;">&#23569;</span>
+<span style="color: #276e27; background-color: #b0e7b0;">+</span><span style="color: #005200; background-color: #b0e7b0;">  </span><span style="color: #005200; background-color: #9ad590;">14</span><span style="color: #005200; background-color: #b0e7b0;">:00 &#9480;&#9480;&#9480;&#9480;&#9480; &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;</span>
++  <span style="color: #005200; background-color: #9ad590;">&#20013;</span>&#25991;&#20943;
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgb6b3eac" class="outline-2">
-<h2 id="orgb6b3eac"><span class="section-number-2">2.</span> LLM 分析</h2>
+<div id="outline-container-org299183b" class="outline-2">
+<h2 id="org299183b"><span class="section-number-2">2.</span> LLM 分析</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgc9c0785" class="outline-3">
-<h3 id="orgc9c0785"><span class="section-number-3">2.1.</span> org 本身的限制</h3>
+<div id="outline-container-org3e0f2aa" class="outline-3">
+<h3 id="org3e0f2aa"><span class="section-number-3">2.1.</span> org 本身的限制</h3>
 <div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
-<li>* <code>font-lock-mode</code> 在 Org 的隐藏渲染缓冲区中被禁用* （缓冲区名以空格开头）；<br></li>
+<li><code>font-lock-mode</code> 在 Org 的隐藏渲染缓冲区中被禁用 （缓冲区名以空格开头）；<br></li>
 
-<li>* <code>diff-refine</code> 产生的是 overlay，而 Org 从隐藏缓冲区把渲染结果搬回主缓冲区时只复制 text properties，不复制 overlay* 。<br></li>
+<li><code>diff-refine</code> 产生的是 overlay，而 Org 从隐藏缓冲区把渲染结果搬回主缓冲区时只复制 text properties，不复制 overlay 。<br></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgbd7d4d2" class="outline-3">
-<h3 id="orgbd7d4d2"><span class="section-number-3">2.2.</span> 解决思路</h3>
+<div id="outline-container-org157d179" class="outline-3">
+<h3 id="org157d179"><span class="section-number-3">2.2.</span> 解决思路</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 选 heading → 复制 subtree → 临时 buffer → diff -u → 清理 header<br>
@@ -101,8 +103,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-orgc883bbf" class="outline-3">
-<h3 id="orgc883bbf"><span class="section-number-3">2.3.</span> 更本质的结论</h3>
+<div id="outline-container-org7757d37" class="outline-3">
+<h3 id="org7757d37"><span class="section-number-3">2.3.</span> 更本质的结论</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 <b>只要拿到一段标准的 unified diff 文本</b> ，不管来源是 ediff、 <code>git diff</code> 、 <code>diff -u</code> 还是 Magit，都可以塞进 <code>#+begin_src ediff</code> ，然后靠前面那套 fontify 机制出字符级高亮。<br>
@@ -124,8 +126,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org84d1d65" class="outline-2">
-<h2 id="org84d1d65"><span class="section-number-2">3.</span> 相关代码</h2>
+<div id="outline-container-orgb5cdaf0" class="outline-2">
+<h2 id="orgb5cdaf0"><span class="section-number-2">3.</span> 相关代码</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 插入ediff 字级高亮<br>
