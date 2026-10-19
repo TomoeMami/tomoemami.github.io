@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<!-- 2026-10-18 日 21:18 -->
+<!-- 2026-10-19 一 21:02 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>emacs-保存ediff结果为带字符级高亮的src-block</title>
@@ -15,7 +15,7 @@
  |
  <a accesskey="H" href="index.html"> HOME </a>
 </div><div id="preamble" class="status">
-<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-10-18 日 21:18]</span></span></p>
+<p>🔙<a href="/index.html">回到目录</a>　|　🔻 本网页更新于 <span class="timestamp-wrapper"><span class="timestamp">[2026-10-19 一 21:02]</span></span></p>
 </div>
 <div id="content" class="content">
 <header>
@@ -24,15 +24,15 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgffe3bd4">1. 使用流程</a></li>
-<li><a href="#org09ddeee">2. LLM 分析</a>
+<li><a href="#org77af82b">1. 使用流程</a></li>
+<li><a href="#org8732b57">2. LLM 分析</a>
 <ul>
-<li><a href="#orgeb3c3d2">2.1. org 本身的限制</a></li>
-<li><a href="#orgcfdca5f">2.2. 解决思路</a></li>
-<li><a href="#org1dc9f2a">2.3. 更本质的结论</a></li>
+<li><a href="#org9129fe2">2.1. org 本身的限制</a></li>
+<li><a href="#orga530b25">2.2. 解决思路</a></li>
+<li><a href="#org737deeb">2.3. 更本质的结论</a></li>
 </ul>
 </li>
-<li><a href="#org39ecbec">3. 相关代码</a></li>
+<li><a href="#org1f4c66b">3. 相关代码</a></li>
 </ul>
 </div>
 </nav>
@@ -51,8 +51,8 @@
 <p>
 <span class="timestamp-wrapper"><time class="timestamp" datetime="2026-10-18T21:17:00">[2026-10-18 日 21:17]</time></span> 编辑：提取逻辑使其更加通用之后上传到了这里 <a href="https://github.com/TomoeMami/org-diff-src">https://github.com/TomoeMami/org-diff-src</a><br>
 </p>
-<div id="outline-container-orgffe3bd4" class="outline-2">
-<h2 id="orgffe3bd4"><span class="section-number-2">1.</span> 使用流程</h2>
+<div id="outline-container-org77af82b" class="outline-2">
+<h2 id="org77af82b"><span class="section-number-2">1.</span> 使用流程</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在一个 <code>org-mode</code> buffer 中，执行 <code>M-x my/org-heading-ediff-src-block</code> ，然后选择原 heading 与新 heading ，则会在光标所在位置生成一个字符级别高亮的 <code>ediff</code> <code>src-block</code> 。<br>
@@ -64,24 +64,24 @@
 <div class="org-src-container">
 <pre class="src src-ediff" tabindex="0"><code>--- original: 1
 +++ new: 2
-@@ -1,4 +1,4 @@
--* 1
-+* 2
-   18:09 🌠┈┈┈┈┈┈┈┈┈┈┈┈ now
--  24:00 ┈┈┈┈┈ ┈┈┈┈┈┈┈┈┈┈┈┈
--  英文减少
-+  14:00 ┈┈┈┈┈ ┈┈┈┈┈┈┈┈┈┈┈┈
-+  中文减
+<span style="background-color: #f0f0f0;">@@ -1,4 +1,4 @@</span>
+<span style="color: #d63a44; background-color: #ffd8d5;">-</span><span style="color: #8f1313; background-color: #ffd8d5;">* </span><span style="color: #8f1313; background-color: #f3b5af;">1</span>
+<span style="color: #248843; background-color: #d0f0d0;">+</span><span style="color: #005000; background-color: #d0f0d0;">* </span><span style="color: #005000; background-color: #b2e8be;">2</span>
+   18:09 &#127776;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480; now
+<span style="color: #d63a44; background-color: #ffd8d5;">-</span><span style="color: #8f1313; background-color: #ffd8d5;">  </span><span style="color: #8f1313; background-color: #f3b5af;">24</span><span style="color: #8f1313; background-color: #ffd8d5;">:00 &#9480;&#9480;&#9480;&#9480;&#9480; &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;</span>
+<span style="color: #d63a44; background-color: #ffd8d5;">-</span><span style="color: #8f1313; background-color: #ffd8d5;">  </span><span style="color: #8f1313; background-color: #f3b5af;">&#33521;</span><span style="color: #8f1313; background-color: #ffd8d5;">&#25991;&#20943;</span><span style="color: #8f1313; background-color: #f3b5af;">&#23569;</span>
+<span style="color: #248843; background-color: #d0f0d0;">+</span><span style="color: #005000; background-color: #d0f0d0;">  </span><span style="color: #005000; background-color: #b2e8be;">14</span><span style="color: #005000; background-color: #d0f0d0;">:00 &#9480;&#9480;&#9480;&#9480;&#9480; &#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;&#9480;</span>
++  <span style="color: #005000; background-color: #b2e8be;">&#20013;</span>&#25991;&#20943;
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org09ddeee" class="outline-2">
-<h2 id="org09ddeee"><span class="section-number-2">2.</span> LLM 分析</h2>
+<div id="outline-container-org8732b57" class="outline-2">
+<h2 id="org8732b57"><span class="section-number-2">2.</span> LLM 分析</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgeb3c3d2" class="outline-3">
-<h3 id="orgeb3c3d2"><span class="section-number-3">2.1.</span> org 本身的限制</h3>
+<div id="outline-container-org9129fe2" class="outline-3">
+<h3 id="org9129fe2"><span class="section-number-3">2.1.</span> org 本身的限制</h3>
 <div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
 <li><code>font-lock-mode</code> 在 Org 的隐藏渲染缓冲区中被禁用 （缓冲区名以空格开头）；<br></li>
@@ -90,8 +90,8 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orgcfdca5f" class="outline-3">
-<h3 id="orgcfdca5f"><span class="section-number-3">2.2.</span> 解决思路</h3>
+<div id="outline-container-orga530b25" class="outline-3">
+<h3 id="orga530b25"><span class="section-number-3">2.2.</span> 解决思路</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 选 heading → 复制 subtree → 临时 buffer → diff -u → 清理 header<br>
@@ -107,8 +107,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org1dc9f2a" class="outline-3">
-<h3 id="org1dc9f2a"><span class="section-number-3">2.3.</span> 更本质的结论</h3>
+<div id="outline-container-org737deeb" class="outline-3">
+<h3 id="org737deeb"><span class="section-number-3">2.3.</span> 更本质的结论</h3>
 <div class="outline-text-3" id="text-2-3">
 <p>
 <b>只要拿到一段标准的 unified diff 文本</b> ，不管来源是 ediff、 <code>git diff</code> 、 <code>diff -u</code> 还是 Magit，都可以塞进 <code>#+begin_src ediff</code> ，然后靠前面那套 fontify 机制出字符级高亮。<br>
@@ -130,233 +130,233 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org39ecbec" class="outline-2">
-<h2 id="org39ecbec"><span class="section-number-2">3.</span> 相关代码</h2>
+<div id="outline-container-org1f4c66b" class="outline-2">
+<h2 id="org1f4c66b"><span class="section-number-2">3.</span> 相关代码</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 插入ediff 字级高亮<br>
 </p>
 <div class="org-src-container">
-<pre class="src src-elisp" tabindex="0"><code><span style="color: #595959;">;;; </span><span style="color: #595959;">ediff src blocks for Org</span>
-<span style="color: #000000;">(</span><span style="color: #531ab6;">require</span> '<span style="color: #0000b0;">diff</span><span style="color: #000000;">)</span>
-<span style="color: #000000;">(</span><span style="color: #531ab6;">require</span> '<span style="color: #0000b0;">diff-mode</span><span style="color: #000000;">)</span>
-<span style="color: #595959;">;;;; </span><span style="color: #595959;">1. Heading selection and subtree extraction ---------------------------</span>
+<pre class="src src-elisp" tabindex="0"><code><span style="color: #a65f6a;">;;; </span><span style="color: #a65f6a;">ediff src blocks for Org</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">require</span> '<span style="color: #065fff;">diff</span><span style="color: #008858;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">require</span> '<span style="color: #065fff;">diff-mode</span><span style="color: #008858;">)</span>
+<span style="color: #a65f6a;">;;;; </span><span style="color: #a65f6a;">1. Heading selection and subtree extraction ---------------------------</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-ediff--consult-lookup</span> <span style="color: #dd22dd;">(</span>selected candidates <span style="color: #005f5f;">&amp;rest</span> _<span style="color: #dd22dd;">)</span>
-  <span style="color: #2a5045;">"Lookup SELECTED in CANDIDATES and return its heading marker."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>cand <span style="color: #808000;">(</span>car <span style="color: #531ab6;">(</span>member selected candidates<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">when</span> cand
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">or</span> <span style="color: #808000;">(</span>get-text-property 0 'org-marker cand<span style="color: #808000;">)</span>
-          <span style="color: #808000;">(</span>get-text-property 0 'consult--candidate cand<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ediff--consult-lookup</span> <span style="color: #4f54aa;">(</span>selected candidates <span style="color: #008858;">&amp;rest</span> _<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Lookup SELECTED in CANDIDATES and return its heading marker."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">let</span> <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>cand <span style="color: #b65050;">(</span>car <span style="color: #4250ef;">(</span>member selected candidates<span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">when</span> cand
+      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">or</span> <span style="color: #b65050;">(</span>get-text-property 0 'org-marker cand<span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span>get-text-property 0 'consult--candidate cand<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-ediff--heading-label</span> <span style="color: #dd22dd;">()</span>
-  <span style="color: #2a5045;">"Return a one-line title for the heading at point."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>heading <span style="color: #808000;">(</span>org-get-heading t t t t<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">if</span> <span style="color: #972500;">(</span><span style="color: #531ab6;">or</span> <span style="color: #808000;">(</span>null heading<span style="color: #808000;">)</span> <span style="color: #808000;">(</span>string-match-p <span style="color: #3548cf;">"\\`[ \t]*\\'"</span> heading<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-        <span style="color: #3548cf;">"heading"</span>
-      <span style="color: #972500;">(</span>replace-regexp-in-string <span style="color: #3548cf;">"[\t\n\r]+"</span> <span style="color: #3548cf;">" "</span>
-                                <span style="color: #808000;">(</span>substring-no-properties heading<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ediff--heading-label</span> <span style="color: #4f54aa;">()</span>
+  <span style="color: #506fa0;">"Return a one-line title for the heading at point."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">let</span> <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>heading <span style="color: #b65050;">(</span>org-get-heading t t t t<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">if</span> <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">or</span> <span style="color: #b65050;">(</span>null heading<span style="color: #b65050;">)</span> <span style="color: #b65050;">(</span>string-match-p <span style="color: #4250ef;">"\\`[ \t]*\\'"</span> heading<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+        <span style="color: #4250ef;">"heading"</span>
+      <span style="color: #1f77bb;">(</span>replace-regexp-in-string <span style="color: #4250ef;">"[\t\n\r]+"</span> <span style="color: #4250ef;">" "</span>
+                                <span style="color: #b65050;">(</span>substring-no-properties heading<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-ediff--select-heading</span> <span style="color: #dd22dd;">(</span>prompt<span style="color: #dd22dd;">)</span>
-  <span style="color: #2a5045;">"Select a heading with consult, showing PROMPT in the minibuffer.</span>
-<span style="color: #2a5045;">Return the heading title."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>candidates <span style="color: #808000;">(</span>consult-org--headings nil nil nil<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">unless</span> candidates
-      <span style="color: #972500;">(</span><span style="color: #884900;">user-error</span> <span style="color: #3548cf;">"No headings in buffer"</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #595959;">;; </span><span style="color: #595959;">`</span><span style="color: #0000b0;">consult--read</span><span style="color: #595959;">' returns the value produced by :lookup, i.e. the</span>
-    <span style="color: #595959;">;; </span><span style="color: #595959;">heading marker -- not the candidate string.</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">let</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>marker <span style="color: #531ab6;">(</span>consult--read
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ediff--select-heading</span> <span style="color: #4f54aa;">(</span>prompt<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Select a heading with consult, showing PROMPT in the minibuffer.</span>
+<span style="color: #506fa0;">Return the heading title."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">let</span> <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>candidates <span style="color: #b65050;">(</span>consult-org--headings nil nil nil<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">unless</span> candidates
+      <span style="color: #1f77bb;">(</span><span style="color: #b6532f;">user-error</span> <span style="color: #4250ef;">"No headings in buffer"</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">`</span><span style="color: #065fff;">consult--read</span><span style="color: #a65f6a;">' returns the value produced by :lookup, i.e. the</span>
+    <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">heading marker -- not the candidate string.</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">let</span> <span style="color: #1f77bb;">(</span><span style="color: #b65050;">(</span>marker <span style="color: #4250ef;">(</span>consult--read
                    candidates
-                   <span style="color: #8f0075;">:prompt</span> prompt
-                   <span style="color: #8f0075;">:sort</span> nil
-                   <span style="color: #8f0075;">:require-match</span> t
-                   <span style="color: #8f0075;">:history</span> '<span style="color: #008900;">(</span><span style="color: #8f0075;">:input</span> consult-org--history<span style="color: #008900;">)</span>
-                   <span style="color: #8f0075;">:narrow</span> <span style="color: #008900;">(</span>consult-org--narrow<span style="color: #008900;">)</span>
-                   <span style="color: #8f0075;">:state</span> <span style="color: #008900;">(</span>consult--jump-state<span style="color: #008900;">)</span>
-                   <span style="color: #8f0075;">:lookup</span> #'my/org-ediff--consult-lookup<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">unless</span> marker
-        <span style="color: #808000;">(</span><span style="color: #884900;">user-error</span> <span style="color: #3548cf;">"No heading selected"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span>goto-char marker<span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span>my/org-ediff--heading-label<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+                   <span style="color: #ba35af;">:prompt</span> prompt
+                   <span style="color: #ba35af;">:sort</span> nil
+                   <span style="color: #ba35af;">:require-match</span> t
+                   <span style="color: #ba35af;">:history</span> '<span style="color: #008858;">(</span><span style="color: #ba35af;">:input</span> consult-org--history<span style="color: #008858;">)</span>
+                   <span style="color: #ba35af;">:narrow</span> <span style="color: #008858;">(</span>consult-org--narrow<span style="color: #008858;">)</span>
+                   <span style="color: #ba35af;">:state</span> <span style="color: #008858;">(</span>consult--jump-state<span style="color: #008858;">)</span>
+                   <span style="color: #ba35af;">:lookup</span> #'my/org-ediff--consult-lookup<span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">unless</span> marker
+        <span style="color: #b65050;">(</span><span style="color: #b6532f;">user-error</span> <span style="color: #4250ef;">"No heading selected"</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span>goto-char marker<span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span>my/org-ediff--heading-label<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-ediff--copy-subtree</span> <span style="color: #dd22dd;">()</span>
-  <span style="color: #2a5045;">"Copy the subtree at point and return it as a string.</span>
-<span style="color: #2a5045;">The kill ring and the system clipboard are left unchanged."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>kill-ring kill-ring<span style="color: #972500;">)</span>
-        <span style="color: #972500;">(</span>kill-ring-yank-pointer kill-ring-yank-pointer<span style="color: #972500;">)</span>
-        <span style="color: #972500;">(</span>interprogram-cut-function nil<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>org-copy-subtree<span style="color: #008899;">)</span>
-    org-subtree-clip<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ediff--copy-subtree</span> <span style="color: #4f54aa;">()</span>
+  <span style="color: #506fa0;">"Copy the subtree at point and return it as a string.</span>
+<span style="color: #506fa0;">The kill ring and the system clipboard are left unchanged."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">let</span> <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>kill-ring kill-ring<span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>kill-ring-yank-pointer kill-ring-yank-pointer<span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>interprogram-cut-function nil<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>org-copy-subtree<span style="color: #ba35af;">)</span>
+    org-subtree-clip<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-ediff--read-subtree</span> <span style="color: #dd22dd;">(</span>prompt prefix<span style="color: #dd22dd;">)</span>
-  <span style="color: #2a5045;">"Prompt for a heading with PROMPT and copy its subtree.</span>
-<span style="color: #2a5045;">Return a cons (LABEL . TREE), where LABEL is PREFIX plus the</span>
-<span style="color: #2a5045;">heading title."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">save-excursion</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">let</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>title <span style="color: #531ab6;">(</span>my/org-ediff--select-heading prompt<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span>cons <span style="color: #808000;">(</span>concat prefix title<span style="color: #808000;">)</span>
-            <span style="color: #808000;">(</span>my/org-ediff--copy-subtree<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ediff--read-subtree</span> <span style="color: #4f54aa;">(</span>prompt prefix<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Prompt for a heading with PROMPT and copy its subtree.</span>
+<span style="color: #506fa0;">Return a cons (LABEL . TREE), where LABEL is PREFIX plus the</span>
+<span style="color: #506fa0;">heading title."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">save-excursion</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">let</span> <span style="color: #1f77bb;">(</span><span style="color: #b65050;">(</span>title <span style="color: #4250ef;">(</span>my/org-ediff--select-heading prompt<span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span>cons <span style="color: #b65050;">(</span>concat prefix title<span style="color: #b65050;">)</span>
+            <span style="color: #b65050;">(</span>my/org-ediff--copy-subtree<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #595959;">;;;; </span><span style="color: #595959;">2. Diff generation -----------------------------------------------------</span>
+<span style="color: #a65f6a;">;;;; </span><span style="color: #a65f6a;">2. Diff generation -----------------------------------------------------</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-ediff--normalize-subtree</span> <span style="color: #dd22dd;">(</span>tree<span style="color: #dd22dd;">)</span>
-  <span style="color: #2a5045;">"Paste TREE as a level-1 subtree in a temporary Org buffer.</span>
-<span style="color: #2a5045;">Return the buffer text."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">with-temp-buffer</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">let</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>org-mode-hook nil<span style="color: #808000;">)</span>
-          <span style="color: #808000;">(</span>org-inhibit-startup t<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span>org-mode<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>org-paste-subtree 1 tree<span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>buffer-string<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ediff--normalize-subtree</span> <span style="color: #4f54aa;">(</span>tree<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Paste TREE as a level-1 subtree in a temporary Org buffer.</span>
+<span style="color: #506fa0;">Return the buffer text."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">with-temp-buffer</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">let</span> <span style="color: #1f77bb;">(</span><span style="color: #b65050;">(</span>org-mode-hook nil<span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span>org-inhibit-startup t<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span>org-mode<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>org-paste-subtree 1 tree<span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>buffer-string<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-ediff--unified-diff</span> <span style="color: #dd22dd;">(</span>text-a text-b label-a label-b coding<span style="color: #dd22dd;">)</span>
-  <span style="color: #2a5045;">"Return a unified diff between TEXT-A and TEXT-B.</span>
-<span style="color: #2a5045;">LABEL-A and LABEL-B become the names in the `</span><span style="color: #0000b0;">---</span><span style="color: #2a5045;">'/`</span><span style="color: #0000b0;">+++</span><span style="color: #2a5045;">' header.</span>
-<span style="color: #2a5045;">CODING is used for the temporary files."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>file-a <span style="color: #808000;">(</span>make-temp-file <span style="color: #3548cf;">"org-ediff-a-"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-        <span style="color: #972500;">(</span>file-b <span style="color: #808000;">(</span>make-temp-file <span style="color: #3548cf;">"org-ediff-b-"</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">unwind-protect</span>
-        <span style="color: #972500;">(</span><span style="color: #531ab6;">progn</span>
-          <span style="color: #808000;">(</span><span style="color: #531ab6;">let</span> <span style="color: #531ab6;">(</span><span style="color: #008900;">(</span>coding-system-for-write coding<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-            <span style="color: #531ab6;">(</span><span style="color: #531ab6;">with-temp-file</span> file-a <span style="color: #008900;">(</span>insert text-a<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-            <span style="color: #531ab6;">(</span><span style="color: #531ab6;">with-temp-file</span> file-b <span style="color: #008900;">(</span>insert text-b<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-          <span style="color: #808000;">(</span><span style="color: #531ab6;">with-temp-buffer</span>
-            <span style="color: #531ab6;">(</span><span style="color: #531ab6;">let</span> <span style="color: #008900;">(</span><span style="color: #3548cf;">(</span>coding-system-for-read coding<span style="color: #3548cf;">)</span>
-                  <span style="color: #3548cf;">(</span>status <span style="color: #8f0075;">(</span>call-process diff-command nil t nil
-                                        <span style="color: #3548cf;">"-u"</span>
-                                        <span style="color: #3548cf;">"--label"</span> label-a
-                                        <span style="color: #3548cf;">"--label"</span> label-b
-                                        file-a file-b<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
-              <span style="color: #008900;">(</span><span style="color: #531ab6;">if</span> <span style="color: #3548cf;">(</span>memq status '<span style="color: #8f0075;">(</span>0 1<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
-                  <span style="color: #3548cf;">(</span>buffer-string<span style="color: #3548cf;">)</span>
-                <span style="color: #3548cf;">(</span><span style="color: #884900;">error</span> <span style="color: #3548cf;">"diff failed (status %S): %s"</span>
-                       status <span style="color: #8f0075;">(</span>buffer-string<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">ignore-errors</span> <span style="color: #808000;">(</span>delete-file file-a<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">ignore-errors</span> <span style="color: #808000;">(</span>delete-file file-b<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ediff--unified-diff</span> <span style="color: #4f54aa;">(</span>text-a text-b label-a label-b coding<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Return a unified diff between TEXT-A and TEXT-B.</span>
+<span style="color: #506fa0;">LABEL-A and LABEL-B become the names in the `</span><span style="color: #065fff;">---</span><span style="color: #506fa0;">'/`</span><span style="color: #065fff;">+++</span><span style="color: #506fa0;">' header.</span>
+<span style="color: #506fa0;">CODING is used for the temporary files."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">let</span> <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>file-a <span style="color: #b65050;">(</span>make-temp-file <span style="color: #4250ef;">"org-ediff-a-"</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+        <span style="color: #1f77bb;">(</span>file-b <span style="color: #b65050;">(</span>make-temp-file <span style="color: #4250ef;">"org-ediff-b-"</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">unwind-protect</span>
+        <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">progn</span>
+          <span style="color: #b65050;">(</span><span style="color: #6052cf;">let</span> <span style="color: #4250ef;">(</span><span style="color: #008858;">(</span>coding-system-for-write coding<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span>
+            <span style="color: #4250ef;">(</span><span style="color: #6052cf;">with-temp-file</span> file-a <span style="color: #008858;">(</span>insert text-a<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span>
+            <span style="color: #4250ef;">(</span><span style="color: #6052cf;">with-temp-file</span> file-b <span style="color: #008858;">(</span>insert text-b<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span><span style="color: #6052cf;">with-temp-buffer</span>
+            <span style="color: #4250ef;">(</span><span style="color: #6052cf;">let</span> <span style="color: #008858;">(</span><span style="color: #6052cf;">(</span>coding-system-for-read coding<span style="color: #6052cf;">)</span>
+                  <span style="color: #6052cf;">(</span>status <span style="color: #a45f22;">(</span>call-process diff-command nil t nil
+                                        <span style="color: #4250ef;">"-u"</span>
+                                        <span style="color: #4250ef;">"--label"</span> label-a
+                                        <span style="color: #4250ef;">"--label"</span> label-b
+                                        file-a file-b<span style="color: #a45f22;">)</span><span style="color: #6052cf;">)</span><span style="color: #008858;">)</span>
+              <span style="color: #008858;">(</span><span style="color: #6052cf;">if</span> <span style="color: #6052cf;">(</span>memq status '<span style="color: #a45f22;">(</span>0 1<span style="color: #a45f22;">)</span><span style="color: #6052cf;">)</span>
+                  <span style="color: #6052cf;">(</span>buffer-string<span style="color: #6052cf;">)</span>
+                <span style="color: #6052cf;">(</span><span style="color: #b6532f;">error</span> <span style="color: #4250ef;">"diff failed (status %S): %s"</span>
+                       status <span style="color: #a45f22;">(</span>buffer-string<span style="color: #a45f22;">)</span><span style="color: #6052cf;">)</span><span style="color: #008858;">)</span><span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">ignore-errors</span> <span style="color: #b65050;">(</span>delete-file file-a<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">ignore-errors</span> <span style="color: #b65050;">(</span>delete-file file-b<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #595959;">;;;; </span><span style="color: #595959;">3. ediff-src-mode ------------------------------------------------------</span>
+<span style="color: #a65f6a;">;;;; </span><span style="color: #a65f6a;">3. ediff-src-mode ------------------------------------------------------</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-ediff--copy-fine-overlays</span> <span style="color: #dd22dd;">(</span>beg end<span style="color: #dd22dd;">)</span>
-  <span style="color: #2a5045;">"Turn `diff-mode fine' overlay faces in BEG..END into `</span><span style="color: #0000b0;">face</span><span style="color: #2a5045;">' text properties.</span>
-<span style="color: #2a5045;">Org's source-block fontification copies text properties, but not</span>
-<span style="color: #2a5045;">overlays, so this is what makes refinement visible inline."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">dolist</span> <span style="color: #008899;">(</span>ov <span style="color: #972500;">(</span>overlays-in beg end<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">when</span> <span style="color: #972500;">(</span>eq <span style="color: #808000;">(</span>overlay-get ov 'diff-mode<span style="color: #808000;">)</span> 'fine<span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">let</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>face <span style="color: #008900;">(</span>overlay-get ov 'face<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-            <span style="color: #531ab6;">(</span>obeg <span style="color: #008900;">(</span>overlay-start ov<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-            <span style="color: #531ab6;">(</span>oend <span style="color: #008900;">(</span>overlay-end ov<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span><span style="color: #531ab6;">when</span> <span style="color: #531ab6;">(</span><span style="color: #531ab6;">and</span> face <span style="color: #008900;">(</span>&lt; obeg oend<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-          <span style="color: #531ab6;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #008900;">(</span><span style="color: #3548cf;">(</span>old <span style="color: #8f0075;">(</span>get-text-property obeg 'face<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
-                 <span style="color: #3548cf;">(</span>faces <span style="color: #8f0075;">(</span><span style="color: #531ab6;">cond</span> <span style="color: #000000;">(</span><span style="color: #dd22dd;">(</span>null old<span style="color: #dd22dd;">)</span> nil<span style="color: #000000;">)</span>
-                              <span style="color: #000000;">(</span><span style="color: #dd22dd;">(</span>listp old<span style="color: #dd22dd;">)</span> old<span style="color: #000000;">)</span>
-                              <span style="color: #000000;">(</span>t <span style="color: #dd22dd;">(</span>list old<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span>
-            <span style="color: #595959;">;; </span><span style="color: #595959;">`</span><span style="color: #0000b0;">face</span><span style="color: #595959;">' lists are merged with the first face taking</span>
-            <span style="color: #595959;">;; </span><span style="color: #595959;">precedence, so put the refinement face first.</span>
-            <span style="color: #008900;">(</span><span style="color: #531ab6;">unless</span> <span style="color: #3548cf;">(</span>memq face faces<span style="color: #3548cf;">)</span>
-              <span style="color: #3548cf;">(</span>put-text-property obeg oend 'face <span style="color: #8f0075;">(</span>cons face faces<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ediff--copy-fine-overlays</span> <span style="color: #4f54aa;">(</span>beg end<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Turn `diff-mode fine' overlay faces in BEG..END into `</span><span style="color: #065fff;">face</span><span style="color: #506fa0;">' text properties.</span>
+<span style="color: #506fa0;">Org's source-block fontification copies text properties, but not</span>
+<span style="color: #506fa0;">overlays, so this is what makes refinement visible inline."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">dolist</span> <span style="color: #ba35af;">(</span>ov <span style="color: #1f77bb;">(</span>overlays-in beg end<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">when</span> <span style="color: #1f77bb;">(</span>eq <span style="color: #b65050;">(</span>overlay-get ov 'diff-mode<span style="color: #b65050;">)</span> 'fine<span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">let</span> <span style="color: #b65050;">(</span><span style="color: #4250ef;">(</span>face <span style="color: #008858;">(</span>overlay-get ov 'face<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span>
+            <span style="color: #4250ef;">(</span>obeg <span style="color: #008858;">(</span>overlay-start ov<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span>
+            <span style="color: #4250ef;">(</span>oend <span style="color: #008858;">(</span>overlay-end ov<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span>
+        <span style="color: #b65050;">(</span><span style="color: #6052cf;">when</span> <span style="color: #4250ef;">(</span><span style="color: #6052cf;">and</span> face <span style="color: #008858;">(</span>&lt; obeg oend<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span>
+          <span style="color: #4250ef;">(</span><span style="color: #6052cf;">let*</span> <span style="color: #008858;">(</span><span style="color: #6052cf;">(</span>old <span style="color: #a45f22;">(</span>get-text-property obeg 'face<span style="color: #a45f22;">)</span><span style="color: #6052cf;">)</span>
+                 <span style="color: #6052cf;">(</span>faces <span style="color: #a45f22;">(</span><span style="color: #6052cf;">cond</span> <span style="color: #008858;">(</span><span style="color: #4f54aa;">(</span>null old<span style="color: #4f54aa;">)</span> nil<span style="color: #008858;">)</span>
+                              <span style="color: #008858;">(</span><span style="color: #4f54aa;">(</span>listp old<span style="color: #4f54aa;">)</span> old<span style="color: #008858;">)</span>
+                              <span style="color: #008858;">(</span>t <span style="color: #4f54aa;">(</span>list old<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span><span style="color: #a45f22;">)</span><span style="color: #6052cf;">)</span><span style="color: #008858;">)</span>
+            <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">`</span><span style="color: #065fff;">face</span><span style="color: #a65f6a;">' lists are merged with the first face taking</span>
+            <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">precedence, so put the refinement face first.</span>
+            <span style="color: #008858;">(</span><span style="color: #6052cf;">unless</span> <span style="color: #6052cf;">(</span>memq face faces<span style="color: #6052cf;">)</span>
+              <span style="color: #6052cf;">(</span>put-text-property obeg oend 'face <span style="color: #a45f22;">(</span>cons face faces<span style="color: #a45f22;">)</span><span style="color: #6052cf;">)</span><span style="color: #008858;">)</span><span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-ediff--font-lock-refined</span> <span style="color: #dd22dd;">(</span>max<span style="color: #dd22dd;">)</span>
-  <span style="color: #2a5045;">"Like `</span><span style="color: #0000b0;">diff--font-lock-refined</span><span style="color: #2a5045;">', but write refinement as text properties.</span>
-<span style="color: #2a5045;">`</span><span style="color: #0000b0;">diff-refine</span><span style="color: #2a5045;">' must be `</span><span style="color: #0000b0;">font-lock</span><span style="color: #2a5045;">'."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">when</span> <span style="color: #008899;">(</span>eq diff-refine 'font-lock<span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">when</span> <span style="color: #972500;">(</span>get-char-property <span style="color: #808000;">(</span>point<span style="color: #808000;">)</span> 'diff--font-lock-refined<span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span>goto-char <span style="color: #808000;">(</span>next-single-char-property-change
-                  <span style="color: #531ab6;">(</span>point<span style="color: #531ab6;">)</span> 'diff--font-lock-refined nil max<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">condition-case</span> nil
-        <span style="color: #972500;">(</span>diff--iterate-hunks
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-ediff--font-lock-refined</span> <span style="color: #4f54aa;">(</span>max<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"Like `</span><span style="color: #065fff;">diff--font-lock-refined</span><span style="color: #506fa0;">', but write refinement as text properties.</span>
+<span style="color: #506fa0;">`</span><span style="color: #065fff;">diff-refine</span><span style="color: #506fa0;">' must be `</span><span style="color: #065fff;">font-lock</span><span style="color: #506fa0;">'."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">when</span> <span style="color: #ba35af;">(</span>eq diff-refine 'font-lock<span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">when</span> <span style="color: #1f77bb;">(</span>get-char-property <span style="color: #b65050;">(</span>point<span style="color: #b65050;">)</span> 'diff--font-lock-refined<span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span>goto-char <span style="color: #b65050;">(</span>next-single-char-property-change
+                  <span style="color: #4250ef;">(</span>point<span style="color: #4250ef;">)</span> 'diff--font-lock-refined nil max<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">condition-case</span> nil
+        <span style="color: #1f77bb;">(</span>diff--iterate-hunks
          max
-         <span style="color: #808000;">(</span><span style="color: #531ab6;">lambda</span> <span style="color: #531ab6;">(</span>beg end<span style="color: #531ab6;">)</span>
-           <span style="color: #531ab6;">(</span><span style="color: #531ab6;">unless</span> <span style="color: #008900;">(</span>get-char-property beg 'diff--font-lock-refined<span style="color: #008900;">)</span>
-             <span style="color: #008900;">(</span>diff--refine-hunk beg end<span style="color: #008900;">)</span>
-             <span style="color: #008900;">(</span><span style="color: #531ab6;">let</span> <span style="color: #3548cf;">(</span><span style="color: #8f0075;">(</span>ol <span style="color: #000000;">(</span>make-overlay beg end<span style="color: #000000;">)</span><span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span>
-               <span style="color: #3548cf;">(</span>overlay-put ol 'diff--font-lock-refined t<span style="color: #3548cf;">)</span>
-               <span style="color: #3548cf;">(</span>overlay-put ol 'evaporate t<span style="color: #3548cf;">)</span>
-               <span style="color: #3548cf;">(</span>overlay-put ol 'modification-hooks
-                            '<span style="color: #8f0075;">(</span>diff--overlay-auto-delete<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span><span style="color: #531ab6;">)</span>
-           <span style="color: #595959;">;; </span><span style="color: #595959;">Re-copy on every pass: font-lock removes `</span><span style="color: #0000b0;">face</span><span style="color: #595959;">'</span>
-           <span style="color: #595959;">;; </span><span style="color: #595959;">properties before refontifying.</span>
-           <span style="color: #531ab6;">(</span>my/org-ediff--copy-fine-overlays beg end<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #884900;">error</span> nil<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+         <span style="color: #b65050;">(</span><span style="color: #6052cf;">lambda</span> <span style="color: #4250ef;">(</span>beg end<span style="color: #4250ef;">)</span>
+           <span style="color: #4250ef;">(</span><span style="color: #6052cf;">unless</span> <span style="color: #008858;">(</span>get-char-property beg 'diff--font-lock-refined<span style="color: #008858;">)</span>
+             <span style="color: #008858;">(</span>diff--refine-hunk beg end<span style="color: #008858;">)</span>
+             <span style="color: #008858;">(</span><span style="color: #6052cf;">let</span> <span style="color: #6052cf;">(</span><span style="color: #a45f22;">(</span>ol <span style="color: #008858;">(</span>make-overlay beg end<span style="color: #008858;">)</span><span style="color: #a45f22;">)</span><span style="color: #6052cf;">)</span>
+               <span style="color: #6052cf;">(</span>overlay-put ol 'diff--font-lock-refined t<span style="color: #6052cf;">)</span>
+               <span style="color: #6052cf;">(</span>overlay-put ol 'evaporate t<span style="color: #6052cf;">)</span>
+               <span style="color: #6052cf;">(</span>overlay-put ol 'modification-hooks
+                            '<span style="color: #a45f22;">(</span>diff--overlay-auto-delete<span style="color: #a45f22;">)</span><span style="color: #6052cf;">)</span><span style="color: #008858;">)</span><span style="color: #4250ef;">)</span>
+           <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Re-copy on every pass: font-lock removes `</span><span style="color: #065fff;">face</span><span style="color: #a65f6a;">'</span>
+           <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">properties before refontifying.</span>
+           <span style="color: #4250ef;">(</span>my/org-ediff--copy-fine-overlays beg end<span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span><span style="color: #b6532f;">error</span> nil<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defvar</span> <span style="color: #005e8b;">my/org-ediff-font-lock-keywords</span>
-  <span style="color: #dd22dd;">(</span>mapcar <span style="color: #008899;">(</span><span style="color: #531ab6;">lambda</span> <span style="color: #972500;">(</span>kw<span style="color: #972500;">)</span>
-            <span style="color: #972500;">(</span><span style="color: #531ab6;">if</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">or</span> <span style="color: #531ab6;">(</span>eq kw 'diff--font-lock-refined<span style="color: #531ab6;">)</span>
-                    <span style="color: #531ab6;">(</span><span style="color: #531ab6;">and</span> <span style="color: #008900;">(</span>consp kw<span style="color: #008900;">)</span>
-                         <span style="color: #008900;">(</span>eq <span style="color: #3548cf;">(</span>car kw<span style="color: #3548cf;">)</span> 'diff--font-lock-refined<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-                <span style="color: #808000;">(</span>list #'my/org-ediff--font-lock-refined<span style="color: #808000;">)</span>
-              kw<span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-          diff-font-lock-keywords<span style="color: #dd22dd;">)</span>
-  <span style="color: #2a5045;">"`</span><span style="color: #0000b0;">diff-font-lock-keywords</span><span style="color: #2a5045;">' with text-property based refinement."</span><span style="color: #000000;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defvar</span> <span style="color: #1f77bb;">my/org-ediff-font-lock-keywords</span>
+  <span style="color: #4f54aa;">(</span>mapcar <span style="color: #ba35af;">(</span><span style="color: #6052cf;">lambda</span> <span style="color: #1f77bb;">(</span>kw<span style="color: #1f77bb;">)</span>
+            <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">if</span> <span style="color: #b65050;">(</span><span style="color: #6052cf;">or</span> <span style="color: #4250ef;">(</span>eq kw 'diff--font-lock-refined<span style="color: #4250ef;">)</span>
+                    <span style="color: #4250ef;">(</span><span style="color: #6052cf;">and</span> <span style="color: #008858;">(</span>consp kw<span style="color: #008858;">)</span>
+                         <span style="color: #008858;">(</span>eq <span style="color: #6052cf;">(</span>car kw<span style="color: #6052cf;">)</span> 'diff--font-lock-refined<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span>
+                <span style="color: #b65050;">(</span>list #'my/org-ediff--font-lock-refined<span style="color: #b65050;">)</span>
+              kw<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+          diff-font-lock-keywords<span style="color: #4f54aa;">)</span>
+  <span style="color: #506fa0;">"`</span><span style="color: #065fff;">diff-font-lock-keywords</span><span style="color: #506fa0;">' with text-property based refinement."</span><span style="color: #008858;">)</span>
 
-<span style="color: #000000;">(</span><span style="color: #531ab6;">define-derived-mode</span> <span style="color: #721045;">ediff-src-mode</span> diff-mode <span style="color: #3548cf;">"Ediff"</span>
-  <span style="color: #2a5045;">"Major mode for `</span><span style="color: #0000b0;">ediff</span><span style="color: #2a5045;">' Org source blocks.</span>
-<span style="color: #2a5045;">This is `</span><span style="color: #0000b0;">diff-mode</span><span style="color: #2a5045;">' with `</span><span style="color: #0000b0;">diff-refine</span><span style="color: #2a5045;">' set to `</span><span style="color: #0000b0;">font-lock</span><span style="color: #2a5045;">'.  The</span>
-<span style="color: #2a5045;">refinement is turned into `</span><span style="color: #0000b0;">face</span><span style="color: #2a5045;">' text properties so that Org's</span>
-<span style="color: #2a5045;">source-block fontification can copy it into the Org buffer."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">setq-local</span> diff-refine 'font-lock<span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">setq-local</span> diff-font-lock-keywords my/org-ediff-font-lock-keywords<span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span>font-lock-flush<span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">define-derived-mode</span> <span style="color: #cf25aa;">ediff-src-mode</span> diff-mode <span style="color: #4250ef;">"Ediff"</span>
+  <span style="color: #506fa0;">"Major mode for `</span><span style="color: #065fff;">ediff</span><span style="color: #506fa0;">' Org source blocks.</span>
+<span style="color: #506fa0;">This is `</span><span style="color: #065fff;">diff-mode</span><span style="color: #506fa0;">' with `</span><span style="color: #065fff;">diff-refine</span><span style="color: #506fa0;">' set to `</span><span style="color: #065fff;">font-lock</span><span style="color: #506fa0;">'.  The</span>
+<span style="color: #506fa0;">refinement is turned into `</span><span style="color: #065fff;">face</span><span style="color: #506fa0;">' text properties so that Org's</span>
+<span style="color: #506fa0;">source-block fontification can copy it into the Org buffer."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq-local</span> diff-refine 'font-lock<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">setq-local</span> diff-font-lock-keywords my/org-ediff-font-lock-keywords<span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span>font-lock-flush<span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #595959;">;; </span><span style="color: #595959;">`</span><span style="color: #0000b0;">org-src-get-lang-mode</span><span style="color: #595959;">' appends "-mode", so map "ediff" to</span>
-<span style="color: #595959;">;; </span><span style="color: #595959;">`</span><span style="color: #0000b0;">ediff-src</span><span style="color: #595959;">', which yields `</span><span style="color: #0000b0;">ediff-src-mode</span><span style="color: #595959;">'.</span>
-<span style="color: #000000;">(</span><span style="color: #531ab6;">let</span> <span style="color: #dd22dd;">(</span><span style="color: #008899;">(</span>pair <span style="color: #972500;">(</span>assoc <span style="color: #3548cf;">"ediff"</span> org-src-lang-modes<span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">if</span> pair
-      <span style="color: #008899;">(</span>setcdr pair 'ediff-src<span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">push</span> '<span style="color: #972500;">(</span><span style="color: #3548cf;">"ediff"</span> . ediff-src<span style="color: #972500;">)</span> org-src-lang-modes<span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">`</span><span style="color: #065fff;">org-src-get-lang-mode</span><span style="color: #a65f6a;">' appends "-mode", so map "ediff" to</span>
+<span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">`</span><span style="color: #065fff;">ediff-src</span><span style="color: #a65f6a;">', which yields `</span><span style="color: #065fff;">ediff-src-mode</span><span style="color: #a65f6a;">'.</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">let</span> <span style="color: #4f54aa;">(</span><span style="color: #ba35af;">(</span>pair <span style="color: #1f77bb;">(</span>assoc <span style="color: #4250ef;">"ediff"</span> org-src-lang-modes<span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">if</span> pair
+      <span style="color: #ba35af;">(</span>setcdr pair 'ediff-src<span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">push</span> '<span style="color: #1f77bb;">(</span><span style="color: #4250ef;">"ediff"</span> . ediff-src<span style="color: #1f77bb;">)</span> org-src-lang-modes<span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 
-<span style="color: #595959;">;;;; </span><span style="color: #595959;">4. Command -------------------------------------------------------------</span>
+<span style="color: #a65f6a;">;;;; </span><span style="color: #a65f6a;">4. Command -------------------------------------------------------------</span>
 
-<span style="color: #595959;">;;;</span><span style="color: #595959;">###</span><span style="color: #884900;">autoload</span>
-<span style="color: #000000;">(</span><span style="color: #531ab6;">defun</span> <span style="color: #721045;">my/org-heading-ediff-src-block</span> <span style="color: #dd22dd;">()</span>
-  <span style="color: #2a5045;">"Insert an `</span><span style="color: #0000b0;">ediff</span><span style="color: #2a5045;">' src block comparing two Org subtrees.</span>
+<span style="color: #a65f6a;">;;;</span><span style="color: #a65f6a;">###</span><span style="color: #b6532f;">autoload</span>
+<span style="color: #008858;">(</span><span style="color: #6052cf;">defun</span> <span style="color: #cf25aa;">my/org-heading-ediff-src-block</span> <span style="color: #4f54aa;">()</span>
+  <span style="color: #506fa0;">"Insert an `</span><span style="color: #065fff;">ediff</span><span style="color: #506fa0;">' src block comparing two Org subtrees.</span>
 
-<span style="color: #2a5045;">Select an original heading and a new heading in the current buffer.</span>
-<span style="color: #2a5045;">Their subtrees are copied with `</span><span style="color: #0000b0;">org-copy-subtree</span><span style="color: #2a5045;">', pasted with</span>
-<span style="color: #2a5045;">`</span><span style="color: #0000b0;">org-paste-subtree</span><span style="color: #2a5045;">' into temporary Org buffers, and compared with</span>
-<span style="color: #2a5045;">`</span><span style="color: #0000b0;">diff</span><span style="color: #2a5045;">'.  The unified diff is inserted at point as</span>
+<span style="color: #506fa0;">Select an original heading and a new heading in the current buffer.</span>
+<span style="color: #506fa0;">Their subtrees are copied with `</span><span style="color: #065fff;">org-copy-subtree</span><span style="color: #506fa0;">', pasted with</span>
+<span style="color: #506fa0;">`</span><span style="color: #065fff;">org-paste-subtree</span><span style="color: #506fa0;">' into temporary Org buffers, and compared with</span>
+<span style="color: #506fa0;">`</span><span style="color: #065fff;">diff</span><span style="color: #506fa0;">'.  The unified diff is inserted at point as</span>
 
-<span style="color: #2a5045;">  #+begin_src ediff</span>
-<span style="color: #2a5045;">  ...</span>
-<span style="color: #2a5045;">  #+end_src</span>
+<span style="color: #506fa0;">  #+begin_src ediff</span>
+<span style="color: #506fa0;">  ...</span>
+<span style="color: #506fa0;">  #+end_src</span>
 
-<span style="color: #2a5045;">The block is fontified with `</span><span style="color: #0000b0;">ediff-src-mode</span><span style="color: #2a5045;">', which enables</span>
-<span style="color: #2a5045;">`</span><span style="color: #0000b0;">diff-refine</span><span style="color: #2a5045;">' = `</span><span style="color: #0000b0;">font-lock</span><span style="color: #2a5045;">' and uses the Magit-style</span>
-<span style="color: #2a5045;">`</span><span style="color: #0000b0;">diff-refine-removed</span><span style="color: #2a5045;">' / `</span><span style="color: #0000b0;">diff-refine-added</span><span style="color: #2a5045;">' faces for</span>
-<span style="color: #2a5045;">character-level changes.  No Ediff session is started."</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">interactive</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">unless</span> <span style="color: #008899;">(</span>derived-mode-p 'org-mode<span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #884900;">user-error</span> <span style="color: #3548cf;">"Not in an Org buffer"</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span>
-  <span style="color: #dd22dd;">(</span><span style="color: #531ab6;">let*</span> <span style="color: #008899;">(</span><span style="color: #972500;">(</span>orig-buf <span style="color: #808000;">(</span>current-buffer<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>origin <span style="color: #808000;">(</span>point-marker<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>coding <span style="color: #808000;">(</span><span style="color: #531ab6;">or</span> buffer-file-coding-system 'utf-8-unix<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>entry-a <span style="color: #808000;">(</span>my/org-ediff--read-subtree
-                   <span style="color: #3548cf;">"Original heading: "</span> <span style="color: #3548cf;">"original: "</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>entry-b <span style="color: #808000;">(</span>my/org-ediff--read-subtree
-                   <span style="color: #3548cf;">"New heading: "</span> <span style="color: #3548cf;">"new: "</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>label-a <span style="color: #808000;">(</span>car entry-a<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>label-b <span style="color: #808000;">(</span>car entry-b<span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>text-a <span style="color: #808000;">(</span>my/org-ediff--normalize-subtree <span style="color: #531ab6;">(</span>cdr entry-a<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>text-b <span style="color: #808000;">(</span>my/org-ediff--normalize-subtree <span style="color: #531ab6;">(</span>cdr entry-b<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-         <span style="color: #972500;">(</span>diff-text <span style="color: #808000;">(</span>my/org-ediff--unified-diff
-                     text-a text-b label-a label-b coding<span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>pop-to-buffer orig-buf<span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>goto-char origin<span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">unless</span> <span style="color: #972500;">(</span>bolp<span style="color: #972500;">)</span> <span style="color: #972500;">(</span>insert <span style="color: #3548cf;">"\n"</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span>insert <span style="color: #3548cf;">"#+begin_src ediff\n"</span><span style="color: #008899;">)</span>
-    <span style="color: #008899;">(</span><span style="color: #531ab6;">let</span> <span style="color: #972500;">(</span><span style="color: #808000;">(</span>body-beg <span style="color: #531ab6;">(</span>point<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">if</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">or</span> <span style="color: #531ab6;">(</span>null diff-text<span style="color: #531ab6;">)</span> <span style="color: #531ab6;">(</span>string= <span style="color: #3548cf;">""</span> diff-text<span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-          <span style="color: #808000;">(</span>insert <span style="color: #3548cf;">"# No differences\n"</span><span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span>insert diff-text<span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span><span style="color: #531ab6;">unless</span> <span style="color: #531ab6;">(</span>eq <span style="color: #008900;">(</span>aref diff-text <span style="color: #3548cf;">(</span>1- <span style="color: #8f0075;">(</span>length diff-text<span style="color: #8f0075;">)</span><span style="color: #3548cf;">)</span><span style="color: #008900;">)</span> ?\n<span style="color: #531ab6;">)</span>
-          <span style="color: #531ab6;">(</span>insert <span style="color: #3548cf;">"\n"</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span>
-      <span style="color: #972500;">(</span><span style="color: #531ab6;">let</span> <span style="color: #808000;">(</span><span style="color: #531ab6;">(</span>body-end <span style="color: #008900;">(</span>point<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span>
-        <span style="color: #808000;">(</span>insert <span style="color: #3548cf;">"#+end_src\n"</span><span style="color: #808000;">)</span>
-        <span style="color: #595959;">;; </span><span style="color: #595959;">Force inline fontification/refinement now.</span>
-        <span style="color: #808000;">(</span><span style="color: #531ab6;">when</span> <span style="color: #531ab6;">(</span>fboundp 'org-src-font-lock-fontify-block<span style="color: #531ab6;">)</span>
-          <span style="color: #531ab6;">(</span><span style="color: #531ab6;">condition-case</span> nil
-              <span style="color: #008900;">(</span>org-src-font-lock-fontify-block <span style="color: #3548cf;">"ediff"</span>
-                                               body-beg body-end<span style="color: #008900;">)</span>
-            <span style="color: #008900;">(</span><span style="color: #884900;">error</span> nil<span style="color: #008900;">)</span><span style="color: #531ab6;">)</span><span style="color: #808000;">)</span><span style="color: #972500;">)</span><span style="color: #008899;">)</span><span style="color: #dd22dd;">)</span><span style="color: #000000;">)</span>
+<span style="color: #506fa0;">The block is fontified with `</span><span style="color: #065fff;">ediff-src-mode</span><span style="color: #506fa0;">', which enables</span>
+<span style="color: #506fa0;">`</span><span style="color: #065fff;">diff-refine</span><span style="color: #506fa0;">' = `</span><span style="color: #065fff;">font-lock</span><span style="color: #506fa0;">' and uses the Magit-style</span>
+<span style="color: #506fa0;">`</span><span style="color: #065fff;">diff-refine-removed</span><span style="color: #506fa0;">' / `</span><span style="color: #065fff;">diff-refine-added</span><span style="color: #506fa0;">' faces for</span>
+<span style="color: #506fa0;">character-level changes.  No Ediff session is started."</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">interactive</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">unless</span> <span style="color: #ba35af;">(</span>derived-mode-p 'org-mode<span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #b6532f;">user-error</span> <span style="color: #4250ef;">"Not in an Org buffer"</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span>
+  <span style="color: #4f54aa;">(</span><span style="color: #6052cf;">let*</span> <span style="color: #ba35af;">(</span><span style="color: #1f77bb;">(</span>orig-buf <span style="color: #b65050;">(</span>current-buffer<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+         <span style="color: #1f77bb;">(</span>origin <span style="color: #b65050;">(</span>point-marker<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+         <span style="color: #1f77bb;">(</span>coding <span style="color: #b65050;">(</span><span style="color: #6052cf;">or</span> buffer-file-coding-system 'utf-8-unix<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+         <span style="color: #1f77bb;">(</span>entry-a <span style="color: #b65050;">(</span>my/org-ediff--read-subtree
+                   <span style="color: #4250ef;">"Original heading: "</span> <span style="color: #4250ef;">"original: "</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+         <span style="color: #1f77bb;">(</span>entry-b <span style="color: #b65050;">(</span>my/org-ediff--read-subtree
+                   <span style="color: #4250ef;">"New heading: "</span> <span style="color: #4250ef;">"new: "</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+         <span style="color: #1f77bb;">(</span>label-a <span style="color: #b65050;">(</span>car entry-a<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+         <span style="color: #1f77bb;">(</span>label-b <span style="color: #b65050;">(</span>car entry-b<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+         <span style="color: #1f77bb;">(</span>text-a <span style="color: #b65050;">(</span>my/org-ediff--normalize-subtree <span style="color: #4250ef;">(</span>cdr entry-a<span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+         <span style="color: #1f77bb;">(</span>text-b <span style="color: #b65050;">(</span>my/org-ediff--normalize-subtree <span style="color: #4250ef;">(</span>cdr entry-b<span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+         <span style="color: #1f77bb;">(</span>diff-text <span style="color: #b65050;">(</span>my/org-ediff--unified-diff
+                     text-a text-b label-a label-b coding<span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>pop-to-buffer orig-buf<span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>goto-char origin<span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">unless</span> <span style="color: #1f77bb;">(</span>bolp<span style="color: #1f77bb;">)</span> <span style="color: #1f77bb;">(</span>insert <span style="color: #4250ef;">"\n"</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span>insert <span style="color: #4250ef;">"#+begin_src ediff\n"</span><span style="color: #ba35af;">)</span>
+    <span style="color: #ba35af;">(</span><span style="color: #6052cf;">let</span> <span style="color: #1f77bb;">(</span><span style="color: #b65050;">(</span>body-beg <span style="color: #4250ef;">(</span>point<span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">if</span> <span style="color: #b65050;">(</span><span style="color: #6052cf;">or</span> <span style="color: #4250ef;">(</span>null diff-text<span style="color: #4250ef;">)</span> <span style="color: #4250ef;">(</span>string= <span style="color: #4250ef;">""</span> diff-text<span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span>
+          <span style="color: #b65050;">(</span>insert <span style="color: #4250ef;">"# No differences\n"</span><span style="color: #b65050;">)</span>
+        <span style="color: #b65050;">(</span>insert diff-text<span style="color: #b65050;">)</span>
+        <span style="color: #b65050;">(</span><span style="color: #6052cf;">unless</span> <span style="color: #4250ef;">(</span>eq <span style="color: #008858;">(</span>aref diff-text <span style="color: #6052cf;">(</span>1- <span style="color: #a45f22;">(</span>length diff-text<span style="color: #a45f22;">)</span><span style="color: #6052cf;">)</span><span style="color: #008858;">)</span> ?\n<span style="color: #4250ef;">)</span>
+          <span style="color: #4250ef;">(</span>insert <span style="color: #4250ef;">"\n"</span><span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span>
+      <span style="color: #1f77bb;">(</span><span style="color: #6052cf;">let</span> <span style="color: #b65050;">(</span><span style="color: #4250ef;">(</span>body-end <span style="color: #008858;">(</span>point<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span>
+        <span style="color: #b65050;">(</span>insert <span style="color: #4250ef;">"#+end_src\n"</span><span style="color: #b65050;">)</span>
+        <span style="color: #a65f6a;">;; </span><span style="color: #a65f6a;">Force inline fontification/refinement now.</span>
+        <span style="color: #b65050;">(</span><span style="color: #6052cf;">when</span> <span style="color: #4250ef;">(</span>fboundp 'org-src-font-lock-fontify-block<span style="color: #4250ef;">)</span>
+          <span style="color: #4250ef;">(</span><span style="color: #6052cf;">condition-case</span> nil
+              <span style="color: #008858;">(</span>org-src-font-lock-fontify-block <span style="color: #4250ef;">"ediff"</span>
+                                               body-beg body-end<span style="color: #008858;">)</span>
+            <span style="color: #008858;">(</span><span style="color: #b6532f;">error</span> nil<span style="color: #008858;">)</span><span style="color: #4250ef;">)</span><span style="color: #b65050;">)</span><span style="color: #1f77bb;">)</span><span style="color: #ba35af;">)</span><span style="color: #4f54aa;">)</span><span style="color: #008858;">)</span>
 </code></pre>
 </div>
 </div>
