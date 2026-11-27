@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Stage1st 企业微信主题
 // @namespace    https://stage1st.com/
-// @version      0.2.10
+// @version      0.2.11
 // @description  将 Stage1st (S1) 论坛界面切换为企业微信 5.x 桌面端风格，支持浅色/深色/跟随系统、伪装模式与原站互动。
 // @match        *://stage1st.com/*
 // @match        *://*.stage1st.com/*
@@ -14,7 +14,7 @@
 
 (() => {
   "use strict";
-  const SCRIPT_VERSION = "0.2.10";
+  const SCRIPT_VERSION = "0.2.11";
 
   /* === src/config.js === */
   const STYLE_ID = "s1-wecom-theme";
@@ -6930,6 +6930,19 @@
       }
     }
 
+    /**
+     * Empty the reply box and leave preview mode, so content loaded for an abandoned
+     * edit can never be submitted as a fresh reply.
+     */
+    function clearComposerInput() {
+      const ta = rootEl?.querySelector(".s1w-textarea");
+      if (ta) ta.value = "";
+      state.pendingAttachments = [];
+      if (typeof renderAttachBar === "function") renderAttachBar();
+      state.composerPreview = false;
+      renderComposerPreview();
+    }
+
     function renderComposerPreview() {
       if (!rootEl) return;
       const ta = rootEl.querySelector(".s1w-textarea");
@@ -7624,7 +7637,10 @@
       state.chatAppending = false;
       state.pendingNewRepliesCount = 0;
       state.quoteReply = null;
-      if (state.editTarget && String(state.editTarget.tid) !== String(nextTid)) state.editTarget = null;
+      if (state.editTarget && String(state.editTarget.tid) !== String(nextTid)) {
+        state.editTarget = null;
+        clearComposerInput();
+      }
       state.chatLoading = true;
       state.chatError = null;
       renderChatOnly();
@@ -9675,8 +9691,13 @@
           writeStorage(STORAGE_KEYS.viewMode, "im");
           applyThemeAndLock();
         } else if (act === "clear-quote") {
+          const wasEditing = Boolean(state.editTarget);
           state.quoteReply = null;
           state.editTarget = null;
+          // Leaving edit mode must also drop the original source it loaded into the
+          // composer: otherwise the stale text sits in the box and a stray 发送 click
+          // posts it again as a brand new reply.
+          if (wasEditing) clearComposerInput();
           updateComposerStatus();
         } else if (act === "send-reply") {
           submitReply();
