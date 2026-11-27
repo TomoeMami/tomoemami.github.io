@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Stage1st 企业微信主题
 // @namespace    https://stage1st.com/
-// @version      0.2.4
+// @version      0.2.10
 // @description  将 Stage1st (S1) 论坛界面切换为企业微信 5.x 桌面端风格，支持浅色/深色/跟随系统、伪装模式与原站互动。
 // @match        *://stage1st.com/*
 // @match        *://*.stage1st.com/*
@@ -14,7 +14,7 @@
 
 (() => {
   "use strict";
-  const SCRIPT_VERSION = "0.2.3";
+  const SCRIPT_VERSION = "0.2.10";
 
   /* === src/config.js === */
   const STYLE_ID = "s1-wecom-theme";
@@ -53,6 +53,7 @@
     userTags: "s1-wecom-user-tags",
     lastRead: "s1-wecom-last-read",
     history: "s1-wecom-history",
+    font: "s1-wecom-font",
     smilies: "s1-wecom-smilies-v1",
     recentSmilies: "s1-wecom-recent-smilies",
     appSid: "app_sid",
@@ -150,6 +151,7 @@
     reply: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14l-4 -4l4 -4"/><path d="M5 10h11a4 4 0 1 1 0 8h-1"/></svg>`,
     goose: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>`,
     link: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15l6 -6"/><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"/><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"/></svg>`,
+    edit: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/><path d="M13.5 6.5l4 4"/></svg>`,
     tag: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M3 6v5.172a2 2 0 0 0 .586 1.414l7.71 7.71a2.41 2.41 0 0 0 3.408 0l5.092 -5.092a2.41 2.41 0 0 0 0 -3.408l-7.71 -7.71a2 2 0 0 0 -1.414 -.586h-5.172a3 3 0 0 0 -3 3z"/></svg>`,
     emoji: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01"/><path d="M9.5 15a3.5 3.5 0 0 0 5 0"/></svg>`,
     pic: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 15l-5 -5l-11 10"/></svg>`,
@@ -364,6 +366,17 @@
   function readHistory(storage = getStorage()) {
     const list = safeJsonParse(readStorage(STORAGE_KEYS.history, "[]", storage), []);
     return Array.isArray(list) ? list : [];
+  }
+
+  /** 读取字体偏好：family 为空表示沿用主题默认字体族，scale 为全局字号倍率。 */
+  function readFontSettings(storage = getStorage()) {
+    const raw = safeJsonParse(readStorage(STORAGE_KEYS.font, "", storage), null);
+    const src = raw && typeof raw === "object" ? raw : {};
+    const scale = Number(src.scale);
+    return {
+      family: String(src.family || ""),
+      scale: Number.isFinite(scale) ? Math.min(2, Math.max(0.8, scale)) : 1
+    };
   }
 
   function recordHistory(item, storage = getStorage()) {
@@ -1206,6 +1219,15 @@
     return `https://stage1st.com/2b/${raw}`;
   }
 
+  /** 附件字节数 → 可读大小；非数字返回空串。 */
+  function formatAttachmentSize(bytes) {
+    const n = Number(bytes);
+    if (!Number.isFinite(n) || n <= 0) return "";
+    if (n < 1024) return `${n} B`;
+    if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+    return `${(n / 1024 / 1024).toFixed(2)} MB`;
+  }
+
   function formatPreviewSnippet(rawHtml, maxLen = 90) {
     let s = String(rawHtml || "");
     s = s
@@ -1540,13 +1562,19 @@
         for (const att of Object.values(p.attachments)) {
           if (!att) continue;
           const url = att.url ? `${att.url}${att.attachment || ""}` : "";
-          if (att.isimage === "1" && url) {
-            attachments.push({
-              aid: String(att.aid || ""),
-              url: sanitizeStage1stUrl(url),
-              filename: String(att.filename || "image")
-            });
-          }
+          if (!url) continue;
+          const safeAttUrl = sanitizeStage1stUrl(url);
+          if (!safeAttUrl) continue;
+          const isImage = String(att.isimage ?? "") === "1" || att.isimage === 1;
+          // 旧实现只收 isimage===1，非图片附件（zip/js/pdf 等）被整条丢弃，
+          // 纯附件帖于是只剩一个空的正文气泡。
+          attachments.push({
+            aid: String(att.aid || ""),
+            url: safeAttUrl,
+            filename: String(att.filename || (isImage ? "image" : "附件")),
+            isImage,
+            filesize: String(att.filesize || "")
+          });
         }
       }
       const authorid = String(p.authorid || "0");
@@ -1644,6 +1672,14 @@
     const viewCountMatch = str.match(/查看:\s*<\/span>\s*<span class="xi1">(\d+)<\/span>/i);
     const favCountMatch = str.match(/id="favoritenumber"[^>]*>(\d+)<\/span>/i);
     const pageMatches = Array.from(str.matchAll(/thread-\d+-(\d+)-1\.html/g)).map((x) => Number(x[1]));
+    // Discuz 默认重写规则下，分页链接是 forum.php?mod=viewthread&tid=..&page=N，
+    // 末页还常带 class="last"。只认 thread-N-P-1.html 会把总页数误判成 1 页。
+    for (const pm of str.matchAll(/page=(\d+)/g)) {
+      const n = Number(pm[1]);
+      if (Number.isFinite(n) && n >= 1 && n <= 1000000) pageMatches.push(n);
+    }
+    const lastPageLink = str.match(/<a[^>]*href="[^"]*[?&]?page=(\d+)[^"]*"[^>]*class="[^"]*last[^"]*"/i);
+    if (lastPageLink) pageMatches.push(Number(lastPageLink[1]));
     const maxPage = pageMatches.length ? Math.max(pageHint, ...pageMatches) : pageHint;
 
     const posts = [];
@@ -1689,8 +1725,16 @@
         for (const imgM of attSection[1].matchAll(/\b(?:zoomfile|file)="([^"]+)"/gi)) {
           const url = sanitizeStage1stUrl(imgM[1]);
           if (url && !attachImages.some((x) => x.url === url)) {
-            attachImages.push({ aid: "", url, filename: "attachment" });
+            attachImages.push({ aid: "", url, filename: "attachment", isImage: true, filesize: "" });
           }
+        }
+        // 非图片附件在附件区是普通下载链接（<a href="...mod=attachment...">文件名</a>），
+        // 旧实现只认 zoomfile/file，导致 zip、脚本等附件整体消失。
+        for (const aM of attSection[1].matchAll(/<a[^>]+href="([^"]*mod=attachment[^"]*)"[^>]*>((?:(?!<img\b)[\s\S])*?)<\/a>/gi)) {
+          const url = sanitizeStage1stUrl(aM[1]);
+          if (!url || attachImages.some((x) => x.url === url)) continue;
+          const name = stripHtmlTags(aM[2]).trim();
+          attachImages.push({ aid: "", url, filename: name || "附件", isImage: false, filesize: "" });
         }
       }
       if (attachImages.length) attachmentsByPid[pid] = attachImages;
@@ -1719,12 +1763,8 @@
 
     const poll = parsePollFromHtml(str);
     const op = posts[0] || {};
-    const replyCount = replyCountMatch ? Number(replyCountMatch[1]) : Math.max(0, posts.length - 1);
-    // S1 renders only page-1 links on very long threads (and its mobile viewthread
-    // API answers 503 on page 1 of some of them), so derive the page total from the
-    // reply count instead of trusting the pagination markup alone.
-    const fallbackTotalPages = Math.max(1, Math.ceil((replyCount + 1) / POSTS_PER_PAGE));
-    const totalPages = Math.max(maxPage, fallbackTotalPages);
+    const repliesNum = replyCountMatch ? Number(replyCountMatch[1]) : Math.max(0, posts.length - 1);
+    const totalPagesFromReplies = Math.max(1, Math.ceil((repliesNum + 1) / POSTS_PER_PAGE));
     return {
       thread: {
         tid: String(tidHint || ""),
@@ -1733,7 +1773,7 @@
         subject: subjectMatch ? stripHtmlTags(subjectMatch[1]) : "(无主题)",
         author: op.author || "",
         authorid: op.authorid || "0",
-        replies: replyCount,
+        replies: repliesNum,
         views: viewCountMatch ? Number(viewCountMatch[1]) : 0,
         closed: /本主题已关闭/.test(str) ? 1 : 0,
         readperm: 0,
@@ -1741,7 +1781,7 @@
         special: poll ? 1 : 0,
         poll,
         ppp: POSTS_PER_PAGE,
-        totalPages
+        totalPages: Math.max(maxPage, totalPagesFromReplies)
       },
       posts,
       poll,
@@ -1828,7 +1868,11 @@
 
   function parseNoticeHtml(html) {
     const items = [];
-    const re = /<dl\s+class="cl"[^>]*notice="(\d+)"[^>]*>([\s\S]*?)<\/dl>/gi;
+    // S1 renders each row as `<dl class="cl "  notice="12345">`: the class attribute
+    // carries a trailing space and two spaces separate it from `notice`, so a strict
+    // `class="cl"` match finds nothing and the whole list came back empty. Key off the
+    // notice attribute alone, which survives markup cosmetics.
+    const re = /<dl\b[^>]*notice="(\d+)"[^>]*>([\s\S]*?)<\/dl>/gi;
     let m;
     while ((m = re.exec(String(html || ""))) !== null) {
       const block = m[2];
@@ -1836,7 +1880,11 @@
       const timeMatch = block.match(/<span\s+class="xg1\s+xw0"[^>]*>([\s\S]*?)<\/span>/i);
       const tidMatch = block.match(/ptid=(\d+)|thread-(\d+)-/);
       const pidMatch = block.match(/pid=(\d+)/);
-      const authorMatch = block.match(/space-uid-(\d+)\.html[^>]*>([\s\S]*?)<\/a>/i);
+      // The avatar link comes first and holds no text, so prefer the sender link
+      // inside the notice body and only then fall back to the whole row.
+      const bodyHtml = ddMatch ? ddMatch[1] : block;
+      const authorMatch = bodyHtml.match(/space-uid-(\d+)\.html[^>]*>([\s\S]*?)<\/a>/i)
+        || block.match(/space-uid-(\d+)\.html[^>]*>([\s\S]*?)<\/a>/i);
       items.push({
         id: m[1],
         tid: tidMatch ? (tidMatch[1] || tidMatch[2]) : "",
@@ -2677,6 +2725,76 @@
         return parseDiscuzAjaxResult(xml);
       },
 
+      /**
+       * Read the forum's edit form for one of the current user's posts: the form's
+       * hidden fields (formhash, posttime, tid, pid, ...) plus the original source.
+       * @param options - thread id and post id to edit.
+       * @returns the hidden fields and the raw BBCode source.
+       */
+      async getPostEditForm({ tid, pid }) {
+        const xml = await fetchText(
+          `forum.php?mod=post&action=edit&tid=${encodeURIComponent(tid)}&pid=${encodeURIComponent(pid)}&mobile=no&infloat=yes&handlekey=edit&inajax=1`
+        );
+        const raw = String(xml || "");
+        const cdataMatch = raw.match(/<!\[CDATA\[([\s\S]*?)\]\]>/);
+        const inner = cdataMatch ? cdataMatch[1] : raw;
+        const taMatch = inner.match(/<textarea\b[^>]*name=["']message["'][^>]*>([\s\S]*?)<\/textarea>/i);
+        if (!taMatch) {
+          const plain = stripHtmlTags(inner).slice(0, 60);
+          throw new Error(plain || "编辑表单不可用");
+        }
+        const fields = {};
+        const inputRe = /<input\b[^>]*>/gi;
+        let m;
+        while ((m = inputRe.exec(inner)) !== null) {
+          const tag = m[0];
+          const nameM = tag.match(/\bname=["']([^"']+)["']/i);
+          if (!nameM) continue;
+          const typeM = tag.match(/\btype=["']([^"']+)["']/i);
+          const valM = tag.match(/\bvalue=["']([^"']*)["']/i);
+          const name = nameM[1];
+          const type = String(typeM ? typeM[1] : "text").toLowerCase();
+          if (type === "checkbox" || type === "radio") {
+            if (!/\bchecked\b/i.test(tag)) continue;
+          } else if (type !== "hidden" && name !== "subject") {
+            continue;
+          }
+          fields[name] = valM ? decodeHtmlEntities(valM[1]) : "";
+        }
+        return {
+          fields,
+          message: decodeHtmlEntities(taMatch[1]),
+          formhash: fields.formhash || ""
+        };
+      },
+
+      /**
+       * Submit an edit for one of the current user's posts, replaying every hidden
+       * field the edit form carried so the forum sees a complete submission.
+       * @param options - thread id, post id and the new source.
+       * @returns the parsed ajax result.
+       */
+      async submitPostEdit({ tid, pid, message }) {
+        const form = await this.getPostEditForm({ tid, pid });
+        const bodyParams = new URLSearchParams();
+        for (const [key, value] of Object.entries(form.fields)) bodyParams.set(key, value);
+        bodyParams.set("message", String(message || ""));
+        bodyParams.set("editsubmit", "yes");
+        bodyParams.set("usesig", "1");
+        if (!bodyParams.get("posttime")) bodyParams.set("posttime", String(Math.floor(Date.now() / 1000)));
+        const xml = await fetchText(
+          `forum.php?mod=post&action=edit&extra=&editsubmit=yes&tid=${encodeURIComponent(tid)}&pid=${encodeURIComponent(pid)}&infloat=yes&handlekey=edit&inajax=1`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: bodyParams.toString()
+          }
+        );
+        clearCache(`viewthread:${tid}:`);
+        clearCache(`thread-html:${tid}:`);
+        return parseDiscuzAjaxResult(xml);
+      },
+
       async createThread({ fid, subject, message, typeid = "", formhash, attachIds = [] }) {
         const bodyParams = new URLSearchParams({
           formhash: String(formhash || ""),
@@ -2946,6 +3064,11 @@
   /* === src/styles.js === */
   function buildStyles() {
     return String.raw`
+      /* 自定义字体族：仅在设置里选定字体后，html 才会带上 s1w-font-custom */
+      html.s1w-font-custom #${ROOT_ID},
+      html.s1w-font-custom #${ROOT_ID} * {
+        font-family: var(--s1w-font-family, inherit) !important;
+      }
       html.${ROOT_CLASS} {
         color-scheme: light;
         --wc-accent: #267EF0;
@@ -3967,6 +4090,42 @@
         cursor: zoom-in;
         object-fit: contain;
       }
+      /* 非图片附件：可点击的下载条 */
+      .s1w-attach-file {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 8px 0 2px;
+        padding: 8px 10px;
+        max-width: 340px;
+        border: 1px solid var(--wc-border);
+        border-radius: 6px;
+        background: var(--wc-surface-2);
+        color: var(--wc-text);
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .s1w-attach-file:hover {
+        border-color: var(--wc-accent);
+        color: var(--wc-accent);
+      }
+      .s1w-attach-file svg {
+        flex-shrink: 0;
+        opacity: .85;
+      }
+      .s1w-attach-name {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 12.5px;
+      }
+      .s1w-attach-size {
+        flex-shrink: 0;
+        color: var(--wc-text-3);
+        font-size: 11.5px;
+      }
       .s1w-img-placeholder {
         display: inline-flex;
         align-items: center;
@@ -4627,6 +4786,80 @@
         display: flex;
         align-items: center;
         gap: 4px;
+      }
+      /* ===== 常驻翻页组（位于“查找聊天记录”按钮左侧） ===== */
+      .s1w-pager {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+      .s1w-pager[hidden] {
+        display: none !important;
+      }
+      .s1w-pager-btn {
+        appearance: none;
+        -webkit-appearance: none;
+        height: 24px;
+        padding: 0 7px;
+        margin: 0;
+        border-radius: 5px;
+        border: 1px solid var(--wc-border);
+        background: var(--wc-composer-bg);
+        color: var(--wc-text);
+        font-family: inherit;
+        font-size: 11.5px;
+        line-height: 1;
+        white-space: nowrap;
+        flex-shrink: 0;
+        cursor: pointer;
+      }
+      .s1w-pager-btn:hover:not(:disabled) {
+        border-color: var(--wc-accent);
+        color: var(--wc-accent);
+      }
+      .s1w-pager-btn:disabled {
+        opacity: .42;
+        cursor: default;
+      }
+      .s1w-pager-arrow {
+        width: 22px;
+        padding: 0;
+        font-size: 14px;
+      }
+      .s1w-pager-input {
+        width: 42px;
+        height: 24px;
+        padding: 0 2px;
+        margin: 0;
+        border-radius: 5px;
+        border: 1px solid var(--wc-border);
+        background: var(--wc-composer-bg);
+        color: var(--wc-text);
+        font-family: inherit;
+        font-size: 11.5px;
+        text-align: center;
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+      .s1w-pager-input::-webkit-outer-spin-button,
+      .s1w-pager-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .s1w-pager-input:focus {
+        outline: none;
+        border-color: var(--wc-accent);
+      }
+      .s1w-pager-input.is-invalid {
+        border-color: #d9534f;
+      }
+      .s1w-pager-total {
+        font-size: 11.5px;
+        color: var(--wc-text-2);
+        white-space: nowrap;
+        flex-shrink: 0;
       }
       .s1w-textarea {
         width: 100%;
@@ -5388,6 +5621,7 @@
             <button type="button" class="s1w-rail-icon-btn" data-action="cycle-theme" title="${themeTitle}">${themeIcon}</button>
             <button type="button" class="s1w-rail-icon-btn" data-action="rail-settings" title="设置">${ICONS.gear}</button>
             <div class="s1w-popover-menu s1w-rail-menu" hidden style="left:58px;bottom:8px;">
+              <button type="button" class="s1w-menu-item" data-menu-action="font-settings"><span>字体与字号</span><span data-font-summary></span></button>
               <button type="button" class="s1w-menu-item" data-menu-action="poll-settings"><span>监控与刷新频率</span><span data-poll-summary>${escapeHtml(pollSummary)}</span></button>
               <button type="button" class="s1w-menu-item" data-menu-action="tags-manager"><span>用户标签</span></button>
               <button type="button" class="s1w-menu-item" data-menu-action="app-login"><span>App 接口登录</span><span data-app-login-state>${state.appSid ? "已登录" : "未配置"}</span></button>
@@ -5471,7 +5705,15 @@
               <input type="file" class="s1w-attach-input" multiple hidden />
               <button type="button" class="s1w-icon-btn" data-composer-tool="whiteout" title="插入反白文字">${ICONS.whiteout}</button>
               <button type="button" class="s1w-icon-btn" data-composer-tool="preview" title="预览效果">${ICONS.eye}</button>
-              <button type="button" class="s1w-icon-btn" data-composer-tool="chat-records" title="查找聊天记录" style="margin-left:auto;">${ICONS.chatSearch}</button>
+              <div class="s1w-pager" role="group" aria-label="帖子翻页" hidden>
+                <button type="button" class="s1w-pager-btn" data-pager="first" title="首页">首页</button>
+                <button type="button" class="s1w-pager-btn s1w-pager-arrow" data-pager="prev" title="上一页" aria-label="上一页">‹</button>
+                <input type="text" class="s1w-pager-input" inputmode="numeric" autocomplete="off" spellcheck="false" aria-label="跳转到页码" title="输入页码后按回车跳转" />
+                <span class="s1w-pager-total">/ 1</span>
+                <button type="button" class="s1w-pager-btn s1w-pager-arrow" data-pager="next" title="下一页" aria-label="下一页">›</button>
+                <button type="button" class="s1w-pager-btn" data-pager="last" title="末页">末页</button>
+              </div>
+              <button type="button" class="s1w-icon-btn" data-composer-tool="chat-records" title="查找聊天记录">${ICONS.chatSearch}</button>
             </div>
             <textarea class="s1w-textarea" placeholder="输入回复，Enter 发送，Shift+Enter 换行"></textarea>
             <div class="s1w-bbcode-preview" hidden></div>
@@ -5885,19 +6127,32 @@
              </div>`
           : "";
 
-        const bodyHtml = transformPostImages(stripClientTail(p.bodyHtml, state.hideTail !== false), state.noImageMode);
+        // 附件已经单独渲染成下载条/图片，正文里的 [attach]aid[/attach] 标记要去掉，
+        // 否则纯附件帖会只剩一个裸标记或空气泡。
+        const bodyHtml = transformPostImages(stripClientTail(p.bodyHtml, state.hideTail !== false), state.noImageMode)
+          .replace(/\[attach\]\s*\d+\s*\[\/attach\]/gi, "")
+          .trim();
         const pollHtml = p.first && thread.poll ? renderPollCardHtml(thread, state.user) : "";
         const isBlocked = !state.appSid && String(p.bodyHtml || "").includes(BLOCKED_REPLY_TEXT);
         const blockedCtaHtml = isBlocked
           ? `<div style="margin-top:6px;"><button type="button" class="s1w-blocked-cta" data-action="app-login">配置 App 登录查看</button></div>`
           : "";
-        const attachHtml = (p.attachments || [])
-          .filter((att) => !p.bodyHtml.includes(att.url))
-          .map((att) =>
-            state.noImageMode
-              ? `<button type="button" class="s1w-img-placeholder" data-preview-img="${escapeHtml(att.url)}" title="点击查看图片">${ICONS.pic}<span>查看图片</span></button>`
-              : `<img class="s1-content-img" src="${escapeHtml(att.url)}" alt="${escapeHtml(att.filename || "图片")}" loading="lazy" />`
-          )
+        const attachList = Array.isArray(p.attachments) ? p.attachments : [];
+        const attachHtml = attachList
+          .map((att) => {
+            const url = String(att.url || "");
+            if (!url) return "";
+            // 非图片附件（.zip / .js / .pdf …）渲染成可点击的下载条
+            if (att.isImage === false) {
+              const label = att.filename || "附件";
+              const size = formatAttachmentSize(att.filesize);
+              return `<a class="s1w-attach-file" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" title="下载附件：${escapeHtml(label)}">${ICONS.attach}<span class="s1w-attach-name">${escapeHtml(label)}</span>${size ? `<span class="s1w-attach-size">${escapeHtml(size)}</span>` : ""}</a>`;
+            }
+            if (String(p.bodyHtml || "").includes(url)) return "";
+            return state.noImageMode
+              ? `<button type="button" class="s1w-img-placeholder" data-preview-img="${escapeHtml(url)}" title="点击查看图片">${ICONS.pic}<span>查看图片</span></button>`
+              : `<img class="s1-content-img" src="${escapeHtml(url)}" alt="${escapeHtml(att.filename || "图片")}" loading="lazy" />`;
+          })
           .join("");
 
         const rateHtml = p.ratelog
@@ -5932,7 +6187,7 @@
               <div class="s1w-bubble-wrap">
                 <div class="s1w-bubble${p.isBannedRecovered ? " is-banned-recovered" : ""}"${p.isBannedRecovered ? ' title="已封禁用户"' : ""}>
                   ${quoteHtml}
-                  <div class="s1w-bubble-content">${bodyHtml || "<span style='color:var(--wc-text-3)'>(无文本内容)</span>"}</div>
+                  <div class="s1w-bubble-content">${bodyHtml || (attachHtml ? "" : "<span style='color:var(--wc-text-3)'>(无文本内容)</span>")}</div>
                   ${pollHtml}
                   ${blockedCtaHtml}
                   ${attachHtml}
@@ -5942,6 +6197,7 @@
                   <button type="button" class="s1w-icon-btn" data-post-action="quote" title="引用回复">${ICONS.reply}</button>
                   <button type="button" class="s1w-icon-btn" data-post-action="rate" title="加减鹅">${ICONS.goose}</button>
                   <button type="button" class="s1w-icon-btn" data-post-action="copy-link" title="复制楼层链接">${ICONS.link}</button>
+                  ${isMe && p.pid ? `<button type="button" class="s1w-icon-btn" data-post-action="edit" title="编辑该回帖">${ICONS.edit}</button>` : ""}
                 </div>
               </div>
             </div>
@@ -6046,7 +6302,9 @@
               const day = formatDayKey(p.datelineTs);
               const daySep = day && day !== lastDay ? `<div class="s1w-rec-date-sep">${escapeHtml(day.slice(5).replace("-", "/"))}</div>` : "";
               if (day) lastDay = day;
-              const plain = stripHtmlTags(p.bodyHtml || "") || (p.attachments?.length ? "[图片]" : "(无文本)");
+              const attachList = p.attachments || [];
+              const plain = stripHtmlTags(p.bodyHtml || "")
+                || (attachList.some((a) => a.isImage === false) ? "[附件]" : (attachList.length ? "[图片]" : "(无文本)"));
               const timeStr = p.datelineTs ? formatFullTime(p.datelineTs).slice(5) : p.datelineText;
               return `${daySep}
                 <button type="button" class="s1w-rec-item" data-rec-jump-pid="${escapeHtml(p.pid)}">
@@ -6362,6 +6620,8 @@
       listError: null,
       activeTid: initialRoute.tid || "",
       threadPage: initialRoute.page || 1,
+      // 翻页控件专用：只由显式翻页/进入帖子更新，不被滚动阅读进度覆盖
+      pagerPage: initialRoute.page || 1,
       loadedMinPage: initialRoute.page || 1,
       loadedMaxPage: initialRoute.page || 1,
       chatPrepending: false,
@@ -6373,6 +6633,7 @@
       chatLoading: false,
       chatError: null,
       quoteReply: null,
+      editTarget: null,
       composerPreview: false,
       selfProfile: null,
       recordsOpen: false,
@@ -6385,6 +6646,7 @@
       recentSmilies: safeJsonParse(readStorage(STORAGE_KEYS.recentSmilies, "[]"), []),
       lastReadMap: readLastReadMap(),
       historyItems: readHistory(),
+      fontSettings: readFontSettings(),
       userTags: readUserTags()
     };
 
@@ -6475,8 +6737,30 @@
       html.classList.toggle(LOCK_CLASS, shouldLock);
       html.classList.toggle("wecom-dark", isDarkActive());
       html.style.setProperty("--wc-list", `${state.listWidth}px`);
+      applyFontSettings();
       syncFavicon();
       updatePageTitle();
+    }
+
+    /** 把字体偏好落到 :root 上的 CSS 变量，样式表通过变量实时生效，无需重建。 */
+    function applyFontSettings() {
+      const cfg = state.fontSettings || {};
+      const scale = Math.min(2, Math.max(0.8, Number(cfg.scale) || 1));
+      const family = String(cfg.family || "").trim();
+      const html = document.documentElement;
+      if (!html) return;
+      html.style.setProperty("--s1w-font-scale", String(scale));
+      if (family) {
+        const safeFamily = family.replace(/["\\]/g, "").trim();
+        html.style.setProperty(
+          "--s1w-font-family",
+          `"${safeFamily}", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", "Source Han Sans SC", sans-serif`
+        );
+        html.classList.add("s1w-font-custom");
+      } else {
+        html.style.removeProperty("--s1w-font-family");
+        html.classList.remove("s1w-font-custom");
+      }
     }
 
     function updatePageTitle() {
@@ -6491,9 +6775,25 @@
       }
     }
 
+    /**
+     * 把样式表里所有 `font-size: Npx` 改写成可缩放的 calc()，
+     * 由 --s1w-font-scale 统一控制，改一次倍率全站字号一起变。
+     */
+    function scaleCssFontSizes(css) {
+      return String(css)
+        .replace(
+          /font-size:\s*([0-9]*\.?[0-9]+)px/g,
+          (_, n) => `font-size: calc(${n}px * var(--s1w-font-scale, 1))`
+        )
+        .replace(
+          /line-height:\s*([0-9]*\.?[0-9]+)px/g,
+          (_, n) => `line-height: calc(${n}px * var(--s1w-font-scale, 1))`
+        );
+    }
+
     function injectStyle() {
       let style = document.getElementById(STYLE_ID);
-      const cssText = buildStyles();
+      const cssText = scaleCssFontSizes(buildStyles());
       if (!style) {
         style = document.createElement("style");
         style.id = STYLE_ID;
@@ -6570,7 +6870,10 @@
       const quoteText = rootEl.querySelector(".s1w-reply-preview-text");
 
       if (quoteBar && quoteText) {
-        if (state.quoteReply) {
+        if (state.editTarget) {
+          quoteBar.classList.add("visible");
+          quoteText.textContent = `编辑 #${state.editTarget.floor}（点右侧 × 取消）`;
+        } else if (state.quoteReply) {
           quoteBar.classList.add("visible");
           quoteText.textContent = `引用 #${state.quoteReply.floor} ${state.quoteReply.author}`;
         } else {
@@ -6614,11 +6917,13 @@
       }
       if (textarea) {
         textarea.disabled = false;
-        textarea.placeholder = "输入回复，Enter 发送，Shift+Enter 换行";
+        textarea.placeholder = state.editTarget
+          ? "修改回帖内容，Enter 确认，Shift+Enter 换行"
+          : "输入回复，Enter 发送，Shift+Enter 换行";
       }
       if (sendBtn) {
         sendBtn.disabled = false;
-        sendBtn.textContent = "发送";
+        sendBtn.textContent = state.editTarget ? "确认" : "发送";
       }
       if (statusEl) {
         statusEl.innerHTML = `<button type="button" class="s1w-composer-account-btn" data-action="composer-account-menu" title="切换发帖账号">${escapeHtml(state.user.username)} ▾</button>`;
@@ -6733,6 +7038,8 @@
       renderAttachBar();
       updateComposerStatus();
       updatePageTitle();
+      syncThreadPager();
+      updateFontSummary();
     }
 
     function renderListOnly({ preserveScroll = false } = {}) {
@@ -6752,6 +7059,53 @@
       }
     }
 
+    /* ===== 帖子翻页状态与跳转 ===== */
+    function threadPagerMax() {
+      return Math.max(1, Number(state.activeThread?.totalPages || 1));
+    }
+
+    function threadPagerCur() {
+      return Math.max(1, Number(state.pagerPage || state.threadPage || 1));
+    }
+
+    function syncThreadPager() {
+      if (!rootEl) return;
+      const pager = rootEl.querySelector(".s1w-pager");
+      if (!pager) return;
+      if (!state.activeThread) {
+        pager.hidden = true;
+        return;
+      }
+      pager.hidden = false;
+      const cur = threadPagerCur();
+      const max = Math.max(cur, threadPagerMax());
+      const input = pager.querySelector(".s1w-pager-input");
+      if (input) {
+        input.setAttribute("max", String(max));
+        if (document.activeElement !== input) input.value = String(cur);
+      }
+      const total = pager.querySelector(".s1w-pager-total");
+      if (total) total.textContent = `/ ${max}`;
+      const setDisabled = (selector, disabled) => {
+        const el = pager.querySelector(selector);
+        if (el) el.disabled = disabled;
+      };
+      setDisabled('[data-pager="first"]', cur <= 1);
+      setDisabled('[data-pager="prev"]', cur <= 1);
+      setDisabled('[data-pager="next"]', cur >= max);
+      setDisabled('[data-pager="last"]', cur >= max);
+    }
+
+    function gotoThreadPage(target) {
+      if (!state.activeThread) return false;
+      const cur = threadPagerCur();
+      const max = Math.max(cur, threadPagerMax());
+      const next = clamp(Number(target) || 1, 1, max);
+      if (next === cur && state.posts.length) return false;
+      loadThread(state.activeThread.tid, next);
+      return true;
+    }
+
     function renderChatOnly({ preserveScroll = false } = {}) {
       if (!rootEl) return;
       refreshHeaderAndWatermark();
@@ -6765,6 +7119,8 @@
       renderAttachBar();
       updateComposerStatus();
       updatePageTitle();
+      syncThreadPager();
+      updateFontSummary();
       renderRecordsPanelIfOpen();
     }
 
@@ -7127,6 +7483,14 @@
       api.getThreadHtmlEnrichment(curTid, targetPage).then((htmlData) => {
         if (state.activeTid !== curTid) return;
         let changed = false;
+        let pagerChanged = false;
+        // 总页数兜底：mobile API 的 replies 偶发缺失会把 totalPages 算成 1，
+        // 这里改用原站 HTML 分页链接解析出的真实末页页码修正。
+        const realTotalPages = Math.max(1, Number(htmlData?.thread?.totalPages) || 1);
+        if (state.activeThread && realTotalPages > Math.max(1, Number(state.activeThread.totalPages || 1))) {
+          state.activeThread.totalPages = realTotalPages;
+          pagerChanged = true;
+        }
         if (targetPage === 1 && state.activeThread && htmlData.poll) {
           if (!state.activeThread.poll) {
             state.activeThread.poll = htmlData.poll;
@@ -7156,6 +7520,7 @@
           }
         }
         if (changed) renderChatOnly({ preserveScroll: true });
+        else if (pagerChanged) syncThreadPager();
       }).catch(() => {});
     }
 
@@ -7252,12 +7617,14 @@
       }
       state.activeTid = nextTid;
       state.threadPage = Math.max(1, Number(page) || 1);
+      state.pagerPage = state.threadPage;
       state.loadedMinPage = state.threadPage;
       state.loadedMaxPage = state.threadPage;
       state.chatPrepending = false;
       state.chatAppending = false;
       state.pendingNewRepliesCount = 0;
       state.quoteReply = null;
+      if (state.editTarget && String(state.editTarget.tid) !== String(nextTid)) state.editTarget = null;
       state.chatLoading = true;
       state.chatError = null;
       renderChatOnly();
@@ -7292,6 +7659,14 @@
           state.posts = [];
         } else {
           state.activeThread = res.thread;
+          // 自愈：个别帖子 API 的 replies 缺失、或回退到 HTML 解析时读不到分页，
+          // totalPages 会被算成 1，导致翻页与末页一起失效。这里用回复数重算一次。
+          if (state.activeThread && Number(state.activeThread.totalPages || 1) <= 1) {
+            const repliesN = Number(state.activeThread.replies || 0);
+            const pppN = Math.max(1, Number(state.activeThread.ppp || POSTS_PER_PAGE));
+            const recomputedPages = Math.max(1, Math.ceil((repliesN + 1) / pppN));
+            if (recomputedPages > 1) state.activeThread.totalPages = recomputedPages;
+          }
           state.posts = (res.posts || []).map((p) => ({ ...p, page: state.threadPage }));
           const recoveredPosts = await recoverInvisibleContent(state.activeTid, state.threadPage, state.posts);
           if (recoveredPosts?.posts) {
@@ -7395,6 +7770,7 @@
         state.posts = [...state.posts, ...incoming];
         state.loadedMaxPage = nextPage;
         state.threadPage = nextPage;
+        state.pagerPage = nextPage;
         enrichThreadPageInBackground(curTid, nextPage);
       } catch (err) {
         showToast(`加载第 ${nextPage} 页失败: ${err.message}`);
@@ -7620,6 +7996,7 @@
         state.posts = [...state.posts, ...fresh];
         state.loadedMaxPage = Math.max(state.loadedMaxPage, tailPage);
         state.threadPage = state.loadedMaxPage;
+        state.pagerPage = state.loadedMaxPage;
         syncThreadListRowPreview(curTid, fresh[fresh.length - 1]);
 
         if (wasNearBottom) {
@@ -8014,6 +8391,145 @@
       });
     }
 
+    /** 可选字体族：值写进 CSS，键用于菜单显示。 */
+    function fontFamilyOptions() {
+      return [
+        ["", "跟随主题（默认）"],
+        ["Microsoft YaHei", "微软雅黑"],
+        ["Microsoft YaHei UI", "微软雅黑 UI"],
+        ["PingFang SC", "苹方 PingFang SC"],
+        ["Noto Sans CJK SC", "思源黑体 Noto Sans CJK"],
+        ["Source Han Sans SC", "思源黑体 Source Han Sans"],
+        ["SimSun", "宋体"],
+        ["SimHei", "黑体"],
+        ["KaiTi", "楷体"],
+        ["Microsoft JhengHei", "微软正黑"],
+        ["__custom__", "自定义字体名…"]
+      ];
+    }
+
+    function updateFontSummary() {
+      const el = rootEl?.querySelector("[data-font-summary]");
+      if (!el) return;
+      const cfg = state.fontSettings || {};
+      const pct = Math.round((Number(cfg.scale) || 1) * 100);
+      const fam = String(cfg.family || "").trim();
+      el.textContent = fam ? `${fam} · ${pct}%` : `${pct}%`;
+    }
+
+    function openFontSettingsModal() {
+      const original = {
+        family: String(state.fontSettings?.family || ""),
+        scale: Math.min(2, Math.max(0.8, Number(state.fontSettings?.scale) || 1))
+      };
+      const options = fontFamilyOptions();
+      const presetFamilies = options.map(([v]) => v);
+      const isCustom = Boolean(original.family) && !presetFamilies.includes(original.family);
+      const selectedValue = isCustom ? "__custom__" : original.family;
+      const optionsHtml = options
+        .map(([v, label]) => `<option value="${escapeHtml(v)}"${v === selectedValue ? " selected" : ""}>${escapeHtml(label)}</option>`)
+        .join("");
+      const startPct = Math.round(original.scale * 100);
+
+      const modal = openModal(
+        "字体与字号",
+        `
+          <div>
+            <label class="s1w-field-label">字体（作用于整个界面）</label>
+            <select class="s1w-select s1w-font-family-select">${optionsHtml}</select>
+            <input type="text" class="s1w-input s1w-font-family-input" style="margin-top:6px;${isCustom ? "" : "display:none;"}"
+              placeholder="输入系统已安装的字体名，例如：霞鹜文楷 / LXGW WenKai" value="${escapeHtml(isCustom ? original.family : "")}" />
+          </div>
+          <div style="margin-top:16px;">
+            <label class="s1w-field-label">字号倍率 <span class="s1w-font-scale-label">${startPct}%</span></label>
+            <input type="range" class="s1w-font-scale-range" min="80" max="200" step="5" value="${startPct}" style="width:100%;" />
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+              ${[["小", 90], ["标准", 100], ["大", 115], ["特大", 130], ["超大", 150]]
+                .map(([label, pct]) => `<button type="button" class="s1w-btn-secondary s1w-font-preset" data-pct="${pct}" style="height:24px;padding:0 10px;">${label}</button>`)
+                .join("")}
+            </div>
+          </div>
+          <div style="margin-top:16px;padding:10px 12px;border:1px dashed var(--wc-border-strong);border-radius:6px;">
+            <div class="s1w-field-label" style="margin:0 0 6px;">预览</div>
+            <div class="s1w-font-preview" style="line-height:1.7;">
+              楼主的帖子正文长这样：自购垃圾桶，请勿拿走。Stage1st 企业微信主题 1234567890 abcdefg
+            </div>
+          </div>
+        `,
+        `<button type="button" class="s1w-btn-secondary s1w-font-reset">恢复默认</button>
+         <button type="button" class="s1w-btn-secondary" data-modal-close="1">取消</button>
+         <button type="button" class="s1w-btn-primary s1w-font-save">保存</button>`
+      );
+      if (!modal) return;
+
+      const familySelect = modal.querySelector(".s1w-font-family-select");
+      const familyInput = modal.querySelector(".s1w-font-family-input");
+      const rangeEl = modal.querySelector(".s1w-font-scale-range");
+      const scaleLabel = modal.querySelector(".s1w-font-scale-label");
+
+      const readControls = () => {
+        const picked = familySelect.value;
+        const family = picked === "__custom__" ? familyInput.value.trim() : picked;
+        const scale = Math.min(2, Math.max(0.8, (Number(rangeEl.value) || 100) / 100));
+        return { family, scale };
+      };
+
+      // 改动即时生效（仅改 state + CSS 变量，不落盘），点“取消”会回滚
+      const applyPreview = () => {
+        state.fontSettings = readControls();
+        applyFontSettings();
+        scaleLabel.textContent = `${Math.round(state.fontSettings.scale * 100)}%`;
+      };
+
+      familySelect.addEventListener("change", () => {
+        const custom = familySelect.value === "__custom__";
+        familyInput.style.display = custom ? "" : "none";
+        if (custom) familyInput.focus();
+        applyPreview();
+      });
+      familyInput.addEventListener("input", applyPreview);
+      rangeEl.addEventListener("input", applyPreview);
+      modal.querySelectorAll(".s1w-font-preset").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          rangeEl.value = btn.getAttribute("data-pct") || "100";
+          applyPreview();
+        });
+      });
+
+      let committed = false;
+      const host = rootEl?.querySelector(".s1w-modal-host");
+      if (host) {
+        const observer = new MutationObserver(() => {
+          if (host.querySelector(".s1w-modal")) return;
+          observer.disconnect();
+          if (!committed) {
+            state.fontSettings = { ...original };
+            applyFontSettings();
+          }
+        });
+        observer.observe(host, { childList: true });
+      }
+
+      modal.querySelector(".s1w-font-save").addEventListener("click", () => {
+        applyPreview();
+        writeStorage(STORAGE_KEYS.font, JSON.stringify(state.fontSettings));
+        committed = true;
+        updateFontSummary();
+        closeModal();
+        showToast("字体设置已保存");
+      });
+
+      modal.querySelector(".s1w-font-reset").addEventListener("click", () => {
+        state.fontSettings = { family: "", scale: 1 };
+        applyFontSettings();
+        writeStorage(STORAGE_KEYS.font, JSON.stringify(state.fontSettings));
+        committed = true;
+        updateFontSummary();
+        closeModal();
+        showToast("已恢复默认字体与字号");
+      });
+    }
+
     function openWatermarkModal() {
       const modal = openModal(
         "背景水印设置",
@@ -8047,7 +8563,7 @@
       const modal = openModal(
         "App 接口登录（查看审核中/屏蔽内容）",
         `
-          <div style="font-size:12px;color:var(--wc-text-2);">
+          <div style="font-size:calc(12px * var(--s1w-font-scale, 1));color:var(--wc-text-2);">
             当前状态：<strong>${loggedIn ? "已登录" : "未配置"}</strong>
             ${loggedIn ? `<button type="button" class="s1w-btn-secondary s1w-app-logout" style="margin-left:8px;height:24px;padding:0 10px;">退出登录</button>` : ""}
           </div>
@@ -8205,7 +8721,7 @@
             <label class="s1w-field-label">答案</label>
             <input type="text" class="s1w-input s1w-web-answer" placeholder="安全提问答案" />
           </div>
-          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:calc(12px * var(--s1w-font-scale, 1));">
             <input type="checkbox" class="s1w-web-save" checked />
             <span>保存登录凭据到本机浏览器以便一键切换</span>
           </label>
@@ -8369,7 +8885,7 @@
             <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--wc-border);">
               <div>
                 <strong>${escapeHtml(rec.username || k)}</strong>
-                <div style="font-size:11.5px;color:var(--wc-text-3)">${escapeHtml((rec.tags || []).join(" · "))}${rec.note ? ` — ${escapeHtml(rec.note)}` : ""}</div>
+                <div style="font-size:calc(11.5px * var(--s1w-font-scale, 1));color:var(--wc-text-3)">${escapeHtml((rec.tags || []).join(" · "))}${rec.note ? ` — ${escapeHtml(rec.note)}` : ""}</div>
               </div>
               <button type="button" class="s1w-btn-secondary" data-del-tag="${escapeHtml(k)}">删除</button>
             </div>
@@ -8570,6 +9086,51 @@
       }
     }
 
+    /**
+     * Load one of the current user's own replies into the composer and switch the
+     * composer into edit mode. The original source is read from the forum's edit
+     * form rather than from the rendered HTML, so BBCode and quotes survive intact.
+     * @param pid - post id of the reply being edited.
+     * @param row - the rendered row, used for the floor label.
+     */
+    async function startEditPost(pid, row) {
+      if (!state.user.uid || state.user.uid === "0") {
+        location.href = "/2b/member.php?mod=logging&action=login";
+        return;
+      }
+      if (!state.activeThread || !pid) return;
+      const tid = state.activeThread.tid;
+      const ta = rootEl?.querySelector(".s1w-textarea");
+      if (!ta) return;
+      const sendBtn = rootEl.querySelector('[data-action="send-reply"]');
+      if (sendBtn) sendBtn.disabled = true;
+      try {
+        const form = await api.getPostEditForm({ tid, pid });
+        state.quoteReply = null;
+        state.editTarget = {
+          pid: String(pid),
+          tid: String(tid),
+          floor: row?.getAttribute("data-floor") || "",
+          page: state.threadPage || 1
+        };
+        ta.value = form.message || "";
+        state.composerPreview = false;
+        renderComposerPreview();
+        updateComposerStatus();
+        ta.focus();
+        try {
+          ta.setSelectionRange(ta.value.length, ta.value.length);
+        } catch {
+          /* ignore selection errors */
+        }
+        showToast(`编辑 #${state.editTarget.floor}，改完点「确认」`);
+      } catch (err) {
+        state.editTarget = null;
+        updateComposerStatus();
+        showToast(`无法编辑该回帖: ${err.message}`);
+      }
+    }
+
     async function submitReply() {
       if (!state.user.uid || state.user.uid === "0") {
         location.href = "/2b/member.php?mod=logging&action=login";
@@ -8581,6 +9142,30 @@
 
       const sendBtn = rootEl.querySelector('[data-action="send-reply"]');
       if (sendBtn) sendBtn.disabled = true;
+
+      // Edit mode posts to action=edit instead of creating a new reply.
+      if (state.editTarget) {
+        const target = state.editTarget;
+        try {
+          const res = await api.submitPostEdit({ tid: target.tid, pid: target.pid, message: msg });
+          if (!res.ok) {
+            showToast(res.message ? `修改失败: ${res.message}` : "修改失败");
+            return;
+          }
+          ta.value = "";
+          state.editTarget = null;
+          state.composerPreview = false;
+          renderComposerPreview();
+          showToast("回帖已修改");
+          await loadThread(target.tid, target.page || state.threadPage || 1, { pushUrl: false, force: true });
+        } catch (err) {
+          showToast(`修改失败: ${err.message}`);
+        } finally {
+          updateComposerStatus();
+        }
+        return;
+      }
+
       try {
         const res = await api.sendReply({
           fid: state.activeThread.fid || state.activeFid,
@@ -8656,6 +9241,23 @@
       });
 
       rootEl.addEventListener("click", async (e) => {
+        const pagerBtn = e.target.closest("[data-pager]");
+        if (pagerBtn) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (pagerBtn.disabled || !state.activeThread) return;
+          const act = pagerBtn.getAttribute("data-pager");
+          const cur = threadPagerCur();
+          const max = Math.max(cur, threadPagerMax());
+          const target =
+            act === "first" ? 1
+              : act === "last" ? max
+                : act === "prev" ? cur - 1
+                  : cur + 1;
+          gotoThreadPage(target);
+          return;
+        }
+
         const ctxPin = e.target.closest("[data-ctx-pin]");
         if (ctxPin) {
           const tid = ctxPin.getAttribute("data-ctx-pin");
@@ -8810,6 +9412,8 @@
           } else if (act === "copy-link" && pid) {
             const link = `https://stage1st.com/2b/forum.php?mod=redirect&goto=findpost&pid=${pid}&ptid=${state.activeTid}`;
             copyTextToClipboard(link).then((ok) => showToast(ok ? "已复制楼层链接" : "复制失败"));
+          } else if (act === "edit" && pid && row) {
+            startEditPost(pid, row);
           }
           return;
         }
@@ -8857,7 +9461,23 @@
           const pid = convBtn.getAttribute("data-pid");
           if (tid) {
             if (pid) {
-              loadThread(tid, 1, { highlightPid: pid });
+              // A notice points at one specific reply, which can sit on any page of a
+              // long thread. Page 1 was hard-coded here, so every notification older
+              // than the first page silently opened the wrong place with no highlight.
+              // Resolve the pid through the forum's findpost redirect, then load the
+              // page that actually contains it.
+              let targetPage = 1;
+              try {
+                const resolved = await api.resolveFindPostUrl(pid, tid);
+                if (resolved) {
+                  const resolvedUrl = new URL(resolved);
+                  const rr = parseStage1stRoute(resolvedUrl.pathname, resolvedUrl.search);
+                  if (rr && rr.page) targetPage = Math.max(1, Number(rr.page) || 1);
+                }
+              } catch {
+                /* fall back to page 1 when the redirect cannot be resolved */
+              }
+              loadThread(tid, targetPage, { highlightPid: pid });
             } else {
               const saved = state.lastReadMap?.[String(tid)];
               loadThread(tid, saved?.page || 1, { restorePid: saved?.pid || "" });
@@ -8943,6 +9563,9 @@
             switchToNativeView();
           } else if (act === "poll-settings") {
             openPollSettingsModal();
+          } else if (act === "font-settings") {
+            closePopovers();
+            openFontSettingsModal();
           } else if (act === "tags-manager") {
             openTagsManagerModal();
           } else if (act === "app-login") {
@@ -9053,6 +9676,7 @@
           applyThemeAndLock();
         } else if (act === "clear-quote") {
           state.quoteReply = null;
+          state.editTarget = null;
           updateComposerStatus();
         } else if (act === "send-reply") {
           submitReply();
@@ -9122,6 +9746,26 @@
         if (e.target.matches(".s1w-textarea") && e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
           submitReply();
+        } else if (e.target.matches(".s1w-pager-input") && state.activeThread) {
+          const cur = threadPagerCur();
+          const max = Math.max(cur, threadPagerMax());
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const raw = String(e.target.value || "").trim();
+            let target;
+            if (!/^\d+$/.test(raw)) target = 1;              // 非数字 → 首页
+            else if (Number(raw) < 1) target = 1;            // 小于 1 → 首页
+            else target = clamp(Number(raw), 1, max);        // 超出末页 → 末页
+            e.target.classList.remove("is-invalid");
+            e.target.blur();
+            e.target.value = String(target);
+            if (!gotoThreadPage(target)) syncThreadPager();
+          } else if (e.key === "Escape") {
+            e.preventDefault();
+            e.target.value = String(cur);
+            e.target.classList.remove("is-invalid");
+            e.target.blur();
+          }
         } else if (e.target.matches(".s1w-rec-page-input") && e.key === "Enter" && state.activeThread) {
           e.preventDefault();
           const maxP = Math.max(1, Number(state.activeThread.totalPages || 1));
@@ -9132,6 +9776,13 @@
         } else if (e.target.matches(".s1w-conv-item[data-tid]") && (e.key === "Enter" || e.key === " ")) {
           e.preventDefault();
           e.target.click();
+        }
+      });
+
+      rootEl.addEventListener("focusout", (e) => {
+        if (e.target && e.target.matches && e.target.matches(".s1w-pager-input")) {
+          e.target.classList.remove("is-invalid");
+          syncThreadPager();
         }
       });
 
